@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "Safe-T ���� ��� ��� �ʾ�",
-  "description": "���� ���� �� �� ���䰡 �ʿ��� ����� ����. ���� ���� ������ �ƴϴ�.",
+  "title": "Safe-T 실험 출력 기반 초안",
+  "description": "서비스 연결 전 팀 검토가 필요한 실험용 형식. 최종 안전 판정이 아니다.",
   "type": "object",
   "additionalProperties": false,
   "required": [
