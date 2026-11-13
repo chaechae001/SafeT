@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Safe-T 실험 출력 기반 초안",
+  "description": "서비스 연결 전 팀 검토가 필요한 실험용 형식. 최종 안전 판정이 아니다.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "hazard_labels",
+    "assessment_state",
+    "objects",
+    "image_text",
+    "gas_leak_status"
+  ],
+  "properties": {
+    "hazard_labels": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "slip",
+          "cut",
+          "burn",
+          "fire",
+          "gas",
+          "electric",
+          "chemical",
+          "ergonomic",
+          "falling",
+          "respiratory"
+        ]
+      }
+    },
+    "assessment_state": {
+      "enum": [
+        "candidate",
+        "insufficient_information",
+        "out_of_scope"
+      ]
+    },
+    "objects": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "oven",
+          "microwave",
+          "sink",
+          "refrigerator",
+          "gas_detector"
+        ]
+      }
+    },
+    "image_text": {
+      "type": "string"
+    },
+    "gas_leak_status": {
+      "const": "not_determinable"
+    }
+  },
+  "if": {
+    "properties": {
+      "assessment_state": {
+        "const": "candidate"
+      }
+    }
+  },
+  "then": {
+    "properties": {
+      "hazard_labels": {
+        "minItems": 1
+      }
+    }
+  },
+  "else": {
+    "properties": {
+      "hazard_labels": {
+        "maxItems": 0
+      }
+    }
+  }
+}

@@ -22,3 +22,20 @@ checkpoints/
 *.zip
 *.log
 execution*.jsonl
+
+# Service dependencies, builds and private runtime data
+node_modules/
+frontend/dist/
+frontend/build/
+frontend/.next/
+backend/build/
+data/
+uploads/
+models/
+*.jpeg
+*.webp
+*.mov
+*.wav
+*.mp3
+*.pem
+*.key
