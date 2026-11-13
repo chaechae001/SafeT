@@ -23,28 +23,28 @@ SPEC = importlib.util.spec_from_file_location('previous_diagnostic', ROOT.parent
 UTIL = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(UTIL)
 
-FINAL_PROMPT = '''치킨 전문점의 위험 신고를 분류한다. 최종 안전 승인을 하지 않는다.
-JSON 객체 하나만 출력한다. 키는 hazard_labels, assessment_state, objects, image_text, gas_leak_status다.
-hazard_labels는 allowed_labels의 ID 배열이다. 여러 위험 후보를 모두 선택한다.
-assessment_state는 candidate, insufficient_information, out_of_scope 중 하나다.
-위험 메커니즘이 기록되면 candidate다. 정보가 부족하면 insufficient_information과 빈 라벨 배열이다.
-행정적 조회·계정·파일 관리 요청은 out_of_scope와 빈 라벨 배열이다.
-부정문을 보존한다. 뜨거운 증기는 burn이다. 조리흄과 환기는 respiratory다.
-설비가 보인다는 이유만으로 가열·누전·가스누출·위험을 가정하지 않는다. 근거 문서는 현장의 관찰 사실이 아니다.
-objects에는 사진에서 확인한 oven,microwave,sink,refrigerator,gas_detector만 영어 문자열로 기록한다.
-이미지나 관찰 결과가 없으면 objects는 빈 배열이다. objects의 다른 종류는 포함하지 않는다.
-image_text에는 이미지에서 읽은 글자를 기록한다. 이미지가 없거나 글자가 없으면 빈 문자열이다.
-관찰 결과와 OCR 결과는 오류가 있을 수 있다. OCR이 제공되면 글자 인식 근거로 활용하되 없는 내용을 보충하지 않는다.
-정지 사진과 일반 신고문으로 가스 농도·누출 확정이 불가능하므로 gas_leak_status는 not_determinable이다.
-권고 문서만으로 법 준수를 판정하지 않는다. 설명·마크다운·다른 키를 추가하지 않는다.'''
+FINAL_PROMPT = '''ġŲ �������� ���� �Ű��� �з��Ѵ�. ���� ���� ������ ���� �ʴ´�.
+JSON ��ü �ϳ��� ����Ѵ�. Ű�� hazard_labels, assessment_state, objects, image_text, gas_leak_status��.
+hazard_labels�� allowed_labels�� ID �迭�̴�. ���� ���� �ĺ��� ��� �����Ѵ�.
+assessment_state�� candidate, insufficient_information, out_of_scope �� �ϳ���.
+���� ��Ŀ������ ��ϵǸ� candidate��. ������ �����ϸ� insufficient_information�� �� �� �迭�̴�.
+������ ��ȸ������������ ���� ��û�� out_of_scope�� �� �� �迭�̴�.
+�������� �����Ѵ�. �߰ſ� ����� burn�̴�. ������� ȯ��� respiratory��.
+���� ���δٴ� ���������� �������������������⡤������ �������� �ʴ´�. �ٰ� ������ ������ ���� ����� �ƴϴ�.
+objects���� �������� Ȯ���� oven,microwave,sink,refrigerator,gas_detector�� ���� ���ڿ��� ����Ѵ�.
+�̹����� ���� ����� ������ objects�� �� �迭�̴�. objects�� �ٸ� ������ �������� �ʴ´�.
+image_text���� �̹������� ���� ���ڸ� ����Ѵ�. �̹����� ���ų� ���ڰ� ������ �� ���ڿ��̴�.
+���� ����� OCR ����� ������ ���� �� �ִ�. OCR�� �����Ǹ� ���� �ν� �ٰŷ� Ȱ���ϵ� ���� ������ �������� �ʴ´�.
+���� ������ �Ϲ� �Ű������� ���� �󵵡����� Ȯ���� �Ұ����ϹǷ� gas_leak_status�� not_determinable�̴�.
+�ǰ� ���������� �� �ؼ��� �������� �ʴ´�. ��������ũ�ٿ�ٸ� Ű�� �߰����� �ʴ´�.'''
 
-OBS_PROMPT = '''이미지에서 관찰한 사실만 JSON 하나로 기록한다. 위험 분류나 대책은 작성하지 않는다.
-키는 objects, image_text, visible_facts, gas_leak_status다.
-objects는 사진에서 확인한 oven,microwave,sink,refrigerator,gas_detector 중 영어 문자열 배열이다.
-image_text는 이미지 속 글자를 원문 그대로 읽은 문자열이다. 부정문·수량을 보존한다. 글자가 없으면 빈 문자열이다.
-visible_facts에는 보이는 배치를 짧게 한 문장으로 기록한다. 문서 사진이면 문서라고 기록한다.
-정지 사진으로 실제 가스누출·온도·설비 고장을 가정하지 않는다. gas_leak_status는 not_determinable이다.
-설명·마크다운·다른 키를 추가하지 않는다.'''
+OBS_PROMPT = '''�̹������� ������ ��Ǹ� JSON �ϳ��� ����Ѵ�. ���� �з��� ��å�� �ۼ����� �ʴ´�.
+Ű�� objects, image_text, visible_facts, gas_leak_status��.
+objects�� �������� Ȯ���� oven,microwave,sink,refrigerator,gas_detector �� ���� ���ڿ� �迭�̴�.
+image_text�� �̹��� �� ���ڸ� ���� �״�� ���� ���ڿ��̴�. �������������� �����Ѵ�. ���ڰ� ������ �� ���ڿ��̴�.
+visible_facts���� ���̴� ��ġ�� ª�� �� �������� ����Ѵ�. ���� �����̸� ������� ����Ѵ�.
+���� �������� ���� �������⡤�µ������� ������ �������� �ʴ´�. gas_leak_status�� not_determinable�̴�.
+��������ũ�ٿ�ٸ� Ű�� �߰����� �ʴ´�.'''
 
 
 def read(path):
@@ -353,7 +353,7 @@ def analyze():
 
 
 def self_test():
-    valid = dict(hazard_labels=['burn'], assessment_state='candidate', objects=[], image_text='기름 온도 미확인', gas_leak_status='not_determinable')
+    valid = dict(hazard_labels=['burn'], assessment_state='candidate', objects=[], image_text='�⸧ �µ� ��Ȯ��', gas_leak_status='not_determinable')
     assert parse(json.dumps(valid), ['burn']) == valid
     assert parse(json.dumps(dict(valid, objects=[{'type': 'oven'}])), ['burn']) is None
     assert parse(json.dumps(dict(valid, hazard_labels=[])), ['burn']) is None
@@ -361,8 +361,8 @@ def self_test():
     assert parse(json.dumps(dict(valid, extra='x')), ['burn']) is None
     assert parse('```json\n'+json.dumps(valid)+'\n```', ['burn']) == valid
     assert parse('explanation\n'+json.dumps(valid), ['burn']) is None
-    assert UTIL.normalized('없습니다') != UTIL.normalized('있습니다')
-    refs = [dict(id='a', labels=['burn'], assessment_state='candidate', image_text='기름 온도 미확인')]
+    assert UTIL.normalized('�����ϴ�') != UTIL.normalized('�ֽ��ϴ�')
+    refs = [dict(id='a', labels=['burn'], assessment_state='candidate', image_text='�⸧ �µ� ��Ȯ��')]
     bad = [dict(id='a', group='rendered_report', parsed=None, total_seconds=1)]
     result = score(bad, refs, ['burn'])['rendered_report']
     assert result['omission_rate'] == result['cer'] == 1 and result['valid_schema'] == 0

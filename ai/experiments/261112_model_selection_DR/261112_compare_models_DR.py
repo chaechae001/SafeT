@@ -237,16 +237,16 @@ def run(args):
 
 
 def self_test():
-    assert normalized('가스 냄새가 없습니다.') != normalized('가스 냄새가 있습니다.')
-    assert distance('가나다','가나다')==0 and distance('가나다','가라다')==1
-    assert distance('','가나다')==3 and distance('가나다','')==3
+    assert normalized('���� ������ �����ϴ�.') != normalized('���� ������ �ֽ��ϴ�.')
+    assert distance('������','������')==0 and distance('������','�����')==1
+    assert distance('','������')==3 and distance('������','')==3
     assert parse('{"objects":[{"type":"gas_detector"}],"gas_leak_status":"not_determinable"}','facility',[]) is None
     assert parse('{"hazard_labels":[],"assessment_state":"safe"}','text_regression',['slip']) is None
     refs=[dict(id='a',objects=['sink','oven'])]
     rows=[dict(id='a',task='objects',parsed=dict(objects=['sink','microwave']),total_seconds=1,hit_token_limit=False)]
     result=score(rows,refs,[])['objects']
     assert (result['tp'],result['fp'],result['fn'],result['micro_f1'])==(1,1,1,.5)
-    refs=[dict(id='a',text='가스 없음')]
+    refs=[dict(id='a',text='���� ����')]
     rows=[dict(id='a',task='ocr',parsed=None,total_seconds=1,hit_token_limit=False)]
     assert score(rows,refs,[])['ocr']['cer']==1
     print('COMPARISON_SELF_TEST_PASS')

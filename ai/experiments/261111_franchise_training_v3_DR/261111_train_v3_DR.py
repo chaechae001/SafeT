@@ -13,16 +13,16 @@ from pathlib import Path
 ROOT=Path(__file__).resolve().parent
 STATES={'candidate','insufficient_information','out_of_scope'}
 TOPICS={
- 'slip':r'바닥|통로|물기|얼음|미끄|장애물',
- 'cut':r'칼|슬라이서|유리|도마|혼합기',
- 'burn':r'뜨거|튀김유|증기|고온|잔열|기름온도|튀김기.*청소',
- 'fire':r'불꽃|화재|종이|기름찌꺼기|기름때|후드필터|출구',
- 'gas':r'가스|호스|밸브|연결부',
- 'electric':r'전기|플러그|멀티탭|피복',
- 'chemical':r'세척제|세척액|성분|화학',
- 'ergonomic':r'무거|쌀포대|허리|손목|반복|오래|박스',
- 'falling':r'선반|쌓|적재|의자|떨어|용기.*끝',
- 'respiratory':r'후드|환기|연기|숯|기침|두통|어지럼',
+ 'slip':r'�ٴ�|���|����|����|�̲�|��ֹ�',
+ 'cut':r'Į|�����̼�|����|����|ȥ�ձ�',
+ 'burn':r'�߰�|Ƣ����|����|����|�ܿ�|�⸧�µ�|Ƣ���.*û��',
+ 'fire':r'�Ҳ�|ȭ��|����|�⸧���|�⸧��|�ĵ�����|�ⱸ',
+ 'gas':r'����|ȣ��|���|�����',
+ 'electric':r'����|�÷���|��Ƽ��|�Ǻ�',
+ 'chemical':r'��ô��|��ô��|����|ȭ��',
+ 'ergonomic':r'����|������|�㸮|�ո�|�ݺ�|����|�ڽ�',
+ 'falling':r'����|��|����|����|����|���.*��',
+ 'respiratory':r'�ĵ�|ȯ��|����|��|��ħ|����|������',
 }
 
 def read_rows(path):
@@ -83,15 +83,15 @@ def metrics(rows,references,labels):
         reference_status='AI-assisted provisional references; not independent safety validation')
 
 def prompt(situation,taxonomy,evidence=()):
-    return [dict(role='system',content='치킨 전문점의 위험 신고를 분류한다. JSON 객체 하나만 출력한다. 필수 키는 hazard_labels와 assessment_state다. hazard_labels는 허용된 ID의 배열이다. 위험 메커니즘 후보가 있으면 assessment_state는 candidate다. 정보가 부족하면 insufficient_information이며 라벨은 빈 배열이다. 행정적 조회나 파일 관리 요청이면 out_of_scope이며 라벨은 빈 배열이다. 이는 최종 안전 판정이 아니다. 복수 위험은 모두 선택한다. 뜨거운 증기는 화상 위험이며 연료가스 누출과 다르다. 물건 낙하는 미끄러짐과 다르다. 조리흄과 환기는 respiratory다. 근거는 권고자료이며 법 준수나 실제 온도와 가스 농도를 확정하지 않는다.'),
+    return [dict(role='system',content='ġŲ �������� ���� �Ű��� �з��Ѵ�. JSON ��ü �ϳ��� ����Ѵ�. �ʼ� Ű�� hazard_labels�� assessment_state��. hazard_labels�� ���� ID�� �迭�̴�. ���� ��Ŀ���� �ĺ��� ������ assessment_state�� candidate��. ������ �����ϸ� insufficient_information�̸� ���� �� �迭�̴�. ������ ��ȸ�� ���� ���� ��û�̸� out_of_scope�̸� ���� �� �迭�̴�. �̴� ���� ���� ������ �ƴϴ�. ���� ������ ��� �����Ѵ�. �߰ſ� ����� ȭ�� �����̸� ���ᰡ�� ����� �ٸ���. ���� ���ϴ� �̲������� �ٸ���. ������� ȯ��� respiratory��. �ٰŴ� �ǰ��ڷ��̸� �� �ؼ��� ���� �µ��� ���� �󵵸� Ȯ������ �ʴ´�.'),
         dict(role='user',content=json.dumps(dict(situation=situation,allowed_labels=taxonomy,
             evidence=[dict(id=d['id'],text=d['text']) for d in evidence]),ensure_ascii=False))]
 
 def self_test():
-    docs=[dict(id='electric',hazard_labels=['electric'],text='전기 기기 누전과 플러그',applicable_terms=['전기'],controls=[]),
-          dict(id='machine',hazard_labels=['cut'],text='기기 덮개 혼합기',applicable_terms=['혼합기'],controls=[])]
-    assert [x['id'] for x in retrieve('전기 기기에서 타는 냄새',docs)]==['electric']
-    assert retrieve('작업 정보 없음',docs)==[]
+    docs=[dict(id='electric',hazard_labels=['electric'],text='���� ��� ������ �÷���',applicable_terms=['����'],controls=[]),
+          dict(id='machine',hazard_labels=['cut'],text='��� ���� ȥ�ձ�',applicable_terms=['ȥ�ձ�'],controls=[])]
+    assert [x['id'] for x in retrieve('���� ��⿡�� Ÿ�� ����',docs)]==['electric']
+    assert retrieve('�۾� ���� ����',docs)==[]
     assert parse('{"hazard_labels":[],"assessment_state":"safe"}',['electric']) is None
     assert parse('{"hazard_labels":[],"assessment_state":"candidate"}',['electric']) is None
     assert parse('{"hazard_labels":[],"assessment_state":"out_of_scope","extra":1}',['electric']) is None
@@ -181,7 +181,7 @@ def run():
             controls=[dict(text=c,source_id=d['id']) for d in evidence for c in d['controls']
                 if parsed and set(parsed['hazard_labels']).intersection(d['hazard_labels'])][:2]
             result=dict(id=row['id'],arm=arm,raw=raw,parsed=parsed,retrieved_ids=[d['id'] for d in evidence],
-                candidate_controls=controls,review_required=True,final_risk_level='미평가')
+                candidate_controls=controls,review_required=True,final_risk_level='����')
             rows.append(result)
             with (out/'261111_predictions_DR.jsonl').open('a',encoding='utf-8') as h: h.write(json.dumps(result,ensure_ascii=False)+'\n')
             print('TEST',arm,row['id'],parsed,flush=True)
