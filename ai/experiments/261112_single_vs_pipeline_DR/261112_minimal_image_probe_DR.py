@@ -33,7 +33,7 @@ def run():
                     for p in (probe / 'frozen').iterdir() if p.is_file()})
     shutil.copyfile(source / '261112_candidate_models_DR.json', probe / '261112_candidate_models_DR.json')
     diagnostic.save(probe / '261112_execution_settings_DR.json', dict(min_pixels=3136, max_pixels=262144, max_new_tokens=256,
-                    prompts=dict(ocr='�̹����� �μ�� �ѱ��� ������ �״�� ��������. JSON �ϳ��� ����ϼ���. ����: {"text":"�ν��� ����"}')))
+                    prompts=dict(ocr='이미지에 인쇄된 한국어 문장을 그대로 읽으세요. JSON 하나만 출력하세요. 형식: {"text":"인식한 원문"}')))
     assert len(selected) == 2 and {r['id'] for r in selected} == {r['id'] for r in references}
     diagnostic.ROOT = probe
     diagnostic.run(SimpleNamespace(model='Qwen/Qwen3-VL-4B-Instruct', precision='nf4', probe=False))
