@@ -1,0 +1,192 @@
+{
+  "selected": [
+    {
+      "target": "ai/experiments/261112_model_selection_DR/261112_compare_models_DR.py",
+      "sha256": "7bc2ec88b5fc4f46799619c670ccafc14181e03067bffab2eeebda46b4c8b153",
+      "bytes": 14170,
+      "status": "candidate_not_deployment_ready",
+      "imports": [
+        "PIL",
+        "argparse",
+        "collections",
+        "hashlib",
+        "importlib",
+        "json",
+        "math",
+        "pathlib",
+        "platform",
+        "re",
+        "resource",
+        "shutil",
+        "statistics",
+        "time",
+        "torch",
+        "transformers",
+        "unicodedata"
+      ],
+      "external_path_lines": []
+    },
+    {
+      "target": "ai/experiments/261112_model_selection_DR/261112_run_comparison_DR.py",
+      "sha256": "4da7c45ea8a220b6c99b9dc495930804f3b7df2bcd105438be23fd4f371fec26",
+      "bytes": 3822,
+      "status": "candidate_not_deployment_ready",
+      "imports": [
+        "argparse",
+        "hashlib",
+        "huggingface_hub",
+        "json",
+        "os",
+        "pathlib",
+        "subprocess",
+        "sys",
+        "time"
+      ],
+      "external_path_lines": []
+    },
+    {
+      "target": "ai/experiments/261112_model_selection_DR/261112_candidate_models_DR.json",
+      "sha256": "1d865c8774b5786b036ca36ad9331ee63a5cf205143bcbb7630e05aabe26d928",
+      "bytes": 858,
+      "status": "candidate_not_deployment_ready"
+    },
+    {
+      "target": "ai/experiments/261112_model_selection_DR/261112_execution_settings_DR.json",
+      "sha256": "555a0b92e6c5d00638f856c1795f085dc4566547b0bf7ab007265117a8ee4264",
+      "bytes": 3151,
+      "status": "candidate_not_deployment_ready"
+    },
+    {
+      "target": "ai/experiments/261112_single_vs_pipeline_DR/261112_benchmark_DR.py",
+      "sha256": "58015fe35a80d23b6061e13314030d34a6dd27108a20ddc006dddd123c086091",
+      "bytes": 24546,
+      "status": "candidate_not_deployment_ready",
+      "imports": [
+        "PIL",
+        "argparse",
+        "collections",
+        "hashlib",
+        "importlib",
+        "json",
+        "math",
+        "os",
+        "paddleocr",
+        "pathlib",
+        "resource",
+        "statistics",
+        "subprocess",
+        "sys",
+        "time",
+        "torch",
+        "traceback",
+        "transformers"
+      ],
+      "external_path_lines": [
+        385
+      ]
+    },
+    {
+      "target": "ai/experiments/261112_single_vs_pipeline_DR/261112_resume_ocr_DR.py",
+      "sha256": "52b933050aac5aeaf68305791d91479aa485e2ff93289153ea93b9b607b3b8f9",
+      "bytes": 4317,
+      "status": "candidate_not_deployment_ready",
+      "imports": [
+        "argparse",
+        "cv2",
+        "hashlib",
+        "importlib",
+        "json",
+        "numpy",
+        "os",
+        "paddlex",
+        "pathlib",
+        "shutil",
+        "subprocess",
+        "sys",
+        "time"
+      ],
+      "external_path_lines": [
+        46,
+        59
+      ]
+    },
+    {
+      "target": "ai/experiments/261112_single_vs_pipeline_DR/261112_recover_ocr_DR.py",
+      "sha256": "57670a4b81b311d97b7eea3d6c0982c4de5694d50808b0ddbf6889414d58fb5a",
+      "bytes": 3264,
+      "status": "candidate_not_deployment_ready",
+      "imports": [
+        "argparse",
+        "json",
+        "os",
+        "pathlib",
+        "shutil",
+        "subprocess",
+        "sys",
+        "time"
+      ],
+      "external_path_lines": [
+        19,
+        35
+      ]
+    },
+    {
+      "target": "ai/experiments/261112_single_vs_pipeline_DR/261112_minimal_image_probe_DR.py",
+      "sha256": "aa64554063b9a3a111dc634a8047a80b010924e27343f3abaf4b0139f61b7699",
+      "bytes": 2400,
+      "status": "candidate_not_deployment_ready",
+      "imports": [
+        "hashlib",
+        "importlib",
+        "json",
+        "pathlib",
+        "shutil",
+        "types"
+      ],
+      "external_path_lines": []
+    },
+    {
+      "target": "ai/experiments/261112_single_vs_pipeline_DR/text_model.json",
+      "sha256": "4ed1ee934c2f65b97c864763f472ff7e16002ce0b3b1f9a68b73165ec4b9ff1e",
+      "bytes": 93,
+      "status": "candidate_not_deployment_ready"
+    },
+    {
+      "target": "ai/experiments/261111_franchise_training_v3_DR/261111_train_v3_DR.py",
+      "sha256": "9d3a3e2005598d48cb8edaa605e47de14bb1b37d5747565e1f533eb44d30ef2e",
+      "bytes": 13391,
+      "status": "candidate_not_deployment_ready",
+      "imports": [
+        "argparse",
+        "bitsandbytes",
+        "collections",
+        "contextlib",
+        "hashlib",
+        "json",
+        "math",
+        "pathlib",
+        "peft",
+        "random",
+        "re",
+        "time",
+        "torch",
+        "transformers"
+      ],
+      "external_path_lines": []
+    },
+    {
+      "target": "ai/experiments/261111_franchise_training_v3_DR/261111_protocol_DR.json",
+      "sha256": "1c199a88d7bb331432d4b42e364c3367bb9b9f7fcd0336e90f9d04616d207344",
+      "bytes": 901,
+      "status": "candidate_not_deployment_ready"
+    },
+    {
+      "target": "ai/experiments/261111_franchise_training_v3_DR/261111_taxonomy_DR.json",
+      "sha256": "6f3f8b07c8149a583a9c1fff3086007b67924dc7904b527a935cc5827a204f3d",
+      "bytes": 401,
+      "status": "candidate_not_deployment_ready"
+    }
+  ],
+  "source": "Downloaded Cloud snapshots; source code unchanged",
+  "live_cloud_sync_verified": false
+}

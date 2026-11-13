@@ -1,0 +1,27 @@
+{
+  "status": "prepared_not_executed",
+  "purpose": "base_model_selection; no adapters, retrieval, or checklist additions",
+  "precision_conditions": [
+    "bf16",
+    "nf4"
+  ],
+  "one_model_at_a_time": true,
+  "max_pixels": 262144,
+  "min_pixels": 4096,
+  "max_new_tokens": 128,
+  "do_sample": false,
+  "max_batch_size": 1,
+  "warmup_per_condition": 1,
+  "memory_probe_before_full_run": true,
+  "report_actual_processed_image_shape_and_image_token_count": true,
+  "record_load_time_and_cpu_offload_separately": true,
+  "prompts": {
+    "objects": "사진에 명확히 보이는 사물 중 oven, microwave, sink, refrigerator만 고르세요. 정확히 {\"objects\": [\"허용된 영어 코드\"]} 형식의 JSON 객체 하나만 출력하세요. 목록에 없는 물건과 보이지 않는 물건은 추가하지 마세요. 사진이 안전한지 판단하지 마세요.",
+    "facility": "사진에 명확히 보이는 장치를 gas_detector, smoke_detector, fire_extinguisher, thermostat, other_device, unknown 중에서 고르세요. objects에는 문자열만 넣으세요. gas_leak_status는 detected, not_detected, not_determinable 중 하나입니다. 장치가 보인다는 사실로 실제 가스누출이나 정상 작동을 확정하지 마세요. 정확히 {\"objects\": [], \"gas_leak_status\": \"not_determinable\"} 형식의 JSON 객체 하나만 출력하세요.",
+    "ocr": "사진의 글자를 있는 그대로 읽으세요. 부정 표현, 숫자, 단위, 문장부호를 보존하세요. 내용을 요약하거나 표현을 바꾸지 마세요. 정확히 {\"text\": \"읽은 원문\"} 형식의 JSON 객체 하나만 출력하세요. 글자가 없으면 text를 빈 문자열로 두세요.",
+    "empty_control": "이미지에 명확히 보이는 사물과 글자를 찾으세요. 사물은 oven, microwave, sink, refrigerator, gas_detector, smoke_detector, fire_extinguisher, thermostat 중에서만 선택하세요. 정확히 {\"objects\": [], \"text\": \"\"} 형식의 JSON 객체 하나만 출력하세요. 보이지 않는 사물이나 글자는 만들지 마세요.",
+    "text_regression": "치킨 전문점의 위험 신고를 분류하세요. 정확히 {\"hazard_labels\": [], \"assessment_state\": \"candidate\"} 형식의 JSON 객체 하나만 출력하세요. hazard_labels에는 제공한 분류 기준의 코드만 넣으세요. 복수 위험은 모두 고르세요. 위험 후보가 있으면 candidate, 정보가 부족하면 insufficient_information, 파일 관리나 행정 요청이면 out_of_scope입니다. 뒤의 두 상태에서는 라벨을 빈 목록으로 두세요. 뜨거운 증기는 화상이며 연료가스 누출과 다릅니다. 물건 낙하와 미끄러짐을 구분하세요. 반복작업과 중량물 운반 부담을 검토하세요. 최종 위험수준이나 안전 여부를 확정하지 마세요."
+  },
+  "reference_policy": "References are opened by the scorer only after all predictions for a condition are persisted.",
+  "selection_policy": "Select from measured resource-feasible conditions; report task-wise quality-resource tradeoffs; no claim of independent field validation."
+}

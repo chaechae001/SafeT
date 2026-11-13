@@ -1,0 +1,36 @@
+{
+  "model": "Qwen/Qwen2.5-VL-3B-Instruct",
+  "revision": "66285546d2b821cf421d4f5eb2576359d3770cd3",
+  "labels": [
+    "slip",
+    "cut",
+    "burn",
+    "fire",
+    "gas",
+    "electric",
+    "chemical",
+    "ergonomic",
+    "falling",
+    "respiratory"
+  ],
+  "counts": {
+    "train": 72,
+    "development": 26,
+    "test": 28
+  },
+  "reference_status": "AI-assisted source-checked provisional references, not human-approved ground truth",
+  "split_unit": "scenario_group",
+  "states": [
+    "candidate",
+    "insufficient_information",
+    "out_of_scope"
+  ],
+  "use": "exploratory classification adaptation only; owner review required",
+  "test_policy": "test model outputs generated only after the adapter is frozen",
+  "known_limits": [
+    "template overlap in style",
+    "small dataset",
+    "AI labeling bias",
+    "not independent field validation"
+  ]
+}

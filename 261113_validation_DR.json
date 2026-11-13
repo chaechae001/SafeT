@@ -1,0 +1,44 @@
+{
+  "source_scope": "local downloaded Cloud snapshots; live Cloud synchronization not checked",
+  "python_files": 7,
+  "hash_matches": 12,
+  "self_tests": [
+    {
+      "script": "ai\\experiments\\261111_franchise_training_v3_DR\\261111_train_v3_DR.py",
+      "command": [
+        "python",
+        "ai/experiments/261111_franchise_training_v3_DR/261111_train_v3_DR.py",
+        "--self-test"
+      ],
+      "exit_code": 0,
+      "stdout": "V3_SELF_TEST_PASS\n",
+      "stderr": ""
+    },
+    {
+      "script": "ai\\experiments\\261112_model_selection_DR\\261112_compare_models_DR.py",
+      "command": [
+        "python",
+        "ai/experiments/261112_model_selection_DR/261112_compare_models_DR.py",
+        "--self-test"
+      ],
+      "exit_code": 0,
+      "stdout": "COMPARISON_SELF_TEST_PASS\n",
+      "stderr": ""
+    },
+    {
+      "script": "ai\\experiments\\261112_single_vs_pipeline_DR\\261112_benchmark_DR.py",
+      "command": [
+        "python",
+        "ai/experiments/261112_single_vs_pipeline_DR/261112_benchmark_DR.py",
+        "--self-test"
+      ],
+      "exit_code": 0,
+      "stdout": "BENCHMARK_SELF_TEST_PASS\n",
+      "stderr": ""
+    }
+  ],
+  "credential_pattern_findings": [],
+  "credential_scan_limit": "pattern scan, not a complete secret or personal-data audit",
+  "model_execution": false,
+  "training": false
+}
