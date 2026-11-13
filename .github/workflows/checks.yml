@@ -1,0 +1,34 @@
+name: Basic checks
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  cpu-checks:
+    name: CPU checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7
+        with:
+          python-version: '3.11'
+      - name: Check JSON syntax
+        run: |
+          python -m json.tool contracts/ai-result.schema.json > /dev/null
+          python -m json.tool contracts/examples/ai-request.json > /dev/null
+          python -m json.tool contracts/examples/ai-response.json > /dev/null
+      - name: Check training experiment logic
+        run: python ai/experiments/261111_franchise_training_v3_DR/261111_train_v3_DR.py --self-test
+      - name: Check model comparison logic
+        run: python ai/experiments/261112_model_selection_DR/261112_compare_models_DR.py --self-test
+      - name: Check pipeline comparison logic
+        run: python ai/experiments/261112_single_vs_pipeline_DR/261112_benchmark_DR.py --self-test
