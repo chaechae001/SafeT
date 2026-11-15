@@ -39,3 +39,14 @@ models/
 *.mp3
 *.pem
 *.key
+
+# Frontend UI assets (icons, logos, illustrations) are allowed.
+# Keep dataset photos, user uploads and identifiable images out of these folders.
+!frontend/public/**/*.png
+!frontend/public/**/*.jpg
+!frontend/public/**/*.jpeg
+!frontend/public/**/*.webp
+!frontend/src/assets/**/*.png
+!frontend/src/assets/**/*.jpg
+!frontend/src/assets/**/*.jpeg
+!frontend/src/assets/**/*.webp
