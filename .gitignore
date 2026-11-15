@@ -31,7 +31,7 @@ frontend/.next/
 backend/build/
 data/
 uploads/
-models/
+/models/
 *.jpeg
 *.webp
 *.mov
