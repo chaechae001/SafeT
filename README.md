@@ -12,6 +12,8 @@
 | 경로 | 역할과 현재 상태 |
 |---|---|
 | [frontend/](frontend/README.md) | 점검 입력·결과·검토 화면. 안내만 준비했다. |
+| [analysis/](analysis/README.md) | 신규 데이터 분석·모델 및 RAG 평가. |
+| [docs/structure.md](docs/structure.md) | 개발 시작용 최소 구조·작업 순서. |
 | [backend/](backend/README.md) | 사용자·매장 권한, 파일, 분석 요청, 검토·개선 이력. 안내만 준비했다. |
 | [ai/](ai/README.md) | 기존 실험 코드와 향후 서비스 코드를 구분한다. |
 | [contracts/](contracts/README.md) | 요청·응답 예시와 AI 출력 형식 초안. |
@@ -19,7 +21,9 @@
 | [docs/data-guide.md](docs/data-guide.md) | 외부 데이터·모델의 준비와 공유 원칙. |
 | [.github/](.github/) | 작업 요청·PR 양식과 CPU 자체 검사. |
 
-기존 AI 실험 폴더와 파일 이름을 유지한다. 기술 스택은 이 구조화 작업에서 선택하지 않았다.
+기존 AI 실험 폴더와 파일 이름을 유지한다. 개발 시작 위치는 [최소 폴더 구조](docs/structure.md)를 참고한다.
+목표 기술은 HTML·CSS·JavaScript, Python 3.11·FastAPI·MariaDB·ChromaDB이다. 분석 모델은 현재 Qwen 2.5-VL-3B이며 변경될 수 있다.
+폴더 안내만으로 서비스 구현이나 GPU 환경 검증이 완료된 것은 아니다.
 
 ## 시작하기
 
@@ -45,8 +49,8 @@ Cloud 관측 환경은 Python 3.10.14다. CI의 Python 3.11은 CPU 자체 검사
 - 검토 후 병합한다. 초기에는 별도 `develop` 브랜치를 두지 않는다.
 - 기존 팀원 변경을 보존한다. 명시적 요청 없이 푸시·병합·리베이스하지 않는다.
 
-`main` 보호 설정은 관리자 작업으로 남아 있다.
-권장 설정은 PR 승인 1명, 기본 검사 통과, 강제 푸시·삭제 차단이다.
+확인한 main 보호 규칙은 PR 승인 1명, 검토 대화 해결, Squash 병합, 강제 푸시·삭제 차단이다.
+팀 운영상 최신 CPU checks 성공도 확인한 뒤 병합한다. 현재 보호 규칙에 필수 상태 검사는 별도 지정되지 않았다.
 자동 검사를 추가하는 것만으로 병합 제한이 적용되지는 않는다.
 
 ## 자료와 결정의 기준
