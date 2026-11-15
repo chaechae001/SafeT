@@ -1,66 +1,33 @@
-# Safe-T AI 모델 실험 코드
+# Safe-T For Franchise
 
-선별일: 2026-11-13 (한국 시간).
-대상: chaechae001/SafeT의 첫 AI 코드 공유.
-범위: 로컬에 내려받은 Cloud 작업 사본. 현재 Cloud 파일과의 최신 일치 여부는 미확인이다.
-원본 실험 코드는 수정하지 않았다. 모델 가중치와 원본 데이터는 Cloud에서 별도로 관리한다.
+치킨 전문점부터 시작하는 프랜차이즈 매장 안전점검 지원 프로젝트다.
+사진과 작업 설명을 분석해 위험유형 후보와 근거를 제시하고, 사람의 검토를 지원하는 것을 목표로 한다.
 
-## 선택한 파일
+현재 공유된 구현은 AI 실험 코드다. 웹 화면, 서비스 API, 서비스용 AI 연결은 미구현이다.
+아래 서비스 역할과 데이터 형식은 개발 준비를 위한 초안이다. 팀의 확정 요구사항으로 취급하지 않는다.
+위험수준, 법적 적합성, 조치 완료를 AI가 자동 확정하지 않는다.
 
-| 폴더 | 코드 | 목적 |
-|---|---|---|
-| ai/experiments/261111_franchise_training_v3_DR | 261111_train_v3_DR.py | NF4 기본 모델·RAG·QLoRA 비교 실험 |
-| ai/experiments/261112_model_selection_DR | 261112_compare_models_DR.py | 모델별 추론·평가 |
-| 같은 폴더 | 261112_run_comparison_DR.py | 모델 다운로드와 비교 실행 순서 관리 |
-| ai/experiments/261112_single_vs_pipeline_DR | 261112_benchmark_DR.py | 단일 모델과 단계별 파이프라인 비교 |
-| 같은 폴더 | 261112_resume_ocr_DR.py | OCR 호환성 수정과 재개 |
-| 같은 폴더 | 261112_recover_ocr_DR.py | 실패한 OCR 실행 복구 |
-| 같은 폴더 | 261112_minimal_image_probe_DR.py | 최소 이미지 입력 점검 |
+## 저장소 구조
 
-설정 5개도 포함했다. 모델 ID·revision, 실행 조건·프롬프트, 학습 프로토콜, 분류 체계, 텍스트 모델 정보를 보존한다.
-폴더 이름과 파일 이름을 유지했다. benchmark가 이웃 폴더의 compare_models를 동적으로 불러오기 때문이다.
-현재 제공 범위는 실험 코드이다. 서비스 추론 API와 백엔드 연결은 구현되지 않았다.
+| 경로 | 역할과 현재 상태 |
+|---|---|
+| [frontend/](frontend/README.md) | 점검 입력·결과·검토 화면. 안내만 준비했다. |
+| [backend/](backend/README.md) | 사용자·매장 권한, 파일, 분석 요청, 검토·개선 이력. 안내만 준비했다. |
+| [ai/](ai/README.md) | 기존 실험 코드와 향후 서비스 코드를 구분한다. |
+| [contracts/](contracts/README.md) | 요청·응답 예시와 AI 출력 형식 초안. |
+| [docs/architecture.md](docs/architecture.md) | 구성과 데이터 흐름. |
+| [docs/data-guide.md](docs/data-guide.md) | 외부 데이터·모델의 준비와 공유 원칙. |
+| [.github/](.github/) | 작업 요청·PR 양식과 CPU 자체 검사. |
 
-## 전체 실행 전에 해결할 항목
+기존 AI 실험 폴더와 파일 이름을 유지한다. 기술 스택은 이 구조화 작업에서 선택하지 않았다.
 
-- 각 실험의 frozen 입력·정답·이미지와 학습 references, evidence는 이 묶음에 포함하지 않았다. 데이터 공유 권한을 먼저 확인해야 한다.
-- 학습 코드에는 261111_evidence_DR.jsonl과 references/train.jsonl, development.jsonl, test.jsonl 등이 필요하다.
-- 비교 실행에는 frozen/inputs.json, references.json, taxonomy.json, hashes.json과 이미지가 필요하다.
-- 파이프라인에는 frozen 데이터·evidence.json 등이 필요하다. 원본 JSON에 기록된 Cloud 이미지 경로도 유효해야 한다.
-- OCR 코드는 /home/elicer/safet-ocr-venv/bin/python을 사용한다. 복구 스크립트는 기존 Cloud 실험 경로를 assert로 확인한다. 다른 폴더에서 실행하면 중단한다.
-- OCR 복구·재개 코드는 기존 결과를 이동하거나 이어 쓸 수 있다. 기존 결과가 있는 폴더에서 임의로 실행하지 않는다.
-- GPU 실행 환경과 OCR 실행 환경은 별개이다. observed_environment JSON은 확인된 버전 기록이며 설치용 lock 파일이 아니다.
-- OCR은 PaddleOCR/PaddleX와 opencv-contrib-python-headless 4.10.0.84의 호환성 처리가 있다. OCR 환경 전체 버전과 재설치 방법은 추가 확인이 필요하다.
-- 학습 코드는 모델 캐시를 local_files_only=True로 읽는다. 지정 revision의 모델을 먼저 준비해야 한다.
-- 기존 결과를 보존하는 장치가 있다. 재실행은 새 실행 폴더와 별도 데이터 복사본에서 한다.
+## 시작하기
 
-## 제외 및 보류
+1. 담당 영역의 README를 읽는다.
+2. AI 실험을 확인할 때는 아래 자체 검사를 실행한다.
+3. 전체 추론·학습은 [AI 실험 안내](ai/experiments/README.md)의 데이터·Cloud 환경 조건부터 확인한다.
 
-- 동일 해시의 중복 코드와 original 이름의 과거 시도본은 제외했다.
-- 제조업 자산 삭제 스크립트는 제외했다.
-- 로컬 데이터 준비, Windows 글꼴 의존, 수집·전송·보고서 생성 도구는 별도 검토로 보류했다.
-- 메모리 탐색·추가 실험·RAG 자료 축적 코드도 별도 검토로 보류했다. 필요하지 않다는 뜻은 아니다.
-- 모델 가중치, 어댑터, 원본 데이터, 이미지, 영상, 가상환경, 실행 로그는 복사하지 않았다.
-- 업로드한 12개 원본 파일의 해시는 selection_manifest JSON에 있다.
-
-## 검증
-
-코드 7개의 Python 구문을 분석했다. 설정 JSON 5개를 읽었다.
-선택 파일 12개는 원본과 SHA-256 해시가 일치한다.
-train_v3, compare_models, benchmark의 --self-test가 모두 통과했다.
-이 검사는 파싱·지표 계산 등의 로직 검사이다. GPU 추론·학습·OCR 실행 검사는 아니다.
-자격증명 패턴 검사에서 선택 파일의 일치 항목은 0개이다. 완전한 비밀정보·개인정보 검수를 뜻하지 않는다.
-세부 결과는 validation JSON에 있다.
-
-## 한계와 다음 작업
-
-합성 사례와 AI 보조 정답을 독립 현장 평가로 취급하지 않는다. 최종 안전 판단은 담당 전문가가 한다.
-다음 작업은 Cloud 최신본 대조, 데이터 연결, 경로 설정 분리, 실행 환경 복원 순서로 진행한다.
-그 뒤 서비스에서 사용할 모델과 요청·응답 형식을 확정하고 추론 API를 연결한다.
-
-## 팀원용 확인 방법
-
-저장소 루트에서 다음 검사를 실행한다. 모델 다운로드나 GPU 실행은 하지 않는다.
+저장소 루트에서 Python 3.11로 실행한다. 아래 검사는 표준 라이브러리만 사용한다.
 
 ```bash
 python ai/experiments/261111_franchise_training_v3_DR/261111_train_v3_DR.py --self-test
@@ -68,5 +35,31 @@ python ai/experiments/261112_model_selection_DR/261112_compare_models_DR.py --se
 python ai/experiments/261112_single_vs_pipeline_DR/261112_benchmark_DR.py --self-test
 ```
 
-위 명령은 Python 표준 라이브러리만 사용한다. 전체 추론에는 Linux·CUDA 환경과 별도 패키지·데이터가 필요하다.
-학습 코드는 텍스트 분류 적응 실험이다. 사진 기반 위험 탐지 모델 학습으로 해석하지 않는다.
+자체 검사는 GPU 추론, 학습, OCR 또는 현장 안전 성능을 검증하지 않는다.
+Cloud 관측 환경은 Python 3.10.14다. CI의 Python 3.11은 CPU 자체 검사 전용이다.
+
+## 협업 방식
+
+- `main`에서 `feat/기능명`, `fix/문제명`, `chore/작업명` 브랜치를 만든다.
+- PR(Pull Request: 코드 변경 검토 요청)에 변경 내용, 검증 결과와 남은 문제를 쓴다.
+- 검토 후 병합한다. 초기에는 별도 `develop` 브랜치를 두지 않는다.
+- 기존 팀원 변경을 보존한다. 명시적 요청 없이 푸시·병합·리베이스하지 않는다.
+
+`main` 보호 설정은 관리자 작업으로 남아 있다.
+권장 설정은 PR 승인 1명, 기본 검사 통과, 강제 푸시·삭제 차단이다.
+자동 검사를 추가하는 것만으로 병합 제한이 적용되지는 않는다.
+
+## 자료와 결정의 기준
+
+요구사항·회의·팀 결정은 [공식 Safe-T Notion](https://app.notion.com/p/Safe-T_-409a5d647ec5806ba57df6e84f77d545)에서 관리한다.
+코드와 구현 상태는 GitHub에서 확인한다. 이 작업에서는 Notion을 새로 조회하거나 수정하지 않았다.
+
+원본 데이터·사진·영상·모델 가중치는 권한이 확인된 외부 저장소에서 관리한다.
+GitHub에는 코드, 데이터 버전·해시, 준비 방법과 공유 가능한 예시를 둔다.
+API 키, 비밀번호와 실제 매장 식별정보를 커밋하지 않는다.
+
+## 참고
+
+구조화 기준일: 2026-11-13, Asia/Seoul.
+기존 AI 안내는 [ai/experiments/README.md](ai/experiments/README.md)에 원문 그대로 보존했다.
+기존 환경·선별·검증 JSON 3개는 루트 경로를 유지했다.

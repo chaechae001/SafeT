@@ -1,0 +1,7 @@
+{
+  "request_id": "example-001",
+  "description": "주방 설비 사진입니다. 작업 상황은 설명하지 않았습니다.",
+  "image_ids": [
+    "example-image-001"
+  ]
+}
