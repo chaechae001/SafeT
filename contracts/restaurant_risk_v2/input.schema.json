@@ -1,0 +1,168 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:neuroflow:restaurant-risk:input:2.0",
+  "title": "Restaurant risk input 2.0",
+  "type": "object",
+  "properties": {
+    "assessment_id": {
+      "type": "string"
+    },
+    "assessed_at": {
+      "type": "string"
+    },
+    "scope": {
+      "type": "string"
+    },
+    "media": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "modality": {
+            "enum": [
+              "photo",
+              "text",
+              "voice_transcript",
+              "document"
+            ]
+          },
+          "content": {
+            "type": "string"
+          },
+          "media_uri": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "captured_at": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "location": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "asr_uncertainties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "transcript_segments": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "start_ms": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "end_ms": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "text": {
+                  "type": "string"
+                },
+                "uncertain_tokens": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "required": [
+                "id",
+                "start_ms",
+                "end_ms",
+                "text",
+                "uncertain_tokens"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "id",
+          "modality",
+          "content",
+          "media_uri",
+          "captured_at",
+          "location",
+          "asr_uncertainties",
+          "transcript_segments"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "trusted_legal_registry": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "article": {
+            "type": "string"
+          },
+          "source_url": {
+            "type": "string"
+          },
+          "effective_on": {
+            "type": "string"
+          },
+          "verified_at": {
+            "type": "string"
+          },
+          "applicability": {
+            "type": "string"
+          },
+          "verified_by": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "article",
+          "source_url",
+          "effective_on",
+          "verified_at",
+          "applicability",
+          "verified_by"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "previous_assessment_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "required": [
+    "assessment_id",
+    "assessed_at",
+    "scope",
+    "media",
+    "trusted_legal_registry",
+    "previous_assessment_id"
+  ],
+  "additionalProperties": false
+}
