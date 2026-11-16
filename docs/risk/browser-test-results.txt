@@ -1,0 +1,1 @@
+PASS: mobile questions -> reassessment -> control invalidation -> reassessment -> plan/owner -> confirm -> readonly evidence; no JS errors. Synthetic model only.

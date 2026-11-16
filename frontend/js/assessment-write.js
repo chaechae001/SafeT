@@ -10,7 +10,7 @@
     $('#eval_dt').val(S.formatDate(S.today())); $('#eval_writer').val(user.name || '');
     $('.name-tags,.photo-grid').empty(); $('.voice-card').remove();
     $('#v-equipment .tag-list,#v-equipment .check-list').empty();
-    $('#v-equipment fieldset .hint').text('사진 인식 모델 연결 전입니다. 등록된 기기를 평가에 포함합니다.');
+    $('#v-equipment fieldset .hint').text('등록된 기기는 위험요인 탐색에 참고합니다. 실제 가동·작업 여부는 입력과 추가 질문으로 확인합니다.');
     $('.disclaimer').text('저장된 입력으로 평가표를 작성합니다. 위험 판단 결과는 현장 검토가 필요합니다.');
     function showMachines() {
       var w=works.find(function(x){return String(x.work_no)===$('#work_no').val();});

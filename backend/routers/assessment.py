@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from database import get_db
 from routers.auth import current_user
-from schemas.assessment import CreateAssessment, SaveAssessment, AddRisk
+from schemas.assessment import CreateAssessment, SaveAssessment, AddRisk, RiskAnswers
 from services import assessment as service
 
 router=APIRouter(tags=['평가표 작성'])
@@ -22,3 +22,7 @@ def confirm(eval_no:int,body:SaveAssessment,user:dict=Depends(current_user),db:S
 @router.post('/evals/{eval_no}/items')
 def add(eval_no:int,body:AddRisk,user:dict=Depends(current_user),db:Session=Depends(get_db)):
     return service.add_risk(db,user['email'],eval_no,body)
+
+@router.post('/evals/{eval_no}/risk-answers')
+def risk_answers(eval_no:int,body:RiskAnswers,user:dict=Depends(current_user),db:Session=Depends(get_db)):
+    return service.reanalyze(db,user['email'],eval_no,body.revision,body.answers,body.additional_text)

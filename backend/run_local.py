@@ -20,15 +20,15 @@ def check_db(migrate):
     if missing:
         raise RuntimeError('기본 ERD 테이블이 없습니다: ' + ', '.join(missing))
     if migrate:
-        sql = (ROOT / 'backend/migrations/20261116_assessment_authoring.sql').read_text(encoding='utf-8')
         with engine.begin() as conn:
-            for stmt in sql.split(';'):
-                if stmt.strip():
-                    conn.execute(text(stmt))
+            for name in ('20261116_assessment_authoring.sql','20261117_restaurant_risk_v2.sql'):
+                sql = (ROOT / 'backend/migrations' / name).read_text(encoding='utf-8')
+                for stmt in sql.split(';'):
+                    if stmt.strip(): conn.execute(text(stmt))
     inspector = inspect(engine)
     columns = {c['name'] for c in inspector.get_columns('eval_mst')}
     indexes = {i['name'] for i in inspector.get_indexes('eval_mst')}
-    if not {'request_key', 'revision', 'generation_source'} <= columns or 'uq_eval_request' not in indexes:
+    if not {'request_key', 'revision', 'generation_source', 'risk_state'} <= columns or 'uq_eval_request' not in indexes:
         raise RuntimeError('평가표 추가 필드가 필요합니다. 개인 개발 DB를 확인한 뒤 --migrate로 실행하세요.')
     engine.dispose()
 
@@ -73,7 +73,8 @@ def main():
             raise RuntimeError('서버 응답을 확인하지 못했습니다.')
         print('실행 완료: http://localhost:8000/pages/login.html', flush=True)
         print('API: http://localhost:8001/docs | 종료: Ctrl+C', flush=True)
-        print('평가 모드: ' + ('개발용 합성 데이터' if env.get('SAFET_ASSESSMENT_MODE') == 'demo' else 'AI 미연결 · 판단 필요'), flush=True)
+        mode=env.get('SAFET_ASSESSMENT_MODE','unavailable')
+        print('평가 모드: ' + {'demo':'개발용 합성 데이터','restaurant_v2':'음식점 v2 · 설정된 Cloud 모델 연결'}.get(mode,'AI 미연결 · 판단 필요'), flush=True)
         while all(p.poll() is None for p in children):
             time.sleep(.5)
         raise RuntimeError('개발 서버가 종료되었습니다.')

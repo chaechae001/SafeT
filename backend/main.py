@@ -4,7 +4,7 @@
     .venv\\Scripts\\python -m uvicorn main:app --reload --port 8001
 확인:
     http://localhost:8001/health/db   ·   API 문서 http://localhost:8001/docs
-화면(프런트엔드)과의 연결은 아직 하지 않았습니다.
+평가표 작성 화면 및 음식점 위험성평가 v2를 연결합니다.
 """
 import os
 

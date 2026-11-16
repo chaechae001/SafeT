@@ -7,7 +7,7 @@
 (function ($, SafeT) {
   'use strict';
 
-  var SIGNAL_TEXT = { R: '즉시 개선', Y: '개선 필요', G: '유지 관리', N: '판단 필요' };
+  var SIGNAL_TEXT = { R: '상 · 우선 개선', Y: '중 · 개선 필요', G: '하 · 유지 관리', N: '판단 필요' };
 
   var PEOPLE = [];
 
@@ -38,9 +38,21 @@
     items = doc.items.map(makeItem);
     PEOPLE = [doc.eval_writer].concat(doc.members).filter(function(n,i,a){return a.indexOf(n)===i;}).map(function(n){return {name:n,role:'참여자'};});
     $('#v-list h1').first().text(doc.eval_nm);
-    $('#d-reason-box .src').text(doc.generation_source==='demo'?'시험용 고정 신호':'판단 대기');
-    $('.disclaimer').text(doc.generation_source==='demo' ? '개발 시험용 합성 평가표 · 실제 현장 판정에 사용하지 마세요.' : '실제 위험 판단 모델 미연결 · 판단 필요 항목은 확정할 수 없습니다.');
+    $('#d-reason-box .src').text(doc.risk_assessment?'입력 근거·고정 기준':(doc.generation_source==='demo'?'시험용 고정 신호':'판단 대기'));
+    $('.disclaimer').text(doc.risk_assessment?'음식점 3단계 운영 기준 · 후보·잠정 판정은 추가 확인이 필요합니다. 최종 확인은 현장 담당자가 합니다.':(doc.generation_source==='demo' ? '개발 시험용 합성 평가표 · 실제 현장 판정에 사용하지 마세요.' : '실제 위험 판단 모델 미연결 · 판단 필요 항목은 확정할 수 없습니다.'));
+    if(!$('#risk-question-panel').length)$('<section class="section" id="risk-question-panel" aria-live="polite">').insertBefore('#need-box');
+    SafeT.riskUI.summary($('#risk-question-panel'),doc,submitRiskAnswers);
     renderList();
+  }
+  function submitRiskAnswers(answers,additional) {
+    if(busy || !evaluation)return;
+    function run(){
+      busy=true;SafeT.loading(true);
+      SafeT.api.post('/evals/'+evalNo+'/risk-answers',{revision:evaluation.revision,answers:answers,additional_text:additional})
+        .done(function(doc){SafeT.riskUI.clear();applyDocument(doc);dirty=false;SafeT.go('v-list');SafeT.toast('답변을 반영해 판정과 질문을 갱신했어요.');})
+        .fail(apiError).always(function(){busy=false;SafeT.loading(false);});
+    }
+    if(dirty)saveDraft('v-list').done(run);else run();
   }
   function payload() {
     return {revision:evaluation.revision,items:items.map(function(it){
@@ -65,6 +77,8 @@
   /** 빠진 값 목록 (확정 검사 순서): current · signal · plan · owner */
   function missing(it) {
     var m = [];
+    if(it.risk && !it.risk.stale && !evaluation.risk_needs_reassessment && ['closed','not_applicable'].indexOf(it.risk.result.status)!==-1)return m;
+    if(it.risk && (it.risk.stale || evaluation.risk_needs_reassessment || it.risk.result.status!=='confirmed'))m.push('signal');
     if (!it.none && !checkedCount(it.curr)) m.push('current');
     if (it.signal === 'N') m.push('signal');
     if (it.signal === 'G' && !it.keep) m.push('plan');
@@ -89,7 +103,7 @@
   function markDirty() { dirty = true; }
 
   // 로그아웃 확인에서 사용 (api.js)
-  SafeT.hasUnsaved = function () { return dirty; };
+  SafeT.hasUnsaved = function () { return dirty || SafeT.riskUI.hasDraft(); };
 
   /* ---------- S05 리스트 ---------- */
   var filter = 'all';
@@ -125,6 +139,7 @@
       $('<span class="card__title">').text(no(i) + ' ' + it.job).appendTo($head);
       signalEl(it.signal).appendTo($head);
       $('<span class="card__meta">').text(it.factor + ' · ' + it.type).appendTo($a);
+      if(it.risk)$('<span class="tag">').text(SafeT.riskUI.title(it.risk.result,it.risk.stale || evaluation.risk_needs_reassessment)).appendTo($a);
       var $st = $('<span class="risk-card__state">').appendTo($a);
       if (need) $('<span class="tag tag--warn">입력 필요</span>').appendTo($st);
       $st.append(document.createTextNode(' ' + stateText(it)));
@@ -247,13 +262,15 @@
     $('#d-cause-box').prop('hidden', !need || !it.cause);
     $('#d-reason').text(it.reason || '');
     $('#d-reason-box').prop('hidden', need || !it.reason);
+    if(!$('#risk-evidence-panel').length)$('<section class="section" id="risk-evidence-panel">').insertAfter('#d-reason-box');
+    SafeT.riskUI.detail($('#risk-evidence-panel'),it,evaluation);
     if (it.law) {
       $('#d-law-name').text(it.law.name);
       $('#d-law-summary').text(it.law.summary);
       $('#d-law-link').attr('href', it.law.url);
     }
     $('#d-law-box').prop('hidden', need || !it.law);
-    $('#d-judge-box').prop('hidden', !isN);
+    $('#d-judge-box').prop('hidden', !isN && !it.risk);
 
     renderChecks($('#d-curr-list'), it.curr, 'curr', it);
 
@@ -423,8 +440,8 @@
   /* ---------- 로그인 만료 시 편집 내용 보관 · 다시 로그인하면 복구 (설계서 07쪽) ---------- */
   if (SafeT.auth) {
     SafeT.auth.onExpire(function () {
-      if (!dirty) return null;
-      return { page: 'draft', data: { email:(SafeT.auth.user() || {}).email, evalNo:evalNo, revision:evaluation && evaluation.revision, items: items, state: state, filter: filter } };
+      if (!SafeT.hasUnsaved()) return null;
+      return { page: 'draft', data: { email:(SafeT.auth.user() || {}).email, evalNo:evalNo, revision:evaluation && evaluation.revision, items: items, state: state, filter: filter, riskDraft:SafeT.riskUI.snapshot() } };
     });
   }
 
@@ -434,6 +451,8 @@
     items = $.map(r.items, function (it) { return makeItem(it); });
     state = $.extend({ index: 0, mode: 'all', needList: [] }, r.state);
     filter = r.filter || 'all';
+    SafeT.riskUI.restore(r.riskDraft);
+    SafeT.riskUI.summary($('#risk-question-panel'),evaluation,submitRiskAnswers);
     // 직접 추가 항목 id 가 겹치지 않도록 번호 이어서
     $.each(items, function (_, it) {
       $.each(it.curr.concat(it.plans), function (_, a) {
@@ -460,7 +479,7 @@
       $('#btn-save,#btn-confirm,#btn-input,#btn-bulk').removeAttr('aria-disabled');
       SafeT.go('v-list');
     }).fail(apiError).always(function(){SafeT.loading(false);});
-    window.addEventListener('beforeunload',function(e){if(dirty){e.preventDefault();e.returnValue='';}});
+    window.addEventListener('beforeunload',function(e){if(SafeT.hasUnsaved()){e.preventDefault();e.returnValue='';}});
 
     // 리스트
     $('#v-list').on('safet:show', renderList);
@@ -503,6 +522,9 @@
     // 확인 창이 열릴 때 필수값 검사 (주소로 열어도 동일). 빠진 값이 있으면 창 대신 해당 필드로
     $('#confirm').on('safet:open', function () {
       if(!evaluation || !items.length || busy){SafeT.closeModal(true);return;}
+      if(evaluation.risk_assessment && (evaluation.risk_needs_reassessment || evaluation.risk_assessment.analysis.questions.length || SafeT.riskUI.hasDraft())){
+        SafeT.closeModal(true);SafeT.go('v-list');$('#risk-question-panel textarea').first().trigger('focus');SafeT.toast('추가 질문과 변경된 내용을 반영해 다시 판단한 뒤 확정해 주세요.');return;
+      }
       for (var i = 0; i < items.length; i += 1) {
         var m = missing(items[i]);
         if (m.length) {
@@ -553,7 +575,7 @@
 
     $('#d-save').on('click', function () { saveDraft('v-risk'); });
 
-    $('#d-rejudge').on('click',function(){SafeT.toast('실제 위험 판단 모델 연결 후 다시 판단할 수 있어요. 현재 입력은 저장할 수 있습니다.');});
+    $('#d-rejudge').on('click',function(){if(evaluation.risk_assessment){SafeT.go('v-list');$('#risk-question-panel textarea').first().trigger('focus');}else SafeT.toast('AI 연결 설정 후 새 평가표를 작성해 주세요.');});
 
     // 체크 변경 (현재 조치 · 현재 조치 없음 · 개선대책)
     $('#risk-form').on('change', 'input[data-kind]', function () {
@@ -577,6 +599,11 @@
         if (kind === 'plan') it.judged = false;
       }
       markDirty();
+      if(evaluation.risk_assessment && (kind==='curr' || kind==='none')){
+        evaluation.risk_needs_reassessment=true;items.forEach(function(x){x.signal='N';});
+        SafeT.riskUI.detail($('#risk-evidence-panel'),it,evaluation);
+        SafeT.riskUI.summary($('#risk-question-panel'),evaluation,submitRiskAnswers);
+      }
       $(this).closest('.section').removeClass('is-invalid').find('.js-error').remove();
       renderCounts();
     });

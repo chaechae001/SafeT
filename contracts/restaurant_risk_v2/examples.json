@@ -1,0 +1,2788 @@
+{
+  "notice": "모든 사례는 서비스 형식을 설명하기 위한 가상 사례이며 실제 현장 판정이 아님.",
+  "cases": [
+    {
+      "case_id": "EX01",
+      "title": "현재 급박한 반죽기 말림 위험",
+      "input": {
+        "assessment_id": "EX01",
+        "assessed_at": "2026-11-17T10:00:00+09:00",
+        "scope": "현재 급박한 반죽기 말림 위험",
+        "media": [
+          {
+            "id": "M1",
+            "modality": "text",
+            "content": "지금 반죽기가 돌고 있는데 통 속 이물을 손으로 빼려 합니다. 전원을 끄지 않았습니다.",
+            "media_uri": null,
+            "captured_at": "2026-11-17T10:00:00+09:00",
+            "location": "가상 음식점",
+            "asr_uncertainties": [],
+            "transcript_segments": []
+          }
+        ],
+        "trusted_legal_registry": [],
+        "previous_assessment_id": null
+      },
+      "expected_output": {
+        "policy_version": "RESTAURANT-3LEVEL-2.0",
+        "assessment_id": "EX01",
+        "analysis": {
+          "policy_version": "RESTAURANT-3LEVEL-2.0",
+          "assessment_id": "EX01",
+          "scope": "현재 급박한 반죽기 말림 위험",
+          "evidence": [
+            {
+              "id": "E1",
+              "media_id": "M1",
+              "kind": "reported",
+              "locator": {
+                "description": "예시 입력 본문",
+                "bbox_xyxy_norm": null,
+                "audio_start_ms": null,
+                "audio_end_ms": null,
+                "text_excerpt": null
+              },
+              "statement": "회전 중 이물 제거 시도·미격리라는 현재 사용자 보고",
+              "time_scope": "current",
+              "limitations": []
+            }
+          ],
+          "hazards": [
+            {
+              "id": "H1",
+              "rule_ids": [
+                "MIX"
+              ],
+              "subject": "반죽기",
+              "task": "이물 제거",
+              "exposure": "현재 회전 중인 통에 손을 넣으려는 작업",
+              "event": "팔 말림",
+              "consequence": "사망 또는 영구장해를 유발할 수 있는 중대 끼임",
+              "applicability": "confirmed",
+              "evidence_ids": [
+                "E1"
+              ],
+              "closure_evidence_ids": [],
+              "related_hazard_ids": [],
+              "severity_options": [
+                3
+              ],
+              "severity_rationale": "사망 또는 영구장해를 유발할 수 있는 중대 끼임",
+              "control_options": [
+                3
+              ],
+              "control_rationale": "핵심/보완 조치의 현재 상태를 조합한 후보값",
+              "controls": [
+                {
+                  "id": "C1",
+                  "name": "이물 제거 전 에너지 격리",
+                  "critical": true,
+                  "verification_required": true,
+                  "state": "absent",
+                  "evidence_ids": [
+                    "E1"
+                  ],
+                  "rationale": "해당 사고 경로에 대한 조치 상태. 설치와 작동을 구분함."
+                }
+              ],
+              "safety_flags": {
+                "imminent_danger": {
+                  "value": "yes",
+                  "evidence_ids": [
+                    "E1"
+                  ],
+                  "rationale": "현재 회전체에 손을 넣으려는 노출이 보고됨"
+                },
+                "verified_legal_breach": {
+                  "value": "unknown",
+                  "evidence_ids": [],
+                  "rationale": "현행 적용 법령의 미충족을 검증하지 않음",
+                  "registry_ids": []
+                },
+                "unresolved_same_cause_near_miss": {
+                  "value": "unknown",
+                  "evidence_ids": [],
+                  "rationale": "해당 정보 미제공"
+                }
+              },
+              "decision_evidence_complete": true,
+              "uncertainty": [],
+              "contradictions": [],
+              "rationale": "현재 회전 중인 통에 손을 넣으려는 작업 조건에서 팔 말림 경로가 있으며 사망 또는 영구장해를 유발할 수 있는 중대 끼임 가능성을 검토한다. 조치 상태와 미확인 정보는 개별 필드를 참고한다.",
+              "source_refs": [
+                {
+                  "document_id": "C",
+                  "printed_page": 118,
+                  "pdf_page": 119
+                },
+                {
+                  "document_id": "C",
+                  "printed_page": 119,
+                  "pdf_page": 120
+                }
+              ]
+            }
+          ],
+          "questions": [],
+          "actions": [
+            {
+              "id": "A1",
+              "hazard_ids": [
+                "H1"
+              ],
+              "hierarchy": "emergency_response",
+              "action": "손을 접근시키지 않고 해당 작업을 중단한다. 안전한 절차로 에너지를 격리한 뒤 적격 담당자가 확인한다.",
+              "urgent": true,
+              "completion_evidence_required": "담당자 확인 및 조치 후 실제 기능·사용 상태를 확인할 수 있는 기록"
+            }
+          ],
+          "coverage": [
+            {
+              "rule_id": "GOV",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "ENV",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "LADDER",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "TRANS",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "STORAGE",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "COLD",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "KNIFE",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "UV",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "CUT",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "MIX",
+              "status": "assessed",
+              "reason": "예시에서 평가한 범주"
+            },
+            {
+              "rule_id": "RICE",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "GAS",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "KETTLE",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "FRY",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "GRIDDLE",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "OVEN",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "VENT",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "SERVE",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "LIFT",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "DELIVERY",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "WASH",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "CHEM",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "ELECT",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "FIRE",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "EMERGENCY",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "MSD",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "PSYCH",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            }
+          ],
+          "limitations": [
+            "가상의 입력과 근거로 만든 출력 예시이다. 실제 사용자 현장 평가가 아니다.",
+            "평가 범위 밖의 사업장 전체 안전·현행법 준수를 판단하지 않는다."
+          ]
+        },
+        "results": [
+          {
+            "hazard_id": "H1",
+            "status": "confirmed",
+            "grade": "상",
+            "ordinal": 3,
+            "range": {
+              "min": 3,
+              "max": 3
+            },
+            "acceptability": "not_acceptable",
+            "rule_applied": [
+              "matrix_S_C",
+              "confirmed_imminent_danger"
+            ],
+            "requires_human_review": true,
+            "immediate_exposure_stop": true
+          }
+        ],
+        "summary": {
+          "max_confirmed": "상",
+          "max_provisional": null,
+          "assessed_scope_max": "상",
+          "confirmed_counts": {
+            "상": 1,
+            "중": 0,
+            "하": 0
+          },
+          "provisional_counts": {
+            "상": 0,
+            "중": 0,
+            "하": 0
+          },
+          "unrated_count": 0,
+          "information_incomplete_count": 0,
+          "site_safety_conclusion": "not_determined",
+          "coverage_needs_information_count": 26
+        },
+        "work_authorization": "not_issued"
+      }
+    },
+    {
+      "case_id": "EX02",
+      "title": "기기 보유만 확인된 후보",
+      "input": {
+        "assessment_id": "EX02",
+        "assessed_at": "2026-11-17T10:00:00+09:00",
+        "scope": "기기 보유만 확인된 후보",
+        "media": [
+          {
+            "id": "M1",
+            "modality": "text",
+            "content": "주방에 튀김기가 한 대 있습니다.",
+            "media_uri": null,
+            "captured_at": "2026-11-17T10:00:00+09:00",
+            "location": "가상 음식점",
+            "asr_uncertainties": [],
+            "transcript_segments": []
+          }
+        ],
+        "trusted_legal_registry": [],
+        "previous_assessment_id": null
+      },
+      "expected_output": {
+        "policy_version": "RESTAURANT-3LEVEL-2.0",
+        "assessment_id": "EX02",
+        "analysis": {
+          "policy_version": "RESTAURANT-3LEVEL-2.0",
+          "assessment_id": "EX02",
+          "scope": "기기 보유만 확인된 후보",
+          "evidence": [
+            {
+              "id": "E1",
+              "media_id": "M1",
+              "kind": "reported",
+              "locator": {
+                "description": "예시 입력 본문",
+                "bbox_xyxy_norm": null,
+                "audio_start_ms": null,
+                "audio_end_ms": null,
+                "text_excerpt": null
+              },
+              "statement": "튀김기 보유 보고",
+              "time_scope": "current",
+              "limitations": []
+            }
+          ],
+          "hazards": [
+            {
+              "id": "H1",
+              "rule_ids": [
+                "FRY"
+              ],
+              "subject": "튀김기",
+              "task": "작업 단계 미확인",
+              "exposure": "튀김기가 있다는 정보만 확인",
+              "event": "고온유 접촉 후보",
+              "consequence": "온도·양·작업에 따라 치료 필요 또는 중대한 화상",
+              "applicability": "possible",
+              "evidence_ids": [
+                "E1"
+              ],
+              "closure_evidence_ids": [],
+              "related_hazard_ids": [],
+              "severity_options": [
+                2,
+                3
+              ],
+              "severity_rationale": "온도·양·작업에 따라 치료 필요 또는 중대한 화상",
+              "control_options": [
+                1,
+                2,
+                3
+              ],
+              "control_rationale": "핵심/보완 조치의 현재 상태를 조합한 후보값",
+              "controls": [
+                {
+                  "id": "C1",
+                  "name": "온도 제어·냉각 후 배유",
+                  "critical": true,
+                  "verification_required": true,
+                  "state": "unknown",
+                  "evidence_ids": [],
+                  "rationale": "해당 사고 경로에 대한 조치 상태. 설치와 작동을 구분함."
+                }
+              ],
+              "safety_flags": {
+                "imminent_danger": {
+                  "value": "unknown",
+                  "evidence_ids": [],
+                  "rationale": "해당 정보 미제공"
+                },
+                "verified_legal_breach": {
+                  "value": "unknown",
+                  "evidence_ids": [],
+                  "rationale": "현행 적용 법령의 미충족을 검증하지 않음",
+                  "registry_ids": []
+                },
+                "unresolved_same_cause_near_miss": {
+                  "value": "unknown",
+                  "evidence_ids": [],
+                  "rationale": "해당 정보 미제공"
+                }
+              },
+              "decision_evidence_complete": false,
+              "uncertainty": [
+                "판정을 바꿀 현장 정보 미확인"
+              ],
+              "contradictions": [],
+              "rationale": "튀김기가 있다는 정보만 확인 조건에서 고온유 접촉 후보 경로가 있으며 온도·양·작업에 따라 치료 필요 또는 중대한 화상 가능성을 검토한다. 조치 상태와 미확인 정보는 개별 필드를 참고한다.",
+              "source_refs": [
+                {
+                  "document_id": "C",
+                  "printed_page": 128,
+                  "pdf_page": 129
+                },
+                {
+                  "document_id": "C",
+                  "printed_page": 133,
+                  "pdf_page": 134
+                }
+              ]
+            }
+          ],
+          "questions": [
+            {
+              "id": "Q1",
+              "hazard_ids": [
+                "H1"
+              ],
+              "field": "task",
+              "priority": 2,
+              "first_batch": true,
+              "question": "지금 튀김 작업·배유·청소 중 어느 작업을 평가하나요?",
+              "answer_options": [
+                "확인됨",
+                "확인되지 않음",
+                "모르겠음"
+              ],
+              "decision_impact": "작업·실제 노출 확인 후 후보를 확정 평가로 전환",
+              "safe_verification": "위험을 재현하지 말고 기존 점검 기록·안전한 위치의 관찰·적격 담당자 확인을 이용한다."
+            },
+            {
+              "id": "Q2",
+              "hazard_ids": [
+                "H1"
+              ],
+              "field": "temperature_controls",
+              "priority": 2,
+              "first_batch": true,
+              "question": "기름 온도·양과 냉각 후 배유 절차가 확인됐나요?",
+              "answer_options": [
+                "확인됨",
+                "확인되지 않음",
+                "모르겠음"
+              ],
+              "decision_impact": "피해 S와 안전조치 C 후보 범위를 줄임",
+              "safe_verification": "위험을 재현하지 말고 기존 점검 기록·안전한 위치의 관찰·적격 담당자 확인을 이용한다."
+            }
+          ],
+          "actions": [],
+          "coverage": [
+            {
+              "rule_id": "GOV",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "ENV",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "LADDER",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "TRANS",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "STORAGE",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "COLD",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "KNIFE",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "UV",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "CUT",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "MIX",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "RICE",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "GAS",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "KETTLE",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "FRY",
+              "status": "assessed",
+              "reason": "예시에서 평가한 범주"
+            },
+            {
+              "rule_id": "GRIDDLE",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "OVEN",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "VENT",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "SERVE",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "LIFT",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "DELIVERY",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "WASH",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "CHEM",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "ELECT",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "FIRE",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "EMERGENCY",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "MSD",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "PSYCH",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            }
+          ],
+          "limitations": [
+            "가상의 입력과 근거로 만든 출력 예시이다. 실제 사용자 현장 평가가 아니다.",
+            "평가 범위 밖의 사업장 전체 안전·현행법 준수를 판단하지 않는다."
+          ]
+        },
+        "results": [
+          {
+            "hazard_id": "H1",
+            "status": "candidate",
+            "grade": null,
+            "ordinal": null,
+            "range": {
+              "min": null,
+              "max": null
+            },
+            "acceptability": "undetermined",
+            "rule_applied": [
+              "candidate_is_not_confirmed_hazard"
+            ],
+            "requires_human_review": true,
+            "immediate_exposure_stop": false
+          }
+        ],
+        "summary": {
+          "max_confirmed": null,
+          "max_provisional": null,
+          "assessed_scope_max": null,
+          "confirmed_counts": {
+            "상": 0,
+            "중": 0,
+            "하": 0
+          },
+          "provisional_counts": {
+            "상": 0,
+            "중": 0,
+            "하": 0
+          },
+          "unrated_count": 1,
+          "information_incomplete_count": 1,
+          "site_safety_conclusion": "not_determined",
+          "coverage_needs_information_count": 26
+        },
+        "work_authorization": "not_issued"
+      }
+    },
+    {
+      "case_id": "EX03",
+      "title": "미확인 조치가 있는 잠정 판정",
+      "input": {
+        "assessment_id": "EX03",
+        "assessed_at": "2026-11-17T10:00:00+09:00",
+        "scope": "미확인 조치가 있는 잠정 판정",
+        "media": [
+          {
+            "id": "M1",
+            "modality": "text",
+            "content": "통로 바닥에 액체가 있습니다. 직원들이 이 구간을 지납니다. 청소 중인지 통제됐는지는 모르겠습니다.",
+            "media_uri": null,
+            "captured_at": "2026-11-17T10:00:00+09:00",
+            "location": "가상 음식점",
+            "asr_uncertainties": [],
+            "transcript_segments": []
+          }
+        ],
+        "trusted_legal_registry": [],
+        "previous_assessment_id": null
+      },
+      "expected_output": {
+        "policy_version": "RESTAURANT-3LEVEL-2.0",
+        "assessment_id": "EX03",
+        "analysis": {
+          "policy_version": "RESTAURANT-3LEVEL-2.0",
+          "assessment_id": "EX03",
+          "scope": "미확인 조치가 있는 잠정 판정",
+          "evidence": [
+            {
+              "id": "E1",
+              "media_id": "M1",
+              "kind": "reported",
+              "locator": {
+                "description": "예시 입력 본문",
+                "bbox_xyxy_norm": null,
+                "audio_start_ms": null,
+                "audio_end_ms": null,
+                "text_excerpt": null
+              },
+              "statement": "통행 구간 액체 보고",
+              "time_scope": "current",
+              "limitations": [
+                "액체 종류·제거·통제 미확인"
+              ]
+            }
+          ],
+          "hazards": [
+            {
+              "id": "H1",
+              "rule_ids": [
+                "ENV"
+              ],
+              "subject": "조리실 통로",
+              "task": "통행",
+              "exposure": "통행 구간의 액체가 보고됐으나 물기/기름·통제 여부 미확인",
+              "event": "미끄러져 넘어짐",
+              "consequence": "경미한 타박상에서 치료 필요한 염좌·골절",
+              "applicability": "confirmed",
+              "evidence_ids": [
+                "E1"
+              ],
+              "closure_evidence_ids": [],
+              "related_hazard_ids": [],
+              "severity_options": [
+                1,
+                2
+              ],
+              "severity_rationale": "경미한 타박상에서 치료 필요한 염좌·골절",
+              "control_options": [
+                1,
+                2,
+                3
+              ],
+              "control_rationale": "핵심/보완 조치의 현재 상태를 조합한 후보값",
+              "controls": [
+                {
+                  "id": "C1",
+                  "name": "오염 제거·통행 통제",
+                  "critical": true,
+                  "verification_required": true,
+                  "state": "unknown",
+                  "evidence_ids": [],
+                  "rationale": "해당 사고 경로에 대한 조치 상태. 설치와 작동을 구분함."
+                }
+              ],
+              "safety_flags": {
+                "imminent_danger": {
+                  "value": "unknown",
+                  "evidence_ids": [],
+                  "rationale": "해당 정보 미제공"
+                },
+                "verified_legal_breach": {
+                  "value": "unknown",
+                  "evidence_ids": [],
+                  "rationale": "현행 적용 법령의 미충족을 검증하지 않음",
+                  "registry_ids": []
+                },
+                "unresolved_same_cause_near_miss": {
+                  "value": "unknown",
+                  "evidence_ids": [],
+                  "rationale": "해당 정보 미제공"
+                }
+              },
+              "decision_evidence_complete": false,
+              "uncertainty": [
+                "판정을 바꿀 현장 정보 미확인"
+              ],
+              "contradictions": [],
+              "rationale": "통행 구간의 액체가 보고됐으나 물기/기름·통제 여부 미확인 조건에서 미끄러져 넘어짐 경로가 있으며 경미한 타박상에서 치료 필요한 염좌·골절 가능성을 검토한다. 조치 상태와 미확인 정보는 개별 필드를 참고한다.",
+              "source_refs": [
+                {
+                  "document_id": "C",
+                  "printed_page": 103,
+                  "pdf_page": 104
+                },
+                {
+                  "document_id": "C",
+                  "printed_page": 105,
+                  "pdf_page": 106
+                }
+              ]
+            }
+          ],
+          "questions": [
+            {
+              "id": "Q1",
+              "hazard_ids": [
+                "H1"
+              ],
+              "field": "control_state",
+              "priority": 2,
+              "first_batch": true,
+              "question": "현재 물기·기름이 제거됐고 해당 통로의 출입이 통제됐나요?",
+              "answer_options": [
+                "확인됨",
+                "확인되지 않음",
+                "모르겠음"
+              ],
+              "decision_impact": "확인 전 C1~C3, 잠정 상. 실제 핵심 조치 미이행 확정과 구분",
+              "safe_verification": "위험을 재현하지 말고 기존 점검 기록·안전한 위치의 관찰·적격 담당자 확인을 이용한다."
+            },
+            {
+              "id": "Q2",
+              "hazard_ids": [
+                "H1"
+              ],
+              "field": "severity",
+              "priority": 2,
+              "first_batch": true,
+              "question": "계단·고온 용기 운반·단단한 모서리와 연결된 동선인가요?",
+              "answer_options": [
+                "확인됨",
+                "확인되지 않음",
+                "모르겠음"
+              ],
+              "decision_impact": "복합 위험 또는 중대한 결과 경로를 추가 검토",
+              "safe_verification": "위험을 재현하지 말고 기존 점검 기록·안전한 위치의 관찰·적격 담당자 확인을 이용한다."
+            }
+          ],
+          "actions": [
+            {
+              "id": "A1",
+              "hazard_ids": [
+                "H1"
+              ],
+              "hierarchy": "administrative",
+              "action": "안전한 우회 동선을 확보하고 오염을 제거한 뒤 통행 상태를 재확인한다.",
+              "urgent": false,
+              "completion_evidence_required": "담당자 확인 및 조치 후 실제 기능·사용 상태를 확인할 수 있는 기록"
+            }
+          ],
+          "coverage": [
+            {
+              "rule_id": "GOV",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "ENV",
+              "status": "assessed",
+              "reason": "예시에서 평가한 범주"
+            },
+            {
+              "rule_id": "LADDER",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "TRANS",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "STORAGE",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "COLD",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "KNIFE",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "UV",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "CUT",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "MIX",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "RICE",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "GAS",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "KETTLE",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "FRY",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "GRIDDLE",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "OVEN",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "VENT",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "SERVE",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "LIFT",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "DELIVERY",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "WASH",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "CHEM",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "ELECT",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "FIRE",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "EMERGENCY",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "MSD",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "PSYCH",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            }
+          ],
+          "limitations": [
+            "가상의 입력과 근거로 만든 출력 예시이다. 실제 사용자 현장 평가가 아니다.",
+            "평가 범위 밖의 사업장 전체 안전·현행법 준수를 판단하지 않는다."
+          ]
+        },
+        "results": [
+          {
+            "hazard_id": "H1",
+            "status": "provisional",
+            "grade": "상",
+            "ordinal": 3,
+            "range": {
+              "min": 1,
+              "max": 3
+            },
+            "acceptability": "not_acceptable",
+            "rule_applied": [
+              "matrix_S_C",
+              "provisional_max_of_possible_combinations"
+            ],
+            "requires_human_review": true,
+            "immediate_exposure_stop": false
+          }
+        ],
+        "summary": {
+          "max_confirmed": null,
+          "max_provisional": "상",
+          "assessed_scope_max": "상",
+          "confirmed_counts": {
+            "상": 0,
+            "중": 0,
+            "하": 0
+          },
+          "provisional_counts": {
+            "상": 1,
+            "중": 0,
+            "하": 0
+          },
+          "unrated_count": 0,
+          "information_incomplete_count": 1,
+          "site_safety_conclusion": "not_determined",
+          "coverage_needs_information_count": 26
+        },
+        "work_authorization": "not_issued"
+      }
+    },
+    {
+      "case_id": "EX04",
+      "title": "조건이 확인된 제한 범위의 하",
+      "input": {
+        "assessment_id": "EX04",
+        "assessed_at": "2026-11-17T10:00:00+09:00",
+        "scope": "조건이 확인된 제한 범위의 하",
+        "media": [
+          {
+            "id": "M1",
+            "modality": "text",
+            "content": "현장 점검 기록: 빈 종이 포장재만 낮은 작업대에서 정리한다. 금속날·중량물·고온물·추락 접점이 없다. 작업면과 취급 방법이 적합하며 다른 위험 경로는 별도 평가한다.",
+            "media_uri": null,
+            "captured_at": "2026-11-17T10:00:00+09:00",
+            "location": "가상 음식점",
+            "asr_uncertainties": [],
+            "transcript_segments": []
+          }
+        ],
+        "trusted_legal_registry": [],
+        "previous_assessment_id": null
+      },
+      "expected_output": {
+        "policy_version": "RESTAURANT-3LEVEL-2.0",
+        "assessment_id": "EX04",
+        "analysis": {
+          "policy_version": "RESTAURANT-3LEVEL-2.0",
+          "assessment_id": "EX04",
+          "scope": "조건이 확인된 제한 범위의 하",
+          "evidence": [
+            {
+              "id": "E1",
+              "media_id": "M1",
+              "kind": "record",
+              "locator": {
+                "description": "예시 입력 본문",
+                "bbox_xyxy_norm": null,
+                "audio_start_ms": null,
+                "audio_end_ms": null,
+                "text_excerpt": null
+              },
+              "statement": "담당자의 해당 작업 범위·접점·조치 확인 기록",
+              "time_scope": "current",
+              "limitations": []
+            }
+          ],
+          "hazards": [
+            {
+              "id": "H1",
+              "rule_ids": [
+                "STORAGE"
+              ],
+              "subject": "빈 종이 포장재",
+              "task": "낮은 작업대에서 정리",
+              "exposure": "날카로운 금속·중량물·열원·추락 접점 없는 제한된 작업 범위",
+              "event": "종이 가장자리 마찰",
+              "consequence": "업무 지장 없는 경미한 찰과상으로 제한됨",
+              "applicability": "confirmed",
+              "evidence_ids": [
+                "E1"
+              ],
+              "closure_evidence_ids": [],
+              "related_hazard_ids": [],
+              "severity_options": [
+                1
+              ],
+              "severity_rationale": "업무 지장 없는 경미한 찰과상으로 제한됨",
+              "control_options": [
+                1
+              ],
+              "control_rationale": "핵심/보완 조치의 현재 상태를 조합한 후보값",
+              "controls": [
+                {
+                  "id": "C1",
+                  "name": "안정된 낮은 작업면·적합 취급 방법",
+                  "critical": true,
+                  "verification_required": false,
+                  "state": "verified_effective",
+                  "evidence_ids": [
+                    "E1"
+                  ],
+                  "rationale": "해당 사고 경로에 대한 조치 상태. 설치와 작동을 구분함."
+                }
+              ],
+              "safety_flags": {
+                "imminent_danger": {
+                  "value": "unknown",
+                  "evidence_ids": [],
+                  "rationale": "해당 정보 미제공"
+                },
+                "verified_legal_breach": {
+                  "value": "unknown",
+                  "evidence_ids": [],
+                  "rationale": "현행 적용 법령의 미충족을 검증하지 않음",
+                  "registry_ids": []
+                },
+                "unresolved_same_cause_near_miss": {
+                  "value": "unknown",
+                  "evidence_ids": [],
+                  "rationale": "해당 정보 미제공"
+                }
+              },
+              "decision_evidence_complete": true,
+              "uncertainty": [],
+              "contradictions": [],
+              "rationale": "날카로운 금속·중량물·열원·추락 접점 없는 제한된 작업 범위 조건에서 종이 가장자리 마찰 경로가 있으며 업무 지장 없는 경미한 찰과상으로 제한됨 가능성을 검토한다. 조치 상태와 미확인 정보는 개별 필드를 참고한다.",
+              "source_refs": [
+                {
+                  "document_id": "C",
+                  "printed_page": 106,
+                  "pdf_page": 107
+                },
+                {
+                  "document_id": "C",
+                  "printed_page": 107,
+                  "pdf_page": 108
+                }
+              ]
+            }
+          ],
+          "questions": [],
+          "actions": [
+            {
+              "id": "A1",
+              "hazard_ids": [
+                "H1"
+              ],
+              "hierarchy": "administrative",
+              "action": "현재 취급 조건을 유지하고 물품·작업 높이·도구가 바뀌면 재평가한다.",
+              "urgent": false,
+              "completion_evidence_required": "담당자 확인 및 조치 후 실제 기능·사용 상태를 확인할 수 있는 기록"
+            }
+          ],
+          "coverage": [
+            {
+              "rule_id": "GOV",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "ENV",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "LADDER",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "TRANS",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "STORAGE",
+              "status": "assessed",
+              "reason": "예시에서 평가한 범주"
+            },
+            {
+              "rule_id": "COLD",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "KNIFE",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "UV",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "CUT",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "MIX",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "RICE",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "GAS",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "KETTLE",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "FRY",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "GRIDDLE",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "OVEN",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "VENT",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "SERVE",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "LIFT",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "DELIVERY",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "WASH",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "CHEM",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "ELECT",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "FIRE",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "EMERGENCY",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "MSD",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "PSYCH",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            }
+          ],
+          "limitations": [
+            "가상의 입력과 근거로 만든 출력 예시이다. 실제 사용자 현장 평가가 아니다.",
+            "평가 범위 밖의 사업장 전체 안전·현행법 준수를 판단하지 않는다."
+          ]
+        },
+        "results": [
+          {
+            "hazard_id": "H1",
+            "status": "confirmed",
+            "grade": "하",
+            "ordinal": 1,
+            "range": {
+              "min": 1,
+              "max": 1
+            },
+            "acceptability": "acceptable_in_assessed_scope",
+            "rule_applied": [
+              "matrix_S_C"
+            ],
+            "requires_human_review": false,
+            "immediate_exposure_stop": false
+          }
+        ],
+        "summary": {
+          "max_confirmed": "하",
+          "max_provisional": null,
+          "assessed_scope_max": "하",
+          "confirmed_counts": {
+            "상": 0,
+            "중": 0,
+            "하": 1
+          },
+          "provisional_counts": {
+            "상": 0,
+            "중": 0,
+            "하": 0
+          },
+          "unrated_count": 0,
+          "information_incomplete_count": 0,
+          "site_safety_conclusion": "not_determined",
+          "coverage_needs_information_count": 26
+        },
+        "work_authorization": "not_issued"
+      }
+    },
+    {
+      "case_id": "EX05",
+      "title": "회전 경로 종료 후 남은 날 베임",
+      "input": {
+        "assessment_id": "EX05",
+        "assessed_at": "2026-11-17T10:00:00+09:00",
+        "scope": "회전 경로 종료 후 남은 날 베임",
+        "media": [
+          {
+            "id": "M1",
+            "modality": "text",
+            "content": "현장 확인 기록: 육절기의 전원·잔류 에너지·재가동 방지가 격리되고 완전 정지했다. 정지 날 취급에는 도구와 적합한 절단방지 보호구를 사용한다. 날 베임의 잔여 위험은 있다.",
+            "media_uri": null,
+            "captured_at": "2026-11-17T10:00:00+09:00",
+            "location": "가상 음식점",
+            "asr_uncertainties": [],
+            "transcript_segments": []
+          }
+        ],
+        "trusted_legal_registry": [],
+        "previous_assessment_id": null
+      },
+      "expected_output": {
+        "policy_version": "RESTAURANT-3LEVEL-2.0",
+        "assessment_id": "EX05",
+        "analysis": {
+          "policy_version": "RESTAURANT-3LEVEL-2.0",
+          "assessment_id": "EX05",
+          "scope": "회전 경로 종료 후 남은 날 베임",
+          "evidence": [
+            {
+              "id": "E1",
+              "media_id": "M1",
+              "kind": "record",
+              "locator": {
+                "description": "예시 입력 본문",
+                "bbox_xyxy_norm": null,
+                "audio_start_ms": null,
+                "audio_end_ms": null,
+                "text_excerpt": null
+              },
+              "statement": "격리·정지·재가동 방지 및 날 취급 조건 확인 기록",
+              "time_scope": "current",
+              "limitations": []
+            }
+          ],
+          "hazards": [
+            {
+              "id": "H1",
+              "rule_ids": [
+                "CUT"
+              ],
+              "subject": "육절기",
+              "task": "격리 후 날 세척",
+              "exposure": "적격 담당자가 전원·잔류 에너지·재가동 방지와 완전 정지를 확인",
+              "event": "회전 말림 경로",
+              "consequence": "회전 에너지 노출 경로가 폐쇄됨",
+              "applicability": "closed",
+              "evidence_ids": [
+                "E1"
+              ],
+              "closure_evidence_ids": [
+                "E1"
+              ],
+              "related_hazard_ids": [],
+              "severity_options": [
+                3
+              ],
+              "severity_rationale": "회전 에너지 노출 경로가 폐쇄됨",
+              "control_options": [
+                1
+              ],
+              "control_rationale": "핵심/보완 조치의 현재 상태를 조합한 후보값",
+              "controls": [
+                {
+                  "id": "C1",
+                  "name": "검증된 에너지 격리",
+                  "critical": true,
+                  "verification_required": true,
+                  "state": "verified_effective",
+                  "evidence_ids": [
+                    "E1"
+                  ],
+                  "rationale": "해당 사고 경로에 대한 조치 상태. 설치와 작동을 구분함."
+                }
+              ],
+              "safety_flags": {
+                "imminent_danger": {
+                  "value": "unknown",
+                  "evidence_ids": [],
+                  "rationale": "해당 정보 미제공"
+                },
+                "verified_legal_breach": {
+                  "value": "unknown",
+                  "evidence_ids": [],
+                  "rationale": "현행 적용 법령의 미충족을 검증하지 않음",
+                  "registry_ids": []
+                },
+                "unresolved_same_cause_near_miss": {
+                  "value": "unknown",
+                  "evidence_ids": [],
+                  "rationale": "해당 정보 미제공"
+                }
+              },
+              "decision_evidence_complete": true,
+              "uncertainty": [],
+              "contradictions": [],
+              "rationale": "적격 담당자가 전원·잔류 에너지·재가동 방지와 완전 정지를 확인 조건에서 회전 말림 경로 경로가 있으며 회전 에너지 노출 경로가 폐쇄됨 가능성을 검토한다. 조치 상태와 미확인 정보는 개별 필드를 참고한다.",
+              "source_refs": [
+                {
+                  "document_id": "C",
+                  "printed_page": 112,
+                  "pdf_page": 113
+                },
+                {
+                  "document_id": "C",
+                  "printed_page": 113,
+                  "pdf_page": 114
+                }
+              ]
+            },
+            {
+              "id": "H2",
+              "rule_ids": [
+                "KNIFE"
+              ],
+              "subject": "육절기 날",
+              "task": "격리 후 날 취급",
+              "exposure": "정지된 날의 절단면과 접촉 가능",
+              "event": "날에 베임",
+              "consequence": "치료 필요한 베임 가능, 현재 취급 경로의 영구장해 가능성은 근거상 제외",
+              "applicability": "confirmed",
+              "evidence_ids": [
+                "E1"
+              ],
+              "closure_evidence_ids": [],
+              "related_hazard_ids": [
+                "H1"
+              ],
+              "severity_options": [
+                2
+              ],
+              "severity_rationale": "치료 필요한 베임 가능, 현재 취급 경로의 영구장해 가능성은 근거상 제외",
+              "control_options": [
+                1
+              ],
+              "control_rationale": "핵심/보완 조치의 현재 상태를 조합한 후보값",
+              "controls": [
+                {
+                  "id": "C1",
+                  "name": "날 취급용 도구·적합 보호구·안전 절차",
+                  "critical": true,
+                  "verification_required": true,
+                  "state": "verified_effective",
+                  "evidence_ids": [
+                    "E1"
+                  ],
+                  "rationale": "해당 사고 경로에 대한 조치 상태. 설치와 작동을 구분함."
+                }
+              ],
+              "safety_flags": {
+                "imminent_danger": {
+                  "value": "unknown",
+                  "evidence_ids": [],
+                  "rationale": "해당 정보 미제공"
+                },
+                "verified_legal_breach": {
+                  "value": "unknown",
+                  "evidence_ids": [],
+                  "rationale": "현행 적용 법령의 미충족을 검증하지 않음",
+                  "registry_ids": []
+                },
+                "unresolved_same_cause_near_miss": {
+                  "value": "unknown",
+                  "evidence_ids": [],
+                  "rationale": "해당 정보 미제공"
+                }
+              },
+              "decision_evidence_complete": true,
+              "uncertainty": [],
+              "contradictions": [],
+              "rationale": "정지된 날의 절단면과 접촉 가능 조건에서 날에 베임 경로가 있으며 치료 필요한 베임 가능, 현재 취급 경로의 영구장해 가능성은 근거상 제외 가능성을 검토한다. 조치 상태와 미확인 정보는 개별 필드를 참고한다.",
+              "source_refs": [
+                {
+                  "document_id": "C",
+                  "printed_page": 110,
+                  "pdf_page": 111
+                },
+                {
+                  "document_id": "C",
+                  "printed_page": 111,
+                  "pdf_page": 112
+                }
+              ]
+            }
+          ],
+          "questions": [],
+          "actions": [
+            {
+              "id": "A1",
+              "hazard_ids": [
+                "H2"
+              ],
+              "hierarchy": "engineering",
+              "action": "날 접촉을 더 줄이는 취급 도구·세척 구조를 검토하고 잔여 위험을 재평가한다.",
+              "urgent": false,
+              "completion_evidence_required": "담당자 확인 및 조치 후 실제 기능·사용 상태를 확인할 수 있는 기록"
+            }
+          ],
+          "coverage": [
+            {
+              "rule_id": "GOV",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "ENV",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "LADDER",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "TRANS",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "STORAGE",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "COLD",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "KNIFE",
+              "status": "assessed",
+              "reason": "예시에서 평가한 범주"
+            },
+            {
+              "rule_id": "UV",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "CUT",
+              "status": "assessed",
+              "reason": "예시에서 평가한 범주"
+            },
+            {
+              "rule_id": "MIX",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "RICE",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "GAS",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "KETTLE",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "FRY",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "GRIDDLE",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "OVEN",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "VENT",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "SERVE",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "LIFT",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "DELIVERY",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "WASH",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "CHEM",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "ELECT",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "FIRE",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "EMERGENCY",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "MSD",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "PSYCH",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            }
+          ],
+          "limitations": [
+            "가상의 입력과 근거로 만든 출력 예시이다. 실제 사용자 현장 평가가 아니다.",
+            "평가 범위 밖의 사업장 전체 안전·현행법 준수를 판단하지 않는다."
+          ]
+        },
+        "results": [
+          {
+            "hazard_id": "H1",
+            "status": "closed",
+            "grade": null,
+            "ordinal": null,
+            "range": {
+              "min": null,
+              "max": null
+            },
+            "acceptability": "not_applicable",
+            "rule_applied": [
+              "scenario_closed_or_not_applicable_with_evidence"
+            ],
+            "requires_human_review": true,
+            "immediate_exposure_stop": false
+          },
+          {
+            "hazard_id": "H2",
+            "status": "confirmed",
+            "grade": "중",
+            "ordinal": 2,
+            "range": {
+              "min": 2,
+              "max": 2
+            },
+            "acceptability": "not_acceptable",
+            "rule_applied": [
+              "matrix_S_C"
+            ],
+            "requires_human_review": false,
+            "immediate_exposure_stop": false
+          }
+        ],
+        "summary": {
+          "max_confirmed": "중",
+          "max_provisional": null,
+          "assessed_scope_max": "중",
+          "confirmed_counts": {
+            "상": 0,
+            "중": 1,
+            "하": 0
+          },
+          "provisional_counts": {
+            "상": 0,
+            "중": 0,
+            "하": 0
+          },
+          "unrated_count": 0,
+          "information_incomplete_count": 0,
+          "site_safety_conclusion": "not_determined",
+          "coverage_needs_information_count": 25
+        },
+        "work_authorization": "not_issued"
+      }
+    },
+    {
+      "case_id": "EX06",
+      "title": "근골격계 증상을 진단하지 않는 판정",
+      "input": {
+        "assessment_id": "EX06",
+        "assessed_at": "2026-11-17T10:00:00+09:00",
+        "scope": "근골격계 증상을 진단하지 않는 판정",
+        "media": [
+          {
+            "id": "M1",
+            "modality": "text",
+            "content": "매일 여섯 시간 정도 같은 칼질을 하고 무거운 식재료를 나릅니다. 중간 휴식이나 작업순환은 없고 손이 저립니다.",
+            "media_uri": null,
+            "captured_at": "2026-11-17T10:00:00+09:00",
+            "location": "가상 음식점",
+            "asr_uncertainties": [],
+            "transcript_segments": []
+          }
+        ],
+        "trusted_legal_registry": [],
+        "previous_assessment_id": null
+      },
+      "expected_output": {
+        "policy_version": "RESTAURANT-3LEVEL-2.0",
+        "assessment_id": "EX06",
+        "analysis": {
+          "policy_version": "RESTAURANT-3LEVEL-2.0",
+          "assessment_id": "EX06",
+          "scope": "근골격계 증상을 진단하지 않는 판정",
+          "evidence": [
+            {
+              "id": "E1",
+              "media_id": "M1",
+              "kind": "reported",
+              "locator": {
+                "description": "예시 입력 본문",
+                "bbox_xyxy_norm": null,
+                "audio_start_ms": null,
+                "audio_end_ms": null,
+                "text_excerpt": null
+              },
+              "statement": "반복시간·휴식 부재·저림에 대한 사용자 보고",
+              "time_scope": "current",
+              "limitations": []
+            }
+          ],
+          "hazards": [
+            {
+              "id": "H1",
+              "rule_ids": [
+                "MSD"
+              ],
+              "subject": "칼질·식재료 운반",
+              "task": "반복 조리",
+              "exposure": "사용자가 긴 반복작업·휴식 부족·손 저림을 보고",
+              "event": "반복 부담에 따른 건강장해",
+              "consequence": "일시 불편인지 치료 필요한 질환인지는 미확인",
+              "applicability": "confirmed",
+              "evidence_ids": [
+                "E1"
+              ],
+              "closure_evidence_ids": [],
+              "related_hazard_ids": [],
+              "severity_options": [
+                1,
+                2
+              ],
+              "severity_rationale": "일시 불편인지 치료 필요한 질환인지는 미확인",
+              "control_options": [
+                3
+              ],
+              "control_rationale": "핵심/보완 조치의 현재 상태를 조합한 후보값",
+              "controls": [
+                {
+                  "id": "C1",
+                  "name": "노출량 감소·휴식·작업순환",
+                  "critical": true,
+                  "verification_required": true,
+                  "state": "absent",
+                  "evidence_ids": [
+                    "E1"
+                  ],
+                  "rationale": "해당 사고 경로에 대한 조치 상태. 설치와 작동을 구분함."
+                }
+              ],
+              "safety_flags": {
+                "imminent_danger": {
+                  "value": "unknown",
+                  "evidence_ids": [],
+                  "rationale": "해당 정보 미제공"
+                },
+                "verified_legal_breach": {
+                  "value": "unknown",
+                  "evidence_ids": [],
+                  "rationale": "현행 적용 법령의 미충족을 검증하지 않음",
+                  "registry_ids": []
+                },
+                "unresolved_same_cause_near_miss": {
+                  "value": "unknown",
+                  "evidence_ids": [],
+                  "rationale": "해당 정보 미제공"
+                }
+              },
+              "decision_evidence_complete": false,
+              "uncertainty": [
+                "판정을 바꿀 현장 정보 미확인"
+              ],
+              "contradictions": [],
+              "rationale": "사용자가 긴 반복작업·휴식 부족·손 저림을 보고 조건에서 반복 부담에 따른 건강장해 경로가 있으며 일시 불편인지 치료 필요한 질환인지는 미확인 가능성을 검토한다. 조치 상태와 미확인 정보는 개별 필드를 참고한다.",
+              "source_refs": [
+                {
+                  "document_id": "C",
+                  "printed_page": 106,
+                  "pdf_page": 107
+                },
+                {
+                  "document_id": "C",
+                  "printed_page": 107,
+                  "pdf_page": 108
+                }
+              ]
+            }
+          ],
+          "questions": [
+            {
+              "id": "Q1",
+              "hazard_ids": [
+                "H1"
+              ],
+              "field": "duration_load_symptoms",
+              "priority": 2,
+              "first_batch": true,
+              "question": "중량·반복횟수·증상 지속기간과 작업대 높이는 어떻게 되나요?",
+              "answer_options": [
+                "확인됨",
+                "확인되지 않음",
+                "모르겠음"
+              ],
+              "decision_impact": "노출 강도와 S1/S2 범위 확인. 진단은 전문 평가 대상",
+              "safe_verification": "위험을 재현하지 말고 기존 점검 기록·안전한 위치의 관찰·적격 담당자 확인을 이용한다."
+            }
+          ],
+          "actions": [
+            {
+              "id": "A1",
+              "hazard_ids": [
+                "H1"
+              ],
+              "hierarchy": "administrative",
+              "action": "반복 부담·하중을 줄이고 휴식/작업순환을 마련한다. 지속 증상은 전문 평가로 연결한다.",
+              "urgent": false,
+              "completion_evidence_required": "담당자 확인 및 조치 후 실제 기능·사용 상태를 확인할 수 있는 기록"
+            }
+          ],
+          "coverage": [
+            {
+              "rule_id": "GOV",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "ENV",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "LADDER",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "TRANS",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "STORAGE",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "COLD",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "KNIFE",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "UV",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "CUT",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "MIX",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "RICE",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "GAS",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "KETTLE",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "FRY",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "GRIDDLE",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "OVEN",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "VENT",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "SERVE",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "LIFT",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "DELIVERY",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "WASH",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "CHEM",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "ELECT",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "FIRE",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "EMERGENCY",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "MSD",
+              "status": "assessed",
+              "reason": "예시에서 평가한 범주"
+            },
+            {
+              "rule_id": "PSYCH",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            }
+          ],
+          "limitations": [
+            "가상의 입력과 근거로 만든 출력 예시이다. 실제 사용자 현장 평가가 아니다.",
+            "평가 범위 밖의 사업장 전체 안전·현행법 준수를 판단하지 않는다."
+          ]
+        },
+        "results": [
+          {
+            "hazard_id": "H1",
+            "status": "provisional",
+            "grade": "상",
+            "ordinal": 3,
+            "range": {
+              "min": 2,
+              "max": 3
+            },
+            "acceptability": "not_acceptable",
+            "rule_applied": [
+              "matrix_S_C",
+              "provisional_max_of_possible_combinations"
+            ],
+            "requires_human_review": true,
+            "immediate_exposure_stop": false
+          }
+        ],
+        "summary": {
+          "max_confirmed": null,
+          "max_provisional": "상",
+          "assessed_scope_max": "상",
+          "confirmed_counts": {
+            "상": 0,
+            "중": 0,
+            "하": 0
+          },
+          "provisional_counts": {
+            "상": 1,
+            "중": 0,
+            "하": 0
+          },
+          "unrated_count": 0,
+          "information_incomplete_count": 1,
+          "site_safety_conclusion": "not_determined",
+          "coverage_needs_information_count": 26
+        },
+        "work_authorization": "not_issued"
+      }
+    },
+    {
+      "case_id": "EX07",
+      "title": "과거 상품명으로 성분을 확정하지 않음",
+      "input": {
+        "assessment_id": "EX07",
+        "assessed_at": "2026-11-17T10:00:00+09:00",
+        "scope": "과거 상품명으로 성분을 확정하지 않음",
+        "media": [
+          {
+            "id": "M1",
+            "modality": "text",
+            "content": "A-500이라고 적힌 세척제를 씁니다. 제조사와 성분표는 아직 확인하지 않았습니다.",
+            "media_uri": null,
+            "captured_at": "2026-11-17T10:00:00+09:00",
+            "location": "가상 음식점",
+            "asr_uncertainties": [],
+            "transcript_segments": []
+          }
+        ],
+        "trusted_legal_registry": [],
+        "previous_assessment_id": null
+      },
+      "expected_output": {
+        "policy_version": "RESTAURANT-3LEVEL-2.0",
+        "assessment_id": "EX07",
+        "analysis": {
+          "policy_version": "RESTAURANT-3LEVEL-2.0",
+          "assessment_id": "EX07",
+          "scope": "과거 상품명으로 성분을 확정하지 않음",
+          "evidence": [
+            {
+              "id": "E1",
+              "media_id": "M1",
+              "kind": "reported",
+              "locator": {
+                "description": "예시 입력 본문",
+                "bbox_xyxy_norm": null,
+                "audio_start_ms": null,
+                "audio_end_ms": null,
+                "text_excerpt": null
+              },
+              "statement": "A-500 라벨명에 대한 사용자 보고",
+              "time_scope": "current",
+              "limitations": [
+                "현재 성분·제조사·농도 미확인"
+              ]
+            }
+          ],
+          "hazards": [
+            {
+              "id": "H1",
+              "rule_ids": [
+                "CHEM"
+              ],
+              "subject": "라벨상 A-500 제품",
+              "task": "사용 방식 미확인",
+              "exposure": "제품명만 보고됨",
+              "event": "화학 접촉/흡입 후보",
+              "consequence": "실제 제조사·성분·농도·노출에 따라 다름",
+              "applicability": "possible",
+              "evidence_ids": [
+                "E1"
+              ],
+              "closure_evidence_ids": [],
+              "related_hazard_ids": [],
+              "severity_options": [
+                1,
+                2,
+                3
+              ],
+              "severity_rationale": "실제 제조사·성분·농도·노출에 따라 다름",
+              "control_options": [
+                1,
+                2,
+                3
+              ],
+              "control_rationale": "핵심/보완 조치의 현재 상태를 조합한 후보값",
+              "controls": [
+                {
+                  "id": "C1",
+                  "name": "일치하는 최신 SDS와 노출 차단",
+                  "critical": true,
+                  "verification_required": true,
+                  "state": "unknown",
+                  "evidence_ids": [],
+                  "rationale": "해당 사고 경로에 대한 조치 상태. 설치와 작동을 구분함."
+                }
+              ],
+              "safety_flags": {
+                "imminent_danger": {
+                  "value": "unknown",
+                  "evidence_ids": [],
+                  "rationale": "해당 정보 미제공"
+                },
+                "verified_legal_breach": {
+                  "value": "unknown",
+                  "evidence_ids": [],
+                  "rationale": "현행 적용 법령의 미충족을 검증하지 않음",
+                  "registry_ids": []
+                },
+                "unresolved_same_cause_near_miss": {
+                  "value": "unknown",
+                  "evidence_ids": [],
+                  "rationale": "해당 정보 미제공"
+                }
+              },
+              "decision_evidence_complete": false,
+              "uncertainty": [
+                "판정을 바꿀 현장 정보 미확인"
+              ],
+              "contradictions": [],
+              "rationale": "제품명만 보고됨 조건에서 화학 접촉/흡입 후보 경로가 있으며 실제 제조사·성분·농도·노출에 따라 다름 가능성을 검토한다. 조치 상태와 미확인 정보는 개별 필드를 참고한다.",
+              "source_refs": [
+                {
+                  "document_id": "C",
+                  "printed_page": 139,
+                  "pdf_page": 140
+                },
+                {
+                  "document_id": "C",
+                  "printed_page": 140,
+                  "pdf_page": 141
+                }
+              ]
+            }
+          ],
+          "questions": [
+            {
+              "id": "Q1",
+              "hazard_ids": [
+                "H1"
+              ],
+              "field": "sds_identity",
+              "priority": 2,
+              "first_batch": true,
+              "question": "제조사·제품 전체명·농도·SDS 개정일과 사용하는 방법은 무엇인가요?",
+              "answer_options": [
+                "확인됨",
+                "확인되지 않음",
+                "모르겠음"
+              ],
+              "decision_impact": "과거 표와 실제 제품 일치 확인 전 등급 확정 금지",
+              "safe_verification": "위험을 재현하지 말고 기존 점검 기록·안전한 위치의 관찰·적격 담당자 확인을 이용한다."
+            },
+            {
+              "id": "Q2",
+              "hazard_ids": [
+                "H1"
+              ],
+              "field": "chemical_mixing",
+              "priority": 2,
+              "first_batch": true,
+              "question": "다른 세제와 혼합하거나 분무해서 사용하나요?",
+              "answer_options": [
+                "확인됨",
+                "확인되지 않음",
+                "모르겠음"
+              ],
+              "decision_impact": "혼합/흡입의 별도 사고 경로 확인",
+              "safe_verification": "위험을 재현하지 말고 기존 점검 기록·안전한 위치의 관찰·적격 담당자 확인을 이용한다."
+            }
+          ],
+          "actions": [
+            {
+              "id": "A1",
+              "hazard_ids": [
+                "H1"
+              ],
+              "hierarchy": "administrative",
+              "action": "제품에 맞는 최신 SDS를 확인하고 임의 혼합을 피한다.",
+              "urgent": false,
+              "completion_evidence_required": "담당자 확인 및 조치 후 실제 기능·사용 상태를 확인할 수 있는 기록"
+            }
+          ],
+          "coverage": [
+            {
+              "rule_id": "GOV",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "ENV",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "LADDER",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "TRANS",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "STORAGE",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "COLD",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "KNIFE",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "UV",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "CUT",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "MIX",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "RICE",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "GAS",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "KETTLE",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "FRY",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "GRIDDLE",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "OVEN",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "VENT",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "SERVE",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "LIFT",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "DELIVERY",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "WASH",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "CHEM",
+              "status": "assessed",
+              "reason": "예시에서 평가한 범주"
+            },
+            {
+              "rule_id": "ELECT",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "FIRE",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "EMERGENCY",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "MSD",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "PSYCH",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            }
+          ],
+          "limitations": [
+            "가상의 입력과 근거로 만든 출력 예시이다. 실제 사용자 현장 평가가 아니다.",
+            "평가 범위 밖의 사업장 전체 안전·현행법 준수를 판단하지 않는다."
+          ]
+        },
+        "results": [
+          {
+            "hazard_id": "H1",
+            "status": "candidate",
+            "grade": null,
+            "ordinal": null,
+            "range": {
+              "min": null,
+              "max": null
+            },
+            "acceptability": "undetermined",
+            "rule_applied": [
+              "candidate_is_not_confirmed_hazard"
+            ],
+            "requires_human_review": true,
+            "immediate_exposure_stop": false
+          }
+        ],
+        "summary": {
+          "max_confirmed": null,
+          "max_provisional": null,
+          "assessed_scope_max": null,
+          "confirmed_counts": {
+            "상": 0,
+            "중": 0,
+            "하": 0
+          },
+          "provisional_counts": {
+            "상": 0,
+            "중": 0,
+            "하": 0
+          },
+          "unrated_count": 1,
+          "information_incomplete_count": 1,
+          "site_safety_conclusion": "not_determined",
+          "coverage_needs_information_count": 26
+        },
+        "work_authorization": "not_issued"
+      }
+    },
+    {
+      "case_id": "EX08",
+      "title": "음성 부정어 인식 불확실",
+      "input": {
+        "assessment_id": "EX08",
+        "assessed_at": "2026-11-17T10:00:00+09:00",
+        "scope": "음성 부정어 인식 불확실",
+        "media": [
+          {
+            "id": "M1",
+            "modality": "voice_transcript",
+            "content": "반죽기를 가동해서 쓰고 있습니다. 돌아갈 때 손을 [안?] 넣어요. 가드는 잘 모르겠어요.",
+            "media_uri": null,
+            "captured_at": "2026-11-17T10:00:00+09:00",
+            "location": "가상 음식점",
+            "asr_uncertainties": [
+              "부정어 인식 확인 필요"
+            ],
+            "transcript_segments": [
+              {
+                "id": "T1",
+                "start_ms": 0,
+                "end_ms": 12000,
+                "text": "반죽기를 가동해서 쓰고 있습니다. 돌아갈 때 손을 [안?] 넣어요. 가드는 잘 모르겠어요.",
+                "uncertain_tokens": [
+                  "안"
+                ]
+              }
+            ]
+          }
+        ],
+        "trusted_legal_registry": [],
+        "previous_assessment_id": null
+      },
+      "expected_output": {
+        "policy_version": "RESTAURANT-3LEVEL-2.0",
+        "assessment_id": "EX08",
+        "analysis": {
+          "policy_version": "RESTAURANT-3LEVEL-2.0",
+          "assessment_id": "EX08",
+          "scope": "음성 부정어 인식 불확실",
+          "evidence": [
+            {
+              "id": "E1",
+              "media_id": "M1",
+              "kind": "reported",
+              "locator": {
+                "description": "예시 입력 본문",
+                "bbox_xyxy_norm": null,
+                "audio_start_ms": 0,
+                "audio_end_ms": 12000,
+                "text_excerpt": "반죽기를 가동해서 쓰고 있습니다. 돌아갈 때 손을 [안?] 넣어요. 가드는 잘 모르겠어요."
+              },
+              "statement": "가동 작업 보고; 손 접근 진술은 인식 불명확",
+              "time_scope": "current",
+              "limitations": [
+                "부정어 인식 오류 가능"
+              ]
+            }
+          ],
+          "hazards": [
+            {
+              "id": "H1",
+              "rule_ids": [
+                "MIX"
+              ],
+              "subject": "반죽기",
+              "task": "가동 중 조리",
+              "exposure": "회전부가 있는 작업은 확인됐으나 손 접근 방호 진술이 불확실",
+              "event": "말림·끼임",
+              "consequence": "접근 가능하면 영구장해 가능",
+              "applicability": "confirmed",
+              "evidence_ids": [
+                "E1"
+              ],
+              "closure_evidence_ids": [],
+              "related_hazard_ids": [],
+              "severity_options": [
+                3
+              ],
+              "severity_rationale": "접근 가능하면 영구장해 가능",
+              "control_options": [
+                1,
+                2,
+                3
+              ],
+              "control_rationale": "핵심/보완 조치의 현재 상태를 조합한 후보값",
+              "controls": [
+                {
+                  "id": "C1",
+                  "name": "회전부 접근 방호·연동",
+                  "critical": true,
+                  "verification_required": true,
+                  "state": "unknown",
+                  "evidence_ids": [],
+                  "rationale": "해당 사고 경로에 대한 조치 상태. 설치와 작동을 구분함."
+                }
+              ],
+              "safety_flags": {
+                "imminent_danger": {
+                  "value": "unknown",
+                  "evidence_ids": [],
+                  "rationale": "해당 정보 미제공"
+                },
+                "verified_legal_breach": {
+                  "value": "unknown",
+                  "evidence_ids": [],
+                  "rationale": "현행 적용 법령의 미충족을 검증하지 않음",
+                  "registry_ids": []
+                },
+                "unresolved_same_cause_near_miss": {
+                  "value": "unknown",
+                  "evidence_ids": [],
+                  "rationale": "해당 정보 미제공"
+                }
+              },
+              "decision_evidence_complete": false,
+              "uncertainty": [
+                "판정을 바꿀 현장 정보 미확인"
+              ],
+              "contradictions": [
+                "전사에서 손을 넣는다/안 넣는다의 부정어가 불명확함"
+              ],
+              "rationale": "회전부가 있는 작업은 확인됐으나 손 접근 방호 진술이 불확실 조건에서 말림·끼임 경로가 있으며 접근 가능하면 영구장해 가능 가능성을 검토한다. 조치 상태와 미확인 정보는 개별 필드를 참고한다.",
+              "source_refs": [
+                {
+                  "document_id": "C",
+                  "printed_page": 118,
+                  "pdf_page": 119
+                },
+                {
+                  "document_id": "C",
+                  "printed_page": 119,
+                  "pdf_page": 120
+                }
+              ]
+            }
+          ],
+          "questions": [
+            {
+              "id": "Q1",
+              "hazard_ids": [
+                "H1"
+              ],
+              "field": "asr_negation",
+              "priority": 1,
+              "first_batch": true,
+              "question": "회전 중에는 손을 넣지 않는다는 뜻인가요? 가드가 접근을 막고 있나요?",
+              "answer_options": [
+                "확인됨",
+                "확인되지 않음",
+                "모르겠음"
+              ],
+              "decision_impact": "부정어 확인과 핵심 방호 상태 확인 전 잠정 상 유지",
+              "safe_verification": "위험을 재현하지 말고 기존 점검 기록·안전한 위치의 관찰·적격 담당자 확인을 이용한다."
+            }
+          ],
+          "actions": [
+            {
+              "id": "A1",
+              "hazard_ids": [
+                "H1"
+              ],
+              "hierarchy": "administrative",
+              "action": "회전부에 접근하지 않는 상태에서 기존 점검 기록과 적격 담당자의 방호 확인을 받는다.",
+              "urgent": false,
+              "completion_evidence_required": "담당자 확인 및 조치 후 실제 기능·사용 상태를 확인할 수 있는 기록"
+            }
+          ],
+          "coverage": [
+            {
+              "rule_id": "GOV",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "ENV",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "LADDER",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "TRANS",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "STORAGE",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "COLD",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "KNIFE",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "UV",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "CUT",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "MIX",
+              "status": "assessed",
+              "reason": "예시에서 평가한 범주"
+            },
+            {
+              "rule_id": "RICE",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "GAS",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "KETTLE",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "FRY",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "GRIDDLE",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "OVEN",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "VENT",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "SERVE",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "LIFT",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "DELIVERY",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "WASH",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "CHEM",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "ELECT",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "FIRE",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "EMERGENCY",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "MSD",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            },
+            {
+              "rule_id": "PSYCH",
+              "status": "needs_information",
+              "reason": "이번 입력 범위 밖이므로 안전/미보유를 단정하지 않음"
+            }
+          ],
+          "limitations": [
+            "가상의 입력과 근거로 만든 출력 예시이다. 실제 사용자 현장 평가가 아니다.",
+            "평가 범위 밖의 사업장 전체 안전·현행법 준수를 판단하지 않는다."
+          ]
+        },
+        "results": [
+          {
+            "hazard_id": "H1",
+            "status": "provisional",
+            "grade": "상",
+            "ordinal": 3,
+            "range": {
+              "min": 3,
+              "max": 3
+            },
+            "acceptability": "not_acceptable",
+            "rule_applied": [
+              "matrix_S_C",
+              "provisional_max_of_possible_combinations"
+            ],
+            "requires_human_review": true,
+            "immediate_exposure_stop": false
+          }
+        ],
+        "summary": {
+          "max_confirmed": null,
+          "max_provisional": "상",
+          "assessed_scope_max": "상",
+          "confirmed_counts": {
+            "상": 0,
+            "중": 0,
+            "하": 0
+          },
+          "provisional_counts": {
+            "상": 1,
+            "중": 0,
+            "하": 0
+          },
+          "unrated_count": 0,
+          "information_incomplete_count": 1,
+          "site_safety_conclusion": "not_determined",
+          "coverage_needs_information_count": 26
+        },
+        "work_authorization": "not_issued"
+      }
+    }
+  ]
+}
