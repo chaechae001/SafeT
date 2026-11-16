@@ -18,8 +18,14 @@ def configured() -> bool:
     return all(os.getenv(k) for k in ("SMTP_HOST", "SMTP_USER", "SMTP_PASSWORD"))
 
 
-def send_code(to: str, code: str, ttl: timedelta) -> None:
-    """회원가입 인증 코드 메일 발송. 실패하면 예외를 그대로 올립니다."""
+SUBJECTS = {
+    "signup": ("[Safe-T] 회원가입 인증 코드", "Safe-T 회원가입 인증 코드입니다.", "회원가입 화면"),
+    "reset": ("[Safe-T] 비밀번호 재설정 인증 코드", "Safe-T 비밀번호 재설정 인증 코드입니다.", "비밀번호 재설정 화면"),
+}
+
+
+def send_code(to: str, code: str, ttl: timedelta, purpose: str = "signup") -> None:
+    """인증 코드 메일 발송 (purpose: signup | reset). 실패하면 예외를 그대로 올립니다."""
     if not configured():
         raise MailConfigError("SMTP 설정이 없습니다.")
 
@@ -31,15 +37,16 @@ def send_code(to: str, code: str, ttl: timedelta) -> None:
     security = os.getenv("SMTP_SECURITY", "starttls").lower()   # starttls(587) | ssl(465)
     minutes = int(ttl.total_seconds() // 60)
 
+    subject, intro, where = SUBJECTS.get(purpose, SUBJECTS["signup"])
     msg = EmailMessage()
-    msg["Subject"] = "[Safe-T] 회원가입 인증 코드"
+    msg["Subject"] = subject
     msg["From"] = sender
     msg["To"] = to
     msg.set_content(
-        f"Safe-T 회원가입 인증 코드입니다.\n\n"
+        f"{intro}\n\n"
         f"    {code}\n\n"
-        f"{minutes}분 안에 회원가입 화면에 입력해 주세요.\n"
-        f"본인이 요청하지 않았다면 이 메일을 무시해 주세요.\n"
+        f"{minutes}분 안에 {where}에 입력해 주세요.\n"
+        f"본인이 요청하지 않았다면 이 메일을 무시해 주세요. 비밀번호는 바뀌지 않아요.\n"
     )
 
     context = ssl.create_default_context()

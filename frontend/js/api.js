@@ -69,8 +69,35 @@
        다시 로그인하면 그 화면으로 돌아가고, 화면이 takeRestore() 로 편집 내용을 되살립니다. */
   var RETURN_KEY = 'safet.return';
   var RESTORE_KEY = 'safet.restore';
+  var EVAL_KEY = 'safet.eval';
   var expireHooks = [];
   var leaving = false;
+
+  /* ---------- 지금 보는 평가표 번호 (2026-11-16) ----------
+     주소에 ?eval= 로 드러내지 않고 이 탭의 sessionStorage 에 둡니다.
+     - 내 평가표에서 카드·버튼을 누를 때 저장 → draft.html / result.html / sign.html / share.html 이 읽음
+     - 같은 탭이면 새로 고침·다른 화면에 다녀와도 유지. 새 탭·주소 복사로는 전달되지 않음
+     - 주소에서 숨기는 것은 번호를 바꿔 보는 가벼운 시도를 줄이는 정도입니다.
+       남의 평가표를 실제로 막는 것은 서버의 소유자 확인(평가표 API 에서 반드시 확인). */
+  SafeT.current = {
+    setEval: function (no) {
+      store(function (s) { if (no) s.setItem(EVAL_KEY, String(no)); else s.removeItem(EVAL_KEY); });
+    },
+    evalNo: function () {
+      var v = store(function (s) { return s.getItem(EVAL_KEY); });
+      return v && /^\d+$/.test(v) ? +v : null;
+    }
+  };
+
+  function readJson(key) {
+    var raw = store(function (s) { return s.getItem(key); });
+    try { return raw ? JSON.parse(raw) : null; } catch (err) { return null; }
+  }
+
+  function me() {
+    var u = SafeT.auth.user();
+    return u && u.email ? String(u.email).toLowerCase() : null;
+  }
 
   function here() {
     var page = window.location.pathname.split('/').pop() || 'home.html';
@@ -96,32 +123,67 @@
   /** 화면별 편집 내용 저장 함수 등록: fn() → { page: '화면 이름', data: {...} } */
   SafeT.auth.onExpire = function (fn) { expireHooks.push(fn); };
 
-  /** 로그인 후 돌아갈 화면 (한 번 꺼내면 지움) */
-  SafeT.auth.takeReturn = function () {
-    var u = store(function (s) { var v = s.getItem(RETURN_KEY); s.removeItem(RETURN_KEY); return v; });
-    return safePage(u);
+  /**
+   * 로그인 성공 직후: 저장된 돌아갈 화면·복구 정보가 다른 사용자 것이면 모두 지움 (2026-11-16 보완)
+   * 사용자 정보가 없는 예전 형식도 지움. 다른 사용자면 '지금 보는 평가표'도 지움
+   */
+  SafeT.auth.forgetOthers = function (email) {
+    var who = String(email || '').toLowerCase();
+    var ret = readJson(RETURN_KEY);
+    var res = readJson(RESTORE_KEY);
+    // 돌아갈 화면: 주인이 없으면(로그인 안 한 채 화면을 연 경우) 지금 로그인한 사람 것으로 봄
+    var retOther = ret && ret.owner && ret.owner !== who;
+    var other = retOther || (res && res.owner !== who);
+    if (retOther) store(function (s) { s.removeItem(RETURN_KEY); });
+    if (res && res.owner !== who) store(function (s) { s.removeItem(RESTORE_KEY); });
+    if (other) SafeT.current.setEval(null);
+    // 예전 형식(문자열)으로 남은 값 정리
+    store(function (s) {
+      ['safet.return', 'safet.restore'].forEach(function (k) {
+        var v = s.getItem(k);
+        if (v && v.charAt(0) !== '{') s.removeItem(k);
+      });
+    });
   };
 
-  /** 만료 전에 저장한 편집 내용 (같은 화면일 때만, 한 번 꺼내면 지움) */
+  /**
+   * 로그인 후 돌아갈 화면 (한 번 꺼내면 지움)
+   * - 만료로 온 경우: 같은 사용자일 때만
+   * - 로그인 안 한 채 화면을 열어 온 경우(주인 없음): 지금 로그인한 사람에게 (편집 내용 복원은 없음)
+   */
+  SafeT.auth.takeReturn = function (email) {
+    var r = readJson(RETURN_KEY);
+    store(function (s) { s.removeItem(RETURN_KEY); });
+    if (!r || (r.owner && r.owner !== String(email || '').toLowerCase())) return null;
+    return safePage(r.url);
+  };
+
+  /** 만료 전에 저장한 편집 내용 — 같은 사용자·같은 화면·같은 평가표일 때만 (한 번 꺼내면 지움) */
   SafeT.auth.takeRestore = function (page) {
-    var raw = store(function (s) { return s.getItem(RESTORE_KEY); });
-    var r = null;
-    try { r = raw ? JSON.parse(raw) : null; } catch (err) { r = null; }
-    if (!r || r.page !== page) return null;
-    store(function (s) { s.removeItem(RESTORE_KEY); });
-    return r.data;
+    var r = readJson(RESTORE_KEY);
+    if (!r) return null;
+    store(function (s) { s.removeItem(RESTORE_KEY); });     // 맞지 않으면 버림 (다른 평가표에 덮이지 않게)
+    var ok = r.owner && r.owner === me() && r.page === page && r.eval === SafeT.current.evalNo();
+    return ok ? r.data : null;
   };
 
   /** 로그인 화면으로 보내기. reason: 'required' | 'expired' */
   SafeT.auth.toLogin = function (reason) {
     if (leaving) return;
     leaving = true;
-    store(function (s) { s.setItem(RETURN_KEY, here()); });
-    if (reason === 'expired') {
+    var owner = me();                      // 로그인 정보를 지우기 전에 누구 것인지 기록 (없으면 null)
+    store(function (s) { s.setItem(RETURN_KEY, JSON.stringify({ owner: owner, url: here() })); });
+    if (reason === 'expired' && owner) {
       $.each(expireHooks, function (_, fn) {
         try {
           var r = fn();
-          if (r && r.page) store(function (s) { s.setItem(RESTORE_KEY, JSON.stringify(r)); });
+          if (r && r.page) {
+            store(function (s) {
+              s.setItem(RESTORE_KEY, JSON.stringify({
+                owner: owner, page: r.page, eval: SafeT.current.evalNo(), data: r.data
+              }));
+            });
+          }
         } catch (err) { /* 저장 실패해도 로그인 화면으로는 보냄 */ }
       });
     }
@@ -146,7 +208,7 @@
     }).then(function (yes) {
       if (yes !== true) return;
       SafeT.auth.clear();
-      store(function (s) { s.removeItem(RETURN_KEY); s.removeItem(RESTORE_KEY); });
+      store(function (s) { s.removeItem(RETURN_KEY); s.removeItem(RESTORE_KEY); s.removeItem(EVAL_KEY); });
       window.location.href = 'login.html?logout=1';
     });
   };

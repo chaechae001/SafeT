@@ -48,7 +48,7 @@
               계정이 없나요?
               <a class="link" href="#v-signup">회원가입</a>
               ·
-              <a class="link" href="#v-login" id="pw-reset">비밀번호 재설정</a>
+              <a class="link" href="#v-reset" id="pw-reset">비밀번호 재설정</a>
             </p>
 
             <button class="btn btn--primary btn--block" type="submit">로그인</button>
@@ -102,6 +102,45 @@
             <p class="hint">가입을 마치면 사업장을 등록해요.</p>
 
             <button class="btn btn--primary btn--block" type="submit">가입하기</button>
+          </form>
+        </div>
+      </section>
+      <section class="view auth" id="v-reset" aria-label="비밀번호 재설정">
+        <!-- 비밀번호 재설정 (2026-11-16 결정 · 설계서 07쪽은 링크만 있음)
+             순서: 이메일 → 인증 코드 → 새 비밀번호
+             - 가입 여부와 관계없이 '가입된 이메일이면 인증 코드를 보냈어요'로 같은 안내
+             - 바꾸면 기존 로그인(다른 기기 포함)이 모두 끝나고, 로그인 화면으로 이동
+             API: POST /auth/password/code · /auth/password/code/verify · /auth/password/reset -->
+        <div class="page">
+          <h1 class="page-title">비밀번호 재설정</h1>
+          <p class="page-desc">가입한 이메일로 인증 코드를 받아 새 비밀번호를 정해요.</p>
+
+          <form class="auth__form" id="reset-form" action="#v-login" method="get" novalidate>
+            <div class="field">
+              <label class="label" for="reset-email">이메일<span class="req" aria-hidden="true">*</span></label>
+              <div class="input-row">
+                <input class="input" id="reset-email" name="email" type="email" maxlength="50"
+                       autocomplete="email" placeholder="owner@example.com" required>
+                <button class="btn" id="reset-request" type="button">인증 요청</button>
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="label" for="reset-code">인증 코드<span class="req" aria-hidden="true">*</span></label>
+              <input class="input" id="reset-code" name="code" inputmode="numeric"
+                     maxlength="6" autocomplete="one-time-code" placeholder="6자리 코드" required>
+            </div>
+
+            <div class="field">
+              <label class="label" for="reset-pw">새 비밀번호<span class="req" aria-hidden="true">*</span></label>
+              <input class="input" id="reset-pw" name="password" type="password" minlength="8"
+                     autocomplete="new-password" placeholder="8자 이상" required>
+            </div>
+
+            <p class="hint">비밀번호를 바꾸면 다른 기기에서 로그인한 것도 모두 로그아웃돼요.</p>
+
+            <button class="btn btn--primary btn--block" type="submit">비밀번호 바꾸기</button>
+            <a class="link small center" href="#v-login">로그인으로 돌아가기</a>
           </form>
         </div>
       </section>

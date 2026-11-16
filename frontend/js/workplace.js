@@ -15,6 +15,30 @@
   var catalog = {};            // 업종 코드 → [{ machine_code, machine_nm }]
   var editing = null;          // 수정 중인 사업장 번호
   var editingBiz = null;
+  var editOriginal = null;     // 수정 화면에서 처음 받은 보유 기기 { codes: [], custom: [] } (다시 불러오기에 사용)
+  var renderSeq = 0;           // 늦게 온 이전 기기 목록 응답이 화면을 덮지 않게
+
+  /**
+   * 기기 목록 상태 → 저장 버튼
+   * - loading: 불러오는 중 → 저장 막음 (등록·수정 모두)
+   * - failed : 수정 화면은 저장 막음 (빈 목록으로 저장하면 기존 기기가 지워짐)
+   *            등록 화면은 직접 추가로 계속 가능 (설계서 09쪽)
+   * - ready  : 저장 가능
+   */
+  function setMachineState($view, st) {
+    $view.data('machine-state', st);
+    $view.find('.js-machine-loading').prop('hidden', st !== 'loading');
+    $view.find('.js-machine-error').prop('hidden', st !== 'failed');
+    var block = st === 'loading' || (st === 'failed' && $view.attr('id') === 'v-edit');
+    $view.find('.bottom-bar [type="submit"]').prop('disabled', block);
+  }
+
+  function canSave($view) {
+    var st = $view.data('machine-state');
+    if (st === 'loading') return '기기 목록을 불러오는 중이에요. 잠시 뒤 저장해 주세요.';
+    if (st === 'failed' && $view.attr('id') === 'v-edit') return '기기 목록을 불러오지 못했어요. 다시 불러온 뒤 저장해 주세요.';
+    return null;
+  }
 
   function normalize(s) { return $.trim(s || '').replace(/\s+/g, ' '); }
   function key(s) { return normalize(s).toLowerCase(); }
@@ -39,28 +63,36 @@
 
   /** 업종 기기를 불러와 그립니다. checkedCodes 는 체크, customNames 는 끝에 '직접 추가' */
   function renderMachines($view, biz, checkedCodes, customNames) {
+    var seq = ++renderSeq;
     var $grid = $view.find('.machine-grid').empty();
-    var $err = $view.find('.js-machine-error').prop('hidden', true);
     var name = '';
     $.each(bizList || [], function (_, b) { if (b.biz_code === biz) name = b.biz_nm; });
     $view.find('.js-biz-label').text(name ? '· ' + name + ' 업종 목록' : '');
     $view.data('biz', biz);
+    setMachineState($view, 'loading');
 
     function addCustom() {
       $.each(customNames || [], function (_, n) { $grid.append(machineRow(n, true, null)); });
     }
 
-    return loadMachines(biz).done(function (list) {
+    var d = $.Deferred();
+    loadMachines(biz).done(function (list) {
+      if (seq !== renderSeq) return;
       $.each(list, function (_, m) {
         $grid.append(machineRow(m.machine_nm, $.inArray(m.machine_code, checkedCodes || []) > -1, m.machine_code));
       });
       if (!list.length) $view.find('.js-machine-hint').text('이 업종에 등록된 기기가 없어요. 필요하면 직접 추가해 주세요.');
       addCustom();
+      setMachineState($view, 'ready');
+      d.resolve();
     }).fail(function () {
-      // 기기 목록을 못 불러와도 직접 추가로 계속 (09쪽)
-      $err.prop('hidden', false);
+      if (seq !== renderSeq) return;
+      // 등록: 직접 추가로 계속 (09쪽) / 수정: 다시 불러올 때까지 저장 막음
       addCustom();
+      setMachineState($view, 'failed');
+      d.reject();
     });
+    return d.promise();
   }
 
   /** 직접 추가: 앞뒤 공백 정리, 같은 이름(목록 기기 포함)은 합침 */
@@ -152,9 +184,9 @@
     $('#new-biz-msg').prop('hidden', true);
     $view.find('.machine-grid').empty();
     $view.find('.js-biz-label').text('');
-    $view.find('.js-machine-error').prop('hidden', true);
     $view.find('.js-machine-hint').text('업종을 고르면 기기 목록이 나와요. 매장에 있는 기기만 체크해 주세요.');
     $view.removeData('biz');
+    setMachineState($view, 'idle');          // 업종을 고르기 전 (저장하면 업종 필수 안내)
 
     var $opts = $('#new-biz').empty();
     loadBizList().done(function (list) {
@@ -177,6 +209,8 @@
     var $view = $('#v-edit');
     SafeT.clearErrors($view);
     $view.find('.machine-grid').empty();
+    editOriginal = null;
+    setMachineState($view, 'loading');        // 사업장·기기 정보를 받기 전에는 저장 막음
     SafeT.loading(true);
     $.when(loadBizList(), api.get('/workplaces/' + no)).done(function (_, w) {
       editing = w.work_no;
@@ -185,6 +219,7 @@
       $('#edit-biz').val(w.biz_nm || w.biz_code);                 // 업종은 잠김
       var codes = [], custom = [];
       $.each(w.machines, function (_, m) { if (m.custom) custom.push(m.machine_nm); else codes.push(m.machine_code); });
+      editOriginal = { codes: codes, custom: custom };            // 다시 불러오기 때 원래 체크 복구용
       renderMachines($view, w.biz_code, codes, custom);
     }).fail(function (err) {
       SafeT.toast(err.message || '사업장을 불러오지 못했어요.');
@@ -240,7 +275,9 @@
     $('.js-machine-retry').on('click', function () {
       var $v = $(this).closest('.view');
       var keep = collect($v);
-      renderMachines($v, $v.data('biz'), keep.machine_codes, keep.custom_machines);
+      // 수정 화면: 실패한 동안 화면에서 빠진 업종 기기는 처음 받은 정보로 되살림 (직접 추가는 지금 화면 그대로)
+      var codes = ($v.attr('id') === 'v-edit' && editOriginal) ? editOriginal.codes : keep.machine_codes;
+      renderMachines($v, $v.data('biz'), codes, keep.custom_machines);
     });
 
     $('#new-form').on('safet:validate', function (e) {
@@ -255,6 +292,8 @@
       e.preventDefault();
       var $view = $('#v-new');
       var $btn = $view.find('[type="submit"]');
+      var blocked = canSave($view);
+      if (blocked) { SafeT.toast(blocked); return; }      // 엔터 키 등으로 버튼을 거치지 않은 경우까지
       if ($btn.prop('disabled')) return;
       $btn.prop('disabled', true);
       SafeT.loading(true);                                       // 사업장 저장: 원형 로딩만
@@ -275,6 +314,9 @@
       e.preventDefault();
       var $view = $('#v-edit');
       var $btn = $view.find('[type="submit"]');
+      // 기기 목록을 불러오는 중·실패 상태면 저장하지 않음 (빈 목록으로 기존 기기가 지워지는 것 방지)
+      var blocked = canSave($view) || (!editOriginal ? '사업장 정보를 불러온 뒤 저장해 주세요.' : null);
+      if (blocked) { SafeT.toast(blocked); return; }
       if ($btn.prop('disabled') || !editing) return;
       $btn.prop('disabled', true);
       SafeT.loading(true);
@@ -284,7 +326,7 @@
           SafeT.go('v-list');
         })
         .fail(function (err) { showSaveError(err, $view); })
-        .always(function () { $btn.prop('disabled', false); SafeT.loading(false); });
+        .always(function () { setMachineState($view, $view.data('machine-state')); SafeT.loading(false); });
     });
 
     // 처음 열린 화면 그리기 (common.js 의 화면 전환이 이 파일보다 먼저 실행됨)

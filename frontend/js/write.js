@@ -6,6 +6,9 @@
   'use strict';
 
   $(function () {
+    // 새 평가표: 이전에 보던 평가표 번호가 남아 있지 않게 비움 (SafeT.current · api.js)
+    if (SafeT.current) SafeT.current.setEval(null);
+
     /* ---------- S01 기본정보 ---------- */
     var $memberInput = $('#member_add');
     var $memberList = $('#v-basic .name-tags');

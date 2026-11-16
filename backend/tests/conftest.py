@@ -1,9 +1,15 @@
 """테스트 공통 설정
 
-- 로컬 MariaDB(backend/.env)를 씁니다. 연결이 안 되면 테스트를 건너뜁니다.
+- backend/.env 의 MariaDB 에 테스트 데이터를 넣었다가 지웁니다.
+  안전장치(2026-11-16): 아래 둘 중 하나일 때만 실행하고, 아니면 DB 에 손대지 않고 전부 건너뜁니다.
+    · DB 이름이 _test 로 끝남 (예: DB_NAME=safeT_test)
+    · .env 또는 환경변수에 ALLOW_DB_TESTS=1 (개인 로컬 DB 를 그대로 쓸 때)
+  팀 공용·운영 DB 를 가리키는 .env 로는 실행하지 마세요.
+- 연결이 안 되면 테스트를 건너뜁니다.
 - 메일은 실제로 보내지 않고 가짜 발송 함수로 코드를 받습니다.
-- 테스트용 이메일(@test.invalid)로 만든 행은 테스트가 끝나면 지웁니다.
+- 테스트용 이메일(@test.invalid)·업종(T로 시작)으로 만든 행은 테스트가 끝나면 지웁니다.
 """
+import os
 import sys
 import uuid
 from pathlib import Path
@@ -18,11 +24,21 @@ from sqlalchemy.exc import SQLAlchemyError  # noqa: E402
 
 from database import engine  # noqa: E402
 from main import app  # noqa: E402
-from routers.auth import get_mailer  # noqa: E402
+from routers.auth import get_mailer, get_reset_mailer  # noqa: E402
+
+
+def db_tests_allowed() -> bool:
+    """테스트용 DB 이거나 명시적으로 허락했을 때만 (database.py 가 .env 를 먼저 읽음)"""
+    return os.getenv("DB_NAME", "").lower().endswith("_test") or os.getenv("ALLOW_DB_TESTS") == "1"
 
 
 @pytest.fixture(scope="session", autouse=True)
 def _db_available():
+    if not db_tests_allowed():
+        pytest.skip(
+            f"테스트용 DB 가 아니라 DB 테스트를 건너뜁니다 (DB_NAME={os.getenv('DB_NAME', '')}). "
+            "개인 로컬 DB 라면 backend/.env 에 ALLOW_DB_TESTS=1 을 넣거나, DB 이름을 _test 로 끝나게 하세요."
+        )
     try:
         with engine.connect() as c:
             c.execute(text("SELECT 1"))
@@ -48,8 +64,10 @@ class FakeMailer:
 def mailer():
     m = FakeMailer()
     app.dependency_overrides[get_mailer] = lambda: m
+    app.dependency_overrides[get_reset_mailer] = lambda: m
     yield m
     app.dependency_overrides.pop(get_mailer, None)
+    app.dependency_overrides.pop(get_reset_mailer, None)
 
 
 @pytest.fixture

@@ -76,6 +76,7 @@
             <fieldset class="field">
               <legend class="label">보유 기기 <span class="muted small js-biz-label"></span></legend>
               <p class="hint js-machine-hint">업종을 고르면 기기 목록이 나와요. 매장에 있는 기기만 체크해 주세요.</p>
+              <p class="hint js-machine-loading" hidden>기기 목록을 불러오는 중이에요…</p>
               <p class="notice notice--danger small js-machine-error" hidden>
                 기기 목록을 불러오지 못했어요. 다시 불러오거나, 아래에서 직접 추가해 주세요.
                 <button class="btn btn--sm js-machine-retry" type="button">다시 불러오기</button>
@@ -123,8 +124,11 @@
 
             <fieldset class="field">
               <legend class="label">보유 기기 <span class="muted small js-biz-label"></span></legend>
+              <!-- 수정 화면: 기기 목록을 불러오는 중이거나 실패하면 저장을 막음
+                   (빈 목록으로 저장하면 기존 보유 기기가 지워지므로 · 2026-11-16 보완) -->
+              <p class="hint js-machine-loading" hidden>기기 목록을 불러오는 중이에요…</p>
               <p class="notice notice--danger small js-machine-error" hidden>
-                기기 목록을 불러오지 못했어요. 다시 불러오거나, 아래에서 직접 추가해 주세요.
+                기기 목록을 불러오지 못했어요. 다시 불러온 뒤 저장할 수 있어요.
                 <button class="btn btn--sm js-machine-retry" type="button">다시 불러오기</button>
               </p>
               <div class="machine-scroll">

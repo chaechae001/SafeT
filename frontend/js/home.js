@@ -47,9 +47,10 @@
 
   function card(e) {
     var b = badge(e);
-    var $li = $('<li class="card eval-card">');
+    // 평가표 번호는 주소에 넣지 않고, 누를 때 이 탭에 저장 (SafeT.current · api.js)
+    var $li = $('<li class="card eval-card">').attr('data-eval', e.eval_no);
     var $a = $('<a class="eval-card__link">')
-      .attr('href', (e.eval_status === 'W' ? 'draft.html' : 'result.html') + '?eval=' + e.eval_no)
+      .attr('href', e.eval_status === 'W' ? 'draft.html' : 'result.html')
       .appendTo($li);
     var $head = $('<span class="card__head">').appendTo($a);
     $('<span class="card__title">').text(e.eval_nm || '(이름 없는 평가표)').appendTo($head);
@@ -63,9 +64,9 @@
     if (e.eval_status === 'W') {
       $('<span class="btn" aria-disabled="true">서명하기 · 확정 후</span>').appendTo($row);
     } else if (e.sign_end_dt) {
-      $('<a class="btn">결과 공유</a>').attr('href', 'share.html?eval=' + e.eval_no).appendTo($row);
+      $('<a class="btn">결과 공유</a>').attr('href', 'share.html').appendTo($row);
     } else {
-      $('<a class="btn">').attr('href', 'sign.html?eval=' + e.eval_no)
+      $('<a class="btn">').attr('href', 'sign.html')
         .text(e.member_count ? '서명하기 ' + e.signed_count + '/' + e.member_count : '서명하기')
         .appendTo($row);
     }
@@ -185,6 +186,11 @@
     });
 
     $('#eval-retry').on('click', reload);
+
+    // 카드·서명하기·결과 공유: 이동 전에 '지금 보는 평가표' 번호를 이 탭에 저장 (주소에는 번호 없음)
+    $('#eval-list').on('click', 'a[href]', function () {
+      SafeT.current.setEval($(this).closest('[data-eval]').attr('data-eval'));
+    });
 
     // 다른 화면으로 갈 때 스크롤 위치 저장
     $(window).on('pagehide', function () {
