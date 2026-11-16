@@ -93,3 +93,21 @@ node --check frontend/js/assessment-result.js
 - CPU 자체 검사 3개, JSON·문서 링크·JavaScript 문법 검사 통과.
 
 실제 AI 판단, 원본 음성 저장·서버 STT, 사진 기기 인식, 서명 DB 저장, 엑셀·공유·휴지통·후속업무는 미연결입니다.
+
+## PC에서 한 번에 실행
+
+Docker의 기존 MariaDB를 켜고 `backend/.env`의 DB 접속 정보와 JWT_SECRET을 설정합니다. 기존 ERD 테이블과 로그인 계정이 필요하며, 새 회원가입에는 SMTP 설정이 필요합니다.
+
+저장소 루트의 PowerShell에서:
+
+```powershell
+py -3.11 -m venv backend/.venv
+./backend/.venv/Scripts/python.exe -m pip install -r backend/requirements.txt
+./backend/.venv/Scripts/python.exe backend/run_local.py --demo --migrate
+```
+
+`--migrate`는 현재 설정된 개인 개발 DB에 추가 필드·인덱스를 적용합니다. 이미 적용돼 있으면 그대로 유지합니다. 실행 전 DB 설정을 확인하세요. `--check`를 추가하면 설정 검사만 합니다.
+
+실행 완료 후 <http://localhost:8000/pages/login.html>에서 기존 계정으로 로그인 → 새 평가표 → 현장 설명 입력 → 초안 생성 → 현재 조치와 대책 선택 → 담당자·예정일 일괄 지정 → 저장 → 확정 순서로 확인합니다. 종료는 실행한 터미널에서 Ctrl+C입니다.
+
+현재 AI는 미연결이므로 전체 흐름 시험에는 `--demo`가 필요합니다. 평가표에 개발용 합성 자료임을 표시합니다. Python은 3.11로 검증했으며 PC의 다른 버전은 그대로 두어도 됩니다.
