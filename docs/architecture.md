@@ -36,11 +36,3 @@ AI는 분석 초안을 반환한다. 최종 안전 판단은 담당자가 한다
 권장 main 설정: PR 승인 1명, CPU checks 통과, 강제 푸시·삭제 차단.
 저장소 요금제와 관리자 권한을 확인한 뒤 적용한다.
 이번 작업에서는 보호 설정을 적용하지 않았다.
-
-참고·조회일: 2026-11-13.
-- [GitHub 브랜치 보호](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches)
-- [checkout 공식 사용법](https://github.com/actions/checkout)
-- [setup-python 공식 사용법](https://github.com/actions/setup-python)
-
-요구사항과 팀 결정의 원본은 [공식 Safe-T Notion](https://app.notion.com/p/Safe-T_-409a5d647ec5806ba57df6e84f77d545)이다.
-이 문서는 새로운 팀 결정을 확인한 기록이 아니다.
