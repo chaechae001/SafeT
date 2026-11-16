@@ -160,6 +160,9 @@
   var dirty = false;
   function markDirty() { dirty = true; }
 
+  // 로그아웃 확인에서 사용 (api.js)
+  SafeT.hasUnsaved = function () { return dirty; };
+
   /* ---------- S05 리스트 ---------- */
   var filter = 'all';
 
@@ -544,9 +547,40 @@
     }
   }
 
+  /* ---------- 로그인 만료 시 편집 내용 보관 · 다시 로그인하면 복구 (설계서 07쪽) ---------- */
+  if (SafeT.auth) {
+    SafeT.auth.onExpire(function () {
+      if (!dirty) return null;
+      return { page: 'draft', data: { items: items, state: state, filter: filter } };
+    });
+  }
+
+  function restoreAfterLogin() {
+    var r = SafeT.auth && SafeT.auth.takeRestore('draft');
+    if (!r || !$.isArray(r.items)) return false;
+    items = $.map(r.items, function (it) { return makeItem(it); });
+    state = $.extend({ index: 0, mode: 'all', needList: [] }, r.state);
+    filter = r.filter || 'all';
+    // 직접 추가 항목 id 가 겹치지 않도록 번호 이어서
+    $.each(items, function (_, it) {
+      $.each(it.curr.concat(it.plans), function (_, a) {
+        var n = parseInt(String(a.id).slice(1), 10);
+        if (n > seq) seq = n;
+      });
+    });
+    dirty = true;
+    return true;
+  }
+
   /* ---------- 이벤트 ---------- */
   $(function () {
+    var restored = restoreAfterLogin();
     renderList();
+    if (restored) {
+      $('#v-list .tabs [data-filter]').removeAttr('aria-current').filter('[data-filter="' + filter + '"]').attr('aria-current', 'page');
+      if ($('#v-risk').hasClass('is-active')) renderDetail();
+      SafeT.toast('다시 로그인해서 보던 화면과 수정 내용을 되살렸어요. 저장해 주세요.');
+    }
 
     // 리스트
     $('#v-list').on('safet:show', renderList);

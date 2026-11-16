@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="../css/common.css">
   <link rel="stylesheet" href="../css/home.css">
 </head>
-<body>
+<body data-auth-required>
   <!-- home.html · 화면설계서 v3.19 통합본
        화면(view) 목록 (처음 화면 = .is-active)
        - #v-home : H01 내 평가표
@@ -41,7 +41,9 @@
             <a href="#v-home" data-tab="W">작성 중</a>
             <a href="#v-home" data-tab="C" aria-current="page">확정</a>
             <a href="#v-home" data-tab="S">서명 완료</a>
+            <!-- 조치 완료 탭: 후속업무(조치 기록)가 '협의 중'이라 숨김 (2026-11-16). 되살리려면 주석을 풀면 됩니다.
             <a href="#v-home" data-tab="A">조치 완료</a>
+            -->
           </nav>
 
           <form class="home__filter" id="home-filter" method="get" action="#v-home">
@@ -50,13 +52,13 @@
               <div class="date-range" role="group" aria-labelledby="period-label">
                 <div class="date-input">
                   <label class="sr-only" for="from_dt">시작일</label>
-                  <input class="input" id="from_dt" name="from_dt" inputmode="numeric" placeholder="YYYY.MM.DD" value="2026.11.01">
+                  <input class="input" id="from_dt" name="from_dt" inputmode="numeric" placeholder="YYYY.MM.DD">
                   <button class="date-input__icon" type="button" aria-label="시작일 달력 열기">📅</button>
                 </div>
                 <span aria-hidden="true">~</span>
                 <div class="date-input">
                   <label class="sr-only" for="to_dt">종료일</label>
-                  <input class="input" id="to_dt" name="to_dt" inputmode="numeric" placeholder="YYYY.MM.DD" value="2026.11.14">
+                  <input class="input" id="to_dt" name="to_dt" inputmode="numeric" placeholder="YYYY.MM.DD">
                   <button class="date-input__icon" type="button" aria-label="종료일 달력 열기">📅</button>
                 </div>
               </div>
@@ -64,69 +66,22 @@
 
             <div class="field">
               <label class="label" for="work_no">사업장</label>
-              <!-- workplaces.use_yn = 'Y' 인 사업장만 -->
+              <!-- GET /workplaces: 사용 중(use_yn='Y')인 사업장만 -->
               <select class="select" id="work_no" name="work_no">
                 <option value="">-전체-</option>
-                <option value="1">온기치킨 성수점 · 치킨</option>
-                <option value="2">온기분식 · 분식</option>
               </select>
             </div>
           </form>
 
-          <ul class="card-list" id="eval-list">
-            <!-- 확정 · 서명 진행 중 -->
-            <li class="card eval-card">
-              <a class="eval-card__link" href="result.html">
-                <span class="card__head">
-                  <span class="card__title">11월 주방 위험성평가</span>
-                  <span class="tag status" data-status="C">확정</span>
-                </span>
-                <span class="card__meta">온기치킨 성수점 · 2026.11.14 · 김하늘</span>
-              </a>
-              <div class="btn-row">
-                <a class="btn" href="sign.html">서명하기 1/3</a>
-                <a class="btn" href="#v-home">엑셀 다운로드</a>
-              </div>
-            </li>
+          <!-- 평가표 목록: GET /evals (home.js 가 채움) -->
+          <p class="notice notice--danger" id="eval-error" hidden>
+            <span class="js-msg">평가표 목록을 불러오지 못했어요.</span>
+            <button class="btn btn--sm" id="eval-retry" type="button">다시 불러오기</button>
+          </p>
+          <ul class="card-list" id="eval-list" aria-live="polite"></ul>
 
-            <!-- 서명 완료 -->
-            <li class="card eval-card">
-              <a class="eval-card__link" href="result.html">
-                <span class="card__head">
-                  <span class="card__title">11월 홀 위험성평가</span>
-                  <span class="tag status" data-status="S">서명 완료</span>
-                </span>
-                <span class="card__meta">온기분식 · 2026.11.03 · 박지수</span>
-              </a>
-              <div class="btn-row">
-                <a class="btn" href="share.html">결과 공유</a>
-                <a class="btn" href="#v-home">엑셀 다운로드</a>
-              </div>
-            </li>
-
-            <!-- 작성 중 (예시: 작성 중 탭에서 보이는 카드) -->
-            <li class="card eval-card">
-              <a class="eval-card__link" href="draft.html">
-                <span class="card__head">
-                  <span class="card__title">11월 창고 위험성평가</span>
-                  <span class="tag status" data-status="W">작성 중</span>
-                </span>
-                <span class="card__meta">온기분식 · 2026.11.10 · 박지수</span>
-              </a>
-              <div class="btn-row">
-                <span class="btn" aria-disabled="true">서명하기 · 확정 후</span>
-                <a class="btn" href="#v-home">엑셀 다운로드</a>
-              </div>
-            </li>
-          </ul>
-
-          <nav class="pager" id="pager" aria-label="페이지">
-            <a href="#v-home" aria-disabled="true">이전</a>
-            <span>1 / 2</span>
-            <a href="#v-home">다음</a>
-          </nav>
-
-          <!-- 조건에 맞는 평가표가 없을 때 (예시) -->
+          <nav class="pager" id="pager" aria-label="페이지" hidden></nav>
+          <!-- 조건에 맞는 평가표가 없을 때 -->
           <div class="empty" id="eval-empty" hidden>
             <p>이 기간에 작성한 평가표가 없어요.</p>
           </div>
@@ -142,6 +97,7 @@
 
   <script src="../js/vendor/jquery-3.7.1.min.js"></script>
   <script src="../js/common.js"></script>
+  <script src="../js/api.js"></script>
   <script src="../js/home.js"></script>
 </body>
 </html>

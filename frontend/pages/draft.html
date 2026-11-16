@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="../css/risk.css">
   <link rel="stylesheet" href="../css/bulk-assign.css">
 </head>
-<body>
+<body data-auth-required>
   <!-- draft.html · 화면설계서 v3.19 통합본
        화면(view) 목록 (처음 화면 = .is-active)
        - #v-list : S05 초안 확인 리스트 · S05-A 상단 입력 안내 (#confirm S05-E 확정 확인 창, #delete C02 삭제 확인 창)
@@ -71,8 +71,8 @@
 
           <!-- 한 줄 태그: 전체·후속업무 = 목록 거르기 버튼 / 입력 3/3 = 정보 배지(누를 수 없음) -->
           <div class="tabs" role="group" aria-label="목록 보기">
-            <a href="#v-list" data-filter="all" aria-current="page">전체 <span id="count-all">7</span>건</a>
-            <a href="#v-list" data-filter="follow">후속업무 <span id="count-follow">5</span>건</a>
+            <a href="#v-list" data-filter="all" aria-current="page">전체&nbsp;<span id="count-all">7</span>건</a>
+            <a href="#v-list" data-filter="follow">후속업무&nbsp;<span id="count-follow">5</span>건</a>
             <span title="기본정보·현장·기기 단계 진행 정보">입력 3/3</span>
           </div>
 
@@ -383,6 +383,7 @@
 
   <script src="../js/vendor/jquery-3.7.1.min.js"></script>
   <script src="../js/common.js"></script>
+  <script src="../js/api.js"></script>
   <script src="../js/draft.js"></script>
 </body>
 </html>
