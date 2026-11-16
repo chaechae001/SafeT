@@ -1,0 +1,2 @@
+/* 해시로 같은 화면에 복귀할 때 제목이 sticky 상단 바 아래로 가려지지 않게 함. */
+body[data-assessment] .view { scroll-margin-top: 76px; }

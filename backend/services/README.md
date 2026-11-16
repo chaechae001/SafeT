@@ -6,3 +6,9 @@
 - 단계별 작업 전에 공통 평가표 ID·JSON·상태를 합의합니다.
 - AI 원본 결과와 사용자 선택값을 구분합니다.
 - 파일이 작을 때는 기능 단위 파일로 시작하고 필요할 때 세분화합니다.
+
+## 평가표 작성 서비스
+
+`assessment.py`가 기존 ERD V1.1에 문서를 저장·조회·확정합니다.
+`assessment_provider.py`는 실제 모델을 연결할 경계이며 기본은 판단 필요입니다.
+DB 추가 필드·실행·테스트 방법: [평가표 작성 안내](../../docs/implementation/assessment-authoring.md).
