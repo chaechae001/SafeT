@@ -99,8 +99,8 @@ def test_비밀키_없으면_503(client, email, monkeypatch):
 
 def test_가입후_바로_로그인(client, mailer, email):
     client.post("/auth/signup/code", json={"email": email})
-    client.post("/auth/signup/code/verify", json={"email": email, "code": mailer.last_code(email)})
-    assert client.post("/auth/signup", json={"email": email, "password": PW, "name": "새 사용자"}).status_code == 201
+    token = client.post("/auth/signup/code/verify", json={"email": email, "code": mailer.last_code(email)}).json()["verify_token"]
+    assert client.post("/auth/signup", json={"email": email, "password": PW, "name": "새 사용자", "verify_token": token}).status_code == 201
     r = login(client, email)
     assert r.status_code == 200 and r.json()["name"] == "새 사용자"
 

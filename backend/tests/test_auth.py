@@ -15,8 +15,16 @@ def verify(client, email, code):
     return client.post("/auth/signup/code/verify", json={"email": email, "code": code})
 
 
-def signup(client, email, password="password123", name="김하늘"):
-    return client.post("/auth/signup", json={"email": email, "password": password, "name": name})
+def signup(client, email, password="password123", name="김하늘", token="no-token"):
+    return client.post("/auth/signup", json={"email": email, "password": password, "name": name, "verify_token": token})
+
+
+def verified_token(client, mailer, email):
+    """인증 요청 → 코드 확인 → 일회용 인증 토큰"""
+    request_code(client, email)
+    r = verify(client, email, mailer.last_code(email))
+    assert r.status_code == 200, r.text
+    return r.json()["verify_token"]
 
 
 def wrong(code):
@@ -112,23 +120,56 @@ def test_만료된_코드(client, mailer, email):
     assert r.status_code == 400 and r.json()["detail"]["code"] == "CODE_EXPIRED"
 
 
-def test_맞는코드_인증완료(client, mailer, email):
+def test_맞는코드_인증완료_일회용토큰(client, mailer, email):
     request_code(client, email)
     r = verify(client, email, mailer.last_code(email))
-    assert r.status_code == 200 and r.json() == {"verified": True}
-    assert db_one("SELECT auth_dt FROM email_verifications WHERE email=:e", e=email)["auth_dt"] is not None
+    assert r.status_code == 200 and r.json()["verified"] is True
+    token = r.json()["verify_token"]
+    assert len(token) >= 40
+    row = db_one("SELECT auth_dt, auth_code FROM email_verifications WHERE email=:e", e=email)
+    assert row["auth_dt"] is not None
+    assert row["auth_code"].startswith("vt:") and token not in row["auth_code"]     # 토큰 원문은 저장 안 함
+
+
+def test_인증된_뒤엔_틀린코드도_맞는코드도_성공_안함(client, mailer, email):
+    request_code(client, email)
+    code = mailer.last_code(email)
+    assert verify(client, email, code).status_code == 200
+    for c in (wrong(code), code):
+        r = verify(client, email, c)
+        assert r.status_code == 400 and r.json()["detail"]["code"] == "CODE_ALREADY_USED"
+        assert "verify_token" not in r.json()
 
 
 # ---------- 가입하기 ----------
 def test_인증없이_가입_막힘(client, email):
     r = signup(client, email)
     assert r.status_code == 400 and r.json()["detail"]["code"] == "NOT_VERIFIED"
+    assert client.post("/auth/signup", json={"email": email, "password": "password123", "name": "x"}).status_code == 422
+
+
+def test_다른사람이_인증완료를_가로채_가입_못함(client, mailer, email):
+    """이메일 주인이 코드를 확인한 뒤, 가입하기 전에 다른 사람이 같은 이메일로 가입 시도"""
+    token = verified_token(client, mailer, email)
+    r = signup(client, email, password="attacker-pass", name="다른 사람", token="guessed-token")
+    assert r.status_code == 400 and r.json()["detail"]["code"] == "INVALID_VERIFY_TOKEN"
+    assert db_one("SELECT COUNT(*) n FROM `user` WHERE email=:e", e=email)["n"] == 0
+    r = signup(client, email, password="owner-pass1", name="주인", token=token)       # 주인은 그대로 가입
+    assert r.status_code == 201
+    assert client.post("/auth/login", json={"email": email, "password": "owner-pass1"}).status_code == 200
+
+
+def test_인증토큰은_한번만(client, mailer, email):
+    token = verified_token(client, mailer, email)
+    assert signup(client, email, token=token).status_code == 201
+    db_exec("DELETE FROM `user` WHERE email=:e", e=email)              # 계정이 없어져도
+    r = signup(client, email, token=token)                             # 같은 토큰 재사용 불가
+    assert r.status_code == 400 and r.json()["detail"]["code"] == "INVALID_VERIFY_TOKEN"
 
 
 def test_가입_전체흐름_비밀번호_bcrypt(client, mailer, email):
-    request_code(client, email)
-    verify(client, email, mailer.last_code(email))
-    r = signup(client, email, password="safe-t-pass!", name="  김 하늘 ")
+    token = verified_token(client, mailer, email)
+    r = signup(client, email, password="safe-t-pass!", name="  김 하늘 ", token=token)
     assert r.status_code == 201, r.text
     assert r.json() == {"email": email, "name": "김 하늘"}
     row = db_one("SELECT pw, name, auth_dt, ins_dt FROM `user` WHERE email=:e", e=email)
@@ -141,10 +182,9 @@ def test_가입_전체흐름_비밀번호_bcrypt(client, mailer, email):
 
 
 def test_인증후_30분_지나면_가입_막힘(client, mailer, email):
-    request_code(client, email)
-    verify(client, email, mailer.last_code(email))
+    token = verified_token(client, mailer, email)
     db_exec("UPDATE email_verifications SET auth_dt = auth_dt - INTERVAL 31 MINUTE WHERE email=:e", e=email)
-    r = signup(client, email)
+    r = signup(client, email, token=token)
     assert r.status_code == 400 and r.json()["detail"]["code"] == "VERIFY_EXPIRED"
 
 

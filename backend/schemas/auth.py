@@ -14,6 +14,15 @@ PASSWORD_MIN = 8        # 화면설계서: 8자 이상
 PASSWORD_MAX_BYTES = 72  # bcrypt 가 쓰는 최대 길이
 
 
+def check_password(v: str) -> str:
+    """새 비밀번호 규칙: 8자 이상, bcrypt 최대 72바이트 (회원가입·재설정 공통)"""
+    if len(v or "") < PASSWORD_MIN:
+        raise ValueError(f"비밀번호는 {PASSWORD_MIN}자 이상 입력해 주세요.")
+    if len(v.encode("utf-8")) > PASSWORD_MAX_BYTES:
+        raise ValueError("비밀번호가 너무 길어요.")
+    return v
+
+
 def normalize_email(v: str) -> str:
     v = (v or "").strip().lower()
     if len(v) > EMAIL_MAX or not EMAIL_RE.match(v):
@@ -51,10 +60,11 @@ class CodeVerify(BaseModel):
 
 
 class SignupRequest(BaseModel):
-    """가입하기 (인증을 마친 이메일만)"""
+    """가입하기 (코드 확인 때 받은 인증 토큰 필요)"""
     email: str
     password: str
     name: str
+    verify_token: str
 
     @field_validator("email")
     @classmethod
@@ -64,11 +74,7 @@ class SignupRequest(BaseModel):
     @field_validator("password")
     @classmethod
     def _password(cls, v: str) -> str:
-        if len(v or "") < PASSWORD_MIN:
-            raise ValueError(f"비밀번호는 {PASSWORD_MIN}자 이상 입력해 주세요.")
-        if len(v.encode("utf-8")) > PASSWORD_MAX_BYTES:
-            raise ValueError("비밀번호가 너무 길어요.")
-        return v
+        return check_password(v)
 
     @field_validator("name")
     @classmethod
@@ -79,6 +85,27 @@ class SignupRequest(BaseModel):
         if len(v) > NAME_MAX:
             raise ValueError(f"이름은 {NAME_MAX}자 이내로 입력해 주세요.")
         return v
+
+
+class PasswordReset(BaseModel):
+    """비밀번호 재설정 (코드 확인 때 받은 인증 토큰 필요)"""
+    email: str
+    password: str
+    verify_token: str
+
+    @field_validator("email")
+    @classmethod
+    def _email(cls, v: str) -> str:
+        return normalize_email(v)
+
+    @field_validator("password")
+    @classmethod
+    def _password(cls, v: str) -> str:
+        return check_password(v)
+
+
+class PasswordResetDone(BaseModel):
+    email: str
 
 
 class LoginRequest(BaseModel):
@@ -118,6 +145,7 @@ class CodeSent(BaseModel):
 
 class CodeVerified(BaseModel):
     verified: bool
+    verify_token: str        # 일회용 인증 토큰: 가입하기·비밀번호 바꾸기에 함께 보냄 (30분 안, 한 번만)
 
 
 class SignupResult(BaseModel):
