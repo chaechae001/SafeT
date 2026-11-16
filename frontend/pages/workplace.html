@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>사업장 관리 · Safe-T</title>
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/workplace.css">
+</head>
+<body>
+  <!-- workplace.html · 화면설계서 v3.19 통합본
+       화면(view) 목록 (처음 화면 = .is-active)
+       - #v-list : B01 사업장 관리
+       - #v-new : B02 새 사업장 등록
+       - #v-edit : B02-E 사업장 수정
+       전환: jQuery로 .view 의 .is-active 를 바꿉니다. JS 없이 확인할 때는 주소 끝에 #view-id 를 붙입니다. -->
+  <div class="app">
+    <header class="topbar">
+      <a class="logo" href="home.html">Safe-T</a>
+      <details class="menu">
+        <summary aria-label="메뉴">≡</summary>
+        <nav class="menu__list" aria-label="주 메뉴">
+          <a href="home.html">내 평가표</a>
+          <a href="workplace.html" aria-current="page">사업장 관리</a>
+          <a href="trash.html">휴지통</a>
+          <a href="login.html">로그아웃</a>
+        </nav>
+      </details>
+    </header>
+
+    <main class="views">
+      <section class="view workplace is-active" id="v-list" aria-label="B01 사업장 관리">
+        <!-- B01 사업장 관리 · 화면설계서 08쪽
+             테이블: workplaces(use_yn='Y'만 노출) · workplace_machine -->
+        <div class="page">
+          <div class="stack">
+            <h1 class="page-title">사업장 관리</h1>
+            <p class="page-desc">더보기를 누르면 등록한 보유 기기를 볼 수 있어요.</p>
+          </div>
+
+          <ul class="card-list">
+            <!-- 사업장 1 (펼친 상태) -->
+            <li class="card wp-card" data-work-card>
+              <div class="card__head">
+                <p class="card__title">온기치킨 성수점 <span class="muted small">· 치킨</span></p>
+                <a class="btn btn--sm" href="#v-edit" data-work="1">수정</a>
+              </div>
+              <div class="wp-card__row">
+                <details class="wp-card__machines" open>
+                  <summary class="wp-card__toggle">
+                    <span class="when-closed">더보기</span><span class="when-open">접기</span>
+                  </summary>
+                  <ul class="tag-list">
+                    <li class="tag">튀김기</li>
+                    <li class="tag">가스레인지</li>
+                    <li class="tag">업소용 냉장고</li>
+                    <li class="tag">칼·도마</li>
+                    <li class="tag">염지기</li>
+                  </ul>
+                </details>
+                <a class="btn btn--sm btn--danger wp-card__delete" href="#delete-1">삭제</a>
+              </div>
+            </li>
+
+            <!-- 사업장 2 (접힌 상태) -->
+            <li class="card wp-card" data-work-card>
+              <div class="card__head">
+                <p class="card__title">온기분식 <span class="muted small">· 분식</span></p>
+                <a class="btn btn--sm" href="#v-edit" data-work="2">수정</a>
+              </div>
+              <div class="wp-card__row">
+                <details class="wp-card__machines">
+                  <summary class="wp-card__toggle">
+                    <span class="when-closed">더보기</span><span class="when-open">접기</span>
+                  </summary>
+                  <ul class="tag-list">
+                    <li class="tag">가스레인지</li>
+                    <li class="tag">업소용 냉장고</li>
+                    <li class="tag">튀김기</li>
+                  </ul>
+                </details>
+                <a class="btn btn--sm btn--danger wp-card__delete" href="#delete-2">삭제</a>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="bottom-bar">
+          <a class="btn btn--primary" href="#v-new">새 사업장 등록</a>
+        </div>
+        <!-- 삭제 확인 창: 데이터를 지우지 않고 use_yn = 'N' 으로 변경 -->
+        <div class="modal" id="delete-1" role="dialog" aria-modal="true" aria-labelledby="delete-1-title">
+          <div class="modal__box">
+            <div class="modal__head">
+              <h2 class="modal__title" id="delete-1-title">사업장을 삭제할까요?</h2>
+              <a class="modal__close" href="#v-list" aria-label="닫기">X</a>
+            </div>
+            <div class="modal__body">
+              <p>온기치킨 성수점을 목록과 새 평가표의 사업장 선택에서 숨겨요.</p>
+              <p class="notice notice--muted small">이 사업장의 평가표와 기기 기록은 그대로 남고, 내 평가표에도 계속 보여요.</p>
+              <p class="notice small">작성 중인 평가표 1건이 이 사업장에 연결되어 있어요.</p>
+            </div>
+            <div class="modal__foot">
+              <a class="btn" href="#v-list">취소</a>
+              <a class="btn btn--primary" href="#v-list">삭제</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal" id="delete-2" role="dialog" aria-modal="true" aria-labelledby="delete-2-title">
+          <div class="modal__box">
+            <div class="modal__head">
+              <h2 class="modal__title" id="delete-2-title">사업장을 삭제할까요?</h2>
+              <a class="modal__close" href="#v-list" aria-label="닫기">X</a>
+            </div>
+            <div class="modal__body">
+              <p>온기분식을 목록과 새 평가표의 사업장 선택에서 숨겨요.</p>
+              <p class="notice notice--muted small">이 사업장의 평가표와 기기 기록은 그대로 남고, 내 평가표에도 계속 보여요.</p>
+            </div>
+            <div class="modal__foot">
+              <a class="btn" href="#v-list">취소</a>
+              <a class="btn btn--primary" href="#v-list">삭제</a>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="view workplace" id="v-new" aria-label="B02 새 사업장 등록">
+        <!-- B02 사업장 등록 · 화면설계서 09쪽
+             테이블: workplaces(workplace, biz_code) · workplace_machine(machine_code | machine_nm)
+             - 업종을 고르면 machine_category(biz_code)의 기기를 미체크로 불러옴
+             - 업종을 바꾸면 체크·직접 추가 기기를 모두 초기화
+             - 기기를 하나도 체크하지 않아도 저장 가능
+             - 회원가입 직후 첫 등록이면 취소 버튼 없음 -->
+        <div class="page">
+          <h1 class="page-title">새 사업장 등록</h1>
+
+          <form id="workplace-new-wp-form" class="stack" action="home.html" method="get" novalidate data-loading>
+            <div class="field">
+              <label class="label" for="workplace-new-workplace">사업장명<span class="req" aria-hidden="true">*</span></label>
+              <input class="input" id="workplace-new-workplace" name="workplace" maxlength="50"
+                     placeholder="예: 온기치킨 성수점" value="온기치킨 성수점" required>
+            </div>
+
+            <fieldset class="field">
+              <legend class="label">업종<span class="req" aria-hidden="true">*</span></legend>
+              <!-- value 는 biz_category.biz_code 확정 후 교체 -->
+              <div class="biz-options">
+                <label><input type="radio" name="biz_code" value="chicken" checked> 치킨</label>
+                <label><input type="radio" name="biz_code" value="snack"> 분식</label>
+                <label><input type="radio" name="biz_code" value="cafe"> 카페</label>
+                <label><input type="radio" name="biz_code" value="korean"> 한식</label>
+                <label><input type="radio" name="biz_code" value="etc"> 기타</label>
+              </div>
+            </fieldset>
+
+            <fieldset class="field">
+              <legend class="label">보유 기기 <span class="muted small js-biz-label">· 치킨 업종 목록</span></legend>
+              <p class="hint">매장에 있는 기기만 체크해 주세요.</p>
+              <div class="machine-scroll">
+                <div class="machine-grid">
+                  <label class="check"><input type="checkbox" name="machine_code" value="M01" checked><span class="check__text">튀김기</span></label>
+                  <label class="check"><input type="checkbox" name="machine_code" value="M02" checked><span class="check__text">가스레인지</span></label>
+                  <label class="check"><input type="checkbox" name="machine_code" value="M03"><span class="check__text">식기세척기</span></label>
+                  <label class="check"><input type="checkbox" name="machine_code" value="M04" checked><span class="check__text">염지기</span></label>
+                  <label class="check"><input type="checkbox" name="machine_code" value="M05"><span class="check__text">업소용 냉장고</span></label>
+                  <label class="check"><input type="checkbox" name="machine_code" value="M06"><span class="check__text">칼·도마</span></label>
+                  <label class="check"><input type="checkbox" name="machine_code" value="M07"><span class="check__text">튀김 바스켓</span></label>
+                  <label class="check"><input type="checkbox" name="machine_code" value="M08"><span class="check__text">포장 실링기</span></label>
+                  <!-- 직접 추가한 기기: 체크 상태로 목록 끝에 붙고 '직접 추가' 표시 -->
+                  <label class="check">
+                    <input type="checkbox" name="machine_nm" value="반죽기" checked>
+                    <span class="check__text">반죽기 <span class="src src--manual">직접 추가</span></span>
+                  </label>
+                </div>
+              </div>
+              <p class="hint">아래로 스크롤하면 나머지 기기가 이어져요.</p>
+            </fieldset>
+
+            <div class="field">
+              <label class="label" for="workplace-new-machine_add">목록에 없는 기기</label>
+              <div class="input-row">
+                <input class="input js-machine-input" id="workplace-new-machine_add" maxlength="50" placeholder="예: 반죽기" data-enter="#new-machine-add">
+                <button class="btn js-machine-add" id="new-machine-add" type="button">추가</button>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="bottom-bar">
+          <a class="btn" id="new-cancel" href="#v-list">취소</a>
+          <button class="btn btn--primary" type="submit" form="workplace-new-wp-form">저장</button>
+        </div>
+      </section>
+      <section class="view workplace" id="v-edit" aria-label="B02-E 사업장 수정">
+        <!-- B02-E 사업장 수정 · 화면설계서 09쪽
+             - 업종은 잠김(변경 불가), 사업장명과 보유 기기만 수정
+             - 이미 작성한 평가표의 기기 기록은 바뀌지 않음(다음 평가표부터 적용)
+             - 삭제는 사업장 관리 목록에서 -->
+        <div class="page">
+          <h1 class="page-title">사업장 수정</h1>
+
+          <form id="workplace-edit-wp-form" class="stack" action="#v-list" method="get" novalidate>
+            <input type="hidden" name="work_no" value="1">
+
+            <div class="field">
+              <label class="label" for="workplace-edit-workplace">사업장명<span class="req" aria-hidden="true">*</span></label>
+              <input class="input" id="workplace-edit-workplace" name="workplace" maxlength="50" value="온기치킨 성수점" required>
+            </div>
+
+            <div class="field">
+              <label class="label" for="biz_nm">업종</label>
+              <div class="input-row">
+                <input class="input" id="biz_nm" value="치킨" readonly aria-describedby="biz-lock">
+                <span class="tag" id="biz-lock">변경 불가</span>
+              </div>
+            </div>
+
+            <fieldset class="field">
+              <legend class="label">보유 기기 <span class="muted small js-biz-label">· 치킨 업종 목록</span></legend>
+              <div class="machine-scroll">
+                <div class="machine-grid">
+                  <label class="check"><input type="checkbox" name="machine_code" value="M01" checked><span class="check__text">튀김기</span></label>
+                  <label class="check"><input type="checkbox" name="machine_code" value="M02" checked><span class="check__text">가스레인지</span></label>
+                  <label class="check"><input type="checkbox" name="machine_code" value="M03"><span class="check__text">식기세척기</span></label>
+                  <label class="check"><input type="checkbox" name="machine_code" value="M04" checked><span class="check__text">염지기</span></label>
+                  <label class="check"><input type="checkbox" name="machine_code" value="M05" checked><span class="check__text">업소용 냉장고</span></label>
+                  <label class="check"><input type="checkbox" name="machine_code" value="M06" checked><span class="check__text">칼·도마</span></label>
+                  <label class="check"><input type="checkbox" name="machine_code" value="M07"><span class="check__text">튀김 바스켓</span></label>
+                  <label class="check"><input type="checkbox" name="machine_code" value="M08"><span class="check__text">포장 실링기</span></label>
+                </div>
+              </div>
+            </fieldset>
+
+            <div class="field">
+              <label class="label" for="workplace-edit-machine_add">목록에 없는 기기</label>
+              <div class="input-row">
+                <input class="input js-machine-input" id="workplace-edit-machine_add" maxlength="50" placeholder="예: 반죽기" data-enter="#edit-machine-add">
+                <button class="btn js-machine-add" id="edit-machine-add" type="button">추가</button>
+              </div>
+            </div>
+
+            <p class="notice notice--muted small">저장한 기기 목록은 다음에 만드는 평가표부터 쓰여요. 이미 작성한 평가표는 바뀌지 않아요.</p>
+          </form>
+        </div>
+        <div class="bottom-bar">
+          <a class="btn" href="#v-list">취소</a>
+          <button class="btn btn--primary" type="submit" form="workplace-edit-wp-form">저장</button>
+        </div>
+      </section>
+    </main>
+
+    <p class="disclaimer">화면·입력 예시이며 실제 현장 판정이 아닙니다.</p>
+  </div>
+
+  <script src="../js/vendor/jquery-3.7.1.min.js"></script>
+  <script src="../js/common.js"></script>
+  <script src="../js/workplace.js"></script>
+</body>
+</html>

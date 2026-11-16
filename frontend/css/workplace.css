@@ -1,0 +1,59 @@
+/* 사업장 관리·등록·수정 (B01 · B02 · B02-E) */
+
+/* B01 사업장 카드: 1줄 = 이름·업종 + 수정 / 2줄 = 더보기(왼쪽) + 삭제(오른쪽) */
+.workplace .wp-card { gap: 10px; }
+.workplace .wp-card .card__head { align-items: center; }
+.workplace .wp-card__row { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+.workplace .wp-card__machines { flex: 1; min-width: 0; }
+.workplace .wp-card__machines > .tag-list { margin-top: 6px; }
+.workplace .wp-card__toggle {
+  list-style: none;
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  color: var(--c-primary);
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+}
+.workplace .wp-card__toggle::-webkit-details-marker { display: none; }
+.workplace .wp-card__toggle::after { content: "▾"; margin-left: 4px; font-size: 12px; }
+.workplace details[open] > .wp-card__toggle::after { content: "▴"; }
+.workplace .wp-card__machines .when-open { display: none; }
+.workplace .wp-card__machines[open] .when-open { display: inline; }
+.workplace .wp-card__machines[open] .when-closed { display: none; }
+.workplace .wp-card__delete { flex: none; }
+
+/* B02 업종 선택 칩 */
+.workplace .biz-options { display: flex; flex-wrap: wrap; gap: 6px; }
+.workplace .biz-options label {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0 16px;
+  border: 1px solid var(--c-line-strong);
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+}
+.workplace .biz-options input { position: absolute; opacity: 0; pointer-events: none; }
+.workplace .biz-options label:has(input:checked) {
+  background: var(--c-primary);
+  border-color: var(--c-primary);
+  color: #fff;
+}
+.workplace .biz-options label:has(input:focus-visible) { outline: 3px solid #3b82c4; }
+
+/* B02 보유 기기 목록 (2열) */
+.workplace .machine-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+@media (max-width: 340px) { .workplace .machine-grid { grid-template-columns: 1fr; } }
+.workplace .machine-scroll {
+  max-height: 300px;
+  overflow-y: auto;
+  padding: 2px;
+}

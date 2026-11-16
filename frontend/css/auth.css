@@ -1,0 +1,5 @@
+/* 로그인·회원가입 (A01 · A02) */
+.auth .page { padding-top: 32px; gap: 24px; }
+.auth__form { display: flex; flex-direction: column; gap: 16px; }
+.auth__links { text-align: center; }
+.auth__form .btn--primary { margin-top: 8px; }

@@ -1,0 +1,94 @@
+/* 위험 상세 공통 (S05-B · S06 · S06-P · S06-G · S08-D) */
+
+.risk .risk__nav-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+/* 위험 내용 상자 */
+.risk .risk-box {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px;
+  border: 1px solid var(--c-line);
+  border-radius: var(--radius);
+  background: var(--c-surface);
+}
+.risk .risk-box__head { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+.risk .risk-box__title { font-size: 16px; font-weight: 700; }
+.risk .risk-box__desc { font-size: 14px; color: var(--c-text-sub); }
+.risk .risk-box__cause {
+  font-size: 14px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  background: var(--c-surface-muted);
+}
+.risk .risk-box__cause b { margin-right: 6px; }
+
+/* 판단 이유·법령 */
+.risk .law {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px 12px;
+  border-left: 3px solid var(--c-primary-line);
+  background: var(--c-surface-muted);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  font-size: 14px;
+}
+.risk .law__name { font-weight: 700; }
+
+/* 입력 영역 머리 */
+.risk .block-head { display: flex; flex-direction: column; gap: 2px; }
+
+/* 담당자·예정일 표시 (일괄 지정 연동) */
+.risk .owner-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 12px;
+  border: 1px solid var(--c-line);
+  border-radius: var(--radius-sm);
+}
+.risk .owner-box__value { display: flex; flex-direction: column; gap: 2px; }
+
+/* 직접 추가 항목의 삭제 버튼 (ai_yn='N'만 삭제 가능) */
+.risk .check__remove {
+  flex: none;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--c-text-sub);
+  cursor: pointer;
+}
+
+/* 초록 항목: 현재 상태 유지 / 대책 추가 탭 전환 (radio + :has) */
+.risk .plan-switch .plan-add,
+.risk .plan-switch .plan-keep { display: none; }
+.risk .plan-switch:has(input[value="Y"]:checked) .plan-keep { display: flex; }
+.risk .plan-switch:has(input[value="N"]:checked) .plan-add { display: flex; }
+
+/* 읽기 전용 체크 목록 */
+.risk .readonly-list { display: flex; flex-direction: column; gap: 6px; }
+.risk .readonly-list li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  background: var(--c-primary-soft);
+  font-size: 14px;
+}
+.risk .readonly-list li::before { content: "✓"; color: var(--c-primary); font-weight: 800; }
+
+.risk .signal-change { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+/* 하단 3버튼: 좁은 화면에서 줄바꿈 허용 */
+.risk .bottom-bar .btn { padding: 0 8px; white-space: normal; line-height: 1.25; }

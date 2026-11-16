@@ -1,0 +1,12 @@
+/* 담당자·예정일 일괄 지정 (S05-C · S06-D) */
+.bulk .bulk__all { background: var(--c-primary-soft); border-color: var(--c-primary-line); }
+.bulk .bulk__item { align-items: flex-start; }
+.bulk .bulk__item input { margin-top: 2px; }
+
+/* 담당자 토글: 등록된 사람 / 직접 입력 (radio + :has) */
+#assign .owner-switch .owner-registered,
+#assign .owner-switch .owner-manual { display: none; }
+#assign .owner-switch:has(input[name="manager_type"][value="R"]:checked) .owner-registered { display: flex; }
+#assign .owner-switch:has(input[name="manager_type"][value="D"]:checked) .owner-manual { display: block; }
+
+/* 작은 달력은 common.js 가 만들고 common.css(.mini-cal)로 꾸밉니다. */

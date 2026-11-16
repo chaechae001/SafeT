@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>휴지통 · Safe-T</title>
+  <link rel="stylesheet" href="../css/common.css">
+</head>
+<body>
+  <!-- trash.html · 화면설계서 v3.19 통합본
+       화면(view) 목록 (처음 화면 = .is-active)
+       - #v-trash : H02 휴지통
+       전환: jQuery로 .view 의 .is-active 를 바꿉니다. JS 없이 확인할 때는 주소 끝에 #view-id 를 붙입니다. -->
+  <div class="app">
+    <header class="topbar">
+      <a class="logo" href="home.html">Safe-T</a>
+      <details class="menu">
+        <summary aria-label="메뉴">≡</summary>
+        <nav class="menu__list" aria-label="주 메뉴">
+          <a href="home.html">내 평가표</a>
+          <a href="workplace.html">사업장 관리</a>
+          <a href="trash.html" aria-current="page">휴지통</a>
+          <a href="login.html">로그아웃</a>
+        </nav>
+      </details>
+    </header>
+
+    <main class="views">
+      <section class="view is-active" id="v-trash" aria-label="H02 휴지통">
+        <!-- H02 휴지통 · 화면설계서 31쪽
+             테이블: eval_mst(del_yn='Y', del_dt) · 작성 중 평가표만 대상, 30일 뒤 자동 영구 삭제
+             - 확정·서명된 평가표는 삭제 불가(법정 기록 보존 3년)
+             - 복원하면 작성 중 탭으로 돌아감 -->
+        <div class="page">
+          <div class="stack">
+            <h1 class="page-title">휴지통</h1>
+            <p class="page-desc">삭제한 작성 중 평가표는 30일 동안 여기에 남아요.</p>
+          </div>
+
+          <ul class="card-list">
+            <li class="card">
+              <p class="card__title">9월 홀 위험성평가</p>
+              <p class="card__meta">작성 중 · 삭제 2026.11.02 · <strong>18일 후 영구 삭제</strong></p>
+              <div class="btn-row">
+                <a class="btn" href="home.html">복원</a>
+                <a class="btn btn--danger" href="#purge-1">영구 삭제</a>
+              </div>
+            </li>
+            <li class="card">
+              <p class="card__title">8월 주방 위험성평가</p>
+              <p class="card__meta">작성 중 · 삭제 2026.10.20 · <strong>6일 후 영구 삭제</strong></p>
+              <div class="btn-row">
+                <a class="btn" href="home.html">복원</a>
+                <a class="btn btn--danger" href="#purge-1">영구 삭제</a>
+              </div>
+            </li>
+          </ul>
+
+          <p class="notice notice--muted small">영구 삭제하면 복원할 수 없어요. 확정·서명된 평가표는 삭제할 수 없어요.</p>
+        </div>
+        <div class="modal" id="purge-1" role="dialog" aria-modal="true" aria-labelledby="purge-1-title">
+          <div class="modal__box">
+            <div class="modal__head">
+              <h2 class="modal__title" id="purge-1-title">영구 삭제할까요?</h2>
+              <a class="modal__close" href="#v-trash" aria-label="닫기">X</a>
+            </div>
+            <div class="modal__body">
+              <p>영구 삭제하면 복원할 수 없어요.</p>
+            </div>
+            <div class="modal__foot">
+              <a class="btn" href="#v-trash">취소</a>
+              <a class="btn btn--danger" href="#v-trash">영구 삭제</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <p class="disclaimer">화면·입력 예시이며 실제 현장 판정이 아닙니다.</p>
+  </div>
+
+  <script src="../js/vendor/jquery-3.7.1.min.js"></script>
+  <script src="../js/common.js"></script>
+  <script src="../js/trash.js"></script>
+</body>
+</html>

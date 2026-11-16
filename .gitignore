@@ -1,3 +1,6 @@
+# Local working documents (design specs, ERD, etc.)
+/dev_docs/
+
 # Credentials and local environments
 .env
 .env.*

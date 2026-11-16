@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>새 평가표 작성 · Safe-T</title>
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/field.css">
+</head>
+<body>
+  <!-- write.html · 화면설계서 v3.19 통합본
+       화면(view) 목록 (처음 화면 = .is-active)
+       - #v-basic : S01 기본정보
+       - #v-field : S02 현장입력
+       - #v-equipment : S03 보유기기
+       - #v-generating : S04 초안 생성
+       전환: jQuery로 .view 의 .is-active 를 바꿉니다. JS 없이 확인할 때는 주소 끝에 #view-id 를 붙입니다. -->
+  <div class="app">
+    <header class="topbar">
+      <a class="logo" href="home.html">Safe-T</a>
+      <details class="menu">
+        <summary aria-label="메뉴">≡</summary>
+        <nav class="menu__list" aria-label="주 메뉴">
+          <a href="home.html">내 평가표</a>
+          <a href="workplace.html">사업장 관리</a>
+          <a href="trash.html">휴지통</a>
+          <a href="login.html">로그아웃</a>
+        </nav>
+      </details>
+    </header>
+
+    <main class="views">
+      <section class="view is-active" id="v-basic" aria-label="S01 기본정보">
+        <!-- S01 기본정보 · 화면설계서 11쪽
+             테이블: eval_mst(work_no, eval_dt, eval_writer) · eval_member(member_nm, sort)
+             - 사업장이 하나뿐이면 자동 선택, use_yn='Y'만 노출
+             - 오늘 날짜(한국)·계정 이름은 제안값. 개선대책 담당자 기본값으로 쓰지 않음
+             - 참여 근로자는 필수 아님. 이름 등록 ≠ 참여·서명 완료
+             - 이 화면에는 임시저장 버튼 없음 -->
+        <div class="page">
+          <ol class="stepper" aria-label="입력 단계">
+            <li aria-current="step">01 기본</li>
+            <li>02 현장</li>
+            <li>03 기기</li>
+          </ol>
+
+          <h1 class="page-title">기본정보</h1>
+
+          <form id="basic-form" class="stack" action="#v-field" method="get" novalidate>
+            <div class="field">
+              <label class="label" for="work_no">사업장<span class="req" aria-hidden="true">*</span></label>
+              <select class="select" id="work_no" name="work_no" required>
+                <option value="1" selected>온기치킨 성수점 · 치킨</option>
+                <option value="2">온기분식 · 분식</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label class="label" for="eval_dt">평가일<span class="req" aria-hidden="true">*</span></label>
+              <div class="date-input">
+                <input class="input" id="eval_dt" name="eval_dt" inputmode="numeric"
+                       placeholder="YYYY.MM.DD" value="2026.11.14" required>
+                <button class="date-input__icon" type="button" aria-label="평가일 달력 열기">📅</button>
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="label" for="eval_writer">평가 담당자<span class="req" aria-hidden="true">*</span></label>
+              <input class="input" id="eval_writer" name="eval_writer" maxlength="50" value="김하늘" required>
+            </div>
+
+            <div class="field">
+              <label class="label" for="member_add">참여 근로자</label>
+              <div class="input-row">
+                <input class="input" id="member_add" maxlength="50" placeholder="이름 입력" data-enter="#member-add-btn">
+                <button class="btn" id="member-add-btn" type="button">추가</button>
+              </div>
+              <ul class="name-tags" aria-label="추가한 참여 근로자">
+                <li class="name-tag">이민호<button type="button" aria-label="이민호 삭제">×</button><input type="hidden" name="member_nm" value="이민호"></li>
+                <li class="name-tag">박지수<button type="button" aria-label="박지수 삭제">×</button><input type="hidden" name="member_nm" value="박지수"></li>
+                <li class="name-tag">정유진<button type="button" aria-label="정유진 삭제">×</button><input type="hidden" name="member_nm" value="정유진"></li>
+              </ul>
+            </div>
+
+            <p class="notice notice--muted small">근로자와 함께 현장을 확인해 주세요.</p>
+          </form>
+        </div>
+        <div class="bottom-bar">
+          <button class="btn btn--primary" type="submit" form="basic-form">다음</button>
+        </div>
+      </section>
+      <section class="view field-page" id="v-field" aria-label="S02 현장입력">
+        <!-- S02 현장입력 · 화면설계서 12~13쪽 (S02-G 도움말은 #help 창)
+             테이블: eval_file(file_type P=사진 / V=녹음 / T=글, place_nm, file_text)
+             - 사진·직접 설명·음성 전사문 중 하나 이상이면 다음으로
+             - 전사문과 직접 설명은 서로 덮어쓰지 않음
+             - 녹음만 있고 전사가 끝나지 않았으면 다음으로 가지 않음 -->
+        <div class="page">
+          <ol class="stepper" aria-label="입력 단계">
+            <li>01 기본</li>
+            <li aria-current="step">02 현장</li>
+            <li>03 기기</li>
+          </ol>
+
+          <h1 class="page-title">현장 상황을 알려주세요</h1>
+
+          <form id="field-form" class="stack" action="#v-equipment" method="get" novalidate>
+            <div class="row row--between">
+              <span class="section-title">사진·음성·텍스트</span>
+              <a class="help-btn" href="#help" aria-label="입력 도움말 열기">?</a>
+            </div>
+
+            <!-- 사진: 한 줄에 2장, 사진마다 아래에 장소 입력칸 -->
+            <ul class="photo-grid" aria-label="현장 사진">
+              <li class="photo">
+                <div class="photo__img" role="img" aria-label="현장 사진 1 (예시 이미지)">사진 1</div>
+                <button class="photo__remove" type="button" aria-label="사진 1 삭제">×</button>
+                <label class="sr-only" for="place_nm_1">사진 1 장소</label>
+                <input class="input" id="place_nm_1" name="place_nm" maxlength="100" placeholder="장소 입력">
+              </li>
+              <li class="photo">
+                <div class="photo__img" role="img" aria-label="현장 사진 2 (예시 이미지)">사진 2</div>
+                <button class="photo__remove" type="button" aria-label="사진 2 삭제">×</button>
+                <label class="sr-only" for="place_nm_2">사진 2 장소</label>
+                <input class="input" id="place_nm_2" name="place_nm" maxlength="100" placeholder="장소 입력" value="주방 튀김기 앞">
+              </li>
+            </ul>
+
+            <!-- 음성 카드: X는 오디오와 전사문만 삭제 -->
+            <div class="voice-card">
+              <div class="row row--between">
+                <span class="strong">▶ 음성 녹음</span>
+                <span class="row">
+                  <span class="muted small">0:24</span>
+                  <button class="voice-card__remove" type="button" aria-label="음성 녹음 삭제">×</button>
+                </span>
+              </div>
+              <label class="sr-only" for="voice_text">음성 전사문</label>
+              <textarea class="textarea voice-card__text" id="voice_text" name="voice_text" rows="2">튀김기 앞 바닥에 물기가 있어요.</textarea>
+              <p class="hint">전사문은 고칠 수 있어요.</p>
+            </div>
+
+            <div class="field">
+              <label class="label" for="file_text">현장 설명 <span class="muted">(선택)</span></label>
+              <textarea class="textarea" id="file_text" name="file_text" placeholder="예: 튀김할 때 기름이 튀어요."></textarea>
+            </div>
+
+            <div class="input-methods">
+              <label class="btn">
+                사진
+                <input class="sr-only" id="photo-input" type="file" name="photo" accept="image/*" multiple>
+              </label>
+              <button class="btn" id="voice-btn" type="button">음성</button>
+              <label class="btn" for="file_text">텍스트</label>
+            </div>
+          </form>
+        </div>
+        <div class="bottom-bar">
+          <a class="btn" href="#v-basic">이전</a>
+          <button class="btn btn--primary" type="submit" form="field-form">다음</button>
+        </div>
+        <!-- S02-G 현장입력 도움말 + 음성 녹음 방법 (샘플은 입력값으로 저장하지 않음) -->
+        <div class="modal" id="help" role="dialog" aria-modal="true" aria-labelledby="help-title">
+          <div class="modal__box">
+            <div class="modal__head">
+              <h2 class="modal__title" id="help-title">이렇게 입력해 주세요</h2>
+              <a class="modal__close" href="#v-field" aria-label="도움말 닫기">X</a>
+            </div>
+            <div class="modal__body">
+              <div class="help-samples">
+                <figure>
+                  <div class="photo__img" role="img" aria-label="홀 이동 통로 샘플 사진">샘플</div>
+                  <figcaption>홀 · 이동 통로</figcaption>
+                </figure>
+                <figure>
+                  <div class="photo__img" role="img" aria-label="주방 작업 공간 샘플 사진">샘플</div>
+                  <figcaption>주방 · 작업 공간</figcaption>
+                </figure>
+              </div>
+              <ol class="help-steps">
+                <li>1. 공간 전체와 위험한 곳을 찍어요.</li>
+                <li>2. 사진 아래에 장소를 적어요.</li>
+                <li>3. 필요하면 말이나 글을 더해요.</li>
+              </ol>
+              <p class="notice notice--muted small">위험한 곳에 가까이 가거나 작업 중에 찍지 마세요.</p>
+
+              <hr class="divider">
+
+              <h3 class="section-title">음성 녹음 방법</h3>
+              <ul class="voice-states">
+                <li><span class="tag">대기</span> 마이크를 눌러 녹음 시작</li>
+                <li><span class="tag tag--danger">녹음 중 00:12</span> 종료 ■ (재생 비활성)</li>
+                <li><span class="tag tag--primary">녹음 후 ▶ 0:24</span> 재생·일시정지·다시 듣기 · X 삭제</li>
+                <li class="muted small">"튀김기 앞 바닥에 물기가 있어요." (전사 후 편집 가능)</li>
+              </ul>
+              <p class="hint">전사에 실패하면 다시 시도하거나 직접 입력할 수 있어요.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="view" id="v-equipment" aria-label="S03 보유기기">
+        <!-- S03 보유기기 · 화면설계서 14쪽
+             테이블: eval_machine(machine_code, machine_nm, ai_yn, check_yn)
+             - 사업장 등록 기기(workplace_machine)는 태그로만 표시, 모두 이번 평가에 포함
+             - AI가 사진에서 새로 찾은 기기만 체크박스(ai_yn='Y'), 처음엔 체크된 상태
+             - 직접 추가 입력칸 없음 (사업장 관리에서 추가)
+             - 인식 실패 시 새로 찾은 기기 영역을 비우고, 성공으로 표시하지 않음 -->
+        <div class="page">
+          <ol class="stepper" aria-label="입력 단계">
+            <li>01 기본</li>
+            <li>02 현장</li>
+            <li aria-current="step">03 기기</li>
+          </ol>
+
+          <h1 class="page-title">보유기기를 확인해 주세요</h1>
+
+          <form id="equip-form" class="stack" action="#v-generating" method="get" novalidate>
+            <section class="section" aria-labelledby="registered-title">
+              <h2 class="section-title" id="registered-title">사업장에 등록된 기기</h2>
+              <ul class="tag-list">
+                <li class="tag tag--primary">튀김기</li>
+                <li class="tag tag--primary">가스레인지</li>
+                <li class="tag tag--primary">업소용 냉장고</li>
+                <li class="tag tag--primary">칼·도마</li>
+                <li class="tag tag--primary">염지기</li>
+              </ul>
+              <p class="hint">사업장 관리에서 바꿀 수 있어요.</p>
+            </section>
+
+            <hr class="divider">
+
+            <fieldset class="section">
+              <legend class="section-title">사진에서 새로 찾은 기기</legend>
+              <p class="hint">등록되지 않은 기기를 AI가 사진에서 찾았어요. 매장에 있는 것만 체크해 주세요.</p>
+              <div class="check-list">
+                <label class="check">
+                  <input type="checkbox" name="ai_machine_nm" value="식기세척기" checked>
+                  <span class="check__text">식기세척기</span>
+                  <span class="src src--ai">AI 인식</span>
+                </label>
+                <label class="check">
+                  <input type="checkbox" name="ai_machine_nm" value="소형 온수기">
+                  <span class="check__text">소형 온수기</span>
+                  <span class="src src--ai">AI 인식</span>
+                </label>
+              </div>
+              <!-- 새로 찾은 기기가 없거나 인식 실패 시 -->
+              <p class="empty small" hidden>사진에서 새로 찾은 기기가 없어요.</p>
+            </fieldset>
+          </form>
+        </div>
+        <div class="bottom-bar">
+          <a class="btn" href="#v-field">이전</a>
+          <button class="btn btn--primary" type="submit" form="equip-form">평가표 초안 만들기</button>
+        </div>
+      </section>
+      <section class="view" id="v-generating" aria-label="S04 초안 생성">
+        <!-- S04 초안 생성 · 화면설계서 15쪽
+             단계: 입력 분석 20% → 위험 항목 생성 40% → 위험 신호 판단 60% → 대책 추천·예상 신호 80% → 초안 저장 100%
+             - 실제 처리 단계 기준으로 올리고, 실제로 끝나야 100%
+             - 남은 시간은 표시하지 않음. 모션 감소 설정에서는 값만 바꿈
+             - 현재 조치 미선택, 대책 미체크, 담당자·예정일 비움 -->
+        <div class="progress-screen" aria-live="polite">
+          <h1 class="page-title">초안을 만들고 있어요</h1>
+          <div class="ring" style="--value: 60" role="img" aria-label="진행률 60%">60%</div>
+          <p class="strong">위험 신호를 판단하고 있어요</p>
+          <progress class="bar" value="60" max="100" aria-label="초안 생성 진행률">60%</progress>
+          <p class="steps-text">입력 분석 → 위험 항목 생성 → <strong>위험 신호 판단</strong> → 대책 추천 → 초안 저장</p>
+          <!-- 완료되면 초안 확인(draft.html)으로 이동 (write.js) -->
+        </div>
+        <div class="bottom-bar">
+          <a class="btn" href="#v-equipment">입력으로 돌아가기</a>
+        </div>
+      </section>
+    </main>
+
+    <p class="disclaimer">화면·입력 예시이며 실제 현장 판정이 아닙니다.</p>
+  </div>
+
+  <script src="../js/vendor/jquery-3.7.1.min.js"></script>
+  <script src="../js/common.js"></script>
+  <script src="../js/write.js"></script>
+</body>
+</html>
