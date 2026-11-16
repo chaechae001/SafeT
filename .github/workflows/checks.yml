@@ -32,3 +32,7 @@ jobs:
         run: python ai/experiments/261112_model_selection_DR/261112_compare_models_DR.py --self-test
       - name: Check pipeline comparison logic
         run: python ai/experiments/261112_single_vs_pipeline_DR/261112_benchmark_DR.py --self-test
+      - name: Check experimental three-level risk rules
+        run: |
+          python -m unittest discover -s ai/risk_rules/tests -v
+          python -m ai.risk_rules --check

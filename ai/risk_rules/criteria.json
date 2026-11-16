@@ -1,0 +1,21 @@
+{
+  "version": "CHK-3L-EXP-0.1",
+  "status": "experimental_not_validated",
+  "method": "direct_three_level",
+  "priority": [
+    "R_LEGAL",
+    "R_SEVERE",
+    "N_INFORMATION",
+    "Y_RESIDUAL",
+    "G_CONTROLLED"
+  ],
+  "grades": {
+    "R": "상: 적용 법정조치 미이행 또는 사망·영구장해로 이어질 잔여위험",
+    "Y": "중: 치료가 필요한 부상·질병, 미해결 아차사고 또는 불충분한 통제",
+    "G": "하: 핵심 정보와 통제효과 확인, 상·중 조건 없음; 경미한 잔여위험 범위",
+    "N": "정보 부족으로 미판정. 네 번째 위험등급이 아님"
+  },
+  "implementation": "engine.py implements conditions; editing this JSON alone does not change logic",
+  "projection": "same criteria under explicitly reviewed assumptions; not actual residual risk",
+  "sources": "../../docs/risk/sources.md"
+}
