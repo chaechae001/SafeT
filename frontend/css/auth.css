@@ -3,3 +3,4 @@
 .auth__form { display: flex; flex-direction: column; gap: 16px; }
 .auth__links { text-align: center; }
 .auth__form .btn--primary { margin-top: 8px; }
+.auth .code-ok { color: var(--c-primary); font-weight: 600; }

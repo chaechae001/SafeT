@@ -1,4 +1,4 @@
-# Safe-T 프런트엔드 작업용 Python 패키지
+﻿# Safe-T 프런트엔드 작업용 Python 패키지
 # 설치: python -m pip install -r frontend/requirements.txt
 #
 # 화면(HTML·CSS)을 열어 보는 데는 설치가 필요 없습니다.

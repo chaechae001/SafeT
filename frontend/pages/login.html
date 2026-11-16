@@ -24,7 +24,13 @@
         <div class="page">
           <h1 class="page-title">로그인</h1>
 
-          <form class="auth__form" action="home.html" method="get" novalidate>
+          <!-- 회원가입을 마치고 오면 표시 (login.js) -->
+          <p class="notice notice--done" id="signup-done" role="status" hidden>회원가입이 완료되었습니다. 로그인해 주세요.</p>
+          <!-- 로그아웃·로그인 필요·로그인 시간 만료 안내 (login.js, 주소의 ?logout=1 / ?required=1 / ?expired=1) -->
+          <p class="notice" id="auth-notice" role="status" hidden></p>
+
+          <!-- 로그인 → 사업장이 있으면 내 평가표(home.html), 없으면 새 사업장 등록(workplace.html?first=1#v-new) (login.js) -->
+          <form class="auth__form" id="login-form" action="home.html" method="get" novalidate>
             <div class="field">
               <label class="label" for="login-email">이메일</label>
               <input class="input" id="login-email" name="email" type="email" maxlength="50"
@@ -52,11 +58,13 @@
       <section class="view auth" id="v-signup" aria-label="A02 회원가입">
         <!-- A02 이메일 인증 회원가입 · 화면설계서 07쪽
              순서: 이메일 → 인증 코드 → 비밀번호 → 이름
-             업종·사업장명은 가입 직후 사업장 등록(B02)에서 받음 -->
+             업종·사업장명은 사업장 등록(B02)에서 받음
+             가입 완료 → '회원가입이 완료되었습니다' 안내 후 로그인 화면으로 이동 (2026-11-16 결정, 설계서 07쪽과 다름)
+             로그인 후 등록된 사업장이 없으면 사업장 등록(B02)으로 보냄 (설계서 07쪽) -->
         <div class="page">
           <h1 class="page-title">회원가입</h1>
 
-          <form class="auth__form" id="signup-form" action="workplace.html?first=1#v-new" method="get" novalidate>
+          <form class="auth__form" id="signup-form" action="#v-login" method="get" novalidate>
             <div class="field">
               <label class="label" for="signup-email">이메일<span class="req" aria-hidden="true">*</span></label>
               <div class="input-row">
@@ -104,6 +112,7 @@
 
   <script src="../js/vendor/jquery-3.7.1.min.js"></script>
   <script src="../js/common.js"></script>
+  <script src="../js/api.js"></script>
   <script src="../js/login.js"></script>
 </body>
 </html>

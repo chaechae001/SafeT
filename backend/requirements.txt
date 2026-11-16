@@ -1,0 +1,32 @@
+﻿# Safe-T 백엔드 Python 패키지
+# 설치 (저장소 루트에서):
+#   python -m venv backend\.venv
+#   backend\.venv\Scripts\python -m pip install -r backend\requirements.txt
+# 목표 환경은 Python 3.11 입니다(backend/README.md).
+
+# API 서버 프레임워크
+fastapi==0.115.12
+
+# API 서버 실행기 (uvicorn main:app)
+uvicorn==0.34.2
+
+# DB 연결·쿼리 (ORM / 커넥션 풀)
+SQLAlchemy==2.0.40
+
+# MariaDB·MySQL 접속 드라이버 (순수 Python, 별도 C 라이브러리 불필요)
+PyMySQL==1.1.1
+
+# .env 파일에서 DB 접속 정보 읽기
+python-dotenv==1.1.0
+
+# 비밀번호 해시 (회원가입·로그인)
+bcrypt==4.3.0
+
+# 로그인 토큰(JWT) 발급·확인
+PyJWT==2.10.1
+
+# --- 개발·검사용 (서비스 실행에는 불필요) ---
+# 자동 테스트 실행 (backend\tests)
+pytest==8.3.5
+# 테스트에서 API 호출 (FastAPI TestClient)
+httpx==0.28.1

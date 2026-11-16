@@ -557,17 +557,18 @@ a.card:hover { border-color: var(--c-primary-line); }
 
 /* 탭 (링크형) */
 .tabs { display: flex; flex-wrap: wrap; gap: 6px; }
-.tabs a,
-.tabs span {
+/* 바로 아래 요소만 (탭 안의 숫자 <span> 은 꾸미지 않음) */
+.tabs > a,
+.tabs > span {
   display: inline-flex; align-items: center;
   min-height: 36px; padding: 0 14px;
   border-radius: 999px;
   background: var(--c-surface-muted); color: var(--c-text-sub);
   font-size: 14px; font-weight: 600; text-decoration: none;
 }
-.tabs a[aria-current="page"],
-.tabs a[aria-selected="true"] { background: var(--c-primary); color: #fff; }
-.tabs span { cursor: default; }
+.tabs > a[aria-current="page"],
+.tabs > a[aria-selected="true"] { background: var(--c-primary); color: #fff; }
+.tabs > span { cursor: default; }
 
 /* 접기·펼치기 */
 .disclosure > summary {
@@ -661,6 +662,9 @@ html:not(.js) .modal:target,
 
 /* ---------- 8-1. JS 공통 요소 (common.js) ---------- */
 body.has-modal { overflow: hidden; }
+
+/* 로그인이 필요한 화면: 로그인 확인 전에는 내용을 숨김 (api.js 가 .auth-ok 를 붙임) */
+html.js body[data-auth-required]:not(.auth-ok) .app { visibility: hidden; }
 
 /* 알림 */
 .toast {
