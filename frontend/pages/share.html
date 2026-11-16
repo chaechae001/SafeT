@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>결과 공유 · Safe-T</title>
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/share.css">
+</head>
+<body>
+  <!-- share.html · 화면설계서 v3.19 통합본
+       화면(view) 목록 (처음 화면 = .is-active)
+       - #v-share : SHARE 결과 공유
+       전환: jQuery로 .view 의 .is-active 를 바꿉니다. JS 없이 확인할 때는 주소 끝에 #view-id 를 붙입니다. -->
+  <div class="app">
+    <header class="topbar">
+      <a class="logo" href="home.html">Safe-T</a>
+      <details class="menu">
+        <summary aria-label="메뉴">≡</summary>
+        <nav class="menu__list" aria-label="주 메뉴">
+          <a href="home.html">내 평가표</a>
+          <a href="workplace.html">사업장 관리</a>
+          <a href="trash.html">휴지통</a>
+          <a href="login.html">로그아웃</a>
+        </nav>
+      </details>
+    </header>
+
+    <main class="views">
+      <section class="view share is-active" id="v-share" aria-label="SHARE 결과 공유">
+        <!-- SHARE 결과 공유 · 화면설계서 30쪽
+             테이블: eval_share(share_token, expire_dt=발급 후 7일, stop_yn, download_cnt) · eval_report
+             - 참여자 전원 서명 후에만 열림. 평가표당 링크 1개(참여자별 아님)
+             - 공유 중지·재발급 시 이전 링크는 바로 막힘
+             - 앱 안에서 메신저로 직접 보내지 않음(링크 복사·QR) -->
+        <div class="page">
+          <div class="stack">
+            <h1 class="page-title">결과 공유</h1>
+            <p class="eyebrow">11월 주방 위험성평가 · 확정 · 전체 위험 7건</p>
+          </div>
+
+          <p class="page-desc">링크나 QR을 카카오톡 등 메신저로 보내면, 받은 사람이 평가표 PDF를 내려받을 수 있어요.</p>
+
+          <section class="card share__link" aria-labelledby="link-title">
+            <h2 class="section-title" id="link-title">공유 링크</h2>
+            <label class="sr-only" for="share_url">공유 링크 주소</label>
+            <input class="input" id="share_url" readonly value="safe-t.app/s/7Kq2Xw">
+            <p class="hint" id="share-expire">2026.11.21까지 유효 (7일) · 로그인 없이 열림</p>
+            <div class="btn-row">
+              <button class="btn btn--primary" id="copy-link" type="button">링크 복사</button>
+              <a class="btn" href="#qr">QR 보기</a>
+            </div>
+          </section>
+
+          <a class="link small" href="#reissue">공유 중지 · 링크 재발급</a>
+        </div>
+        <div class="bottom-bar">
+          <a class="btn" href="home.html">평가표로 돌아가기</a>
+        </div>
+        <!-- QR 크게 보기 -->
+        <div class="modal" id="qr" role="dialog" aria-modal="true" aria-labelledby="qr-title">
+          <div class="modal__box">
+            <div class="modal__head">
+              <h2 class="modal__title" id="qr-title">QR 코드</h2>
+              <a class="modal__close" href="#v-share" aria-label="닫기">X</a>
+            </div>
+            <div class="modal__body">
+              <div class="qr-box" role="img" aria-label="공유 링크 QR 코드 (자리 표시)">QR</div>
+              <p class="hint center">현장에서 휴대폰 카메라로 찍으면 PDF 다운로드 화면이 열려요.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 공유 중지·재발급 확인 -->
+        <div class="modal" id="reissue" role="alertdialog" aria-modal="true" aria-labelledby="reissue-title">
+          <div class="modal__box">
+            <div class="modal__head">
+              <h2 class="modal__title" id="reissue-title">공유를 중지할까요?</h2>
+              <a class="modal__close" href="#v-share" aria-label="닫기">X</a>
+            </div>
+            <div class="modal__body">
+              <p>지금 링크는 바로 열리지 않게 돼요. 다시 공유하려면 새 링크를 발급해요.</p>
+            </div>
+            <div class="modal__foot">
+              <button class="btn" id="share-stop" type="button">공유 중지</button>
+              <button class="btn btn--primary" id="share-reissue" type="button">새 링크 발급</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <p class="disclaimer">화면·입력 예시이며 실제 현장 판정이 아닙니다.</p>
+  </div>
+
+  <script src="../js/vendor/jquery-3.7.1.min.js"></script>
+  <script src="../js/common.js"></script>
+  <script src="../js/share.js"></script>
+</body>
+</html>

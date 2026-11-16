@@ -1,0 +1,15 @@
+# Safe-T 프런트엔드 작업용 Python 패키지
+# 설치: python -m pip install -r frontend/requirements.txt
+#
+# 화면(HTML·CSS)을 열어 보는 데는 설치가 필요 없습니다.
+#   - 로컬 서버: python -m http.server 8000 --directory frontend  (Python 표준 라이브러리)
+#   - 브라우저: Chrome 또는 Edge
+# jQuery는 pip 패키지가 아닙니다. JS 작업을 시작할 때 frontend/js/ 에 파일로 두거나 CDN으로 불러옵니다.
+#
+# 아래 패키지는 dev_docs/ 의 설계 문서를 읽어 화면을 만들 때만 씁니다(서비스 실행에는 불필요).
+
+# 화면설계서 PDF(dev_docs/*.pdf)의 글자 추출과 쪽 이미지 변환
+pymupdf==2.1
+
+# 테이블 정의서·코드 정의서 엑셀(dev_docs/*.xlsx) 시트 읽기
+openpyxl==3.1.5

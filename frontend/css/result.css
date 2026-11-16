@@ -1,0 +1,9 @@
+/* 확정된 평가표 보기 (S08) */
+.result .result-item { gap: 6px; }
+.result .result-item__row {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: 8px;
+  font-size: 14px;
+}
+.result .result-item__row b { color: var(--c-text-sub); font-weight: 600; }

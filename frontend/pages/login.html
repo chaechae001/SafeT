@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>로그인 · Safe-T</title>
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/auth.css">
+</head>
+<body>
+  <!-- login.html · 화면설계서 v3.19 통합본
+       화면(view) 목록 (처음 화면 = .is-active)
+       - #v-login : A01 로그인
+       - #v-signup : A02 회원가입
+       전환: jQuery로 .view 의 .is-active 를 바꿉니다. JS 없이 확인할 때는 주소 끝에 #view-id 를 붙입니다. -->
+  <div class="app">
+    <header class="topbar">
+      <span class="logo">Safe-T</span>
+    </header>
+
+    <main class="views">
+      <section class="view auth is-active" id="v-login" aria-label="A01 로그인">
+        <!-- A01 로그인 · 화면설계서 07쪽 -->
+        <div class="page">
+          <h1 class="page-title">로그인</h1>
+
+          <form class="auth__form" action="home.html" method="get" novalidate>
+            <div class="field">
+              <label class="label" for="login-email">이메일</label>
+              <input class="input" id="login-email" name="email" type="email" maxlength="50"
+                     autocomplete="email" placeholder="owner@example.com" required>
+            </div>
+
+            <div class="field">
+              <label class="label" for="login-pw">비밀번호</label>
+              <input class="input" id="login-pw" name="pw" type="password"
+                     autocomplete="current-password" placeholder="비밀번호 입력" required>
+              <!-- 오류는 입력칸 아래에 표시 (common.js) -->
+            </div>
+
+            <p class="auth__links small muted">
+              계정이 없나요?
+              <a class="link" href="#v-signup">회원가입</a>
+              ·
+              <a class="link" href="#v-login" id="pw-reset">비밀번호 재설정</a>
+            </p>
+
+            <button class="btn btn--primary btn--block" type="submit">로그인</button>
+          </form>
+        </div>
+      </section>
+      <section class="view auth" id="v-signup" aria-label="A02 회원가입">
+        <!-- A02 이메일 인증 회원가입 · 화면설계서 07쪽
+             순서: 이메일 → 인증 코드 → 비밀번호 → 이름
+             업종·사업장명은 가입 직후 사업장 등록(B02)에서 받음 -->
+        <div class="page">
+          <h1 class="page-title">회원가입</h1>
+
+          <form class="auth__form" id="signup-form" action="workplace.html?first=1#v-new" method="get" novalidate>
+            <div class="field">
+              <label class="label" for="signup-email">이메일<span class="req" aria-hidden="true">*</span></label>
+              <div class="input-row">
+                <input class="input" id="signup-email" name="email" type="email" maxlength="50"
+                       autocomplete="email" placeholder="owner@example.com" required>
+                <button class="btn" id="auth-request" type="button">인증 요청</button>
+              </div>
+              <!-- 이미 가입한 이메일은 인증 요청 단계에서 안내 (login.js) -->
+            </div>
+
+            <div class="field">
+              <label class="label" for="auth_code">인증 코드<span class="req" aria-hidden="true">*</span></label>
+              <input class="input" id="auth_code" name="auth_code" inputmode="numeric"
+                     maxlength="6" autocomplete="one-time-code" placeholder="6자리 코드" required>
+            </div>
+
+            <div class="field">
+              <label class="label" for="signup-pw">비밀번호<span class="req" aria-hidden="true">*</span></label>
+              <input class="input" id="signup-pw" name="pw" type="password" minlength="8"
+                     autocomplete="new-password" placeholder="8자 이상" required>
+            </div>
+
+            <div class="field">
+              <label class="label" for="name">이름<span class="req" aria-hidden="true">*</span></label>
+              <input class="input" id="name" name="name" maxlength="50"
+                     autocomplete="name" placeholder="김하늘" required>
+            </div>
+
+            <!-- 개인정보 안내·필수 동의는 실제 정책 문서와 연결 (문서 확정 후) -->
+            <label class="check">
+              <input type="checkbox" name="agree" required>
+              <span class="check__text small">개인정보 수집·이용에 동의합니다. (필수)</span>
+            </label>
+
+            <p class="hint">가입을 마치면 사업장을 등록해요.</p>
+
+            <button class="btn btn--primary btn--block" type="submit">가입하기</button>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <p class="disclaimer">화면·입력 예시이며 실제 현장 판정이 아닙니다.</p>
+  </div>
+
+  <script src="../js/vendor/jquery-3.7.1.min.js"></script>
+  <script src="../js/common.js"></script>
+  <script src="../js/login.js"></script>
+</body>
+</html>

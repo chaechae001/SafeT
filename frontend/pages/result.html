@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>확정된 평가표 · Safe-T</title>
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/result.css">
+  <link rel="stylesheet" href="../css/risk.css">
+</head>
+<body>
+  <!-- result.html · 화면설계서 v3.19 통합본
+       화면(view) 목록 (처음 화면 = .is-active)
+       - #v-list : S08 확정된 평가표
+       - #v-detail : S08-D 위험 상세(읽기 전용)
+       전환: jQuery로 .view 의 .is-active 를 바꿉니다. JS 없이 확인할 때는 주소 끝에 #view-id 를 붙입니다. -->
+  <div class="app">
+    <header class="topbar">
+      <a class="logo" href="home.html">Safe-T</a>
+      <details class="menu">
+        <summary aria-label="메뉴">≡</summary>
+        <nav class="menu__list" aria-label="주 메뉴">
+          <a href="home.html">내 평가표</a>
+          <a href="workplace.html">사업장 관리</a>
+          <a href="trash.html">휴지통</a>
+          <a href="login.html">로그아웃</a>
+        </nav>
+      </details>
+    </header>
+
+    <main class="views">
+      <section class="view result is-active" id="v-list" aria-label="S08 확정된 평가표">
+        <!-- S08 확정된 평가표 보기 · 읽기 전용 · 화면설계서 27쪽
+             테이블: eval_mst(eval_status='C', confirm_dt) · eval_dtl · eval_action(check_yn='Y'만)
+             - 체크박스·입력칸·편집 버튼 없음. 수정 불가·버전 없음·삭제 불가
+             - 서명·공유는 내 평가표 카드 버튼에서 (여기에는 두지 않음)
+             - 하단: 내 평가표로 / 엑셀 다운로드(지점장 수정용) -->
+        <div class="page">
+          <div class="stack">
+            <div class="row row--wrap">
+              <h1 class="page-title">11월 주방 위험성평가</h1>
+              <span class="tag status" data-status="C">확정</span>
+            </div>
+            <dl class="kv">
+              <dt>사업장</dt><dd>온기치킨 성수점 · 치킨</dd>
+              <dt>평가일</dt><dd>2026.11.14</dd>
+              <dt>작성자</dt><dd>김하늘</dd>
+              <dt>위험 항목</dt><dd>7건</dd>
+              <dt>확정일</dt><dd>2026.11.14</dd>
+            </dl>
+          </div>
+
+          <ol class="card-list">
+            <li>
+              <a class="card result-item" href="#v-detail">
+                <span class="card__head">
+                  <span class="card__title">01 튀김 조리</span>
+                  <span class="signal" data-signal="R" role="img" aria-label="위험 신호 즉시 개선"><i></i><i></i><i></i></span>
+                </span>
+                <span class="result-item__row"><b>현재 조치</b>긴 집게 사용</span>
+                <span class="result-item__row"><b>개선대책</b>재료 물기 제거 · 보호구 착용</span>
+                <span class="result-item__row"><b>담당·예정</b>김하늘 · 11.21</span>
+              </a>
+            </li>
+            <li>
+              <a class="card result-item" href="#v-detail">
+                <span class="card__head">
+                  <span class="card__title">02 바닥 이동</span>
+                  <span class="signal" data-signal="Y" role="img" aria-label="위험 신호 개선 필요"><i></i><i></i><i></i></span>
+                </span>
+                <span class="result-item__row"><b>현재 조치</b>현재 조치 없음</span>
+                <span class="result-item__row"><b>개선대책</b>미끄럼 방지 매트 설치</span>
+                <span class="result-item__row"><b>담당·예정</b>박지수 · 11.18</span>
+              </a>
+            </li>
+            <li>
+              <a class="card result-item" href="#v-detail">
+                <span class="card__head">
+                  <span class="card__title">03 칼 보관</span>
+                  <span class="signal" data-signal="G" role="img" aria-label="위험 신호 유지 관리"><i></i><i></i><i></i></span>
+                </span>
+                <span class="result-item__row"><b>현재 조치</b>칼집·칼꽂이 보관</span>
+                <span class="result-item__row"><b>개선대책</b>현재 상태 유지</span>
+              </a>
+            </li>
+          </ol>
+          <p class="hint center">아래로 스크롤하면 4~7번이 이어져요 · 읽기 전용</p>
+        </div>
+        <div class="bottom-bar">
+          <a class="btn" href="home.html">내 평가표로</a>
+          <button class="btn btn--primary" type="button" data-todo="엑셀 다운로드는 API 연결 후 동작해요.">엑셀 다운로드</button>
+        </div>
+      </section>
+      <section class="view risk" id="v-detail" aria-label="S08-D 위험 상세(읽기 전용)">
+        <!-- S08-D 확정된 평가표 · 위험 상세 (읽기 전용) · 화면설계서 28쪽
+             테이블: eval_dtl(reason, risk_reason, law, law_summary, law_dtl, after_risk_grade) · eval_action(check_yn='Y')
+             - 판단 이유·법령을 펼친 상태로 표시. 법령 원문은 새 창, 검증되지 않은 조항은 표시하지 않음
+             - 체크해서 확정한 조치·대책만 나열 (고르지 않은 후보는 숨김)
+             - 이전·다음·목록 버튼만 (체크박스·입력칸·저장 없음) -->
+        <div class="page">
+          <div class="risk__nav-top">
+            <span class="eyebrow">11월 주방 위험성평가 · 위험 1 / 7</span>
+            <span class="tag status" data-status="C">확정</span>
+          </div>
+
+          <h1 class="page-title">튀김 조리</h1>
+
+          <!-- 위쪽 · 위험 정보 (모두 펼침) -->
+          <section class="risk-box" aria-label="위험 정보">
+            <div class="risk-box__head">
+              <span class="signal-with-label">
+                <span class="signal" data-signal="R" aria-hidden="true"><i></i><i></i><i></i></span>
+                <span class="signal-label" data-signal="R"><span class="sr-only">위험 신호 </span>즉시 개선</span>
+              </span>
+              <span class="tag">화상</span>
+            </div>
+            <p class="risk-box__title">고온 기름 튐에 의한 화상</p>
+            <p class="risk-box__cause"><b>원인</b>물기 있는 재료 투입 시 기름이 튐 · 바스켓을 꺼낼 때 기름이 손에 떨어짐</p>
+
+            <div class="stack">
+              <span class="section-title">판단 이유 <span class="src src--ai">AI 판단</span></span>
+              <p class="small">170℃ 이상의 기름을 매일 반복 사용하고, 현재 조치가 일부만 있어 화상 가능성과 정도가 높다고 판단했어요.</p>
+            </div>
+
+            <div class="stack">
+              <span class="section-title">관련 법령</span>
+              <div class="law">
+                <span class="law__name">산업안전보건기준에 관한 규칙 [조항명]</span>
+                <span>고온 물질 취급 시 보호구 지급·착용 요지</span>
+                <a class="link small" href="https://www.law.go.kr/" target="_blank" rel="noopener">원문 보기<span class="sr-only"> (새 창)</span></a>
+              </div>
+            </div>
+          </section>
+
+          <!-- 아래쪽 · 체크한 내용 -->
+          <section class="section" aria-labelledby="curr-title">
+            <h2 class="section-title" id="curr-title">현재 안전조치</h2>
+            <ul class="readonly-list">
+              <li>긴 집게를 사용한다</li>
+            </ul>
+          </section>
+
+          <section class="section" aria-labelledby="plan-title">
+            <h2 class="section-title" id="plan-title">개선대책 계획</h2>
+            <ul class="readonly-list">
+              <li>투입 전 재료 물기 제거</li>
+              <li>적합한 손·팔 보호구 착용</li>
+            </ul>
+          </section>
+
+          <section class="section" aria-labelledby="owner-title">
+            <h2 class="section-title" id="owner-title">담당자 · 예정일</h2>
+            <p class="strong">김하늘 · 2026.11.21</p>
+          </section>
+
+          <section class="section" aria-labelledby="expect-title">
+            <h2 class="section-title" id="expect-title">개선 후 예상 신호 <span class="src src--ai">AI 판단 · 계획 단계 예상</span></h2>
+            <div class="signal-change">
+              <span class="signal" data-signal="R" role="img" aria-label="현재 즉시 개선"><i></i><i></i><i></i></span>
+              <span aria-hidden="true">→</span>
+              <span class="signal-with-label">
+                <span class="signal" data-signal="Y" aria-hidden="true"><i></i><i></i><i></i></span>
+                <span class="signal-label" data-signal="Y"><span class="sr-only">예상 신호 </span>개선 필요</span>
+              </span>
+            </div>
+          </section>
+
+          <p class="notice notice--muted small">조치 결과: 아직 기록 전 · 후속업무에서 기록</p>
+        </div>
+        <div class="bottom-bar">
+          <a class="btn" href="#v-detail" aria-disabled="true">이전 항목</a>
+          <a class="btn" href="#v-list">목록</a>
+          <button class="btn" type="button" data-todo="다른 항목 이동은 API 연결 후 동작해요.">다음 항목</button>
+        </div>
+      </section>
+    </main>
+
+    <p class="disclaimer">화면·입력 예시이며 실제 현장 판정이 아닙니다.</p>
+  </div>
+
+  <script src="../js/vendor/jquery-3.7.1.min.js"></script>
+  <script src="../js/common.js"></script>
+</body>
+</html>

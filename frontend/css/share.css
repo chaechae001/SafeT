@@ -1,0 +1,30 @@
+/* 결과 공유 · 받는 사람 화면 (SHARE) */
+.share .share__link { gap: 10px; }
+.share .share__file { flex-direction: row; align-items: center; gap: 12px; }
+.share .share__file-icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 56px;
+  border-radius: 6px;
+  background: var(--c-danger-bg);
+  color: var(--c-danger);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+/* QR 자리 표시 */
+#qr .qr-box {
+  width: min(240px, 100%);
+  aspect-ratio: 1;
+  margin: 0 auto;
+  display: grid;
+  place-items: center;
+  border: 8px solid var(--c-text);
+  border-radius: var(--radius-sm);
+  background:
+    repeating-linear-gradient(90deg, var(--c-text) 0 10px, transparent 10px 20px),
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.7) 0 10px, transparent 10px 20px);
+  color: transparent;
+}

@@ -1,0 +1,13 @@
+/* 참여자 서명 (SIGN ① · ②) */
+.sign .signer--done { opacity: 0.55; background: var(--c-surface-muted); }
+.sign .sign-pad {
+  display: grid;
+  place-items: center;
+  min-height: 180px;
+  border: 2px dashed var(--c-line-strong);
+  border-radius: var(--radius);
+  background: var(--c-surface);
+  color: var(--c-text-faint);
+  touch-action: none;
+}
+.sign .sign-pad__tools { justify-content: flex-end; }

@@ -1,0 +1,77 @@
+/* 현장입력 (S02 · S02-G) */
+.field-page .help-btn,
+#help .help-btn {
+  display: grid;
+  place-items: center;
+  width: var(--touch);
+  height: var(--touch);
+  border-radius: 50%;
+  border: 1px solid var(--c-line-strong);
+  background: var(--c-surface-muted);
+  color: var(--c-text);
+  font-weight: 800;
+  text-decoration: none;
+}
+
+/* 사진: 한 줄 2장, 사진 아래 장소 입력칸 */
+.field-page .photo-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+.field-page .photo { position: relative; display: flex; flex-direction: column; gap: 6px; }
+.field-page .photo__img,
+#help .photo__img {
+  aspect-ratio: 4 / 3;
+  max-width: 100%;
+  border-radius: var(--radius-sm);
+  background:
+    linear-gradient(135deg, rgba(31, 90, 71, 0.08) 25%, transparent 25%) 0 0 / 16px 16px,
+    var(--c-surface-muted);
+  display: grid;
+  place-items: center;
+  color: var(--c-text-faint);
+  font-size: 13px;
+}
+.field-page img.photo__img { width: 100%; object-fit: cover; }
+.field-page .photo__remove {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(20, 28, 24, 0.6);
+  color: #fff;
+  cursor: pointer;
+}
+
+/* 음성 카드 */
+.field-page .voice-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid var(--c-line);
+  border-radius: var(--radius);
+}
+.field-page .voice-card__remove {
+  width: var(--touch);
+  height: var(--touch);
+  border: 0;
+  background: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+.field-page .voice-card__text { min-height: 60px; }
+
+.field-page .input-methods { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.field-page .input-methods label.btn { position: relative; }
+
+/* 도움말 창 */
+#help .help-samples { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+#help figcaption { margin-top: 4px; font-size: 13px; color: var(--c-text-sub); text-align: center; }
+#help .help-steps { display: flex; flex-direction: column; gap: 4px; font-weight: 600; }
+#help .voice-states { display: flex; flex-direction: column; gap: 8px; font-size: 14px; }
+#help .voice-states li { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
