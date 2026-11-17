@@ -1,7 +1,7 @@
 /* 확정 문서 조회: 서버 저장값만 표시, 편집 입력 없음. */
 (function($,S){
   'use strict';
-  var labels={R:'상 · 우선 개선',Y:'중 · 개선 필요',G:'하 · 유지 관리',N:'판단 필요'}, doc, index=0;
+  var labels={R:'상 · 개선 필요',Y:'중 · 개선 필요',G:'하 · 유지 관리',N:'판단 필요'}, doc, index=0;
   function signal(value){return $('<span class="signal" role="img"><i></i><i></i><i></i></span>').attr({'data-signal':value,'aria-label':'위험 신호 '+labels[value]});}
   function selected(a){return a.filter(function(x){return x.checked;}).map(function(x){return x.text;}).join(' · ');}
   function para(parent,label,value){$('<p>').append($('<b>').text(label+' ')).append(document.createTextNode(value || '미입력')).appendTo(parent);}
@@ -18,7 +18,7 @@
     var box=$('<section class="risk-box">').appendTo(page);$('<div class="risk-box__head">').append(signal(it.signal),$('<span>').text(labels[it.signal])).appendTo(box);
     if(it.type)$('<span class="tag">').text(it.type).appendTo(box);
     para(box,'위험요인',it.title);para(box,'원인',it.cause);para(box,'판단 이유',it.reason);
-    if(S.riskUI)S.riskUI.detail($('<section class="section">').appendTo(page),it,doc);
+    S.riskUI.detail($('<section class="section">').appendTo(page),it);
     if(it.law){para(box,'법령',it.law.name);para(box,'요지',it.law.summary);}
     if(it.none)para(page,'현재 조치','현재 조치 없음');else checkedList(page,'현재 안전조치',it.curr);
     if(it.keep==='Y')para(page,'개선대책','현재 상태 유지');else checkedList(page,'개선대책 계획',it.plans);
@@ -45,11 +45,11 @@
         $('<dt>').text(pair[0]).appendTo(meta);$('<dd>').text(pair[1]).appendTo(meta);
       });
       $('<p class="hint">확정된 평가표 · 읽기 전용 · 수정할 수 없어요.</p>').appendTo(page);
+      S.riskUI.summary($('<section class="section">').appendTo(page),r);
       var list=$('<ol class="card-list">').appendTo(page);
       r.items.forEach(function(it,i){
         var card=$('<a class="card result-item" href="#v-detail">').on('click',function(){index=i;detail();});
         card.append($('<span class="card__head">').append($('<span class="card__title">').text((i+1)+' '+it.job),signal(it.signal)));
-        if(it.risk && S.riskUI)$('<span class="tag">').text(S.riskUI.title(it.risk.result,it.risk.stale)).appendTo(card);
         para(card,'위험요인',it.title);para(card,'현재 조치',it.none?'현재 조치 없음':selected(it.curr));
         para(card,'개선대책',it.keep==='Y'?'현재 상태 유지':selected(it.plans));
         if(it.owner)para(card,'담당·예정',it.owner.name+' · '+it.due);

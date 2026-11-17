@@ -1,6 +1,6 @@
 # 백엔드
 
-목표 환경은 Python 3.11·FastAPI·MariaDB입니다. 현재 인증·평가표 저장/확정 API와 음식점 위험성평가 v2 연결이 구현되어 있습니다. 실행·환경변수·추가 SQL·검증은 [음식점 v2 연결 안내](../docs/risk/restaurant-risk-v2.md)를 먼저 확인하세요. 실제 Cloud 주소·모델명 설정과 실추론 검증은 남아 있습니다. 아래 날짜별 설명에는 이전 구현 단계의 기록이 포함되어 있습니다.
+목표 환경은 Python 3.11·FastAPI·MariaDB입니다. 현재는 폴더와 안내만 있으며 실행할 API 서버·DB 연결 코드는 없습니다.
 
 | 경로 | 역할 |
 |---|---|
@@ -325,3 +325,25 @@ backend\.venv\Scripts\python -m pytest backend/unit_tests/test_report.py -q
   휴대폰으로 QR을 찍어 보려면 `SHARE_BASE_URL`을 PC 내부 IP 주소로 바꾸고, 화면·API 서버도 그 주소로 열려 있어야 합니다.
 - 링크를 열거나 내려받은 것은 결과 확인·서명으로 기록하지 않습니다.
 - 코드: `routers/share.py`, `services/share.py`. 테스트: `tests/test_share.py`(DB 필요).
+
+## DB 기준 평가
+
+`python backend/run_local.py --catalog --migrate`로 실행합니다. 현재 조치와 개선대책 선택을 같은 함수로 계산하며 개선 후 값은 예상 결과입니다.
+
+
+## AI 입력 해석과 DB 연결
+
+`python backend/run_local.py --risk --migrate`로 기존 개발 DB에 AI 연결 필드를 추가하고 실행한다. 기존 `.env`의 DB가 개인 개발용인지 먼저 확인한다. `--check`를 붙이면 설정만 검사한다.
+`SAFET_ASSESSMENT_MODE=catalog_ai_v1`, `SAFET_AI_BASE_URL`(`/chat/completions` 앞 주소), `SAFET_AI_MODEL`, `SAFET_AI_API_KEY`를 서버 환경에 설정한다. 실제 주소·멀티모달 모델은 팀 합의 후 지정한다. `SAFET_AI_MAX_TOKENS`의 기본은 12000이다.
+사진 콘텐츠·텍스트·브라우저 전사문으로 DB ID를 찾고, 등급은 기존 공통 함수로 계산한다. 별도 등급 엔진은 없다. 모델 오류·미확인·DB 미연결 관찰은 안전으로 처리하지 않는다.
+
+검사는 Python 3.11과 별도 `*_test` MariaDB·격리 환경변수를 준비한 뒤 실행한다. 운영 DB·기존 개발 DB를 테스트 DB로 덮어쓰지 않는다.
+
+```bash
+python -m pytest backend/tests backend/unit_tests -q
+python backend/unit_tests/browser_catalog_ai_smoke.py
+python backend/unit_tests/browser_catalog_smoke.py
+```
+
+브라우저 검사는 Playwright와 Edge가 필요하며 시작 전에 `DB_NAME`을 전용 `*_test` 이름으로 명시한다. API 8020·정적 서버 8090이 비어 있어야 한다. AI 브라우저 검사는 합성 모델 응답이며 실제 Cloud를 호출하지 않는다.
+[입출력 계약](../contracts/catalog_ai/README.md) · [저장·화면 연결](../docs/implementation/catalog-ai.md).

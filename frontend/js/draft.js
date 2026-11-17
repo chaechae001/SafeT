@@ -7,7 +7,7 @@
 (function ($, SafeT) {
   'use strict';
 
-  var SIGNAL_TEXT = { R: '상 · 우선 개선', Y: '중 · 개선 필요', G: '하 · 유지 관리', N: '판단 필요' };
+  var SIGNAL_TEXT = { R: '상 · 개선 필요', Y: '중 · 개선 필요', G: '하 · 유지 관리', N: '판단 필요' };
 
   var PEOPLE = [];
 
@@ -25,7 +25,7 @@
     return $.extend({
       job: '', factor: '', type: '', signal: 'N', title: '', desc: '', cause: '', reason: '', law: null,
       curr: [], none: false, plans: [], keep: null, owner: null, due: '',
-      judged: true          // eval_dtl.after_judge_yn: 대책이 바뀌면 false → 저장 때 AI 재판단
+      judged: true          // eval_dtl.after_judge_yn: 대책이 바뀌면 false → 저장 때 예상 위험도 재계산
     }, o);
   }
 
@@ -38,18 +38,25 @@
     items = doc.items.map(makeItem);
     PEOPLE = [doc.eval_writer].concat(doc.members).filter(function(n,i,a){return a.indexOf(n)===i;}).map(function(n){return {name:n,role:'참여자'};});
     $('#v-list h1').first().text(doc.eval_nm);
-    $('#d-reason-box .src').text(doc.risk_assessment?'입력 근거·고정 기준':(doc.generation_source==='demo'?'시험용 고정 신호':'판단 대기'));
-    $('.disclaimer').text(doc.risk_assessment?'음식점 3단계 운영 기준 · 후보·잠정 판정은 추가 확인이 필요합니다. 최종 확인은 현장 담당자가 합니다.':(doc.generation_source==='demo' ? '개발 시험용 합성 평가표 · 실제 현장 판정에 사용하지 마세요.' : '실제 위험 판단 모델 미연결 · 판단 필요 항목은 확정할 수 없습니다.'));
+    $('#d-reason-box .src').text(doc.generation_source==='demo'?'시험용 고정 신호':'판단 대기');
+    $('.disclaimer').text(doc.generation_source==='demo' ? '개발 시험용 합성 평가표 · 실제 현장 판정에 사용하지 마세요.' : '실제 위험 판단 모델 미연결 · 판단 필요 항목은 확정할 수 없습니다.');
+    if(doc.generation_source==='catalog_v1'){ $('.disclaimer').text('선택한 조치를 기준으로 계산한 위험도입니다.');$('#d-reason-box .src').text('DB 기준'); }
+    if(doc.risk_assessment){
+      $('.disclaimer').text('입력 근거와 DB 기준을 연결한 평가표입니다. 미확인은 판단 필요로 남기며 최종 확인은 현장 담당자가 합니다.');
+      $('#d-reason-box .src').text('DB 기준 · 입력 근거');
+    }
     if(!$('#risk-question-panel').length)$('<section class="section" id="risk-question-panel" aria-live="polite">').insertBefore('#need-box');
     SafeT.riskUI.summary($('#risk-question-panel'),doc,submitRiskAnswers);
     renderList();
   }
-  function submitRiskAnswers(answers,additional) {
+  function submitRiskAnswers(answers,additional){
     if(busy || !evaluation)return;
     function run(){
+      var active=evaluation.risk_assessment.questions.map(function(q){return q.id;});
+      answers=answers.filter(function(a){return active.indexOf(a.question_id)!==-1;});
       busy=true;SafeT.loading(true);
       SafeT.api.post('/evals/'+evalNo+'/risk-answers',{revision:evaluation.revision,answers:answers,additional_text:additional})
-        .done(function(doc){SafeT.riskUI.clear();applyDocument(doc);dirty=false;SafeT.go('v-list');SafeT.toast('답변을 반영해 판정과 질문을 갱신했어요.');})
+        .done(function(doc){SafeT.riskUI.clear();applyDocument(doc);dirty=false;SafeT.go('v-list');SafeT.toast('답변과 입력 근거를 반영했어요. 현재 조치를 확인해 주세요.');})
         .fail(apiError).always(function(){busy=false;SafeT.loading(false);});
     }
     if(dirty)saveDraft('v-list').done(run);else run();
@@ -77,8 +84,6 @@
   /** 빠진 값 목록 (확정 검사 순서): current · signal · plan · owner */
   function missing(it) {
     var m = [];
-    if(it.risk && !it.risk.stale && !evaluation.risk_needs_reassessment && ['closed','not_applicable'].indexOf(it.risk.result.status)!==-1)return m;
-    if(it.risk && (it.risk.stale || evaluation.risk_needs_reassessment || it.risk.result.status!=='confirmed'))m.push('signal');
     if (!it.none && !checkedCount(it.curr)) m.push('current');
     if (it.signal === 'N') m.push('signal');
     if (it.signal === 'G' && !it.keep) m.push('plan');
@@ -139,7 +144,6 @@
       $('<span class="card__title">').text(no(i) + ' ' + it.job).appendTo($head);
       signalEl(it.signal).appendTo($head);
       $('<span class="card__meta">').text(it.factor + ' · ' + it.type).appendTo($a);
-      if(it.risk)$('<span class="tag">').text(SafeT.riskUI.title(it.risk.result,it.risk.stale || evaluation.risk_needs_reassessment)).appendTo($a);
       var $st = $('<span class="risk-card__state">').appendTo($a);
       if (need) $('<span class="tag tag--warn">입력 필요</span>').appendTo($st);
       $st.append(document.createTextNode(' ' + stateText(it)));
@@ -262,15 +266,16 @@
     $('#d-cause-box').prop('hidden', !need || !it.cause);
     $('#d-reason').text(it.reason || '');
     $('#d-reason-box').prop('hidden', need || !it.reason);
-    if(!$('#risk-evidence-panel').length)$('<section class="section" id="risk-evidence-panel">').insertAfter('#d-reason-box');
-    SafeT.riskUI.detail($('#risk-evidence-panel'),it,evaluation);
     if (it.law) {
       $('#d-law-name').text(it.law.name);
       $('#d-law-summary').text(it.law.summary);
       $('#d-law-link').attr('href', it.law.url);
     }
     $('#d-law-box').prop('hidden', need || !it.law);
-    $('#d-judge-box').prop('hidden', !isN && !it.risk);
+    $('#d-judge-box').prop('hidden', !isN);
+    if(!$('#risk-evidence-panel').length)$('<section class="section" id="risk-evidence-panel">').insertAfter('#d-reason-box');
+    SafeT.riskUI.detail($('#risk-evidence-panel'),it);
+    if(it.catalog)$('#d-judge-box p').text(it.catalog.ai?'미확인 정보는 목록의 추가 확인에서 답변할 수 있어요. 현재 조치를 선택한 뒤 저장해 주세요.':'현재 조치를 선택하거나 현재 조치 없음을 체크한 뒤 저장해 주세요.');
 
     renderChecks($('#d-curr-list'), it.curr, 'curr', it);
 
@@ -301,7 +306,7 @@
   // 확정 시 빠진 값: 해당 필드로 이동해 그 자리에서 안내 (결정 13)
   var MISSING_MSG = {
     current: "현재 안전조치를 선택하거나 '현재 조치 없음'을 체크해 주세요.",
-    signal: 'AI 판단이 필요한 항목이에요. 다시 판단한 뒤 확정할 수 있어요.',
+    signal: '현재 조치를 선택하거나 조치 없음을 체크한 뒤 저장해 주세요.',
     plan: '개선대책을 1개 이상 선택해 주세요.',
     owner: '담당자·예정일을 일괄 지정에서 넣어 주세요.'
   };
@@ -525,9 +530,7 @@
     // 확인 창이 열릴 때 필수값 검사 (주소로 열어도 동일). 빠진 값이 있으면 창 대신 해당 필드로
     $('#confirm').on('safet:open', function () {
       if(!evaluation || !items.length || busy){SafeT.closeModal(true);return;}
-      if(evaluation.risk_assessment && (evaluation.risk_needs_reassessment || evaluation.risk_assessment.analysis.questions.length || SafeT.riskUI.hasDraft())){
-        SafeT.closeModal(true);SafeT.go('v-list');$('#risk-question-panel textarea').first().trigger('focus');SafeT.toast('추가 질문과 변경된 내용을 반영해 다시 판단한 뒤 확정해 주세요.');return;
-      }
+      if(evaluation.risk_assessment && (evaluation.risk_assessment.questions.length || SafeT.riskUI.hasDraft())){SafeT.closeModal(true);SafeT.go('v-list');$('#risk-question-panel textarea').first().trigger('focus');SafeT.toast('미확인 정보와 답변을 반영한 뒤 확정해 주세요.');return;}
       for (var i = 0; i < items.length; i += 1) {
         var m = missing(items[i]);
         if (m.length) {
@@ -587,7 +590,7 @@
       }).then(function (yes) { if (yes) saveDraft('v-risk'); });
     });
 
-    $('#d-rejudge').on('click',function(){if(evaluation.risk_assessment){SafeT.go('v-list');$('#risk-question-panel textarea').first().trigger('focus');}else SafeT.toast('AI 연결 설정 후 새 평가표를 작성해 주세요.');});
+    $('#d-rejudge').on('click',function(){if(evaluation.generation_source==='catalog_ai_v1' && evaluation.risk_assessment.questions.length){SafeT.go('v-list');$('#risk-question-panel textarea').first().trigger('focus');return;}if(evaluation.generation_source==='catalog_v1' || evaluation.generation_source==='catalog_ai_v1'){saveDraft('v-risk');return;}SafeT.toast('실제 위험 판단 모델 연결 후 다시 판단할 수 있어요. 현재 입력은 저장할 수 있습니다.');});
 
     // 체크 변경 (현재 조치 · 현재 조치 없음 · 개선대책)
     $('#risk-form').on('change', 'input[data-kind]', function () {
@@ -611,11 +614,6 @@
         if (kind === 'plan') it.judged = false;
       }
       markDirty();
-      if(evaluation.risk_assessment && (kind==='curr' || kind==='none')){
-        evaluation.risk_needs_reassessment=true;items.forEach(function(x){x.signal='N';});
-        SafeT.riskUI.detail($('#risk-evidence-panel'),it,evaluation);
-        SafeT.riskUI.summary($('#risk-question-panel'),evaluation,submitRiskAnswers);
-      }
       $(this).closest('.section').removeClass('is-invalid').find('.js-error').remove();
       renderCounts();
     });

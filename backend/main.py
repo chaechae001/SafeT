@@ -4,7 +4,7 @@
     .venv\\Scripts\\python -m uvicorn main:app --reload --port 8001
 확인:
     http://localhost:8001/health/db   ·   API 문서 http://localhost:8001/docs
-평가표 작성 화면 및 음식점 위험성평가 v2를 연결합니다.
+기존 작성·초안·조회 화면과 같은 평가표 API를 사용합니다.
 """
 import os
 

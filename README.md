@@ -7,8 +7,9 @@
 
 - 화면: HTML·CSS·JavaScript
 - 서버: Python 3.11·FastAPI
+- Python: 3.11 고정(`.python-version`). 예외: SAM 3는 Python 3.12 이상이 필요해 별도 venv/컨테이너로 실행하고, 본체(3.11)와는 탐지 결과 JSON으로만 연결한다.
 - DB: MariaDB·ChromaDB
-- AI: Qwen 2.5-VL-3B (변경 가능)
+- AI: EXAONE 3.5 7.8B Instruct AWQ (변경 가능)
 
 ## 구조
 
@@ -24,9 +25,9 @@
 
 ## 개발
 
-평가표 작성·저장·확정 화면/API와 음식점 위험성평가 v2 연결이 구현돼 있습니다. 사진·텍스트·음성 전사 입력, 추가 질문, 고정 기준의 상/중/하 판정과 근거를 연결합니다. 실제 Cloud 모델의 주소·모델명 설정 및 추론 검증은 남아 있습니다.
-
-실행·API·검증·정책 변경 기준은 [음식점 위험성평가 v2](docs/risk/restaurant-risk-v2.md)를 참고하세요. 팀 공유 기준은 [위험성평가 기준 셋업](https://app.notion.com/p/41aa5d647ec5805384b2ff43f58dd35d)입니다.
+현재는 기본 폴더와 AI 실험 코드가 준비돼 있습니다. 화면·API·서비스용 AI 연결은 개발 예정입니다.
 
 작업별 브랜치에서 개발하고 PR 검토 후 main에 병합합니다.
 비밀정보·현장 원본·모델 가중치는 커밋하지 않습니다.
+
+- [AI 입력 해석과 DB 위험성평가 연결](docs/implementation/catalog-ai.md) · [추출 계약](contracts/catalog_ai/README.md)

@@ -1,0 +1,162 @@
+{
+  "$defs": {
+    "ActionEdit": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Id"
+        },
+        "text": {
+          "maxLength": 500,
+          "minLength": 1,
+          "title": "Text",
+          "type": "string"
+        },
+        "checked": {
+          "default": false,
+          "title": "Checked",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "text"
+      ],
+      "title": "ActionEdit",
+      "type": "object"
+    },
+    "ItemEdit": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "exclusiveMinimum": 0,
+          "title": "Id",
+          "type": "integer"
+        },
+        "curr": {
+          "items": {
+            "$ref": "#/$defs/ActionEdit"
+          },
+          "maxItems": 50,
+          "title": "Curr",
+          "type": "array"
+        },
+        "plans": {
+          "items": {
+            "$ref": "#/$defs/ActionEdit"
+          },
+          "maxItems": 50,
+          "title": "Plans",
+          "type": "array"
+        },
+        "none": {
+          "default": false,
+          "title": "None",
+          "type": "boolean"
+        },
+        "keep": {
+          "anyOf": [
+            {
+              "enum": [
+                "Y",
+                "N"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Keep"
+        },
+        "owner": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Owner"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "due": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Due"
+        }
+      },
+      "required": [
+        "id",
+        "curr",
+        "plans"
+      ],
+      "title": "ItemEdit",
+      "type": "object"
+    },
+    "Owner": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "enum": [
+            "R",
+            "D"
+          ],
+          "title": "Type",
+          "type": "string"
+        },
+        "name": {
+          "maxLength": 50,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "name"
+      ],
+      "title": "Owner",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "revision": {
+      "minimum": 1,
+      "title": "Revision",
+      "type": "integer"
+    },
+    "items": {
+      "items": {
+        "$ref": "#/$defs/ItemEdit"
+      },
+      "maxItems": 100,
+      "title": "Items",
+      "type": "array"
+    }
+  },
+  "required": [
+    "revision",
+    "items"
+  ],
+  "title": "SaveAssessment",
+  "type": "object"
+}
