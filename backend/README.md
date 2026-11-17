@@ -257,3 +257,14 @@ $env:ALLOW_DB_TESTS="1"; .venv\Scripts\python -m pytest -q; Remove-Item Env:ALLO
 ```
 
 위의 "### 테스트" 실행 방법은 이 조건을 갖춘 뒤에 동작합니다.
+
+## API·화면 함께 실행
+
+`python backend/run_local.py --demo --migrate` (저장소 루트).
+기존 개인 개발 DB와 `.env`를 확인하고 평가표 추가 필드를 적용한 뒤 API·화면 서버를 실행합니다.
+설정만 검사하려면 `--check`를 추가합니다. [실행·검사 안내](../docs/implementation/assessment-authoring.md#pc에서-한-번에-실행).
+
+
+## DB 기준 평가
+
+`python backend/run_local.py --catalog --migrate`로 실행합니다. 현재 조치와 개선대책 선택을 같은 함수로 계산하며 개선 후 값은 예상 결과입니다.

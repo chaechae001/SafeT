@@ -1,0 +1,103 @@
+{
+  "$defs": {
+    "Photo": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "maxLength": 100,
+          "title": "Name",
+          "type": "string"
+        },
+        "place": {
+          "default": "",
+          "maxLength": 100,
+          "title": "Place",
+          "type": "string"
+        },
+        "data": {
+          "maxLength": 2800000,
+          "title": "Data",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "data"
+      ],
+      "title": "Photo",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "catalog_ids": {
+      "items": {
+        "maxLength": 60,
+        "minLength": 1,
+        "type": "string"
+      },
+      "maxItems": 100,
+      "title": "Catalog Ids",
+      "type": "array"
+    },
+    "request_key": {
+      "format": "uuid",
+      "title": "Request Key",
+      "type": "string"
+    },
+    "work_no": {
+      "exclusiveMinimum": 0,
+      "title": "Work No",
+      "type": "integer"
+    },
+    "eval_dt": {
+      "format": "date",
+      "title": "Eval Dt",
+      "type": "string"
+    },
+    "eval_writer": {
+      "maxLength": 50,
+      "minLength": 1,
+      "title": "Eval Writer",
+      "type": "string"
+    },
+    "members": {
+      "items": {
+        "maxLength": 50,
+        "minLength": 1,
+        "type": "string"
+      },
+      "maxItems": 30,
+      "title": "Members",
+      "type": "array"
+    },
+    "text": {
+      "default": "",
+      "maxLength": 10000,
+      "title": "Text",
+      "type": "string"
+    },
+    "voice_text": {
+      "default": "",
+      "maxLength": 10000,
+      "title": "Voice Text",
+      "type": "string"
+    },
+    "photos": {
+      "items": {
+        "$ref": "#/$defs/Photo"
+      },
+      "maxItems": 6,
+      "title": "Photos",
+      "type": "array"
+    }
+  },
+  "required": [
+    "request_key",
+    "work_no",
+    "eval_dt",
+    "eval_writer"
+  ],
+  "title": "CreateAssessment",
+  "type": "object"
+}

@@ -2,20 +2,14 @@
    초안 확인 (draft.html)
    S05 리스트 · S05-A 입력 안내 · S05-B 입력 필요 모드 · S06/S06-P/S06-G 위험 상세
    S05-C 일괄 지정 · S07 키워드 추가 · S05-D 저장·확정 중 · S05-E 확정 확인 · C02 삭제
-   데이터: 아래 items 는 합성 예시입니다(API 연결 전). 실제 판정이 아닙니다.
+   데이터: 서버의 eval_no별 저장값. 실제 모델 미연결 시 N, 명시적 demo 모드만 합성 신호.
    ========================================================= */
 (function ($, SafeT) {
   'use strict';
 
-  var SIGNAL_TEXT = { R: '즉시 개선', Y: '개선 필요', G: '유지 관리', N: '판단 필요' };
+  var SIGNAL_TEXT = { R: '상 · 개선 필요', Y: '중 · 개선 필요', G: '하 · 유지 관리', N: '판단 필요' };
 
-  // 담당자 '등록된 사람' 후보: 작성자·사업장 등록자·기본정보 참여자 (합성 예시)
-  var PEOPLE = [
-    { name: '김하늘', role: '점장' },
-    { name: '박지수', role: '근로자' },
-    { name: '이민호', role: '근로자' },
-    { name: '정유진', role: '근로자' }
-  ];
+  var PEOPLE = [];
 
   var seq = 0;
   function uid() { seq += 1; return 'a' + seq; }
@@ -31,100 +25,34 @@
     return $.extend({
       job: '', factor: '', type: '', signal: 'N', title: '', desc: '', cause: '', reason: '', law: null,
       curr: [], none: false, plans: [], keep: null, owner: null, due: '',
-      judged: true          // eval_dtl.after_judge_yn: 대책이 바뀌면 false → 저장 때 AI 재판단
+      judged: true          // eval_dtl.after_judge_yn: 대책이 바뀌면 false → 저장 때 예상 위험도 재계산
     }, o);
   }
 
-  /* ---------- 합성 예시 데이터 (eval_dtl · eval_action) ---------- */
-  var items = [
-    makeItem({
-      job: '튀김 조리', factor: '기름 튐', type: '화상', signal: 'R',
-      title: '고온 기름 튐에 의한 화상', desc: '뜨거운 기름이 튀어 손과 팔에 닿음',
-      cause: '물기 있는 재료 투입 시 기름이 튐 · 바스켓을 꺼낼 때 기름이 손에 떨어짐',
-      reason: '170℃ 이상의 기름을 매일 반복 사용하고, 현재 조치가 일부만 있어 화상 가능성과 정도가 높다고 판단했어요.',
-      law: { name: '산업안전보건기준에 관한 규칙 [조항명]', summary: '고온 물질 취급 시 보호구 지급·착용 요지', url: 'https://www.law.go.kr/' },
-      curr: aiList(['긴 집게를 사용한다', '재료의 물기를 제거한다', '적합한 보호구를 착용한다']),
-      plans: aiList(['투입 전 재료 물기 제거', '적합한 손·팔 보호구 착용', '튀김기 주변 비산 방지판 설치'])
-    }),
-    makeItem({
-      job: '바닥 이동', factor: '물기·기름', type: '넘어짐', signal: 'Y',
-      title: '젖은 바닥에서 미끄러져 넘어짐', desc: '주방 바닥의 물기·기름에 미끄러짐',
-      cause: '튀김기 앞과 개수대 주변에 물기·기름이 남음',
-      reason: '바닥 물기가 자주 생기지만 미끄럼 방지 신발을 신고 있어 개선이 필요한 수준으로 판단했어요.',
-      curr: aiList(['미끄럼 방지 신발을 신는다', '바닥 물기를 바로 닦는다'], [0]),
-      plans: aiList(['미끄럼 방지 매트 설치', '배수구 주변 청소 주기 정하기', '미끄럼 주의 표지 부착'], [0, 1])
-    }),
-    makeItem({
-      job: '칼 보관', factor: '날 접촉', type: '베임', signal: 'G', keep: 'Y',
-      title: '칼날 접촉에 의한 베임', desc: '보관 중인 칼을 꺼낼 때 날에 닿음',
-      cause: '칼을 꺼내고 넣을 때 손이 날 가까이 감',
-      reason: '칼집·칼꽂이 보관과 사용 후 바로 세척하는 조치가 이미 있어 현재 수준을 유지하면 된다고 판단했어요.',
-      curr: aiList(['칼집·칼꽂이에 보관한다', '사용 후 바로 세척·보관한다'], [0, 1]),
-      plans: aiList(['칼 보관대에 칼날 덮개 사용', '칼 사용 구역 표시', '베임 방지 장갑 비치'])
-    }),
-    makeItem({
-      job: '식자재 운반', factor: '무거운 물건', type: '허리 부담', signal: 'Y',
-      title: '무거운 식자재를 들 때 허리 부담', desc: '닭·기름통을 들어 옮길 때 허리에 무리가 감',
-      cause: '20kg 이상 상자를 혼자 바닥에서 들어 올림',
-      reason: '무거운 물건을 매일 옮기지만 대차를 일부 쓰고 있어 개선이 필요한 수준으로 판단했어요.',
-      curr: aiList(['대차를 사용한다', '2인 1조로 든다'], [0]),
-      plans: aiList(['운반용 대차 추가 비치', '무거운 식자재 하단 보관', '들기 자세 교육'], [0]),
-      owner: { type: 'R', name: '박지수' }, due: '2026.11.28'
-    }),
-    makeItem({
-      job: '냉장고 정리', factor: '바닥 결로', type: '미끄러짐', signal: 'G', keep: 'N',
-      title: '냉장고 앞 결로에 미끄러짐', desc: '냉장고 문 앞 바닥에 맺힌 물기에 미끄러짐',
-      cause: '문을 자주 여닫아 바닥에 결로가 생김',
-      reason: '바닥 매트가 깔려 있어 유지 관리 수준으로 판단했어요.',
-      curr: aiList(['바닥 매트를 깔아 둔다', '문을 오래 열어 두지 않는다'], [0]),
-      plans: aiList(['냉장고 앞 흡수 매트 교체', '문 고무 패킹 점검', '결로 닦는 시간 정하기'], [0])
-    }),
-    makeItem({
-      job: '가스레인지 사용', factor: '가스 누출', type: '화재', signal: 'N',
-      title: '가스 누출에 의한 화재', desc: '밸브를 잠그지 않거나 호스가 낡아 가스가 샘',
-      cause: '영업 종료 후 중간 밸브 잠금 여부가 확인되지 않음',
-      curr: aiList(['사용 후 중간 밸브를 잠근다', '가스 누출 경보기를 설치해 둔다']),
-      // '다시 판단' 데모 결과 (API 연결 전 예시 · 실제 AI 판단 아님)
-      demoRejudge: {
-        signal: 'Y',
-        reason: '(예시 결과) 매일 가스를 쓰고 밸브 잠금 확인이 일정하지 않아 개선이 필요한 수준으로 판단했어요.',
-        plans: ['영업 종료 점검표에 밸브 잠금 추가', '가스 호스 교체 주기 정하기', '가스 누출 경보기 작동 점검']
-      }
-    }),
-    makeItem({
-      job: '염지 작업', factor: '반복 동작', type: '근골격계 부담', signal: 'Y',
-      title: '반복 동작에 의한 손목·어깨 부담', desc: '염지·버무리기를 오래 반복해 손목과 어깨에 부담',
-      cause: '한 번에 많은 양을 손으로 버무림',
-      reason: '하루 2시간 이상 같은 동작을 반복해 개선이 필요한 수준으로 판단했어요.',
-      curr: aiList(['작업 중 쉬는 시간을 둔다', '손목 보호대를 착용한다']),
-      plans: aiList(['염지 도구 손잡이 교체', '작업대 높이 조절', '작업 순환 배치'])
-    })
-  ];
-
-  // 키워드 위험 추가 후보 (S07-C · 합성 예시. API 연결 후 AI 결과로 교체)
-  var CANDIDATES = {
-    '반죽': [
-      { job: '반죽', factor: '회전부', type: '끼임', signal: 'R', title: '반죽기 회전부에 손 끼임', desc: '반죽기가 돌 때 손이 회전부에 들어감',
-        cause: '반죽을 떼어 내려고 작동 중에 손을 넣음',
-        curr: ['작동을 멈춘 뒤 반죽을 꺼낸다', '덮개를 닫고 작동한다'],
-        plans: ['덮개 열림 시 자동 정지 장치 확인', '작동 중 손 넣지 않기 표지 부착', '반죽 긁개 비치'] },
-      { job: '반죽', factor: '포대 운반', type: '허리 부담', signal: 'Y', title: '밀가루 포대 운반 중 허리 부담', desc: '20kg 포대를 들어 옮길 때 허리에 무리가 감',
-        cause: '포대를 바닥에서 들어 올림',
-        curr: ['대차로 옮긴다', '포대를 선반 높이에 둔다'],
-        plans: ['포대 보관 선반 높이 조정', '소포장 밀가루로 변경 검토', '들기 자세 교육'] },
-      { job: '반죽', factor: '분진', type: '호흡기', signal: 'N', title: '밀가루 분진 흡입', desc: '밀가루를 부을 때 날린 분진을 마심',
-        cause: '환기가 약한 곳에서 밀가루를 부음',
-        curr: ['마스크를 쓴다'], plans: [] }
-    ],
-    '배달 포장': [
-      { job: '배달 포장', factor: '뜨거운 용기', type: '화상', signal: 'Y', title: '뜨거운 용기에 손 데임', desc: '갓 튀긴 치킨을 담을 때 용기에 손이 닿음',
-        cause: '튀긴 직후 맨손으로 포장함',
-        curr: ['집게로 담는다'], plans: ['내열 장갑 비치', '포장 전 식힘 칸 마련', '포장대 배치 정리'] },
-      { job: '배달 포장', factor: '칼·테이프 커터', type: '베임', signal: 'G', title: '테이프 커터 날에 베임', desc: '포장 테이프를 자를 때 커터 날에 닿음',
-        cause: '커터 날 덮개가 없음',
-        curr: ['덮개 있는 커터를 쓴다'], plans: ['커터 날 덮개 교체', '커터 보관 위치 정하기', '베임 방지 장갑 비치'] }
-    ]
-  };
+  var items = [];
+  var evaluation = null, busy = false;
+  var evalNo = Number(new URLSearchParams(location.search).get('eval')) || (SafeT.current && SafeT.current.evalNo());
+  if(evalNo && SafeT.current)SafeT.current.setEval(evalNo);
+  function applyDocument(doc) {
+    evaluation = doc;
+    items = doc.items.map(makeItem);
+    PEOPLE = [doc.eval_writer].concat(doc.members).filter(function(n,i,a){return a.indexOf(n)===i;}).map(function(n){return {name:n,role:'참여자'};});
+    $('#v-list h1').first().text(doc.eval_nm);
+    $('#d-reason-box .src').text(doc.generation_source==='demo'?'시험용 고정 신호':'판단 대기');
+    $('.disclaimer').text(doc.generation_source==='demo' ? '개발 시험용 합성 평가표 · 실제 현장 판정에 사용하지 마세요.' : '실제 위험 판단 모델 미연결 · 판단 필요 항목은 확정할 수 없습니다.');
+    if(doc.generation_source==='catalog_v1'){ $('.disclaimer').text('선택한 조치를 기준으로 계산한 위험도입니다.');$('#d-reason-box .src').text('DB 기준'); }
+    renderList();
+  }
+  function payload() {
+    return {revision:evaluation.revision,items:items.map(function(it){
+      function action(a){return {id:typeof a.id==='number'?a.id:null,text:a.text,checked:a.checked};}
+      return {id:it.id,curr:it.curr.map(action),plans:it.plans.map(action),none:it.none,keep:it.keep,owner:it.owner,due:it.due?it.due.replace(/\./g,'-'):null};
+    })};
+  }
+  function apiError(e) {
+    SafeT.toast(e.message);
+    if(e.errors && e.errors.length) openDetail(e.errors[0].index,'all',e.errors[0].field);
+  }
 
   /* ---------- 규칙 (17쪽: 건수 계산과 확정 검사는 같은 함수) ---------- */
   function checkedCount(list) {
@@ -140,6 +68,7 @@
     var m = [];
     if (!it.none && !checkedCount(it.curr)) m.push('current');
     if (it.signal === 'N') m.push('signal');
+    if (it.signal === 'G' && !it.keep) m.push('plan');
     if (needsPlan(it) && !checkedCount(it.plans)) m.push('plan');
     if (needsPlan(it) && checkedCount(it.plans) && (!it.owner || !it.due)) m.push('owner');
     return m;
@@ -172,7 +101,9 @@
     var np = checkedCount(it.plans);
     if (it.signal === 'N') parts.push('판단 필요');
     parts.push(it.none ? '현재 조치 없음' : (nc ? '현재 조치 ' + nc + '개' : '현재 조치 확인 필요'));
-    if (it.signal === 'G' && it.keep !== 'N') {
+    if (it.signal === 'G' && !it.keep) {
+      parts.push('유지 또는 대책 추가 선택 필요');
+    } else if (it.signal === 'G' && it.keep === 'Y') {
       parts.push('현재 상태 유지');
     } else if (it.signal !== 'N') {
       if (it.signal === 'G') parts.push('대책 추가');
@@ -247,7 +178,7 @@
       var $txt = a.ai ? $('<span class="check__text">') : $('<label class="check__text">').attr('for', id);
       $txt.text(a.text + ' ').append(
         $('<span class="src">').addClass(a.ai ? 'src--ai' : 'src--manual')
-          .text(a.ai ? (kind === 'curr' ? 'AI 후보' : 'AI 추천') : '직접 추가'));
+          .text(a.ai ? (evaluation && evaluation.generation_source==='demo' ? '시험 후보' : '추천 후보') : '직접 추가'));
       $row.append($in, $txt);
       if (!a.ai) {
         $('<button class="check__remove" type="button">×</button>')
@@ -292,7 +223,7 @@
 
   function renderDetail() {
     var it = cur();
-    if (!it) { state.index = 0; it = cur(); }
+    if (!it) { SafeT.go('v-list'); return; }
     var need = state.mode === 'need';
     var isG = it.signal === 'G';
     var isN = it.signal === 'N';
@@ -324,13 +255,14 @@
     }
     $('#d-law-box').prop('hidden', need || !it.law);
     $('#d-judge-box').prop('hidden', !isN);
+    if(it.catalog)$('#d-judge-box p').text('현재 조치를 선택하거나 현재 조치 없음을 체크한 뒤 저장해 주세요.');
 
     renderChecks($('#d-curr-list'), it.curr, 'curr', it);
 
     $('#d-green-switch').prop('hidden', !isG);
-    if (isG) $('#d-green-switch input[value="' + (it.keep || 'Y') + '"]').prop('checked', true);
+    if (isG) { $('#d-green-switch input').prop('checked',false); if(it.keep) $('#d-green-switch input[value="'+it.keep+'"]').prop('checked',true); }
     var showPlan = !isN && (!isG || it.keep === 'N');
-    $('#d-keep-note').prop('hidden', !(isG && it.keep !== 'N'));
+    $('#d-keep-note').prop('hidden', !(isG && it.keep === 'Y'));
     $('#d-plan-wait').prop('hidden', !isN);
     $('#d-plan-body').prop('hidden', !showPlan);
     $('#d-plan-req').prop('hidden', !showPlan);
@@ -351,7 +283,7 @@
   // 확정 시 빠진 값: 해당 필드로 이동해 그 자리에서 안내 (결정 13)
   var MISSING_MSG = {
     current: "현재 안전조치를 선택하거나 '현재 조치 없음'을 체크해 주세요.",
-    signal: 'AI 판단이 필요한 항목이에요. 다시 판단한 뒤 확정할 수 있어요.',
+    signal: '현재 조치를 선택하거나 조치 없음을 체크한 뒤 저장해 주세요.',
     plan: '개선대책을 1개 이상 선택해 주세요.',
     owner: '담당자·예정일을 일괄 지정에서 넣어 주세요.'
   };
@@ -368,8 +300,10 @@
       $focus = $('#d-rejudge');
     } else if (field === 'plan') {
       $('#d-plan').addClass('is-invalid');
-      $('#d-plan-list').before($msg);
-      $focus = $('#d-plan-list input').first();
+      if(cur().signal==='G' && !cur().keep){
+        $msg.text('현재 상태 유지 또는 대책 추가를 선택해 주세요.');
+        $('#d-green-switch').before($msg);$focus=$('#d-green-switch input').first();
+      }else{ $('#d-plan-list').before($msg);$focus=$('#d-plan-list input').first(); }
     } else {
       $('#d-owner').after($msg);
       $focus = $('#d-owner-btn');
@@ -472,92 +406,33 @@
     SafeT.openModal('assign');
   }
 
-  /* ---------- S05-D 저장·확정 중 ---------- */
-  var cancelProgress = null;
-
-  var PROGRESS = {
-    save: {
-      title: '평가표를 저장하고 있어요',
-      steps: [
-        { pct: 30, step: '저장', label: '평가표를 저장하고 있어요' },
-        { pct: 70, step: '예상 신호 판단', label: '개선 후 예상 신호를 판단하고 있어요' },
-        { pct: 100, step: '완료', label: '저장했어요' }
-      ]
-    },
-    confirm: {
-      title: '평가표를 확정하고 있어요',
-      steps: [
-        { pct: 50, step: '남은 예상 신호 판단', label: '남은 예상 신호를 판단하고 있어요' },
-        { pct: 80, step: '후속업무 집계', label: '후속업무를 모으고 있어요' },
-        { pct: 100, step: '확정 처리', label: '평가표를 확정했어요' }
-      ]
-    },
-    add: {
-      title: '위험 항목을 추가하고 있어요',
-      steps: [
-        { pct: 25, step: '위험 후보 분석', label: '위험 후보를 분석하고 있어요' },
-        { pct: 50, step: '신호 판단', label: '위험 신호를 판단하고 있어요' },
-        { pct: 80, step: '대책·현재 조치 후보', label: '대책과 현재 조치 후보를 만들고 있어요' },
-        { pct: 100, step: '완료', label: '추가했어요' }
-      ]
-    }
-  };
-
-  /** 평가표 저장: 대책이 바뀐 항목이 있으면 AI 판단(진행률), 없으면 데이터만 저장(원형 로딩) */
-  function saveDraft(back) {
-    var needJudge = false;
-    $.each(items, function (_, it) { if (!it.judged && it.signal !== 'N') needJudge = true; });
-    if (needJudge) {
-      SafeT.go('v-saving', { kind: 'save', back: back });
-      return $.Deferred().resolve().promise();
-    }
-    SafeT.loading(true);
-    return SafeT.wait(500).then(function () {
-      SafeT.loading(false);
-      dirty = false;
-      SafeT.toast('저장했어요');
-    });
-  }
-
-  var pendingAdd = [];
-
-  function finishProgress(o) {
-    if (o.kind === 'save') {
-      $.each(items, function (_, it) { it.judged = true; });
-      dirty = false;
-      SafeT.go(o.back || 'v-list', o.back === 'v-risk' ? { focus: null } : null);
-      SafeT.toast('저장했어요');
-    } else if (o.kind === 'confirm') {
-      dirty = false;
-      window.location.href = 'result.html';
-    } else if (o.kind === 'add') {
-      $.each(pendingAdd, function (_, c) {
-        items.push(makeItem({
-          job: c.job, factor: c.factor, type: c.type, signal: c.signal, title: c.title, desc: c.desc, cause: c.cause,
-          curr: aiList(c.curr),                                   // 현재 조치 미선택
-          plans: (c.signal === 'R' || c.signal === 'Y' || c.signal === 'G') ? aiList(c.plans) : [],
-          keep: c.signal === 'G' ? 'Y' : null
-        }));
-      });
-      var n = pendingAdd.length;
-      pendingAdd = [];
-      filter = 'all';
-      SafeT.go('v-list');
-      SafeT.toast(n + '건을 추가했어요');
-    }
+  function saveDraft(back, confirm) {
+    if(busy || !evaluation) return $.Deferred().reject().promise();
+    busy=true; SafeT.loading(true);
+    var request=confirm ? SafeT.api.post('/evals/'+evalNo+'/confirm',payload()) : SafeT.api.put('/evals/'+evalNo,payload());
+    request.done(function(doc){
+      applyDocument(doc);dirty=false;
+      if(confirm){
+        try {sessionStorage.setItem('safet.home',JSON.stringify({tab:'C',from:doc.eval_dt.slice(0,10).replace(/-/g,'.'),to:doc.eval_dt.slice(0,10).replace(/-/g,'.'),work:String(doc.work_no),page:1,scroll:0}));}catch(e){}
+        // SH v3 25~27쪽: 확정 직후에는 이 문서의 읽기 전용 화면으로 이동.
+        if(SafeT.current)SafeT.current.setEval(doc.eval_no);
+        window.location.href=SafeT.current?'result.html':'result.html?eval='+doc.eval_no;
+      } else {SafeT.go(back || 'v-list');if(back==='v-risk')renderDetail();SafeT.toast('평가표를 저장했어요');}
+    }).fail(apiError).always(function(){busy=false;SafeT.loading(false);$('#btn-confirm-ok').prop('disabled',false);});
+    return request;
   }
 
   /* ---------- 로그인 만료 시 편집 내용 보관 · 다시 로그인하면 복구 (설계서 07쪽) ---------- */
   if (SafeT.auth) {
     SafeT.auth.onExpire(function () {
       if (!dirty) return null;
-      return { page: 'draft', data: { items: items, state: state, filter: filter } };
+      return { page: 'draft', data: { email:(SafeT.auth.user() || {}).email, evalNo:evalNo, revision:evaluation && evaluation.revision, items: items, state: state, filter: filter } };
     });
   }
 
   function restoreAfterLogin() {
     var r = SafeT.auth && SafeT.auth.takeRestore('draft');
-    if (!r || !$.isArray(r.items)) return false;
+    if (!r || r.email!==(SafeT.auth.user() || {}).email || r.evalNo!==evalNo || r.revision!==evaluation.revision || !$.isArray(r.items)) return false;
     items = $.map(r.items, function (it) { return makeItem(it); });
     state = $.extend({ index: 0, mode: 'all', needList: [] }, r.state);
     filter = r.filter || 'all';
@@ -574,13 +449,20 @@
 
   /* ---------- 이벤트 ---------- */
   $(function () {
-    var restored = restoreAfterLogin();
-    renderList();
-    if (restored) {
-      $('#v-list .tabs [data-filter]').removeAttr('aria-current').filter('[data-filter="' + filter + '"]').attr('aria-current', 'page');
-      if ($('#v-risk').hasClass('is-active')) renderDetail();
-      SafeT.toast('다시 로그인해서 보던 화면과 수정 내용을 되살렸어요. 저장해 주세요.');
-    }
+    $('.draft__delete').attr('href','#v-list').on('click',function(e){e.preventDefault();SafeT.toast('평가표 삭제·휴지통 연동은 후속 작업입니다.');});
+    $('#delete .btn--danger').attr('href','#v-list').on('click',function(e){e.preventDefault();SafeT.closeModal(true);SafeT.toast('평가표 삭제·휴지통 연동은 후속 작업입니다.');});
+    $('#risk-list').empty();
+    $('#btn-save,#btn-confirm,#btn-input,#btn-bulk').attr('aria-disabled','true');
+    if(!evalNo){SafeT.toast('내 평가표에서 평가표를 선택해 주세요.');return;}
+    SafeT.loading(true);
+    SafeT.api.get('/evals/'+evalNo).done(function(doc){
+      if(doc.eval_status!=='W'){location.replace(SafeT.current?'result.html':'result.html?eval='+evalNo);return;}
+      applyDocument(doc);
+      if(restoreAfterLogin()){renderList();SafeT.toast('저장 전 편집 내용을 복구했어요.');}
+      $('#btn-save,#btn-confirm,#btn-input,#btn-bulk').removeAttr('aria-disabled');
+      SafeT.go('v-list');
+    }).fail(apiError).always(function(){SafeT.loading(false);});
+    window.addEventListener('beforeunload',function(e){if(dirty){e.preventDefault();e.returnValue='';}});
 
     // 리스트
     $('#v-list').on('safet:show', renderList);
@@ -616,11 +498,13 @@
 
     $('#btn-confirm').on('click', function (e) {
       e.preventDefault();
+      if(!evaluation || !items.length || busy)return;
       SafeT.openModal('confirm');
     });
 
     // 확인 창이 열릴 때 필수값 검사 (주소로 열어도 동일). 빠진 값이 있으면 창 대신 해당 필드로
     $('#confirm').on('safet:open', function () {
+      if(!evaluation || !items.length || busy){SafeT.closeModal(true);return;}
       for (var i = 0; i < items.length; i += 1) {
         var m = missing(items[i]);
         if (m.length) {
@@ -634,7 +518,8 @@
 
     $('#btn-confirm-ok').on('click', function () {
       $(this).prop('disabled', true);              // 중복 클릭 방지
-      SafeT.go('v-saving', { kind: 'confirm' });
+      SafeT.closeModal(true);
+      saveDraft('v-list',true);
     });
 
     // 위험 상세
@@ -670,26 +555,7 @@
 
     $('#d-save').on('click', function () { saveDraft('v-risk'); });
 
-    // 다시 판단: API 연결 전에는 데모 결과로 채움 (예시 결과임을 판단 이유에 표시)
-    $('#d-rejudge').on('click', function () {
-      var it = cur();
-      if (!it.demoRejudge) { SafeT.toast('다시 판단은 API 연결 후 동작해요.'); return; }
-      var $btn = $(this).prop('disabled', true);
-      SafeT.loading(true);
-      SafeT.wait(800).then(function () {
-        it.signal = it.demoRejudge.signal;
-        it.reason = it.demoRejudge.reason;
-        it.plans = aiList(it.demoRejudge.plans);          // 추천 대책은 미체크로 시작
-        it.judged = true;
-        delete it.demoRejudge;
-        markDirty();
-        SafeT.loading(false);
-        $btn.prop('disabled', false);
-        renderDetail();
-        renderCounts();
-        SafeT.toast('다시 판단했어요. (API 연결 전 예시 결과)');
-      });
-    });
+    $('#d-rejudge').on('click',function(){if(evaluation.generation_source==='catalog_v1'){saveDraft('v-risk');return;}SafeT.toast('실제 위험 판단 모델 연결 후 다시 판단할 수 있어요. 현재 입력은 저장할 수 있습니다.');});
 
     // 체크 변경 (현재 조치 · 현재 조치 없음 · 개선대책)
     $('#risk-form').on('change', 'input[data-kind]', function () {
@@ -840,70 +706,23 @@
       });
     });
 
-    // 키워드로 위험 추가
-    $('#add-form').on('safet:submit', function (e) {
-      e.preventDefault();
-      var kw = normalize($('#keyword').val());
-      var found = [];
-      $.each(CANDIDATES, function (key, list) {
-        if (kw.indexOf(key) > -1 || key.indexOf(kw) > -1) found = found.concat(list);
-      });
-      // 이미 있는 작업·위험 조합은 후보에서 제외
-      found = $.grep(found, function (c) {
-        var dup = false;
-        $.each(items, function (_, it) { if (it.job === c.job && it.title === c.title) dup = true; });
-        return !dup;
-      });
+    // 키워드 후보 확인 후 추가. 서버 저장 전에 현재 편집을 먼저 보존.
+    $('#add-form').on('safet:submit',function(e){
+      e.preventDefault();var kw=normalize($('#keyword').val());
       $('#add-keyword').text(kw);
-      var $box = $('#add-candidates');
-      $box.children('label').remove();
-      $.each(found, function (i, c) {
-        var $l = $('<label class="check">').data('candidate', c);
-        $('<input type="checkbox" name="candidate">').val(i).appendTo($l);
-        $('<span class="check__text">').text(c.title + ' ').append('<span class="src src--ai">AI 후보</span>').appendTo($l);
-        $box.append($l);
+      $('#add-candidates').empty().append($('<label class="check">').append('<input type="checkbox" checked>').append($('<span class="check__text">').text(kw+' 관련 위험 항목 추가')));
+      $('#add-empty').prop('hidden',true);SafeT.go('v-add-select');
+    });
+    $('#select-form').on('safet:submit',function(e){
+      e.preventDefault();if(!$('#add-candidates input:checked').length){SafeT.toast('추가할 항목을 선택해 주세요.');return;}
+      var kw=$('#add-keyword').text();
+      saveDraft('v-add-select').done(function(){
+        busy=true;SafeT.loading(true);
+        SafeT.api.post('/evals/'+evalNo+'/items',{revision:evaluation.revision,keyword:kw}).done(function(doc){applyDocument(doc);dirty=false;$('#keyword').val('');SafeT.go('v-list');})
+          .fail(apiError).always(function(){busy=false;SafeT.loading(false);});
       });
-      $('#add-empty').prop('hidden', found.length > 0);
-      SafeT.go('v-add-select');
     });
-
-    $('#v-add-select').on('safet:show', function () {
-      if (!$('#add-candidates label').length && $('#add-empty').prop('hidden')) SafeT.go('v-add');
-    });
-
-    $('#select-form').on('safet:validate', function (e) {
-      if (!$('#add-candidates input:checked').length) {
-        e.preventDefault();
-        var $first = $('#add-candidates input').first();
-        if ($first.length) SafeT.fieldError($first, '추가할 위험을 하나 이상 선택해 주세요.');
-        else SafeT.toast('추가할 후보가 없어요. 다른 키워드로 찾아 주세요.');
-      }
-    });
-
-    $('#select-form').on('safet:submit', function (e) {
-      e.preventDefault();
-      pendingAdd = $('#add-candidates input:checked').map(function () {
-        return $(this).closest('label').data('candidate');
-      }).get();
-      $('#keyword').val('');
-      SafeT.go('v-saving', { kind: 'add' });
-    });
-
-    // 저장·확정 중
-    $('#v-saving')
-      .on('safet:show', function (e, o) {
-        if (!o || !PROGRESS[o.kind]) { SafeT.go('v-list'); return; }
-        if (cancelProgress) cancelProgress();
-        cancelProgress = SafeT.runProgress($(this), {
-          title: PROGRESS[o.kind].title,
-          steps: PROGRESS[o.kind].steps,
-          done: function () { cancelProgress = null; finishProgress(o); }
-        });
-      })
-      .on('safet:hide', function () {
-        if (cancelProgress) cancelProgress();
-        cancelProgress = null;
-      });
+    $('#v-saving').on('safet:show',function(){SafeT.go('v-list');});
 
     // 저장하지 않은 변경이 있을 때 다른 화면(홈·다른 평가표)으로 나가면 묻기
     $(document).on('click', 'a[href$=".html"], a[href*=".html#"]', function (e) {
@@ -921,7 +740,7 @@
         if (a === 'alt') { dirty = false; window.location.href = href; }
         if (a === true) {
           SafeT.loading(true);
-          SafeT.wait(500).then(function () { dirty = false; window.location.href = href; });
+          saveDraft('v-list').done(function () { window.location.href = href; });
         }
       });
     });
