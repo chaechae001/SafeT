@@ -47,9 +47,7 @@
   }
 
   $(function () {
-    load().done(function () {
-      if (new URLSearchParams(location.search).get('deleted')) SafeT.toast('평가표를 휴지통으로 옮겼어요. 30일 안에 복원할 수 있어요.');
-    });
+    load();
 
     // 복원: 이전 입력 그대로 작성 중 탭으로 (내 평가표 탭을 '작성 중'으로 맞춤)
     $('#trash-list').on('click', '[data-restore]', function () {

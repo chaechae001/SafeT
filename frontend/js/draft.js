@@ -475,6 +475,7 @@
   /* ---------- 이벤트 ---------- */
   $(function () {
     // C02 삭제: 확인 창(#delete) → DELETE /evals/{번호} → 휴지통(30일 보관). 작성 중 평가표만 (서버도 확인)
+    // 삭제 후에는 내 평가표로 이동해 알림만 띄움 (휴지통 화면으로 가지 않음 · 2026-11-17 결정)
     $('.draft__delete').on('click',function(e){ if(!evaluation || busy){e.preventDefault();} });
     $('#delete .btn--danger').attr('href','#v-list').on('click',function(e){
       e.preventDefault();
@@ -484,7 +485,7 @@
       SafeT.api.del('/evals/'+evalNo).done(function(){
         dirty=false; SafeT.hasUnsaved=function(){return false;};   // 삭제한 평가표는 '저장 안 함' 경고를 띄우지 않음
         if(SafeT.current) SafeT.current.setEval(null);
-        window.location.href='trash.html?deleted='+evalNo;
+        window.location.href='home.html?deleted=1';
       }).fail(apiError).always(function(){busy=false;SafeT.loading(false);});
     });
     $('#risk-list').empty();

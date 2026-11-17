@@ -159,6 +159,12 @@
     $('#from_dt').val(state.from);
     $('#to_dt').val(state.to);
 
+    // 초안에서 평가표를 삭제하고 왔으면 알림 (draft.js · home.html?deleted=1). 새로 고침 때 다시 뜨지 않게 주소에서 지움
+    if (new URLSearchParams(location.search).get('deleted')) {
+      SafeT.toast('평가표를 휴지통으로 옮겼어요. 30일 안에 휴지통에서 복원할 수 있어요.', 4000);
+      try { history.replaceState(null, '', location.pathname + location.hash); } catch (err) { /* 무시 */ }
+    }
+
     var restoreScroll = state.scroll;
     $.when(loadWorkplaces()).always(function () {
       reload().always(function () {
