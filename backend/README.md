@@ -347,3 +347,5 @@ python backend/unit_tests/browser_catalog_smoke.py
 
 브라우저 검사는 Playwright와 Edge가 필요하며 시작 전에 `DB_NAME`을 전용 `*_test` 이름으로 명시한다. API 8020·정적 서버 8090이 비어 있어야 한다. AI 브라우저 검사는 합성 모델 응답이며 실제 Cloud를 호출하지 않는다.
 [입출력 계약](../contracts/catalog_ai/README.md) · [저장·화면 연결](../docs/implementation/catalog-ai.md).
+
+AI 연결 검사에는 새 근거가 과거 선택과 상충하는 경우, 계획/시점 미확인 근거 거부, 질문 문구 인용 거부, 이전 근거 계약 재확인, 100개 초과 질문 답변, 동시 재확인·확정 요청의 revision·확정 잠금 검사가 포함된다.

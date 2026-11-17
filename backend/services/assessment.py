@@ -1,7 +1,7 @@
 """ERD V1.1 평가표 작성/저장/확정. 트랜잭션·소유권·revision·상태 잠금."""
 import json
 from sqlalchemy import text
-from sqlalchemy.exc import IntegrityError
+from sqlalchemy.exc import IntegrityError, OperationalError
 from services.auth import AuthError, now
 from services import workplaces, assessment_provider as provider
 from services import catalog_risk as catalog
@@ -11,9 +11,19 @@ from services import catalog_ai as risk
 def rows(db, sql, **p): return [dict(r) for r in db.execute(text(sql),p).mappings()]
 def execute(db, sql, **p): return db.execute(text(sql),p)
 def owned(db, email, no, lock=False):
-    r=rows(db,"SELECT * FROM eval_mst WHERE eval_no=:n AND email=:e AND COALESCE(del_yn,'N')='N'" + (' FOR UPDATE' if lock else ''),n=no,e=email)
-    if not r: raise AuthError(404,'EVAL_NOT_FOUND','평가표를 찾을 수 없어요.')
-    return r[0]
+    sql="SELECT * FROM eval_mst WHERE eval_no=:n AND email=:e AND COALESCE(del_yn,'N')='N'" + (' FOR UPDATE' if lock else '')
+    for attempt in range(2):
+        try:
+            r=rows(db,sql,n=no,e=email)
+        except OperationalError as exc:
+            # 인증 조회 뒤 다른 요청이 저장하면 MariaDB 스냅샷 잠금이 1020으로 실패할 수 있다.
+            # 쓰기·모델 호출 전 최초 잠금에서만 새 트랜잭션으로 다시 읽고 revision·확정 잠금을 검사한다.
+            if not lock or not exc.orig.args or exc.orig.args[0]!=1020: raise
+            db.rollback()
+            if attempt: raise AuthError(409,'CONCURRENT_CHANGE','다른 요청이 평가표를 변경했어요. 새로 불러와 주세요.') from None
+            continue
+        if not r: raise AuthError(404,'EVAL_NOT_FOUND','평가표를 찾을 수 없어요.')
+        return r[0]
 def writable(m,revision):
     if m['eval_status']!='W': raise AuthError(409,'EVAL_LOCKED','확정된 평가표는 수정할 수 없어요.')
     if m['revision']!=revision: raise AuthError(409,'STALE_REVISION','다른 화면에서 저장했어요. 내용을 복사한 뒤 새로 불러와 주세요.')
@@ -201,8 +211,11 @@ def reanalyze(db,email,no,revision,answers,additional_text=''):
         photos=[f['file_text'] for f in data['inputs'] if f['file_type']=='P']
         for i,media in enumerate([x for x in new_input['media'] if x['modality']=='photo']):
             media['media_uri']=photos[i]
-        for a in answers:
-            new_input['media'].append(risk.media(f'ANSWER-{revision}-{a.question_id}','text',qs[a.question_id]['question']+' / '+a.answer))
+        if answers:
+            # 질문 문맥과 사용자 답변을 분리하고 한 미디어로 묶어 질문 수가 입력 한도를 소진하지 않게 한다.
+            media=risk.media(f'ANSWER-{revision}','text','\n'.join(a.answer for a in answers))
+            media['answers']=[dict(question_id=a.question_id,question=qs[a.question_id]['question'],answer=a.answer) for a in answers]
+            new_input['media'].append(media)
         if additional_text:
             new_input['media'].append(risk.media(f'ADDITIONAL-{revision}','text',additional_text))
         # 계획은 전송하지 않으며 사용자 보고를 작동시험 증거로 바꾸지 않는다.

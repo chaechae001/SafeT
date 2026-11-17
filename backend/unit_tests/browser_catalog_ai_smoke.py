@@ -23,7 +23,7 @@ def synthetic(input_data,candidates,previous=None):
     s=next(s for s in candidates if s['id']=='FRY')
     answered=any(m['id'].startswith('ANSWER-') for m in input_data['media'])
     source=next(m for m in input_data['media'] if m['id']=='TEXT')
-    return dict(evidence=[dict(id='E1',media_id='TEXT',kind='reported',statement=source['content'])],
+    return dict(evidence=[dict(id='E1',media_id='TEXT',kind='reported',time_scope='current',statement=source['content'])],
         matches=[dict(scenario_id='FRY',applicability='confirmed',evidence_ids=['E1'],uncertainties=[],
             controls=[dict(control_id=c['id'],state='absent' if answered else 'unknown',evidence_ids=['E1'] if answered else []) for c in s['controls']])],unmatched_observations=[])
 ai.request_analysis=synthetic
@@ -68,6 +68,26 @@ def main():
             page.locator('button[form="equip-form"]').click()
             page.wait_for_url('**/draft.html')
             expect(page.locator('#risk-question-panel')).to_be_visible()
+            # 직접 현재 조치를 확인해 질문을 해소하면 숨은 답변 초안이 확정을 막지 않아야 한다.
+            page.locator('#risk-question-panel textarea[id^="risk-q-"]').first.fill('답변 작성 중')
+            page.locator('#risk-list a').first.click()
+            expect(page.locator('#d-curr-list input[data-kind="curr"]')).to_have_count(8)
+            for box in page.locator('#d-curr-list input[data-kind="curr"]').all():box.check()
+            with page.expect_response(lambda r:r.request.method=='PUT' and '/evals/' in r.url) as saved:
+                page.locator('#d-save').click()
+            assert saved.value.status==200
+            result=saved.value.json()['items'][0]
+            assert result['signal']=='Y' and sum(a['checked'] for a in result['curr'])==8 and not result['catalog']['ai']['unknown_ids']
+            expect(page.locator('#d-signal')).to_have_attribute('data-signal','Y')
+            assert not page.evaluate('SafeT.hasUnsaved()')
+            page.locator('#d-mode-link').click()
+            page.locator('#risk-additional').fill('현재 상태 재확인')
+            page.get_by_role('button',name='답변 반영 · 다시 확인').click()
+            expect(page.locator('#risk-question-panel textarea[id^="risk-q-"]')).to_have_count(8)
+            # 과거 선택이 남아 있어도 새 미확인 응답은 판단 필요다.
+            page.locator('#risk-list a').first.click()
+            expect(page.locator('#d-signal')).to_have_attribute('data-signal','N')
+            page.locator('#d-mode-link').click()
             if page.locator('#risk-question-panel details summary').count():page.locator('#risk-question-panel details summary').click()
             for field in page.locator('#risk-question-panel textarea[id^="risk-q-"]').all():field.fill('현장에서 없음 확인')
             FAIL=True
@@ -77,7 +97,8 @@ def main():
             expect(page.locator('#risk-question-panel textarea[id^="risk-q-"]').first).to_have_value('현장에서 없음 확인')
             FAIL=False
             page.get_by_role('button',name='답변 반영 · 다시 확인').click()
-            expect(page.locator('#risk-question-panel textarea[id^="risk-q-"]')).to_have_count(0)
+            expect(page.locator('#risk-question-panel textarea[id^="risk-q-"]')).to_have_count(8)
+            expect(page.locator('#risk-question-panel')).to_contain_text('기존 선택과 새 근거가 달라요.')
             page.locator('#risk-list a').first.click()
             page.locator('[data-kind="none"]').check()
             page.locator('#d-save').click()
@@ -106,7 +127,7 @@ def main():
             page.reload();expect(page.locator('.result-item')).to_have_count(1)
             assert not errors,errors
             b.close()
-        print('PASS: synthetic model -> unknown/questions -> model failure/input retained -> answers -> common current R/Y -> plan projection Y/current R -> confirm -> readonly evidence/reload; no Cloud, no JS errors')
+        print('PASS: synthetic unknown -> explicit current choices/draft cleanup -> newer unknown N -> model failure/input retained -> conflicting answers N -> explicit correction R -> common current Y -> plan projection Y/current R -> confirm -> readonly evidence/reload; no Cloud, no JS errors')
     finally:
         api.should_exit=True;static.shutdown();static.server_close()
         with engine.begin() as c:

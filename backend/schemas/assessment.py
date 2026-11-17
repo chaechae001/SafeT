@@ -82,5 +82,5 @@ class RiskAnswer(StrictModel):
 
 class AnswerRisk(StrictModel):
     revision: int = Field(ge=1)
-    answers: list[RiskAnswer] = Field(default_factory=list,max_length=100)
+    answers: list[RiskAnswer] = Field(default_factory=list,max_length=1000)
     additional_text: str = Field(default='',max_length=10000)

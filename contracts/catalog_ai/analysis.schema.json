@@ -60,6 +60,15 @@
           "title": "Kind",
           "type": "string"
         },
+        "time_scope": {
+          "enum": [
+            "current",
+            "planned",
+            "unknown"
+          ],
+          "title": "Time Scope",
+          "type": "string"
+        },
         "statement": {
           "maxLength": 1000,
           "minLength": 1,
@@ -71,6 +80,7 @@
         "id",
         "media_id",
         "kind",
+        "time_scope",
         "statement"
       ],
       "title": "Evidence",

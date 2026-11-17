@@ -9,7 +9,7 @@ from urllib.parse import urlparse
 import httpx
 from pydantic import ValidationError
 from sqlalchemy import text
-from schemas.risk_analysis import Extraction
+from schemas.risk_analysis import Extraction, CONTRACT_VERSION
 from services.auth import AuthError
 from services import catalog_risk as catalog
 from domain.risk_policy import POLICY
@@ -23,7 +23,10 @@ def enabled():
 def configuration():
     base = os.getenv('SAFET_AI_BASE_URL', '').rstrip('/')
     model = os.getenv('SAFET_AI_MODEL', '')
-    parsed = urlparse(base)
+    try:
+        parsed = urlparse(base)
+    except ValueError:
+        raise AuthError(503,'RISK_MODEL_UNCONFIGURED','AI 연결 주소를 확인해 주세요.') from None
     if not model or parsed.scheme not in ('http', 'https') or not parsed.netloc or parsed.username or parsed.password or parsed.query or parsed.fragment:
         raise AuthError(503, 'RISK_MODEL_UNCONFIGURED', 'AI 연결 설정이 필요해요. 입력은 유지됩니다.')
     # 서버 설정만 연결 주소를 정한다. 사용자 입력으로 외부 주소를 지정하지 않는다.
@@ -135,12 +138,13 @@ def validate(raw, input_data, candidates, previous=None):
             def refs(ids):
                 if not set(ids) <= set(evidence): raise ValueError('unknown evidence')
             refs(match['evidence_ids'])
-            if match['applicability'] == 'confirmed' and not match['evidence_ids']:
+            if match['applicability'] == 'confirmed' and not any(evidence[e]['time_scope']=='current' for e in match['evidence_ids']):
                 raise ValueError('confirmed scenario requires evidence')
             for control in controls.values():
                 refs(control['evidence_ids'])
-                if control['state'] != 'unknown' and not control['evidence_ids']:
-                    raise ValueError('control assertion requires evidence')
+                if control['state'] != 'unknown':
+                    if not control['evidence_ids'] or any(evidence[e]['time_scope']!='current' for e in control['evidence_ids']):
+                        raise ValueError('current control assertion requires current evidence')
         if previous and not {m['scenario_id'] for m in previous['matches']} <= seen:
             raise ValueError('previous scenario cannot disappear')
         return report
@@ -165,7 +169,7 @@ def to_items(report, scenarios):
         items.append(dict(job=s['task'][:100], title=s['title'][:200], type=s['event'][:50],
              cause=s['scenario'][:500], signal='N', reason='입력 근거와 현재 조치를 확인해 주세요.',
              curr=[c['current_text'] for c in s['controls']], plans=[c['plan_text'] for c in s['controls']],
-             catalog=s, ai=dict(match=deepcopy(match), evidence=[evidence[i] for i in dict.fromkeys(
+             catalog=s, ai=dict(contract_version=CONTRACT_VERSION, match=deepcopy(match), evidence=[evidence[i] for i in dict.fromkeys(
                  match['evidence_ids'] + [e for c in match['controls'] for e in c['evidence_ids']])],
                  unknown_ids=[c['control_id'] for c in match['controls'] if c['state']=='unknown'])))
     return items
@@ -175,7 +179,14 @@ def attach(db, item_id, ai, *, preserve=False):
     state = json.loads(db.execute(text('SELECT catalog_state FROM eval_dtl WHERE eval_dtl_no=:n'), {'n':item_id}).scalar_one())
     state['ai'] = ai
     match = ai['match']
-    if not preserve:
+    if preserve:
+        actions = db.execute(text("SELECT action_no,check_yn FROM eval_action WHERE eval_dtl_no=:n AND action_type='C'"), {'n':item_id}).mappings().all()
+        selected = {state['links'][str(a['action_no'])] for a in actions if a['check_yn']=='Y' and str(a['action_no']) in state['links']}
+        none = db.execute(text('SELECT curr_none_yn FROM eval_dtl WHERE eval_dtl_no=:n'), {'n':item_id}).scalar_one()=='Y'
+        # 새 근거와 과거 선택이 다르면 선택은 보존하되 확인 전까지 계산에 쓰지 않는다.
+        ai['conflict_ids'] = [c['control_id'] for c in match['controls'] if (none or selected) and
+                              c['state']!='unknown' and (c['state']=='present')!=(c['control_id'] in selected)]
+    else:
         present = {c['control_id'] for c in match['controls'] if c['state']=='present'}
         for action_id, cid in state['links'].items():
             db.execute(text("UPDATE eval_action SET check_yn=:v WHERE action_no=:id AND action_type='C'"),
@@ -189,27 +200,39 @@ def state_for(input_data, report):
     stored = deepcopy(input_data)
     for m in stored['media']:
         if m['modality']=='photo': m['media_uri']=None
-    return dict(policy_version=POLICY, input=stored, report=report)
+    return dict(policy_version=POLICY, contract_version=CONTRACT_VERSION, input=stored, report=report)
 
 
 def enrich_detail(doc, raw):
     if not raw: return
     state = json.loads(raw)
     questions=[]
+    outdated = state.get('contract_version')!=CONTRACT_VERSION or any(
+        it.get('catalog',{}).get('ai',{}).get('contract_version')!=CONTRACT_VERSION for it in doc['items'])
+    needs_reanalysis = outdated and doc['eval_status']=='W'
+    if needs_reanalysis:
+        questions.append(dict(id='analysis:contract',question='이전 분석의 현재·계획 근거 시점을 다시 확인해 주세요.'))
     for it in doc['items']:
         cs=it.get('catalog', {}); ai=cs.get('ai')
         if not ai: continue
+        if needs_reanalysis:
+            reason='이전 분석의 근거 시점 확인이 필요해요. 답변 또는 추가 관찰을 반영해 다시 확인해 주세요.'
+            it.update(signal='N',after='N',judged=False,reason=reason)
+            cs['current_result'].update(grade=None,signal='N',status='needs_information',control_band=None,reason=reason)
+            cs['projected_result']=None
         sid=cs['scenario']['id']; match=ai['match']
         if match['applicability']!='confirmed':
             questions.append(dict(id=sid+':applicability', question=cs['scenario']['task']+' 작업이 실제로 진행되나요?'))
         for c in cs['scenario']['controls']:
-            if c['id'] in ai['unknown_ids']:
+            if c['id'] in ai.get('conflict_ids', []):
+                questions.append(dict(id=sid+':conflict:'+c['id'], question='기존 선택과 새 근거가 달라요. '+c['current_text']+' 현재 상태를 확인해 주세요.'))
+            elif c['id'] in ai['unknown_ids']:
                 questions.append(dict(id=sid+':'+c['id'], question=c['current_text']+' 상태를 확인해 주세요.'))
         for i,value in enumerate(match['uncertainties']):
             questions.append(dict(id=sid+':uncertainty:'+str(i), question=value))
     for i,value in enumerate(state['report']['unmatched_observations']):
         questions.append(dict(id='unmatched:'+str(i),question='추가 현장 검토가 필요한 관찰을 보완해 주세요: '+value))
-    doc['risk_assessment'] = dict(policy_version=state['policy_version'], report=state['report'], questions=questions)
+    doc['risk_assessment'] = dict(policy_version=state['policy_version'], contract_version=state.get('contract_version'), legacy_contract=outdated, needs_reanalysis=needs_reanalysis, report=state['report'], questions=questions)
 
 
 def pending_errors(doc):

@@ -3,12 +3,15 @@ from typing import Annotated, Literal
 from pydantic import Field
 from schemas.assessment import StrictModel
 
+CONTRACT_VERSION = 'CATALOG-AI-1.1'
+
 Identifier = Annotated[str, Field(min_length=1,max_length=100)]
 Statement = Annotated[str, Field(min_length=1,max_length=1000)]
 class Evidence(StrictModel):
     id: Identifier
     media_id: Identifier
     kind: Literal['observed','reported']
+    time_scope: Literal['current','planned','unknown']
     statement: Statement
 
 class ControlFact(StrictModel):
