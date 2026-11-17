@@ -5,11 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>초안 확인 · Safe-T</title>
   <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/assessment.css">
   <link rel="stylesheet" href="../css/draft.css">
   <link rel="stylesheet" href="../css/risk.css">
   <link rel="stylesheet" href="../css/bulk-assign.css">
 </head>
-<body data-auth-required>
+<body data-auth-required data-assessment>
   <!-- draft.html · 화면설계서 v3.19 통합본
        화면(view) 목록 (처음 화면 = .is-active)
        - #v-list : S05 초안 확인 리스트 · S05-A 상단 입력 안내 (#confirm S05-E 확정 확인 창, #delete C02 삭제 확인 창)
@@ -181,7 +182,7 @@
 
             <!-- 판단 필요(모두 꺼짐): 저장은 가능, 확정은 막힘. 낮은 위험으로 처리하지 않음 -->
             <div class="notice notice--danger small" id="d-judge-box" hidden>
-              <p>AI가 이 위험의 신호를 판단하지 못했어요. 판단 필요 항목이 남아 있으면 평가표를 확정할 수 없어요.</p>
+              <p>미확인 정보나 변경된 조치가 있으면 질문에 답하고 다시 판단해 주세요. 잠정 판정은 확정 전에 확인이 필요합니다.</p>
               <button class="btn btn--sm" id="d-rejudge" type="button">다시 판단</button>
             </div>
           </section>
@@ -223,7 +224,7 @@
                   </div>
                   <button class="btn btn--sm" id="d-owner-btn" type="button">일괄 지정에서 지정</button>
                 </div>
-                <p class="hint">대책을 고르면 평가표를 저장할 때 AI가 개선 후 예상 신호를 한 번에 판단해요.</p>
+                <p class="hint">대책 선택은 실행 계획입니다. 실제 조치 완료·효과가 확인되기 전에는 위험도를 낮추지 않습니다.</p>
               </div>
             </fieldset>
 
@@ -384,6 +385,7 @@
   <script src="../js/vendor/jquery-3.7.1.min.js"></script>
   <script src="../js/common.js"></script>
   <script src="../js/api.js"></script>
+  <script src="../js/risk-assessment.js"></script>
   <script src="../js/draft.js"></script>
 </body>
 </html>

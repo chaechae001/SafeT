@@ -1,0 +1,818 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:neuroflow:restaurant-risk:output:2.0",
+  "title": "Restaurant risk output 2.0",
+  "type": "object",
+  "properties": {
+    "policy_version": {
+      "const": "RESTAURANT-3LEVEL-2.0"
+    },
+    "assessment_id": {
+      "type": "string"
+    },
+    "analysis": {
+      "type": "object",
+      "properties": {
+        "policy_version": {
+          "const": "RESTAURANT-3LEVEL-2.0"
+        },
+        "assessment_id": {
+          "type": "string"
+        },
+        "scope": {
+          "type": "string"
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "media_id": {
+                "type": "string"
+              },
+              "kind": {
+                "enum": [
+                  "observed",
+                  "reported",
+                  "record",
+                  "inference"
+                ]
+              },
+              "locator": {
+                "type": "object",
+                "properties": {
+                  "description": {
+                    "type": "string"
+                  },
+                  "bbox_xyxy_norm": {
+                    "anyOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "type": "array",
+                        "items": {
+                          "type": "number",
+                          "minimum": 0,
+                          "maximum": 1
+                        },
+                        "minItems": 4,
+                        "maxItems": 4
+                      }
+                    ]
+                  },
+                  "audio_start_ms": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "minimum": 0
+                  },
+                  "audio_end_ms": {
+                    "type": [
+                      "integer",
+                      "null"
+                    ],
+                    "minimum": 0
+                  },
+                  "text_excerpt": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "required": [
+                  "description",
+                  "bbox_xyxy_norm",
+                  "audio_start_ms",
+                  "audio_end_ms",
+                  "text_excerpt"
+                ],
+                "additionalProperties": false
+              },
+              "statement": {
+                "type": "string"
+              },
+              "time_scope": {
+                "enum": [
+                  "current",
+                  "past",
+                  "planned",
+                  "hypothetical",
+                  "unknown"
+                ]
+              },
+              "limitations": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "id",
+              "media_id",
+              "kind",
+              "locator",
+              "statement",
+              "time_scope",
+              "limitations"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "hazards": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "rule_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              },
+              "subject": {
+                "type": "string"
+              },
+              "task": {
+                "type": "string"
+              },
+              "exposure": {
+                "type": "string"
+              },
+              "event": {
+                "type": "string"
+              },
+              "consequence": {
+                "type": "string"
+              },
+              "applicability": {
+                "enum": [
+                  "confirmed",
+                  "possible",
+                  "closed",
+                  "not_applicable"
+                ]
+              },
+              "evidence_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              },
+              "closure_evidence_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              },
+              "related_hazard_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              },
+              "severity_options": {
+                "type": "array",
+                "items": {
+                  "enum": [
+                    1,
+                    2,
+                    3
+                  ]
+                },
+                "minItems": 1,
+                "maxItems": 3,
+                "uniqueItems": true
+              },
+              "severity_rationale": {
+                "type": "string"
+              },
+              "control_options": {
+                "type": "array",
+                "items": {
+                  "enum": [
+                    1,
+                    2,
+                    3
+                  ]
+                },
+                "minItems": 1,
+                "maxItems": 3,
+                "uniqueItems": true
+              },
+              "control_rationale": {
+                "type": "string"
+              },
+              "controls": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "critical": {
+                      "type": "boolean"
+                    },
+                    "verification_required": {
+                      "type": "boolean"
+                    },
+                    "state": {
+                      "enum": [
+                        "verified_effective",
+                        "reported_effective",
+                        "ineffective",
+                        "absent",
+                        "unknown",
+                        "not_applicable"
+                      ]
+                    },
+                    "evidence_ids": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "uniqueItems": true
+                    },
+                    "rationale": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "name",
+                    "critical",
+                    "verification_required",
+                    "state",
+                    "evidence_ids",
+                    "rationale"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "safety_flags": {
+                "type": "object",
+                "properties": {
+                  "imminent_danger": {
+                    "type": "object",
+                    "properties": {
+                      "value": {
+                        "enum": [
+                          "yes",
+                          "no",
+                          "unknown"
+                        ]
+                      },
+                      "evidence_ids": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "uniqueItems": true
+                      },
+                      "rationale": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "value",
+                      "evidence_ids",
+                      "rationale"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "verified_legal_breach": {
+                    "type": "object",
+                    "properties": {
+                      "value": {
+                        "enum": [
+                          "yes",
+                          "no",
+                          "unknown"
+                        ]
+                      },
+                      "evidence_ids": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "uniqueItems": true
+                      },
+                      "rationale": {
+                        "type": "string"
+                      },
+                      "registry_ids": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "uniqueItems": true
+                      }
+                    },
+                    "required": [
+                      "value",
+                      "evidence_ids",
+                      "rationale",
+                      "registry_ids"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "unresolved_same_cause_near_miss": {
+                    "type": "object",
+                    "properties": {
+                      "value": {
+                        "enum": [
+                          "yes",
+                          "no",
+                          "unknown"
+                        ]
+                      },
+                      "evidence_ids": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "uniqueItems": true
+                      },
+                      "rationale": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "value",
+                      "evidence_ids",
+                      "rationale"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "imminent_danger",
+                  "verified_legal_breach",
+                  "unresolved_same_cause_near_miss"
+                ],
+                "additionalProperties": false
+              },
+              "decision_evidence_complete": {
+                "type": "boolean"
+              },
+              "uncertainty": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "contradictions": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "rationale": {
+                "type": "string"
+              },
+              "source_refs": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "document_id": {
+                      "enum": [
+                        "A",
+                        "B",
+                        "C"
+                      ]
+                    },
+                    "printed_page": {
+                      "type": "integer",
+                      "minimum": 1
+                    },
+                    "pdf_page": {
+                      "type": "integer",
+                      "minimum": 1
+                    }
+                  },
+                  "required": [
+                    "document_id",
+                    "printed_page",
+                    "pdf_page"
+                  ],
+                  "additionalProperties": false
+                },
+                "minItems": 1
+              }
+            },
+            "required": [
+              "id",
+              "rule_ids",
+              "subject",
+              "task",
+              "exposure",
+              "event",
+              "consequence",
+              "applicability",
+              "evidence_ids",
+              "closure_evidence_ids",
+              "related_hazard_ids",
+              "severity_options",
+              "severity_rationale",
+              "control_options",
+              "control_rationale",
+              "controls",
+              "safety_flags",
+              "decision_evidence_complete",
+              "uncertainty",
+              "contradictions",
+              "rationale",
+              "source_refs"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "questions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "hazard_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              },
+              "field": {
+                "type": "string"
+              },
+              "priority": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 5
+              },
+              "first_batch": {
+                "type": "boolean"
+              },
+              "question": {
+                "type": "string"
+              },
+              "answer_options": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "decision_impact": {
+                "type": "string"
+              },
+              "safe_verification": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "hazard_ids",
+              "field",
+              "priority",
+              "first_batch",
+              "question",
+              "answer_options",
+              "decision_impact",
+              "safe_verification"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "actions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "hazard_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "uniqueItems": true
+              },
+              "hierarchy": {
+                "enum": [
+                  "elimination",
+                  "substitution",
+                  "engineering",
+                  "administrative",
+                  "ppe",
+                  "emergency_response"
+                ]
+              },
+              "action": {
+                "type": "string"
+              },
+              "urgent": {
+                "type": "boolean"
+              },
+              "completion_evidence_required": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "hazard_ids",
+              "hierarchy",
+              "action",
+              "urgent",
+              "completion_evidence_required"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "coverage": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "rule_id": {
+                "type": "string"
+              },
+              "status": {
+                "enum": [
+                  "assessed",
+                  "needs_information",
+                  "not_applicable"
+                ]
+              },
+              "reason": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "rule_id",
+              "status",
+              "reason"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "limitations": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "policy_version",
+        "assessment_id",
+        "scope",
+        "evidence",
+        "hazards",
+        "questions",
+        "actions",
+        "coverage",
+        "limitations"
+      ],
+      "additionalProperties": false
+    },
+    "results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "hazard_id": {
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "confirmed",
+              "provisional",
+              "needs_information",
+              "candidate",
+              "closed",
+              "not_applicable"
+            ]
+          },
+          "grade": {
+            "enum": [
+              "상",
+              "중",
+              "하",
+              null
+            ]
+          },
+          "ordinal": {
+            "enum": [
+              1,
+              2,
+              3,
+              null
+            ]
+          },
+          "range": {
+            "type": "object",
+            "properties": {
+              "min": {
+                "enum": [
+                  1,
+                  2,
+                  3,
+                  null
+                ]
+              },
+              "max": {
+                "enum": [
+                  1,
+                  2,
+                  3,
+                  null
+                ]
+              }
+            },
+            "required": [
+              "min",
+              "max"
+            ],
+            "additionalProperties": false
+          },
+          "acceptability": {
+            "enum": [
+              "not_acceptable",
+              "acceptable_in_assessed_scope",
+              "undetermined",
+              "not_applicable"
+            ]
+          },
+          "rule_applied": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "requires_human_review": {
+            "type": "boolean"
+          },
+          "immediate_exposure_stop": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "hazard_id",
+          "status",
+          "grade",
+          "ordinal",
+          "range",
+          "acceptability",
+          "rule_applied",
+          "requires_human_review",
+          "immediate_exposure_stop"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "summary": {
+      "type": "object",
+      "properties": {
+        "max_confirmed": {
+          "enum": [
+            "상",
+            "중",
+            "하",
+            null
+          ]
+        },
+        "max_provisional": {
+          "enum": [
+            "상",
+            "중",
+            "하",
+            null
+          ]
+        },
+        "assessed_scope_max": {
+          "enum": [
+            "상",
+            "중",
+            "하",
+            null
+          ]
+        },
+        "confirmed_counts": {
+          "type": "object",
+          "properties": {
+            "상": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "중": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "하": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "상",
+            "중",
+            "하"
+          ],
+          "additionalProperties": false
+        },
+        "provisional_counts": {
+          "type": "object",
+          "properties": {
+            "상": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "중": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "하": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "상",
+            "중",
+            "하"
+          ],
+          "additionalProperties": false
+        },
+        "unrated_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "information_incomplete_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "coverage_needs_information_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "site_safety_conclusion": {
+          "const": "not_determined"
+        }
+      },
+      "required": [
+        "max_confirmed",
+        "max_provisional",
+        "assessed_scope_max",
+        "confirmed_counts",
+        "provisional_counts",
+        "unrated_count",
+        "information_incomplete_count",
+        "coverage_needs_information_count",
+        "site_safety_conclusion"
+      ],
+      "additionalProperties": false
+    },
+    "work_authorization": {
+      "const": "not_issued"
+    }
+  },
+  "required": [
+    "policy_version",
+    "assessment_id",
+    "analysis",
+    "results",
+    "summary",
+    "work_authorization"
+  ],
+  "additionalProperties": false
+}
