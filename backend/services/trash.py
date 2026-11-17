@@ -95,7 +95,8 @@ def restore(db, email, no):
     except Exception:
         db.rollback()                                 # 만료 삭제는 위에서 이미 commit 됨 (rollback 영향 없음)
         raise
-    return {'eval_no': no, 'eval_nm': m['eval_nm']}
+    # 화면이 내 평가표의 기간·사업장 선택을 이 평가표가 보이게 맞추는 데 씀
+    return {'eval_no': no, 'eval_nm': m['eval_nm'], 'eval_dt': m['eval_dt'], 'work_no': m['work_no']}
 
 
 def purge(db, email, no):

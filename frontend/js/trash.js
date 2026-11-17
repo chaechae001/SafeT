@@ -57,10 +57,21 @@
       var t = card(this);
       busy = true;
       SafeT.loading(true);
-      SafeT.api.post('/trash/' + t.eval_no + '/restore').done(function () {
+      SafeT.api.post('/trash/' + t.eval_no + '/restore').done(function (r) {
+        // 내 평가표에서 복원한 평가표가 바로 보이게: '작성 중' 탭, 사업장 -전체-, 기간에 평가일 포함
+        // (사업장·기간 선택이 남아 있으면 다른 사업장·날짜의 평가표가 목록에서 가려짐)
         try {
           var s = JSON.parse(window.sessionStorage.getItem('safet.home') || '{}');
-          s.tab = 'W'; s.page = 1; s.scroll = 0;
+          var d = day(r && r.eval_dt);
+          s.tab = 'W'; s.page = 1; s.scroll = 0; s.work = '';
+          // 저장된 기간이 없으면 내 평가표 처음 값(이번 달 1일 ~ 오늘)에서 시작
+          var today = SafeT.today();
+          if (!s.from) s.from = SafeT.formatDate(new Date(today.getFullYear(), today.getMonth(), 1));
+          if (!s.to) s.to = SafeT.formatDate(today);
+          if (d !== '—') {
+            if (s.from > d) s.from = d;                // 'YYYY.MM.DD' 문자열 비교
+            if (s.to < d) s.to = d;
+          }
           window.sessionStorage.setItem('safet.home', JSON.stringify(s));
         } catch (err) { /* 저장 불가 환경 */ }
         window.location.href = 'home.html';

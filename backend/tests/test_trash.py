@@ -67,6 +67,7 @@ def test_복원하면_입력_그대로_작성중(client, setup):
     client.delete(f"/evals/{no}", headers=h)
     r = client.post(f"/trash/{no}/restore", headers=h)
     assert r.status_code == 200 and r.json()["eval_nm"] == "작성중"
+    assert r.json()["eval_dt"].startswith("2026-11-14") and r.json()["work_no"]      # 화면이 기간·사업장 맞추는 데 씀
     doc = client.get(f"/evals/{no}", headers=h).json()
     assert doc["eval_status"] == "W" and len(doc["items"]) == 1 and doc["members"] == ["이민호"]
     assert trash(client, setup)["items"] == []
