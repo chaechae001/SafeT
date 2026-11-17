@@ -1,0 +1,445 @@
+{
+  "_about": "S04 초안 생성 파이프라인 설정(프로토타입 v0.1, 2026-11-16). '임시'가 붙은 값은 근거 문서에서 채택이 확정되지 않은 값이다. 팀·전문가 결정 전에는 실제 판정에 쓰지 않는다.",
+  "pipeline_version": "s04-proto-0.1",
+  "paths": {
+    "contract_dir": "../261115_AI출력계약_신호기준_DR",
+    "chunks": "../261115_RAG_지식베이스_DR/261115_RAG_청크_v1_DR.jsonl",
+    "table": "../261115_RAG_지식베이스_DR/261115_RAG_구조화표_v1_DR.jsonl",
+    "laws": "../261115_RAG_지식베이스_DR/261115_RAG_법령검증목록_v1_DR.json"
+  },
+  "backend": {
+    "mode": "offline_template",
+    "_mode_options": "offline_template = 모델 없이 RAG + 임시 템플릿으로 생성 / llm = OpenAI 호환 chat completions 엔드포인트 호출 / mock_llm = 저장된 모델 응답 파일로 llm 경로 재현",
+    "llm": {
+      "_status": "미확인. Elice serverless 엔드포인트 URL과 모델 ID를 확인하지 못했다. 추측해서 채우지 않는다.",
+      "base_url_env": "SAFET_LLM_BASE_URL",
+      "model_env": "SAFET_LLM_MODEL",
+      "api_key_env": "SAFET_LLM_API_KEY",
+      "api_key_file_env": "SAFET_LLM_API_KEY_FILE",
+      "temperature": 0.0,
+      "max_tokens": 4096,
+      "timeout_sec": 120,
+      "max_items": 10,
+      "postprocess": {
+        "_note": "2026-11-16 Cloud 1차 실행 오류 분석 뒤 추가. 모델이 ID를 '[CHK-…]'처럼 대괄호째 쓰고 같은 항목·대책을 반복함. off로 두면 원래 처리. script_gate: 일본어·한자·라틴 확장 문자나 허용 목록 밖 영어 단어가 섞인 항목은 off(invalid_output), 대책은 제외.",
+        "normalize_ids": true,
+        "filter_input_ids": true,
+        "dedupe": true,
+        "script_gate": true,
+        "script_allow": [
+          "LPG",
+          "LNG",
+          "KCS",
+          "MSDS",
+          "KOSHA",
+          "GUIDE",
+          "LED"
+        ],
+        "strip_ids": true,
+        "near_dup_jaccard": 0.5,
+        "mismatch_check": true,
+        "mismatch_filter": false
+      },
+      "strategy": "single",
+      "candidates": false,
+      "candidate_prompt_version": 1,
+      "_strategy_note": "strategy: single=한 번 호출(기준선) / split=기기·작업 단위 호출 후 합침(개선 A). candidates: true면 점검표 후보 ID를 고르게 함(개선 B). candidate_prompt_version 2=자리표시자 베끼기 대응판.",
+      "equipment_mapping": false,
+      "item_prompt": "default",
+      "measure_stage": "none",
+      "_round3_note": "3차(2026-11-16 09시대): equipment_mapping=기기마스터 매핑 후보 검색, item_prompt=v3_items(A+B2 값 규칙, 대책 미선택), measure_stage=c1(항목별 대책 선택 호출)|c2(서버 규칙 채움), postprocess.mismatch_filter=기기마스터 관련 위험요인에 없는 항목 제외. 기본값은 기준선과 같게 둔다."
+    }
+  },
+  "retrieval": {
+    "method": "bm25_char_bigram",
+    "_note": "한국어 형태소 분석기 없이 문자 2-gram + 공백 단어로 BM25. 처음 버전이라 의도적으로 단순하게 둠.",
+    "k1": 1.2,
+    "b": 0.75,
+    "top_k_chunks": 4,
+    "top_k_rows": 8,
+    "exclude_row_sections": [
+      "위험성평가",
+      "안전 및 보건에 관한 프로그램(가맹점)"
+    ],
+    "exclude_case_rows_from_measures": true,
+    "_case_rows_note": "사례 행(CASE-*)은 비교 대상이므로 대책·후보 원천에서 뺀다(데이터 누출 방지)."
+  },
+  "signal": {
+    "criteria_mode": "provisional_guide_example",
+    "_criteria_mode_options": "strict = 판단기준 미확정이므로 모든 항목 off(criteria_not_set) / provisional_guide_example = 안내서 3단계 판단법 예시를 임시로 적용",
+    "criteria_version_output": null,
+    "_criteria_version_note": "계약 3.1: 팀 확정 전에는 null. 임시 기준을 적용해도 null로 두고 basis.matched_rules와 판단 이유에 '임시'를 남긴다.",
+    "provisional_criteria": {
+      "label": "임시: 쉽고 간편한 위험성평가 방법 안내서 13쪽(PDF 17) 판단 기준 예시. Safe-T 채택 전(C1·C2 결정 대기).",
+      "method": "three_level",
+      "levels": {
+        "high": {
+          "signal": "red",
+          "rule_id": "PROVISIONAL.guide13.high",
+          "text": "사고 발생 시 사망 또는 장애가 남을 수 있는 위험"
+        },
+        "medium": {
+          "signal": "yellow",
+          "rule_id": "PROVISIONAL.guide13.medium",
+          "text": "사고 발생 시 요양이 필요한 위험"
+        },
+        "low": {
+          "signal": "green",
+          "rule_id": "PROVISIONAL.guide13.low",
+          "text": "작업 수행에 영향을 미치지 않는 경미한 부상 또는 질병이 예상되는 경우"
+        }
+      },
+      "tolerable": {
+        "high": false,
+        "medium": false,
+        "low": true
+      },
+      "_tolerable_note": "계약 4.2 대응표(상·중 허용 불가능, 하 허용 가능). C3 결정 대기."
+    },
+    "reason_prefix_provisional": "[임시 기준·전문가 확인 필요] ",
+    "green_recommendations": false,
+    "_green_note": "D2 미결정. 초록은 초안 때 추천을 만들지 않고 not_applicable로 둔다(임시)."
+  },
+  "measures": {
+    "max_current_candidates": 4,
+    "recommended_count": 3,
+    "control_type_keywords": {
+      "_note": "임시 키워드 분류. 고시 제12조 순서(제거·대체 → 공학적 → 관리적 → 개인보호구)에 맞춘 제안 필드이며 전문가 검토 전.",
+      "ppe": [
+        "보호구",
+        "장갑",
+        "보안경",
+        "앞치마",
+        "안전화",
+        "미끄럼방지화",
+        "방한복",
+        "방열"
+      ],
+      "engineering": [
+        "설치",
+        "가드",
+        "덮개",
+        "커버",
+        "차단기",
+        "경보기",
+        "배수",
+        "고정",
+        "보관함",
+        "체인",
+        "보조설비",
+        "소화기",
+        "난간",
+        "차열판"
+      ],
+      "elimination_substitution": [
+        "대체",
+        "교체"
+      ],
+      "administrative": [
+        "교육",
+        "표지",
+        "점검",
+        "확인",
+        "금지",
+        "관리",
+        "정리",
+        "청소",
+        "배분",
+        "공유",
+        "숙지",
+        "제거",
+        "보관",
+        "차단한다"
+      ]
+    }
+  },
+  "laws": {
+    "link_rule": "법령검증목록 verified 조항 중 (1) 항목 검색 결과 청크가 그 조항의 cited_in 청크에 있고 (2) 템플릿의 law_candidates에 있는 조항만 붙인다. LLM 모드도 같은 규칙으로 서버가 붙이며 모델이 쓴 조항명은 쓰지 않는다.",
+    "verified_time_note": "검증 목록에는 날짜만 있어 verified_at 시각은 00:00:00+09:00으로 둔다."
+  },
+  "offline_templates": {
+    "_about": "임시 템플릿. LLM이 연결되지 않았을 때 위험 항목 문구를 만드는 대체 수단이다. 문구 출처는 화면설계서 예시(18·20쪽)와 RAG 지식베이스 절 제목이다. provisional_level은 안내서 예시 기준을 임시로 적용한 값이며 전문가 검토 전이다.",
+    "templates": [
+      {
+        "template_id": "T-FRY-BURN",
+        "triggers": {
+          "equipment": [
+            "튀김기"
+          ],
+          "text": [
+            "튀김할",
+            "튀길",
+            "기름이 튀",
+            "기름 튐"
+          ]
+        },
+        "work": "튀김 조리",
+        "hazard": "고온 기름 튐에 의한 화상",
+        "accident_type": "화상",
+        "cause": "물기 있는 재료 투입 시 기름이 튐 · 바스켓을 꺼낼 때 기름이 손에 떨어짐",
+        "description": "뜨거운 기름이 튀어 손과 팔에 닿음",
+        "text_source": "화면설계서 v3.19 18·20쪽 예시 문구",
+        "location_keywords": [
+          "튀김"
+        ],
+        "rag_query": "튀김기 고온 기름 화상 조리 개인보호구 방열장갑 표지",
+        "row_sections": [
+          "4-3-2. 조리",
+          "4-2-3. 조리설비·기구(회전식 국솥, 튀김기 등)"
+        ],
+        "law_candidates": [],
+        "provisional_level": "high",
+        "level_note": "고온 기름 화상은 흉터 등 장애가 남을 수 있어 '상' 예시에 임시 대응",
+        "measure_keywords": [
+          "화상",
+          "방열",
+          "고온",
+          "보호구",
+          "차열",
+          "열상"
+        ]
+      },
+      {
+        "template_id": "T-FRY-FIRE",
+        "triggers": {
+          "equipment": [
+            "튀김기"
+          ],
+          "text": [
+            "기름 화재",
+            "식용유"
+          ]
+        },
+        "work": "튀김 조리",
+        "hazard": "식용유 과열·착화에 의한 화재",
+        "accident_type": "화재",
+        "cause": "튀김기 기름이 과열되거나 불꽃에 닿아 착화됨",
+        "description": "조리 중 식용유에 불이 붙어 화재가 번짐",
+        "text_source": "RAG D5 p064 '조리·조리작업 중 화재' 절 제목·사례 요지",
+        "location_keywords": [
+          "튀김"
+        ],
+        "rag_query": "조리 작업 중 화재 식용유 착화 K급 소화기 튀김기",
+        "row_sections": [
+          "4-3-2. 조리",
+          "4-1-1. 바닥 및 통로",
+          "4-4-6. 응급조치"
+        ],
+        "law_candidates": [],
+        "provisional_level": "high",
+        "level_note": "D5 p064가 음식업 조리 중 화재 사고사망 사례를 제시하므로 '상' 예시(사망 가능)에 임시 대응",
+        "measure_keywords": [
+          "화재",
+          "소화",
+          "전원·가스"
+        ]
+      },
+      {
+        "template_id": "T-FLOOR-SLIP",
+        "triggers": {
+          "equipment": [],
+          "text": [
+            "바닥",
+            "물기",
+            "미끄"
+          ]
+        },
+        "work": "바닥 이동",
+        "hazard": "바닥 물기·기름에 의한 넘어짐",
+        "accident_type": "넘어짐",
+        "cause": "조리·세척 중 바닥에 물기나 기름이 남아 있음",
+        "description": "물기·기름이 있는 바닥을 이동하다 미끄러져 넘어짐",
+        "text_source": "화면설계서 16쪽 예시(물기·기름 · 넘어짐), RAG D5 p065",
+        "location_keywords": [
+          "바닥",
+          "튀김"
+        ],
+        "rag_query": "바닥 물기 기름 미끄러짐 넘어짐 배수로 미끄럼방지화 청결",
+        "row_sections": [
+          "4-1-1. 바닥 및 통로",
+          "4-3-1. 식자재 운반 및 보관",
+          "4-3-2. 조리"
+        ],
+        "law_candidates": [
+          "산업안전보건기준에 관한 규칙|제3조",
+          "산업안전보건기준에 관한 규칙|제4조"
+        ],
+        "provisional_level": "medium",
+        "level_note": "넘어짐은 요양이 필요한 부상이 흔해 '중' 예시에 임시 대응",
+        "measure_keywords": [
+          "바닥",
+          "미끄",
+          "물기",
+          "배수",
+          "넘어짐"
+        ]
+      },
+      {
+        "template_id": "T-KNIFE-CUT",
+        "triggers": {
+          "equipment": [
+            "칼",
+            "도마"
+          ],
+          "text": [
+            "칼",
+            "베임",
+            "손질"
+          ]
+        },
+        "work": "칼·도마 손질 작업",
+        "hazard": "칼날 접촉에 의한 베임",
+        "accident_type": "베임",
+        "cause": "재료 손질·절단 중 칼날이 손에 닿음",
+        "description": "칼을 쓰거나 정리할 때 칼날에 손이 베임",
+        "text_source": "화면설계서 17쪽 예시(날 접촉 · 베임), RAG D5 p069",
+        "location_keywords": [
+          "도마",
+          "칼",
+          "손질"
+        ],
+        "rag_query": "절단용 수공구 칼 베임 도마 손질 조리용 기구 보관 보호구",
+        "row_sections": [
+          "4-3-2. 조리",
+          "4-3-1. 식자재 운반 및 보관"
+        ],
+        "law_candidates": [],
+        "provisional_level": "medium",
+        "level_note": "베임은 봉합 등 요양이 필요할 수 있어 '중' 예시에 임시 대응",
+        "measure_keywords": [
+          "칼",
+          "베임",
+          "조리용 기구",
+          "보호구"
+        ]
+      },
+      {
+        "template_id": "T-GAS-FIRE",
+        "triggers": {
+          "equipment": [
+            "가스레인지",
+            "가스테이블"
+          ],
+          "text": [
+            "가스",
+            "LPG",
+            "LNG"
+          ]
+        },
+        "work": "가스레인지 조리",
+        "hazard": "가스 누출에 의한 화재·폭발",
+        "accident_type": "화재·폭발",
+        "cause": "가스 호스·밸브 연결부 불량이나 점화 전 누출을 확인하지 않음",
+        "description": "누출된 가스에 불이 붙어 화재나 폭발이 일어남",
+        "text_source": "RAG 점검표 4-2-2 가스테이블 절 제목·항목 요지",
+        "location_keywords": [
+          "가스",
+          "화구"
+        ],
+        "rag_query": "가스레인지 가스테이블 가스누출 경보기 자동차단기 호스 밸브 점화",
+        "row_sections": [
+          "4-2-2. 가스테이블(가스레인지)",
+          "4-3-2. 조리",
+          "4-4-1. 유해화학물질"
+        ],
+        "law_candidates": [],
+        "provisional_level": "high",
+        "level_note": "화재·폭발은 사망 가능 사고라 '상' 예시에 임시 대응",
+        "measure_keywords": [
+          "가스"
+        ]
+      },
+      {
+        "template_id": "T-MARINATOR",
+        "triggers": {
+          "equipment": [
+            "염지기"
+          ],
+          "text": [
+            "염지"
+          ]
+        },
+        "work": "염지기 사용",
+        "hazard": "염지기 구동부·회전부에 의한 끼임",
+        "accident_type": "끼임",
+        "cause": "작동 중 재료를 넣거나 빼고, 청소·점검 때 운전을 멈추지 않음",
+        "description": "염지기 작동 중 손이나 옷이 구동부에 말려 끼임",
+        "text_source": "RAG 점검표 4-2-1 식품가공기계 절, D5 p068 혼합기 등 기계 작업",
+        "location_keywords": [
+          "염지"
+        ],
+        "rag_query": "식품가공기계 혼합기 회전 끼임 안전가드 비상정지 운전정지 청소",
+        "row_sections": [
+          "4-2-1. 식품가공기계(파쇄·절단·반죽·혼합·제면기)",
+          "4-3-2. 조리"
+        ],
+        "law_candidates": [
+          "산업안전보건기준에 관한 규칙|제92조"
+        ],
+        "provisional_level": null,
+        "off_reason_code": "insufficient_input",
+        "off_reason_text": "염지기의 형태(회전식 여부)와 방호장치 정보가 입력에 없어 위험 정도를 판단하지 못했어요. 사진이나 설명을 더해 주세요.",
+        "level_note": "점검표 4-2-1은 파쇄·절단·혼합·제면기를 다루며 염지기를 명시하지 않는다. 같은 기준을 적용할지 확인 필요",
+        "measure_keywords": [
+          "기계",
+          "가드",
+          "정지",
+          "방호",
+          "회전",
+          "장갑"
+        ]
+      },
+      {
+        "template_id": "T-STORAGE-LIFT",
+        "triggers": {
+          "equipment": [
+            "냉장고",
+            "냉동고"
+          ],
+          "text": [
+            "운반",
+            "식자재",
+            "박스",
+            "무거"
+          ]
+        },
+        "work": "식자재 운반·보관",
+        "hazard": "중량물 운반에 의한 허리 부담",
+        "accident_type": "근골격계 질환",
+        "cause": "무거운 식자재 상자를 냉장고·선반에 반복해서 들어 옮김",
+        "description": "식자재를 들어 옮기거나 냉장고에 넣을 때 허리에 부담이 감",
+        "text_source": "화면설계서 19쪽 예시(식자재 운반 · 허리 부담), RAG 점검표 4-3-1·4-4-4",
+        "location_keywords": [
+          "냉장",
+          "창고",
+          "식자재"
+        ],
+        "rag_query": "식자재 운반 보관 중량물 근골격계 허리 운반대차 냉장 냉동고",
+        "row_sections": [
+          "4-3-1. 식자재 운반 및 보관",
+          "4-4-4. 근골격계질환"
+        ],
+        "law_candidates": [],
+        "provisional_level": "medium",
+        "level_note": "근골격계 질환은 요양이 필요할 수 있어 '중' 예시에 임시 대응",
+        "measure_keywords": [
+          "중량",
+          "운반",
+          "근골격",
+          "보조설비",
+          "무게",
+          "작업시간",
+          "대차",
+          "작업자세"
+        ]
+      }
+    ],
+    "_measure_keywords_note": "measure_keywords는 검색 결과 중 이 위험과 관련된 점검표 행만 남기는 필터다. 안전 기준이 아니다. 맞는 행이 3개 미만이면 추천 대책은 failed로 둔다."
+  },
+  "fallback_generic_item": {
+    "_about": "템플릿에 맞지 않는 입력 문장은 RAG 검색 결과로 항목을 만들되 신호는 off(insufficient_input)로 둔다. 근거 없이 신호를 정하지 않는다.",
+    "min_row_score": 4.0,
+    "off_reason_text": "오프라인 모드에 이 위험에 맞는 판단 규칙이 없어 신호를 판단하지 못했어요. 전문가 확인이 필요해요.",
+    "work_label": "작업 확인 필요"
+  }
+}

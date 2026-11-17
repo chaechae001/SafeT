@@ -1,0 +1,14 @@
+{
+  "request_id": "case-CAFE_B_01-261116",
+  "assessment_id": "CASE-CAFE_B_01",
+  "criteria_version": null,
+  "business": {
+    "industry": "음식점"
+  },
+  "equipment": [],
+  "field_input": {
+    "photos": [],
+    "text": "투명 출입문을 알아보지 못해 부딪히거나 끼일 위험",
+    "voice_transcripts": []
+  }
+}

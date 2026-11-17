@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "safe-t/equipment_detection.response.v2-draft",
+  "title": "S03 사진 기기 탐지 응답(탐지 모델 → 백엔드) v2",
+  "description": "초안. 객체 탐지 모델 결과를 기기 마스터 ID로 바꾼 값이다. 등록 기기 제외와 ai_found 생성은 백엔드가 한다(261116_기기인식_출력형식_제외규칙_v2_DR.md 3절).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["request_id", "status", "detector", "master_version", "judged_at", "photos", "detections"],
+  "properties": {
+    "request_id": { "type": "string" },
+    "status": { "type": "string", "enum": ["ok", "partial", "failed", "no_photo"] },
+    "error_code": { "type": ["string", "null"] },
+    "detector": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["model_name", "model_version", "weights_sha256", "class_map_version", "score_threshold_applied"],
+      "properties": {
+        "model_name": { "type": "string", "description": "예: yolo-coco, grounding-dino, safe-t-finetuned" },
+        "model_version": { "type": "string" },
+        "weights_sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+        "class_map_version": { "type": "string", "description": "탐지기 클래스→equipment_id 대응표 버전" },
+        "prompt_set_version": { "type": ["string", "null"], "description": "오픈 어휘 탐지일 때 프롬프트 목록 버전" },
+        "score_threshold_applied": { "type": "number", "minimum": 0, "maximum": 1, "description": "모델 단계에서 이미 거른 최저 점수. 백엔드 임계값 T와 별개" }
+      }
+    },
+    "master_version": { "type": "string" },
+    "judged_at": { "type": "string", "format": "date-time" },
+    "photos": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["photo_id", "status", "width", "height"],
+        "properties": {
+          "photo_id": { "type": "string" },
+          "status": { "type": "string", "enum": ["analyzed", "failed"] },
+          "error_code": { "type": ["string", "null"] },
+          "width": { "type": ["integer", "null"], "minimum": 1, "description": "EXIF 회전 적용 후 너비(px)" },
+          "height": { "type": ["integer", "null"], "minimum": 1 }
+        }
+      }
+    },
+    "detections": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["detection_id", "photo_id", "equipment_id", "confidence", "bbox", "detector_class"],
+        "properties": {
+          "detection_id": { "type": "string" },
+          "photo_id": { "type": "string" },
+          "equipment_id": { "type": ["string", "null"], "pattern": "^EQ_[A-Z0-9_]+$", "description": "대응표로 바꾼 값. 대응이 없으면 null" },
+          "detector_class": { "type": "string", "description": "탐지기 원 클래스명 또는 프롬프트(예: 'refrigerator', 'commercial deep fryer')" },
+          "class_map_match": { "type": ["string", "null"], "enum": ["direct", "partial", "finetuned", "open_vocab", null] },
+          "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+          "bbox": {
+            "type": "array",
+            "items": { "type": "number", "minimum": 0, "maximum": 1 },
+            "minItems": 4,
+            "maxItems": 4,
+            "description": "[x0, y0, x1, y1] 0-1 정규화, EXIF 회전 적용 화면 기준. 탐지 모델은 항상 박스를 낸다"
+          }
+        }
+      }
+    }
+  }
+}

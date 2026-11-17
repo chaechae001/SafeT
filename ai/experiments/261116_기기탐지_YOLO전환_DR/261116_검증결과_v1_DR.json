@@ -1,0 +1,122 @@
+{
+  "validated_date_kst": "2026-11-16",
+  "all_pass": true,
+  "checks": [
+    {
+      "check": "대응표: 마스터 42개와 1:1",
+      "pass": true,
+      "detail": 42
+    },
+    {
+      "check": "대응표: COCO 클래스명이 사용 목록 안에 있음",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "대응표: direct/partial은 COCO 클래스 있음, none은 없음",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "COCO 초안: 카테고리 = 탐지 대상(yes) 클래스",
+      "pass": true,
+      "detail": 34
+    },
+    {
+      "check": "COCO 초안: 이미지 34장, image_id_str = 평가셋 image_id",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "COCO 초안: 파일 경로가 존재",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "COCO 초안: 박스가 이미지 안에 있음",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "COCO 초안: 모든 주석 box_quality=grid_approx",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "COCO 초안: label_id가 평가셋 라벨과 같은 기기",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "COCO 초안: 주석 수 = 탐지 대상 라벨 수",
+      "pass": true,
+      "detail": [
+        72,
+        72
+      ]
+    },
+    {
+      "check": "YOLO 초안: classes.txt = COCO 카테고리 순서",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "YOLO 초안: txt 파일명 = 평가셋 image_id(34개)",
+      "pass": true,
+      "detail": 34
+    },
+    {
+      "check": "YOLO 초안: 줄 형식(class cx cy w h, 0-1)",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "check": "YOLO 초안: 줄 수 = COCO 주석 수",
+      "pass": true,
+      "detail": 72
+    },
+    {
+      "check": "스키마 v2: 예시 통과",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "check": "스키마 v2: bbox null 거부",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "스키마 v2: 가중치 해시 누락 거부",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "스키마 v2: 예시 equipment_id가 마스터에 있음",
+      "pass": true,
+      "detail": [
+        "EQ_MICROWAVE",
+        "EQ_REFRIGERATOR"
+      ]
+    },
+    {
+      "check": "v1 출력형식 문서 보존(존재)",
+      "pass": true,
+      "detail": null
+    }
+  ],
+  "mapping_summary": {
+    "coco_match": {
+      "none": 32,
+      "partial": 4,
+      "direct": 6
+    },
+    "detection_target": {
+      "yes": 34,
+      "hold": 7,
+      "no": 1
+    },
+    "evalset_labels_coverable_by_coco_direct": 17,
+    "evalset_labels_coco_partial": 11,
+    "evalset_labels_total": 77
+  }
+}

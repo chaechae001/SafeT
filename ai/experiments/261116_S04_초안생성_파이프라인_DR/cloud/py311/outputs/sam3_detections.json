@@ -1,0 +1,6162 @@
+{
+ "model_output": {
+  "request_id": "detect_compare_sam3",
+  "status": "ok",
+  "error_code": null,
+  "detector": {
+   "model_name": "sam3",
+   "model_version": "facebook/sam3 (official repo)",
+   "weights_sha256": null,
+   "class_map_version": "261116_사전학습클래스_대응표_v1",
+   "score_threshold_applied": 0.05,
+   "prompt_set_version": "open_vocab_prompt_draft v1"
+  },
+  "master_version": "v1-draft",
+  "judged_at": "2026-11-17T01:26:44+09:00",
+  "photos": [
+   {
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 1600,
+    "height": 900
+   },
+   {
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 1600,
+    "height": 900
+   },
+   {
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 1600,
+    "height": 900
+   }
+  ],
+  "detections": [
+   {
+    "detection_id": "d1",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_KNIFE_BOARD",
+    "detector_class": "kitchen knife",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0737,
+    "bbox": [
+     0.6569,
+     0.4833,
+     0.6888,
+     0.5229
+    ]
+   },
+   {
+    "detection_id": "d2",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_KNIFE_BOARD",
+    "detector_class": "kitchen knife",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0583,
+    "bbox": [
+     0.3638,
+     0.7116,
+     0.5014,
+     0.7642
+    ]
+   },
+   {
+    "detection_id": "d3",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_KNIFE_BOARD",
+    "detector_class": "kitchen knife",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1011,
+    "bbox": [
+     0.7726,
+     0,
+     0.8261,
+     0.0437
+    ]
+   },
+   {
+    "detection_id": "d4",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_KNIFE_BOARD",
+    "detector_class": "kitchen knife",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0708,
+    "bbox": [
+     0.3671,
+     0.7109,
+     0.3751,
+     0.727
+    ]
+   },
+   {
+    "detection_id": "d5",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_KNIFE_BOARD",
+    "detector_class": "kitchen knife",
+    "class_map_match": "open_vocab",
+    "confidence": 0.3301,
+    "bbox": [
+     0.4244,
+     0.7152,
+     0.5024,
+     0.7652
+    ]
+   },
+   {
+    "detection_id": "d6",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_KNIFE_BOARD",
+    "detector_class": "kitchen knife",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0527,
+    "bbox": [
+     0.9488,
+     0.1328,
+     0.9558,
+     0.1836
+    ]
+   },
+   {
+    "detection_id": "d7",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_KNIFE_BOARD",
+    "detector_class": "kitchen knife",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0762,
+    "bbox": [
+     0.3985,
+     0.7268,
+     0.6245,
+     0.9448
+    ]
+   },
+   {
+    "detection_id": "d8",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_KNIFE_BOARD",
+    "detector_class": "kitchen knife",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0645,
+    "bbox": [
+     0.7564,
+     0.1529,
+     0.7721,
+     0.2543
+    ]
+   },
+   {
+    "detection_id": "d9",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_KNIFE_BOARD",
+    "detector_class": "kitchen knife",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0781,
+    "bbox": [
+     0.8266,
+     0.1398,
+     0.8651,
+     0.1755
+    ]
+   },
+   {
+    "detection_id": "d10",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_KNIFE_BOARD",
+    "detector_class": "kitchen knife",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1113,
+    "bbox": [
+     0.6579,
+     0.7258,
+     0.7118,
+     0.7946
+    ]
+   },
+   {
+    "detection_id": "d11",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_KNIFE_BOARD",
+    "detector_class": "kitchen knife",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0635,
+    "bbox": [
+     0.7752,
+     0.158,
+     0.8109,
+     0.1827
+    ]
+   },
+   {
+    "detection_id": "d12",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_KNIFE_BOARD",
+    "detector_class": "kitchen knife",
+    "class_map_match": "open_vocab",
+    "confidence": 0.832,
+    "bbox": [
+     0.3671,
+     0.7117,
+     0.5013,
+     0.7643
+    ]
+   },
+   {
+    "detection_id": "d13",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_KNIFE_BOARD",
+    "detector_class": "cutting board",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0776,
+    "bbox": [
+     0.3954,
+     0.8135,
+     0.625,
+     0.9636
+    ]
+   },
+   {
+    "detection_id": "d14",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_KNIFE_BOARD",
+    "detector_class": "cutting board",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0942,
+    "bbox": [
+     0.4017,
+     0.7325,
+     0.627,
+     0.9411
+    ]
+   },
+   {
+    "detection_id": "d15",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_KNIFE_BOARD",
+    "detector_class": "cutting board",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0537,
+    "bbox": [
+     0.9921,
+     0.3557,
+     1,
+     0.4147
+    ]
+   },
+   {
+    "detection_id": "d16",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_KNIFE_BOARD",
+    "detector_class": "cutting board",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0659,
+    "bbox": [
+     0.5989,
+     0.6849,
+     0.618,
+     0.7244
+    ]
+   },
+   {
+    "detection_id": "d17",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_KNIFE_BOARD",
+    "detector_class": "cutting board",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0703,
+    "bbox": [
+     0.8363,
+     0.7257,
+     0.8482,
+     0.9486
+    ]
+   },
+   {
+    "detection_id": "d18",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_KNIFE_BOARD",
+    "detector_class": "cutting board",
+    "class_map_match": "open_vocab",
+    "confidence": 0.9648,
+    "bbox": [
+     0.4014,
+     0.7319,
+     0.627,
+     0.9417
+    ]
+   },
+   {
+    "detection_id": "d19",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_KNIFE_BOARD",
+    "detector_class": "cutting board",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0613,
+    "bbox": [
+     0.5503,
+     0.5207,
+     0.5971,
+     0.5503
+    ]
+   },
+   {
+    "detection_id": "d20",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_KNIFE_BOARD",
+    "detector_class": "cutting board",
+    "class_map_match": "open_vocab",
+    "confidence": 0.063,
+    "bbox": [
+     0.5516,
+     0.5754,
+     0.6002,
+     0.6018
+    ]
+   },
+   {
+    "detection_id": "d21",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_KNIFE_BOARD",
+    "detector_class": "cutting board",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0688,
+    "bbox": [
+     0.5513,
+     0.5499,
+     0.5999,
+     0.5763
+    ]
+   },
+   {
+    "detection_id": "d22",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_SCISSORS",
+    "detector_class": "scissors",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0708,
+    "bbox": [
+     0.6464,
+     0.4835,
+     0.6895,
+     0.5408
+    ]
+   },
+   {
+    "detection_id": "d23",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_MIXER",
+    "detector_class": "food mixer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0776,
+    "bbox": [
+     0.7551,
+     0.1526,
+     0.8906,
+     0.4965
+    ]
+   },
+   {
+    "detection_id": "d24",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_COFFEE_MACHINE",
+    "detector_class": "espresso machine",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0796,
+    "bbox": [
+     0.7556,
+     0.1539,
+     0.8891,
+     0.4964
+    ]
+   },
+   {
+    "detection_id": "d25",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_COFFEE_MACHINE",
+    "detector_class": "espresso machine",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1738,
+    "bbox": [
+     0.5222,
+     0.2854,
+     0.6066,
+     0.4684
+    ]
+   },
+   {
+    "detection_id": "d26",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_COFFEE_MACHINE",
+    "detector_class": "espresso machine",
+    "class_map_match": "open_vocab",
+    "confidence": 0.2578,
+    "bbox": [
+     0.7549,
+     0.1553,
+     0.8876,
+     1
+    ]
+   },
+   {
+    "detection_id": "d27",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_COFFEE_MACHINE",
+    "detector_class": "espresso machine",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1221,
+    "bbox": [
+     0,
+     0,
+     0.4956,
+     0.9512
+    ]
+   },
+   {
+    "detection_id": "d28",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_COFFEE_MACHINE",
+    "detector_class": "espresso machine",
+    "class_map_match": "open_vocab",
+    "confidence": 0.8906,
+    "bbox": [
+     0.7553,
+     0.1534,
+     0.8897,
+     0.497
+    ]
+   },
+   {
+    "detection_id": "d29",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_COFFEE_MACHINE",
+    "detector_class": "espresso machine",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0645,
+    "bbox": [
+     0.7629,
+     0.5691,
+     0.8364,
+     1
+    ]
+   },
+   {
+    "detection_id": "d30",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_COFFEE_MACHINE",
+    "detector_class": "espresso machine",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1299,
+    "bbox": [
+     0.7659,
+     0.7258,
+     0.8392,
+     1
+    ]
+   },
+   {
+    "detection_id": "d31",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_COFFEE_MACHINE",
+    "detector_class": "espresso machine",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0601,
+    "bbox": [
+     0.7912,
+     0.1684,
+     0.8449,
+     0.2701
+    ]
+   },
+   {
+    "detection_id": "d32",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_COFFEE_GRINDER",
+    "detector_class": "coffee grinder",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0591,
+    "bbox": [
+     0.7557,
+     0.1602,
+     0.7814,
+     0.2549
+    ]
+   },
+   {
+    "detection_id": "d33",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_COFFEE_GRINDER",
+    "detector_class": "coffee grinder",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0884,
+    "bbox": [
+     0.5215,
+     0.2849,
+     0.6064,
+     0.4678
+    ]
+   },
+   {
+    "detection_id": "d34",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_COFFEE_GRINDER",
+    "detector_class": "coffee grinder",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0811,
+    "bbox": [
+     0.7653,
+     0.7196,
+     0.8395,
+     1
+    ]
+   },
+   {
+    "detection_id": "d35",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_COFFEE_GRINDER",
+    "detector_class": "coffee grinder",
+    "class_map_match": "open_vocab",
+    "confidence": 0.3984,
+    "bbox": [
+     0.7552,
+     0.1531,
+     0.8898,
+     0.4967
+    ]
+   },
+   {
+    "detection_id": "d36",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_COFFEE_GRINDER",
+    "detector_class": "coffee grinder",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1001,
+    "bbox": [
+     0.7557,
+     0.1541,
+     0.8762,
+     0.9916
+    ]
+   },
+   {
+    "detection_id": "d37",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_COFFEE_GRINDER",
+    "detector_class": "coffee grinder",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0674,
+    "bbox": [
+     0.7624,
+     0.5917,
+     0.8369,
+     1
+    ]
+   },
+   {
+    "detection_id": "d38",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_COFFEE_GRINDER",
+    "detector_class": "coffee grinder",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0566,
+    "bbox": [
+     0.7266,
+     0.1432,
+     0.7502,
+     0.2418
+    ]
+   },
+   {
+    "detection_id": "d39",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_COFFEE_GRINDER",
+    "detector_class": "coffee grinder",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1201,
+    "bbox": [
+     0.7932,
+     0.1654,
+     0.8389,
+     0.2723
+    ]
+   },
+   {
+    "detection_id": "d40",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_ICE_MAKER",
+    "detector_class": "ice machine",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1396,
+    "bbox": [
+     0.757,
+     0.1642,
+     0.8902,
+     0.4959
+    ]
+   },
+   {
+    "detection_id": "d41",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_ICE_MAKER",
+    "detector_class": "ice machine",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0737,
+    "bbox": [
+     0.3371,
+     0.1714,
+     0.4942,
+     0.6384
+    ]
+   },
+   {
+    "detection_id": "d42",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_ICE_MAKER",
+    "detector_class": "ice machine",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0786,
+    "bbox": [
+     0.1091,
+     0.1417,
+     0.3422,
+     0.8846
+    ]
+   },
+   {
+    "detection_id": "d43",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_ICE_MAKER",
+    "detector_class": "ice machine",
+    "class_map_match": "open_vocab",
+    "confidence": 0.209,
+    "bbox": [
+     0.1015,
+     0,
+     0.4936,
+     0.884
+    ]
+   },
+   {
+    "detection_id": "d44",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_ICE_MAKER",
+    "detector_class": "ice machine",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0557,
+    "bbox": [
+     0.1023,
+     0,
+     0.4913,
+     0.1777
+    ]
+   },
+   {
+    "detection_id": "d45",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_ICE_MAKER",
+    "detector_class": "ice machine",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0752,
+    "bbox": [
+     0.7549,
+     0.1599,
+     0.8918,
+     0.9971
+    ]
+   },
+   {
+    "detection_id": "d46",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_ICE_MAKER",
+    "detector_class": "ice machine",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1885,
+    "bbox": [
+     0,
+     0,
+     0.1388,
+     0.9595
+    ]
+   },
+   {
+    "detection_id": "d47",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_ICE_MAKER",
+    "detector_class": "ice machine",
+    "class_map_match": "open_vocab",
+    "confidence": 0.165,
+    "bbox": [
+     0,
+     0,
+     0.4953,
+     0.9558
+    ]
+   },
+   {
+    "detection_id": "d48",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_ICE_MAKER",
+    "detector_class": "ice machine",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0674,
+    "bbox": [
+     0,
+     0,
+     0.1004,
+     0.1323
+    ]
+   },
+   {
+    "detection_id": "d49",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_ICE_MAKER",
+    "detector_class": "ice machine",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0625,
+    "bbox": [
+     0.5214,
+     0.2847,
+     0.6071,
+     0.4693
+    ]
+   },
+   {
+    "detection_id": "d50",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_ICE_CRUSHER",
+    "detector_class": "ice shaver machine",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0752,
+    "bbox": [
+     0.7552,
+     0.1526,
+     0.8894,
+     0.4969
+    ]
+   },
+   {
+    "detection_id": "d51",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_ICE_CRUSHER",
+    "detector_class": "ice shaver machine",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0688,
+    "bbox": [
+     0.7538,
+     0.1549,
+     0.8431,
+     0.2703
+    ]
+   },
+   {
+    "detection_id": "d52",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_ICE_CRUSHER",
+    "detector_class": "ice shaver machine",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1367,
+    "bbox": [
+     0.5223,
+     0.2861,
+     0.6069,
+     0.4686
+    ]
+   },
+   {
+    "detection_id": "d53",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_ICE_CRUSHER",
+    "detector_class": "ice shaver machine",
+    "class_map_match": "open_vocab",
+    "confidence": 0.053,
+    "bbox": [
+     0.7574,
+     0.179,
+     0.8521,
+     0.9956
+    ]
+   },
+   {
+    "detection_id": "d54",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_ICE_CRUSHER",
+    "detector_class": "ice shaver machine",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0508,
+    "bbox": [
+     0.7557,
+     0.1564,
+     0.7823,
+     0.2548
+    ]
+   },
+   {
+    "detection_id": "d55",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_ICE_CRUSHER",
+    "detector_class": "ice shaver machine",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0513,
+    "bbox": [
+     0.7562,
+     0.1631,
+     0.7823,
+     0.2579
+    ]
+   },
+   {
+    "detection_id": "d56",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_ICE_CRUSHER",
+    "detector_class": "ice shaver machine",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0938,
+    "bbox": [
+     0,
+     0,
+     0.4998,
+     0.9498
+    ]
+   },
+   {
+    "detection_id": "d57",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_ICE_CRUSHER",
+    "detector_class": "ice shaver machine",
+    "class_map_match": "open_vocab",
+    "confidence": 0.083,
+    "bbox": [
+     0.7647,
+     0.7261,
+     0.8392,
+     1
+    ]
+   },
+   {
+    "detection_id": "d58",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_ICE_CRUSHER",
+    "detector_class": "ice shaver machine",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0762,
+    "bbox": [
+     0.7576,
+     0.1502,
+     0.8501,
+     0.9922
+    ]
+   },
+   {
+    "detection_id": "d59",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_ICE_CRUSHER",
+    "detector_class": "ice shaver machine",
+    "class_map_match": "open_vocab",
+    "confidence": 0.8594,
+    "bbox": [
+     0.7547,
+     0.1528,
+     0.8899,
+     0.4975
+    ]
+   },
+   {
+    "detection_id": "d60",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_ICE_CRUSHER",
+    "detector_class": "ice shaver machine",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1055,
+    "bbox": [
+     0.7932,
+     0.1684,
+     0.8387,
+     0.2728
+    ]
+   },
+   {
+    "detection_id": "d61",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_ICE_CRUSHER",
+    "detector_class": "ice shaver machine",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1221,
+    "bbox": [
+     0.757,
+     0.155,
+     0.8647,
+     0.9993
+    ]
+   },
+   {
+    "detection_id": "d62",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_ICE_CRUSHER",
+    "detector_class": "ice shaver machine",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0564,
+    "bbox": [
+     0.7621,
+     0.6061,
+     0.8327,
+     0.9999
+    ]
+   },
+   {
+    "detection_id": "d63",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_ICE_CRUSHER",
+    "detector_class": "ice shaver machine",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0635,
+    "bbox": [
+     0.6576,
+     0.7264,
+     0.7131,
+     0.7949
+    ]
+   },
+   {
+    "detection_id": "d64",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_BEER_DISPENSER",
+    "detector_class": "beer tap dispenser",
+    "class_map_match": "open_vocab",
+    "confidence": 0.5117,
+    "bbox": [
+     0.7945,
+     0.1656,
+     0.8389,
+     0.2714
+    ]
+   },
+   {
+    "detection_id": "d65",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_BEER_DISPENSER",
+    "detector_class": "beer tap dispenser",
+    "class_map_match": "open_vocab",
+    "confidence": 0.2637,
+    "bbox": [
+     0.7571,
+     0.1498,
+     0.8847,
+     0.4958
+    ]
+   },
+   {
+    "detection_id": "d66",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_BEER_DISPENSER",
+    "detector_class": "beer tap dispenser",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0532,
+    "bbox": [
+     0.7267,
+     0.143,
+     0.7484,
+     0.2433
+    ]
+   },
+   {
+    "detection_id": "d67",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_BEER_DISPENSER",
+    "detector_class": "beer tap dispenser",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0522,
+    "bbox": [
+     0.5196,
+     0.2863,
+     0.604,
+     0.4719
+    ]
+   },
+   {
+    "detection_id": "d68",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_BEER_DISPENSER",
+    "detector_class": "beer tap dispenser",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0518,
+    "bbox": [
+     0.767,
+     0.682,
+     0.8299,
+     1
+    ]
+   },
+   {
+    "detection_id": "d69",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_BEER_DISPENSER",
+    "detector_class": "beer tap dispenser",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0781,
+    "bbox": [
+     0.754,
+     0.1541,
+     0.8388,
+     0.2699
+    ]
+   },
+   {
+    "detection_id": "d70",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_BEER_DISPENSER",
+    "detector_class": "beer tap dispenser",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0503,
+    "bbox": [
+     0.7551,
+     0.152,
+     0.7817,
+     0.2538
+    ]
+   },
+   {
+    "detection_id": "d71",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_BEER_DISPENSER",
+    "detector_class": "beer tap dispenser",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0742,
+    "bbox": [
+     0.7545,
+     0.152,
+     0.7659,
+     0.2486
+    ]
+   },
+   {
+    "detection_id": "d72",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_BEER_DISPENSER",
+    "detector_class": "beer tap dispenser",
+    "class_map_match": "open_vocab",
+    "confidence": 0.4941,
+    "bbox": [
+     0.755,
+     0.1523,
+     0.7813,
+     0.2558
+    ]
+   },
+   {
+    "detection_id": "d73",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0972,
+    "bbox": [
+     0.3053,
+     0,
+     0.4759,
+     0.0357
+    ]
+   },
+   {
+    "detection_id": "d74",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0791,
+    "bbox": [
+     0.4015,
+     0.57,
+     0.4672,
+     0.7168
+    ]
+   },
+   {
+    "detection_id": "d75",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0898,
+    "bbox": [
+     0.3377,
+     0.1733,
+     0.4882,
+     0.2725
+    ]
+   },
+   {
+    "detection_id": "d76",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0801,
+    "bbox": [
+     0.9471,
+     0.0222,
+     0.994,
+     0.3403
+    ]
+   },
+   {
+    "detection_id": "d77",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.2715,
+    "bbox": [
+     0.3379,
+     0.1722,
+     0.491,
+     0.7252
+    ]
+   },
+   {
+    "detection_id": "d78",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0825,
+    "bbox": [
+     0.7558,
+     0.1675,
+     0.9065,
+     1
+    ]
+   },
+   {
+    "detection_id": "d79",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.2168,
+    "bbox": [
+     0.1085,
+     0.1425,
+     0.3414,
+     0.8876
+    ]
+   },
+   {
+    "detection_id": "d80",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.8086,
+    "bbox": [
+     0.1018,
+     0,
+     0.4924,
+     0.8842
+    ]
+   },
+   {
+    "detection_id": "d81",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0549,
+    "bbox": [
+     0,
+     0.0007,
+     0.2842,
+     0.949
+    ]
+   },
+   {
+    "detection_id": "d82",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0669,
+    "bbox": [
+     0.7557,
+     0.1775,
+     0.8945,
+     1
+    ]
+   },
+   {
+    "detection_id": "d83",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0986,
+    "bbox": [
+     0.1017,
+     0,
+     0.4921,
+     0.1711
+    ]
+   },
+   {
+    "detection_id": "d84",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0908,
+    "bbox": [
+     0.1189,
+     0.1615,
+     0.4848,
+     0.8865
+    ]
+   },
+   {
+    "detection_id": "d85",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1187,
+    "bbox": [
+     0,
+     0,
+     0.0971,
+     0.1315
+    ]
+   },
+   {
+    "detection_id": "d86",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0801,
+    "bbox": [
+     0.1345,
+     0.6479,
+     0.2709,
+     0.8874
+    ]
+   },
+   {
+    "detection_id": "d87",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0776,
+    "bbox": [
+     0.4002,
+     0.5646,
+     0.4813,
+     0.7209
+    ]
+   },
+   {
+    "detection_id": "d88",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.7812,
+    "bbox": [
+     0,
+     0,
+     0.1396,
+     0.9593
+    ]
+   },
+   {
+    "detection_id": "d89",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0527,
+    "bbox": [
+     0.1011,
+     0.0067,
+     0.3394,
+     0.6657
+    ]
+   },
+   {
+    "detection_id": "d90",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.375,
+    "bbox": [
+     0,
+     0,
+     0.4926,
+     0.9536
+    ]
+   },
+   {
+    "detection_id": "d91",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0608,
+    "bbox": [
+     0.7644,
+     0.6981,
+     0.8412,
+     0.999
+    ]
+   },
+   {
+    "detection_id": "d92",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0527,
+    "bbox": [
+     0.0973,
+     0,
+     0.4956,
+     0.6396
+    ]
+   },
+   {
+    "detection_id": "d93",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0593,
+    "bbox": [
+     0,
+     0,
+     0.1407,
+     0.9601
+    ]
+   },
+   {
+    "detection_id": "d94",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1133,
+    "bbox": [
+     0,
+     0.6819,
+     0.1377,
+     0.9579
+    ]
+   },
+   {
+    "detection_id": "d95",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0889,
+    "bbox": [
+     0.3298,
+     0.0865,
+     0.4957,
+     0.7298
+    ]
+   },
+   {
+    "detection_id": "d96",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1875,
+    "bbox": [
+     0.7576,
+     0.1746,
+     0.8891,
+     0.4955
+    ]
+   },
+   {
+    "detection_id": "d97",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0615,
+    "bbox": [
+     0.3033,
+     0.0352,
+     0.4903,
+     0.7375
+    ]
+   },
+   {
+    "detection_id": "d98",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0532,
+    "bbox": [
+     0,
+     0.6957,
+     0.7556,
+     1
+    ]
+   },
+   {
+    "detection_id": "d99",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0703,
+    "bbox": [
+     0.3287,
+     0,
+     0.4715,
+     0.0351
+    ]
+   },
+   {
+    "detection_id": "d100",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.054,
+    "bbox": [
+     0.9874,
+     0.3017,
+     1,
+     0.3509
+    ]
+   },
+   {
+    "detection_id": "d101",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.3691,
+    "bbox": [
+     0.7114,
+     0.0714,
+     0.8789,
+     0.1331
+    ]
+   },
+   {
+    "detection_id": "d102",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.2676,
+    "bbox": [
+     0.4988,
+     0.5851,
+     0.544,
+     0.619
+    ]
+   },
+   {
+    "detection_id": "d103",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0618,
+    "bbox": [
+     0.5239,
+     0.2657,
+     0.6191,
+     0.287
+    ]
+   },
+   {
+    "detection_id": "d104",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0564,
+    "bbox": [
+     0.7075,
+     0.0697,
+     0.8845,
+     0.2357
+    ]
+   },
+   {
+    "detection_id": "d105",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.373,
+    "bbox": [
+     0.5857,
+     0.1181,
+     0.7015,
+     0.1632
+    ]
+   },
+   {
+    "detection_id": "d106",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0513,
+    "bbox": [
+     0.4893,
+     0.0207,
+     0.5791,
+     0.2932
+    ]
+   },
+   {
+    "detection_id": "d107",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0601,
+    "bbox": [
+     0.3653,
+     0,
+     0.4679,
+     0.0334
+    ]
+   },
+   {
+    "detection_id": "d108",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0786,
+    "bbox": [
+     0.5028,
+     0,
+     0.6989,
+     0.0414
+    ]
+   },
+   {
+    "detection_id": "d109",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.3691,
+    "bbox": [
+     0.4934,
+     0.0417,
+     0.5744,
+     0.0854
+    ]
+   },
+   {
+    "detection_id": "d110",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0654,
+    "bbox": [
+     0.5886,
+     0.2662,
+     0.627,
+     0.2821
+    ]
+   },
+   {
+    "detection_id": "d111",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1953,
+    "bbox": [
+     0.7189,
+     0.2495,
+     0.7606,
+     0.266
+    ]
+   },
+   {
+    "detection_id": "d112",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1543,
+    "bbox": [
+     0.5218,
+     0.2683,
+     0.5666,
+     0.2873
+    ]
+   },
+   {
+    "detection_id": "d113",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0525,
+    "bbox": [
+     0.4813,
+     0,
+     0.912,
+     0.5059
+    ]
+   },
+   {
+    "detection_id": "d114",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0737,
+    "bbox": [
+     0.579,
+     0,
+     0.7035,
+     0.1732
+    ]
+   },
+   {
+    "detection_id": "d115",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0596,
+    "bbox": [
+     0.4571,
+     0,
+     0.9023,
+     0.978
+    ]
+   },
+   {
+    "detection_id": "d116",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0535,
+    "bbox": [
+     0.5833,
+     0.2673,
+     0.628,
+     0.284
+    ]
+   },
+   {
+    "detection_id": "d117",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0535,
+    "bbox": [
+     0.8664,
+     0,
+     0.919,
+     0.2475
+    ]
+   },
+   {
+    "detection_id": "d118",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.2949,
+    "bbox": [
+     0.5845,
+     0,
+     0.7012,
+     0.0387
+    ]
+   },
+   {
+    "detection_id": "d119",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0776,
+    "bbox": [
+     0.568,
+     0.073,
+     0.8814,
+     0.2754
+    ]
+   },
+   {
+    "detection_id": "d120",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0579,
+    "bbox": [
+     0.5984,
+     0.6845,
+     0.617,
+     0.7268
+    ]
+   },
+   {
+    "detection_id": "d121",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.3418,
+    "bbox": [
+     0.5266,
+     0.2491,
+     0.7589,
+     0.2876
+    ]
+   },
+   {
+    "detection_id": "d122",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.3789,
+    "bbox": [
+     0.4934,
+     0.1529,
+     0.5768,
+     0.1878
+    ]
+   },
+   {
+    "detection_id": "d123",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1338,
+    "bbox": [
+     0.4986,
+     0.6886,
+     0.5278,
+     0.7124
+    ]
+   },
+   {
+    "detection_id": "d124",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1982,
+    "bbox": [
+     0.4836,
+     0,
+     0.9151,
+     0.2575
+    ]
+   },
+   {
+    "detection_id": "d125",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0645,
+    "bbox": [
+     0.6326,
+     0,
+     0.7012,
+     0.0374
+    ]
+   },
+   {
+    "detection_id": "d126",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0571,
+    "bbox": [
+     0.496,
+     0.581,
+     0.5371,
+     0.7156
+    ]
+   },
+   {
+    "detection_id": "d127",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1475,
+    "bbox": [
+     0.5569,
+     0.2656,
+     0.6291,
+     0.2846
+    ]
+   },
+   {
+    "detection_id": "d128",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0845,
+    "bbox": [
+     0.4787,
+     0,
+     0.9198,
+     0.5583
+    ]
+   },
+   {
+    "detection_id": "d129",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0513,
+    "bbox": [
+     0.5247,
+     0.2688,
+     0.647,
+     0.2879
+    ]
+   },
+   {
+    "detection_id": "d130",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0596,
+    "bbox": [
+     0.7049,
+     0.0645,
+     0.9032,
+     0.2471
+    ]
+   },
+   {
+    "detection_id": "d131",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0505,
+    "bbox": [
+     0.4939,
+     0.0463,
+     0.5686,
+     0.0862
+    ]
+   },
+   {
+    "detection_id": "d132",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0649,
+    "bbox": [
+     0.522,
+     0.2631,
+     0.6243,
+     0.2863
+    ]
+   },
+   {
+    "detection_id": "d133",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0913,
+    "bbox": [
+     0.4962,
+     0.0208,
+     0.8784,
+     0.2847
+    ]
+   },
+   {
+    "detection_id": "d134",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0645,
+    "bbox": [
+     0.5614,
+     0.7013,
+     0.601,
+     0.7202
+    ]
+   },
+   {
+    "detection_id": "d135",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.106,
+    "bbox": [
+     0.5024,
+     0,
+     0.5552,
+     0.0097
+    ]
+   },
+   {
+    "detection_id": "d136",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_FRYER",
+    "detector_class": "commercial deep fryer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0933,
+    "bbox": [
+     0.5691,
+     0,
+     0.8726,
+     0.2363
+    ]
+   },
+   {
+    "detection_id": "d137",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_FRYER",
+    "detector_class": "commercial deep fryer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0723,
+    "bbox": [
+     0.0053,
+     0.0021,
+     1,
+     0.9981
+    ]
+   },
+   {
+    "detection_id": "d138",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_FRYER",
+    "detector_class": "commercial deep fryer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0786,
+    "bbox": [
+     0.5325,
+     0.0523,
+     0.8065,
+     0.4758
+    ]
+   },
+   {
+    "detection_id": "d139",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_FRYER",
+    "detector_class": "commercial deep fryer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0898,
+    "bbox": [
+     0.8353,
+     0,
+     1,
+     0.2068
+    ]
+   },
+   {
+    "detection_id": "d140",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_FRYER",
+    "detector_class": "commercial deep fryer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.125,
+    "bbox": [
+     0,
+     0.3994,
+     0.0642,
+     1
+    ]
+   },
+   {
+    "detection_id": "d141",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_FRYER",
+    "detector_class": "commercial deep fryer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0505,
+    "bbox": [
+     0.0088,
+     0,
+     0.9895,
+     0.1993
+    ]
+   },
+   {
+    "detection_id": "d142",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_FRYER",
+    "detector_class": "commercial deep fryer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1025,
+    "bbox": [
+     0.2782,
+     0,
+     0.5663,
+     0.4904
+    ]
+   },
+   {
+    "detection_id": "d143",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_FRYER",
+    "detector_class": "commercial deep fryer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0566,
+    "bbox": [
+     0.0059,
+     0,
+     0.8167,
+     0.7708
+    ]
+   },
+   {
+    "detection_id": "d144",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_FRYER",
+    "detector_class": "commercial deep fryer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0559,
+    "bbox": [
+     0.2797,
+     0,
+     0.813,
+     0.4904
+    ]
+   },
+   {
+    "detection_id": "d145",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_FRYER",
+    "detector_class": "commercial deep fryer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.8008,
+    "bbox": [
+     0.0028,
+     0.0005,
+     1,
+     0.9974
+    ]
+   },
+   {
+    "detection_id": "d146",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_FRYER",
+    "detector_class": "commercial deep fryer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0549,
+    "bbox": [
+     0.0438,
+     0.204,
+     0.9881,
+     0.998
+    ]
+   },
+   {
+    "detection_id": "d147",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_FRYER",
+    "detector_class": "commercial deep fryer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0693,
+    "bbox": [
+     0.0054,
+     0,
+     0.8218,
+     0.7782
+    ]
+   },
+   {
+    "detection_id": "d148",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_FRYER",
+    "detector_class": "commercial deep fryer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0757,
+    "bbox": [
+     0.001,
+     0,
+     0.1041,
+     0.099
+    ]
+   },
+   {
+    "detection_id": "d149",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_FRYER",
+    "detector_class": "commercial deep fryer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0522,
+    "bbox": [
+     0.0028,
+     0.0503,
+     0.9971,
+     1
+    ]
+   },
+   {
+    "detection_id": "d150",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_FRYER",
+    "detector_class": "commercial deep fryer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0618,
+    "bbox": [
+     0.5389,
+     0.0342,
+     0.8075,
+     0.4616
+    ]
+   },
+   {
+    "detection_id": "d151",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_FRYER",
+    "detector_class": "commercial deep fryer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0593,
+    "bbox": [
+     0.0159,
+     0.1885,
+     0.9894,
+     0.9972
+    ]
+   },
+   {
+    "detection_id": "d152",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_FRYER",
+    "detector_class": "commercial deep fryer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0723,
+    "bbox": [
+     0.0043,
+     0.0015,
+     1,
+     0.9976
+    ]
+   },
+   {
+    "detection_id": "d153",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_FRYER",
+    "detector_class": "commercial deep fryer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0505,
+    "bbox": [
+     0.0023,
+     0,
+     0.2999,
+     0.6471
+    ]
+   },
+   {
+    "detection_id": "d154",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_FRYER",
+    "detector_class": "commercial deep fryer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0566,
+    "bbox": [
+     0.8412,
+     0.0205,
+     1,
+     0.9919
+    ]
+   },
+   {
+    "detection_id": "d155",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "gas stove burner",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0986,
+    "bbox": [
+     0.8413,
+     0,
+     1,
+     0.21
+    ]
+   },
+   {
+    "detection_id": "d156",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "gas stove burner",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0776,
+    "bbox": [
+     0.8478,
+     0,
+     1,
+     0.1711
+    ]
+   },
+   {
+    "detection_id": "d157",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "gas stove burner",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0835,
+    "bbox": [
+     0.0024,
+     0.0032,
+     0.9994,
+     0.9967
+    ]
+   },
+   {
+    "detection_id": "d158",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "gas stove burner",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0552,
+    "bbox": [
+     0.0312,
+     0.1622,
+     1,
+     1
+    ]
+   },
+   {
+    "detection_id": "d159",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "salamander broiler",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0615,
+    "bbox": [
+     0.0052,
+     0.0029,
+     1,
+     0.9991
+    ]
+   },
+   {
+    "detection_id": "d160",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "salamander broiler",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0518,
+    "bbox": [
+     0.2796,
+     0,
+     0.5686,
+     0.4926
+    ]
+   },
+   {
+    "detection_id": "d161",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "salamander broiler",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0693,
+    "bbox": [
+     0,
+     0.3444,
+     0.0652,
+     0.9968
+    ]
+   },
+   {
+    "detection_id": "d162",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "salamander broiler",
+    "class_map_match": "open_vocab",
+    "confidence": 0.9297,
+    "bbox": [
+     0.0031,
+     0.0008,
+     1,
+     0.9974
+    ]
+   },
+   {
+    "detection_id": "d163",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "salamander broiler",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0593,
+    "bbox": [
+     0.0043,
+     0.0022,
+     1,
+     0.9988
+    ]
+   },
+   {
+    "detection_id": "d164",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.3418,
+    "bbox": [
+     0.8417,
+     0,
+     1,
+     0.2112
+    ]
+   },
+   {
+    "detection_id": "d165",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.052,
+    "bbox": [
+     0.044,
+     0.2205,
+     0.579,
+     1
+    ]
+   },
+   {
+    "detection_id": "d166",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0654,
+    "bbox": [
+     0.0491,
+     0.1685,
+     1,
+     1
+    ]
+   },
+   {
+    "detection_id": "d167",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0515,
+    "bbox": [
+     0.0576,
+     0.6192,
+     1,
+     1
+    ]
+   },
+   {
+    "detection_id": "d168",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0603,
+    "bbox": [
+     0.5501,
+     0.056,
+     0.809,
+     0.4695
+    ]
+   },
+   {
+    "detection_id": "d169",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0569,
+    "bbox": [
+     0.6001,
+     0.1635,
+     1,
+     0.9953
+    ]
+   },
+   {
+    "detection_id": "d170",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0544,
+    "bbox": [
+     0.002,
+     0,
+     0.9916,
+     0.4816
+    ]
+   },
+   {
+    "detection_id": "d171",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0654,
+    "bbox": [
+     0.1311,
+     0.2216,
+     0.8148,
+     0.8911
+    ]
+   },
+   {
+    "detection_id": "d172",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0693,
+    "bbox": [
+     0.7202,
+     0.1896,
+     1,
+     0.9964
+    ]
+   },
+   {
+    "detection_id": "d173",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1001,
+    "bbox": [
+     0,
+     0,
+     0.2237,
+     0.0983
+    ]
+   },
+   {
+    "detection_id": "d174",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0544,
+    "bbox": [
+     0,
+     0.0757,
+     0.2341,
+     0.3742
+    ]
+   },
+   {
+    "detection_id": "d175",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0544,
+    "bbox": [
+     0.1508,
+     0.4109,
+     0.7135,
+     0.8148
+    ]
+   },
+   {
+    "detection_id": "d176",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0593,
+    "bbox": [
+     0.8825,
+     0.558,
+     0.9999,
+     0.9941
+    ]
+   },
+   {
+    "detection_id": "d177",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0664,
+    "bbox": [
+     0.2813,
+     0,
+     0.5663,
+     0.49
+    ]
+   },
+   {
+    "detection_id": "d178",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.062,
+    "bbox": [
+     0,
+     0,
+     0.9815,
+     0.6659
+    ]
+   },
+   {
+    "detection_id": "d179",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0505,
+    "bbox": [
+     0.0167,
+     0.1577,
+     0.2979,
+     0.7201
+    ]
+   },
+   {
+    "detection_id": "d180",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1279,
+    "bbox": [
+     0,
+     0.3458,
+     0.0663,
+     1
+    ]
+   },
+   {
+    "detection_id": "d181",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.052,
+    "bbox": [
+     0.0009,
+     0.0821,
+     0.1211,
+     0.2683
+    ]
+   },
+   {
+    "detection_id": "d182",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0845,
+    "bbox": [
+     0.759,
+     0.1811,
+     1,
+     0.9985
+    ]
+   },
+   {
+    "detection_id": "d183",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1279,
+    "bbox": [
+     0.0593,
+     0.7376,
+     0.478,
+     1
+    ]
+   },
+   {
+    "detection_id": "d184",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.3887,
+    "bbox": [
+     0.848,
+     0,
+     0.9997,
+     0.1694
+    ]
+   },
+   {
+    "detection_id": "d185",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.2695,
+    "bbox": [
+     0,
+     0,
+     0.2312,
+     0.2553
+    ]
+   },
+   {
+    "detection_id": "d186",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0898,
+    "bbox": [
+     0,
+     0,
+     0.2678,
+     0.3905
+    ]
+   },
+   {
+    "detection_id": "d187",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0593,
+    "bbox": [
+     0.0547,
+     0.6367,
+     0.9977,
+     1
+    ]
+   },
+   {
+    "detection_id": "d188",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0898,
+    "bbox": [
+     0.5653,
+     0,
+     1,
+     0.2275
+    ]
+   },
+   {
+    "detection_id": "d189",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0898,
+    "bbox": [
+     0,
+     0.0993,
+     0.1158,
+     0.2625
+    ]
+   },
+   {
+    "detection_id": "d190",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.061,
+    "bbox": [
+     0.8784,
+     0.566,
+     1,
+     1
+    ]
+   },
+   {
+    "detection_id": "d191",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1338,
+    "bbox": [
+     0.0035,
+     0,
+     0.9964,
+     0.2628
+    ]
+   },
+   {
+    "detection_id": "d192",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0537,
+    "bbox": [
+     0.0,
+     0.004,
+     0.0959,
+     0.1001
+    ]
+   },
+   {
+    "detection_id": "d193",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1445,
+    "bbox": [
+     0.9236,
+     0.8028,
+     1,
+     0.998
+    ]
+   },
+   {
+    "detection_id": "d194",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0505,
+    "bbox": [
+     0.1155,
+     0.2257,
+     0.8592,
+     0.9672
+    ]
+   },
+   {
+    "detection_id": "d195",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0554,
+    "bbox": [
+     0.0377,
+     0.1577,
+     0.6372,
+     1
+    ]
+   },
+   {
+    "detection_id": "d196",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.053,
+    "bbox": [
+     0.0044,
+     0,
+     0.5738,
+     0.5191
+    ]
+   },
+   {
+    "detection_id": "d197",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1221,
+    "bbox": [
+     0.0202,
+     0.0056,
+     1,
+     0.9947
+    ]
+   },
+   {
+    "detection_id": "d198",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1758,
+    "bbox": [
+     0.602,
+     0.2019,
+     1,
+     0.996
+    ]
+   },
+   {
+    "detection_id": "d199",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.5352,
+    "bbox": [
+     0.0487,
+     0.1617,
+     1,
+     1
+    ]
+   },
+   {
+    "detection_id": "d200",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1089,
+    "bbox": [
+     0.0062,
+     0,
+     0.9966,
+     0.193
+    ]
+   },
+   {
+    "detection_id": "d201",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0737,
+    "bbox": [
+     0.5307,
+     0.1662,
+     1,
+     0.9965
+    ]
+   },
+   {
+    "detection_id": "d202",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0569,
+    "bbox": [
+     0.0425,
+     0.2033,
+     0.625,
+     0.9942
+    ]
+   },
+   {
+    "detection_id": "d203",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1445,
+    "bbox": [
+     0,
+     0,
+     0.2304,
+     0.1336
+    ]
+   },
+   {
+    "detection_id": "d204",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0864,
+    "bbox": [
+     0.56,
+     0,
+     1,
+     0.2148
+    ]
+   },
+   {
+    "detection_id": "d205",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1328,
+    "bbox": [
+     0.0079,
+     0,
+     0.996,
+     0.2629
+    ]
+   },
+   {
+    "detection_id": "d206",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0815,
+    "bbox": [
+     0.5701,
+     0,
+     0.8708,
+     0.2357
+    ]
+   },
+   {
+    "detection_id": "d207",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1006,
+    "bbox": [
+     0.0041,
+     0,
+     0.9948,
+     0.2905
+    ]
+   },
+   {
+    "detection_id": "d208",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0703,
+    "bbox": [
+     0.0603,
+     0.7297,
+     0.648,
+     0.9984
+    ]
+   },
+   {
+    "detection_id": "d209",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.063,
+    "bbox": [
+     0.5625,
+     0,
+     1,
+     0.2123
+    ]
+   },
+   {
+    "detection_id": "d210",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1406,
+    "bbox": [
+     0,
+     0,
+     0.2859,
+     0.3897
+    ]
+   },
+   {
+    "detection_id": "d211",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0603,
+    "bbox": [
+     0.5867,
+     0.1573,
+     1,
+     0.9993
+    ]
+   },
+   {
+    "detection_id": "d212",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.053,
+    "bbox": [
+     0.7436,
+     0.528,
+     0.999,
+     1
+    ]
+   },
+   {
+    "detection_id": "d213",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0635,
+    "bbox": [
+     0.0344,
+     0.2176,
+     0.3101,
+     0.75
+    ]
+   },
+   {
+    "detection_id": "d214",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_PORTABLE_BURNER",
+    "detector_class": "portable gas stove",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1592,
+    "bbox": [
+     0.838,
+     0,
+     1,
+     0.2148
+    ]
+   },
+   {
+    "detection_id": "d215",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_PORTABLE_BURNER",
+    "detector_class": "portable gas stove",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0525,
+    "bbox": [
+     0.5459,
+     0.0538,
+     0.8032,
+     0.4581
+    ]
+   },
+   {
+    "detection_id": "d216",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_PORTABLE_BURNER",
+    "detector_class": "portable gas stove",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0684,
+    "bbox": [
+     0.8481,
+     0,
+     0.9986,
+     0.164
+    ]
+   },
+   {
+    "detection_id": "d217",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_PORTABLE_BURNER",
+    "detector_class": "portable gas stove",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0786,
+    "bbox": [
+     0.828,
+     0.0393,
+     1,
+     1
+    ]
+   },
+   {
+    "detection_id": "d218",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_PORTABLE_BURNER",
+    "detector_class": "portable gas stove",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0571,
+    "bbox": [
+     0,
+     0,
+     0.2337,
+     0.1019
+    ]
+   },
+   {
+    "detection_id": "d219",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_PORTABLE_BURNER",
+    "detector_class": "portable gas stove",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0898,
+    "bbox": [
+     0,
+     0.3954,
+     0.0658,
+     1
+    ]
+   },
+   {
+    "detection_id": "d220",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_PORTABLE_BURNER",
+    "detector_class": "portable gas stove",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0525,
+    "bbox": [
+     0.2774,
+     0,
+     0.5617,
+     0.4913
+    ]
+   },
+   {
+    "detection_id": "d221",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_PORTABLE_BURNER",
+    "detector_class": "portable gas stove",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0532,
+    "bbox": [
+     0,
+     0,
+     0.2871,
+     0.3913
+    ]
+   },
+   {
+    "detection_id": "d222",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_PORTABLE_BURNER",
+    "detector_class": "portable gas stove",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0564,
+    "bbox": [
+     0.9183,
+     0.7775,
+     1,
+     0.9941
+    ]
+   },
+   {
+    "detection_id": "d223",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_PORTABLE_BURNER",
+    "detector_class": "portable gas stove",
+    "class_map_match": "open_vocab",
+    "confidence": 0.5469,
+    "bbox": [
+     0.0013,
+     0.0018,
+     0.9994,
+     0.9982
+    ]
+   },
+   {
+    "detection_id": "d224",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_PORTABLE_BURNER",
+    "detector_class": "portable gas stove",
+    "class_map_match": "open_vocab",
+    "confidence": 0.051,
+    "bbox": [
+     0.7184,
+     0.1906,
+     1,
+     1
+    ]
+   },
+   {
+    "detection_id": "d225",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_PORTABLE_BURNER",
+    "detector_class": "portable gas stove",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0593,
+    "bbox": [
+     0.0393,
+     0.1946,
+     0.9856,
+     1
+    ]
+   },
+   {
+    "detection_id": "d226",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_PORTABLE_BURNER",
+    "detector_class": "portable gas stove",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0554,
+    "bbox": [
+     0.0202,
+     0.2026,
+     0.9934,
+     1
+    ]
+   },
+   {
+    "detection_id": "d227",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_PORTABLE_BURNER",
+    "detector_class": "portable gas stove",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0649,
+    "bbox": [
+     0.7568,
+     0.0114,
+     1,
+     0.9806
+    ]
+   },
+   {
+    "detection_id": "d228",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_COOKING_ROBOT",
+    "detector_class": "robotic arm",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0544,
+    "bbox": [
+     0,
+     0,
+     0.1217,
+     0.9821
+    ]
+   },
+   {
+    "detection_id": "d229",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_COOKING_ROBOT",
+    "detector_class": "robotic arm",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0581,
+    "bbox": [
+     0,
+     0,
+     0.1031,
+     0.0978
+    ]
+   },
+   {
+    "detection_id": "d230",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_COOKING_ROBOT",
+    "detector_class": "robotic arm",
+    "class_map_match": "open_vocab",
+    "confidence": 0.125,
+    "bbox": [
+     0,
+     0.4071,
+     0.069,
+     1
+    ]
+   },
+   {
+    "detection_id": "d231",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_VEG_CUTTER",
+    "detector_class": "vegetable cutter machine",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1836,
+    "bbox": [
+     0.002,
+     0.0009,
+     1,
+     0.9977
+    ]
+   },
+   {
+    "detection_id": "d232",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_MIXER",
+    "detector_class": "food mixer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0552,
+    "bbox": [
+     0.0055,
+     0,
+     0.9998,
+     0.9949
+    ]
+   },
+   {
+    "detection_id": "d233",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_MIXER",
+    "detector_class": "food mixer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.126,
+    "bbox": [
+     0.5358,
+     0.0569,
+     0.8166,
+     0.4689
+    ]
+   },
+   {
+    "detection_id": "d234",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_MIXER",
+    "detector_class": "food mixer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0903,
+    "bbox": [
+     0.8358,
+     0,
+     0.9989,
+     0.1951
+    ]
+   },
+   {
+    "detection_id": "d235",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_MIXER",
+    "detector_class": "food mixer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0618,
+    "bbox": [
+     0.1751,
+     0.193,
+     0.7588,
+     0.7685
+    ]
+   },
+   {
+    "detection_id": "d236",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_MIXER",
+    "detector_class": "food mixer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.103,
+    "bbox": [
+     0.5412,
+     0.0001,
+     0.8315,
+     0.4619
+    ]
+   },
+   {
+    "detection_id": "d237",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_MIXER",
+    "detector_class": "food mixer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0811,
+    "bbox": [
+     0.0079,
+     0.4513,
+     0.0832,
+     0.621
+    ]
+   },
+   {
+    "detection_id": "d238",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_MIXER",
+    "detector_class": "food mixer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0574,
+    "bbox": [
+     0.0051,
+     0.3015,
+     0.1518,
+     0.6473
+    ]
+   },
+   {
+    "detection_id": "d239",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_MIXER",
+    "detector_class": "food mixer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1011,
+    "bbox": [
+     0.1858,
+     0.4991,
+     0.7085,
+     0.7712
+    ]
+   },
+   {
+    "detection_id": "d240",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_MIXER",
+    "detector_class": "food mixer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1855,
+    "bbox": [
+     0.2637,
+     0,
+     0.8235,
+     0.748
+    ]
+   },
+   {
+    "detection_id": "d241",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_MIXER",
+    "detector_class": "food mixer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0535,
+    "bbox": [
+     0.426,
+     0.4855,
+     0.5241,
+     0.6927
+    ]
+   },
+   {
+    "detection_id": "d242",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_MIXER",
+    "detector_class": "food mixer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1963,
+    "bbox": [
+     0.571,
+     0,
+     0.8726,
+     0.2348
+    ]
+   },
+   {
+    "detection_id": "d243",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_MIXER",
+    "detector_class": "food mixer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0593,
+    "bbox": [
+     0.009,
+     0.2126,
+     0.8057,
+     0.9752
+    ]
+   },
+   {
+    "detection_id": "d244",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_MIXER",
+    "detector_class": "food mixer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0835,
+    "bbox": [
+     0.1431,
+     0.2973,
+     0.8452,
+     0.9131
+    ]
+   },
+   {
+    "detection_id": "d245",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_MIXER",
+    "detector_class": "food mixer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.2119,
+    "bbox": [
+     0.2793,
+     0,
+     0.5687,
+     0.4898
+    ]
+   },
+   {
+    "detection_id": "d246",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_MIXER",
+    "detector_class": "food mixer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0806,
+    "bbox": [
+     0.2753,
+     0,
+     0.7033,
+     0.7203
+    ]
+   },
+   {
+    "detection_id": "d247",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_MIXER",
+    "detector_class": "food mixer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1001,
+    "bbox": [
+     0.0291,
+     0.2017,
+     1,
+     0.9974
+    ]
+   },
+   {
+    "detection_id": "d248",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_MIXER",
+    "detector_class": "food mixer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0552,
+    "bbox": [
+     0.167,
+     0.2331,
+     0.7164,
+     0.7723
+    ]
+   },
+   {
+    "detection_id": "d249",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_MIXER",
+    "detector_class": "food mixer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0513,
+    "bbox": [
+     0.4672,
+     0,
+     0.9813,
+     0.809
+    ]
+   },
+   {
+    "detection_id": "d250",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_MIXER",
+    "detector_class": "food mixer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1855,
+    "bbox": [
+     0.2778,
+     0,
+     0.8676,
+     0.4876
+    ]
+   },
+   {
+    "detection_id": "d251",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_MIXER",
+    "detector_class": "food mixer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0679,
+    "bbox": [
+     0.0561,
+     0.3761,
+     0.1411,
+     0.639
+    ]
+   },
+   {
+    "detection_id": "d252",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_MIXER",
+    "detector_class": "food mixer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0574,
+    "bbox": [
+     0.0059,
+     0.3685,
+     0.1408,
+     0.6522
+    ]
+   },
+   {
+    "detection_id": "d253",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_MIXER",
+    "detector_class": "food mixer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0583,
+    "bbox": [
+     0.5459,
+     0.1131,
+     0.7771,
+     0.4413
+    ]
+   },
+   {
+    "detection_id": "d254",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_MIXER",
+    "detector_class": "food mixer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0786,
+    "bbox": [
+     0.4387,
+     0.4886,
+     0.4811,
+     0.5667
+    ]
+   },
+   {
+    "detection_id": "d255",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_MIXER",
+    "detector_class": "food mixer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0796,
+    "bbox": [
+     0.02,
+     0.3963,
+     0.1233,
+     0.6405
+    ]
+   },
+   {
+    "detection_id": "d256",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_MIXER",
+    "detector_class": "food mixer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0535,
+    "bbox": [
+     0.0077,
+     0.3832,
+     0.0979,
+     0.6293
+    ]
+   },
+   {
+    "detection_id": "d257",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_MIXER",
+    "detector_class": "food mixer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1338,
+    "bbox": [
+     0,
+     0.4579,
+     0.0658,
+     1
+    ]
+   },
+   {
+    "detection_id": "d258",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_MIXER",
+    "detector_class": "food mixer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0981,
+    "bbox": [
+     0.5416,
+     0,
+     0.8715,
+     0.4836
+    ]
+   },
+   {
+    "detection_id": "d259",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_MIXER",
+    "detector_class": "food mixer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.5977,
+    "bbox": [
+     0.0019,
+     0,
+     1,
+     0.9972
+    ]
+   },
+   {
+    "detection_id": "d260",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_MIXER",
+    "detector_class": "food mixer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0723,
+    "bbox": [
+     0.1358,
+     0.2332,
+     0.8232,
+     0.901
+    ]
+   },
+   {
+    "detection_id": "d261",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_MIXER",
+    "detector_class": "food mixer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0566,
+    "bbox": [
+     0.4283,
+     0.4819,
+     0.5277,
+     0.6922
+    ]
+   },
+   {
+    "detection_id": "d262",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_MIXER",
+    "detector_class": "food mixer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0947,
+    "bbox": [
+     0.1272,
+     0.227,
+     0.8681,
+     0.9129
+    ]
+   },
+   {
+    "detection_id": "d263",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_MIXER",
+    "detector_class": "food mixer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1465,
+    "bbox": [
+     0.0104,
+     0,
+     0.8243,
+     0.775
+    ]
+   },
+   {
+    "detection_id": "d264",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_MIXER",
+    "detector_class": "food mixer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0806,
+    "bbox": [
+     0.0009,
+     0.0007,
+     0.1043,
+     0.0985
+    ]
+   },
+   {
+    "detection_id": "d265",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_MIXER",
+    "detector_class": "food mixer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.052,
+    "bbox": [
+     0.0076,
+     0,
+     0.8139,
+     0.4836
+    ]
+   },
+   {
+    "detection_id": "d266",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_MIXER",
+    "detector_class": "food mixer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0635,
+    "bbox": [
+     0.5376,
+     0.247,
+     0.8137,
+     0.4689
+    ]
+   },
+   {
+    "detection_id": "d267",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_MIXER",
+    "detector_class": "food mixer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0664,
+    "bbox": [
+     0.0014,
+     0,
+     0.295,
+     0.6298
+    ]
+   },
+   {
+    "detection_id": "d268",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_DOUGH_MIXER",
+    "detector_class": "dough mixer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.083,
+    "bbox": [
+     0.2736,
+     0,
+     0.8352,
+     0.7159
+    ]
+   },
+   {
+    "detection_id": "d269",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_DOUGH_MIXER",
+    "detector_class": "dough mixer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0747,
+    "bbox": [
+     0.5433,
+     0,
+     0.8665,
+     0.4664
+    ]
+   },
+   {
+    "detection_id": "d270",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_DOUGH_MIXER",
+    "detector_class": "dough mixer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0688,
+    "bbox": [
+     0.4345,
+     0.4852,
+     0.5376,
+     0.6899
+    ]
+   },
+   {
+    "detection_id": "d271",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_DOUGH_MIXER",
+    "detector_class": "dough mixer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0513,
+    "bbox": [
+     0.008,
+     0.4507,
+     0.0841,
+     0.6222
+    ]
+   },
+   {
+    "detection_id": "d272",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_DOUGH_MIXER",
+    "detector_class": "dough mixer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0505,
+    "bbox": [
+     0.1837,
+     0.4391,
+     0.5606,
+     0.6998
+    ]
+   },
+   {
+    "detection_id": "d273",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_DOUGH_MIXER",
+    "detector_class": "dough mixer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0649,
+    "bbox": [
+     0,
+     0,
+     0.7923,
+     0.7722
+    ]
+   },
+   {
+    "detection_id": "d274",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_DOUGH_MIXER",
+    "detector_class": "dough mixer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0505,
+    "bbox": [
+     0.1532,
+     0.2435,
+     0.8108,
+     0.7842
+    ]
+   },
+   {
+    "detection_id": "d275",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_DOUGH_MIXER",
+    "detector_class": "dough mixer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1021,
+    "bbox": [
+     0.2725,
+     0,
+     0.8288,
+     0.7178
+    ]
+   },
+   {
+    "detection_id": "d276",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_DOUGH_MIXER",
+    "detector_class": "dough mixer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1992,
+    "bbox": [
+     0.5719,
+     0,
+     0.8729,
+     0.2349
+    ]
+   },
+   {
+    "detection_id": "d277",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_DOUGH_MIXER",
+    "detector_class": "dough mixer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0505,
+    "bbox": [
+     0.1311,
+     0.2156,
+     0.9938,
+     0.9948
+    ]
+   },
+   {
+    "detection_id": "d278",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_DOUGH_MIXER",
+    "detector_class": "dough mixer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0854,
+    "bbox": [
+     0.1864,
+     0.4824,
+     0.7086,
+     0.7689
+    ]
+   },
+   {
+    "detection_id": "d279",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_DOUGH_MIXER",
+    "detector_class": "dough mixer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0669,
+    "bbox": [
+     0.4387,
+     0.4885,
+     0.4803,
+     0.5652
+    ]
+   },
+   {
+    "detection_id": "d280",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_DOUGH_MIXER",
+    "detector_class": "dough mixer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0615,
+    "bbox": [
+     0.2824,
+     0,
+     0.6388,
+     0.6945
+    ]
+   },
+   {
+    "detection_id": "d281",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_DOUGH_MIXER",
+    "detector_class": "dough mixer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0544,
+    "bbox": [
+     0.8368,
+     0,
+     0.9967,
+     0.183
+    ]
+   },
+   {
+    "detection_id": "d282",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_DOUGH_MIXER",
+    "detector_class": "dough mixer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0815,
+    "bbox": [
+     0.019,
+     0.1982,
+     0.9999,
+     0.9957
+    ]
+   },
+   {
+    "detection_id": "d283",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_DOUGH_MIXER",
+    "detector_class": "dough mixer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0859,
+    "bbox": [
+     0.2766,
+     0,
+     0.6959,
+     0.7058
+    ]
+   },
+   {
+    "detection_id": "d284",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_DOUGH_MIXER",
+    "detector_class": "dough mixer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0781,
+    "bbox": [
+     0.5362,
+     0.0443,
+     0.8196,
+     0.4585
+    ]
+   },
+   {
+    "detection_id": "d285",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_DOUGH_MIXER",
+    "detector_class": "dough mixer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0527,
+    "bbox": [
+     0.4446,
+     0.0019,
+     0.8334,
+     0.7052
+    ]
+   },
+   {
+    "detection_id": "d286",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_DOUGH_MIXER",
+    "detector_class": "dough mixer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0593,
+    "bbox": [
+     0.276,
+     0.0003,
+     0.5999,
+     0.7046
+    ]
+   },
+   {
+    "detection_id": "d287",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_DOUGH_MIXER",
+    "detector_class": "dough mixer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0913,
+    "bbox": [
+     0,
+     0.4588,
+     0.0659,
+     1
+    ]
+   },
+   {
+    "detection_id": "d288",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_DOUGH_MIXER",
+    "detector_class": "dough mixer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0752,
+    "bbox": [
+     0.5286,
+     0,
+     0.8713,
+     0.4887
+    ]
+   },
+   {
+    "detection_id": "d289",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_DOUGH_MIXER",
+    "detector_class": "dough mixer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.375,
+    "bbox": [
+     0.0021,
+     0.0006,
+     1,
+     0.9975
+    ]
+   },
+   {
+    "detection_id": "d290",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_DOUGH_MIXER",
+    "detector_class": "dough mixer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1855,
+    "bbox": [
+     0.281,
+     0,
+     0.569,
+     0.4907
+    ]
+   },
+   {
+    "detection_id": "d291",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_DOUGH_MIXER",
+    "detector_class": "dough mixer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0603,
+    "bbox": [
+     0.556,
+     0,
+     0.8572,
+     0.453
+    ]
+   },
+   {
+    "detection_id": "d292",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_DOUGH_MIXER",
+    "detector_class": "dough mixer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0571,
+    "bbox": [
+     0.1582,
+     0.2246,
+     0.8048,
+     0.7761
+    ]
+   },
+   {
+    "detection_id": "d293",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_DOUGH_MIXER",
+    "detector_class": "dough mixer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1494,
+    "bbox": [
+     0.2084,
+     0,
+     0.8237,
+     0.7574
+    ]
+   },
+   {
+    "detection_id": "d294",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_DOUGH_MIXER",
+    "detector_class": "dough mixer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0522,
+    "bbox": [
+     0.2297,
+     0,
+     0.8322,
+     0.7698
+    ]
+   },
+   {
+    "detection_id": "d295",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_DOUGH_MIXER",
+    "detector_class": "dough mixer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0549,
+    "bbox": [
+     0.0157,
+     0.184,
+     0.9975,
+     0.998
+    ]
+   },
+   {
+    "detection_id": "d296",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_DOUGH_MIXER",
+    "detector_class": "dough mixer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1748,
+    "bbox": [
+     0.2791,
+     0,
+     0.8487,
+     0.4881
+    ]
+   },
+   {
+    "detection_id": "d297",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_NOODLE_MACHINE",
+    "detector_class": "noodle making machine",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0552,
+    "bbox": [
+     0.57,
+     0,
+     0.8681,
+     0.2375
+    ]
+   },
+   {
+    "detection_id": "d298",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_NOODLE_MACHINE",
+    "detector_class": "noodle making machine",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0608,
+    "bbox": [
+     0.005,
+     0.0017,
+     1,
+     0.9979
+    ]
+   },
+   {
+    "detection_id": "d299",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_NOODLE_MACHINE",
+    "detector_class": "noodle making machine",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0559,
+    "bbox": [
+     0.2761,
+     0,
+     0.5621,
+     0.491
+    ]
+   },
+   {
+    "detection_id": "d300",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_NOODLE_MACHINE",
+    "detector_class": "noodle making machine",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0898,
+    "bbox": [
+     0,
+     0.3788,
+     0.0647,
+     1
+    ]
+   },
+   {
+    "detection_id": "d301",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_NOODLE_MACHINE",
+    "detector_class": "noodle making machine",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0527,
+    "bbox": [
+     0.0072,
+     0.3609,
+     0.1392,
+     0.6499
+    ]
+   },
+   {
+    "detection_id": "d302",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_NOODLE_MACHINE",
+    "detector_class": "noodle making machine",
+    "class_map_match": "open_vocab",
+    "confidence": 0.6992,
+    "bbox": [
+     0.0022,
+     0,
+     1,
+     0.9971
+    ]
+   },
+   {
+    "detection_id": "d303",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_NOODLE_MACHINE",
+    "detector_class": "noodle making machine",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0527,
+    "bbox": [
+     0.2713,
+     0,
+     0.8592,
+     0.489
+    ]
+   },
+   {
+    "detection_id": "d304",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_NOODLE_MACHINE",
+    "detector_class": "noodle making machine",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0608,
+    "bbox": [
+     0.0037,
+     0.0009,
+     1,
+     0.9975
+    ]
+   },
+   {
+    "detection_id": "d305",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_COFFEE_MACHINE",
+    "detector_class": "espresso machine",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0593,
+    "bbox": [
+     0.0013,
+     0.0015,
+     0.999,
+     0.9974
+    ]
+   },
+   {
+    "detection_id": "d306",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0713,
+    "bbox": [
+     0.5306,
+     0,
+     0.5864,
+     0.1291
+    ]
+   },
+   {
+    "detection_id": "d307",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0742,
+    "bbox": [
+     0.393,
+     0.0003,
+     0.5864,
+     0.1292
+    ]
+   },
+   {
+    "detection_id": "d308",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0986,
+    "bbox": [
+     0.8765,
+     0,
+     0.9135,
+     0.1623
+    ]
+   },
+   {
+    "detection_id": "d309",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0503,
+    "bbox": [
+     0.3946,
+     0,
+     0.454,
+     0.0619
+    ]
+   },
+   {
+    "detection_id": "d310",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0757,
+    "bbox": [
+     0.8802,
+     0.0883,
+     0.8998,
+     0.1251
+    ]
+   },
+   {
+    "detection_id": "d311",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0811,
+    "bbox": [
+     0.3756,
+     0.0048,
+     0.4189,
+     0.0761
+    ]
+   },
+   {
+    "detection_id": "d312",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0767,
+    "bbox": [
+     0.4698,
+     0.3212,
+     0.5085,
+     0.4138
+    ]
+   },
+   {
+    "detection_id": "d313",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.054,
+    "bbox": [
+     0.8809,
+     0.0844,
+     0.9065,
+     0.1278
+    ]
+   },
+   {
+    "detection_id": "d314",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0938,
+    "bbox": [
+     0.9824,
+     0,
+     1,
+     0.0173
+    ]
+   },
+   {
+    "detection_id": "d315",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0757,
+    "bbox": [
+     0.3825,
+     0.0023,
+     0.4363,
+     0.0766
+    ]
+   },
+   {
+    "detection_id": "d316",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0654,
+    "bbox": [
+     0.8809,
+     0.0904,
+     0.9086,
+     0.1695
+    ]
+   },
+   {
+    "detection_id": "d317",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0581,
+    "bbox": [
+     0.8775,
+     0,
+     0.9169,
+     0.0352
+    ]
+   },
+   {
+    "detection_id": "d318",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0503,
+    "bbox": [
+     0.3909,
+     0.0031,
+     0.4662,
+     0.077
+    ]
+   },
+   {
+    "detection_id": "d319",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.7812,
+    "bbox": [
+     0.3937,
+     0,
+     0.5862,
+     0.1297
+    ]
+   },
+   {
+    "detection_id": "d320",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0605,
+    "bbox": [
+     0.455,
+     0,
+     0.5862,
+     0.1315
+    ]
+   },
+   {
+    "detection_id": "d321",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0693,
+    "bbox": [
+     0.5466,
+     0,
+     0.586,
+     0.129
+    ]
+   },
+   {
+    "detection_id": "d322",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0811,
+    "bbox": [
+     0.8788,
+     0,
+     0.9163,
+     0.0942
+    ]
+   },
+   {
+    "detection_id": "d323",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0557,
+    "bbox": [
+     0.8794,
+     0.0891,
+     0.9064,
+     0.1692
+    ]
+   },
+   {
+    "detection_id": "d324",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "kitchen sink",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0947,
+    "bbox": [
+     0.2318,
+     0.72,
+     0.4489,
+     0.9057
+    ]
+   },
+   {
+    "detection_id": "d325",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "kitchen sink",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1865,
+    "bbox": [
+     0.2878,
+     0.7047,
+     0.5473,
+     0.8184
+    ]
+   },
+   {
+    "detection_id": "d326",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "kitchen sink",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0518,
+    "bbox": [
+     0,
+     0.3289,
+     0.5476,
+     0.995
+    ]
+   },
+   {
+    "detection_id": "d327",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "kitchen sink",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0596,
+    "bbox": [
+     0,
+     0.6421,
+     0.2003,
+     0.9917
+    ]
+   },
+   {
+    "detection_id": "d328",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "kitchen sink",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1172,
+    "bbox": [
+     0.2897,
+     0.7025,
+     0.5413,
+     0.7599
+    ]
+   },
+   {
+    "detection_id": "d329",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "kitchen sink",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0513,
+    "bbox": [
+     0.016,
+     0.6897,
+     0.5018,
+     0.9995
+    ]
+   },
+   {
+    "detection_id": "d330",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "kitchen sink",
+    "class_map_match": "open_vocab",
+    "confidence": 0.083,
+    "bbox": [
+     0.1003,
+     0.7129,
+     0.4596,
+     0.913
+    ]
+   },
+   {
+    "detection_id": "d331",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "kitchen sink",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0884,
+    "bbox": [
+     0,
+     0.8289,
+     0.1424,
+     0.9962
+    ]
+   },
+   {
+    "detection_id": "d332",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "kitchen sink",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0757,
+    "bbox": [
+     0.0909,
+     0.7831,
+     0.261,
+     0.8981
+    ]
+   },
+   {
+    "detection_id": "d333",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "kitchen sink",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0903,
+    "bbox": [
+     0.007,
+     0.7036,
+     0.4565,
+     1
+    ]
+   },
+   {
+    "detection_id": "d334",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "kitchen sink",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0732,
+    "bbox": [
+     0.0619,
+     0.7016,
+     0.4861,
+     0.9994
+    ]
+   },
+   {
+    "detection_id": "d335",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "kitchen sink",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0684,
+    "bbox": [
+     0.0932,
+     0.7203,
+     0.4374,
+     0.9146
+    ]
+   },
+   {
+    "detection_id": "d336",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "kitchen sink",
+    "class_map_match": "open_vocab",
+    "confidence": 0.2773,
+    "bbox": [
+     0.0041,
+     0.8243,
+     0.2409,
+     0.9991
+    ]
+   },
+   {
+    "detection_id": "d337",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "kitchen sink",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1523,
+    "bbox": [
+     0.2846,
+     0.7268,
+     0.3164,
+     0.78
+    ]
+   },
+   {
+    "detection_id": "d338",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "kitchen sink",
+    "class_map_match": "open_vocab",
+    "confidence": 0.165,
+    "bbox": [
+     0,
+     0.6272,
+     0.3362,
+     0.9996
+    ]
+   },
+   {
+    "detection_id": "d339",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "kitchen sink",
+    "class_map_match": "open_vocab",
+    "confidence": 0.2871,
+    "bbox": [
+     0.0157,
+     0.817,
+     0.3219,
+     0.9996
+    ]
+   },
+   {
+    "detection_id": "d340",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "kitchen sink",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0564,
+    "bbox": [
+     0,
+     0.6919,
+     0.328,
+     1
+    ]
+   },
+   {
+    "detection_id": "d341",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "kitchen sink",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0786,
+    "bbox": [
+     0.2819,
+     0.7257,
+     0.3214,
+     0.7988
+    ]
+   },
+   {
+    "detection_id": "d342",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "kitchen sink",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0884,
+    "bbox": [
+     0,
+     0.6309,
+     0.2283,
+     0.9536
+    ]
+   },
+   {
+    "detection_id": "d343",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "kitchen sink",
+    "class_map_match": "open_vocab",
+    "confidence": 0.054,
+    "bbox": [
+     0.0629,
+     0.7916,
+     0.2676,
+     0.9225
+    ]
+   },
+   {
+    "detection_id": "d344",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "kitchen sink",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0503,
+    "bbox": [
+     0.4241,
+     0.696,
+     0.4546,
+     0.7125
+    ]
+   },
+   {
+    "detection_id": "d345",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "kitchen sink",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1318,
+    "bbox": [
+     0.0636,
+     0.829,
+     0.1307,
+     0.8839
+    ]
+   },
+   {
+    "detection_id": "d346",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "kitchen sink",
+    "class_map_match": "open_vocab",
+    "confidence": 0.3301,
+    "bbox": [
+     0.0604,
+     0.828,
+     0.2254,
+     0.9489
+    ]
+   },
+   {
+    "detection_id": "d347",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "kitchen sink",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1445,
+    "bbox": [
+     0.2814,
+     0.7023,
+     0.5444,
+     0.7805
+    ]
+   },
+   {
+    "detection_id": "d348",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "kitchen sink",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1699,
+    "bbox": [
+     0.3957,
+     0.7033,
+     0.5476,
+     0.8171
+    ]
+   },
+   {
+    "detection_id": "d349",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "kitchen sink",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0518,
+    "bbox": [
+     0.2821,
+     0.7207,
+     0.345,
+     0.7859
+    ]
+   },
+   {
+    "detection_id": "d350",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "kitchen sink",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0859,
+    "bbox": [
+     0.0932,
+     0.7016,
+     0.5409,
+     0.998
+    ]
+   },
+   {
+    "detection_id": "d351",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "kitchen sink",
+    "class_map_match": "open_vocab",
+    "confidence": 0.2021,
+    "bbox": [
+     0.062,
+     0.8286,
+     0.1647,
+     0.9166
+    ]
+   },
+   {
+    "detection_id": "d352",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "kitchen sink",
+    "class_map_match": "open_vocab",
+    "confidence": 0.054,
+    "bbox": [
+     0.0606,
+     0.7047,
+     0.5416,
+     0.9968
+    ]
+   },
+   {
+    "detection_id": "d353",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "kitchen sink",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1416,
+    "bbox": [
+     0.4055,
+     0.701,
+     0.5497,
+     0.7532
+    ]
+   },
+   {
+    "detection_id": "d354",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "kitchen sink",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0952,
+    "bbox": [
+     0.0476,
+     0.8834,
+     0.1336,
+     0.9936
+    ]
+   },
+   {
+    "detection_id": "d355",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "kitchen sink",
+    "class_map_match": "open_vocab",
+    "confidence": 0.2109,
+    "bbox": [
+     0.3903,
+     0.7428,
+     0.5448,
+     0.8168
+    ]
+   },
+   {
+    "detection_id": "d356",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "kitchen sink",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0623,
+    "bbox": [
+     0,
+     0.6952,
+     0.5485,
+     1
+    ]
+   },
+   {
+    "detection_id": "d357",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "kitchen sink",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1318,
+    "bbox": [
+     0.2809,
+     0.7053,
+     0.4398,
+     0.7887
+    ]
+   },
+   {
+    "detection_id": "d358",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "kitchen sink",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0586,
+    "bbox": [
+     0.0234,
+     0,
+     0.5864,
+     0.9495
+    ]
+   },
+   {
+    "detection_id": "d359",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "kitchen sink",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0623,
+    "bbox": [
+     0.1059,
+     0.6112,
+     0.2907,
+     0.8312
+    ]
+   },
+   {
+    "detection_id": "d360",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "kitchen sink",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1846,
+    "bbox": [
+     0.2275,
+     0.7975,
+     0.4411,
+     0.9029
+    ]
+   },
+   {
+    "detection_id": "d361",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "kitchen sink",
+    "class_map_match": "open_vocab",
+    "confidence": 0.064,
+    "bbox": [
+     0.2708,
+     0.7077,
+     0.5451,
+     0.9147
+    ]
+   },
+   {
+    "detection_id": "d362",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "kitchen sink",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1738,
+    "bbox": [
+     0.0285,
+     0.7026,
+     0.5418,
+     0.9988
+    ]
+   },
+   {
+    "detection_id": "d363",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "kitchen sink",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1562,
+    "bbox": [
+     0.4057,
+     0.7024,
+     0.4476,
+     0.7482
+    ]
+   },
+   {
+    "detection_id": "d364",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "kitchen sink",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1206,
+    "bbox": [
+     0.2713,
+     0.7055,
+     0.5444,
+     1
+    ]
+   },
+   {
+    "detection_id": "d365",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "kitchen sink",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1177,
+    "bbox": [
+     0.2902,
+     0.7009,
+     0.453,
+     0.7626
+    ]
+   },
+   {
+    "detection_id": "d366",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "kitchen sink",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0703,
+    "bbox": [
+     0.2882,
+     0.7023,
+     0.454,
+     0.7674
+    ]
+   },
+   {
+    "detection_id": "d367",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.082,
+    "bbox": [
+     0.6782,
+     0.0296,
+     0.9787,
+     0.9345
+    ]
+   },
+   {
+    "detection_id": "d368",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1621,
+    "bbox": [
+     0.7003,
+     0.1383,
+     0.9116,
+     0.9287
+    ]
+   },
+   {
+    "detection_id": "d369",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0781,
+    "bbox": [
+     0.8788,
+     0,
+     0.9169,
+     0.173
+    ]
+   },
+   {
+    "detection_id": "d370",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1484,
+    "bbox": [
+     0.7048,
+     0.2187,
+     0.9957,
+     0.9272
+    ]
+   },
+   {
+    "detection_id": "d371",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0947,
+    "bbox": [
+     0.6419,
+     0.0031,
+     0.9994,
+     0.8507
+    ]
+   },
+   {
+    "detection_id": "d372",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0549,
+    "bbox": [
+     0.4051,
+     0,
+     0.5869,
+     0.1278
+    ]
+   },
+   {
+    "detection_id": "d373",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0503,
+    "bbox": [
+     0.4657,
+     0.1587,
+     0.5975,
+     0.6089
+    ]
+   },
+   {
+    "detection_id": "d374",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0767,
+    "bbox": [
+     0.6351,
+     0.1525,
+     0.9969,
+     0.9372
+    ]
+   },
+   {
+    "detection_id": "d375",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0513,
+    "bbox": [
+     0.072,
+     0,
+     0.9524,
+     0.9585
+    ]
+   },
+   {
+    "detection_id": "d376",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0557,
+    "bbox": [
+     0.0613,
+     0,
+     0.8514,
+     0.9732
+    ]
+   },
+   {
+    "detection_id": "d377",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.082,
+    "bbox": [
+     0.4844,
+     0.1585,
+     0.6008,
+     0.6387
+    ]
+   },
+   {
+    "detection_id": "d378",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0513,
+    "bbox": [
+     0.9738,
+     0.0805,
+     0.9998,
+     0.8284
+    ]
+   },
+   {
+    "detection_id": "d379",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1582,
+    "bbox": [
+     0.5747,
+     0.0029,
+     0.9228,
+     0.9355
+    ]
+   },
+   {
+    "detection_id": "d380",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.3359,
+    "bbox": [
+     0.6108,
+     0.2151,
+     0.8033,
+     0.9323
+    ]
+   },
+   {
+    "detection_id": "d381",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1426,
+    "bbox": [
+     0.9901,
+     0.7196,
+     1,
+     0.8235
+    ]
+   },
+   {
+    "detection_id": "d382",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1846,
+    "bbox": [
+     0.577,
+     0,
+     0.8133,
+     0.9358
+    ]
+   },
+   {
+    "detection_id": "d383",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0811,
+    "bbox": [
+     0.9019,
+     0.0372,
+     1.0,
+     0.8223
+    ]
+   },
+   {
+    "detection_id": "d384",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.3926,
+    "bbox": [
+     0.4915,
+     0.2054,
+     0.8059,
+     0.9302
+    ]
+   },
+   {
+    "detection_id": "d385",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0859,
+    "bbox": [
+     0.8925,
+     0.0162,
+     0.9999,
+     0.8237
+    ]
+   },
+   {
+    "detection_id": "d386",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0786,
+    "bbox": [
+     0.4861,
+     0.0726,
+     0.9284,
+     0.9265
+    ]
+   },
+   {
+    "detection_id": "d387",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.3691,
+    "bbox": [
+     0.7216,
+     0.2269,
+     0.8051,
+     0.9292
+    ]
+   },
+   {
+    "detection_id": "d388",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0557,
+    "bbox": [
+     0.4893,
+     0.4569,
+     0.5147,
+     0.5639
+    ]
+   },
+   {
+    "detection_id": "d389",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1504,
+    "bbox": [
+     0.6988,
+     0.0224,
+     0.9266,
+     0.9109
+    ]
+   },
+   {
+    "detection_id": "d390",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0688,
+    "bbox": [
+     0,
+     0.6308,
+     0.3447,
+     0.9998
+    ]
+   },
+   {
+    "detection_id": "d391",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0767,
+    "bbox": [
+     0.4004,
+     0.1679,
+     0.9879,
+     0.9376
+    ]
+   },
+   {
+    "detection_id": "d392",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1289,
+    "bbox": [
+     0.9929,
+     0.407,
+     1,
+     0.8235
+    ]
+   },
+   {
+    "detection_id": "d393",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0527,
+    "bbox": [
+     0.0134,
+     0.6843,
+     0.5403,
+     0.9978
+    ]
+   },
+   {
+    "detection_id": "d394",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0708,
+    "bbox": [
+     0.4247,
+     0.6989,
+     0.4513,
+     0.7192
+    ]
+   },
+   {
+    "detection_id": "d395",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0674,
+    "bbox": [
+     0.077,
+     0.4031,
+     0.5101,
+     0.8648
+    ]
+   },
+   {
+    "detection_id": "d396",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.084,
+    "bbox": [
+     0.0665,
+     0,
+     0.92,
+     0.9626
+    ]
+   },
+   {
+    "detection_id": "d397",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0796,
+    "bbox": [
+     0.8524,
+     0.0161,
+     1,
+     0.0627
+    ]
+   },
+   {
+    "detection_id": "d398",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0762,
+    "bbox": [
+     0.8859,
+     0.0042,
+     0.9179,
+     0.0411
+    ]
+   },
+   {
+    "detection_id": "d399",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0708,
+    "bbox": [
+     0.0527,
+     0,
+     0.9773,
+     0.6987
+    ]
+   },
+   {
+    "detection_id": "d400",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1099,
+    "bbox": [
+     0.9719,
+     0.0171,
+     1,
+     0.0682
+    ]
+   },
+   {
+    "detection_id": "d401",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0535,
+    "bbox": [
+     0.0905,
+     0.7911,
+     0.237,
+     0.8854
+    ]
+   },
+   {
+    "detection_id": "d402",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0781,
+    "bbox": [
+     0.8978,
+     0.1366,
+     0.9114,
+     0.1699
+    ]
+   },
+   {
+    "detection_id": "d403",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1475,
+    "bbox": [
+     0.0748,
+     0.0072,
+     0.588,
+     0.4889
+    ]
+   },
+   {
+    "detection_id": "d404",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1855,
+    "bbox": [
+     0,
+     0.6294,
+     0.0778,
+     0.6799
+    ]
+   },
+   {
+    "detection_id": "d405",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1099,
+    "bbox": [
+     0.0745,
+     0.0081,
+     0.542,
+     0.4872
+    ]
+   },
+   {
+    "detection_id": "d406",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0737,
+    "bbox": [
+     0.1635,
+     0.011,
+     0.4005,
+     0.1398
+    ]
+   },
+   {
+    "detection_id": "d407",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0645,
+    "bbox": [
+     0.9945,
+     0.4043,
+     1,
+     0.4267
+    ]
+   },
+   {
+    "detection_id": "d408",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0603,
+    "bbox": [
+     0.89,
+     0.0044,
+     1,
+     0.0487
+    ]
+   },
+   {
+    "detection_id": "d409",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0718,
+    "bbox": [
+     0.0866,
+     0.4095,
+     0.5098,
+     0.481
+    ]
+   },
+   {
+    "detection_id": "d410",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1201,
+    "bbox": [
+     0.4256,
+     0.697,
+     0.5514,
+     0.7442
+    ]
+   },
+   {
+    "detection_id": "d411",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1055,
+    "bbox": [
+     0.0778,
+     0.0107,
+     0.4082,
+     0.1448
+    ]
+   },
+   {
+    "detection_id": "d412",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0513,
+    "bbox": [
+     0.0807,
+     0.4066,
+     0.5068,
+     0.8602
+    ]
+   },
+   {
+    "detection_id": "d413",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1797,
+    "bbox": [
+     0.5501,
+     0.1218,
+     0.6031,
+     0.1649
+    ]
+   },
+   {
+    "detection_id": "d414",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0664,
+    "bbox": [
+     0.0695,
+     0.101,
+     0.0961,
+     0.8511
+    ]
+   },
+   {
+    "detection_id": "d415",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.8945,
+    "bbox": [
+     0.0853,
+     0.4092,
+     0.5102,
+     0.481
+    ]
+   },
+   {
+    "detection_id": "d416",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0972,
+    "bbox": [
+     0.8825,
+     0.0097,
+     0.9177,
+     0.0673
+    ]
+   },
+   {
+    "detection_id": "d417",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0718,
+    "bbox": [
+     0.0049,
+     0.6382,
+     0.0892,
+     0.8289
+    ]
+   },
+   {
+    "detection_id": "d418",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1533,
+    "bbox": [
+     0.548,
+     0.1224,
+     0.6024,
+     0.1659
+    ]
+   },
+   {
+    "detection_id": "d419",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0505,
+    "bbox": [
+     0.589,
+     0.1705,
+     0.604,
+     0.2179
+    ]
+   },
+   {
+    "detection_id": "d420",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1128,
+    "bbox": [
+     0.0898,
+     0.7796,
+     0.5311,
+     0.9989
+    ]
+   },
+   {
+    "detection_id": "d421",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0854,
+    "bbox": [
+     0.0772,
+     0.012,
+     0.6022,
+     0.1612
+    ]
+   },
+   {
+    "detection_id": "d422",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0796,
+    "bbox": [
+     0.8919,
+     0.0161,
+     1,
+     0.053
+    ]
+   },
+   {
+    "detection_id": "d423",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0762,
+    "bbox": [
+     0.8809,
+     0.005,
+     0.9153,
+     0.1682
+    ]
+   },
+   {
+    "detection_id": "d424",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.4902,
+    "bbox": [
+     0.0716,
+     0.0086,
+     0.5985,
+     0.8669
+    ]
+   },
+   {
+    "detection_id": "d425",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.084,
+    "bbox": [
+     0.9797,
+     0,
+     1,
+     0.0181
+    ]
+   },
+   {
+    "detection_id": "d426",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.9219,
+    "bbox": [
+     0.0769,
+     0.0103,
+     0.6037,
+     0.1637
+    ]
+   },
+   {
+    "detection_id": "d427",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.6719,
+    "bbox": [
+     0.9719,
+     0.018,
+     1,
+     0.0465
+    ]
+   },
+   {
+    "detection_id": "d428",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0527,
+    "bbox": [
+     0,
+     0.6459,
+     0.0843,
+     0.8216
+    ]
+   },
+   {
+    "detection_id": "d429",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1338,
+    "bbox": [
+     0.0748,
+     0.0082,
+     0.5769,
+     0.4856
+    ]
+   },
+   {
+    "detection_id": "d430",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0586,
+    "bbox": [
+     0.9832,
+     0,
+     1,
+     0.0166
+    ]
+   },
+   {
+    "detection_id": "d431",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0535,
+    "bbox": [
+     0.0938,
+     0.7014,
+     0.5442,
+     0.9716
+    ]
+   },
+   {
+    "detection_id": "d432",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0603,
+    "bbox": [
+     0.1805,
+     0.0115,
+     0.4071,
+     0.1432
+    ]
+   },
+   {
+    "detection_id": "d433",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0903,
+    "bbox": [
+     0.0328,
+     0.808,
+     0.3638,
+     0.9995
+    ]
+   },
+   {
+    "detection_id": "d434",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0737,
+    "bbox": [
+     0.9727,
+     0.0181,
+     0.9996,
+     0.0453
+    ]
+   },
+   {
+    "detection_id": "d435",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.061,
+    "bbox": [
+     0.332,
+     0.7654,
+     0.54,
+     0.9857
+    ]
+   },
+   {
+    "detection_id": "d436",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0781,
+    "bbox": [
+     0.5378,
+     0.7278,
+     0.5521,
+     0.7424
+    ]
+   }
+  ]
+ },
+ "run_meta": {
+  "python": "3.12.16",
+  "torch": "2.7.1+cu126",
+  "cuda_available": true,
+  "gpu_name": "NVIDIA A100 80GB PCIe MIG 1g.10gb",
+  "max_gpu_mem_allocated_gb": 5.695,
+  "model_load_s": 30.77,
+  "per_image_s": [
+   12.415,
+   4.582,
+   4.518
+  ],
+  "mean_image_s": 7.172,
+  "imgsz": 1280,
+  "n_prompts": 39
+ }
+}

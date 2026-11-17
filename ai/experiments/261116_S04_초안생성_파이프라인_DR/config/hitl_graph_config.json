@@ -1,0 +1,103 @@
+{
+  "config_version": "hitl-graph-0.1",
+  "decision": "사용자 결정(2026-11-17): 추천 LLM을 EXAONE-3.5-7.8B-Instruct-AWQ로 고정, LangGraph로 흐름 구성. 팀·멘토 확인 전.",
+  "llm": {
+    "model": "LGAI-EXAONE/EXAONE-3.5-7.8B-Instruct-AWQ",
+    "revision": "f2699f35d5b4ba511ab93826c22bd07370296b5c",
+    "license": "EXAONE AI Model License Agreement 1.1 - NC(비상업)",
+    "engine": "vllm 0.10.1.1",
+    "backend": "replay",
+    "replay_file": "cloud/e35/outputs/cloud_outputs_e35_enum_v1.json",
+    "guided_json": "enum(기기별 후보 코드 const + 후보별 출처 ID enum, uniqueItems 미지원으로 제외)",
+    "vllm": {
+      "max_model_len": 4096,
+      "gpu_memory_utilization": 0.7,
+      "enforce_eager": true,
+      "trust_remote_code": true,
+      "seed": 0
+    },
+    "sampling": {
+      "first": {
+        "temperature": 0.0,
+        "max_tokens": 1024
+      },
+      "retry": {
+        "temperature": 0.7,
+        "max_tokens": 1024
+      }
+    },
+    "max_retries": 2,
+    "vllm_note": "0.70: 평시 LLM+STT 동시 적재(사용자 결정 2026-11-17). Cloud 시험에서 최대 8,087/9,728 MiB, KV 0.67 GiB(5,520토큰). 0.65는 KV 부족으로 실패"
+  },
+  "retrieval": {
+    "index": "인덱스 v2 엄격(CASE 제외)",
+    "public_source_types": [
+      "checklist",
+      "d8_table",
+      "d5_visual"
+    ]
+  },
+  "rationale_filter": {
+    "option": "a_flag",
+    "groups": [
+      "G1_risk_high_low",
+      "G2_grade_score_signal"
+    ],
+    "status": "임시: 팀이 옵션(a_flag/b_delete/c_replace)을 정하기 전까지 원문 유지·표시만"
+  },
+  "risk_rule": {
+    "config": "config/risk_rule_3x3_notion_v1.json",
+    "status": "노션 H1 3×3 빈도·강도법 + 신호등 해석 B(사용자 결정 2026-11-16, adoption_status=proposed, 전문가 채택 전)"
+  },
+  "industry": "음식점",
+  "kb_version": "rag-kb-v2-index",
+  "master_version": "v1-draft",
+  "detection": {
+    "rules_doc": "261116_기기탐지_YOLO전환_DR/261116_기기인식_출력형식_제외규칙_v2_DR.md 3절(R1~R8)",
+    "class_map": "261116_기기탐지_YOLO전환_DR/261116_사전학습클래스_대응표_v1_DR.json",
+    "expected_class_map_version": "261116_사전학습클래스_대응표_v1",
+    "use_partial": false,
+    "threshold": {
+      "default": null,
+      "per_equipment": {},
+      "status": "미정(문서 Q1). 그래프는 T를 정하지 않는다. 시연은 비교 평가에서 쓴 값(0.50)을 '평가용 값'으로 넘긴다."
+    }
+  },
+  "stt": {
+    "engine": "faster-whisper 1.2.1",
+    "model": "deepdml/faster-whisper-large-v3-turbo-ct2",
+    "revision": "4df90f75321148c3a29a9e2351b7ddf8f5b115a8",
+    "license": "MIT(원본 openai/whisper-large-v3-turbo, 커뮤니티 CT2 변환본)",
+    "device": "cuda",
+    "compute_type": "int8_float16",
+    "language": "ko",
+    "beam_size": 5,
+    "backend": "replay",
+    "replay_file": "stt_test/outputs/out_cuda_int8f16.json",
+    "note": "평시 상주(LLM과 같은 GPU). 사진 입력 시에만 LLM·STT를 내리고 SAM 3를 올린다. 인식 결과는 사용자가 확인·수정한다",
+    "transcribe_options": {
+      "vad_filter": true,
+      "condition_on_previous_text": false,
+      "word_timestamps": true,
+      "hallucination_silence_threshold": 2.0,
+      "no_speech_threshold": 0.6
+    },
+    "transcribe_options_note": "실제 녹음 시험(2026-11-17)에서 화면 공유·무음 구간 외국어 환각이 이 옵션으로 사라짐. 정확도(CER)는 사람 확인 전 미확정"
+  },
+  "input_types": [
+    "photo",
+    "voice",
+    "text"
+  ],
+  "input_note": "사용자 입력은 사진·음성·텍스트 중 하나(팀 합의 2026-11-17). 음성은 STT로 텍스트화, 텍스트·음성은 기기마스터 이름·동의어로 기기 후보를 만든다",
+  "text_match": {
+    "aliases": {
+      "워크인 냉장실": "EQ_WALKIN_COOLER",
+      "워크인 냉동실": "EQ_WALKIN_COOLER",
+      "워크인": "EQ_WALKIN_COOLER",
+      "저온저장고": "EQ_WALKIN_COOLER"
+    },
+    "fuzzy_min_len": 3,
+    "status": "작성자 초안, 팀 확인 전. 기기마스터 원본은 수정하지 않고 여기서만 보강. 근사(fuzzy) 일치는 사용자 확인 단계에서 거른다"
+  }
+}

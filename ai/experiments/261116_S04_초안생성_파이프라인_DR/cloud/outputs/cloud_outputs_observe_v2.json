@@ -1,0 +1,628 @@
+{
+ "model_id": "Qwen/Qwen2.5-VL-3B-Instruct",
+ "revision": "66285546d2b821cf421d4f5eb2576359d3770cd3",
+ "started_at": "2026-11-16T10:43:24+09:00",
+ "load_sec": 3.1,
+ "env": {
+  "python": "3.10.14",
+  "torch": "2.7.1+cu118",
+  "transformers": "4.57.1",
+  "cuda": "11.8",
+  "gpu": "NVIDIA A100 80GB PCIe MIG 1g.10gb"
+ },
+ "max_new_tokens": 1024,
+ "max_pixels": 802816,
+ "dtype": "bfloat16",
+ "retry_rule": "JSON 파싱 실패(observations 배열 없음) 시에만 다음 시도",
+ "results": [
+  {
+   "case_id": "PC01",
+   "photo_id": "PC01-photo-1",
+   "image_file": "images/261113_P04_bApoYZBPCLE_0513.00s_DR_1280.jpg",
+   "messages": [
+    {
+     "role": "system",
+     "content": "너는 음식점 주방 사진에서 안전과 관련된 '상태'만 관찰해 적는 보조 도구다. 사진에 실제로 보이는 것만 쓴다. 보이지 않는 것을 추측하지 않는다. 기기 이름을 쓰지 않는다. 출력은 JSON 하나만 쓴다."
+    },
+    {
+     "role": "user",
+     "content": [
+      {
+       "type": "image"
+      },
+      {
+       "type": "text",
+       "text": "사진 장소(사용자 입력): 주방 튀김기 앞\n\n아래 질문마다 이 사진에 실제로 보이는지 답한다.\n- Q01: 바닥에 물이나 기름이 고여 있거나 번져 있는가\n- Q02: 바닥이나 통로에 상자·종이·물건이 놓여 있어 걸릴 수 있는가\n- Q03: 켜진 불꽃이 보이거나 기름·물이 끓고 있는가\n- Q04: 화구나 조리기구 주변에 기름때·찌꺼기가 두껍게 쌓여 있는가\n- Q05: 가스통·부탄캔·가스 호스가 보이는가\n- Q06: 콘센트·플러그·늘어진 전선이 보이는가\n- Q07: 세제·표백제 같은 화학 용기가 보이는가\n- Q08: 머리 높이보다 위 선반에 크거나 무거운 물건이 올려져 있는가\n- Q09: 칼·가위·채칼 같은 날붙이가 드러나 있는가\n- Q10: 무거운 상자나 자재를 손으로 들어 옮겨야 하는 상태로 쌓여 있는가\n\n규칙:\n1. answer: yes, no, unclear 중 하나만 쓴다. 사진에서 분명히 보일 때만 yes를 쓴다. 잘 안 보이면 unclear를 쓴다.\n2. where: answer가 yes이면 사진 속 위치와 보이는 모습을 한국어 한 문장으로 쓴다. 기기나 제품의 이름은 쓰지 않는다. no나 unclear이면 빈 문자열로 둔다.\n\n출력은 아래 틀의 JSON 하나만 쓴다(빈 값을 규칙대로 채운다):\n{\"answers\":[{\"q\":\"Q01\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q02\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q03\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q04\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q05\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q06\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q07\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q08\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q09\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q10\",\"answer\":\"\",\"where\":\"\"}]}"
+      }
+     ]
+    }
+   ],
+   "input_tokens": 1647,
+   "image_size": [
+    1280,
+    720
+   ],
+   "attempts": [
+    {
+     "attempt": 1,
+     "params": {
+      "do_sample": false
+     },
+     "content": "```json\n{\n  \"answers\": [\n    {\n      \"q\": \"Q01\",\n      \"answer\": \"yes\",\n      \"where\": \"주방 튀김기 앞\"\n    },\n    {\n      \"q\": \"Q02\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q03\",\n      \"answer\": \"yes\",\n      \"where\": \"주방 튀김기 앞\"\n    },\n    {\n      \"q\": \"Q04\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q05\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q06\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q07\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q08\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q09\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q10\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    }\n  ]\n}\n```",
+     "output_tokens": 280,
+     "hit_max_new_tokens": false,
+     "seconds": 13.15,
+     "parse_ok": false,
+     "peak_gpu_mem_gb": 7.21,
+     "finished_at": "2026-11-16T10:43:37+09:00"
+    },
+    {
+     "attempt": 2,
+     "params": {
+      "do_sample": true,
+      "temperature": 0.7,
+      "top_p": 0.9,
+      "seed": 1
+     },
+     "content": "```json\n{\n  \"answers\": [\n    {\n      \"q\": \"Q01\",\n      \"answer\": \"yes\",\n      \"where\": \"주방 튀김기 앞 바닥에 물이나 기름이 고여 있거나 번져 있는가\"\n    },\n    {\n      \"q\": \"Q02\",\n      \"answer\": \"unclear\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q03\",\n      \"answer\": \"yes\",\n      \"where\": \"주방 튀김기 앞 바닥에 물이나 기름이 고여 있거나 번져 있는가\"\n    },\n    {\n      \"q\": \"Q04\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q05\",\n      \"answer\": \"unclear\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q06\",\n      \"answer\": \"unclear\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q07\",\n      \"answer\": \"unclear\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q08\",\n      \"answer\": \"unclear\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q09\",\n      \"answer\": \"unclear\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q10\",\n      \"answer\": \"unclear\",\n      \"where\": \"\"\n    }\n  ]\n}\n```",
+     "output_tokens": 319,
+     "hit_max_new_tokens": false,
+     "seconds": 16.4,
+     "parse_ok": false,
+     "peak_gpu_mem_gb": 7.21,
+     "finished_at": "2026-11-16T10:43:54+09:00"
+    },
+    {
+     "attempt": 3,
+     "params": {
+      "do_sample": true,
+      "temperature": 0.7,
+      "top_p": 0.9,
+      "seed": 2
+     },
+     "content": "```json\n{\n  \"answers\": [\n    {\n      \"q\": \"Q01\",\n      \"answer\": \"yes\",\n      \"where\": \"barrel of oil\"\n    },\n    {\n      \"q\": \"Q02\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q03\",\n      \"answer\": \"yes\",\n      \"where\": \"oil boiling\"\n    },\n    {\n      \"q\": \"Q04\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q05\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q06\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q07\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q08\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q09\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q10\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    }\n  ]\n}\n```",
+     "output_tokens": 272,
+     "hit_max_new_tokens": false,
+     "seconds": 12.37,
+     "parse_ok": false,
+     "peak_gpu_mem_gb": 7.21,
+     "finished_at": "2026-11-16T10:44:06+09:00"
+    }
+   ],
+   "accepted_attempt": null
+  },
+  {
+   "case_id": "PC02",
+   "photo_id": "PC02-photo-1",
+   "image_file": "images/C03_kkubeurakko_process_3_1280.jpg",
+   "messages": [
+    {
+     "role": "system",
+     "content": "너는 음식점 주방 사진에서 안전과 관련된 '상태'만 관찰해 적는 보조 도구다. 사진에 실제로 보이는 것만 쓴다. 보이지 않는 것을 추측하지 않는다. 기기 이름을 쓰지 않는다. 출력은 JSON 하나만 쓴다."
+    },
+    {
+     "role": "user",
+     "content": [
+      {
+       "type": "image"
+      },
+      {
+       "type": "text",
+       "text": "사진 장소(사용자 입력): 주방 화구\n\n아래 질문마다 이 사진에 실제로 보이는지 답한다.\n- Q01: 바닥에 물이나 기름이 고여 있거나 번져 있는가\n- Q02: 바닥이나 통로에 상자·종이·물건이 놓여 있어 걸릴 수 있는가\n- Q03: 켜진 불꽃이 보이거나 기름·물이 끓고 있는가\n- Q04: 화구나 조리기구 주변에 기름때·찌꺼기가 두껍게 쌓여 있는가\n- Q05: 가스통·부탄캔·가스 호스가 보이는가\n- Q06: 콘센트·플러그·늘어진 전선이 보이는가\n- Q07: 세제·표백제 같은 화학 용기가 보이는가\n- Q08: 머리 높이보다 위 선반에 크거나 무거운 물건이 올려져 있는가\n- Q09: 칼·가위·채칼 같은 날붙이가 드러나 있는가\n- Q10: 무거운 상자나 자재를 손으로 들어 옮겨야 하는 상태로 쌓여 있는가\n\n규칙:\n1. answer: yes, no, unclear 중 하나만 쓴다. 사진에서 분명히 보일 때만 yes를 쓴다. 잘 안 보이면 unclear를 쓴다.\n2. where: answer가 yes이면 사진 속 위치와 보이는 모습을 한국어 한 문장으로 쓴다. 기기나 제품의 이름은 쓰지 않는다. no나 unclear이면 빈 문자열로 둔다.\n\n출력은 아래 틀의 JSON 하나만 쓴다(빈 값을 규칙대로 채운다):\n{\"answers\":[{\"q\":\"Q01\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q02\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q03\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q04\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q05\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q06\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q07\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q08\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q09\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q10\",\"answer\":\"\",\"where\":\"\"}]}"
+      }
+     ]
+    }
+   ],
+   "input_tokens": 1617,
+   "image_size": [
+    906,
+    1120
+   ],
+   "attempts": [
+    {
+     "attempt": 1,
+     "params": {
+      "do_sample": false
+     },
+     "content": "```json\n{\n  \"answers\": [\n    {\n      \"q\": \"Q01\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q02\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q03\",\n      \"answer\": \"yes\",\n      \"where\": \"바닥에 보이는 불꽃\"\n    },\n    {\n      \"q\": \"Q04\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q05\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q06\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q07\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q08\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q09\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q10\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    }\n  ]\n}\n```",
+     "output_tokens": 272,
+     "hit_max_new_tokens": false,
+     "seconds": 12.19,
+     "parse_ok": false,
+     "peak_gpu_mem_gb": 7.2,
+     "finished_at": "2026-11-16T10:44:19+09:00"
+    },
+    {
+     "attempt": 2,
+     "params": {
+      "do_sample": true,
+      "temperature": 0.7,
+      "top_p": 0.9,
+      "seed": 1
+     },
+     "content": "```json\n{\n  \"answers\": [\n    {\n      \"q\": \"Q01\",\n      \"answer\": \"yes\",\n      \"where\": \"화구 바닥에 기름이 고여 있는 상태\"\n    },\n    {\n      \"q\": \"Q02\",\n      \"answer\": \"\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q03\",\n      \"answer\": \"yes\",\n      \"where\": \"화구 바닥에 불꽃이 보이고 기름이 끓고 있는 상태\"\n    },\n    {\n      \"q\": \"Q04\",\n      \"answer\": \"\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q05\",\n      \"answer\": \"\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q06\",\n      \"answer\": \"\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q07\",\n      \"answer\": \"\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q08\",\n      \"answer\": \"\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q09\",\n      \"answer\": \"\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q10\",\n      \"answer\": \"\",\n      \"where\": \"\"\n    }\n  ]\n}\n```",
+     "output_tokens": 281,
+     "hit_max_new_tokens": false,
+     "seconds": 12.68,
+     "parse_ok": false,
+     "peak_gpu_mem_gb": 7.2,
+     "finished_at": "2026-11-16T10:44:31+09:00"
+    },
+    {
+     "attempt": 3,
+     "params": {
+      "do_sample": true,
+      "temperature": 0.7,
+      "top_p": 0.9,
+      "seed": 2
+     },
+     "content": "```json\n{\n  \"answers\": [\n    {\n      \"q\": \"Q01\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q02\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q03\",\n      \"answer\": \"yes\",\n      \"where\": \"화구에 보이는 불꽃\"\n    },\n    {\n      \"q\": \"Q04\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q05\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q06\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q07\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q08\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q09\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q10\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    }\n  ]\n}\n```",
+     "output_tokens": 272,
+     "hit_max_new_tokens": false,
+     "seconds": 12.3,
+     "parse_ok": false,
+     "peak_gpu_mem_gb": 7.2,
+     "finished_at": "2026-11-16T10:44:44+09:00"
+    }
+   ],
+   "accepted_attempt": null
+  },
+  {
+   "case_id": "PC03",
+   "photo_id": "PC03-photo-1",
+   "image_file": "images/G02_goobne_fryer_1280.jpg",
+   "messages": [
+    {
+     "role": "system",
+     "content": "너는 음식점 주방 사진에서 안전과 관련된 '상태'만 관찰해 적는 보조 도구다. 사진에 실제로 보이는 것만 쓴다. 보이지 않는 것을 추측하지 않는다. 기기 이름을 쓰지 않는다. 출력은 JSON 하나만 쓴다."
+    },
+    {
+     "role": "user",
+     "content": [
+      {
+       "type": "image"
+      },
+      {
+       "type": "text",
+       "text": "사진 장소(사용자 입력): 주방\n\n아래 질문마다 이 사진에 실제로 보이는지 답한다.\n- Q01: 바닥에 물이나 기름이 고여 있거나 번져 있는가\n- Q02: 바닥이나 통로에 상자·종이·물건이 놓여 있어 걸릴 수 있는가\n- Q03: 켜진 불꽃이 보이거나 기름·물이 끓고 있는가\n- Q04: 화구나 조리기구 주변에 기름때·찌꺼기가 두껍게 쌓여 있는가\n- Q05: 가스통·부탄캔·가스 호스가 보이는가\n- Q06: 콘센트·플러그·늘어진 전선이 보이는가\n- Q07: 세제·표백제 같은 화학 용기가 보이는가\n- Q08: 머리 높이보다 위 선반에 크거나 무거운 물건이 올려져 있는가\n- Q09: 칼·가위·채칼 같은 날붙이가 드러나 있는가\n- Q10: 무거운 상자나 자재를 손으로 들어 옮겨야 하는 상태로 쌓여 있는가\n\n규칙:\n1. answer: yes, no, unclear 중 하나만 쓴다. 사진에서 분명히 보일 때만 yes를 쓴다. 잘 안 보이면 unclear를 쓴다.\n2. where: answer가 yes이면 사진 속 위치와 보이는 모습을 한국어 한 문장으로 쓴다. 기기나 제품의 이름은 쓰지 않는다. no나 unclear이면 빈 문자열로 둔다.\n\n출력은 아래 틀의 JSON 하나만 쓴다(빈 값을 규칙대로 채운다):\n{\"answers\":[{\"q\":\"Q01\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q02\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q03\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q04\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q05\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q06\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q07\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q08\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q09\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q10\",\"answer\":\"\",\"where\":\"\"}]}"
+      }
+     ]
+    }
+   ],
+   "input_tokens": 1117,
+   "image_size": [
+    640,
+    600
+   ],
+   "attempts": [
+    {
+     "attempt": 1,
+     "params": {
+      "do_sample": false
+     },
+     "content": "```json\n{\n  \"answers\": [\n    {\n      \"q\": \"Q01\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q02\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q03\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q04\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q05\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q06\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q07\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q08\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q09\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q10\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    }\n  ]\n}\n```",
+     "output_tokens": 264,
+     "hit_max_new_tokens": false,
+     "seconds": 11.32,
+     "parse_ok": false,
+     "peak_gpu_mem_gb": 7.14,
+     "finished_at": "2026-11-16T10:44:55+09:00"
+    },
+    {
+     "attempt": 2,
+     "params": {
+      "do_sample": true,
+      "temperature": 0.7,
+      "top_p": 0.9,
+      "seed": 1
+     },
+     "content": "```json\n{\n  \"answers\": [\n    {\n      \"q\": \"Q01\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q02\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q03\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q04\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q05\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q06\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q07\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q08\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q09\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q10\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    }\n  ]\n}\n```",
+     "output_tokens": 264,
+     "hit_max_new_tokens": false,
+     "seconds": 11.48,
+     "parse_ok": false,
+     "peak_gpu_mem_gb": 7.14,
+     "finished_at": "2026-11-16T10:45:06+09:00"
+    },
+    {
+     "attempt": 3,
+     "params": {
+      "do_sample": true,
+      "temperature": 0.7,
+      "top_p": 0.9,
+      "seed": 2
+     },
+     "content": "```json\n{\n  \"answers\": [\n    {\n      \"q\": \"Q01\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q02\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q03\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q04\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q05\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q06\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q07\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q08\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q09\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q10\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    }\n  ]\n}\n```",
+     "output_tokens": 264,
+     "hit_max_new_tokens": false,
+     "seconds": 11.54,
+     "parse_ok": false,
+     "peak_gpu_mem_gb": 7.14,
+     "finished_at": "2026-11-16T10:45:18+09:00"
+    }
+   ],
+   "accepted_attempt": null
+  },
+  {
+   "case_id": "PC04",
+   "photo_id": "PC04-photo-1",
+   "image_file": "images/brave_ZcRVMActFC_1280.jpg",
+   "messages": [
+    {
+     "role": "system",
+     "content": "너는 음식점 주방 사진에서 안전과 관련된 '상태'만 관찰해 적는 보조 도구다. 사진에 실제로 보이는 것만 쓴다. 보이지 않는 것을 추측하지 않는다. 기기 이름을 쓰지 않는다. 출력은 JSON 하나만 쓴다."
+    },
+    {
+     "role": "user",
+     "content": [
+      {
+       "type": "image"
+      },
+      {
+       "type": "text",
+       "text": "사진 장소(사용자 입력): 주방 세척대 주변\n\n아래 질문마다 이 사진에 실제로 보이는지 답한다.\n- Q01: 바닥에 물이나 기름이 고여 있거나 번져 있는가\n- Q02: 바닥이나 통로에 상자·종이·물건이 놓여 있어 걸릴 수 있는가\n- Q03: 켜진 불꽃이 보이거나 기름·물이 끓고 있는가\n- Q04: 화구나 조리기구 주변에 기름때·찌꺼기가 두껍게 쌓여 있는가\n- Q05: 가스통·부탄캔·가스 호스가 보이는가\n- Q06: 콘센트·플러그·늘어진 전선이 보이는가\n- Q07: 세제·표백제 같은 화학 용기가 보이는가\n- Q08: 머리 높이보다 위 선반에 크거나 무거운 물건이 올려져 있는가\n- Q09: 칼·가위·채칼 같은 날붙이가 드러나 있는가\n- Q10: 무거운 상자나 자재를 손으로 들어 옮겨야 하는 상태로 쌓여 있는가\n\n규칙:\n1. answer: yes, no, unclear 중 하나만 쓴다. 사진에서 분명히 보일 때만 yes를 쓴다. 잘 안 보이면 unclear를 쓴다.\n2. where: answer가 yes이면 사진 속 위치와 보이는 모습을 한국어 한 문장으로 쓴다. 기기나 제품의 이름은 쓰지 않는다. no나 unclear이면 빈 문자열로 둔다.\n\n출력은 아래 틀의 JSON 하나만 쓴다(빈 값을 규칙대로 채운다):\n{\"answers\":[{\"q\":\"Q01\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q02\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q03\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q04\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q05\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q06\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q07\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q08\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q09\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q10\",\"answer\":\"\",\"where\":\"\"}]}"
+      }
+     ]
+    }
+   ],
+   "input_tokens": 1629,
+   "image_size": [
+    1085,
+    997
+   ],
+   "attempts": [
+    {
+     "attempt": 1,
+     "params": {
+      "do_sample": false
+     },
+     "content": "```json\n{\n  \"answers\": [\n    {\n      \"q\": \"Q01\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q02\",\n      \"answer\": \"yes\",\n      \"where\": \"바닥에 상자·종이·물건이 놓여 있어 걸릴 수 있는 곳\"\n    },\n    {\n      \"q\": \"Q03\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q04\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q05\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q06\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q07\",\n      \"answer\": \"yes\",\n      \"where\": \"화구나 조리기구 주변에 화학 용기가 보임\"\n    },\n    {\n      \"q\": \"Q08\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q09\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q10\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    }\n  ]\n}\n```",
+     "output_tokens": 307,
+     "hit_max_new_tokens": false,
+     "seconds": 13.44,
+     "parse_ok": false,
+     "peak_gpu_mem_gb": 7.21,
+     "finished_at": "2026-11-16T10:45:31+09:00"
+    },
+    {
+     "attempt": 2,
+     "params": {
+      "do_sample": true,
+      "temperature": 0.7,
+      "top_p": 0.9,
+      "seed": 1
+     },
+     "content": "```json\n{\n  \"answers\": [\n    {\n      \"q\": \"Q01\",\n      \"answer\": \"yes\",\n      \"where\": \"바닥에 물이나 기름이 고여 있는 것으로 보입니다.\"\n    },\n    {\n      \"q\": \"Q02\",\n      \"answer\": \"yes\",\n      \"where\": \"바닥이나 통로에 상자·종이·물건이 놓여 있어 걸릴 수 있는 것으로 보입니다.\"\n    },\n    {\n      \"q\": \"Q03\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q04\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q05\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q06\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q07\",\n      \"answer\": \"yes\",\n      \"where\": \"화구나 조리기구 주변에 기름때·찌꺼기가 두껍게 쌓여 있는 것으로 보입니다.\"\n    },\n    {\n      \"q\": \"Q08\",\n      \"answer\": \"yes\",\n      \"where\": \"머리 높이보다 위 선반에 크거나 무거운 물건이 올려져 있는 것으로 보입니다.\"\n    },\n    {\n      \"q\": \"Q09\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q10\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    }\n  ]\n}\n```",
+     "output_tokens": 364,
+     "hit_max_new_tokens": false,
+     "seconds": 16.07,
+     "parse_ok": false,
+     "peak_gpu_mem_gb": 7.21,
+     "finished_at": "2026-11-16T10:45:48+09:00"
+    },
+    {
+     "attempt": 3,
+     "params": {
+      "do_sample": true,
+      "temperature": 0.7,
+      "top_p": 0.9,
+      "seed": 2
+     },
+     "content": "```json\n{\n  \"answers\": [\n    {\n      \"q\": \"Q01\",\n      \"answer\": \"yes\",\n      \"where\": \"바닥에 물이나 기름이 고여 있거나 번져 있는 것으로 보입니다.\"\n    },\n    {\n      \"q\": \"Q02\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q03\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q04\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q05\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q06\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q07\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q08\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q09\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q10\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    }\n  ]\n}\n```",
+     "output_tokens": 283,
+     "hit_max_new_tokens": false,
+     "seconds": 12.72,
+     "parse_ok": false,
+     "peak_gpu_mem_gb": 7.21,
+     "finished_at": "2026-11-16T10:46:00+09:00"
+    }
+   ],
+   "accepted_attempt": null
+  },
+  {
+   "case_id": "PC05",
+   "photo_id": "PC05-photo-1",
+   "image_file": "images/seongdong_kyochon_1_1280.jpg",
+   "messages": [
+    {
+     "role": "system",
+     "content": "너는 음식점 주방 사진에서 안전과 관련된 '상태'만 관찰해 적는 보조 도구다. 사진에 실제로 보이는 것만 쓴다. 보이지 않는 것을 추측하지 않는다. 기기 이름을 쓰지 않는다. 출력은 JSON 하나만 쓴다."
+    },
+    {
+     "role": "user",
+     "content": [
+      {
+       "type": "image"
+      },
+      {
+       "type": "text",
+       "text": "사진 장소(사용자 입력): 주방 튀김 구역\n\n아래 질문마다 이 사진에 실제로 보이는지 답한다.\n- Q01: 바닥에 물이나 기름이 고여 있거나 번져 있는가\n- Q02: 바닥이나 통로에 상자·종이·물건이 놓여 있어 걸릴 수 있는가\n- Q03: 켜진 불꽃이 보이거나 기름·물이 끓고 있는가\n- Q04: 화구나 조리기구 주변에 기름때·찌꺼기가 두껍게 쌓여 있는가\n- Q05: 가스통·부탄캔·가스 호스가 보이는가\n- Q06: 콘센트·플러그·늘어진 전선이 보이는가\n- Q07: 세제·표백제 같은 화학 용기가 보이는가\n- Q08: 머리 높이보다 위 선반에 크거나 무거운 물건이 올려져 있는가\n- Q09: 칼·가위·채칼 같은 날붙이가 드러나 있는가\n- Q10: 무거운 상자나 자재를 손으로 들어 옮겨야 하는 상태로 쌓여 있는가\n\n규칙:\n1. answer: yes, no, unclear 중 하나만 쓴다. 사진에서 분명히 보일 때만 yes를 쓴다. 잘 안 보이면 unclear를 쓴다.\n2. where: answer가 yes이면 사진 속 위치와 보이는 모습을 한국어 한 문장으로 쓴다. 기기나 제품의 이름은 쓰지 않는다. no나 unclear이면 빈 문자열로 둔다.\n\n출력은 아래 틀의 JSON 하나만 쓴다(빈 값을 규칙대로 채운다):\n{\"answers\":[{\"q\":\"Q01\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q02\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q03\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q04\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q05\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q06\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q07\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q08\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q09\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q10\",\"answer\":\"\",\"where\":\"\"}]}"
+      }
+     ]
+    }
+   ],
+   "input_tokens": 1611,
+   "image_size": [
+    1280,
+    960
+   ],
+   "attempts": [
+    {
+     "attempt": 1,
+     "params": {
+      "do_sample": false
+     },
+     "content": "```json\n{\n  \"answers\": [\n    {\n      \"q\": \"Q01\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q02\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q03\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q04\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q05\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q06\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q07\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q08\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q09\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q10\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    }\n  ]\n}\n```",
+     "output_tokens": 264,
+     "hit_max_new_tokens": false,
+     "seconds": 11.7,
+     "parse_ok": false,
+     "peak_gpu_mem_gb": 7.2,
+     "finished_at": "2026-11-16T10:46:12+09:00"
+    },
+    {
+     "attempt": 2,
+     "params": {
+      "do_sample": true,
+      "temperature": 0.7,
+      "top_p": 0.9,
+      "seed": 1
+     },
+     "content": "```json\n{\n  \"answers\": [\n    {\n      \"q\": \"Q01\",\n      \"answer\": \"yes\",\n      \"where\": \"바닥에 물이나 기름이 고여 있는 것으로 보입니다.\"\n    },\n    {\n      \"q\": \"Q02\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q03\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q04\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q05\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q06\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q07\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q08\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q09\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q10\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    }\n  ]\n}\n```",
+     "output_tokens": 279,
+     "hit_max_new_tokens": false,
+     "seconds": 12.42,
+     "parse_ok": false,
+     "peak_gpu_mem_gb": 7.2,
+     "finished_at": "2026-11-16T10:46:24+09:00"
+    },
+    {
+     "attempt": 3,
+     "params": {
+      "do_sample": true,
+      "temperature": 0.7,
+      "top_p": 0.9,
+      "seed": 2
+     },
+     "content": "```json\n{\n  \"answers\": [\n    {\n      \"q\": \"Q01\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q02\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q03\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q04\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q05\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q06\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q07\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q08\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q09\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q10\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    }\n  ]\n}\n```",
+     "output_tokens": 264,
+     "hit_max_new_tokens": false,
+     "seconds": 11.82,
+     "parse_ok": false,
+     "peak_gpu_mem_gb": 7.2,
+     "finished_at": "2026-11-16T10:46:36+09:00"
+    }
+   ],
+   "accepted_attempt": null
+  },
+  {
+   "case_id": "PC06",
+   "photo_id": "PC06-photo-1",
+   "image_file": "images/seongdong_nene_geumho_1_1280.jpg",
+   "messages": [
+    {
+     "role": "system",
+     "content": "너는 음식점 주방 사진에서 안전과 관련된 '상태'만 관찰해 적는 보조 도구다. 사진에 실제로 보이는 것만 쓴다. 보이지 않는 것을 추측하지 않는다. 기기 이름을 쓰지 않는다. 출력은 JSON 하나만 쓴다."
+    },
+    {
+     "role": "user",
+     "content": [
+      {
+       "type": "image"
+      },
+      {
+       "type": "text",
+       "text": "사진 장소(사용자 입력): 주방 냉장고 위 벽면\n\n아래 질문마다 이 사진에 실제로 보이는지 답한다.\n- Q01: 바닥에 물이나 기름이 고여 있거나 번져 있는가\n- Q02: 바닥이나 통로에 상자·종이·물건이 놓여 있어 걸릴 수 있는가\n- Q03: 켜진 불꽃이 보이거나 기름·물이 끓고 있는가\n- Q04: 화구나 조리기구 주변에 기름때·찌꺼기가 두껍게 쌓여 있는가\n- Q05: 가스통·부탄캔·가스 호스가 보이는가\n- Q06: 콘센트·플러그·늘어진 전선이 보이는가\n- Q07: 세제·표백제 같은 화학 용기가 보이는가\n- Q08: 머리 높이보다 위 선반에 크거나 무거운 물건이 올려져 있는가\n- Q09: 칼·가위·채칼 같은 날붙이가 드러나 있는가\n- Q10: 무거운 상자나 자재를 손으로 들어 옮겨야 하는 상태로 쌓여 있는가\n\n규칙:\n1. answer: yes, no, unclear 중 하나만 쓴다. 사진에서 분명히 보일 때만 yes를 쓴다. 잘 안 보이면 unclear를 쓴다.\n2. where: answer가 yes이면 사진 속 위치와 보이는 모습을 한국어 한 문장으로 쓴다. 기기나 제품의 이름은 쓰지 않는다. no나 unclear이면 빈 문자열로 둔다.\n\n출력은 아래 틀의 JSON 하나만 쓴다(빈 값을 규칙대로 채운다):\n{\"answers\":[{\"q\":\"Q01\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q02\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q03\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q04\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q05\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q06\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q07\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q08\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q09\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q10\",\"answer\":\"\",\"where\":\"\"}]}"
+      }
+     ]
+    }
+   ],
+   "input_tokens": 1615,
+   "image_size": [
+    1280,
+    962
+   ],
+   "attempts": [
+    {
+     "attempt": 1,
+     "params": {
+      "do_sample": false
+     },
+     "content": "```json\n{\n  \"answers\": [\n    {\n      \"q\": \"Q01\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q02\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q03\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q04\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q05\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q06\",\n      \"answer\": \"yes\",\n      \"where\": \"바닥에 전선이 보입니다.\"\n    },\n    {\n      \"q\": \"Q07\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q08\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q09\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q10\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    }\n  ]\n}\n```",
+     "output_tokens": 273,
+     "hit_max_new_tokens": false,
+     "seconds": 12.02,
+     "parse_ok": false,
+     "peak_gpu_mem_gb": 7.2,
+     "finished_at": "2026-11-16T10:46:48+09:00"
+    },
+    {
+     "attempt": 2,
+     "params": {
+      "do_sample": true,
+      "temperature": 0.7,
+      "top_p": 0.9,
+      "seed": 1
+     },
+     "content": "```json\n{\n  \"answers\": [\n    {\n      \"q\": \"Q01\",\n      \"answer\": \"yes\",\n      \"where\": \"냉장고 위 벽면\"\n    },\n    {\n      \"q\": \"Q02\",\n      \"answer\": \"\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q03\",\n      \"answer\": \"\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q04\",\n      \"answer\": \"\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q05\",\n      \"answer\": \"\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q06\",\n      \"answer\": \"\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q07\",\n      \"answer\": \"\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q08\",\n      \"answer\": \"\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q09\",\n      \"answer\": \"\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q10\",\n      \"answer\": \"\",\n      \"where\": \"\"\n    }\n  ]\n}\n```",
+     "output_tokens": 254,
+     "hit_max_new_tokens": false,
+     "seconds": 11.39,
+     "parse_ok": false,
+     "peak_gpu_mem_gb": 7.2,
+     "finished_at": "2026-11-16T10:47:00+09:00"
+    },
+    {
+     "attempt": 3,
+     "params": {
+      "do_sample": true,
+      "temperature": 0.7,
+      "top_p": 0.9,
+      "seed": 2
+     },
+     "content": "```json\n{\n  \"answers\": [\n    {\n      \"q\": \"Q01\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q02\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q03\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q04\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q05\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q06\",\n      \"answer\": \"yes\",\n      \"where\": \"墙上\"\n    },\n    {\n      \"q\": \"Q07\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q08\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q09\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q10\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    }\n  ]\n}\n```",
+     "output_tokens": 266,
+     "hit_max_new_tokens": false,
+     "seconds": 11.96,
+     "parse_ok": false,
+     "peak_gpu_mem_gb": 7.2,
+     "finished_at": "2026-11-16T10:47:12+09:00"
+    }
+   ],
+   "accepted_attempt": null
+  },
+  {
+   "case_id": "PC07",
+   "photo_id": "PC07-photo-1",
+   "image_file": "images/seongdong_nene_seongsu_3_1280.jpg",
+   "messages": [
+    {
+     "role": "system",
+     "content": "너는 음식점 주방 사진에서 안전과 관련된 '상태'만 관찰해 적는 보조 도구다. 사진에 실제로 보이는 것만 쓴다. 보이지 않는 것을 추측하지 않는다. 기기 이름을 쓰지 않는다. 출력은 JSON 하나만 쓴다."
+    },
+    {
+     "role": "user",
+     "content": [
+      {
+       "type": "image"
+      },
+      {
+       "type": "text",
+       "text": "사진 장소(사용자 입력): 주방 세척대·화구 구역\n\n아래 질문마다 이 사진에 실제로 보이는지 답한다.\n- Q01: 바닥에 물이나 기름이 고여 있거나 번져 있는가\n- Q02: 바닥이나 통로에 상자·종이·물건이 놓여 있어 걸릴 수 있는가\n- Q03: 켜진 불꽃이 보이거나 기름·물이 끓고 있는가\n- Q04: 화구나 조리기구 주변에 기름때·찌꺼기가 두껍게 쌓여 있는가\n- Q05: 가스통·부탄캔·가스 호스가 보이는가\n- Q06: 콘센트·플러그·늘어진 전선이 보이는가\n- Q07: 세제·표백제 같은 화학 용기가 보이는가\n- Q08: 머리 높이보다 위 선반에 크거나 무거운 물건이 올려져 있는가\n- Q09: 칼·가위·채칼 같은 날붙이가 드러나 있는가\n- Q10: 무거운 상자나 자재를 손으로 들어 옮겨야 하는 상태로 쌓여 있는가\n\n규칙:\n1. answer: yes, no, unclear 중 하나만 쓴다. 사진에서 분명히 보일 때만 yes를 쓴다. 잘 안 보이면 unclear를 쓴다.\n2. where: answer가 yes이면 사진 속 위치와 보이는 모습을 한국어 한 문장으로 쓴다. 기기나 제품의 이름은 쓰지 않는다. no나 unclear이면 빈 문자열로 둔다.\n\n출력은 아래 틀의 JSON 하나만 쓴다(빈 값을 규칙대로 채운다):\n{\"answers\":[{\"q\":\"Q01\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q02\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q03\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q04\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q05\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q06\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q07\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q08\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q09\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q10\",\"answer\":\"\",\"where\":\"\"}]}"
+      }
+     ]
+    }
+   ],
+   "input_tokens": 1614,
+   "image_size": [
+    1280,
+    960
+   ],
+   "attempts": [
+    {
+     "attempt": 1,
+     "params": {
+      "do_sample": false
+     },
+     "content": "```json\n{\n  \"answers\": [\n    {\n      \"q\": \"Q01\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q02\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q03\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q04\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q05\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q06\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q07\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q08\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q09\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q10\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    }\n  ]\n}\n```",
+     "output_tokens": 264,
+     "hit_max_new_tokens": false,
+     "seconds": 11.62,
+     "parse_ok": false,
+     "peak_gpu_mem_gb": 7.2,
+     "finished_at": "2026-11-16T10:47:23+09:00"
+    },
+    {
+     "attempt": 2,
+     "params": {
+      "do_sample": true,
+      "temperature": 0.7,
+      "top_p": 0.9,
+      "seed": 1
+     },
+     "content": "```json\n{\n  \"answers\": [\n    {\n      \"q\": \"Q01\",\n      \"answer\": \"yes\",\n      \"where\": \"세척대-화구 구역\"\n    },\n    {\n      \"q\": \"Q02\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q03\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q04\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q05\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q06\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q07\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q08\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q09\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q10\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    }\n  ]\n}\n```",
+     "output_tokens": 273,
+     "hit_max_new_tokens": false,
+     "seconds": 12.26,
+     "parse_ok": false,
+     "peak_gpu_mem_gb": 7.2,
+     "finished_at": "2026-11-16T10:47:36+09:00"
+    },
+    {
+     "attempt": 3,
+     "params": {
+      "do_sample": true,
+      "temperature": 0.7,
+      "top_p": 0.9,
+      "seed": 2
+     },
+     "content": "```json\n{\n  \"answers\": [\n    {\n      \"q\": \"Q01\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q02\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q03\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q04\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q05\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q06\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q07\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q08\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q09\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q10\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    }\n  ]\n}\n```",
+     "output_tokens": 264,
+     "hit_max_new_tokens": false,
+     "seconds": 11.84,
+     "parse_ok": false,
+     "peak_gpu_mem_gb": 7.2,
+     "finished_at": "2026-11-16T10:47:47+09:00"
+    }
+   ],
+   "accepted_attempt": null
+  },
+  {
+   "case_id": "PC08",
+   "photo_id": "PC08-photo-1",
+   "image_file": "images/seongdong_bbq_haengdang_4_1280.jpg",
+   "messages": [
+    {
+     "role": "system",
+     "content": "너는 음식점 주방 사진에서 안전과 관련된 '상태'만 관찰해 적는 보조 도구다. 사진에 실제로 보이는 것만 쓴다. 보이지 않는 것을 추측하지 않는다. 기기 이름을 쓰지 않는다. 출력은 JSON 하나만 쓴다."
+    },
+    {
+     "role": "user",
+     "content": [
+      {
+       "type": "image"
+      },
+      {
+       "type": "text",
+       "text": "사진 장소(사용자 입력): 주방 작업대\n\n아래 질문마다 이 사진에 실제로 보이는지 답한다.\n- Q01: 바닥에 물이나 기름이 고여 있거나 번져 있는가\n- Q02: 바닥이나 통로에 상자·종이·물건이 놓여 있어 걸릴 수 있는가\n- Q03: 켜진 불꽃이 보이거나 기름·물이 끓고 있는가\n- Q04: 화구나 조리기구 주변에 기름때·찌꺼기가 두껍게 쌓여 있는가\n- Q05: 가스통·부탄캔·가스 호스가 보이는가\n- Q06: 콘센트·플러그·늘어진 전선이 보이는가\n- Q07: 세제·표백제 같은 화학 용기가 보이는가\n- Q08: 머리 높이보다 위 선반에 크거나 무거운 물건이 올려져 있는가\n- Q09: 칼·가위·채칼 같은 날붙이가 드러나 있는가\n- Q10: 무거운 상자나 자재를 손으로 들어 옮겨야 하는 상태로 쌓여 있는가\n\n규칙:\n1. answer: yes, no, unclear 중 하나만 쓴다. 사진에서 분명히 보일 때만 yes를 쓴다. 잘 안 보이면 unclear를 쓴다.\n2. where: answer가 yes이면 사진 속 위치와 보이는 모습을 한국어 한 문장으로 쓴다. 기기나 제품의 이름은 쓰지 않는다. no나 unclear이면 빈 문자열로 둔다.\n\n출력은 아래 틀의 JSON 하나만 쓴다(빈 값을 규칙대로 채운다):\n{\"answers\":[{\"q\":\"Q01\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q02\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q03\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q04\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q05\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q06\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q07\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q08\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q09\",\"answer\":\"\",\"where\":\"\"},{\"q\":\"Q10\",\"answer\":\"\",\"where\":\"\"}]}"
+      }
+     ]
+    }
+   ],
+   "input_tokens": 1608,
+   "image_size": [
+    1280,
+    960
+   ],
+   "attempts": [
+    {
+     "attempt": 1,
+     "params": {
+      "do_sample": false
+     },
+     "content": "```json\n{\n  \"answers\": [\n    {\n      \"q\": \"Q01\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q02\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q03\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q04\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q05\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q06\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q07\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q08\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q09\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q10\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    }\n  ]\n}\n```",
+     "output_tokens": 264,
+     "hit_max_new_tokens": false,
+     "seconds": 11.73,
+     "parse_ok": false,
+     "peak_gpu_mem_gb": 7.2,
+     "finished_at": "2026-11-16T10:47:59+09:00"
+    },
+    {
+     "attempt": 2,
+     "params": {
+      "do_sample": true,
+      "temperature": 0.7,
+      "top_p": 0.9,
+      "seed": 1
+     },
+     "content": "```json\n{\n  \"answers\": [\n    {\n      \"q\": \"Q01\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q02\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q03\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q04\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q05\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q06\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q07\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q08\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q09\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q10\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    }\n  ]\n}\n```",
+     "output_tokens": 264,
+     "hit_max_new_tokens": false,
+     "seconds": 11.68,
+     "parse_ok": false,
+     "peak_gpu_mem_gb": 7.2,
+     "finished_at": "2026-11-16T10:48:11+09:00"
+    },
+    {
+     "attempt": 3,
+     "params": {
+      "do_sample": true,
+      "temperature": 0.7,
+      "top_p": 0.9,
+      "seed": 2
+     },
+     "content": "```json\n{\n  \"answers\": [\n    {\n      \"q\": \"Q01\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q02\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q03\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q04\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q05\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q06\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q07\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q08\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q09\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    },\n    {\n      \"q\": \"Q10\",\n      \"answer\": \"no\",\n      \"where\": \"\"\n    }\n  ]\n}\n```",
+     "output_tokens": 264,
+     "hit_max_new_tokens": false,
+     "seconds": 11.7,
+     "parse_ok": false,
+     "peak_gpu_mem_gb": 7.2,
+     "finished_at": "2026-11-16T10:48:23+09:00"
+    }
+   ],
+   "accepted_attempt": null
+  }
+ ],
+ "finished_at": "2026-11-16T10:48:23+09:00"
+}

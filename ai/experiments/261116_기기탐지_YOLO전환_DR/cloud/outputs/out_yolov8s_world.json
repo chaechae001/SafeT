@@ -1,0 +1,7866 @@
+{
+ "model_output": {
+  "request_id": "detect_compare_yolo_world",
+  "status": "ok",
+  "error_code": null,
+  "detector": {
+   "model_name": "yolo_world",
+   "model_version": "ultralytics 8.4.215 / yolov8s-worldv2.pt",
+   "weights_sha256": "9b2c17ab6124a913e9b3a5c170617920d91b0f01111a8479da69f00e2cf27792",
+   "class_map_version": "261116_사전학습클래스_대응표_v1",
+   "score_threshold_applied": 0.05,
+   "prompt_set_version": "open_vocab_prompt_draft v1"
+  },
+  "master_version": "v1-draft",
+  "judged_at": "2026-11-16T16:55:42+09:00",
+  "photos": [
+   {
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 1600,
+    "height": 900
+   },
+   {
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 1600,
+    "height": 900
+   },
+   {
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 1600,
+    "height": 900
+   },
+   {
+    "photo_id": "261113_P07_gkMLRGZIHsc_0314.00s_DR",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 1600,
+    "height": 900
+   },
+   {
+    "photo_id": "261113_P09_gkMLRGZIHsc_0414.00s_DR",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 1600,
+    "height": 900
+   },
+   {
+    "photo_id": "261113_P11_TCdTyi29FJA_0095.90s_DR",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 1600,
+    "height": 900
+   },
+   {
+    "photo_id": "261113_P12_TCdTyi29FJA_0103.00s_DR",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 1600,
+    "height": 900
+   },
+   {
+    "photo_id": "C02_kkubeurakko_process_2",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 906,
+    "height": 1120
+   },
+   {
+    "photo_id": "C03_kkubeurakko_process_3",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 906,
+    "height": 1120
+   },
+   {
+    "photo_id": "G02_goobne_fryer",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 640,
+    "height": 600
+   },
+   {
+    "photo_id": "K01_kyochon_robot",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 433,
+    "height": 330
+   },
+   {
+    "photo_id": "PotPlayer64_QgHfifs4YE",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 1600,
+    "height": 900
+   },
+   {
+    "photo_id": "PotPlayer64_VW1iKQ5C4k",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 1600,
+    "height": 900
+   },
+   {
+    "photo_id": "_fAwR9CFoyI_0121",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 455,
+    "height": 251
+   },
+   {
+    "photo_id": "bbq_inspection_2023",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 1200,
+    "height": 913
+   },
+   {
+    "photo_id": "brave_ZcRVMActFC",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 1085,
+    "height": 997
+   },
+   {
+    "photo_id": "brave_uFFOgcRwoD",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 1164,
+    "height": 988
+   },
+   {
+    "photo_id": "dongdaemun_bhc_1",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 1387,
+    "height": 1040
+   },
+   {
+    "photo_id": "dongdaemun_bhc_3",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 1387,
+    "height": 1040
+   },
+   {
+    "photo_id": "nahYjWAkqY8_0015",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 455,
+    "height": 251
+   },
+   {
+    "photo_id": "seongdong_bbq_haengdang_1",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 1600,
+    "height": 1200
+   },
+   {
+    "photo_id": "seongdong_bbq_haengdang_3",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 1600,
+    "height": 1200
+   },
+   {
+    "photo_id": "seongdong_bbq_haengdang_4",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 1600,
+    "height": 1200
+   },
+   {
+    "photo_id": "seongdong_kyochon_1",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 1600,
+    "height": 1200
+   },
+   {
+    "photo_id": "seongdong_kyochon_3",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 1600,
+    "height": 1200
+   },
+   {
+    "photo_id": "seongdong_kyochon_4",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 1600,
+    "height": 1200
+   },
+   {
+    "photo_id": "seongdong_nene_geumho_1",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 1280,
+    "height": 962
+   },
+   {
+    "photo_id": "seongdong_nene_geumho_2",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 1280,
+    "height": 962
+   },
+   {
+    "photo_id": "seongdong_nene_geumho_3",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 1280,
+    "height": 962
+   },
+   {
+    "photo_id": "seongdong_nene_geumho_4",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 1280,
+    "height": 962
+   },
+   {
+    "photo_id": "seongdong_nene_seongsu_1",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 1200,
+    "height": 1600
+   },
+   {
+    "photo_id": "seongdong_nene_seongsu_3",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 1600,
+    "height": 1200
+   },
+   {
+    "photo_id": "seongdong_nene_seongsu_4",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 1600,
+    "height": 1200
+   },
+   {
+    "photo_id": "zT1kAueZC7k_0019",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 1280,
+    "height": 720
+   }
+  ],
+  "detections": [
+   {
+    "detection_id": "d1",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.3524,
+    "bbox": [
+     0.3956,
+     0.756,
+     0.6262,
+     0.9447
+    ]
+   },
+   {
+    "detection_id": "d2",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_CART",
+    "detector_class": "utility cart trolley",
+    "class_map_match": "open_vocab",
+    "confidence": 0.3055,
+    "bbox": [
+     0.9806,
+     0.3872,
+     1,
+     0.5618
+    ]
+   },
+   {
+    "detection_id": "d3",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.2958,
+    "bbox": [
+     0.3966,
+     0.7584,
+     0.6264,
+     0.9442
+    ]
+   },
+   {
+    "detection_id": "d4",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_KNIFE_BOARD",
+    "detector_class": "cutting board",
+    "class_map_match": "open_vocab",
+    "confidence": 0.2796,
+    "bbox": [
+     0.3963,
+     0.7585,
+     0.6239,
+     0.944
+    ]
+   },
+   {
+    "detection_id": "d5",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.2041,
+    "bbox": [
+     0.7573,
+     0.172,
+     0.8841,
+     0.501
+    ]
+   },
+   {
+    "detection_id": "d6",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_CART",
+    "detector_class": "utility cart trolley",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1845,
+    "bbox": [
+     0.9863,
+     0.4731,
+     0.9999,
+     0.5536
+    ]
+   },
+   {
+    "detection_id": "d7",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1813,
+    "bbox": [
+     0.1381,
+     0,
+     0.8348,
+     0.3043
+    ]
+   },
+   {
+    "detection_id": "d8",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1703,
+    "bbox": [
+     0.4866,
+     0.001,
+     0.8726,
+     0.295
+    ]
+   },
+   {
+    "detection_id": "d9",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1651,
+    "bbox": [
+     0.7626,
+     0.4843,
+     0.9303,
+     1
+    ]
+   },
+   {
+    "detection_id": "d10",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_GAS_CYLINDER",
+    "detector_class": "LPG gas cylinder",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1603,
+    "bbox": [
+     0.7646,
+     0.7177,
+     0.8392,
+     1
+    ]
+   },
+   {
+    "detection_id": "d11",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_CART",
+    "detector_class": "utility cart trolley",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1396,
+    "bbox": [
+     0.9641,
+     0.4687,
+     1,
+     0.5625
+    ]
+   },
+   {
+    "detection_id": "d12",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_STERILIZER",
+    "detector_class": "dish sterilizer cabinet",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1297,
+    "bbox": [
+     0.7616,
+     0.4835,
+     0.9308,
+     0.9989
+    ]
+   },
+   {
+    "detection_id": "d13",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_DISPLAY_COOLER",
+    "detector_class": "beverage display cooler",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1062,
+    "bbox": [
+     0.7644,
+     0.7196,
+     0.8395,
+     1
+    ]
+   },
+   {
+    "detection_id": "d14",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_DISPLAY_COOLER",
+    "detector_class": "beverage display cooler",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1026,
+    "bbox": [
+     0.5215,
+     0.2865,
+     0.6071,
+     0.473
+    ]
+   },
+   {
+    "detection_id": "d15",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0973,
+    "bbox": [
+     0.4879,
+     0.0,
+     0.5769,
+     0.2935
+    ]
+   },
+   {
+    "detection_id": "d16",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_DISPLAY_COOLER",
+    "detector_class": "beverage display cooler",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0968,
+    "bbox": [
+     0.7577,
+     0.1689,
+     0.8788,
+     0.4811
+    ]
+   },
+   {
+    "detection_id": "d17",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0963,
+    "bbox": [
+     0.7054,
+     0.0019,
+     0.9178,
+     0.2559
+    ]
+   },
+   {
+    "detection_id": "d18",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0907,
+    "bbox": [
+     0.3062,
+     0.6917,
+     0.745,
+     1
+    ]
+   },
+   {
+    "detection_id": "d19",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_GAS_CYLINDER",
+    "detector_class": "butane gas can",
+    "class_map_match": "open_vocab",
+    "confidence": 0.085,
+    "bbox": [
+     0.7638,
+     0.727,
+     0.8386,
+     1
+    ]
+   },
+   {
+    "detection_id": "d20",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0773,
+    "bbox": [
+     0.0967,
+     0,
+     0.4946,
+     0.1887
+    ]
+   },
+   {
+    "detection_id": "d21",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0716,
+    "bbox": [
+     0,
+     0.1022,
+     0.1439,
+     0.9704
+    ]
+   },
+   {
+    "detection_id": "d22",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_DISPLAY_COOLER",
+    "detector_class": "beverage display cooler",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0654,
+    "bbox": [
+     0.4923,
+     0.0413,
+     0.5768,
+     0.183
+    ]
+   },
+   {
+    "detection_id": "d23",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_RICE_COOKER",
+    "detector_class": "rice cooker",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0607,
+    "bbox": [
+     0.5217,
+     0.3147,
+     0.6068,
+     0.472
+    ]
+   },
+   {
+    "detection_id": "d24",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0589,
+    "bbox": [
+     0.5079,
+     0.0015,
+     0.7049,
+     0.2877
+    ]
+   },
+   {
+    "detection_id": "d25",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0573,
+    "bbox": [
+     0.5449,
+     0.5075,
+     0.6202,
+     0.7139
+    ]
+   },
+   {
+    "detection_id": "d26",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0513,
+    "bbox": [
+     0.5157,
+     0.4518,
+     0.8952,
+     0.7211
+    ]
+   },
+   {
+    "detection_id": "d27",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_SCISSORS",
+    "detector_class": "scissors",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0511,
+    "bbox": [
+     0.4235,
+     0.714,
+     0.5097,
+     0.7956
+    ]
+   },
+   {
+    "detection_id": "d28",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1004,
+    "bbox": [
+     0.5012,
+     0.0063,
+     0.9996,
+     0.8831
+    ]
+   },
+   {
+    "detection_id": "d29",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "commercial oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0981,
+    "bbox": [
+     0.4988,
+     0.0063,
+     0.9998,
+     0.8866
+    ]
+   },
+   {
+    "detection_id": "d30",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "kitchen sink",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0784,
+    "bbox": [
+     0.5011,
+     0.0029,
+     0.9998,
+     0.8852
+    ]
+   },
+   {
+    "detection_id": "d31",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0668,
+    "bbox": [
+     0.501,
+     0.016,
+     0.9994,
+     0.9231
+    ]
+   },
+   {
+    "detection_id": "d32",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "kitchen sink",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0645,
+    "bbox": [
+     0.0007,
+     0.0049,
+     0.5971,
+     0.916
+    ]
+   },
+   {
+    "detection_id": "d33",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_SCISSORS",
+    "detector_class": "scissors",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0595,
+    "bbox": [
+     0.1917,
+     0.5384,
+     0.522,
+     0.7171
+    ]
+   },
+   {
+    "detection_id": "d34",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_MIXER",
+    "detector_class": "blender",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0582,
+    "bbox": [
+     0.4336,
+     0.0008,
+     0.996,
+     0.8854
+    ]
+   },
+   {
+    "detection_id": "d35",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0543,
+    "bbox": [
+     0.5014,
+     0.0128,
+     0.9993,
+     0.9127
+    ]
+   },
+   {
+    "detection_id": "d36",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_SCISSORS",
+    "detector_class": "scissors",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0509,
+    "bbox": [
+     0.2928,
+     0.4787,
+     0.713,
+     0.9123
+    ]
+   },
+   {
+    "detection_id": "d37",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.7519,
+    "bbox": [
+     0.1881,
+     0.0017,
+     0.4083,
+     0.1131
+    ]
+   },
+   {
+    "detection_id": "d38",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.495,
+    "bbox": [
+     0.6031,
+     0.019,
+     0.7152,
+     0.2225
+    ]
+   },
+   {
+    "detection_id": "d39",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.4307,
+    "bbox": [
+     0.0839,
+     0.0002,
+     0.5918,
+     0.1217
+    ]
+   },
+   {
+    "detection_id": "d40",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1941,
+    "bbox": [
+     0.6142,
+     0.1655,
+     0.7054,
+     0.2224
+    ]
+   },
+   {
+    "detection_id": "d41",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.192,
+    "bbox": [
+     0,
+     0.1439,
+     0.0753,
+     0.6575
+    ]
+   },
+   {
+    "detection_id": "d42",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SCISSORS",
+    "detector_class": "scissors",
+    "class_map_match": "open_vocab",
+    "confidence": 0.145,
+    "bbox": [
+     0.3906,
+     0.4562,
+     0.4247,
+     0.5649
+    ]
+   },
+   {
+    "detection_id": "d43",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1308,
+    "bbox": [
+     0.5449,
+     0,
+     0.9966,
+     0.9198
+    ]
+   },
+   {
+    "detection_id": "d44",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_CART",
+    "detector_class": "utility cart trolley",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1184,
+    "bbox": [
+     0.7116,
+     0.6883,
+     0.9963,
+     0.9996
+    ]
+   },
+   {
+    "detection_id": "d45",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1147,
+    "bbox": [
+     0.6283,
+     0.0009,
+     0.7316,
+     0.0583
+    ]
+   },
+   {
+    "detection_id": "d46",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0916,
+    "bbox": [
+     0.0,
+     0.6275,
+     0.0805,
+     0.7449
+    ]
+   },
+   {
+    "detection_id": "d47",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0817,
+    "bbox": [
+     0.0006,
+     0.7104,
+     0.5137,
+     1
+    ]
+   },
+   {
+    "detection_id": "d48",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.066,
+    "bbox": [
+     0.0703,
+     0.0147,
+     0.4998,
+     0.9086
+    ]
+   },
+   {
+    "detection_id": "d49",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0642,
+    "bbox": [
+     0,
+     0.0706,
+     0.0877,
+     0.8423
+    ]
+   },
+   {
+    "detection_id": "d50",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0532,
+    "bbox": [
+     0.2892,
+     0.001,
+     0.5992,
+     0.2461
+    ]
+   },
+   {
+    "detection_id": "d51",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0502,
+    "bbox": [
+     0,
+     0.0451,
+     0.1992,
+     0.8892
+    ]
+   },
+   {
+    "detection_id": "d52",
+    "photo_id": "261113_P07_gkMLRGZIHsc_0314.00s_DR",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "commercial oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1139,
+    "bbox": [
+     0.0015,
+     0.0293,
+     0.4998,
+     0.9626
+    ]
+   },
+   {
+    "detection_id": "d53",
+    "photo_id": "261113_P09_gkMLRGZIHsc_0414.00s_DR",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.5072,
+    "bbox": [
+     0.0051,
+     0.0033,
+     0.2786,
+     0.0716
+    ]
+   },
+   {
+    "detection_id": "d54",
+    "photo_id": "261113_P09_gkMLRGZIHsc_0414.00s_DR",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.385,
+    "bbox": [
+     0.8259,
+     0,
+     0.9994,
+     0.0769
+    ]
+   },
+   {
+    "detection_id": "d55",
+    "photo_id": "261113_P09_gkMLRGZIHsc_0414.00s_DR",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.3612,
+    "bbox": [
+     0.7224,
+     0.0722,
+     0.8884,
+     0.2969
+    ]
+   },
+   {
+    "detection_id": "d56",
+    "photo_id": "261113_P09_gkMLRGZIHsc_0414.00s_DR",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1741,
+    "bbox": [
+     0.5045,
+     0.0089,
+     0.9992,
+     0.9224
+    ]
+   },
+   {
+    "detection_id": "d57",
+    "photo_id": "261113_P09_gkMLRGZIHsc_0414.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1491,
+    "bbox": [
+     0.0004,
+     0,
+     0.2767,
+     0.1064
+    ]
+   },
+   {
+    "detection_id": "d58",
+    "photo_id": "261113_P09_gkMLRGZIHsc_0414.00s_DR",
+    "equipment_id": "EQ_SCISSORS",
+    "detector_class": "scissors",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1446,
+    "bbox": [
+     0.9321,
+     0.5588,
+     0.982,
+     0.7058
+    ]
+   },
+   {
+    "detection_id": "d59",
+    "photo_id": "261113_P09_gkMLRGZIHsc_0414.00s_DR",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1401,
+    "bbox": [
+     0,
+     0.9408,
+     0.1483,
+     1
+    ]
+   },
+   {
+    "detection_id": "d60",
+    "photo_id": "261113_P09_gkMLRGZIHsc_0414.00s_DR",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1357,
+    "bbox": [
+     0.345,
+     0.0,
+     0.4632,
+     0.0756
+    ]
+   },
+   {
+    "detection_id": "d61",
+    "photo_id": "261113_P09_gkMLRGZIHsc_0414.00s_DR",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "commercial oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1324,
+    "bbox": [
+     0.5023,
+     0.0053,
+     0.9993,
+     0.8787
+    ]
+   },
+   {
+    "detection_id": "d62",
+    "photo_id": "261113_P09_gkMLRGZIHsc_0414.00s_DR",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1109,
+    "bbox": [
+     0.3597,
+     0,
+     0.8522,
+     0.0905
+    ]
+   },
+   {
+    "detection_id": "d63",
+    "photo_id": "261113_P09_gkMLRGZIHsc_0414.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.105,
+    "bbox": [
+     0.4962,
+     0.1392,
+     0.8632,
+     0.3312
+    ]
+   },
+   {
+    "detection_id": "d64",
+    "photo_id": "261113_P09_gkMLRGZIHsc_0414.00s_DR",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1033,
+    "bbox": [
+     0.053,
+     0.7087,
+     0.2045,
+     0.7707
+    ]
+   },
+   {
+    "detection_id": "d65",
+    "photo_id": "261113_P09_gkMLRGZIHsc_0414.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1001,
+    "bbox": [
+     0.8352,
+     0.0102,
+     0.9999,
+     1
+    ]
+   },
+   {
+    "detection_id": "d66",
+    "photo_id": "261113_P09_gkMLRGZIHsc_0414.00s_DR",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0787,
+    "bbox": [
+     0.0788,
+     0.0024,
+     0.2767,
+     0.0472
+    ]
+   },
+   {
+    "detection_id": "d67",
+    "photo_id": "261113_P09_gkMLRGZIHsc_0414.00s_DR",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "gas stove burner",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0756,
+    "bbox": [
+     0.4968,
+     0.7874,
+     0.8052,
+     0.9982
+    ]
+   },
+   {
+    "detection_id": "d68",
+    "photo_id": "261113_P09_gkMLRGZIHsc_0414.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0696,
+    "bbox": [
+     0.8345,
+     0.4788,
+     1.0,
+     0.9045
+    ]
+   },
+   {
+    "detection_id": "d69",
+    "photo_id": "261113_P09_gkMLRGZIHsc_0414.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0657,
+    "bbox": [
+     0.3836,
+     0.7819,
+     0.7162,
+     1
+    ]
+   },
+   {
+    "detection_id": "d70",
+    "photo_id": "261113_P09_gkMLRGZIHsc_0414.00s_DR",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0653,
+    "bbox": [
+     0.0664,
+     0.7604,
+     0.22,
+     0.8027
+    ]
+   },
+   {
+    "detection_id": "d71",
+    "photo_id": "261113_P09_gkMLRGZIHsc_0414.00s_DR",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0584,
+    "bbox": [
+     0.3334,
+     0.0002,
+     0.3802,
+     0.1236
+    ]
+   },
+   {
+    "detection_id": "d72",
+    "photo_id": "261113_P09_gkMLRGZIHsc_0414.00s_DR",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0537,
+    "bbox": [
+     0.0703,
+     0.7798,
+     0.1347,
+     0.8234
+    ]
+   },
+   {
+    "detection_id": "d73",
+    "photo_id": "261113_P09_gkMLRGZIHsc_0414.00s_DR",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0526,
+    "bbox": [
+     0.8373,
+     0.4814,
+     0.999,
+     0.5609
+    ]
+   },
+   {
+    "detection_id": "d74",
+    "photo_id": "261113_P09_gkMLRGZIHsc_0414.00s_DR",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0516,
+    "bbox": [
+     0.0377,
+     0.7095,
+     0.2182,
+     0.9986
+    ]
+   },
+   {
+    "detection_id": "d75",
+    "photo_id": "261113_P11_TCdTyi29FJA_0095.90s_DR",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1039,
+    "bbox": [
+     0.5557,
+     0.2722,
+     0.6822,
+     0.4155
+    ]
+   },
+   {
+    "detection_id": "d76",
+    "photo_id": "261113_P11_TCdTyi29FJA_0095.90s_DR",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "kitchen sink",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0886,
+    "bbox": [
+     0.0003,
+     0.0113,
+     0.5977,
+     0.9623
+    ]
+   },
+   {
+    "detection_id": "d77",
+    "photo_id": "261113_P11_TCdTyi29FJA_0095.90s_DR",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "commercial oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.088,
+    "bbox": [
+     0,
+     0.0126,
+     0.5437,
+     0.9592
+    ]
+   },
+   {
+    "detection_id": "d78",
+    "photo_id": "261113_P11_TCdTyi29FJA_0095.90s_DR",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "chest freezer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0792,
+    "bbox": [
+     0.2625,
+     0.0115,
+     0.6314,
+     0.4328
+    ]
+   },
+   {
+    "detection_id": "d79",
+    "photo_id": "261113_P11_TCdTyi29FJA_0095.90s_DR",
+    "equipment_id": "EQ_KNIFE_BOARD",
+    "detector_class": "kitchen knife",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0733,
+    "bbox": [
+     0.2218,
+     0.3739,
+     0.4209,
+     0.727
+    ]
+   },
+   {
+    "detection_id": "d80",
+    "photo_id": "261113_P11_TCdTyi29FJA_0095.90s_DR",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0639,
+    "bbox": [
+     0.264,
+     0.3501,
+     0.5486,
+     0.5923
+    ]
+   },
+   {
+    "detection_id": "d81",
+    "photo_id": "261113_P11_TCdTyi29FJA_0095.90s_DR",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0562,
+    "bbox": [
+     0.4183,
+     0.8346,
+     0.6472,
+     1
+    ]
+   },
+   {
+    "detection_id": "d82",
+    "photo_id": "261113_P11_TCdTyi29FJA_0095.90s_DR",
+    "equipment_id": "EQ_DISPLAY_COOLER",
+    "detector_class": "beverage display cooler",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0554,
+    "bbox": [
+     0.5377,
+     0.5918,
+     0.6671,
+     1
+    ]
+   },
+   {
+    "detection_id": "d83",
+    "photo_id": "261113_P11_TCdTyi29FJA_0095.90s_DR",
+    "equipment_id": "EQ_STERILIZER",
+    "detector_class": "dish sterilizer cabinet",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0506,
+    "bbox": [
+     0.4221,
+     0.8335,
+     0.6482,
+     1
+    ]
+   },
+   {
+    "detection_id": "d84",
+    "photo_id": "261113_P11_TCdTyi29FJA_0095.90s_DR",
+    "equipment_id": "EQ_SCISSORS",
+    "detector_class": "scissors",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0506,
+    "bbox": [
+     0,
+     0.3376,
+     0.0559,
+     0.9448
+    ]
+   },
+   {
+    "detection_id": "d85",
+    "photo_id": "261113_P12_TCdTyi29FJA_0103.00s_DR",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.4585,
+    "bbox": [
+     0.0002,
+     0.002,
+     0.6223,
+     0.9219
+    ]
+   },
+   {
+    "detection_id": "d86",
+    "photo_id": "261113_P12_TCdTyi29FJA_0103.00s_DR",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.2313,
+    "bbox": [
+     0.3013,
+     0.0011,
+     0.6394,
+     0.1773
+    ]
+   },
+   {
+    "detection_id": "d87",
+    "photo_id": "261113_P12_TCdTyi29FJA_0103.00s_DR",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.2118,
+    "bbox": [
+     0.1489,
+     0.0037,
+     0.8698,
+     0.8794
+    ]
+   },
+   {
+    "detection_id": "d88",
+    "photo_id": "261113_P12_TCdTyi29FJA_0103.00s_DR",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "kitchen sink",
+    "class_map_match": "open_vocab",
+    "confidence": 0.189,
+    "bbox": [
+     0,
+     0.0046,
+     0.5798,
+     0.8824
+    ]
+   },
+   {
+    "detection_id": "d89",
+    "photo_id": "261113_P12_TCdTyi29FJA_0103.00s_DR",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1053,
+    "bbox": [
+     0.2844,
+     0.1024,
+     0.7739,
+     0.6097
+    ]
+   },
+   {
+    "detection_id": "d90",
+    "photo_id": "261113_P12_TCdTyi29FJA_0103.00s_DR",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "kitchen sink",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1022,
+    "bbox": [
+     0.3116,
+     0.4794,
+     0.8145,
+     1
+    ]
+   },
+   {
+    "detection_id": "d91",
+    "photo_id": "261113_P12_TCdTyi29FJA_0103.00s_DR",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "kitchen sink",
+    "class_map_match": "open_vocab",
+    "confidence": 0.082,
+    "bbox": [
+     0.2493,
+     0.0447,
+     0.9313,
+     1
+    ]
+   },
+   {
+    "detection_id": "d92",
+    "photo_id": "261113_P12_TCdTyi29FJA_0103.00s_DR",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0618,
+    "bbox": [
+     0.5432,
+     0,
+     0.9927,
+     0.5633
+    ]
+   },
+   {
+    "detection_id": "d93",
+    "photo_id": "C02_kkubeurakko_process_2",
+    "equipment_id": "EQ_SCISSORS",
+    "detector_class": "scissors",
+    "class_map_match": "open_vocab",
+    "confidence": 0.067,
+    "bbox": [
+     0.0118,
+     0.2251,
+     0.8035,
+     0.735
+    ]
+   },
+   {
+    "detection_id": "d94",
+    "photo_id": "C02_kkubeurakko_process_2",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.067,
+    "bbox": [
+     0.0039,
+     0.0014,
+     0.6344,
+     0.499
+    ]
+   },
+   {
+    "detection_id": "d95",
+    "photo_id": "C03_kkubeurakko_process_3",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "kitchen sink",
+    "class_map_match": "open_vocab",
+    "confidence": 0.2603,
+    "bbox": [
+     0.026,
+     0.0003,
+     0.6105,
+     0.5025
+    ]
+   },
+   {
+    "detection_id": "d96",
+    "photo_id": "C03_kkubeurakko_process_3",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.2547,
+    "bbox": [
+     0.2472,
+     0.0002,
+     0.9833,
+     0.5024
+    ]
+   },
+   {
+    "detection_id": "d97",
+    "photo_id": "C03_kkubeurakko_process_3",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.126,
+    "bbox": [
+     0.0083,
+     0.3033,
+     0.6093,
+     0.8403
+    ]
+   },
+   {
+    "detection_id": "d98",
+    "photo_id": "C03_kkubeurakko_process_3",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0624,
+    "bbox": [
+     0.3934,
+     0.5072,
+     0.917,
+     0.8536
+    ]
+   },
+   {
+    "detection_id": "d99",
+    "photo_id": "C03_kkubeurakko_process_3",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0524,
+    "bbox": [
+     0.255,
+     0.3168,
+     0.9793,
+     0.8525
+    ]
+   },
+   {
+    "detection_id": "d100",
+    "photo_id": "G02_goobne_fryer",
+    "equipment_id": "EQ_STERILIZER",
+    "detector_class": "dish sterilizer cabinet",
+    "class_map_match": "open_vocab",
+    "confidence": 0.2818,
+    "bbox": [
+     0.3044,
+     0.0749,
+     0.731,
+     0.6646
+    ]
+   },
+   {
+    "detection_id": "d101",
+    "photo_id": "G02_goobne_fryer",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "commercial oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.2228,
+    "bbox": [
+     0.3082,
+     0.0738,
+     0.7287,
+     0.645
+    ]
+   },
+   {
+    "detection_id": "d102",
+    "photo_id": "G02_goobne_fryer",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.2047,
+    "bbox": [
+     0.3042,
+     0.0955,
+     0.7301,
+     0.6195
+    ]
+   },
+   {
+    "detection_id": "d103",
+    "photo_id": "G02_goobne_fryer",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.202,
+    "bbox": [
+     0.3448,
+     0.0978,
+     0.7054,
+     0.2203
+    ]
+   },
+   {
+    "detection_id": "d104",
+    "photo_id": "G02_goobne_fryer",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "commercial oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1568,
+    "bbox": [
+     0.2909,
+     0.3278,
+     0.7227,
+     0.8083
+    ]
+   },
+   {
+    "detection_id": "d105",
+    "photo_id": "G02_goobne_fryer",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1532,
+    "bbox": [
+     0.2993,
+     0.326,
+     0.7265,
+     0.7891
+    ]
+   },
+   {
+    "detection_id": "d106",
+    "photo_id": "G02_goobne_fryer",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.109,
+    "bbox": [
+     0.3342,
+     0.4872,
+     0.6919,
+     0.6816
+    ]
+   },
+   {
+    "detection_id": "d107",
+    "photo_id": "G02_goobne_fryer",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1008,
+    "bbox": [
+     0.3392,
+     0.3395,
+     0.6988,
+     0.4894
+    ]
+   },
+   {
+    "detection_id": "d108",
+    "photo_id": "G02_goobne_fryer",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0966,
+    "bbox": [
+     0.3401,
+     0.2123,
+     0.7163,
+     0.3309
+    ]
+   },
+   {
+    "detection_id": "d109",
+    "photo_id": "G02_goobne_fryer",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0946,
+    "bbox": [
+     0.3128,
+     0.0982,
+     0.7209,
+     0.3389
+    ]
+   },
+   {
+    "detection_id": "d110",
+    "photo_id": "G02_goobne_fryer",
+    "equipment_id": "EQ_STERILIZER",
+    "detector_class": "dish sterilizer cabinet",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0846,
+    "bbox": [
+     0.3977,
+     0.6734,
+     0.6242,
+     0.9107
+    ]
+   },
+   {
+    "detection_id": "d111",
+    "photo_id": "G02_goobne_fryer",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0826,
+    "bbox": [
+     0.3252,
+     0.3302,
+     0.7295,
+     0.9724
+    ]
+   },
+   {
+    "detection_id": "d112",
+    "photo_id": "G02_goobne_fryer",
+    "equipment_id": "EQ_STERILIZER",
+    "detector_class": "dish sterilizer cabinet",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0713,
+    "bbox": [
+     0.3052,
+     0.3067,
+     0.706,
+     0.8047
+    ]
+   },
+   {
+    "detection_id": "d113",
+    "photo_id": "G02_goobne_fryer",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0658,
+    "bbox": [
+     0.3263,
+     0.4883,
+     0.691,
+     0.6787
+    ]
+   },
+   {
+    "detection_id": "d114",
+    "photo_id": "G02_goobne_fryer",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0568,
+    "bbox": [
+     0.3951,
+     0.674,
+     0.6239,
+     0.7094
+    ]
+   },
+   {
+    "detection_id": "d115",
+    "photo_id": "K01_kyochon_robot",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.246,
+    "bbox": [
+     0.9505,
+     0.3322,
+     0.9877,
+     0.4516
+    ]
+   },
+   {
+    "detection_id": "d116",
+    "photo_id": "K01_kyochon_robot",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1722,
+    "bbox": [
+     0.5476,
+     0.1951,
+     0.6338,
+     0.2775
+    ]
+   },
+   {
+    "detection_id": "d117",
+    "photo_id": "K01_kyochon_robot",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1371,
+    "bbox": [
+     0.0002,
+     0,
+     0.4993,
+     0.179
+    ]
+   },
+   {
+    "detection_id": "d118",
+    "photo_id": "K01_kyochon_robot",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1323,
+    "bbox": [
+     0.6662,
+     0.1574,
+     0.9557,
+     0.7384
+    ]
+   },
+   {
+    "detection_id": "d119",
+    "photo_id": "K01_kyochon_robot",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.098,
+    "bbox": [
+     0,
+     0.5945,
+     0.1546,
+     0.7681
+    ]
+   },
+   {
+    "detection_id": "d120",
+    "photo_id": "K01_kyochon_robot",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0952,
+    "bbox": [
+     0.6584,
+     0.1589,
+     0.9549,
+     0.7586
+    ]
+   },
+   {
+    "detection_id": "d121",
+    "photo_id": "K01_kyochon_robot",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0817,
+    "bbox": [
+     0.9837,
+     0.342,
+     1,
+     0.4428
+    ]
+   },
+   {
+    "detection_id": "d122",
+    "photo_id": "K01_kyochon_robot",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0814,
+    "bbox": [
+     0.0007,
+     0.4625,
+     0.4963,
+     0.8801
+    ]
+   },
+   {
+    "detection_id": "d123",
+    "photo_id": "K01_kyochon_robot",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0761,
+    "bbox": [
+     0.9503,
+     0.3317,
+     1,
+     0.9192
+    ]
+   },
+   {
+    "detection_id": "d124",
+    "photo_id": "K01_kyochon_robot",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0692,
+    "bbox": [
+     0.0311,
+     0.719,
+     0.1637,
+     0.8381
+    ]
+   },
+   {
+    "detection_id": "d125",
+    "photo_id": "K01_kyochon_robot",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0672,
+    "bbox": [
+     0.0293,
+     0.7183,
+     0.1645,
+     0.8385
+    ]
+   },
+   {
+    "detection_id": "d126",
+    "photo_id": "K01_kyochon_robot",
+    "equipment_id": "EQ_SCISSORS",
+    "detector_class": "scissors",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0662,
+    "bbox": [
+     0.1518,
+     0.1007,
+     0.4068,
+     0.816
+    ]
+   },
+   {
+    "detection_id": "d127",
+    "photo_id": "K01_kyochon_robot",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "commercial oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0578,
+    "bbox": [
+     0.668,
+     0.1651,
+     0.9592,
+     0.6211
+    ]
+   },
+   {
+    "detection_id": "d128",
+    "photo_id": "K01_kyochon_robot",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0563,
+    "bbox": [
+     0.5519,
+     0.0385,
+     0.6335,
+     0.2143
+    ]
+   },
+   {
+    "detection_id": "d129",
+    "photo_id": "K01_kyochon_robot",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "kitchen sink",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0559,
+    "bbox": [
+     0.3064,
+     0.7787,
+     0.6117,
+     1
+    ]
+   },
+   {
+    "detection_id": "d130",
+    "photo_id": "PotPlayer64_QgHfifs4YE",
+    "equipment_id": "EQ_KNIFE_BOARD",
+    "detector_class": "kitchen knife",
+    "class_map_match": "open_vocab",
+    "confidence": 0.5233,
+    "bbox": [
+     0.4218,
+     0.4309,
+     0.6598,
+     0.6574
+    ]
+   },
+   {
+    "detection_id": "d131",
+    "photo_id": "PotPlayer64_QgHfifs4YE",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.3525,
+    "bbox": [
+     0,
+     0.0017,
+     0.5974,
+     0.9153
+    ]
+   },
+   {
+    "detection_id": "d132",
+    "photo_id": "PotPlayer64_QgHfifs4YE",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.3023,
+    "bbox": [
+     0.273,
+     0,
+     0.9923,
+     0.882
+    ]
+   },
+   {
+    "detection_id": "d133",
+    "photo_id": "PotPlayer64_QgHfifs4YE",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "commercial oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.2125,
+    "bbox": [
+     0,
+     0,
+     0.5564,
+     0.9154
+    ]
+   },
+   {
+    "detection_id": "d134",
+    "photo_id": "PotPlayer64_QgHfifs4YE",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "kitchen sink",
+    "class_map_match": "open_vocab",
+    "confidence": 0.2069,
+    "bbox": [
+     0,
+     0.011,
+     0.5498,
+     0.9654
+    ]
+   },
+   {
+    "detection_id": "d135",
+    "photo_id": "PotPlayer64_QgHfifs4YE",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1699,
+    "bbox": [
+     0.2504,
+     0.0054,
+     0.9685,
+     0.9365
+    ]
+   },
+   {
+    "detection_id": "d136",
+    "photo_id": "PotPlayer64_QgHfifs4YE",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1588,
+    "bbox": [
+     0,
+     0.0042,
+     0.5891,
+     0.9667
+    ]
+   },
+   {
+    "detection_id": "d137",
+    "photo_id": "PotPlayer64_QgHfifs4YE",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1441,
+    "bbox": [
+     0.5067,
+     0.0008,
+     0.7361,
+     0.1314
+    ]
+   },
+   {
+    "detection_id": "d138",
+    "photo_id": "PotPlayer64_QgHfifs4YE",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1151,
+    "bbox": [
+     0.8321,
+     0.4093,
+     0.9981,
+     0.6046
+    ]
+   },
+   {
+    "detection_id": "d139",
+    "photo_id": "PotPlayer64_QgHfifs4YE",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "kitchen sink",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0527,
+    "bbox": [
+     0.3242,
+     0.0412,
+     1,
+     1
+    ]
+   },
+   {
+    "detection_id": "d140",
+    "photo_id": "PotPlayer64_QgHfifs4YE",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0527,
+    "bbox": [
+     0.4341,
+     0.4057,
+     0.955,
+     0.9982
+    ]
+   },
+   {
+    "detection_id": "d141",
+    "photo_id": "PotPlayer64_VW1iKQ5C4k",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.2063,
+    "bbox": [
+     0.3042,
+     0,
+     1,
+     0.8806
+    ]
+   },
+   {
+    "detection_id": "d142",
+    "photo_id": "PotPlayer64_VW1iKQ5C4k",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1958,
+    "bbox": [
+     0.5033,
+     0.393,
+     0.6201,
+     0.7326
+    ]
+   },
+   {
+    "detection_id": "d143",
+    "photo_id": "PotPlayer64_VW1iKQ5C4k",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "commercial oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1735,
+    "bbox": [
+     0,
+     0.1968,
+     0.6794,
+     0.8866
+    ]
+   },
+   {
+    "detection_id": "d144",
+    "photo_id": "PotPlayer64_VW1iKQ5C4k",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1335,
+    "bbox": [
+     0.3273,
+     0.0026,
+     1,
+     0.8688
+    ]
+   },
+   {
+    "detection_id": "d145",
+    "photo_id": "PotPlayer64_VW1iKQ5C4k",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1279,
+    "bbox": [
+     0.7467,
+     0.2592,
+     0.935,
+     0.3528
+    ]
+   },
+   {
+    "detection_id": "d146",
+    "photo_id": "PotPlayer64_VW1iKQ5C4k",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1054,
+    "bbox": [
+     0.5035,
+     0.3945,
+     0.6202,
+     0.7334
+    ]
+   },
+   {
+    "detection_id": "d147",
+    "photo_id": "PotPlayer64_VW1iKQ5C4k",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "commercial oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1009,
+    "bbox": [
+     0.3255,
+     0.7552,
+     0.5385,
+     0.9997
+    ]
+   },
+   {
+    "detection_id": "d148",
+    "photo_id": "PotPlayer64_VW1iKQ5C4k",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0957,
+    "bbox": [
+     0,
+     0.2416,
+     0.1087,
+     0.3969
+    ]
+   },
+   {
+    "detection_id": "d149",
+    "photo_id": "PotPlayer64_VW1iKQ5C4k",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0857,
+    "bbox": [
+     0.0,
+     0.4638,
+     0.0338,
+     0.5391
+    ]
+   },
+   {
+    "detection_id": "d150",
+    "photo_id": "PotPlayer64_VW1iKQ5C4k",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0842,
+    "bbox": [
+     0.7117,
+     0.2483,
+     0.9469,
+     0.7947
+    ]
+   },
+   {
+    "detection_id": "d151",
+    "photo_id": "PotPlayer64_VW1iKQ5C4k",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0826,
+    "bbox": [
+     0.3001,
+     0.201,
+     0.6306,
+     0.9548
+    ]
+   },
+   {
+    "detection_id": "d152",
+    "photo_id": "PotPlayer64_VW1iKQ5C4k",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0672,
+    "bbox": [
+     0.0201,
+     0.2343,
+     0.3206,
+     0.7763
+    ]
+   },
+   {
+    "detection_id": "d153",
+    "photo_id": "PotPlayer64_VW1iKQ5C4k",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0671,
+    "bbox": [
+     0.0683,
+     0.7163,
+     0.238,
+     0.9774
+    ]
+   },
+   {
+    "detection_id": "d154",
+    "photo_id": "PotPlayer64_VW1iKQ5C4k",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "commercial oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0665,
+    "bbox": [
+     0.7115,
+     0.2523,
+     0.9478,
+     0.9377
+    ]
+   },
+   {
+    "detection_id": "d155",
+    "photo_id": "PotPlayer64_VW1iKQ5C4k",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0595,
+    "bbox": [
+     0.309,
+     0.248,
+     0.5985,
+     0.3193
+    ]
+   },
+   {
+    "detection_id": "d156",
+    "photo_id": "PotPlayer64_VW1iKQ5C4k",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0562,
+    "bbox": [
+     0.7801,
+     0.2237,
+     0.9261,
+     0.2831
+    ]
+   },
+   {
+    "detection_id": "d157",
+    "photo_id": "PotPlayer64_VW1iKQ5C4k",
+    "equipment_id": "EQ_SCISSORS",
+    "detector_class": "scissors",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0542,
+    "bbox": [
+     0.6256,
+     0.5885,
+     0.6774,
+     0.6769
+    ]
+   },
+   {
+    "detection_id": "d158",
+    "photo_id": "PotPlayer64_VW1iKQ5C4k",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "commercial oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0541,
+    "bbox": [
+     0.0684,
+     0.7261,
+     0.2379,
+     0.9781
+    ]
+   },
+   {
+    "detection_id": "d159",
+    "photo_id": "PotPlayer64_VW1iKQ5C4k",
+    "equipment_id": "EQ_GAS_CYLINDER",
+    "detector_class": "butane gas can",
+    "class_map_match": "open_vocab",
+    "confidence": 0.053,
+    "bbox": [
+     0.6107,
+     0.3929,
+     0.6828,
+     0.5585
+    ]
+   },
+   {
+    "detection_id": "d160",
+    "photo_id": "_fAwR9CFoyI_0121",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.7958,
+    "bbox": [
+     0.4618,
+     0.1092,
+     0.5779,
+     0.346
+    ]
+   },
+   {
+    "detection_id": "d161",
+    "photo_id": "_fAwR9CFoyI_0121",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.2251,
+    "bbox": [
+     0.4855,
+     0,
+     0.7193,
+     0.0888
+    ]
+   },
+   {
+    "detection_id": "d162",
+    "photo_id": "_fAwR9CFoyI_0121",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.183,
+    "bbox": [
+     0.2331,
+     0.0466,
+     0.6226,
+     0.8558
+    ]
+   },
+   {
+    "detection_id": "d163",
+    "photo_id": "_fAwR9CFoyI_0121",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1287,
+    "bbox": [
+     0.3743,
+     0.0364,
+     0.7055,
+     0.7272
+    ]
+   },
+   {
+    "detection_id": "d164",
+    "photo_id": "_fAwR9CFoyI_0121",
+    "equipment_id": "EQ_SOUP_KETTLE",
+    "detector_class": "large stock pot kettle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1145,
+    "bbox": [
+     0.314,
+     0.6436,
+     0.5253,
+     0.8851
+    ]
+   },
+   {
+    "detection_id": "d165",
+    "photo_id": "bbq_inspection_2023",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.5656,
+    "bbox": [
+     0.2164,
+     0,
+     0.3701,
+     0.3476
+    ]
+   },
+   {
+    "detection_id": "d166",
+    "photo_id": "bbq_inspection_2023",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.5339,
+    "bbox": [
+     0.1726,
+     0.4196,
+     0.3384,
+     0.6034
+    ]
+   },
+   {
+    "detection_id": "d167",
+    "photo_id": "bbq_inspection_2023",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.5241,
+    "bbox": [
+     0.9342,
+     0.0092,
+     1.0,
+     0.4355
+    ]
+   },
+   {
+    "detection_id": "d168",
+    "photo_id": "bbq_inspection_2023",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.4468,
+    "bbox": [
+     0.1748,
+     0.3466,
+     0.3424,
+     0.4278
+    ]
+   },
+   {
+    "detection_id": "d169",
+    "photo_id": "bbq_inspection_2023",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.3869,
+    "bbox": [
+     0.9542,
+     0.1341,
+     1,
+     0.2276
+    ]
+   },
+   {
+    "detection_id": "d170",
+    "photo_id": "bbq_inspection_2023",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.3395,
+    "bbox": [
+     0.2154,
+     0,
+     0.363,
+     0.3474
+    ]
+   },
+   {
+    "detection_id": "d171",
+    "photo_id": "bbq_inspection_2023",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.3213,
+    "bbox": [
+     0,
+     0.0003,
+     0.2362,
+     0.1882
+    ]
+   },
+   {
+    "detection_id": "d172",
+    "photo_id": "bbq_inspection_2023",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.2409,
+    "bbox": [
+     0.2159,
+     0.1722,
+     0.3625,
+     0.3478
+    ]
+   },
+   {
+    "detection_id": "d173",
+    "photo_id": "bbq_inspection_2023",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.2345,
+    "bbox": [
+     0.4681,
+     0.0001,
+     0.5769,
+     0.1793
+    ]
+   },
+   {
+    "detection_id": "d174",
+    "photo_id": "bbq_inspection_2023",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1773,
+    "bbox": [
+     0.9501,
+     0.0504,
+     0.9998,
+     0.227
+    ]
+   },
+   {
+    "detection_id": "d175",
+    "photo_id": "bbq_inspection_2023",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1279,
+    "bbox": [
+     0.4666,
+     0.0003,
+     0.7303,
+     0.1797
+    ]
+   },
+   {
+    "detection_id": "d176",
+    "photo_id": "bbq_inspection_2023",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.119,
+    "bbox": [
+     0.9487,
+     0.0249,
+     0.9999,
+     0.23
+    ]
+   },
+   {
+    "detection_id": "d177",
+    "photo_id": "bbq_inspection_2023",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1167,
+    "bbox": [
+     0.9632,
+     0.1485,
+     1,
+     0.1967
+    ]
+   },
+   {
+    "detection_id": "d178",
+    "photo_id": "bbq_inspection_2023",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0998,
+    "bbox": [
+     0.0001,
+     0.8033,
+     0.3613,
+     1
+    ]
+   },
+   {
+    "detection_id": "d179",
+    "photo_id": "bbq_inspection_2023",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0923,
+    "bbox": [
+     0.0003,
+     0.7291,
+     0.6037,
+     1
+    ]
+   },
+   {
+    "detection_id": "d180",
+    "photo_id": "bbq_inspection_2023",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0884,
+    "bbox": [
+     0,
+     0.4298,
+     0.0981,
+     0.6687
+    ]
+   },
+   {
+    "detection_id": "d181",
+    "photo_id": "bbq_inspection_2023",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0756,
+    "bbox": [
+     0.0002,
+     0.2562,
+     0.0946,
+     0.4561
+    ]
+   },
+   {
+    "detection_id": "d182",
+    "photo_id": "bbq_inspection_2023",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0728,
+    "bbox": [
+     0.0001,
+     0.1749,
+     0.241,
+     0.5561
+    ]
+   },
+   {
+    "detection_id": "d183",
+    "photo_id": "bbq_inspection_2023",
+    "equipment_id": "EQ_CART",
+    "detector_class": "utility cart trolley",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0722,
+    "bbox": [
+     0.0002,
+     0.2816,
+     0.0943,
+     0.4549
+    ]
+   },
+   {
+    "detection_id": "d184",
+    "photo_id": "bbq_inspection_2023",
+    "equipment_id": "EQ_DISPLAY_COOLER",
+    "detector_class": "beverage display cooler",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0673,
+    "bbox": [
+     0.7681,
+     0.2886,
+     0.9259,
+     0.4683
+    ]
+   },
+   {
+    "detection_id": "d185",
+    "photo_id": "bbq_inspection_2023",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0544,
+    "bbox": [
+     0.0005,
+     0.176,
+     0.2412,
+     0.3237
+    ]
+   },
+   {
+    "detection_id": "d186",
+    "photo_id": "bbq_inspection_2023",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0517,
+    "bbox": [
+     0.9619,
+     0.1056,
+     1.0,
+     0.2039
+    ]
+   },
+   {
+    "detection_id": "d187",
+    "photo_id": "bbq_inspection_2023",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0512,
+    "bbox": [
+     0.0837,
+     0.2911,
+     0.1832,
+     0.4584
+    ]
+   },
+   {
+    "detection_id": "d188",
+    "photo_id": "brave_ZcRVMActFC",
+    "equipment_id": "EQ_GAS_CYLINDER",
+    "detector_class": "LPG gas cylinder",
+    "class_map_match": "open_vocab",
+    "confidence": 0.5229,
+    "bbox": [
+     0.682,
+     0.419,
+     0.753,
+     0.557
+    ]
+   },
+   {
+    "detection_id": "d189",
+    "photo_id": "brave_ZcRVMActFC",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.2852,
+    "bbox": [
+     0.5288,
+     0.2275,
+     0.967,
+     0.7069
+    ]
+   },
+   {
+    "detection_id": "d190",
+    "photo_id": "brave_ZcRVMActFC",
+    "equipment_id": "EQ_GAS_CYLINDER",
+    "detector_class": "LPG gas cylinder",
+    "class_map_match": "open_vocab",
+    "confidence": 0.2069,
+    "bbox": [
+     0.616,
+     0.4267,
+     0.6773,
+     0.5687
+    ]
+   },
+   {
+    "detection_id": "d191",
+    "photo_id": "brave_ZcRVMActFC",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1389,
+    "bbox": [
+     0.896,
+     0.3274,
+     1.0,
+     0.6908
+    ]
+   },
+   {
+    "detection_id": "d192",
+    "photo_id": "brave_ZcRVMActFC",
+    "equipment_id": "EQ_GAS_CYLINDER",
+    "detector_class": "butane gas can",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1327,
+    "bbox": [
+     0.7898,
+     0.6864,
+     0.8979,
+     0.9938
+    ]
+   },
+   {
+    "detection_id": "d193",
+    "photo_id": "brave_ZcRVMActFC",
+    "equipment_id": "EQ_GAS_CYLINDER",
+    "detector_class": "LPG gas cylinder",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1268,
+    "bbox": [
+     0.7923,
+     0.6864,
+     0.8978,
+     0.9948
+    ]
+   },
+   {
+    "detection_id": "d194",
+    "photo_id": "brave_ZcRVMActFC",
+    "equipment_id": "EQ_GAS_CYLINDER",
+    "detector_class": "LPG gas cylinder",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1256,
+    "bbox": [
+     0.8624,
+     0.2214,
+     0.934,
+     0.2923
+    ]
+   },
+   {
+    "detection_id": "d195",
+    "photo_id": "brave_ZcRVMActFC",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1058,
+    "bbox": [
+     0.2711,
+     0.8248,
+     0.5149,
+     1
+    ]
+   },
+   {
+    "detection_id": "d196",
+    "photo_id": "brave_ZcRVMActFC",
+    "equipment_id": "EQ_CART",
+    "detector_class": "utility cart trolley",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0757,
+    "bbox": [
+     0.8477,
+     0.4809,
+     1.0,
+     0.8198
+    ]
+   },
+   {
+    "detection_id": "d197",
+    "photo_id": "brave_ZcRVMActFC",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0547,
+    "bbox": [
+     0.0205,
+     0.4223,
+     0.5943,
+     0.9072
+    ]
+   },
+   {
+    "detection_id": "d198",
+    "photo_id": "brave_uFFOgcRwoD",
+    "equipment_id": "EQ_STERILIZER",
+    "detector_class": "dish sterilizer cabinet",
+    "class_map_match": "open_vocab",
+    "confidence": 0.3385,
+    "bbox": [
+     0.437,
+     0.4667,
+     0.6411,
+     0.7972
+    ]
+   },
+   {
+    "detection_id": "d199",
+    "photo_id": "brave_uFFOgcRwoD",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.3142,
+    "bbox": [
+     0.4528,
+     0.3107,
+     0.5544,
+     0.3863
+    ]
+   },
+   {
+    "detection_id": "d200",
+    "photo_id": "brave_uFFOgcRwoD",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "chest freezer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.2874,
+    "bbox": [
+     0.4362,
+     0.4664,
+     0.6406,
+     0.7975
+    ]
+   },
+   {
+    "detection_id": "d201",
+    "photo_id": "brave_uFFOgcRwoD",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.2784,
+    "bbox": [
+     0.616,
+     0.0009,
+     1,
+     0.2168
+    ]
+   },
+   {
+    "detection_id": "d202",
+    "photo_id": "brave_uFFOgcRwoD",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.2656,
+    "bbox": [
+     0.4766,
+     0.0923,
+     0.5173,
+     0.1357
+    ]
+   },
+   {
+    "detection_id": "d203",
+    "photo_id": "brave_uFFOgcRwoD",
+    "equipment_id": "EQ_DISPLAY_COOLER",
+    "detector_class": "beverage display cooler",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1432,
+    "bbox": [
+     0.2704,
+     0.3625,
+     0.3887,
+     0.4981
+    ]
+   },
+   {
+    "detection_id": "d204",
+    "photo_id": "brave_uFFOgcRwoD",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1095,
+    "bbox": [
+     0.5718,
+     0.2121,
+     0.6327,
+     0.2932
+    ]
+   },
+   {
+    "detection_id": "d205",
+    "photo_id": "brave_uFFOgcRwoD",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1069,
+    "bbox": [
+     0,
+     0.3351,
+     0.1729,
+     0.3993
+    ]
+   },
+   {
+    "detection_id": "d206",
+    "photo_id": "brave_uFFOgcRwoD",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1015,
+    "bbox": [
+     0.4263,
+     0.0002,
+     0.6297,
+     0.0599
+    ]
+   },
+   {
+    "detection_id": "d207",
+    "photo_id": "brave_uFFOgcRwoD",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0975,
+    "bbox": [
+     0,
+     0.4275,
+     0.3853,
+     0.8649
+    ]
+   },
+   {
+    "detection_id": "d208",
+    "photo_id": "brave_uFFOgcRwoD",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0942,
+    "bbox": [
+     0.3777,
+     0.3302,
+     0.4632,
+     0.5286
+    ]
+   },
+   {
+    "detection_id": "d209",
+    "photo_id": "brave_uFFOgcRwoD",
+    "equipment_id": "EQ_DISPLAY_COOLER",
+    "detector_class": "beverage display cooler",
+    "class_map_match": "open_vocab",
+    "confidence": 0.092,
+    "bbox": [
+     0.5623,
+     0.0357,
+     0.6324,
+     0.1728
+    ]
+   },
+   {
+    "detection_id": "d210",
+    "photo_id": "brave_uFFOgcRwoD",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0905,
+    "bbox": [
+     0.4576,
+     0.3824,
+     0.5457,
+     0.4415
+    ]
+   },
+   {
+    "detection_id": "d211",
+    "photo_id": "brave_uFFOgcRwoD",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0903,
+    "bbox": [
+     0.0001,
+     0.0773,
+     0.2949,
+     0.3807
+    ]
+   },
+   {
+    "detection_id": "d212",
+    "photo_id": "brave_uFFOgcRwoD",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0785,
+    "bbox": [
+     0.5619,
+     0.0352,
+     0.6354,
+     0.306
+    ]
+   },
+   {
+    "detection_id": "d213",
+    "photo_id": "brave_uFFOgcRwoD",
+    "equipment_id": "EQ_DISPLAY_COOLER",
+    "detector_class": "beverage display cooler",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0728,
+    "bbox": [
+     0.57,
+     0.2124,
+     0.634,
+     0.3026
+    ]
+   },
+   {
+    "detection_id": "d214",
+    "photo_id": "brave_uFFOgcRwoD",
+    "equipment_id": "EQ_GAS_CYLINDER",
+    "detector_class": "LPG gas cylinder",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0706,
+    "bbox": [
+     0.7519,
+     0.4231,
+     0.7959,
+     0.5031
+    ]
+   },
+   {
+    "detection_id": "d215",
+    "photo_id": "brave_uFFOgcRwoD",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0678,
+    "bbox": [
+     0.3902,
+     0.051,
+     0.4668,
+     0.2991
+    ]
+   },
+   {
+    "detection_id": "d216",
+    "photo_id": "brave_uFFOgcRwoD",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0645,
+    "bbox": [
+     0.1786,
+     0.4415,
+     0.317,
+     0.5099
+    ]
+   },
+   {
+    "detection_id": "d217",
+    "photo_id": "brave_uFFOgcRwoD",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0548,
+    "bbox": [
+     0.5545,
+     0.2888,
+     0.6297,
+     0.4426
+    ]
+   },
+   {
+    "detection_id": "d218",
+    "photo_id": "dongdaemun_bhc_1",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.7196,
+    "bbox": [
+     0.5242,
+     0.3827,
+     0.63,
+     0.5394
+    ]
+   },
+   {
+    "detection_id": "d219",
+    "photo_id": "dongdaemun_bhc_1",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.4468,
+    "bbox": [
+     0.0042,
+     0.8125,
+     0.2789,
+     1.0
+    ]
+   },
+   {
+    "detection_id": "d220",
+    "photo_id": "dongdaemun_bhc_1",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.412,
+    "bbox": [
+     0.0,
+     0.2559,
+     0.0593,
+     0.5861
+    ]
+   },
+   {
+    "detection_id": "d221",
+    "photo_id": "dongdaemun_bhc_1",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.285,
+    "bbox": [
+     0.2637,
+     0.8086,
+     0.5285,
+     0.9999
+    ]
+   },
+   {
+    "detection_id": "d222",
+    "photo_id": "dongdaemun_bhc_1",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.2753,
+    "bbox": [
+     0,
+     0.2563,
+     0.0591,
+     0.5845
+    ]
+   },
+   {
+    "detection_id": "d223",
+    "photo_id": "dongdaemun_bhc_1",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.238,
+    "bbox": [
+     0,
+     0.129,
+     0.0311,
+     0.2669
+    ]
+   },
+   {
+    "detection_id": "d224",
+    "photo_id": "dongdaemun_bhc_1",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.2298,
+    "bbox": [
+     0,
+     0.0101,
+     0.6917,
+     0.6973
+    ]
+   },
+   {
+    "detection_id": "d225",
+    "photo_id": "dongdaemun_bhc_1",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "commercial oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.2167,
+    "bbox": [
+     0.2664,
+     0.649,
+     0.5299,
+     0.9996
+    ]
+   },
+   {
+    "detection_id": "d226",
+    "photo_id": "dongdaemun_bhc_1",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1824,
+    "bbox": [
+     0.772,
+     0.785,
+     0.9738,
+     0.9999
+    ]
+   },
+   {
+    "detection_id": "d227",
+    "photo_id": "dongdaemun_bhc_1",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1626,
+    "bbox": [
+     0.501,
+     0.0694,
+     1,
+     0.3471
+    ]
+   },
+   {
+    "detection_id": "d228",
+    "photo_id": "dongdaemun_bhc_1",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1532,
+    "bbox": [
+     0.0038,
+     0.6392,
+     0.5674,
+     0.9999
+    ]
+   },
+   {
+    "detection_id": "d229",
+    "photo_id": "dongdaemun_bhc_1",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "commercial oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1485,
+    "bbox": [
+     0.6888,
+     0.6558,
+     0.9846,
+     0.9999
+    ]
+   },
+   {
+    "detection_id": "d230",
+    "photo_id": "dongdaemun_bhc_1",
+    "equipment_id": "EQ_STERILIZER",
+    "detector_class": "dish sterilizer cabinet",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1173,
+    "bbox": [
+     0.4972,
+     0.7024,
+     0.8043,
+     0.9995
+    ]
+   },
+   {
+    "detection_id": "d231",
+    "photo_id": "dongdaemun_bhc_1",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1013,
+    "bbox": [
+     0.0247,
+     0.0008,
+     0.7427,
+     0.3832
+    ]
+   },
+   {
+    "detection_id": "d232",
+    "photo_id": "dongdaemun_bhc_1",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1005,
+    "bbox": [
+     0.3409,
+     0.007,
+     0.7682,
+     0.3193
+    ]
+   },
+   {
+    "detection_id": "d233",
+    "photo_id": "dongdaemun_bhc_1",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0823,
+    "bbox": [
+     0,
+     0.7285,
+     0.0698,
+     0.8182
+    ]
+   },
+   {
+    "detection_id": "d234",
+    "photo_id": "dongdaemun_bhc_1",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0797,
+    "bbox": [
+     0.2914,
+     0.6479,
+     0.4907,
+     0.7244
+    ]
+   },
+   {
+    "detection_id": "d235",
+    "photo_id": "dongdaemun_bhc_1",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0776,
+    "bbox": [
+     0.6897,
+     0.6992,
+     0.9835,
+     0.9996
+    ]
+   },
+   {
+    "detection_id": "d236",
+    "photo_id": "dongdaemun_bhc_1",
+    "equipment_id": "EQ_GAS_CYLINDER",
+    "detector_class": "butane gas can",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0729,
+    "bbox": [
+     0.1743,
+     0.1192,
+     0.225,
+     0.1713
+    ]
+   },
+   {
+    "detection_id": "d237",
+    "photo_id": "dongdaemun_bhc_1",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.072,
+    "bbox": [
+     0.0001,
+     0.0551,
+     0.3493,
+     0.2903
+    ]
+   },
+   {
+    "detection_id": "d238",
+    "photo_id": "dongdaemun_bhc_1",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0718,
+    "bbox": [
+     0.2768,
+     0.7153,
+     0.4902,
+     0.8142
+    ]
+   },
+   {
+    "detection_id": "d239",
+    "photo_id": "dongdaemun_bhc_1",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0685,
+    "bbox": [
+     0.428,
+     0.0594,
+     0.9998,
+     0.6769
+    ]
+   },
+   {
+    "detection_id": "d240",
+    "photo_id": "dongdaemun_bhc_1",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0661,
+    "bbox": [
+     0.5352,
+     0.906,
+     0.7684,
+     0.9999
+    ]
+   },
+   {
+    "detection_id": "d241",
+    "photo_id": "dongdaemun_bhc_1",
+    "equipment_id": "EQ_STERILIZER",
+    "detector_class": "dish sterilizer cabinet",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0659,
+    "bbox": [
+     0.7702,
+     0.7857,
+     0.9745,
+     0.9999
+    ]
+   },
+   {
+    "detection_id": "d242",
+    "photo_id": "dongdaemun_bhc_1",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0656,
+    "bbox": [
+     0.0095,
+     0.2208,
+     0.5461,
+     0.7624
+    ]
+   },
+   {
+    "detection_id": "d243",
+    "photo_id": "dongdaemun_bhc_1",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "commercial oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0644,
+    "bbox": [
+     0.7741,
+     0.7859,
+     0.9728,
+     0.9999
+    ]
+   },
+   {
+    "detection_id": "d244",
+    "photo_id": "dongdaemun_bhc_1",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0639,
+    "bbox": [
+     0.0006,
+     0.5893,
+     0.076,
+     0.6628
+    ]
+   },
+   {
+    "detection_id": "d245",
+    "photo_id": "dongdaemun_bhc_1",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0536,
+    "bbox": [
+     0.501,
+     0.0318,
+     0.9997,
+     0.7332
+    ]
+   },
+   {
+    "detection_id": "d246",
+    "photo_id": "dongdaemun_bhc_1",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0524,
+    "bbox": [
+     0.6804,
+     0.6522,
+     0.96,
+     0.7215
+    ]
+   },
+   {
+    "detection_id": "d247",
+    "photo_id": "dongdaemun_bhc_3",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.9085,
+    "bbox": [
+     0.567,
+     0.0006,
+     1,
+     0.2987
+    ]
+   },
+   {
+    "detection_id": "d248",
+    "photo_id": "dongdaemun_bhc_3",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.6175,
+    "bbox": [
+     0.5689,
+     0.143,
+     0.7492,
+     0.2942
+    ]
+   },
+   {
+    "detection_id": "d249",
+    "photo_id": "dongdaemun_bhc_3",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.4005,
+    "bbox": [
+     0.5665,
+     0.0004,
+     0.7738,
+     0.2935
+    ]
+   },
+   {
+    "detection_id": "d250",
+    "photo_id": "dongdaemun_bhc_3",
+    "equipment_id": "EQ_GAS_CYLINDER",
+    "detector_class": "LPG gas cylinder",
+    "class_map_match": "open_vocab",
+    "confidence": 0.3985,
+    "bbox": [
+     0.4037,
+     0.6663,
+     0.4587,
+     0.7836
+    ]
+   },
+   {
+    "detection_id": "d251",
+    "photo_id": "dongdaemun_bhc_3",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.341,
+    "bbox": [
+     0.3559,
+     0.1354,
+     0.6707,
+     0.3767
+    ]
+   },
+   {
+    "detection_id": "d252",
+    "photo_id": "dongdaemun_bhc_3",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.3332,
+    "bbox": [
+     0.3456,
+     0.5924,
+     0.4399,
+     0.6682
+    ]
+   },
+   {
+    "detection_id": "d253",
+    "photo_id": "dongdaemun_bhc_3",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "commercial oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.221,
+    "bbox": [
+     0.6749,
+     0.7588,
+     0.9997,
+     1
+    ]
+   },
+   {
+    "detection_id": "d254",
+    "photo_id": "dongdaemun_bhc_3",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.2137,
+    "bbox": [
+     0.6165,
+     0.2614,
+     0.9194,
+     0.5636
+    ]
+   },
+   {
+    "detection_id": "d255",
+    "photo_id": "dongdaemun_bhc_3",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.2005,
+    "bbox": [
+     0.0002,
+     0.7779,
+     0.3073,
+     0.9999
+    ]
+   },
+   {
+    "detection_id": "d256",
+    "photo_id": "dongdaemun_bhc_3",
+    "equipment_id": "EQ_CART",
+    "detector_class": "utility cart trolley",
+    "class_map_match": "open_vocab",
+    "confidence": 0.179,
+    "bbox": [
+     0.3743,
+     0.493,
+     0.4031,
+     0.5227
+    ]
+   },
+   {
+    "detection_id": "d257",
+    "photo_id": "dongdaemun_bhc_3",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.155,
+    "bbox": [
+     0.6345,
+     0.6823,
+     0.9997,
+     0.9998
+    ]
+   },
+   {
+    "detection_id": "d258",
+    "photo_id": "dongdaemun_bhc_3",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1325,
+    "bbox": [
+     0.6754,
+     0.7589,
+     0.9996,
+     0.9998
+    ]
+   },
+   {
+    "detection_id": "d259",
+    "photo_id": "dongdaemun_bhc_3",
+    "equipment_id": "EQ_GAS_CYLINDER",
+    "detector_class": "LPG gas cylinder",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1306,
+    "bbox": [
+     0.3476,
+     0.6657,
+     0.4057,
+     0.7873
+    ]
+   },
+   {
+    "detection_id": "d260",
+    "photo_id": "dongdaemun_bhc_3",
+    "equipment_id": "EQ_CART",
+    "detector_class": "utility cart trolley",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1205,
+    "bbox": [
+     0.2335,
+     0.4048,
+     0.3367,
+     0.6573
+    ]
+   },
+   {
+    "detection_id": "d261",
+    "photo_id": "dongdaemun_bhc_3",
+    "equipment_id": "EQ_CART",
+    "detector_class": "utility cart trolley",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1174,
+    "bbox": [
+     0.5703,
+     0.67,
+     0.6309,
+     0.8409
+    ]
+   },
+   {
+    "detection_id": "d262",
+    "photo_id": "dongdaemun_bhc_3",
+    "equipment_id": "EQ_CART",
+    "detector_class": "utility cart trolley",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1003,
+    "bbox": [
+     0.442,
+     0.6291,
+     0.547,
+     0.8601
+    ]
+   },
+   {
+    "detection_id": "d263",
+    "photo_id": "dongdaemun_bhc_3",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0955,
+    "bbox": [
+     0.4677,
+     0.4526,
+     0.5727,
+     0.5511
+    ]
+   },
+   {
+    "detection_id": "d264",
+    "photo_id": "dongdaemun_bhc_3",
+    "equipment_id": "EQ_CART",
+    "detector_class": "utility cart trolley",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0954,
+    "bbox": [
+     0.2599,
+     0.5445,
+     0.334,
+     0.6572
+    ]
+   },
+   {
+    "detection_id": "d265",
+    "photo_id": "dongdaemun_bhc_3",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0936,
+    "bbox": [
+     0.5808,
+     0.5828,
+     0.8741,
+     0.9989
+    ]
+   },
+   {
+    "detection_id": "d266",
+    "photo_id": "dongdaemun_bhc_3",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0702,
+    "bbox": [
+     0.5636,
+     0.001,
+     0.9978,
+     0.666
+    ]
+   },
+   {
+    "detection_id": "d267",
+    "photo_id": "dongdaemun_bhc_3",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0666,
+    "bbox": [
+     0.6426,
+     0.6792,
+     0.8413,
+     0.7478
+    ]
+   },
+   {
+    "detection_id": "d268",
+    "photo_id": "dongdaemun_bhc_3",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0632,
+    "bbox": [
+     0.5529,
+     0.003,
+     0.9953,
+     0.6956
+    ]
+   },
+   {
+    "detection_id": "d269",
+    "photo_id": "dongdaemun_bhc_3",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0616,
+    "bbox": [
+     0.6532,
+     0.4175,
+     0.7826,
+     0.5575
+    ]
+   },
+   {
+    "detection_id": "d270",
+    "photo_id": "dongdaemun_bhc_3",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0557,
+    "bbox": [
+     0.6031,
+     0.7545,
+     0.6821,
+     0.9994
+    ]
+   },
+   {
+    "detection_id": "d271",
+    "photo_id": "dongdaemun_bhc_3",
+    "equipment_id": "EQ_CART",
+    "detector_class": "utility cart trolley",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0531,
+    "bbox": [
+     0.5382,
+     0.6809,
+     0.5874,
+     0.8233
+    ]
+   },
+   {
+    "detection_id": "d272",
+    "photo_id": "dongdaemun_bhc_3",
+    "equipment_id": "EQ_GAS_CYLINDER",
+    "detector_class": "butane gas can",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0521,
+    "bbox": [
+     0.2979,
+     0.6611,
+     0.3441,
+     0.7283
+    ]
+   },
+   {
+    "detection_id": "d273",
+    "photo_id": "nahYjWAkqY8_0015",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "kitchen sink",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1594,
+    "bbox": [
+     0.5007,
+     0.0066,
+     0.9996,
+     0.9218
+    ]
+   },
+   {
+    "detection_id": "d274",
+    "photo_id": "nahYjWAkqY8_0015",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.123,
+    "bbox": [
+     0.4004,
+     0.0099,
+     0.9981,
+     0.9633
+    ]
+   },
+   {
+    "detection_id": "d275",
+    "photo_id": "nahYjWAkqY8_0015",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1136,
+    "bbox": [
+     0.4246,
+     0.0234,
+     0.9997,
+     0.9714
+    ]
+   },
+   {
+    "detection_id": "d276",
+    "photo_id": "nahYjWAkqY8_0015",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.082,
+    "bbox": [
+     0,
+     0.1308,
+     0.6916,
+     0.9906
+    ]
+   },
+   {
+    "detection_id": "d277",
+    "photo_id": "seongdong_bbq_haengdang_1",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.3916,
+    "bbox": [
+     0.3893,
+     0.5316,
+     0.8378,
+     0.9976
+    ]
+   },
+   {
+    "detection_id": "d278",
+    "photo_id": "seongdong_bbq_haengdang_1",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "commercial oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.3892,
+    "bbox": [
+     0.3868,
+     0.5318,
+     0.8391,
+     0.9967
+    ]
+   },
+   {
+    "detection_id": "d279",
+    "photo_id": "seongdong_bbq_haengdang_1",
+    "equipment_id": "EQ_CART",
+    "detector_class": "utility cart trolley",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1928,
+    "bbox": [
+     0.1294,
+     0.9368,
+     0.4727,
+     1.0
+    ]
+   },
+   {
+    "detection_id": "d280",
+    "photo_id": "seongdong_bbq_haengdang_1",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1234,
+    "bbox": [
+     0.1321,
+     0.0905,
+     0.6109,
+     0.67
+    ]
+   },
+   {
+    "detection_id": "d281",
+    "photo_id": "seongdong_bbq_haengdang_1",
+    "equipment_id": "EQ_GAS_CYLINDER",
+    "detector_class": "LPG gas cylinder",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1136,
+    "bbox": [
+     0.0679,
+     0.5813,
+     0.0981,
+     0.6729
+    ]
+   },
+   {
+    "detection_id": "d282",
+    "photo_id": "seongdong_bbq_haengdang_1",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1017,
+    "bbox": [
+     0.0402,
+     0.4695,
+     0.5217,
+     0.9996
+    ]
+   },
+   {
+    "detection_id": "d283",
+    "photo_id": "seongdong_bbq_haengdang_1",
+    "equipment_id": "EQ_GAS_CYLINDER",
+    "detector_class": "butane gas can",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0851,
+    "bbox": [
+     0.062,
+     0.5794,
+     0.0977,
+     0.6736
+    ]
+   },
+   {
+    "detection_id": "d284",
+    "photo_id": "seongdong_bbq_haengdang_1",
+    "equipment_id": "EQ_STERILIZER",
+    "detector_class": "dish sterilizer cabinet",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0838,
+    "bbox": [
+     0.0229,
+     0.4721,
+     0.6129,
+     1
+    ]
+   },
+   {
+    "detection_id": "d285",
+    "photo_id": "seongdong_bbq_haengdang_1",
+    "equipment_id": "EQ_GAS_CYLINDER",
+    "detector_class": "LPG gas cylinder",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0718,
+    "bbox": [
+     0.0455,
+     0.5828,
+     0.0727,
+     0.6714
+    ]
+   },
+   {
+    "detection_id": "d286",
+    "photo_id": "seongdong_bbq_haengdang_1",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0631,
+    "bbox": [
+     0.5268,
+     0.6229,
+     0.8097,
+     0.8607
+    ]
+   },
+   {
+    "detection_id": "d287",
+    "photo_id": "seongdong_bbq_haengdang_1",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0616,
+    "bbox": [
+     0.2045,
+     0.1623,
+     0.9143,
+     0.6777
+    ]
+   },
+   {
+    "detection_id": "d288",
+    "photo_id": "seongdong_bbq_haengdang_1",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0575,
+    "bbox": [
+     0.2309,
+     0,
+     0.6076,
+     0.2308
+    ]
+   },
+   {
+    "detection_id": "d289",
+    "photo_id": "seongdong_bbq_haengdang_1",
+    "equipment_id": "EQ_BEER_DISPENSER",
+    "detector_class": "beer tap dispenser",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0551,
+    "bbox": [
+     0.2872,
+     0.3549,
+     0.4014,
+     0.5232
+    ]
+   },
+   {
+    "detection_id": "d290",
+    "photo_id": "seongdong_bbq_haengdang_1",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0548,
+    "bbox": [
+     0.1316,
+     0.0983,
+     0.6256,
+     0.2429
+    ]
+   },
+   {
+    "detection_id": "d291",
+    "photo_id": "seongdong_bbq_haengdang_1",
+    "equipment_id": "EQ_GAS_CYLINDER",
+    "detector_class": "butane gas can",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0544,
+    "bbox": [
+     0.0454,
+     0.5832,
+     0.0729,
+     0.671
+    ]
+   },
+   {
+    "detection_id": "d292",
+    "photo_id": "seongdong_bbq_haengdang_1",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0519,
+    "bbox": [
+     0.2963,
+     0.1716,
+     0.4325,
+     0.1994
+    ]
+   },
+   {
+    "detection_id": "d293",
+    "photo_id": "seongdong_bbq_haengdang_1",
+    "equipment_id": "EQ_DISPLAY_COOLER",
+    "detector_class": "beverage display cooler",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0504,
+    "bbox": [
+     0.0,
+     0.4695,
+     0.0475,
+     0.63
+    ]
+   },
+   {
+    "detection_id": "d294",
+    "photo_id": "seongdong_bbq_haengdang_3",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.4121,
+    "bbox": [
+     0.6507,
+     0.375,
+     0.8447,
+     0.417
+    ]
+   },
+   {
+    "detection_id": "d295",
+    "photo_id": "seongdong_bbq_haengdang_3",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.4048,
+    "bbox": [
+     0.227,
+     0.232,
+     0.5417,
+     0.8179
+    ]
+   },
+   {
+    "detection_id": "d296",
+    "photo_id": "seongdong_bbq_haengdang_3",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.2586,
+    "bbox": [
+     0.8694,
+     0.2863,
+     0.9113,
+     0.4588
+    ]
+   },
+   {
+    "detection_id": "d297",
+    "photo_id": "seongdong_bbq_haengdang_3",
+    "equipment_id": "EQ_STERILIZER",
+    "detector_class": "dish sterilizer cabinet",
+    "class_map_match": "open_vocab",
+    "confidence": 0.2093,
+    "bbox": [
+     0.8226,
+     0.7773,
+     1.0,
+     0.9999
+    ]
+   },
+   {
+    "detection_id": "d298",
+    "photo_id": "seongdong_bbq_haengdang_3",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1999,
+    "bbox": [
+     0.7787,
+     0.5001,
+     0.8703,
+     0.5273
+    ]
+   },
+   {
+    "detection_id": "d299",
+    "photo_id": "seongdong_bbq_haengdang_3",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1576,
+    "bbox": [
+     0.6518,
+     0.627,
+     0.8274,
+     0.7483
+    ]
+   },
+   {
+    "detection_id": "d300",
+    "photo_id": "seongdong_bbq_haengdang_3",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "chest freezer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1459,
+    "bbox": [
+     0.643,
+     0.3816,
+     0.8528,
+     0.6572
+    ]
+   },
+   {
+    "detection_id": "d301",
+    "photo_id": "seongdong_bbq_haengdang_3",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1433,
+    "bbox": [
+     0.5036,
+     0.0008,
+     1,
+     0.2909
+    ]
+   },
+   {
+    "detection_id": "d302",
+    "photo_id": "seongdong_bbq_haengdang_3",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1375,
+    "bbox": [
+     0.6428,
+     0.3832,
+     0.8524,
+     0.6577
+    ]
+   },
+   {
+    "detection_id": "d303",
+    "photo_id": "seongdong_bbq_haengdang_3",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1238,
+    "bbox": [
+     0.7681,
+     0.4058,
+     0.8508,
+     0.4899
+    ]
+   },
+   {
+    "detection_id": "d304",
+    "photo_id": "seongdong_bbq_haengdang_3",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "commercial oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1158,
+    "bbox": [
+     0.4649,
+     0.006,
+     0.9999,
+     0.7559
+    ]
+   },
+   {
+    "detection_id": "d305",
+    "photo_id": "seongdong_bbq_haengdang_3",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "chest freezer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1078,
+    "bbox": [
+     0.818,
+     0.5607,
+     0.9283,
+     0.6548
+    ]
+   },
+   {
+    "detection_id": "d306",
+    "photo_id": "seongdong_bbq_haengdang_3",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1036,
+    "bbox": [
+     0.6283,
+     0.6474,
+     0.6811,
+     0.6998
+    ]
+   },
+   {
+    "detection_id": "d307",
+    "photo_id": "seongdong_bbq_haengdang_3",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "kitchen sink",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0964,
+    "bbox": [
+     0.823,
+     0.7774,
+     0.9999,
+     1.0
+    ]
+   },
+   {
+    "detection_id": "d308",
+    "photo_id": "seongdong_bbq_haengdang_3",
+    "equipment_id": "EQ_STERILIZER",
+    "detector_class": "dish sterilizer cabinet",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0874,
+    "bbox": [
+     0.1534,
+     0.8575,
+     0.48,
+     0.9997
+    ]
+   },
+   {
+    "detection_id": "d309",
+    "photo_id": "seongdong_bbq_haengdang_3",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.075,
+    "bbox": [
+     0.6517,
+     0.6248,
+     0.8207,
+     0.7244
+    ]
+   },
+   {
+    "detection_id": "d310",
+    "photo_id": "seongdong_bbq_haengdang_3",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "commercial oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0735,
+    "bbox": [
+     0.1529,
+     0.3778,
+     0.6359,
+     1
+    ]
+   },
+   {
+    "detection_id": "d311",
+    "photo_id": "seongdong_bbq_haengdang_3",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "commercial oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.071,
+    "bbox": [
+     0.3041,
+     0.7789,
+     0.7603,
+     0.9998
+    ]
+   },
+   {
+    "detection_id": "d312",
+    "photo_id": "seongdong_bbq_haengdang_3",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0691,
+    "bbox": [
+     0.6417,
+     0.3732,
+     0.8499,
+     0.4897
+    ]
+   },
+   {
+    "detection_id": "d313",
+    "photo_id": "seongdong_bbq_haengdang_3",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0586,
+    "bbox": [
+     0.2849,
+     0.7132,
+     0.4986,
+     0.8379
+    ]
+   },
+   {
+    "detection_id": "d314",
+    "photo_id": "seongdong_bbq_haengdang_3",
+    "equipment_id": "EQ_DISPLAY_COOLER",
+    "detector_class": "beverage display cooler",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0559,
+    "bbox": [
+     0.6426,
+     0.3845,
+     0.8548,
+     0.6589
+    ]
+   },
+   {
+    "detection_id": "d315",
+    "photo_id": "seongdong_bbq_haengdang_3",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0552,
+    "bbox": [
+     0.504,
+     0,
+     1,
+     0.2798
+    ]
+   },
+   {
+    "detection_id": "d316",
+    "photo_id": "seongdong_bbq_haengdang_3",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0537,
+    "bbox": [
+     0.7691,
+     0.5853,
+     0.83,
+     0.6259
+    ]
+   },
+   {
+    "detection_id": "d317",
+    "photo_id": "seongdong_bbq_haengdang_4",
+    "equipment_id": "EQ_STERILIZER",
+    "detector_class": "dish sterilizer cabinet",
+    "class_map_match": "open_vocab",
+    "confidence": 0.6965,
+    "bbox": [
+     0,
+     0.1562,
+     0.1489,
+     0.542
+    ]
+   },
+   {
+    "detection_id": "d318",
+    "photo_id": "seongdong_bbq_haengdang_4",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.3748,
+    "bbox": [
+     0,
+     0.1122,
+     0.0573,
+     0.1741
+    ]
+   },
+   {
+    "detection_id": "d319",
+    "photo_id": "seongdong_bbq_haengdang_4",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.2832,
+    "bbox": [
+     0.0704,
+     0.0146,
+     0.2778,
+     0.4057
+    ]
+   },
+   {
+    "detection_id": "d320",
+    "photo_id": "seongdong_bbq_haengdang_4",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.2524,
+    "bbox": [
+     0.3097,
+     0.227,
+     0.777,
+     0.8726
+    ]
+   },
+   {
+    "detection_id": "d321",
+    "photo_id": "seongdong_bbq_haengdang_4",
+    "equipment_id": "EQ_BEER_DISPENSER",
+    "detector_class": "beer tap dispenser",
+    "class_map_match": "open_vocab",
+    "confidence": 0.2071,
+    "bbox": [
+     0.3808,
+     0.2146,
+     0.4959,
+     0.3286
+    ]
+   },
+   {
+    "detection_id": "d322",
+    "photo_id": "seongdong_bbq_haengdang_4",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1224,
+    "bbox": [
+     0.249,
+     0.0002,
+     0.7016,
+     0.3596
+    ]
+   },
+   {
+    "detection_id": "d323",
+    "photo_id": "seongdong_bbq_haengdang_4",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1113,
+    "bbox": [
+     0.6234,
+     0.261,
+     0.9999,
+     0.9315
+    ]
+   },
+   {
+    "detection_id": "d324",
+    "photo_id": "seongdong_bbq_haengdang_4",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1036,
+    "bbox": [
+     0.2497,
+     0.0002,
+     0.6487,
+     0.3621
+    ]
+   },
+   {
+    "detection_id": "d325",
+    "photo_id": "seongdong_bbq_haengdang_4",
+    "equipment_id": "EQ_GAS_CYLINDER",
+    "detector_class": "LPG gas cylinder",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0794,
+    "bbox": [
+     0.7902,
+     0.5988,
+     0.8537,
+     0.7016
+    ]
+   },
+   {
+    "detection_id": "d326",
+    "photo_id": "seongdong_bbq_haengdang_4",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "gas stove burner",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0756,
+    "bbox": [
+     0.0,
+     0.0971,
+     0.0639,
+     0.2031
+    ]
+   },
+   {
+    "detection_id": "d327",
+    "photo_id": "seongdong_bbq_haengdang_4",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0691,
+    "bbox": [
+     0,
+     0.1189,
+     0.015,
+     0.1642
+    ]
+   },
+   {
+    "detection_id": "d328",
+    "photo_id": "seongdong_bbq_haengdang_4",
+    "equipment_id": "EQ_SCISSORS",
+    "detector_class": "scissors",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0684,
+    "bbox": [
+     0.472,
+     0.0374,
+     0.52,
+     0.1463
+    ]
+   },
+   {
+    "detection_id": "d329",
+    "photo_id": "seongdong_bbq_haengdang_4",
+    "equipment_id": "EQ_SCISSORS",
+    "detector_class": "scissors",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0623,
+    "bbox": [
+     0.4689,
+     0.0893,
+     0.5197,
+     0.1458
+    ]
+   },
+   {
+    "detection_id": "d330",
+    "photo_id": "seongdong_bbq_haengdang_4",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0621,
+    "bbox": [
+     0,
+     0.1228,
+     0.0569,
+     0.1736
+    ]
+   },
+   {
+    "detection_id": "d331",
+    "photo_id": "seongdong_bbq_haengdang_4",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0569,
+    "bbox": [
+     0,
+     0.0,
+     0.1536,
+     0.0547
+    ]
+   },
+   {
+    "detection_id": "d332",
+    "photo_id": "seongdong_bbq_haengdang_4",
+    "equipment_id": "EQ_DISPLAY_COOLER",
+    "detector_class": "beverage display cooler",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0525,
+    "bbox": [
+     0.6441,
+     0.0384,
+     0.7589,
+     0.2524
+    ]
+   },
+   {
+    "detection_id": "d333",
+    "photo_id": "seongdong_kyochon_1",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "commercial oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.4647,
+    "bbox": [
+     0.393,
+     0.6024,
+     0.6294,
+     0.978
+    ]
+   },
+   {
+    "detection_id": "d334",
+    "photo_id": "seongdong_kyochon_1",
+    "equipment_id": "EQ_STERILIZER",
+    "detector_class": "dish sterilizer cabinet",
+    "class_map_match": "open_vocab",
+    "confidence": 0.455,
+    "bbox": [
+     0.8757,
+     0.7078,
+     1.0,
+     1
+    ]
+   },
+   {
+    "detection_id": "d335",
+    "photo_id": "seongdong_kyochon_1",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "commercial oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.3813,
+    "bbox": [
+     0.6282,
+     0.6382,
+     0.9047,
+     0.9921
+    ]
+   },
+   {
+    "detection_id": "d336",
+    "photo_id": "seongdong_kyochon_1",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "commercial oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.3657,
+    "bbox": [
+     0.8747,
+     0.7087,
+     1.0,
+     1
+    ]
+   },
+   {
+    "detection_id": "d337",
+    "photo_id": "seongdong_kyochon_1",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.3501,
+    "bbox": [
+     0.8741,
+     0.7083,
+     0.9999,
+     1.0
+    ]
+   },
+   {
+    "detection_id": "d338",
+    "photo_id": "seongdong_kyochon_1",
+    "equipment_id": "EQ_STERILIZER",
+    "detector_class": "dish sterilizer cabinet",
+    "class_map_match": "open_vocab",
+    "confidence": 0.2923,
+    "bbox": [
+     0.2249,
+     0.5657,
+     0.3887,
+     0.9876
+    ]
+   },
+   {
+    "detection_id": "d339",
+    "photo_id": "seongdong_kyochon_1",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.2173,
+    "bbox": [
+     0.6675,
+     0.4888,
+     0.9261,
+     0.5935
+    ]
+   },
+   {
+    "detection_id": "d340",
+    "photo_id": "seongdong_kyochon_1",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1427,
+    "bbox": [
+     0.3183,
+     0.3561,
+     0.5044,
+     0.556
+    ]
+   },
+   {
+    "detection_id": "d341",
+    "photo_id": "seongdong_kyochon_1",
+    "equipment_id": "EQ_STERILIZER",
+    "detector_class": "dish sterilizer cabinet",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1227,
+    "bbox": [
+     0.0911,
+     0.5475,
+     0.2274,
+     0.9624
+    ]
+   },
+   {
+    "detection_id": "d342",
+    "photo_id": "seongdong_kyochon_1",
+    "equipment_id": "EQ_KNIFE_BOARD",
+    "detector_class": "cutting board",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1149,
+    "bbox": [
+     0.9242,
+     0.805,
+     1.0,
+     1
+    ]
+   },
+   {
+    "detection_id": "d343",
+    "photo_id": "seongdong_kyochon_1",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1061,
+    "bbox": [
+     0.224,
+     0.5686,
+     0.3787,
+     0.9856
+    ]
+   },
+   {
+    "detection_id": "d344",
+    "photo_id": "seongdong_kyochon_1",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0894,
+    "bbox": [
+     0.6652,
+     0.4881,
+     0.9276,
+     0.684
+    ]
+   },
+   {
+    "detection_id": "d345",
+    "photo_id": "seongdong_kyochon_1",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0893,
+    "bbox": [
+     0.2919,
+     0.3544,
+     0.5082,
+     0.9031
+    ]
+   },
+   {
+    "detection_id": "d346",
+    "photo_id": "seongdong_kyochon_1",
+    "equipment_id": "EQ_KNIFE_BOARD",
+    "detector_class": "cutting board",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0832,
+    "bbox": [
+     0.6199,
+     0.5623,
+     0.6766,
+     0.6423
+    ]
+   },
+   {
+    "detection_id": "d347",
+    "photo_id": "seongdong_kyochon_1",
+    "equipment_id": "EQ_GAS_CYLINDER",
+    "detector_class": "LPG gas cylinder",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0742,
+    "bbox": [
+     0.496,
+     0.8745,
+     0.603,
+     0.9696
+    ]
+   },
+   {
+    "detection_id": "d348",
+    "photo_id": "seongdong_kyochon_1",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "commercial oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0715,
+    "bbox": [
+     0.0004,
+     0.5012,
+     0.2299,
+     0.9529
+    ]
+   },
+   {
+    "detection_id": "d349",
+    "photo_id": "seongdong_kyochon_1",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0608,
+    "bbox": [
+     0,
+     0.5002,
+     0.1753,
+     0.9335
+    ]
+   },
+   {
+    "detection_id": "d350",
+    "photo_id": "seongdong_kyochon_1",
+    "equipment_id": "EQ_STERILIZER",
+    "detector_class": "dish sterilizer cabinet",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0596,
+    "bbox": [
+     0,
+     0.5041,
+     0.1092,
+     0.9274
+    ]
+   },
+   {
+    "detection_id": "d351",
+    "photo_id": "seongdong_kyochon_1",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0587,
+    "bbox": [
+     0.0901,
+     0.1462,
+     0.1721,
+     0.2098
+    ]
+   },
+   {
+    "detection_id": "d352",
+    "photo_id": "seongdong_kyochon_1",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0587,
+    "bbox": [
+     0.6563,
+     0.4884,
+     0.9541,
+     0.6904
+    ]
+   },
+   {
+    "detection_id": "d353",
+    "photo_id": "seongdong_kyochon_1",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0533,
+    "bbox": [
+     0.0839,
+     0.5318,
+     0.4238,
+     0.9787
+    ]
+   },
+   {
+    "detection_id": "d354",
+    "photo_id": "seongdong_kyochon_1",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0524,
+    "bbox": [
+     0,
+     0.0333,
+     0.1321,
+     0.5363
+    ]
+   },
+   {
+    "detection_id": "d355",
+    "photo_id": "seongdong_kyochon_1",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0503,
+    "bbox": [
+     0.0922,
+     0.5437,
+     0.2303,
+     0.964
+    ]
+   },
+   {
+    "detection_id": "d356",
+    "photo_id": "seongdong_kyochon_3",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "chest freezer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.2904,
+    "bbox": [
+     0.8539,
+     0.6213,
+     1.0,
+     0.9771
+    ]
+   },
+   {
+    "detection_id": "d357",
+    "photo_id": "seongdong_kyochon_3",
+    "equipment_id": "EQ_STERILIZER",
+    "detector_class": "dish sterilizer cabinet",
+    "class_map_match": "open_vocab",
+    "confidence": 0.2666,
+    "bbox": [
+     0.5575,
+     0.0231,
+     0.6823,
+     0.2341
+    ]
+   },
+   {
+    "detection_id": "d358",
+    "photo_id": "seongdong_kyochon_3",
+    "equipment_id": "EQ_STERILIZER",
+    "detector_class": "dish sterilizer cabinet",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1908,
+    "bbox": [
+     0.6632,
+     0.0013,
+     0.776,
+     0.1978
+    ]
+   },
+   {
+    "detection_id": "d359",
+    "photo_id": "seongdong_kyochon_3",
+    "equipment_id": "EQ_KNIFE_BOARD",
+    "detector_class": "kitchen knife",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1481,
+    "bbox": [
+     0.7691,
+     0.5504,
+     0.8598,
+     0.6422
+    ]
+   },
+   {
+    "detection_id": "d360",
+    "photo_id": "seongdong_kyochon_3",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "commercial oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1376,
+    "bbox": [
+     0.6637,
+     0.0007,
+     0.7767,
+     0.1982
+    ]
+   },
+   {
+    "detection_id": "d361",
+    "photo_id": "seongdong_kyochon_3",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1346,
+    "bbox": [
+     0,
+     0,
+     0.188,
+     0.4087
+    ]
+   },
+   {
+    "detection_id": "d362",
+    "photo_id": "seongdong_kyochon_3",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1244,
+    "bbox": [
+     0.4068,
+     0.1771,
+     0.9988,
+     0.8112
+    ]
+   },
+   {
+    "detection_id": "d363",
+    "photo_id": "seongdong_kyochon_3",
+    "equipment_id": "EQ_SCISSORS",
+    "detector_class": "scissors",
+    "class_map_match": "open_vocab",
+    "confidence": 0.114,
+    "bbox": [
+     0.4884,
+     0.2283,
+     0.5792,
+     0.3418
+    ]
+   },
+   {
+    "detection_id": "d364",
+    "photo_id": "seongdong_kyochon_3",
+    "equipment_id": "EQ_STERILIZER",
+    "detector_class": "dish sterilizer cabinet",
+    "class_map_match": "open_vocab",
+    "confidence": 0.113,
+    "bbox": [
+     0.4632,
+     0.0203,
+     0.5749,
+     0.2636
+    ]
+   },
+   {
+    "detection_id": "d365",
+    "photo_id": "seongdong_kyochon_3",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1086,
+    "bbox": [
+     0,
+     0.4965,
+     0.2307,
+     0.7814
+    ]
+   },
+   {
+    "detection_id": "d366",
+    "photo_id": "seongdong_kyochon_3",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "commercial oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1056,
+    "bbox": [
+     0.3517,
+     0.0524,
+     0.4663,
+     0.2908
+    ]
+   },
+   {
+    "detection_id": "d367",
+    "photo_id": "seongdong_kyochon_3",
+    "equipment_id": "EQ_SCISSORS",
+    "detector_class": "scissors",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1001,
+    "bbox": [
+     0.6181,
+     0.1684,
+     0.7167,
+     0.2858
+    ]
+   },
+   {
+    "detection_id": "d368",
+    "photo_id": "seongdong_kyochon_3",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0983,
+    "bbox": [
+     0.8922,
+     0.5197,
+     1.0,
+     0.8553
+    ]
+   },
+   {
+    "detection_id": "d369",
+    "photo_id": "seongdong_kyochon_3",
+    "equipment_id": "EQ_SCISSORS",
+    "detector_class": "scissors",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0983,
+    "bbox": [
+     0.2501,
+     0.2865,
+     0.344,
+     0.4375
+    ]
+   },
+   {
+    "detection_id": "d370",
+    "photo_id": "seongdong_kyochon_3",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0861,
+    "bbox": [
+     0.8662,
+     0.0002,
+     1.0,
+     0.1861
+    ]
+   },
+   {
+    "detection_id": "d371",
+    "photo_id": "seongdong_kyochon_3",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0844,
+    "bbox": [
+     0.9675,
+     0.2265,
+     1,
+     0.3596
+    ]
+   },
+   {
+    "detection_id": "d372",
+    "photo_id": "seongdong_kyochon_3",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "commercial oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0827,
+    "bbox": [
+     0.5579,
+     0.0008,
+     0.7752,
+     0.2333
+    ]
+   },
+   {
+    "detection_id": "d373",
+    "photo_id": "seongdong_kyochon_3",
+    "equipment_id": "EQ_SCISSORS",
+    "detector_class": "scissors",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0825,
+    "bbox": [
+     0.7706,
+     0.4798,
+     0.9985,
+     0.5725
+    ]
+   },
+   {
+    "detection_id": "d374",
+    "photo_id": "seongdong_kyochon_3",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "kitchen sink",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0802,
+    "bbox": [
+     0.0001,
+     0.4961,
+     0.2337,
+     0.7812
+    ]
+   },
+   {
+    "detection_id": "d375",
+    "photo_id": "seongdong_kyochon_3",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0744,
+    "bbox": [
+     0.6282,
+     0.0,
+     0.7763,
+     0.0185
+    ]
+   },
+   {
+    "detection_id": "d376",
+    "photo_id": "seongdong_kyochon_3",
+    "equipment_id": "EQ_KNIFE_BOARD",
+    "detector_class": "kitchen knife",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0711,
+    "bbox": [
+     0.7707,
+     0.4901,
+     0.997,
+     0.5672
+    ]
+   },
+   {
+    "detection_id": "d377",
+    "photo_id": "seongdong_kyochon_3",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.071,
+    "bbox": [
+     0.3124,
+     0.2165,
+     0.7964,
+     0.7668
+    ]
+   },
+   {
+    "detection_id": "d378",
+    "photo_id": "seongdong_kyochon_3",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "kitchen sink",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0706,
+    "bbox": [
+     0.8347,
+     0,
+     0.9999,
+     0.2658
+    ]
+   },
+   {
+    "detection_id": "d379",
+    "photo_id": "seongdong_kyochon_3",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "commercial oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.07,
+    "bbox": [
+     0.2738,
+     0.0019,
+     0.5777,
+     0.302
+    ]
+   },
+   {
+    "detection_id": "d380",
+    "photo_id": "seongdong_kyochon_3",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "kitchen sink",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0695,
+    "bbox": [
+     0.844,
+     0.1218,
+     1,
+     0.2754
+    ]
+   },
+   {
+    "detection_id": "d381",
+    "photo_id": "seongdong_kyochon_3",
+    "equipment_id": "EQ_STERILIZER",
+    "detector_class": "dish sterilizer cabinet",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0674,
+    "bbox": [
+     0.3536,
+     0.0486,
+     0.4629,
+     0.2914
+    ]
+   },
+   {
+    "detection_id": "d382",
+    "photo_id": "seongdong_kyochon_3",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "kitchen sink",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0662,
+    "bbox": [
+     0.4236,
+     0.2961,
+     0.992,
+     0.9845
+    ]
+   },
+   {
+    "detection_id": "d383",
+    "photo_id": "seongdong_kyochon_3",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0649,
+    "bbox": [
+     0.4917,
+     0.0001,
+     0.6242,
+     0.0267
+    ]
+   },
+   {
+    "detection_id": "d384",
+    "photo_id": "seongdong_kyochon_3",
+    "equipment_id": "EQ_SOUP_KETTLE",
+    "detector_class": "large stock pot kettle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0649,
+    "bbox": [
+     0.8455,
+     0.1204,
+     0.9999,
+     0.2786
+    ]
+   },
+   {
+    "detection_id": "d385",
+    "photo_id": "seongdong_kyochon_3",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0607,
+    "bbox": [
+     0.4636,
+     0.0209,
+     0.5756,
+     0.2686
+    ]
+   },
+   {
+    "detection_id": "d386",
+    "photo_id": "seongdong_kyochon_3",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0589,
+    "bbox": [
+     0.5432,
+     0.1827,
+     0.9816,
+     0.4715
+    ]
+   },
+   {
+    "detection_id": "d387",
+    "photo_id": "seongdong_kyochon_3",
+    "equipment_id": "EQ_STERILIZER",
+    "detector_class": "dish sterilizer cabinet",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0577,
+    "bbox": [
+     0.4635,
+     0.0068,
+     0.6817,
+     0.2623
+    ]
+   },
+   {
+    "detection_id": "d388",
+    "photo_id": "seongdong_kyochon_3",
+    "equipment_id": "EQ_STERILIZER",
+    "detector_class": "dish sterilizer cabinet",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0566,
+    "bbox": [
+     0.226,
+     0.0605,
+     0.3645,
+     0.3297
+    ]
+   },
+   {
+    "detection_id": "d389",
+    "photo_id": "seongdong_kyochon_3",
+    "equipment_id": "EQ_SCISSORS",
+    "detector_class": "scissors",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0549,
+    "bbox": [
+     0.8353,
+     0.0005,
+     0.9062,
+     0.2127
+    ]
+   },
+   {
+    "detection_id": "d390",
+    "photo_id": "seongdong_kyochon_3",
+    "equipment_id": "EQ_STERILIZER",
+    "detector_class": "dish sterilizer cabinet",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0538,
+    "bbox": [
+     0,
+     0.4956,
+     0.2306,
+     0.781
+    ]
+   },
+   {
+    "detection_id": "d391",
+    "photo_id": "seongdong_kyochon_3",
+    "equipment_id": "EQ_SCISSORS",
+    "detector_class": "scissors",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0515,
+    "bbox": [
+     0.9141,
+     0.3581,
+     0.9999,
+     0.4113
+    ]
+   },
+   {
+    "detection_id": "d392",
+    "photo_id": "seongdong_kyochon_4",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.2544,
+    "bbox": [
+     0.5419,
+     0.2973,
+     0.8211,
+     0.6425
+    ]
+   },
+   {
+    "detection_id": "d393",
+    "photo_id": "seongdong_kyochon_4",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1631,
+    "bbox": [
+     0.175,
+     0.0,
+     0.3582,
+     0.055
+    ]
+   },
+   {
+    "detection_id": "d394",
+    "photo_id": "seongdong_kyochon_4",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1402,
+    "bbox": [
+     0.1808,
+     0,
+     0.358,
+     0.0546
+    ]
+   },
+   {
+    "detection_id": "d395",
+    "photo_id": "seongdong_kyochon_4",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1252,
+    "bbox": [
+     0.1048,
+     0.4601,
+     0.5712,
+     0.9979
+    ]
+   },
+   {
+    "detection_id": "d396",
+    "photo_id": "seongdong_kyochon_4",
+    "equipment_id": "EQ_CART",
+    "detector_class": "utility cart trolley",
+    "class_map_match": "open_vocab",
+    "confidence": 0.124,
+    "bbox": [
+     0.1094,
+     0.3803,
+     0.6159,
+     1
+    ]
+   },
+   {
+    "detection_id": "d397",
+    "photo_id": "seongdong_kyochon_4",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "commercial oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0999,
+    "bbox": [
+     0.5925,
+     0.5704,
+     0.999,
+     1
+    ]
+   },
+   {
+    "detection_id": "d398",
+    "photo_id": "seongdong_kyochon_4",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0999,
+    "bbox": [
+     0.6431,
+     0.8367,
+     0.9927,
+     0.9999
+    ]
+   },
+   {
+    "detection_id": "d399",
+    "photo_id": "seongdong_kyochon_4",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0994,
+    "bbox": [
+     0.3929,
+     0.6967,
+     0.6158,
+     0.9999
+    ]
+   },
+   {
+    "detection_id": "d400",
+    "photo_id": "seongdong_kyochon_4",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0886,
+    "bbox": [
+     0.1527,
+     0,
+     0.2388,
+     0.1143
+    ]
+   },
+   {
+    "detection_id": "d401",
+    "photo_id": "seongdong_kyochon_4",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0804,
+    "bbox": [
+     0.2581,
+     0.0418,
+     0.3874,
+     0.381
+    ]
+   },
+   {
+    "detection_id": "d402",
+    "photo_id": "seongdong_kyochon_4",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0714,
+    "bbox": [
+     0.642,
+     0.841,
+     0.991,
+     1.0
+    ]
+   },
+   {
+    "detection_id": "d403",
+    "photo_id": "seongdong_kyochon_4",
+    "equipment_id": "EQ_KNIFE_BOARD",
+    "detector_class": "kitchen knife",
+    "class_map_match": "open_vocab",
+    "confidence": 0.07,
+    "bbox": [
+     0.3431,
+     0.6578,
+     0.5428,
+     0.8184
+    ]
+   },
+   {
+    "detection_id": "d404",
+    "photo_id": "seongdong_kyochon_4",
+    "equipment_id": "EQ_SCISSORS",
+    "detector_class": "scissors",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0692,
+    "bbox": [
+     0.3377,
+     0.6722,
+     0.5588,
+     0.8151
+    ]
+   },
+   {
+    "detection_id": "d405",
+    "photo_id": "seongdong_kyochon_4",
+    "equipment_id": "EQ_CART",
+    "detector_class": "utility cart trolley",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0638,
+    "bbox": [
+     0.2709,
+     0.3719,
+     0.5668,
+     0.6926
+    ]
+   },
+   {
+    "detection_id": "d406",
+    "photo_id": "seongdong_kyochon_4",
+    "equipment_id": "EQ_STERILIZER",
+    "detector_class": "dish sterilizer cabinet",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0528,
+    "bbox": [
+     0.2283,
+     0.5781,
+     0.3972,
+     0.9985
+    ]
+   },
+   {
+    "detection_id": "d407",
+    "photo_id": "seongdong_kyochon_4",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0513,
+    "bbox": [
+     0.7569,
+     0.4965,
+     1,
+     0.7369
+    ]
+   },
+   {
+    "detection_id": "d408",
+    "photo_id": "seongdong_nene_geumho_1",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.5887,
+    "bbox": [
+     0.9079,
+     0.0219,
+     1,
+     0.2709
+    ]
+   },
+   {
+    "detection_id": "d409",
+    "photo_id": "seongdong_nene_geumho_1",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.4284,
+    "bbox": [
+     0.8477,
+     0.4355,
+     1,
+     0.5032
+    ]
+   },
+   {
+    "detection_id": "d410",
+    "photo_id": "seongdong_nene_geumho_1",
+    "equipment_id": "EQ_CART",
+    "detector_class": "utility cart trolley",
+    "class_map_match": "open_vocab",
+    "confidence": 0.4078,
+    "bbox": [
+     0,
+     0.8507,
+     0.1127,
+     1.0
+    ]
+   },
+   {
+    "detection_id": "d411",
+    "photo_id": "seongdong_nene_geumho_1",
+    "equipment_id": "EQ_STERILIZER",
+    "detector_class": "dish sterilizer cabinet",
+    "class_map_match": "open_vocab",
+    "confidence": 0.3431,
+    "bbox": [
+     0.403,
+     0.5694,
+     0.8311,
+     1
+    ]
+   },
+   {
+    "detection_id": "d412",
+    "photo_id": "seongdong_nene_geumho_1",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.2884,
+    "bbox": [
+     0.3417,
+     0.5792,
+     0.8293,
+     0.8078
+    ]
+   },
+   {
+    "detection_id": "d413",
+    "photo_id": "seongdong_nene_geumho_1",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.2765,
+    "bbox": [
+     0.1218,
+     0.5747,
+     0.5966,
+     0.9864
+    ]
+   },
+   {
+    "detection_id": "d414",
+    "photo_id": "seongdong_nene_geumho_1",
+    "equipment_id": "EQ_STERILIZER",
+    "detector_class": "dish sterilizer cabinet",
+    "class_map_match": "open_vocab",
+    "confidence": 0.2638,
+    "bbox": [
+     0.3847,
+     0.7783,
+     0.8277,
+     1
+    ]
+   },
+   {
+    "detection_id": "d415",
+    "photo_id": "seongdong_nene_geumho_1",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.2159,
+    "bbox": [
+     0.7532,
+     0.4861,
+     0.8941,
+     0.7758
+    ]
+   },
+   {
+    "detection_id": "d416",
+    "photo_id": "seongdong_nene_geumho_1",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1962,
+    "bbox": [
+     0.125,
+     0.575,
+     0.5986,
+     0.7947
+    ]
+   },
+   {
+    "detection_id": "d417",
+    "photo_id": "seongdong_nene_geumho_1",
+    "equipment_id": "EQ_STERILIZER",
+    "detector_class": "dish sterilizer cabinet",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1672,
+    "bbox": [
+     0.1221,
+     0.5746,
+     0.5551,
+     0.9695
+    ]
+   },
+   {
+    "detection_id": "d418",
+    "photo_id": "seongdong_nene_geumho_1",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "chest freezer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1625,
+    "bbox": [
+     0.3596,
+     0.7812,
+     0.8275,
+     0.9999
+    ]
+   },
+   {
+    "detection_id": "d419",
+    "photo_id": "seongdong_nene_geumho_1",
+    "equipment_id": "EQ_STERILIZER",
+    "detector_class": "dish sterilizer cabinet",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1502,
+    "bbox": [
+     0.1225,
+     0.7838,
+     0.5419,
+     0.967
+    ]
+   },
+   {
+    "detection_id": "d420",
+    "photo_id": "seongdong_nene_geumho_1",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1369,
+    "bbox": [
+     0.9106,
+     0.0009,
+     1.0,
+     0.271
+    ]
+   },
+   {
+    "detection_id": "d421",
+    "photo_id": "seongdong_nene_geumho_1",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "kitchen sink",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1307,
+    "bbox": [
+     0.8655,
+     0.7985,
+     1,
+     0.998
+    ]
+   },
+   {
+    "detection_id": "d422",
+    "photo_id": "seongdong_nene_geumho_1",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1131,
+    "bbox": [
+     0.8469,
+     0.4335,
+     1,
+     0.5971
+    ]
+   },
+   {
+    "detection_id": "d423",
+    "photo_id": "seongdong_nene_geumho_1",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1123,
+    "bbox": [
+     0.3938,
+     0.5813,
+     0.8296,
+     0.808
+    ]
+   },
+   {
+    "detection_id": "d424",
+    "photo_id": "seongdong_nene_geumho_1",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "commercial oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0921,
+    "bbox": [
+     0.1227,
+     0.573,
+     0.601,
+     0.9789
+    ]
+   },
+   {
+    "detection_id": "d425",
+    "photo_id": "seongdong_nene_geumho_1",
+    "equipment_id": "EQ_KNIFE_BOARD",
+    "detector_class": "cutting board",
+    "class_map_match": "open_vocab",
+    "confidence": 0.087,
+    "bbox": [
+     0.7521,
+     0.4866,
+     0.8949,
+     0.7863
+    ]
+   },
+   {
+    "detection_id": "d426",
+    "photo_id": "seongdong_nene_geumho_1",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0759,
+    "bbox": [
+     0.1225,
+     0.7824,
+     0.5944,
+     0.9863
+    ]
+   },
+   {
+    "detection_id": "d427",
+    "photo_id": "seongdong_nene_geumho_1",
+    "equipment_id": "EQ_STERILIZER",
+    "detector_class": "dish sterilizer cabinet",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0714,
+    "bbox": [
+     0.2616,
+     0.0417,
+     0.4268,
+     0.2263
+    ]
+   },
+   {
+    "detection_id": "d428",
+    "photo_id": "seongdong_nene_geumho_1",
+    "equipment_id": "EQ_GAS_CYLINDER",
+    "detector_class": "butane gas can",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0647,
+    "bbox": [
+     0.9037,
+     0.3505,
+     1,
+     0.4653
+    ]
+   },
+   {
+    "detection_id": "d429",
+    "photo_id": "seongdong_nene_geumho_1",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0618,
+    "bbox": [
+     0.9253,
+     0.0933,
+     0.9999,
+     0.2484
+    ]
+   },
+   {
+    "detection_id": "d430",
+    "photo_id": "seongdong_nene_geumho_1",
+    "equipment_id": "EQ_MIXER",
+    "detector_class": "blender",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0581,
+    "bbox": [
+     0.4648,
+     0.0028,
+     0.7665,
+     0.2353
+    ]
+   },
+   {
+    "detection_id": "d431",
+    "photo_id": "seongdong_nene_geumho_1",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0569,
+    "bbox": [
+     0.1044,
+     0.0001,
+     0.2773,
+     0.0892
+    ]
+   },
+   {
+    "detection_id": "d432",
+    "photo_id": "seongdong_nene_geumho_1",
+    "equipment_id": "EQ_BEER_DISPENSER",
+    "detector_class": "beer tap dispenser",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0521,
+    "bbox": [
+     0.1118,
+     0.1918,
+     0.1908,
+     0.2884
+    ]
+   },
+   {
+    "detection_id": "d433",
+    "photo_id": "seongdong_nene_geumho_1",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.051,
+    "bbox": [
+     0.9256,
+     0.0942,
+     1,
+     0.2483
+    ]
+   },
+   {
+    "detection_id": "d434",
+    "photo_id": "seongdong_nene_geumho_2",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.8797,
+    "bbox": [
+     0.1243,
+     0.6816,
+     0.5665,
+     0.9971
+    ]
+   },
+   {
+    "detection_id": "d435",
+    "photo_id": "seongdong_nene_geumho_2",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "commercial oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.4632,
+    "bbox": [
+     0.2129,
+     0.3399,
+     0.5503,
+     0.5367
+    ]
+   },
+   {
+    "detection_id": "d436",
+    "photo_id": "seongdong_nene_geumho_2",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.3017,
+    "bbox": [
+     0.0,
+     0.3986,
+     0.2406,
+     0.6773
+    ]
+   },
+   {
+    "detection_id": "d437",
+    "photo_id": "seongdong_nene_geumho_2",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "commercial oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.2461,
+    "bbox": [
+     0.0,
+     0.3951,
+     0.2406,
+     0.6784
+    ]
+   },
+   {
+    "detection_id": "d438",
+    "photo_id": "seongdong_nene_geumho_2",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "commercial oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1769,
+    "bbox": [
+     0,
+     0.3538,
+     0.4988,
+     0.9946
+    ]
+   },
+   {
+    "detection_id": "d439",
+    "photo_id": "seongdong_nene_geumho_2",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1445,
+    "bbox": [
+     0.2131,
+     0.3393,
+     0.5535,
+     0.4866
+    ]
+   },
+   {
+    "detection_id": "d440",
+    "photo_id": "seongdong_nene_geumho_2",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "commercial oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1442,
+    "bbox": [
+     0,
+     0.399,
+     0.2421,
+     0.9615
+    ]
+   },
+   {
+    "detection_id": "d441",
+    "photo_id": "seongdong_nene_geumho_2",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1282,
+    "bbox": [
+     0.5798,
+     0.6923,
+     0.9907,
+     1
+    ]
+   },
+   {
+    "detection_id": "d442",
+    "photo_id": "seongdong_nene_geumho_2",
+    "equipment_id": "EQ_CART",
+    "detector_class": "utility cart trolley",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1156,
+    "bbox": [
+     0.6208,
+     0.4103,
+     0.77,
+     0.6203
+    ]
+   },
+   {
+    "detection_id": "d443",
+    "photo_id": "seongdong_nene_geumho_2",
+    "equipment_id": "EQ_SCISSORS",
+    "detector_class": "scissors",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1135,
+    "bbox": [
+     0.8419,
+     0.5553,
+     0.8952,
+     0.747
+    ]
+   },
+   {
+    "detection_id": "d444",
+    "photo_id": "seongdong_nene_geumho_2",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "commercial oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0788,
+    "bbox": [
+     0.2871,
+     0.4767,
+     0.9888,
+     0.9942
+    ]
+   },
+   {
+    "detection_id": "d445",
+    "photo_id": "seongdong_nene_geumho_2",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "commercial oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0751,
+    "bbox": [
+     0.1585,
+     0.4446,
+     0.6155,
+     0.9875
+    ]
+   },
+   {
+    "detection_id": "d446",
+    "photo_id": "seongdong_nene_geumho_2",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0553,
+    "bbox": [
+     0.9048,
+     0.7617,
+     1,
+     0.9995
+    ]
+   },
+   {
+    "detection_id": "d447",
+    "photo_id": "seongdong_nene_geumho_2",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0514,
+    "bbox": [
+     0.9049,
+     0.7649,
+     1.0,
+     0.9994
+    ]
+   },
+   {
+    "detection_id": "d448",
+    "photo_id": "seongdong_nene_geumho_2",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "chest freezer",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0509,
+    "bbox": [
+     0.5797,
+     0.6947,
+     0.9881,
+     0.9997
+    ]
+   },
+   {
+    "detection_id": "d449",
+    "photo_id": "seongdong_nene_geumho_2",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0502,
+    "bbox": [
+     0.0,
+     0.7511,
+     0.1325,
+     1
+    ]
+   },
+   {
+    "detection_id": "d450",
+    "photo_id": "seongdong_nene_geumho_3",
+    "equipment_id": "EQ_SCISSORS",
+    "detector_class": "scissors",
+    "class_map_match": "open_vocab",
+    "confidence": 0.2414,
+    "bbox": [
+     0.468,
+     0.0012,
+     0.5346,
+     0.1474
+    ]
+   },
+   {
+    "detection_id": "d451",
+    "photo_id": "seongdong_nene_geumho_3",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.2185,
+    "bbox": [
+     0.6099,
+     0.2847,
+     0.8819,
+     0.4407
+    ]
+   },
+   {
+    "detection_id": "d452",
+    "photo_id": "seongdong_nene_geumho_3",
+    "equipment_id": "EQ_SCISSORS",
+    "detector_class": "scissors",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1832,
+    "bbox": [
+     0.102,
+     0.0015,
+     0.1968,
+     0.32
+    ]
+   },
+   {
+    "detection_id": "d453",
+    "photo_id": "seongdong_nene_geumho_3",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1426,
+    "bbox": [
+     0.5943,
+     0.2866,
+     0.876,
+     0.4393
+    ]
+   },
+   {
+    "detection_id": "d454",
+    "photo_id": "seongdong_nene_geumho_3",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1276,
+    "bbox": [
+     0.384,
+     0.4695,
+     0.8064,
+     0.9931
+    ]
+   },
+   {
+    "detection_id": "d455",
+    "photo_id": "seongdong_nene_geumho_3",
+    "equipment_id": "EQ_CART",
+    "detector_class": "utility cart trolley",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0894,
+    "bbox": [
+     0.4641,
+     0.3942,
+     0.5877,
+     0.5116
+    ]
+   },
+   {
+    "detection_id": "d456",
+    "photo_id": "seongdong_nene_geumho_3",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "kitchen sink",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0522,
+    "bbox": [
+     0.3392,
+     0.4687,
+     0.8062,
+     0.994
+    ]
+   },
+   {
+    "detection_id": "d457",
+    "photo_id": "seongdong_nene_geumho_3",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "commercial oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0501,
+    "bbox": [
+     0.5824,
+     0.2969,
+     0.9996,
+     0.9387
+    ]
+   },
+   {
+    "detection_id": "d458",
+    "photo_id": "seongdong_nene_geumho_4",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0756,
+    "bbox": [
+     0.0409,
+     0.3887,
+     0.5187,
+     0.9873
+    ]
+   },
+   {
+    "detection_id": "d459",
+    "photo_id": "seongdong_nene_seongsu_1",
+    "equipment_id": "EQ_GAS_CYLINDER",
+    "detector_class": "butane gas can",
+    "class_map_match": "open_vocab",
+    "confidence": 0.3871,
+    "bbox": [
+     0.5337,
+     0,
+     0.6119,
+     0.0278
+    ]
+   },
+   {
+    "detection_id": "d460",
+    "photo_id": "seongdong_nene_seongsu_1",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.3259,
+    "bbox": [
+     0.2854,
+     0.3328,
+     0.9792,
+     0.9068
+    ]
+   },
+   {
+    "detection_id": "d461",
+    "photo_id": "seongdong_nene_seongsu_1",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.3092,
+    "bbox": [
+     0.0009,
+     0.0003,
+     0.8364,
+     0.4543
+    ]
+   },
+   {
+    "detection_id": "d462",
+    "photo_id": "seongdong_nene_seongsu_1",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.2661,
+    "bbox": [
+     0.3111,
+     0.0092,
+     0.9998,
+     0.4901
+    ]
+   },
+   {
+    "detection_id": "d463",
+    "photo_id": "seongdong_nene_seongsu_1",
+    "equipment_id": "EQ_GAS_CYLINDER",
+    "detector_class": "butane gas can",
+    "class_map_match": "open_vocab",
+    "confidence": 0.2634,
+    "bbox": [
+     0.6767,
+     0,
+     0.7521,
+     0.039
+    ]
+   },
+   {
+    "detection_id": "d464",
+    "photo_id": "seongdong_nene_seongsu_1",
+    "equipment_id": "EQ_GAS_CYLINDER",
+    "detector_class": "butane gas can",
+    "class_map_match": "open_vocab",
+    "confidence": 0.249,
+    "bbox": [
+     0.8656,
+     0,
+     0.9929,
+     0.0439
+    ]
+   },
+   {
+    "detection_id": "d465",
+    "photo_id": "seongdong_nene_seongsu_1",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.2039,
+    "bbox": [
+     0.2383,
+     0.0002,
+     0.9997,
+     0.1214
+    ]
+   },
+   {
+    "detection_id": "d466",
+    "photo_id": "seongdong_nene_seongsu_1",
+    "equipment_id": "EQ_GAS_CYLINDER",
+    "detector_class": "butane gas can",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1903,
+    "bbox": [
+     0.6065,
+     0,
+     0.6819,
+     0.0337
+    ]
+   },
+   {
+    "detection_id": "d467",
+    "photo_id": "seongdong_nene_seongsu_1",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1839,
+    "bbox": [
+     0.0645,
+     0.5481,
+     0.5917,
+     0.9664
+    ]
+   },
+   {
+    "detection_id": "d468",
+    "photo_id": "seongdong_nene_seongsu_1",
+    "equipment_id": "EQ_GAS_CYLINDER",
+    "detector_class": "LPG gas cylinder",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1677,
+    "bbox": [
+     0.4381,
+     0.0,
+     0.5144,
+     0.0202
+    ]
+   },
+   {
+    "detection_id": "d469",
+    "photo_id": "seongdong_nene_seongsu_1",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "commercial oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1654,
+    "bbox": [
+     0.2948,
+     0.2971,
+     0.9855,
+     0.88
+    ]
+   },
+   {
+    "detection_id": "d470",
+    "photo_id": "seongdong_nene_seongsu_1",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1634,
+    "bbox": [
+     0.5821,
+     0.5128,
+     0.9364,
+     0.8595
+    ]
+   },
+   {
+    "detection_id": "d471",
+    "photo_id": "seongdong_nene_seongsu_1",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1505,
+    "bbox": [
+     0.955,
+     0.4133,
+     0.9996,
+     0.4297
+    ]
+   },
+   {
+    "detection_id": "d472",
+    "photo_id": "seongdong_nene_seongsu_1",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1243,
+    "bbox": [
+     0,
+     0.5263,
+     0.1868,
+     0.9967
+    ]
+   },
+   {
+    "detection_id": "d473",
+    "photo_id": "seongdong_nene_seongsu_1",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1028,
+    "bbox": [
+     0.0206,
+     0.0655,
+     0.6653,
+     0.5567
+    ]
+   },
+   {
+    "detection_id": "d474",
+    "photo_id": "seongdong_nene_seongsu_1",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1025,
+    "bbox": [
+     0.0792,
+     0.2696,
+     0.6517,
+     0.9101
+    ]
+   },
+   {
+    "detection_id": "d475",
+    "photo_id": "seongdong_nene_seongsu_1",
+    "equipment_id": "EQ_GAS_CYLINDER",
+    "detector_class": "butane gas can",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0981,
+    "bbox": [
+     0.743,
+     0,
+     0.8053,
+     0.0407
+    ]
+   },
+   {
+    "detection_id": "d476",
+    "photo_id": "seongdong_nene_seongsu_1",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0913,
+    "bbox": [
+     0.3124,
+     0.0574,
+     0.9996,
+     0.5315
+    ]
+   },
+   {
+    "detection_id": "d477",
+    "photo_id": "seongdong_nene_seongsu_1",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0874,
+    "bbox": [
+     0.8909,
+     0.4623,
+     1,
+     0.8163
+    ]
+   },
+   {
+    "detection_id": "d478",
+    "photo_id": "seongdong_nene_seongsu_1",
+    "equipment_id": "EQ_GAS_CYLINDER",
+    "detector_class": "butane gas can",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0656,
+    "bbox": [
+     0.9089,
+     0.5973,
+     0.9784,
+     0.6992
+    ]
+   },
+   {
+    "detection_id": "d479",
+    "photo_id": "seongdong_nene_seongsu_1",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.064,
+    "bbox": [
+     0.0798,
+     0,
+     1,
+     0.0398
+    ]
+   },
+   {
+    "detection_id": "d480",
+    "photo_id": "seongdong_nene_seongsu_1",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0634,
+    "bbox": [
+     0.0371,
+     0,
+     0.9805,
+     0.1203
+    ]
+   },
+   {
+    "detection_id": "d481",
+    "photo_id": "seongdong_nene_seongsu_1",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0549,
+    "bbox": [
+     0.3504,
+     0.0992,
+     0.611,
+     0.2628
+    ]
+   },
+   {
+    "detection_id": "d482",
+    "photo_id": "seongdong_nene_seongsu_1",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0536,
+    "bbox": [
+     0.0089,
+     0.0,
+     0.7337,
+     0.107
+    ]
+   },
+   {
+    "detection_id": "d483",
+    "photo_id": "seongdong_nene_seongsu_1",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.052,
+    "bbox": [
+     0.0671,
+     0.3727,
+     0.5963,
+     0.6046
+    ]
+   },
+   {
+    "detection_id": "d484",
+    "photo_id": "seongdong_nene_seongsu_1",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0509,
+    "bbox": [
+     0.342,
+     0.0001,
+     1.0,
+     0.0703
+    ]
+   },
+   {
+    "detection_id": "d485",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": "EQ_SCISSORS",
+    "detector_class": "scissors",
+    "class_map_match": "open_vocab",
+    "confidence": 0.5492,
+    "bbox": [
+     0.0879,
+     0.3953,
+     0.1262,
+     0.5428
+    ]
+   },
+   {
+    "detection_id": "d486",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": "EQ_SCISSORS",
+    "detector_class": "scissors",
+    "class_map_match": "open_vocab",
+    "confidence": 0.3138,
+    "bbox": [
+     0.5122,
+     0.2899,
+     0.5604,
+     0.4595
+    ]
+   },
+   {
+    "detection_id": "d487",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.2308,
+    "bbox": [
+     0.0,
+     0.0033,
+     0.4993,
+     0.5863
+    ]
+   },
+   {
+    "detection_id": "d488",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": "EQ_GAS_CYLINDER",
+    "detector_class": "LPG gas cylinder",
+    "class_map_match": "open_vocab",
+    "confidence": 0.2229,
+    "bbox": [
+     0.5133,
+     0,
+     0.6492,
+     0.0523
+    ]
+   },
+   {
+    "detection_id": "d489",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": "EQ_GAS_CYLINDER",
+    "detector_class": "LPG gas cylinder",
+    "class_map_match": "open_vocab",
+    "confidence": 0.2129,
+    "bbox": [
+     0.7456,
+     0.1199,
+     0.8301,
+     0.2354
+    ]
+   },
+   {
+    "detection_id": "d490",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": "EQ_SCISSORS",
+    "detector_class": "scissors",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1855,
+    "bbox": [
+     0.0207,
+     0.3924,
+     0.0717,
+     0.5143
+    ]
+   },
+   {
+    "detection_id": "d491",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1844,
+    "bbox": [
+     0.154,
+     0.0069,
+     0.8651,
+     0.6693
+    ]
+   },
+   {
+    "detection_id": "d492",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": "EQ_SCISSORS",
+    "detector_class": "scissors",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1779,
+    "bbox": [
+     0.04,
+     0.3891,
+     0.066,
+     0.4666
+    ]
+   },
+   {
+    "detection_id": "d493",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": "EQ_SCISSORS",
+    "detector_class": "scissors",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1394,
+    "bbox": [
+     0.7196,
+     0.2729,
+     0.7631,
+     0.3615
+    ]
+   },
+   {
+    "detection_id": "d494",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "gas stove burner",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1202,
+    "bbox": [
+     0.4299,
+     0.7255,
+     0.5958,
+     0.8264
+    ]
+   },
+   {
+    "detection_id": "d495",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1183,
+    "bbox": [
+     0.3408,
+     0.0001,
+     0.8348,
+     0.119
+    ]
+   },
+   {
+    "detection_id": "d496",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1148,
+    "bbox": [
+     0.4232,
+     0.0003,
+     0.8617,
+     0.2838
+    ]
+   },
+   {
+    "detection_id": "d497",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1132,
+    "bbox": [
+     0.2985,
+     0.3611,
+     0.4103,
+     0.5501
+    ]
+   },
+   {
+    "detection_id": "d498",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0976,
+    "bbox": [
+     0,
+     0.6932,
+     0.4572,
+     0.8904
+    ]
+   },
+   {
+    "detection_id": "d499",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": "EQ_SCISSORS",
+    "detector_class": "scissors",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0955,
+    "bbox": [
+     0.0688,
+     0.3918,
+     0.089,
+     0.5377
+    ]
+   },
+   {
+    "detection_id": "d500",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": "EQ_STERILIZER",
+    "detector_class": "dish sterilizer cabinet",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0926,
+    "bbox": [
+     0.2769,
+     0.3602,
+     0.4101,
+     0.5584
+    ]
+   },
+   {
+    "detection_id": "d501",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0904,
+    "bbox": [
+     0.0003,
+     0.2739,
+     0.161,
+     0.3219
+    ]
+   },
+   {
+    "detection_id": "d502",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0868,
+    "bbox": [
+     0.1104,
+     0.0014,
+     0.6778,
+     0.2897
+    ]
+   },
+   {
+    "detection_id": "d503",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.084,
+    "bbox": [
+     0.1566,
+     0.0642,
+     0.3059,
+     0.165
+    ]
+   },
+   {
+    "detection_id": "d504",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0803,
+    "bbox": [
+     0.4515,
+     0.0001,
+     0.8627,
+     0.2851
+    ]
+   },
+   {
+    "detection_id": "d505",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": "EQ_SCISSORS",
+    "detector_class": "scissors",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0797,
+    "bbox": [
+     0.6781,
+     0.2805,
+     0.7221,
+     0.4173
+    ]
+   },
+   {
+    "detection_id": "d506",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": "EQ_CART",
+    "detector_class": "utility cart trolley",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0763,
+    "bbox": [
+     0.9095,
+     0.8442,
+     1,
+     0.9999
+    ]
+   },
+   {
+    "detection_id": "d507",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0745,
+    "bbox": [
+     0.2748,
+     0.3586,
+     0.4102,
+     0.5587
+    ]
+   },
+   {
+    "detection_id": "d508",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": "EQ_GAS_CYLINDER",
+    "detector_class": "butane gas can",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0728,
+    "bbox": [
+     0.2656,
+     0.1647,
+     0.3136,
+     0.269
+    ]
+   },
+   {
+    "detection_id": "d509",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": "EQ_DISPLAY_COOLER",
+    "detector_class": "beverage display cooler",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0705,
+    "bbox": [
+     0.9043,
+     0.6875,
+     0.976,
+     0.8966
+    ]
+   },
+   {
+    "detection_id": "d510",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "kitchen sink",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0655,
+    "bbox": [
+     0.4094,
+     0.553,
+     0.8869,
+     0.9924
+    ]
+   },
+   {
+    "detection_id": "d511",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0648,
+    "bbox": [
+     0,
+     0.6931,
+     0.4574,
+     0.8852
+    ]
+   },
+   {
+    "detection_id": "d512",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0644,
+    "bbox": [
+     0.5006,
+     0.8049,
+     0.9934,
+     0.9999
+    ]
+   },
+   {
+    "detection_id": "d513",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "commercial oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0621,
+    "bbox": [
+     0,
+     0.6165,
+     0.4582,
+     0.9921
+    ]
+   },
+   {
+    "detection_id": "d514",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": "EQ_SCISSORS",
+    "detector_class": "scissors",
+    "class_map_match": "open_vocab",
+    "confidence": 0.062,
+    "bbox": [
+     0.3217,
+     0.3187,
+     0.3411,
+     0.3468
+    ]
+   },
+   {
+    "detection_id": "d515",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": "EQ_DISPLAY_COOLER",
+    "detector_class": "beverage display cooler",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0617,
+    "bbox": [
+     0.4539,
+     0.1385,
+     0.5211,
+     0.2542
+    ]
+   },
+   {
+    "detection_id": "d516",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": "EQ_BEER_DISPENSER",
+    "detector_class": "beer tap dispenser",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0588,
+    "bbox": [
+     0.1493,
+     0.4095,
+     0.2374,
+     0.5763
+    ]
+   },
+   {
+    "detection_id": "d517",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0571,
+    "bbox": [
+     0.0558,
+     0.2405,
+     0.7622,
+     0.7786
+    ]
+   },
+   {
+    "detection_id": "d518",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": "EQ_DISPLAY_COOLER",
+    "detector_class": "beverage display cooler",
+    "class_map_match": "open_vocab",
+    "confidence": 0.057,
+    "bbox": [
+     0.0194,
+     0.1532,
+     0.0835,
+     0.2818
+    ]
+   },
+   {
+    "detection_id": "d519",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": "EQ_GAS_CYLINDER",
+    "detector_class": "LPG gas cylinder",
+    "class_map_match": "open_vocab",
+    "confidence": 0.057,
+    "bbox": [
+     0.3639,
+     0.1678,
+     0.4396,
+     0.2628
+    ]
+   },
+   {
+    "detection_id": "d520",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0566,
+    "bbox": [
+     0.428,
+     0.5511,
+     0.8899,
+     0.9938
+    ]
+   },
+   {
+    "detection_id": "d521",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "detector_class": "kitchen exhaust hood",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0526,
+    "bbox": [
+     0.0,
+     0.4418,
+     0.0525,
+     0.7205
+    ]
+   },
+   {
+    "detection_id": "d522",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0524,
+    "bbox": [
+     0.4314,
+     0.7281,
+     0.6027,
+     0.8267
+    ]
+   },
+   {
+    "detection_id": "d523",
+    "photo_id": "seongdong_nene_seongsu_4",
+    "equipment_id": "EQ_GAS_CYLINDER",
+    "detector_class": "LPG gas cylinder",
+    "class_map_match": "open_vocab",
+    "confidence": 0.2851,
+    "bbox": [
+     0.4846,
+     0.9545,
+     0.5875,
+     1
+    ]
+   },
+   {
+    "detection_id": "d524",
+    "photo_id": "seongdong_nene_seongsu_4",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.2716,
+    "bbox": [
+     0.3734,
+     0.6648,
+     0.7209,
+     0.7798
+    ]
+   },
+   {
+    "detection_id": "d525",
+    "photo_id": "seongdong_nene_seongsu_4",
+    "equipment_id": "EQ_GRIDDLE",
+    "detector_class": "flat top griddle",
+    "class_map_match": "open_vocab",
+    "confidence": 0.2017,
+    "bbox": [
+     0.9708,
+     0.5997,
+     1,
+     0.6705
+    ]
+   },
+   {
+    "detection_id": "d526",
+    "photo_id": "seongdong_nene_seongsu_4",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1489,
+    "bbox": [
+     0.3072,
+     0.5948,
+     0.7431,
+     0.9997
+    ]
+   },
+   {
+    "detection_id": "d527",
+    "photo_id": "seongdong_nene_seongsu_4",
+    "equipment_id": "EQ_GAS_CYLINDER",
+    "detector_class": "LPG gas cylinder",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1153,
+    "bbox": [
+     0.5876,
+     0.9534,
+     0.7217,
+     1
+    ]
+   },
+   {
+    "detection_id": "d528",
+    "photo_id": "seongdong_nene_seongsu_4",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1111,
+    "bbox": [
+     0.0001,
+     0.7935,
+     0.3263,
+     0.9999
+    ]
+   },
+   {
+    "detection_id": "d529",
+    "photo_id": "seongdong_nene_seongsu_4",
+    "equipment_id": "EQ_STERILIZER",
+    "detector_class": "dish sterilizer cabinet",
+    "class_map_match": "open_vocab",
+    "confidence": 0.1077,
+    "bbox": [
+     0.3603,
+     0.8061,
+     0.7571,
+     1
+    ]
+   },
+   {
+    "detection_id": "d530",
+    "photo_id": "seongdong_nene_seongsu_4",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.101,
+    "bbox": [
+     0.3262,
+     0.8184,
+     0.7542,
+     1
+    ]
+   },
+   {
+    "detection_id": "d531",
+    "photo_id": "seongdong_nene_seongsu_4",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0877,
+    "bbox": [
+     0.4029,
+     0.6037,
+     0.9987,
+     1
+    ]
+   },
+   {
+    "detection_id": "d532",
+    "photo_id": "seongdong_nene_seongsu_4",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "commercial oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0822,
+    "bbox": [
+     0.0761,
+     0.5278,
+     0.3566,
+     0.7922
+    ]
+   },
+   {
+    "detection_id": "d533",
+    "photo_id": "seongdong_nene_seongsu_4",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0758,
+    "bbox": [
+     0.0001,
+     0.5593,
+     0.3616,
+     1
+    ]
+   },
+   {
+    "detection_id": "d534",
+    "photo_id": "seongdong_nene_seongsu_4",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "commercial oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0656,
+    "bbox": [
+     0.0002,
+     0.507,
+     0.3685,
+     0.9999
+    ]
+   },
+   {
+    "detection_id": "d535",
+    "photo_id": "seongdong_nene_seongsu_4",
+    "equipment_id": "EQ_SHELF",
+    "detector_class": "metal shelf",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0582,
+    "bbox": [
+     0,
+     0.6149,
+     0.1046,
+     0.8018
+    ]
+   },
+   {
+    "detection_id": "d536",
+    "photo_id": "seongdong_nene_seongsu_4",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0577,
+    "bbox": [
+     0.7622,
+     0.785,
+     1,
+     1
+    ]
+   },
+   {
+    "detection_id": "d537",
+    "photo_id": "seongdong_nene_seongsu_4",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "commercial refrigerator",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0567,
+    "bbox": [
+     0.7757,
+     0.7871,
+     1,
+     0.9999
+    ]
+   },
+   {
+    "detection_id": "d538",
+    "photo_id": "seongdong_nene_seongsu_4",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "commercial oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0556,
+    "bbox": [
+     0.4034,
+     0.4604,
+     0.9984,
+     1
+    ]
+   },
+   {
+    "detection_id": "d539",
+    "photo_id": "seongdong_nene_seongsu_4",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0552,
+    "bbox": [
+     0.9633,
+     0.5994,
+     1,
+     0.7731
+    ]
+   },
+   {
+    "detection_id": "d540",
+    "photo_id": "seongdong_nene_seongsu_4",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "commercial oven",
+    "class_map_match": "open_vocab",
+    "confidence": 0.0514,
+    "bbox": [
+     0,
+     0.6142,
+     0.1053,
+     0.8018
+    ]
+   }
+  ]
+ },
+ "run_meta": {
+  "python": "3.10.14",
+  "torch": "2.7.1+cu118",
+  "cuda_available": true,
+  "gpu_name": "NVIDIA A100 80GB PCIe MIG 1g.10gb",
+  "max_gpu_mem_allocated_gb": 0.266,
+  "model_load_s": 10.61,
+  "per_image_s": [
+   0.632,
+   0.028,
+   0.03,
+   0.027,
+   0.028,
+   0.027,
+   0.027,
+   0.052,
+   0.035,
+   0.05,
+   0.048,
+   0.028,
+   0.028,
+   0.024,
+   0.035,
+   0.053,
+   0.053,
+   0.053,
+   0.034,
+   0.024,
+   0.036,
+   0.037,
+   0.065,
+   0.04,
+   0.037,
+   0.035,
+   0.033,
+   0.032,
+   0.031,
+   0.031,
+   0.054,
+   0.037,
+   0.035,
+   0.023
+  ],
+  "mean_image_s": 0.054,
+  "imgsz": 1280,
+  "n_prompts": 39
+ }
+}

@@ -1,0 +1,1153 @@
+{
+ "equipment_confirmed": {
+  "assessment_id": "A-SYNTH-HT01",
+  "detection_request_id": "det-SYNTH-0001",
+  "detection_status": "ok",
+  "master_version": "v1-draft",
+  "confirmed_by": "user",
+  "confirmed_at": "2026-11-17T01:21:32+09:00",
+  "equipment": [
+   {
+    "equipment_id": "EQ_FRYER",
+    "origin": "detected",
+    "user_action": "kept",
+    "detection_refs": [
+     "photo-1#d1"
+    ],
+    "display_name": "튀김기"
+   },
+   {
+    "equipment_id": "EQ_KNIFE_BOARD",
+    "origin": "detected",
+    "user_action": "kept",
+    "detection_refs": [
+     "photo-1#d2"
+    ],
+    "display_name": "칼·도마"
+   },
+   {
+    "equipment_id": "EQ_REFRIGERATOR",
+    "origin": "detected",
+    "user_action": "kept",
+    "detection_refs": [
+     "photo-2#d1"
+    ],
+    "display_name": "업소용 냉장·냉동고"
+   },
+   {
+    "equipment_id": "EQ_WALKIN_COOLER",
+    "origin": "detected",
+    "user_action": "removed",
+    "detection_refs": [
+     "photo-2#d2"
+    ],
+    "display_name": "냉장·냉동창고"
+   },
+   {
+    "equipment_id": "EQ_MARINATOR",
+    "display_name": "염지기",
+    "origin": "user_added",
+    "user_action": "added",
+    "detection_refs": []
+   }
+  ]
+ },
+ "request": {
+  "request_id": "1408f8c3-34c7-4420-8a72-521c32695f3d",
+  "assessment_id": "A-SYNTH-HT01",
+  "industry": "음식점",
+  "kb_version": "rag-kb-v2-index",
+  "equipment": [
+   {
+    "equipment_id": "EQ_FRYER",
+    "display_name": "튀김기"
+   },
+   {
+    "equipment_id": "EQ_KNIFE_BOARD",
+    "display_name": "칼·도마"
+   },
+   {
+    "equipment_id": "EQ_REFRIGERATOR",
+    "display_name": "업소용 냉장·냉동고"
+   },
+   {
+    "equipment_id": "EQ_MARINATOR",
+    "display_name": "염지기"
+   }
+  ]
+ },
+ "response": {
+  "request_id": "1408f8c3-34c7-4420-8a72-521c32695f3d",
+  "call": "hazard_candidates_v2",
+  "status": "partial",
+  "model_version": "LGAI-EXAONE/EXAONE-3.5-7.8B-Instruct-AWQ@f2699f35",
+  "kb_version": "rag-kb-v2-index",
+  "generated_at": "2026-11-17T01:22:37+09:00",
+  "groups": [
+   {
+    "equipment_id": "EQ_FRYER",
+    "display_name": "튀김기",
+    "group_status": "ok",
+    "candidates": [
+     {
+      "candidate_id": "EQ_FRYER:burn",
+      "work": null,
+      "hazard": "튀김기 열기 및 기름에 화상·열상",
+      "accident_type": {
+       "code": "burn",
+       "label": "고온 접촉·화상"
+      },
+      "rationale": "튀김기의 고온과 기름으로 인한 화상 위험이 여러 출처에서 언급되었다.",
+      "source_refs": [
+       {
+        "source_id": "D8T-008",
+        "source_type": "guide_chunk",
+        "kb_version": "rag-kb-v2-index"
+       },
+       {
+        "source_id": "D8T-043",
+        "source_type": "guide_chunk",
+        "kb_version": "rag-kb-v2-index"
+       },
+       {
+        "source_id": "D8T-064",
+        "source_type": "guide_chunk",
+        "kb_version": "rag-kb-v2-index"
+       }
+      ],
+      "measure_candidates": [
+       {
+        "measure_id": "m-EQ_FRYER-burn-1",
+        "text": "튀김기 가동 중 자리이탈 금지",
+        "control_type": "administrative",
+        "source_refs": [
+         {
+          "source_id": "D8T-008",
+          "source_type": "guide_chunk",
+          "kb_version": "rag-kb-v2-index"
+         },
+         {
+          "source_id": "D8T-043",
+          "source_type": "guide_chunk",
+          "kb_version": "rag-kb-v2-index"
+         },
+         {
+          "source_id": "D8T-064",
+          "source_type": "guide_chunk",
+          "kb_version": "rag-kb-v2-index"
+         }
+        ]
+       },
+       {
+        "measure_id": "m-EQ_FRYER-burn-2",
+        "text": "물기있는 재료는 튀김기에 투하 금지",
+        "control_type": "administrative",
+        "source_refs": [
+         {
+          "source_id": "D8T-008",
+          "source_type": "guide_chunk",
+          "kb_version": "rag-kb-v2-index"
+         },
+         {
+          "source_id": "D8T-043",
+          "source_type": "guide_chunk",
+          "kb_version": "rag-kb-v2-index"
+         },
+         {
+          "source_id": "D8T-064",
+          "source_type": "guide_chunk",
+          "kb_version": "rag-kb-v2-index"
+         }
+        ]
+       },
+       {
+        "measure_id": "m-EQ_FRYER-burn-3",
+        "text": "튀김기 주변 기름은 즉시 제거하고 수시로 바닥 청소 실시",
+        "control_type": "administrative",
+        "source_refs": [
+         {
+          "source_id": "D8T-008",
+          "source_type": "guide_chunk",
+          "kb_version": "rag-kb-v2-index"
+         },
+         {
+          "source_id": "D8T-043",
+          "source_type": "guide_chunk",
+          "kb_version": "rag-kb-v2-index"
+         },
+         {
+          "source_id": "D8T-064",
+          "source_type": "guide_chunk",
+          "kb_version": "rag-kb-v2-index"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "candidate_id": "EQ_FRYER:slip",
+      "work": null,
+      "hazard": "튀김기 주변 바닥이 미끄러워넘어짐",
+      "accident_type": {
+       "code": "slip",
+       "label": "미끄러짐·넘어짐"
+      },
+      "rationale": "튀김기 주변 바닥의 미끄러움이 넘어짐 위험을 초래할 수 있다는 점이 여러 출처에서 지적되었다.",
+      "source_refs": [
+       {
+        "source_id": "D8T-008",
+        "source_type": "guide_chunk",
+        "kb_version": "rag-kb-v2-index"
+       },
+       {
+        "source_id": "D8T-043",
+        "source_type": "guide_chunk",
+        "kb_version": "rag-kb-v2-index"
+       },
+       {
+        "source_id": "D8T-064",
+        "source_type": "guide_chunk",
+        "kb_version": "rag-kb-v2-index"
+       }
+      ],
+      "measure_candidates": [
+       {
+        "measure_id": "m-EQ_FRYER-slip-1",
+        "text": "튀김기 가동 중 자리이탈 금지",
+        "control_type": "administrative",
+        "source_refs": [
+         {
+          "source_id": "D8T-008",
+          "source_type": "guide_chunk",
+          "kb_version": "rag-kb-v2-index"
+         },
+         {
+          "source_id": "D8T-043",
+          "source_type": "guide_chunk",
+          "kb_version": "rag-kb-v2-index"
+         },
+         {
+          "source_id": "D8T-064",
+          "source_type": "guide_chunk",
+          "kb_version": "rag-kb-v2-index"
+         }
+        ]
+       },
+       {
+        "measure_id": "m-EQ_FRYER-slip-2",
+        "text": "물기있는 재료는 튀김기에 투하 금지",
+        "control_type": "administrative",
+        "source_refs": [
+         {
+          "source_id": "D8T-008",
+          "source_type": "guide_chunk",
+          "kb_version": "rag-kb-v2-index"
+         },
+         {
+          "source_id": "D8T-043",
+          "source_type": "guide_chunk",
+          "kb_version": "rag-kb-v2-index"
+         },
+         {
+          "source_id": "D8T-064",
+          "source_type": "guide_chunk",
+          "kb_version": "rag-kb-v2-index"
+         }
+        ]
+       },
+       {
+        "measure_id": "m-EQ_FRYER-slip-3",
+        "text": "튀김기 주변 기름은 즉시 제거하고 수시로 바닥 청소 실시",
+        "control_type": "administrative",
+        "source_refs": [
+         {
+          "source_id": "D8T-008",
+          "source_type": "guide_chunk",
+          "kb_version": "rag-kb-v2-index"
+         },
+         {
+          "source_id": "D8T-043",
+          "source_type": "guide_chunk",
+          "kb_version": "rag-kb-v2-index"
+         },
+         {
+          "source_id": "D8T-064",
+          "source_type": "guide_chunk",
+          "kb_version": "rag-kb-v2-index"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "candidate_id": "EQ_FRYER:respiratory",
+      "work": null,
+      "hazard": "환기시설은 정상적으로 작동한다.",
+      "accident_type": {
+       "code": "respiratory",
+       "label": "조리흄·환기·유해가스 노출"
+      },
+      "rationale": "정상 작동하는 환기시설이 조리흄과 유해가스 노출 위험을 관리하고 있다는 근거가 제시되었다.",
+      "source_refs": [
+       {
+        "source_id": "CHK-4-2-3-03",
+        "source_type": "checklist",
+        "kb_version": "rag-kb-v2-index"
+       }
+      ],
+      "measure_candidates": [
+       {
+        "measure_id": "m-EQ_FRYER-respiratory-1",
+        "text": "환기시설은 정상적으로 작동한다.",
+        "control_type": null,
+        "source_refs": [
+         {
+          "source_id": "CHK-4-2-3-03",
+          "source_type": "checklist",
+          "kb_version": "rag-kb-v2-index"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "candidate_id": "EQ_FRYER:gas",
+      "work": null,
+      "hazard": "가스누출 자동차단기 및 누설경보기 작동테스트를 주기적으로 실시한다.",
+      "accident_type": {
+       "code": "gas",
+       "label": "가스 누출·폭발"
+      },
+      "rationale": "주기적인 가스 누출 검사와 경보 시스템 작동 테스트가 실시되어 가스 누출 위험이 관리되고 있다.",
+      "source_refs": [
+       {
+        "source_id": "CHK-4-2-3-02",
+        "source_type": "checklist",
+        "kb_version": "rag-kb-v2-index"
+       }
+      ],
+      "measure_candidates": [
+       {
+        "measure_id": "m-EQ_FRYER-gas-1",
+        "text": "가스누출 자동차단기 및 누설경보기 작동테스트를 주기적으로 실시한다.",
+        "control_type": "engineering",
+        "source_refs": [
+         {
+          "source_id": "CHK-4-2-3-02",
+          "source_type": "checklist",
+          "kb_version": "rag-kb-v2-index"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "equipment_id": "EQ_KNIFE_BOARD",
+    "display_name": "칼·도마",
+    "group_status": "ok",
+    "candidates": [
+     {
+      "candidate_id": "EQ_KNIFE_BOARD:cut",
+      "work": null,
+      "hazard": "칼 등에 절단·베임·찔림",
+      "accident_type": {
+       "code": "cut",
+       "label": "베임·절단·끼임"
+      },
+      "rationale": "칼과 도마 사용 중 가장 빈번하게 발생하는 위험 요인으로 베임과 절단이 언급되었습니다.",
+      "source_refs": [
+       {
+        "source_id": "D8T-003",
+        "source_type": "guide_chunk",
+        "kb_version": "rag-kb-v2-index"
+       },
+       {
+        "source_id": "D8T-017",
+        "source_type": "guide_chunk",
+        "kb_version": "rag-kb-v2-index"
+       },
+       {
+        "source_id": "D8T-027",
+        "source_type": "guide_chunk",
+        "kb_version": "rag-kb-v2-index"
+       },
+       {
+        "source_id": "D8T-030",
+        "source_type": "guide_chunk",
+        "kb_version": "rag-kb-v2-index"
+       }
+      ],
+      "measure_candidates": [
+       {
+        "measure_id": "m-EQ_KNIFE_BOARD-cut-1",
+        "text": "도마에 안전손잡이를 설치하거나 경량재질의 도마 사용",
+        "control_type": "engineering",
+        "source_refs": [
+         {
+          "source_id": "D8T-003",
+          "source_type": "guide_chunk",
+          "kb_version": "rag-kb-v2-index"
+         },
+         {
+          "source_id": "D8T-017",
+          "source_type": "guide_chunk",
+          "kb_version": "rag-kb-v2-index"
+         },
+         {
+          "source_id": "D8T-039",
+          "source_type": "guide_chunk",
+          "kb_version": "rag-kb-v2-index"
+         }
+        ]
+       },
+       {
+        "measure_id": "m-EQ_KNIFE_BOARD-cut-2",
+        "text": "칼 사용 후 전용 칼집에 보관",
+        "control_type": "administrative",
+        "source_refs": [
+         {
+          "source_id": "D8T-027",
+          "source_type": "guide_chunk",
+          "kb_version": "rag-kb-v2-index"
+         },
+         {
+          "source_id": "D8T-039",
+          "source_type": "guide_chunk",
+          "kb_version": "rag-kb-v2-index"
+         },
+         {
+          "source_id": "D8T-059",
+          "source_type": "guide_chunk",
+          "kb_version": "rag-kb-v2-index"
+         }
+        ]
+       },
+       {
+        "measure_id": "m-EQ_KNIFE_BOARD-cut-3",
+        "text": "칼 사용 후 전용 칼집에 보관 • 작업대정리정돈",
+        "control_type": "administrative",
+        "source_refs": [
+         {
+          "source_id": "D8T-003",
+          "source_type": "guide_chunk",
+          "kb_version": "rag-kb-v2-index"
+         },
+         {
+          "source_id": "D8T-017",
+          "source_type": "guide_chunk",
+          "kb_version": "rag-kb-v2-index"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "candidate_id": "EQ_KNIFE_BOARD:falling",
+      "work": null,
+      "hazard": "작업대에서 칼이 낙하하여 베임·찔림",
+      "accident_type": {
+       "code": "falling",
+       "label": "낙하·충돌·추락"
+      },
+      "rationale": "칼의 낙하로 인한 베임과 상해 위험이 언급되어 있어 중요한 위험 요인입니다.",
+      "source_refs": [
+       {
+        "source_id": "D8T-003",
+        "source_type": "guide_chunk",
+        "kb_version": "rag-kb-v2-index"
+       },
+       {
+        "source_id": "D8T-017",
+        "source_type": "guide_chunk",
+        "kb_version": "rag-kb-v2-index"
+       },
+       {
+        "source_id": "D8T-027",
+        "source_type": "guide_chunk",
+        "kb_version": "rag-kb-v2-index"
+       },
+       {
+        "source_id": "D8T-030",
+        "source_type": "guide_chunk",
+        "kb_version": "rag-kb-v2-index"
+       }
+      ],
+      "measure_candidates": [
+       {
+        "measure_id": "m-EQ_KNIFE_BOARD-falling-1",
+        "text": "도마에 안전손잡이를 설치하거나 경량재질의 도마 사용",
+        "control_type": "engineering",
+        "source_refs": [
+         {
+          "source_id": "D8T-003",
+          "source_type": "guide_chunk",
+          "kb_version": "rag-kb-v2-index"
+         },
+         {
+          "source_id": "D8T-017",
+          "source_type": "guide_chunk",
+          "kb_version": "rag-kb-v2-index"
+         },
+         {
+          "source_id": "D8T-039",
+          "source_type": "guide_chunk",
+          "kb_version": "rag-kb-v2-index"
+         }
+        ]
+       },
+       {
+        "measure_id": "m-EQ_KNIFE_BOARD-falling-2",
+        "text": "칼 사용 후 전용 칼집에 보관",
+        "control_type": "administrative",
+        "source_refs": [
+         {
+          "source_id": "D8T-027",
+          "source_type": "guide_chunk",
+          "kb_version": "rag-kb-v2-index"
+         },
+         {
+          "source_id": "D8T-039",
+          "source_type": "guide_chunk",
+          "kb_version": "rag-kb-v2-index"
+         },
+         {
+          "source_id": "D8T-059",
+          "source_type": "guide_chunk",
+          "kb_version": "rag-kb-v2-index"
+         }
+        ]
+       },
+       {
+        "measure_id": "m-EQ_KNIFE_BOARD-falling-3",
+        "text": "칼 사용 후 전용 칼집에 보관 • 작업대정리정돈",
+        "control_type": "administrative",
+        "source_refs": [
+         {
+          "source_id": "D8T-003",
+          "source_type": "guide_chunk",
+          "kb_version": "rag-kb-v2-index"
+         },
+         {
+          "source_id": "D8T-017",
+          "source_type": "guide_chunk",
+          "kb_version": "rag-kb-v2-index"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "candidate_id": "EQ_KNIFE_BOARD:ergonomic",
+      "work": null,
+      "hazard": "반복작업에 따른 근골격계질환",
+      "accident_type": {
+       "code": "ergonomic",
+       "label": "중량물·근골격계 부담"
+      },
+      "rationale": "반복적인 칼 사용 작업으로 인한 근골격계 질환 위험이 지적되었습니다.",
+      "source_refs": [
+       {
+        "source_id": "D8T-003",
+        "source_type": "guide_chunk",
+        "kb_version": "rag-kb-v2-index"
+       },
+       {
+        "source_id": "D8T-017",
+        "source_type": "guide_chunk",
+        "kb_version": "rag-kb-v2-index"
+       },
+       {
+        "source_id": "D8T-027",
+        "source_type": "guide_chunk",
+        "kb_version": "rag-kb-v2-index"
+       },
+       {
+        "source_id": "D8T-039",
+        "source_type": "guide_chunk",
+        "kb_version": "rag-kb-v2-index"
+       }
+      ],
+      "measure_candidates": [
+       {
+        "measure_id": "m-EQ_KNIFE_BOARD-ergonomic-1",
+        "text": "도마에 안전손잡이를 설치하거나 경량재질의 도마 사용",
+        "control_type": "engineering",
+        "source_refs": [
+         {
+          "source_id": "D8T-003",
+          "source_type": "guide_chunk",
+          "kb_version": "rag-kb-v2-index"
+         },
+         {
+          "source_id": "D8T-017",
+          "source_type": "guide_chunk",
+          "kb_version": "rag-kb-v2-index"
+         },
+         {
+          "source_id": "D8T-039",
+          "source_type": "guide_chunk",
+          "kb_version": "rag-kb-v2-index"
+         }
+        ]
+       },
+       {
+        "measure_id": "m-EQ_KNIFE_BOARD-ergonomic-2",
+        "text": "칼 사용 후 전용 칼집에 보관",
+        "control_type": "administrative",
+        "source_refs": [
+         {
+          "source_id": "D8T-027",
+          "source_type": "guide_chunk",
+          "kb_version": "rag-kb-v2-index"
+         },
+         {
+          "source_id": "D8T-039",
+          "source_type": "guide_chunk",
+          "kb_version": "rag-kb-v2-index"
+         },
+         {
+          "source_id": "D8T-059",
+          "source_type": "guide_chunk",
+          "kb_version": "rag-kb-v2-index"
+         }
+        ]
+       },
+       {
+        "measure_id": "m-EQ_KNIFE_BOARD-ergonomic-3",
+        "text": "칼 사용 후 전용 칼집에 보관 • 작업대정리정돈",
+        "control_type": "administrative",
+        "source_refs": [
+         {
+          "source_id": "D8T-003",
+          "source_type": "guide_chunk",
+          "kb_version": "rag-kb-v2-index"
+         },
+         {
+          "source_id": "D8T-017",
+          "source_type": "guide_chunk",
+          "kb_version": "rag-kb-v2-index"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "equipment_id": "EQ_REFRIGERATOR",
+    "display_name": "업소용 냉장·냉동고",
+    "group_status": "ok",
+    "candidates": [
+     {
+      "candidate_id": "EQ_REFRIGERATOR:slip",
+      "work": null,
+      "hazard": "냉장·냉동고 출입 시 넘어짐",
+      "accident_type": {
+       "code": "slip",
+       "label": "미끄러짐·넘어짐"
+      },
+      "rationale": "업소용 냉장·냉동고 출입 시 넘어짐 위험이 여러 출처에서 보고되어 빈번하게 발생할 수 있는 위험 요인입니다.",
+      "source_refs": [
+       {
+        "source_id": "D8T-002",
+        "source_type": "guide_chunk",
+        "kb_version": "rag-kb-v2-index"
+       },
+       {
+        "source_id": "D8T-016",
+        "source_type": "guide_chunk",
+        "kb_version": "rag-kb-v2-index"
+       },
+       {
+        "source_id": "D8T-026",
+        "source_type": "guide_chunk",
+        "kb_version": "rag-kb-v2-index"
+       },
+       {
+        "source_id": "D8T-038",
+        "source_type": "guide_chunk",
+        "kb_version": "rag-kb-v2-index"
+       }
+      ],
+      "measure_candidates": [
+       {
+        "measure_id": "m-EQ_REFRIGERATOR-slip-1",
+        "text": "냉장·냉동고에 저온주의 표지 부착",
+        "control_type": "administrative",
+        "source_refs": [
+         {
+          "source_id": "D5V-072B-r1",
+          "source_type": "guide_chunk",
+          "kb_version": "rag-kb-v2-index"
+         }
+        ]
+       },
+       {
+        "measure_id": "m-EQ_REFRIGERATOR-slip-2",
+        "text": "냉장·냉동고 출입문은 내부에서도 열리는지 정기적 확인",
+        "control_type": "administrative",
+        "source_refs": [
+         {
+          "source_id": "D5V-072B-r2",
+          "source_type": "guide_chunk",
+          "kb_version": "rag-kb-v2-index"
+         }
+        ]
+       },
+       {
+        "measure_id": "m-EQ_REFRIGERATOR-slip-3",
+        "text": "냉장·냉동고 내에서 장시간 작업 시 방한복·방한장갑·방한모 등을 지급·착용",
+        "control_type": "ppe",
+        "source_refs": [
+         {
+          "source_id": "D5V-072B-r2",
+          "source_type": "guide_chunk",
+          "kb_version": "rag-kb-v2-index"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "candidate_id": "EQ_REFRIGERATOR:falling",
+      "work": null,
+      "hazard": "선반에 부딪힘",
+      "accident_type": {
+       "code": "falling",
+       "label": "낙하·충돌·추락"
+      },
+      "rationale": "냉장·냉동고 내에서 선반에 부딪히는 낙하 및 충돌 위험이 근골격계 부담과 함께 작업자 안전에 중요한 요소로 지적되었습니다.",
+      "source_refs": [
+       {
+        "source_id": "D5V-072B-r1",
+        "source_type": "guide_chunk",
+        "kb_version": "rag-kb-v2-index"
+       },
+       {
+        "source_id": "D5V-072B-r2",
+        "source_type": "guide_chunk",
+        "kb_version": "rag-kb-v2-index"
+       }
+      ],
+      "measure_candidates": [
+       {
+        "measure_id": "m-EQ_REFRIGERATOR-falling-1",
+        "text": "냉장·냉동고에 저온주의 표지 부착",
+        "control_type": "administrative",
+        "source_refs": [
+         {
+          "source_id": "D5V-072B-r1",
+          "source_type": "guide_chunk",
+          "kb_version": "rag-kb-v2-index"
+         }
+        ]
+       },
+       {
+        "measure_id": "m-EQ_REFRIGERATOR-falling-2",
+        "text": "냉장·냉동고 출입문은 내부에서도 열리는지 정기적 확인",
+        "control_type": "administrative",
+        "source_refs": [
+         {
+          "source_id": "D5V-072B-r2",
+          "source_type": "guide_chunk",
+          "kb_version": "rag-kb-v2-index"
+         }
+        ]
+       },
+       {
+        "measure_id": "m-EQ_REFRIGERATOR-falling-3",
+        "text": "냉장·냉동고 내에서 장시간 작업 시 방한복·방한장갑·방한모 등을 지급·착용",
+        "control_type": "ppe",
+        "source_refs": [
+         {
+          "source_id": "D5V-072B-r2",
+          "source_type": "guide_chunk",
+          "kb_version": "rag-kb-v2-index"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "candidate_id": "EQ_REFRIGERATOR:ergonomic",
+      "work": null,
+      "hazard": "근골격계 질환",
+      "accident_type": {
+       "code": "ergonomic",
+       "label": "중량물·근골격계 부담"
+      },
+      "rationale": "무거운 식재료나 물품을 다루는 과정에서 근골격계 질환 위험이 지속적으로 제기되었습니다.",
+      "source_refs": [
+       {
+        "source_id": "D5V-072B-r1",
+        "source_type": "guide_chunk",
+        "kb_version": "rag-kb-v2-index"
+       },
+       {
+        "source_id": "D5V-072B-r2",
+        "source_type": "guide_chunk",
+        "kb_version": "rag-kb-v2-index"
+       }
+      ],
+      "measure_candidates": [
+       {
+        "measure_id": "m-EQ_REFRIGERATOR-ergonomic-1",
+        "text": "냉장·냉동고에 저온주의 표지 부착",
+        "control_type": "administrative",
+        "source_refs": [
+         {
+          "source_id": "D5V-072B-r1",
+          "source_type": "guide_chunk",
+          "kb_version": "rag-kb-v2-index"
+         }
+        ]
+       },
+       {
+        "measure_id": "m-EQ_REFRIGERATOR-ergonomic-2",
+        "text": "냉장·냉동고 출입문은 내부에서도 열리는지 정기적 확인",
+        "control_type": "administrative",
+        "source_refs": [
+         {
+          "source_id": "D5V-072B-r2",
+          "source_type": "guide_chunk",
+          "kb_version": "rag-kb-v2-index"
+         }
+        ]
+       },
+       {
+        "measure_id": "m-EQ_REFRIGERATOR-ergonomic-3",
+        "text": "냉장·냉동고 내에서 장시간 작업 시 방한복·방한장갑·방한모 등을 지급·착용",
+        "control_type": "ppe",
+        "source_refs": [
+         {
+          "source_id": "D5V-072B-r2",
+          "source_type": "guide_chunk",
+          "kb_version": "rag-kb-v2-index"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "candidate_id": "EQ_REFRIGERATOR:heat_cold",
+      "work": null,
+      "hazard": "냉장·냉동고에 저온주의 표지를 부착한다.",
+      "accident_type": {
+       "code": "heat_cold",
+       "label": "고열·한랭 노출"
+      },
+      "rationale": "저온 환경에서 장시간 작업 시 방한 장비 착용의 필요성이 강조되어 한랭 노출 위험이 고려됩니다.",
+      "source_refs": [
+       {
+        "source_id": "CHK-4-3-1-08",
+        "source_type": "checklist",
+        "kb_version": "rag-kb-v2-index"
+       },
+       {
+        "source_id": "CHK-4-3-1-10",
+        "source_type": "checklist",
+        "kb_version": "rag-kb-v2-index"
+       },
+       {
+        "source_id": "D5V-072B-r1",
+        "source_type": "guide_chunk",
+        "kb_version": "rag-kb-v2-index"
+       },
+       {
+        "source_id": "D5V-072B-r2",
+        "source_type": "guide_chunk",
+        "kb_version": "rag-kb-v2-index"
+       }
+      ],
+      "measure_candidates": [
+       {
+        "measure_id": "m-EQ_REFRIGERATOR-heat_cold-1",
+        "text": "냉장·냉동고에 저온주의 표지를 부착한다.",
+        "control_type": "administrative",
+        "source_refs": [
+         {
+          "source_id": "CHK-4-3-1-08",
+          "source_type": "checklist",
+          "kb_version": "rag-kb-v2-index"
+         }
+        ]
+       },
+       {
+        "measure_id": "m-EQ_REFRIGERATOR-heat_cold-2",
+        "text": "냉장·냉동고 내에서 장시간 작업 시 방한복·방한장갑·방한모 등을 지급·착용토록 한다.",
+        "control_type": "ppe",
+        "source_refs": [
+         {
+          "source_id": "CHK-4-3-1-10",
+          "source_type": "checklist",
+          "kb_version": "rag-kb-v2-index"
+         }
+        ]
+       },
+       {
+        "measure_id": "m-EQ_REFRIGERATOR-heat_cold-3",
+        "text": "냉장·냉동고에 저온주의 표지 부착",
+        "control_type": "administrative",
+        "source_refs": [
+         {
+          "source_id": "D5V-072B-r1",
+          "source_type": "guide_chunk",
+          "kb_version": "rag-kb-v2-index"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "candidate_id": "EQ_REFRIGERATOR:entrapment",
+      "work": null,
+      "hazard": "냉장·냉동고 출입문은 내부에서도 열리는지 정기적으로 확인하다.",
+      "accident_type": {
+       "code": "entrapment",
+       "label": "냉장·냉동실 갇힘"
+      },
+      "rationale": "냉장·냉동고 출입문 관리 부실로 인한 갇힘 위험이 안전 관리 측면에서 중요한 고려사항으로 제기되었습니다.",
+      "source_refs": [
+       {
+        "source_id": "CHK-4-3-1-09",
+        "source_type": "checklist",
+        "kb_version": "rag-kb-v2-index"
+       },
+       {
+        "source_id": "CHK-4-3-1-11",
+        "source_type": "checklist",
+        "kb_version": "rag-kb-v2-index"
+       }
+      ],
+      "measure_candidates": [
+       {
+        "measure_id": "m-EQ_REFRIGERATOR-entrapment-1",
+        "text": "냉장·냉동고 출입문은 내부에서도 열리는지 정기적으로 확인하다.",
+        "control_type": "administrative",
+        "source_refs": [
+         {
+          "source_id": "CHK-4-3-1-09",
+          "source_type": "checklist",
+          "kb_version": "rag-kb-v2-index"
+         }
+        ]
+       },
+       {
+        "measure_id": "m-EQ_REFRIGERATOR-entrapment-2",
+        "text": "냉장·냉동고 출입문을 잠그는 경우에는 반드시 내부에 작업자가 있는지 확인한다.",
+        "control_type": "administrative",
+        "source_refs": [
+         {
+          "source_id": "CHK-4-3-1-11",
+          "source_type": "checklist",
+          "kb_version": "rag-kb-v2-index"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "equipment_id": "EQ_MARINATOR",
+    "display_name": "염지기",
+    "group_status": "no_source_found",
+    "candidates": []
+   }
+  ]
+ },
+ "filter_log": [],
+ "user_selection": {
+  "assessment_id": "A-SYNTH-HT01",
+  "scale_id": "safet-3x3-freq-severity",
+  "scale_version": "1.0-proposed",
+  "candidates_request_id": "1408f8c3-34c7-4420-8a72-521c32695f3d",
+  "selections": [
+   {
+    "selection_id": "sel-1",
+    "phase": "before_measures",
+    "parent_selection_id": null,
+    "equipment_id": "EQ_FRYER",
+    "origin": "ai_candidate",
+    "candidate_id": "EQ_FRYER:burn",
+    "hazard": "튀김기 열기 및 기름에 화상·열상",
+    "hazard_edited": false,
+    "accident_type": {
+     "code": "burn",
+     "label": "고온 접촉·화상"
+    },
+    "source_refs": [
+     {
+      "source_id": "D8T-008",
+      "source_type": "guide_chunk",
+      "kb_version": "rag-kb-v2-index"
+     },
+     {
+      "source_id": "D8T-043",
+      "source_type": "guide_chunk",
+      "kb_version": "rag-kb-v2-index"
+     },
+     {
+      "source_id": "D8T-064",
+      "source_type": "guide_chunk",
+      "kb_version": "rag-kb-v2-index"
+     }
+    ],
+    "likelihood": {
+     "level": 2,
+     "label": "가끔"
+    },
+    "severity": {
+     "level": 3,
+     "label": "대"
+    },
+    "current_measures": [],
+    "selected_measures": [
+     {
+      "measure_id": "m-EQ_FRYER-burn-1",
+      "text": "튀김기 가동 중 자리이탈 금지",
+      "source": "ai_candidate"
+     }
+    ],
+    "owner_name": null,
+    "due_date": null,
+    "decided_by": "user",
+    "decided_at": "2026-11-17T01:22:37+09:00"
+   },
+   {
+    "selection_id": "sel-2",
+    "phase": "before_measures",
+    "parent_selection_id": null,
+    "equipment_id": "EQ_FRYER",
+    "origin": "ai_candidate",
+    "candidate_id": "EQ_FRYER:slip",
+    "hazard": "튀김기 주변 바닥이 미끄러워넘어짐",
+    "hazard_edited": false,
+    "accident_type": {
+     "code": "slip",
+     "label": "미끄러짐·넘어짐"
+    },
+    "source_refs": [
+     {
+      "source_id": "D8T-008",
+      "source_type": "guide_chunk",
+      "kb_version": "rag-kb-v2-index"
+     },
+     {
+      "source_id": "D8T-043",
+      "source_type": "guide_chunk",
+      "kb_version": "rag-kb-v2-index"
+     },
+     {
+      "source_id": "D8T-064",
+      "source_type": "guide_chunk",
+      "kb_version": "rag-kb-v2-index"
+     }
+    ],
+    "likelihood": {
+     "level": 1,
+     "label": "거의 없음"
+    },
+    "severity": {
+     "level": 2,
+     "label": "중"
+    },
+    "current_measures": [],
+    "selected_measures": [],
+    "owner_name": null,
+    "due_date": null,
+    "decided_by": "user",
+    "decided_at": "2026-11-17T01:22:37+09:00"
+   }
+  ]
+ },
+ "risk_result": {
+  "assessment_id": "A-SYNTH-HT01",
+  "computed_by": "rule_engine",
+  "rule": {
+   "scale_id": "safet-3x3-freq-severity",
+   "scale_version": "1.0-proposed",
+   "adoption_status": "proposed",
+   "method": "product",
+   "engine_version": "risk_rule-0.2"
+  },
+  "computed_at": "2026-11-17T01:22:37+09:00",
+  "status": "rule_not_adopted",
+  "results": [
+   {
+    "selection_id": "sel-1",
+    "phase": "before_measures",
+    "likelihood_level": 2,
+    "severity_level": 3,
+    "input_hash": "d21a703f7fe19d47160989d552b376ebc91da2646ced2fd9157812da980e02b9",
+    "result_status": "computed",
+    "risk_score": 6,
+    "band_code": "not_tolerable_severe",
+    "tolerable": false,
+    "signal": "red"
+   },
+   {
+    "selection_id": "sel-2",
+    "phase": "before_measures",
+    "likelihood_level": 1,
+    "severity_level": 2,
+    "input_hash": "6fb060da689e0be6c0810cd7776e213be432eda8e93a0623b63da2e2ca9857f8",
+    "result_status": "computed",
+    "risk_score": 2,
+    "band_code": "tolerable",
+    "tolerable": true,
+    "signal": "green"
+   }
+  ]
+ },
+ "checks": {
+  "equipment_confirmed.v2": [],
+  "hazard_candidates.v2.request": [],
+  "hazard_candidates.v2.response": [],
+  "postprocess": {
+   "outside_pool_codes": 0,
+   "dup_codes": 0,
+   "invalid_source_ids": 0,
+   "dropped_no_valid_source": 0,
+   "judgement_words": 0,
+   "parse_fail": 0
+  },
+  "hazard_candidates.v2.response(after_filter)": [],
+  "user_selection.v2": [],
+  "risk_result.v2": []
+ },
+ "trace": [
+  "propose_equipment: 4",
+  "confirm_equipment: 5 rows",
+  "build_request: 4 equipment",
+  "retrieve: 3/4 equipment with public evidence",
+  "rank_llm(vllm): 3 calls",
+  "assemble: status=partial, candidates=12",
+  "rationale_filter(a_flag): 0 flagged",
+  "select_and_rate: 2 selections",
+  "risk_rule: status=rule_not_adopted (노션 H1 3×3 빈도·강도법 + 신호등 해석 B(사용자 결정 2026-11-16, adoption_status=proposed, 전문가 채택 전))"
+ ],
+ "llm_calls": {
+  "EQ_FRYER": {
+   "attempts": 1,
+   "seconds": 10.114,
+   "mode": "vllm"
+  },
+  "EQ_KNIFE_BOARD": {
+   "attempts": 1,
+   "seconds": 7.504,
+   "mode": "vllm"
+  },
+  "EQ_REFRIGERATOR": {
+   "attempts": 1,
+   "seconds": 13.059,
+   "mode": "vllm"
+  },
+  "EQ_MARINATOR": null
+ },
+ "wall_seconds": 66.13,
+ "backend": "vllm",
+ "note": "합성 탐지·합성 사람 입력(시험용). 위험도 척도는 노션 H1 3×3 + 해석 B(proposed, 전문가 채택 전)."
+}

@@ -1,0 +1,43 @@
+﻿equipment_id,standard_name,coco_class,coco_match,detection_target,route,open_vocab_prompt_draft,evalset_labels,evalset_clear_labels,note
+EQ_FRYER,튀김기,,none,yes,"B→C: 오픈 어휘 시험, 부족하면 파인튜닝(박스 라벨 필요)",commercial deep fryer,20,17,라벨 20개로 가장 많음. 사전학습 클래스 없음
+EQ_GAS_RANGE,가스레인지,oven,partial,yes,B/C: 사전학습은 혼동. 오픈 어휘 시험 후 필요 시 파인튜닝,gas stove burner,5,5,COCO oven 주석에 레인지·쿡탑이 섞여 있다고 알려져 있으나 확인 필요. oven과 구분 불가
+EQ_OVEN,오븐,oven,direct,yes,A: 사전학습+매핑으로 먼저 시험,commercial oven,2,2,
+EQ_GRILL,그릴,oven,partial,yes,B/C: 사전학습은 혼동. 오픈 어휘 시험 후 필요 시 파인튜닝,salamander broiler,1,1,오븐과 혼동 가능
+EQ_MICROWAVE,전자레인지,microwave,direct,yes,A: 사전학습+매핑으로 먼저 시험,microwave oven,2,1,
+EQ_RICE_COOKER,취반기·밥솥,,none,yes,"B→C: 오픈 어휘 시험, 부족하면 파인튜닝(박스 라벨 필요)",rice cooker,1,1,
+EQ_SOUP_KETTLE,국솥,,none,yes,"B→C: 오픈 어휘 시험, 부족하면 파인튜닝(박스 라벨 필요)",large stock pot kettle,0,0,
+EQ_GRIDDLE,철판(그리들),,none,yes,"B→C: 오픈 어휘 시험, 부족하면 파인튜닝(박스 라벨 필요)",flat top griddle,0,0,
+EQ_STEAMER,찜기,,none,yes,"B→C: 오픈 어휘 시험, 부족하면 파인튜닝(박스 라벨 필요)",food steamer,0,0,
+EQ_ODEN_WARMER,어묵 보온기,,none,hold,"B→C: 오픈 어휘 시험, 부족하면 파인튜닝(박스 라벨 필요)",fish cake warmer pot,0,0,제안 항목
+EQ_PORTABLE_BURNER,휴대용 가스버너,,none,yes,"B→C: 오픈 어휘 시험, 부족하면 파인튜닝(박스 라벨 필요)",portable gas stove,0,0,
+EQ_COOKING_ROBOT,조리 로봇,,none,yes,"B→C: 오픈 어휘 시험, 부족하면 파인튜닝(박스 라벨 필요)",robotic arm,1,1,
+EQ_KNIFE_BOARD,칼·도마,knife,partial,yes,B/C: 사전학습은 혼동. 오픈 어휘 시험 후 필요 시 파인튜닝,kitchen knife; cutting board,3,2,COCO는 칼만 있음. 도마 없음
+EQ_SCISSORS,주방가위,scissors,direct,yes,A: 사전학습+매핑으로 먼저 시험,scissors,2,2,작은 물체. 벽에 걸린 가위는 검출 어려울 수 있음
+EQ_VEG_CUTTER,채소절단기,,none,yes,"B→C: 오픈 어휘 시험, 부족하면 파인튜닝(박스 라벨 필요)",vegetable cutter machine; mandoline slicer,1,1,
+EQ_MEAT_SLICER,육절기,,none,yes,"B→C: 오픈 어휘 시험, 부족하면 파인튜닝(박스 라벨 필요)",meat slicer,0,0,
+EQ_MIXER,혼합기·믹서기,,none,yes,"B→C: 오픈 어휘 시험, 부족하면 파인튜닝(박스 라벨 필요)",blender; food mixer,0,0,
+EQ_DOUGH_MIXER,반죽기,,none,yes,"B→C: 오픈 어휘 시험, 부족하면 파인튜닝(박스 라벨 필요)",dough mixer,0,0,
+EQ_NOODLE_MACHINE,제면기,,none,yes,"B→C: 오픈 어휘 시험, 부족하면 파인튜닝(박스 라벨 필요)",noodle making machine,0,0,
+EQ_RICE_WASHER,세미기,,none,hold,"B→C: 오픈 어휘 시험, 부족하면 파인튜닝(박스 라벨 필요)",rice washing machine,0,0,모양 정보 부족
+EQ_MARINATOR,염지기,,none,hold,"B→C: 오픈 어휘 시험, 부족하면 파인튜닝(박스 라벨 필요)",vacuum tumbler marinator,0,0,화면 예시에서만 나온 제안 항목
+EQ_COFFEE_MACHINE,커피머신,,none,yes,"B→C: 오픈 어휘 시험, 부족하면 파인튜닝(박스 라벨 필요)",espresso machine,0,0,
+EQ_COFFEE_GRINDER,커피 그라인더,,none,yes,"B→C: 오픈 어휘 시험, 부족하면 파인튜닝(박스 라벨 필요)",coffee grinder,0,0,
+EQ_ICE_MAKER,제빙기,,none,yes,"B→C: 오픈 어휘 시험, 부족하면 파인튜닝(박스 라벨 필요)",ice machine,0,0,
+EQ_ICE_CRUSHER,쇄빙기·빙수기,,none,yes,"B→C: 오픈 어휘 시험, 부족하면 파인튜닝(박스 라벨 필요)",ice shaver machine,0,0,
+EQ_WATER_HEATER,온수기,,none,yes,"B→C: 오픈 어휘 시험, 부족하면 파인튜닝(박스 라벨 필요)",hot water dispenser,0,0,
+EQ_BEER_DISPENSER,생맥주 디스펜서,,none,yes,"B→C: 오픈 어휘 시험, 부족하면 파인튜닝(박스 라벨 필요)",beer tap dispenser,1,0,
+EQ_DISHWASHER,식기세척기,,none,yes,"B→C: 오픈 어휘 시험, 부족하면 파인튜닝(박스 라벨 필요)",commercial dishwasher,0,0,
+EQ_STERILIZER,식기소독기,,none,yes,"B→C: 오픈 어휘 시험, 부족하면 파인튜닝(박스 라벨 필요)",dish sterilizer cabinet,0,0,
+EQ_SINK,세척대(싱크대),sink,direct,yes,A: 사전학습+매핑으로 먼저 시험,kitchen sink,6,4,업소용 스테인리스 세척대와 가정용 싱크 차이 확인 필요
+EQ_EXHAUST_HOOD,배기후드,,none,yes,"B→C: 오픈 어휘 시험, 부족하면 파인튜닝(박스 라벨 필요)",kitchen exhaust hood,6,5,
+EQ_WASTE_OIL_CONTAINER,폐유통,,none,hold,"B→C: 오픈 어휘 시험, 부족하면 파인튜닝(박스 라벨 필요)",oil drain container,2,1,튀김기 하부에 가려짐
+EQ_REFRIGERATOR,업소용 냉장·냉동고,refrigerator,direct,yes,A: 사전학습+매핑으로 먼저 시험,commercial refrigerator; chest freezer,5,5,뚜껑형 냉장고는 COCO 예시와 모양이 다름
+EQ_WALKIN_COOLER,냉장·냉동창고,,none,hold,"B→C: 오픈 어휘 시험, 부족하면 파인튜닝(박스 라벨 필요)",walk-in cooler door,0,0,문만 보여 일반 냉장고와 구분 어려움
+EQ_DISPLAY_COOLER,쇼케이스 냉장고,refrigerator,partial,yes,B/C: 사전학습은 혼동. 오픈 어휘 시험 후 필요 시 파인튜닝,beverage display cooler,2,1,COCO에서는 냉장고와 같은 클래스. 구분하려면 추가 학습 필요
+EQ_CART,운반대차,,none,yes,"B→C: 오픈 어휘 시험, 부족하면 파인튜닝(박스 라벨 필요)",utility cart trolley,1,0,
+EQ_SHELF,적재 선반,,none,yes,"B→C: 오픈 어휘 시험, 부족하면 파인튜닝(박스 라벨 필요)",metal shelf,11,6,범위가 넓어 박스 기준 정의 필요
+EQ_LADDER,사다리·작업발판,,none,yes,"B→C: 오픈 어휘 시험, 부족하면 파인튜닝(박스 라벨 필요)",step ladder,0,0,
+EQ_DUMBWAITER,덤웨이터(간이리프트),,none,hold,"B→C: 오픈 어휘 시험, 부족하면 파인튜닝(박스 라벨 필요)",dumbwaiter,0,0,
+EQ_MOTORCYCLE,배달 이륜차,motorcycle,direct,no,탐지 대상 아님,motorcycle,0,0,주방·홀 사진 인식 대상 아님
+EQ_GAS_CYLINDER,가스용기(LPG·부탄),,none,yes,"B→C: 오픈 어휘 시험, 부족하면 파인튜닝(박스 라벨 필요)",LPG gas cylinder; butane gas can,2,1,COCO bottle과 오탐 가능
+EQ_ELECTRIC_PANEL,전기설비(분전반·콘센트·멀티탭),,none,hold,"B→C: 오픈 어휘 시험, 부족하면 파인튜닝(박스 라벨 필요)",power strip; electrical panel,3,2,작은 물체. 박스 기준 정의 필요

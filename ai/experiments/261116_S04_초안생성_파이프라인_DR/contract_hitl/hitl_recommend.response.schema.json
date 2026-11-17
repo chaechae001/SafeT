@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "hitl_recommend.response.schema.json",
+  "title": "S04 추천형(Human-in-the-Loop) 응답 초안 v0.1",
+  "description": "제안 초안(2026-11-16). 확정 계약 아님. AI는 기기별 위험요인 후보·예방대책 후보·출처 ID만 낸다. 신호·위험도·등급 필드는 두지 않는다(additionalProperties false로 막음). user_decision은 사용자가 채운다.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["request_id", "method", "generated_at", "pipeline_version", "model_version", "risk_scale_status", "risk_level_rule",
+               "equipment_master_version", "equipment", "warnings"],
+  "properties": {
+    "request_id": {"type": "string", "minLength": 1},
+    "method": {"enum": ["R_bm25", "R_index", "R_index_v2", "A_llm", "B_rag", "B_rag_fill"]},
+    "generated_at": {"type": "string", "format": "date-time"},
+    "pipeline_version": {"type": "string"},
+    "model_version": {"type": ["string", "null"]},
+    "risk_scale_status": {"const": "척도 미확정"},
+    "risk_level_rule": {"type": "string"},
+    "equipment_master_version": {"type": "string"},
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "equipment": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["equipment_id", "standard_name", "candidates"],
+        "properties": {
+          "equipment_id": {"type": "string", "pattern": "^EQ_[A-Z0-9_]+$"},
+          "standard_name": {"type": "string"},
+          "candidates": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["rank", "hazard_code", "hazard_name", "hazard_text", "reason", "origin", "source_ids",
+                           "measure_candidates", "measure_method", "user_decision"],
+              "properties": {
+                "rank": {"type": "integer", "minimum": 1},
+                "hazard_code": {"enum": ["slip", "cut", "burn", "fire", "gas", "electric", "chemical", "ergonomic", "falling",
+                                         "respiratory", "traffic", "noise_vibration", "heat_cold", "entrapment"]},
+                "hazard_name": {"type": "string"},
+                "hazard_text": {"type": "string"},
+                "reason": {"type": "string"},
+                "origin": {"enum": ["retrieval_bm25", "index_master(근거있음)", "index_master(제안)", "index_bm25_extra", "llm_only",
+                                    "rag_llm_ranked", "retrieval_unranked", "index_v2"]},
+                "source_ids": {"type": "array", "items": {"type": "string"}},
+                "measure_candidates": {
+                  "type": "array", "maxItems": 3,
+                  "items": {"type": "object", "additionalProperties": false, "required": ["row_id", "text", "control_type"],
+                            "properties": {"row_id": {"type": "string"}, "text": {"type": "string"},
+                                           "control_type": {"type": ["string", "null"]}}}
+                },
+                "measure_method": {"enum": ["c1", "c2", "c2_failed", "index_v2"]},
+                "user_decision": {
+                  "type": "object", "additionalProperties": false, "required": ["selected", "likelihood", "severity"],
+                  "description": "사용자 입력 칸. AI는 null로만 둔다.",
+                  "properties": {"selected": {"type": "null"}, "likelihood": {"type": "null"}, "severity": {"type": "null"}}
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
