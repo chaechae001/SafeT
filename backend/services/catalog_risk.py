@@ -5,6 +5,7 @@ from pathlib import Path
 from sqlalchemy import text
 from domain.risk_policy import evaluate, POLICY
 from services.auth import AuthError
+from schemas.risk_analysis import CONTRACT_VERSION
 
 SOURCE = 'catalog_v1'
 SEED = Path(__file__).resolve().parents[2] / 'contracts/catalog_risk/catalog.json'
@@ -77,7 +78,18 @@ def recalculate(db, item, edit, email, revision, no):
         return {state['links'][str(a.id)] for a in actions if a.checked and str(a.id) in state['links']}
     current = selected(edit.curr)
     answered = edit.none or any(a.checked for a in edit.curr)
+    ai = state.get('ai')
+    if ai:
+        # 과거 선택·변경 없는 저장은 새 미확인·상충 정보를 해소하는 답변이 아니다.
+        previous = {state['links'][str(a['id'])] for a in item['curr'] if a['checked'] and str(a['id']) in state['links']}
+        changed = current ^ previous
+        explicit_none = edit.none and not item['none']
+        for field in ('unknown_ids','conflict_ids'):
+            ai[field] = [] if explicit_none else [cid for cid in ai.get(field, []) if cid not in changed]
+        answered = answered and ai.get('contract_version')==CONTRACT_VERSION and ai['match']['applicability']=='confirmed' and not ai['unknown_ids'] and not ai['conflict_ids'] and not ai['match']['uncertainties']
     result = evaluate(state['scenario'], current, answered=answered)
+    if ai and not answered:
+        result['reason']='현재 조치와 입력 근거의 미확인·상충 정보를 확인해 주세요. 필요한 질문은 추가 확인에 표시됩니다.'
     planned = selected(edit.plans)
     projected = None
     if answered and (planned or edit.keep == 'Y'):

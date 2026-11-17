@@ -1,18 +1,29 @@
 """ERD V1.1 평가표 작성/저장/확정. 트랜잭션·소유권·revision·상태 잠금."""
 import json
 from sqlalchemy import text
-from sqlalchemy.exc import IntegrityError
+from sqlalchemy.exc import IntegrityError, OperationalError
 from services.auth import AuthError, now
 from services import workplaces, assessment_provider as provider
 from services import catalog_risk as catalog
+from services import catalog_ai as risk
 
 
 def rows(db, sql, **p): return [dict(r) for r in db.execute(text(sql),p).mappings()]
 def execute(db, sql, **p): return db.execute(text(sql),p)
 def owned(db, email, no, lock=False):
-    r=rows(db,"SELECT * FROM eval_mst WHERE eval_no=:n AND email=:e AND COALESCE(del_yn,'N')='N'" + (' FOR UPDATE' if lock else ''),n=no,e=email)
-    if not r: raise AuthError(404,'EVAL_NOT_FOUND','평가표를 찾을 수 없어요.')
-    return r[0]
+    sql="SELECT * FROM eval_mst WHERE eval_no=:n AND email=:e AND COALESCE(del_yn,'N')='N'" + (' FOR UPDATE' if lock else '')
+    for attempt in range(2):
+        try:
+            r=rows(db,sql,n=no,e=email)
+        except OperationalError as exc:
+            # 인증 조회 뒤 다른 요청이 저장하면 MariaDB 스냅샷 잠금이 1020으로 실패할 수 있다.
+            # 쓰기·모델 호출 전 최초 잠금에서만 새 트랜잭션으로 다시 읽고 revision·확정 잠금을 검사한다.
+            if not lock or not exc.orig.args or exc.orig.args[0]!=1020: raise
+            db.rollback()
+            if attempt: raise AuthError(409,'CONCURRENT_CHANGE','다른 요청이 평가표를 변경했어요. 새로 불러와 주세요.') from None
+            continue
+        if not r: raise AuthError(404,'EVAL_NOT_FOUND','평가표를 찾을 수 없어요.')
+        return r[0]
 def writable(m,revision):
     if m['eval_status']!='W': raise AuthError(409,'EVAL_LOCKED','확정된 평가표는 수정할 수 없어요.')
     if m['revision']!=revision: raise AuthError(409,'STALE_REVISION','다른 화면에서 저장했어요. 내용을 복사한 뒤 새로 불러와 주세요.')
@@ -38,15 +49,20 @@ def detail(db,email,no):
             it['curr' if a['action_type']=='C' else 'plans'].append(dict(id=a['action_no'],text=a['action_text'],checked=a['check_yn']=='Y',ai=a['ai_yn']=='Y'))
         catalog.enrich(it, r.get('catalog_state'))
         result['items'].append(it)
+    risk.enrich_detail(result, m.get('risk_state'))
     return result
 
 def insert_items(db,no,items,email,offset=0):
+    ids=[]
     for i,it in enumerate(items):
         result=execute(db,"INSERT INTO eval_dtl (eval_no,job,risk_factor,risk_type,reason,curr_risk_grade,risk_reason,curr_none_yn,keep_yn,after_risk_grade,after_judge_yn,sort,ins_dt,ins_nm) VALUES (:n,:j,:f,:ty,:c,:s,:r,'N',NULL,'N','N',:o,:t,:e)",n=no,j=it['job'],f=it['title'],ty=it['type'],c=it['cause'],s=it['signal'],r=it['reason'],o=offset+i,t=now(),e=email)
         for kind,values in (('C',it['curr']),('P',it['plans'])):
             for k,value in enumerate(values):
                 execute(db,"INSERT INTO eval_action (eval_dtl_no,action_type,action_text,check_yn,ai_yn,sort) VALUES (:d,:k,:t,'N','Y',:s)",d=result.lastrowid,k=kind,t=value,s=k)
+        ids.append(result.lastrowid)
         if it.get('catalog'): catalog.initialize(db,result.lastrowid,it['catalog'])
+        if it.get('ai'): risk.attach(db,result.lastrowid,it['ai'])
+    return ids
 
 def create(db,email,body):
     key=str(body.request_key)
@@ -56,7 +72,13 @@ def create(db,email,body):
     execute(db,'SELECT work_no FROM workplaces WHERE work_no=:n FOR UPDATE',n=body.work_no)
     w=workplaces.get_workplace(db,email,body.work_no)
     context=body.model_dump(); context['machines']=w['machines']
-    source,items=catalog.generate(db,context) if catalog.enabled() else provider.generate(context)
+    ai_state=None
+    if risk.enabled():
+        input_data,report,scenarios=risk.analyze(db,context)
+        source,items=risk.SOURCE,risk.to_items(report,scenarios)
+        ai_state=risk.state_for(input_data,report)
+    else:
+        source,items=catalog.generate(db,context) if catalog.enabled() else provider.generate(context)
     try:
         r=execute(db,"INSERT INTO eval_mst (work_no,email,eval_nm,eval_writer,eval_dt,eval_status,del_yn,request_key,revision,generation_source,ins_dt,ins_nm,upt_dt,upt_nm) VALUES (:w,:e,:nm,:writer,:dt,'W','N',:key,1,:src,:t,:e,:t,:e)",w=body.work_no,e=email,nm=f"{body.eval_dt} {w['workplace']} 위험성평가",writer=body.eval_writer,dt=body.eval_dt,key=key,src=source,t=now())
         no=r.lastrowid
@@ -66,6 +88,9 @@ def create(db,email,body):
             if content: execute(db,'INSERT INTO eval_file (eval_no,file_type,file_text) VALUES (:n,:k,:t)',n=no,k=kind,t=content)
         for photo in body.photos: execute(db,"INSERT INTO eval_file (eval_no,file_type,ori_file_nm,place_nm,file_text) VALUES (:n,'P',:name,:place,:data)",n=no,name=photo.name,place=photo.place,data=photo.data)
         insert_items(db,no,items,email)
+        if ai_state:
+            execute(db,'UPDATE eval_mst SET risk_state=:s WHERE eval_no=:n',s=json.dumps(ai_state,ensure_ascii=False),n=no)
+            recalculate_ai(db,email,no,1)
         db.commit()
     except IntegrityError:
         db.rollback()
@@ -114,14 +139,14 @@ def save(db,email,no,body,confirm=False):
             if edit.owner and edit.owner.type=='R' and edit.owner.name not in [old['eval_writer'],*old['members']]:
                 raise AuthError(400,'INVALID_OWNER','등록된 사람 목록에 없는 담당자예요.')
             execute(db,'UPDATE eval_dtl SET curr_none_yn=:none,keep_yn=:keep,manager_type=:mt,manager_nm=:mn,due_dt=:due,upt_dt=:t,upt_nm=:e WHERE eval_dtl_no=:n',none='Y' if edit.none else 'N',keep=edit.keep,mt=edit.owner.type if edit.owner else None,mn=edit.owner.name if edit.owner else None,due=edit.due,n=edit.id,t=now(),e=email)
-        if m['generation_source']==catalog.SOURCE:
+        if m['generation_source'] in (catalog.SOURCE,risk.SOURCE):
             for edit in body.items: catalog.recalculate(db,originals[edit.id],edit,email,body.revision+1,no)
         updated=detail(db,email,no)
         if confirm:
-            errors=validation(updated['items'])
+            errors=risk.pending_errors(updated)+validation(updated['items'])
             if errors: raise AuthError(422,'EVAL_INCOMPLETE','필수 항목을 확인해 주세요.',errors=errors)
         for it in updated['items']:
-            if m['generation_source']==catalog.SOURCE: continue
+            if m['generation_source'] in (catalog.SOURCE,risk.SOURCE): continue
             grade,judged=provider.project(it,m['generation_source'])
             execute(db,'UPDATE eval_dtl SET after_risk_grade=:g,after_judge_yn=:j WHERE eval_dtl_no=:n',g=grade,j='Y' if judged else 'N',n=it['id'])
         execute(db,'UPDATE eval_mst SET revision=revision+1,eval_status=:s,confirm_dt=:c,upt_dt=:t,upt_nm=:e WHERE eval_no=:n',s='C' if confirm else 'W',c=now() if confirm else None,t=now(),e=email,n=no)
@@ -131,12 +156,15 @@ def save(db,email,no,body,confirm=False):
         db.rollback(); raise
 
 def add_risk(db,email,no,body):
+    m=owned(db,email,no)
+    if m['generation_source']==risk.SOURCE:
+        return reanalyze(db,email,no,body.revision,[],body.keyword)
     try:
         m=owned(db,email,no,True); writable(m,body.revision)
         data=detail(db,email,no)
         if len(data['items'])>=100: raise AuthError(400,'ITEM_LIMIT','최대 100개 항목까지 추가할 수 있어요.')
         # 서버 모드가 바뀌어도 기존 평가표의 생성 출처를 변경하지 않는다.
-        if m['generation_source']==catalog.SOURCE:
+        if m['generation_source'] in (catalog.SOURCE,risk.SOURCE):
             source,items=catalog.generate(db,{},body.keyword)
             existing={it['catalog']['scenario']['id'] for it in data['items'] if it.get('catalog')}
             items=[it for it in items if it['catalog']['id'] not in existing]
@@ -147,6 +175,71 @@ def add_risk(db,email,no,body):
         if source!=m['generation_source']: raise AuthError(409,'PROVIDER_CHANGED','생성 모드가 바뀌었어요. 기존 평가표의 출처를 유지해야 합니다.')
         insert_items(db,no,items,email,len(data['items']))
         execute(db,'UPDATE eval_mst SET revision=revision+1,upt_dt=:t WHERE eval_no=:n',n=no,t=now())
+        db.commit(); return detail(db,email,no)
+    except Exception:
+        db.rollback(); raise
+
+
+def recalculate_ai(db,email,no,revision):
+    """AI 연결 평가표도 저장과 같은 공통 계산·이력 경로를 사용한다."""
+    from schemas.assessment import ItemEdit
+    doc=detail(db,email,no)
+    for item in doc['items']:
+        payload={k:item[k] for k in ('id','curr','plans','none','keep','owner','due')}
+        payload['due']=payload['due'] or None
+        for field in ('curr','plans'):
+            payload[field]=[{k:a[k] for k in ('id','text','checked')} for a in item[field]]
+        catalog.recalculate(db,item,ItemEdit.model_validate(payload),email,revision,no)
+
+
+def reanalyze(db,email,no,revision,answers,additional_text=''):
+    """소유권·revision 잠금 안에서 답변과 DB 연결을 갱신한다. 실패 시 이전 상태를 보존한다."""
+    from copy import deepcopy
+    try:
+        m=owned(db,email,no,True); writable(m,revision)
+        if m['generation_source']!=risk.SOURCE or not m.get('risk_state'):
+            raise AuthError(409,'RISK_POLICY_NOT_APPLIED','AI 연결 평가표에서 사용할 수 있어요.')
+        state=json.loads(m['risk_state'])
+        if state['policy_version']!=catalog.POLICY:
+            raise AuthError(409,'POLICY_CHANGED','이전 기준 평가표입니다. 새 평가표를 작성해 주세요.')
+        data=detail(db,email,no)
+        qs={q['id']:q for q in data['risk_assessment']['questions']}
+        qids=[a.question_id for a in answers]
+        if len(qids)!=len(set(qids)) or not set(qids)<=set(qs):
+            raise AuthError(400,'INVALID_QUESTION','현재 평가표의 질문과 답변이 일치하지 않아요.')
+        new_input=deepcopy(state['input'])
+        photos=[f['file_text'] for f in data['inputs'] if f['file_type']=='P']
+        for i,media in enumerate([x for x in new_input['media'] if x['modality']=='photo']):
+            media['media_uri']=photos[i]
+        if answers:
+            # 질문 문맥과 사용자 답변을 분리하고 한 미디어로 묶어 질문 수가 입력 한도를 소진하지 않게 한다.
+            media=risk.media(f'ANSWER-{revision}','text','\n'.join(a.answer for a in answers))
+            media['answers']=[dict(question_id=a.question_id,question=qs[a.question_id]['question'],answer=a.answer) for a in answers]
+            new_input['media'].append(media)
+        if additional_text:
+            new_input['media'].append(risk.media(f'ADDITIONAL-{revision}','text',additional_text))
+        # 계획은 전송하지 않으며 사용자 보고를 작동시험 증거로 바꾸지 않는다.
+        current=[]
+        for it in data['items']:
+            current.append(dict(scenario_id=it['catalog']['scenario']['id'],none=it['none'],
+                           selected_control_ids=[it['catalog']['links'][str(a['id'])] for a in it['curr'] if a['checked'] and str(a['id']) in it['catalog']['links']]))
+        new_input['media'].append(risk.media('CURRENT-CONTROLS-'+str(revision),'text',json.dumps(current,ensure_ascii=False)))
+        if len(new_input['media'])>300:
+            raise AuthError(400,'RISK_INPUT_LIMIT','추가 입력 한도에 도달했어요. 새 평가표를 작성해 주세요.')
+        _,report,scenarios=risk.analyze(db,{},new_input,state['report'])
+        mapped=risk.to_items(report,scenarios)
+        existing={it['catalog']['scenario']['id']:it for it in data['items']}
+        for it in mapped:
+            sid=it['catalog']['id']
+            if sid in existing:
+                # 기존 문구·사용자 선택·담당자·예정일은 보존하고 새 근거만 갱신한다.
+                risk.attach(db,existing[sid]['id'],it['ai'],preserve=True)
+            else:
+                if len(existing)>=100: raise AuthError(400,'ITEM_LIMIT','최대 100개 항목까지 추가할 수 있어요.')
+                insert_items(db,no,[it],email,len(existing));existing[sid]=it
+        execute(db,'UPDATE eval_mst SET risk_state=:s WHERE eval_no=:n',s=json.dumps(risk.state_for(new_input,report),ensure_ascii=False),n=no)
+        recalculate_ai(db,email,no,revision+1)
+        execute(db,'UPDATE eval_mst SET revision=revision+1,upt_dt=:t,upt_nm=:e WHERE eval_no=:n',n=no,t=now(),e=email)
         db.commit(); return detail(db,email,no)
     except Exception:
         db.rollback(); raise

@@ -21,8 +21,10 @@ def check_db(migrate):
         raise RuntimeError('기본 ERD 테이블이 없습니다: ' + ', '.join(missing))
     if migrate:
         sql = (ROOT / 'backend/migrations/20261116_assessment_authoring.sql').read_text(encoding='utf-8')
-        if os.getenv('SAFET_ASSESSMENT_MODE') == 'catalog_v1':
+        if os.getenv('SAFET_ASSESSMENT_MODE') in ('catalog_v1','catalog_ai_v1'):
             sql += '\n' + (ROOT / 'backend/migrations/20261117_catalog_risk.sql').read_text(encoding='utf-8')
+        if os.getenv('SAFET_ASSESSMENT_MODE') == 'catalog_ai_v1':
+            sql += '\n' + (ROOT / 'backend/migrations/20261117_catalog_ai.sql').read_text(encoding='utf-8')
         with engine.begin() as conn:
             for stmt in sql.split(';'):
                 if stmt.strip():
@@ -32,17 +34,22 @@ def check_db(migrate):
     indexes = {i['name'] for i in inspector.get_indexes('eval_mst')}
     if not {'request_key', 'revision', 'generation_source'} <= columns or 'uq_eval_request' not in indexes:
         raise RuntimeError('평가표 추가 필드가 필요합니다. 개인 개발 DB를 확인한 뒤 --migrate로 실행하세요.')
-    if os.getenv('SAFET_ASSESSMENT_MODE') == 'catalog_v1':
+    if os.getenv('SAFET_ASSESSMENT_MODE') in ('catalog_v1','catalog_ai_v1'):
         from services.catalog_risk import seed
         with engine.begin() as conn:
             count = seed(conn) if migrate else conn.execute(text('SELECT COUNT(*) FROM risk_catalog')).scalar()
             if not count: raise RuntimeError('DB 기준 데이터가 없습니다. --migrate를 실행하세요.')
+    if os.getenv('SAFET_ASSESSMENT_MODE') == 'catalog_ai_v1':
+        from services.catalog_ai import configuration
+        configuration()
+        if 'risk_state' not in columns: raise RuntimeError('AI 연결 필드가 필요합니다. --migrate를 실행하세요.')
     engine.dispose()
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--catalog', action='store_true', help='Cloud 없이 DB 기준 위험성평가')
+    parser.add_argument('--risk', action='store_true', help='AI 입력 해석과 DB 공통 계산 연결')
     parser.add_argument('--demo', action='store_true', help='합성 데이터로 저장·확정 흐름 시험')
     parser.add_argument('--migrate', action='store_true', help='기존 개발 DB에 추가 필드 SQL 적용')
     parser.add_argument('--check', action='store_true', help='DB와 설정만 검사하고 종료')
@@ -53,8 +60,10 @@ def main():
         load_dotenv(ROOT / 'backend/.env', override=False)
         if len(os.getenv('JWT_SECRET', '')) < 32:
             raise RuntimeError('backend/.env에 32자 이상의 JWT_SECRET을 설정하세요.')
-        if args.catalog and args.demo: raise RuntimeError('--catalog와 --demo는 함께 사용할 수 없습니다.')
+        if sum((args.catalog,args.demo,args.risk))>1: raise RuntimeError('--catalog·--demo·--risk 중 하나만 선택하세요.')
         if args.catalog: os.environ['SAFET_ASSESSMENT_MODE']='catalog_v1'
+        if args.risk: os.environ['SAFET_ASSESSMENT_MODE']='catalog_ai_v1'
+        if args.demo: os.environ['SAFET_ASSESSMENT_MODE']='demo'
         check_db(args.migrate)
         print('DB 및 평가표 필드 확인 완료.', flush=True)
         if args.check:
@@ -83,7 +92,7 @@ def main():
             raise RuntimeError('서버 응답을 확인하지 못했습니다.')
         print('실행 완료: http://localhost:8000/pages/login.html', flush=True)
         print('API: http://localhost:8001/docs | 종료: Ctrl+C', flush=True)
-        print('평가 모드: ' + ('DB 기준 · Cloud 미사용' if env.get('SAFET_ASSESSMENT_MODE') == 'catalog_v1' else '개발용 합성 데이터' if env.get('SAFET_ASSESSMENT_MODE') == 'demo' else 'AI 미연결 · 판단 필요'), flush=True)
+        print('평가 모드: ' + ('AI 입력 해석 · DB 공통 계산' if env.get('SAFET_ASSESSMENT_MODE') == 'catalog_ai_v1' else 'DB 기준 · Cloud 미사용' if env.get('SAFET_ASSESSMENT_MODE') == 'catalog_v1' else '개발용 합성 데이터' if env.get('SAFET_ASSESSMENT_MODE') == 'demo' else 'AI 미연결 · 판단 필요'), flush=True)
         while all(p.poll() is None for p in children):
             time.sleep(.5)
         raise RuntimeError('개발 서버가 종료되었습니다.')

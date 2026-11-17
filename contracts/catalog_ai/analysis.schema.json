@@ -1,0 +1,183 @@
+{
+  "$defs": {
+    "ControlFact": {
+      "additionalProperties": false,
+      "properties": {
+        "control_id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "title": "Control Id",
+          "type": "string"
+        },
+        "state": {
+          "enum": [
+            "present",
+            "absent",
+            "unknown"
+          ],
+          "title": "State",
+          "type": "string"
+        },
+        "evidence_ids": {
+          "items": {
+            "maxLength": 100,
+            "minLength": 1,
+            "type": "string"
+          },
+          "maxItems": 30,
+          "title": "Evidence Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "control_id",
+        "state",
+        "evidence_ids"
+      ],
+      "title": "ControlFact",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "media_id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "title": "Media Id",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "observed",
+            "reported"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "time_scope": {
+          "enum": [
+            "current",
+            "planned",
+            "unknown"
+          ],
+          "title": "Time Scope",
+          "type": "string"
+        },
+        "statement": {
+          "maxLength": 1000,
+          "minLength": 1,
+          "title": "Statement",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "media_id",
+        "kind",
+        "time_scope",
+        "statement"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "ScenarioMatch": {
+      "additionalProperties": false,
+      "properties": {
+        "scenario_id": {
+          "maxLength": 100,
+          "minLength": 1,
+          "title": "Scenario Id",
+          "type": "string"
+        },
+        "applicability": {
+          "enum": [
+            "confirmed",
+            "possible"
+          ],
+          "title": "Applicability",
+          "type": "string"
+        },
+        "evidence_ids": {
+          "items": {
+            "maxLength": 100,
+            "minLength": 1,
+            "type": "string"
+          },
+          "maxItems": 30,
+          "title": "Evidence Ids",
+          "type": "array"
+        },
+        "controls": {
+          "items": {
+            "$ref": "#/$defs/ControlFact"
+          },
+          "maxItems": 50,
+          "minItems": 1,
+          "title": "Controls",
+          "type": "array"
+        },
+        "uncertainties": {
+          "items": {
+            "maxLength": 1000,
+            "minLength": 1,
+            "type": "string"
+          },
+          "maxItems": 20,
+          "title": "Uncertainties",
+          "type": "array"
+        }
+      },
+      "required": [
+        "scenario_id",
+        "applicability",
+        "evidence_ids",
+        "controls",
+        "uncertainties"
+      ],
+      "title": "ScenarioMatch",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "maxItems": 300,
+      "title": "Evidence",
+      "type": "array"
+    },
+    "matches": {
+      "items": {
+        "$ref": "#/$defs/ScenarioMatch"
+      },
+      "maxItems": 26,
+      "title": "Matches",
+      "type": "array"
+    },
+    "unmatched_observations": {
+      "items": {
+        "maxLength": 1000,
+        "minLength": 1,
+        "type": "string"
+      },
+      "maxItems": 50,
+      "title": "Unmatched Observations",
+      "type": "array"
+    }
+  },
+  "required": [
+    "evidence",
+    "matches",
+    "unmatched_observations"
+  ],
+  "title": "Extraction",
+  "type": "object"
+}
