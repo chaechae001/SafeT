@@ -37,7 +37,10 @@ $UVR src/hitl_exaone.py replay
 $UVR src/hitl_exaone.py replay_e35
 # EXAONE 3.5 enum 강제 guided JSON 출력 재생(cloud/e35/outputs/cloud_outputs_e35_enum_v1.json 필요, 모델 호출 없음)
 $UVR src/hitl_exaone.py replay_e35_enum
+# (기록용) 이전 3×3 임시 규칙 시험. 그래프는 쓰지 않는다
 $UVR src/risk_rule.py
+# 위험도: 팀 백엔드 정책 CATALOG-MVP-1.0 자체 시험(SafeT 저장소의 risk_policy·catalog 사용, 2026-11-17 팀 결정)
+$UVR src/catalog_risk.py > /dev/null
 $UVR src/eval_hitl.py --goldset
 $UVR src/report_hitl.py > /dev/null
 # 설명문 판단 표현 필터 시험(파이프라인 미연결, 규칙 v0.2-draft, 팀 확정 전)

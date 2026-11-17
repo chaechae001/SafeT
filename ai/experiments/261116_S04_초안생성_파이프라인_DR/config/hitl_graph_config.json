@@ -46,8 +46,10 @@
     "status": "임시: 팀이 옵션(a_flag/b_delete/c_replace)을 정하기 전까지 원문 유지·표시만"
   },
   "risk_rule": {
-    "config": "config/risk_rule_3x3_notion_v1.json",
-    "status": "노션 H1 3×3 빈도·강도법 + 신호등 해석 B(사용자 결정 2026-11-16, adoption_status=proposed, 전문가 채택 전)"
+    "engine": "src/catalog_risk.py (SafeT backend/domain/risk_policy.py 호출)",
+    "policy_version": "CATALOG-MVP-1.0",
+    "status": "팀 결정(2026-11-17): 위험도 계산은 백엔드 정책을 따른다. MVP 운영 규칙이며 전문가 승인 기준이 아니다",
+    "previous": "config/risk_rule_3x3_notion_v1.json(노션 H1 3×3 + 해석 B, 2026-11-16). 기록용, 그래프에서 쓰지 않음"
   },
   "industry": "음식점",
   "kb_version": "rag-kb-v2-index",

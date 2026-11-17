@@ -123,4 +123,7 @@ python ai/experiments/261112_single_vs_pipeline_DR/261112_benchmark_DR.py --self
 - 점수는 합성 사례와 AI 보조 정답 기준 내부 실험값이다. 현장 안전 성능이 아니다.
 - SAM 3 T=0.50은 비교 평가값이며 서비스 임계값이 아니다.
 - EXAONE 3.5 7.8B는 비상업 라이선스다. 서비스 적용 전 라이선스를 확인한다.
-- 3×3 위험도 규칙은 임시 가정이다. 위험도 계산은 chaechae001 방식(#10)으로 바꿀 예정이며, 최종 기준은 팀·전문가가 정한다.
+- 위험도 계산은 백엔드 정책 `CATALOG-MVP-1.0`을 쓴다. `src/catalog_risk.py`가 이 저장소의 `backend/domain/risk_policy.py`와 `contracts/catalog_risk/catalog.json`을 그대로 불러 쓴다. 이 정책은 MVP 운영 규칙이며 전문가가 승인한 기준이 아니다.
+- `src/risk_rule.py`(3×3)는 이전 실험 기록이며 그래프에서 쓰지 않는다.
+- 후보와 카탈로그 시나리오의 연결은 백엔드와 같은 키워드 포함 규칙이라 넓게 잡힌다. 시나리오는 사용자가 고르며, 연결 정확도는 측정하지 않았다.
+- `cloud/` 아래 그래프 실행 스크립트는 이전 계약으로 실행한 기록이다. 다시 실행하기 전에 고쳐야 한다.

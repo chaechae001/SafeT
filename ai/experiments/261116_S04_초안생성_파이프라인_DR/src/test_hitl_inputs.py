@@ -9,7 +9,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from hitl_graph import OUT, HitlGraph  # noqa: E402
+from hitl_graph import OUT, HitlGraph, synthetic_answer  # noqa: E402
 from s04_pipeline import ROOT  # noqa: E402
 
 CASES = {
@@ -37,14 +37,15 @@ def run(name: str, init: dict) -> dict:
             ans = {"synthetic": True, "actions": [], "added": [] if iv["proposed"] else ["EQ_FRYER"]}
         else:
             c = iv["candidates"]
-            ans = {"synthetic": True, "selections": [{"candidate_id": c[0]["candidate_id"], "likelihood": 2, "severity": 2, "measure_ids": []}]} if c else {"selections": []}
+            ans = {"synthetic": True, "selections": [synthetic_answer(iv, c[0], cur_n=1)]} if c else {"selections": []}
         r = app.invoke(Command(resume=ans), cfg)
     hg.close()
     bad = {k: v for k, v in r["checks"].items() if k != "postprocess" and v}
     return {"interrupts": steps, "trace": r["trace"], "input_text": r.get("input_text"),
             "proposed": [p["equipment_id"] for p in r.get("proposed", [])],
             "origins": sorted({e["origin"] + "/" + e["user_action"] for e in r["equipment_confirmed"]["equipment"]}),
-            "schema_errors": bad, "risk_status": (r.get("risk_result") or {}).get("status")}
+            "schema_errors": bad, "risk_status": (r.get("risk_result") or {}).get("policy_version"),
+            "risk": [(x["catalog_scenario_id"], x["status"], x["grade"], x["signal"]) for x in (r.get("risk_result") or {}).get("results", [])]}
 
 
 def main():

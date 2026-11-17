@@ -4,8 +4,10 @@
   propose_equipment → [사람] confirm_equipment → build_request → retrieve → rank_llm → assemble
   → rationale_filter → [사람] select_and_rate → risk_rule → END
 - 사람 지점 2곳은 LangGraph interrupt로 멈추고, Command(resume=...)로 사람 입력을 받아 이어 간다.
-- 단계마다 계약 v2 스키마(equipment_confirmed, hazard_candidates request/response, user_selection, risk_result)로 검증한다.
-- LLM은 검색 후보 안에서 정렬·설명만 한다. 신호·위험도는 출력하지 않는다. 위험도는 사용자 선택값으로 규칙 계산만 한다(설정 config의 risk_rule: 노션 H1 3×3 + 해석 B, proposed·전문가 채택 전).
+- 단계마다 계약 v2.1 스키마(equipment_confirmed, hazard_candidates request/response, user_selection, risk_result)로 검증한다.
+- LLM은 검색 후보 안에서 정렬·설명만 한다. 신호·위험도는 출력하지 않는다.
+- 위험도는 팀 백엔드 정책 CATALOG-MVP-1.0으로 계산한다(팀 결정 2026-11-17, src/catalog_risk.py). 사용자는 카탈로그 시나리오와 현재·계획 조치를 고르고,
+  피해 수준은 카탈로그가 정한다. 이전 3×3 규칙(src/risk_rule.py)은 기록용으로만 남긴다.
 - LLM 백엔드: replay(Cloud에서 기록한 응답을 재생, 프롬프트 일치 검사) | vllm(Cloud GPU에서 직접 실행).
 
 uv run -q --with langgraph --with jsonschema==4.* --with referencing --with rfc3339-validator --with rfc3987 python src/hitl_graph.py demo
@@ -28,7 +30,7 @@ from hitl_recommend import HitlRecommender  # noqa: E402
 from s04_pipeline import ROOT, now_kst  # noqa: E402
 
 CFG = ROOT / "config" / "hitl_graph_config.json"
-V2 = ROOT.parent / "261115_AI출력계약_신호기준_DR" / "schemas_v2"
+V2 = ROOT.parent / "261115_AI출력계약_신호기준_DR" / "schemas_v2_1"   # 계약 v2.1(위험도: 백엔드 정책)
 OUT = ROOT / "runs" / "hitl_graph"
 
 
@@ -41,7 +43,7 @@ def validate(schema_file: str, obj: dict) -> list[str]:
     from referencing import Registry, Resource
     if schema_file not in _VAL:
         reg = Registry()
-        for f in V2.glob("*.json"):
+        for f in V2.glob("*.schema.json"):
             s = json.loads(f.read_text(encoding="utf-8"))
             reg = reg.with_resource(s["$id"], Resource.from_contents(s))
         sch = json.loads((V2 / schema_file).read_text(encoding="utf-8"))
@@ -335,8 +337,8 @@ class State(TypedDict, total=False):
     llm: dict                  # 기기별 LLM 원출력·시도 수·시간
     response: dict             # 계약 hazard_candidates.v2.response
     filter_log: list[dict]
-    user_selection: dict       # 계약 user_selection.v2
-    risk_result: dict          # 계약 risk_result.v2
+    user_selection: dict       # 계약 user_selection.v2_1
+    risk_result: dict          # 계약 risk_result.v2_1
     checks: dict               # 단계별 스키마 검사 결과
     trace: list[str]
 
@@ -352,8 +354,8 @@ class HitlGraph:
         import rationale_filter as rf
         self.rf = rf
         self.rf_cfg = rf.load_cfg()
-        from risk_rule import load_rule
-        self.rule = load_rule(ROOT / self.cfg["risk_rule"]["config"])
+        from catalog_risk import CatalogRisk
+        self.risk = CatalogRisk()
 
     def close(self):
         """백엔드 자원 정리. vllm 백엔드를 쓴 뒤에는 반드시 부른다(외부 스크립트 포함)."""
@@ -455,7 +457,7 @@ class HitlGraph:
         ec = {"assessment_id": s["assessment_id"], "detection_request_id": dr.get("detection_request_id") or dr.get("request_id"),
               "detection_status": dr.get("status", "ok"), "master_version": self.cfg["master_version"],
               "confirmed_by": "user", "confirmed_at": ans.get("confirmed_at") or now_kst(), "equipment": eq}
-        return {"equipment_confirmed": ec, "checks": {**s.get("checks", {}), "equipment_confirmed.v2": validate("equipment_confirmed.v2.schema.json", ec)},
+        return {"equipment_confirmed": ec, "checks": {**s.get("checks", {}), "equipment_confirmed.v2_1": validate("equipment_confirmed.v2_1.schema.json", ec)},
                 "trace": s["trace"] + [f"confirm_equipment: {len(eq)} rows"]}
 
     def build_request(self, s: State) -> dict:
@@ -463,7 +465,7 @@ class HitlGraph:
               for e in s["equipment_confirmed"]["equipment"] if e["user_action"] != "removed"]
         req = {"request_id": str(uuid.uuid4()), "assessment_id": s["assessment_id"], "industry": self.cfg["industry"],
                "kb_version": self.cfg["kb_version"], "equipment": eq}
-        return {"request": req, "checks": {**s["checks"], "hazard_candidates.v2.request": validate("hazard_candidates.v2.request.schema.json", req)},
+        return {"request": req, "checks": {**s["checks"], "hazard_candidates.v2_1.request": validate("hazard_candidates.v2_1.request.schema.json", req)},
                 "trace": s["trace"] + [f"build_request: {len(eq)} equipment"]}
 
     def retrieve(self, s: State) -> dict:
@@ -502,13 +504,15 @@ class HitlGraph:
                 else:
                     pool = [{"hazard_code": p["hazard_code"], "source_ids": [x["source_id"] for x in p["evidence"]]} for p in v["pool"]]
                     cands = build_candidates(self.data, eid, pool, self.data.v2(eid), d, kw, st)
+                    for c in cands:   # v2.1: 같은 사고 경로의 카탈로그 시나리오 후보(백엔드 키워드 규칙). 확정은 사용자
+                        c["catalog_scenario_ids"] = self.risk.match(e["display_name"], c["hazard"])
             groups.append({"equipment_id": eid, "display_name": e["display_name"],
                            "group_status": "ok" if cands else "no_source_found", "candidates": cands})
         status = "ok" if all(g["candidates"] for g in groups) else ("partial" if any(g["candidates"] for g in groups) else "failed")
         resp = {"request_id": s["request"]["request_id"], "call": "hazard_candidates_v2", "status": status,
                 "model_version": getattr(self.backend, "model_version", self.cfg["llm"]["model"]),
                 "kb_version": self.cfg["kb_version"], "generated_at": now_kst(), "groups": groups}
-        return {"response": resp, "checks": {**s["checks"], "hazard_candidates.v2.response": validate("hazard_candidates.v2.response.schema.json", resp),
+        return {"response": resp, "checks": {**s["checks"], "hazard_candidates.v2_1.response": validate("hazard_candidates.v2_1.response.schema.json", resp),
                                               "postprocess": st},
                 "trace": s["trace"] + [f"assemble: status={status}, candidates={sum(len(g['candidates']) for g in groups)}"]}
 
@@ -517,47 +521,56 @@ class HitlGraph:
         res, log = self.rf.apply(self.rf_cfg, [s["response"]], tuple(fc["groups"]), fc["option"], {})
         resp = res[0]
         return {"response": resp, "filter_log": log,
-                "checks": {**s["checks"], "hazard_candidates.v2.response(after_filter)": validate("hazard_candidates.v2.response.schema.json", resp)},
+                "checks": {**s["checks"], "hazard_candidates.v2_1.response(after_filter)": validate("hazard_candidates.v2_1.response.schema.json", resp)},
                 "trace": s["trace"] + [f"rationale_filter({fc['option']}): {len(log)} flagged"]}
 
     def select_and_rate(self, s: State) -> dict:
+        """사람: 후보를 고르고, 카탈로그 시나리오와 현재·계획 조치를 고른다. 피해 수준은 카탈로그가 정한다(사용자·AI 입력 아님)."""
         from langgraph.types import interrupt
-        ans = interrupt({"step": "select_and_rate", "message": "후보를 고르고 가능성·중대성을 직접 입력하세요(AI는 위험도를 정하지 않습니다).",
-                         "scale": {"scale_id": self.rule["scale_id"], "scale_version": self.rule["scale_version"],
-                                   "status": self.cfg["risk_rule"]["status"],
-                                   "likelihood": [{k: x[k] for k in ("level", "label")} for x in self.rule["likelihood_levels"]],
-                                   "severity": [{k: x[k] for k in ("level", "label")} for x in self.rule["severity_levels"]]},
+        cands = [(g, c) for g in s["response"]["groups"] for c in g["candidates"]]
+        sids = sorted({sid for _, c in cands for sid in c.get("catalog_scenario_ids", [])})
+        ans = interrupt({"step": "select_and_rate",
+                         "message": "후보를 고르고, 맞는 위험 상황(카탈로그)과 현재 시행 중인 조치를 고르세요. 위험도는 정해진 기준으로 자동 계산됩니다(AI가 정하지 않습니다).",
+                         "policy_version": self.risk.policy,
+                         "scenarios": {sid: {"title": self.risk.scenarios[sid]["title"], "severity": self.risk.scenarios[sid]["severity"],
+                                             "controls": self.risk.controls(sid)} for sid in sids},
                          "candidates": [{"candidate_id": c["candidate_id"], "hazard": c["hazard"], "accident_type": c["accident_type"],
-                                         "rationale": c["rationale"], "measures": [m["measure_id"] for m in c["measure_candidates"]]}
-                                        for g in s["response"]["groups"] for c in g["candidates"]],
+                                         "rationale": c["rationale"], "measures": [m["measure_id"] for m in c["measure_candidates"]],
+                                         "catalog_scenario_ids": c.get("catalog_scenario_ids", [])} for _, c in cands],
                          "flagged": [x["candidate_id"] for x in s.get("filter_log", [])]})
-        lab = lambda levels, n: next(({"level": x["level"], "label": x["label"]} for x in levels if x["level"] == n), None)  # noqa: E731
-        cmap = {c["candidate_id"]: (g["equipment_id"], c) for g in s["response"]["groups"] for c in g["candidates"]}
+        cmap = {c["candidate_id"]: (g["equipment_id"], c) for g, c in cands}
         sels = []
         for i, a in enumerate(ans["selections"], 1):
             eid, c = cmap[a["candidate_id"]]
             ms = {m["measure_id"]: m for m in c["measure_candidates"]}
-            sels.append({"selection_id": f"sel-{i}", "phase": "before_measures", "parent_selection_id": None, "equipment_id": eid,
+            sid = a.get("catalog_scenario_id")
+            if sid is not None and sid not in self.risk.scenarios:
+                raise ValueError(f"카탈로그에 없는 시나리오: {sid}")
+            known = {x["id"] for x in self.risk.controls(sid)} if sid else set()
+            cur, plan = a.get("current_control_ids", []), a.get("plan_control_ids", [])
+            if (set(cur) | set(plan)) - known:
+                raise ValueError(f"시나리오 {sid}에 없는 조치 ID: {sorted((set(cur) | set(plan)) - known)}")
+            sels.append({"selection_id": f"sel-{i}", "equipment_id": eid,
                          "origin": "ai_candidate", "candidate_id": c["candidate_id"], "hazard": c["hazard"], "hazard_edited": False,
                          "accident_type": c["accident_type"], "source_refs": c["source_refs"],
-                         "likelihood": lab(self.rule["likelihood_levels"], a["likelihood"]),
-                         "severity": lab(self.rule["severity_levels"], a["severity"]),
-                         "current_measures": a.get("current_measures", []),
+                         "catalog_scenario_id": sid, "current_control_ids": cur,
+                         "no_current_controls": bool(a.get("no_current_controls", False)), "plan_control_ids": plan,
+                         "custom_current_measures": a.get("custom_current_measures", []),
                          "selected_measures": [{"measure_id": mid, "text": ms[mid]["text"], "source": "ai_candidate"} for mid in a.get("measure_ids", [])],
                          "owner_name": None, "due_date": None, "decided_by": "user", "decided_at": ans.get("decided_at") or now_kst()})
-        us = {"assessment_id": s["assessment_id"], "scale_id": self.rule["scale_id"], "scale_version": self.rule["scale_version"],
+        us = {"assessment_id": s["assessment_id"], "policy_version": self.risk.policy,
               "candidates_request_id": s["request"]["request_id"], "selections": sels}
-        return {"user_selection": us, "checks": {**s["checks"], "user_selection.v2": validate("user_selection.v2.schema.json", us)},
+        return {"user_selection": us, "checks": {**s["checks"], "user_selection.v2_1": validate("user_selection.v2_1.schema.json", us)},
                 "trace": s["trace"] + [f"select_and_rate: {len(sels)} selections"]}
 
     def risk_rule(self, s: State) -> dict:
-        from risk_rule import compute
-        sels = [{"selection_id": x["selection_id"], "phase": x["phase"],
-                 "likelihood": (x["likelihood"] or {}).get("level"), "severity": (x["severity"] or {}).get("level")}
-                for x in s["user_selection"]["selections"]]
-        rr = compute(self.rule, s["assessment_id"], sels)
-        return {"risk_result": rr, "checks": {**s["checks"], "risk_result.v2": validate("risk_result.v2.schema.json", rr)},
-                "trace": s["trace"] + [f"risk_rule: status={rr['status']} ({self.cfg['risk_rule']['status']})"]}
+        """백엔드 정책(CATALOG-MVP-1.0)으로 현재·예상 위험도를 계산한다. 노드 이름은 이전 그래프와 맞추려고 유지."""
+        rr = self.risk.compute(s["assessment_id"], s["user_selection"]["selections"], now_kst())
+        st: dict[str, int] = {}
+        for r in rr["results"]:
+            st[r["status"]] = st.get(r["status"], 0) + 1
+        return {"risk_result": rr, "checks": {**s["checks"], "risk_result.v2_1": validate("risk_result.v2_1.schema.json", rr)},
+                "trace": s["trace"] + [f"risk_rule({rr['policy_version']}): {st}"]}
 
     # ------------------------------------------------ 그래프
     def build(self, checkpointer=None):
@@ -581,12 +594,25 @@ class HitlGraph:
         g.add_edge("retrieve", "rank_llm")
         g.add_edge("rank_llm", "assemble")
         # 계약 위반이면 사람 단계로 넘기지 않고 멈춘다
-        g.add_conditional_edges("assemble", lambda s: "stop" if s["checks"]["hazard_candidates.v2.response"] else "ok",
+        g.add_conditional_edges("assemble", lambda s: "stop" if s["checks"]["hazard_candidates.v2_1.response"] else "ok",
                                 {"ok": "rationale_filter", "stop": END})
         g.add_edge("rationale_filter", "select_and_rate")
         g.add_edge("select_and_rate", "risk_rule")
         g.add_edge("risk_rule", END)
         return g.compile(checkpointer=checkpointer or InMemorySaver())
+
+def synthetic_answer(shown: dict, cand: dict, cur_n: int = 0, plan_rest: bool = False, none: bool = False, measures: int = 0) -> dict:
+    """시험용 합성 사람 입력. 첫 번째 연결 시나리오를 고르고, 핵심 조치 앞 cur_n개를 현재 조치로, 나머지를 계획으로 둔다.
+    연결 시나리오가 없으면 카탈로그 밖 위험(판단 필요)으로 둔다. 실제 평가 판단이 아니다."""
+    sids = cand.get("catalog_scenario_ids", [])
+    a = {"candidate_id": cand["candidate_id"], "measure_ids": cand["measures"][:measures]}
+    if not sids:
+        return {**a, "catalog_scenario_id": None, "current_control_ids": [], "no_current_controls": True, "plan_control_ids": []}
+    ctl = shown["scenarios"][sids[0]]["controls"]
+    cur = [] if none else [c["id"] for c in ctl if c["critical"]][:cur_n]
+    plan = [c["id"] for c in ctl if c["id"] not in cur] if plan_rest else []
+    return {**a, "catalog_scenario_id": sids[0], "current_control_ids": cur, "no_current_controls": none, "plan_control_ids": plan}
+
 
 
 # ---------------------------------------------------------------- 시연(합성 입력)
@@ -612,9 +638,8 @@ def demo(backend: str | None = None, bundle: str | None = None, tag: str = ""):
     i2 = r["__interrupt__"][0].value
     log.append({"interrupt": i2["step"], "shown": i2})
     cands = i2["candidates"]
-    human2 = {"synthetic": True, "selections": [
-        {"candidate_id": cands[0]["candidate_id"], "likelihood": 2, "severity": 3, "measure_ids": cands[0]["measures"][:1]},
-        {"candidate_id": cands[1]["candidate_id"], "likelihood": 1, "severity": 2, "measure_ids": []}]}
+    human2 = {"synthetic": True, "selections": [synthetic_answer(i2, cands[0], cur_n=1, plan_rest=True, measures=1),
+                                                synthetic_answer(i2, cands[1], none=True)]}
     log.append({"resume": human2})
     r = app.invoke(Command(resume=human2), cfg)
     hg.close()
@@ -623,7 +648,7 @@ def demo(backend: str | None = None, bundle: str | None = None, tag: str = ""):
     final["llm_calls"] = {k: (None if v is None else {x: v[x] for x in ("attempts", "seconds", "mode")}) for k, v in (r.get("llm") or {}).items()}
     final["wall_seconds"] = round(time.time() - t0, 2)
     final["backend"] = hg.backend_name
-    final["note"] = "합성 탐지·합성 사람 입력(시험용). 위험도 척도는 노션 H1 3×3 + 해석 B(proposed, 전문가 채택 전)."
+    final["note"] = "합성 탐지·합성 사람 입력(시험용). 위험도는 팀 백엔드 정책 CATALOG-MVP-1.0(MVP 운영 규칙, 전문가 승인 기준 아님)."
     (OUT / f"demo_state{tag}.json").write_text(json.dumps(final, ensure_ascii=False, indent=1), encoding="utf-8")
     (OUT / f"demo_interrupts{tag}.json").write_text(json.dumps(log, ensure_ascii=False, indent=1), encoding="utf-8")
     try:
@@ -632,8 +657,8 @@ def demo(backend: str | None = None, bundle: str | None = None, tag: str = ""):
         print("mermaid 생략:", e)
     bad = {k: v for k, v in r["checks"].items() if k != "postprocess" and v}
     print(json.dumps({"trace": r["trace"], "schema_errors": bad, "postprocess": r["checks"]["postprocess"],
-                      "risk": [(x["selection_id"], x["risk_score"], x["band_code"], x.get("signal")) for x in r["risk_result"]["results"]],
-                      "status": r["risk_result"]["status"]}, ensure_ascii=False, indent=1))
+                      "risk": [(x["selection_id"], x["phase"], x["catalog_scenario_id"], x["grade"], x["signal"]) for x in r["risk_result"]["results"]],
+                      "policy": r["risk_result"]["policy_version"]}, ensure_ascii=False, indent=1))
     sys.exit(1 if bad else 0)
 
 
@@ -660,8 +685,7 @@ def demo_sam3(group: str = "nene", threshold: float = 0.50):
         raise SystemExit(1)
     shown2 = r["__interrupt__"][0].value
     cands = shown2["candidates"]
-    human2 = {"synthetic": True, "selections": [{"candidate_id": cands[0]["candidate_id"], "likelihood": 2, "severity": 2,
-                                                  "measure_ids": cands[0]["measures"][:1]}]}
+    human2 = {"synthetic": True, "selections": [synthetic_answer(shown2, cands[0], cur_n=1, plan_rest=True, measures=1)]}
     r = app.invoke(Command(resume=human2), cfg)
     hg.close()
     OUT.mkdir(parents=True, exist_ok=True)
