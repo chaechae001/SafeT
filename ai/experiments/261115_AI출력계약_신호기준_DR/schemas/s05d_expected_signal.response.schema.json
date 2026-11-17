@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://safe-t.local/schemas/s05d_expected_signal.response.schema.json",
+  "title": "S05-D 개선 후 예상 신호 판단 응답",
+  "description": "34쪽 expected_signal(출처·시각 기록). 판단 실패 항목은 expected_signal=off로 두고 입력은 저장한다. off가 남으면 확정 불가(25쪽). expected_signal_reason은 34쪽에 없는 제안 필드다(40쪽 '예상 vs 실제 산정' 비교 설명용).",
+  "type": "object",
+  "required": ["request_id", "call", "status"],
+  "properties": {
+    "request_id": { "$ref": "common.schema.json#/$defs/RequestId" },
+    "call": { "const": "s05d_expected_signal" },
+    "status": { "type": "string", "enum": ["ok", "partial", "failed"] }
+  },
+  "if": { "properties": { "status": { "const": "failed" } } },
+  "then": {
+    "required": ["error"],
+    "properties": { "request_id": true, "call": true, "status": true, "error": { "$ref": "common.schema.json#/$defs/ErrorBody" } },
+    "additionalProperties": false
+  },
+  "else": {
+    "required": ["model_version", "results"],
+    "properties": {
+      "request_id": true, "call": true, "status": true,
+      "model_version": { "type": "string" },
+      "results": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["item_id", "expected_signal", "expected_signal_reason", "expected_signal_source", "model_version", "criteria_version", "judged_at", "off_reason_code", "measures_considered"],
+          "properties": {
+            "item_id": { "type": "string" },
+            "expected_signal": { "$ref": "common.schema.json#/$defs/Signal" },
+            "expected_signal_reason": { "type": "string", "minLength": 1, "maxLength": 400 },
+            "expected_signal_source": { "const": "ai" },
+            "model_version": { "type": "string" },
+            "criteria_version": { "type": ["string", "null"] },
+            "judged_at": { "$ref": "common.schema.json#/$defs/IsoDateTime" },
+            "off_reason_code": { "oneOf": [{ "$ref": "common.schema.json#/$defs/OffReasonCode" }, { "type": "null" }] },
+            "measures_considered": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "판단에 쓴 대책 문구. 다음 저장 때 '대책이 바뀌었는지' 비교 기준(dirty 판정)으로 저장한다."
+            },
+            "basis": { "$ref": "common.schema.json#/$defs/JudgementBasis" }
+          },
+          "if": { "properties": { "expected_signal": { "const": "off" } } },
+          "then": { "properties": { "off_reason_code": { "$ref": "common.schema.json#/$defs/OffReasonCode" } } },
+          "else": { "properties": { "off_reason_code": { "type": "null" } } }
+        }
+      }
+    },
+    "additionalProperties": false
+  }
+}

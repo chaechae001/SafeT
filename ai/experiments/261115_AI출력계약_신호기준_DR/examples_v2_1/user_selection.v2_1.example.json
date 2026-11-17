@@ -1,0 +1,59 @@
+{
+  "assessment_id": "A-EXAMPLE-1",
+  "policy_version": "CATALOG-MVP-1.0",
+  "candidates_request_id": "7a2d0c11-5b6e-4f0a-8c21-000000000101",
+  "selections": [
+    {
+      "selection_id": "sel-1",
+      "equipment_id": null,
+      "origin": "ai_candidate",
+      "candidate_id": "cand-floor-1",
+      "hazard": "[예시] 젖거나 기름진 통로 바닥에서 미끄러져 넘어짐",
+      "hazard_edited": false,
+      "accident_type": {
+        "code": "slip",
+        "label": "미끄러짐·넘어짐"
+      },
+      "source_refs": [],
+      "catalog_scenario_id": "ENV",
+      "current_control_ids": [
+        "ENV-C1",
+        "ENV-C2"
+      ],
+      "no_current_controls": false,
+      "plan_control_ids": [
+        "ENV-C3",
+        "ENV-C4"
+      ],
+      "custom_current_measures": [],
+      "selected_measures": [],
+      "owner_name": null,
+      "due_date": null,
+      "decided_by": "user",
+      "decided_at": "2026-11-17T10:00:00+09:00"
+    },
+    {
+      "selection_id": "sel-2",
+      "equipment_id": null,
+      "origin": "user_custom",
+      "candidate_id": null,
+      "hazard": "[예시] 염지기 회전부 청소 중 손 끼임",
+      "hazard_edited": false,
+      "accident_type": {
+        "code": "cut",
+        "label": "베임·절단·끼임"
+      },
+      "source_refs": [],
+      "catalog_scenario_id": null,
+      "current_control_ids": [],
+      "no_current_controls": true,
+      "plan_control_ids": [],
+      "custom_current_measures": [],
+      "selected_measures": [],
+      "owner_name": null,
+      "due_date": null,
+      "decided_by": "user",
+      "decided_at": "2026-11-17T10:01:00+09:00"
+    }
+  ]
+}

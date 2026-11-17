@@ -1,0 +1,41 @@
+{
+  "assessment_id": "A-EXAMPLE-1",
+  "computed_by": "backend_risk_policy",
+  "policy_version": "CATALOG-MVP-1.0",
+  "computed_at": "2026-11-17T10:02:00+09:00",
+  "results": [
+    {
+      "selection_id": "sel-1",
+      "phase": "current",
+      "status": "calculated",
+      "catalog_scenario_id": "ENV",
+      "severity": 2,
+      "control_band": 3,
+      "grade": "상",
+      "signal": "R",
+      "reason": "피해 S2 · 조치 C3 → 상. 선택한 현재 조치를 기준으로 계산했습니다."
+    },
+    {
+      "selection_id": "sel-1",
+      "phase": "expected",
+      "status": "calculated",
+      "catalog_scenario_id": "ENV",
+      "severity": 2,
+      "control_band": 2,
+      "grade": "중",
+      "signal": "Y",
+      "reason": "[예시] 계획 조치 이행을 가정한 값입니다."
+    },
+    {
+      "selection_id": "sel-2",
+      "phase": "current",
+      "status": "not_in_catalog",
+      "catalog_scenario_id": null,
+      "severity": null,
+      "control_band": null,
+      "grade": null,
+      "signal": "N",
+      "reason": "카탈로그에 없는 직접 추가 위험입니다. 판단이 필요합니다."
+    }
+  ]
+}

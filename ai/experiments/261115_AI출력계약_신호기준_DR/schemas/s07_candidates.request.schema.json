@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://safe-t.local/schemas/s07_candidates.request.schema.json",
+  "title": "S07 키워드 위험 후보 보기 요청",
+  "description": "24쪽 '후보 보기'. 작업 키워드만 필수. 이미 있는 작업·위험 조합(existing_pairs)은 후보에서 뺀다.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["request_id", "assessment_id", "keyword", "industry", "existing_pairs"],
+  "properties": {
+    "request_id": { "$ref": "common.schema.json#/$defs/RequestId" },
+    "assessment_id": { "type": "string" },
+    "keyword": { "type": "string", "minLength": 1, "maxLength": 40, "pattern": "\\S", "description": "공백만 있는 값은 거부" },
+    "industry": { "type": "string" },
+    "equipment": { "type": "array", "items": { "type": "string" } },
+    "existing_pairs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["work", "hazard"],
+        "properties": { "work": { "type": "string" }, "hazard": { "type": "string" } }
+      }
+    }
+  }
+}

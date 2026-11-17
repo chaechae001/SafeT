@@ -1,0 +1,302 @@
+{
+ "links_reproduced_equal_saved": true,
+ "retrieval_replica_vs_pipeline_R_index_v2": {
+  "equal": 42,
+  "total": 42,
+  "differs": {}
+ },
+ "queries": 123,
+ "by_split": {
+  "test": 57,
+  "dev": 66
+ },
+ "by_tier": {
+  "G": 109,
+  "R": 7,
+  "P": 7
+ },
+ "by_type": {
+  "single_equipment": 74,
+  "multi_answer": 65,
+  "gold_not_all_rank1": 60,
+  "synonym_surface": 59,
+  "hard_negative": 52,
+  "multi_equipment": 44,
+  "gold_unretrievable_after_holdout": 36,
+  "context_narrow": 33,
+  "context_widen": 17,
+  "store_scenario": 12,
+  "real_record": 7,
+  "work_or_place": 5,
+  "equipment_combination": 4
+ },
+ "by_industry": {
+  "분식": 14,
+  "한식": 24,
+  "치킨": 19,
+  "카페": 19,
+  "기타": 47
+ },
+ "by_industry_basis_ai": 64,
+ "gold_count_distribution": {
+  "1": 58,
+  "2": 14,
+  "3": 30,
+  "4": 17,
+  "5": 1,
+  "6": 1,
+  "8": 1,
+  "9": 1
+ },
+ "gold_codes_total": 272,
+ "gold_role_counts": {
+  "equipment": 246,
+  "context": 26
+ },
+ "gold_code_frequency": {
+  "cut": 53,
+  "falling": 49,
+  "slip": 41,
+  "ergonomic": 34,
+  "burn": 27,
+  "electric": 23,
+  "traffic": 9,
+  "gas": 7,
+  "respiratory": 6,
+  "heat_cold": 6,
+  "fire": 6,
+  "chemical": 5,
+  "entrapment": 4,
+  "noise_vibration": 2
+ },
+ "hard_negatives_total": 82,
+ "queries_with_hard_negative": 52,
+ "hard_negative_types": {
+  "confusable_equipment": 66,
+  "same_source_unattributed": 16
+ },
+ "negatives_moved_to_unverified_master": 36,
+ "equipment_coverage": {
+  "EQ_REFRIGERATOR": 15,
+  "EQ_MIXER": 14,
+  "EQ_SHELF": 14,
+  "EQ_KNIFE_BOARD": 14,
+  "EQ_ELECTRIC_PANEL": 12,
+  "EQ_VEG_CUTTER": 10,
+  "EQ_DOUGH_MIXER": 10,
+  "EQ_FRYER": 9,
+  "EQ_EXHAUST_HOOD": 9,
+  "EQ_MOTORCYCLE": 9,
+  "EQ_CART": 9,
+  "EQ_LADDER": 8,
+  "EQ_DISHWASHER": 6,
+  "EQ_DUMBWAITER": 6,
+  "EQ_SOUP_KETTLE": 5,
+  "EQ_OVEN": 5,
+  "EQ_WASTE_OIL_CONTAINER": 5,
+  "EQ_GAS_RANGE": 4,
+  "EQ_NOODLE_MACHINE": 3,
+  "EQ_COFFEE_MACHINE": 3,
+  "EQ_MEAT_SLICER": 2,
+  "EQ_RICE_WASHER": 2,
+  "EQ_RICE_COOKER": 2,
+  "EQ_GAS_CYLINDER": 2,
+  "EQ_WALKIN_COOLER": 1,
+  "EQ_SCISSORS": 1,
+  "EQ_SINK": 1
+ },
+ "equipment_covered": 27,
+ "evidence_source_type_distribution": {
+  "checklist": 73,
+  "d5_visual": 110,
+  "d8_table": 200,
+  "real_record": 55
+ },
+ "anchor_source_distribution": {
+  "CHK": 54,
+  "D5V": 41,
+  "D8T": 70,
+  "CASE": 9,
+  "NJ_CAFE_SINK": 1,
+  "KOSHA24_OKGYE": 1,
+  "P14": 38
+ },
+ "leakage_level": {
+  "중간": 48,
+  "높음": 66,
+  "낮음": 9
+ },
+ "queries_same_source_in_rag_target": 114,
+ "nonfirst_strict_full": {
+  "queries_with_equipment": 118,
+  "queries_with_a_gold_not_rank1": 82,
+  "ratio": 0.695,
+  "multi_answer_queries_with_gold_not_rank1": 60,
+  "queries_with_unretrieved_gold": 18,
+  "gold_rank_distribution": {
+   "1": 93,
+   "2": 59,
+   "3": 42,
+   "4": 12,
+   "5": 8,
+   "6": 5,
+   "7": 5,
+   "8": 3,
+   "9": 1,
+   "None": 23
+  },
+  "R@3_macro_retrieval_only": 0.848,
+  "P@3_macro_retrieval_only": 0.548
+ },
+ "nonfirst_leave_source_out": {
+  "queries_with_equipment": 118,
+  "queries_with_a_gold_not_rank1": 85,
+  "ratio": 0.72,
+  "multi_answer_queries_with_gold_not_rank1": 60,
+  "queries_with_unretrieved_gold": 36,
+  "gold_rank_distribution": {
+   "1": 90,
+   "2": 57,
+   "3": 33,
+   "4": 11,
+   "5": 4,
+   "6": 3,
+   "7": 3,
+   "8": 3,
+   "None": 47
+  },
+  "R@3_macro_retrieval_only": 0.759,
+  "P@3_macro_retrieval_only": 0.508
+ },
+ "nonfirst_global_holdout": {
+  "queries_with_equipment": 118,
+  "queries_with_a_gold_not_rank1": 82,
+  "ratio": 0.695,
+  "multi_answer_queries_with_gold_not_rank1": 60,
+  "queries_with_unretrieved_gold": 27,
+  "gold_rank_distribution": {
+   "1": 93,
+   "2": 58,
+   "3": 36,
+   "4": 13,
+   "5": 10,
+   "6": 4,
+   "7": 3,
+   "8": 2,
+   "None": 32
+  },
+  "R@3_macro_retrieval_only": 0.795,
+  "P@3_macro_retrieval_only": 0.528
+ },
+ "equipment_role_gold_only": {
+  "strict_full": {
+   "queries": 118,
+   "with_equipment_gold_not_rank1": 75,
+   "ratio": 0.636,
+   "with_unretrieved_equipment_gold": 4,
+   "rank_distribution": {
+    "1": 93,
+    "2": 54,
+    "3": 39,
+    "4": 10,
+    "5": 8,
+    "6": 5,
+    "7": 5,
+    "8": 3,
+    "9": 1,
+    "None": 7
+   },
+   "R@3_macro_retrieval_only": 0.892
+  },
+  "leave_source_out": {
+   "queries": 118,
+   "with_equipment_gold_not_rank1": 78,
+   "ratio": 0.661,
+   "with_unretrieved_equipment_gold": 22,
+   "rank_distribution": {
+    "1": 90,
+    "2": 52,
+    "3": 30,
+    "4": 9,
+    "5": 4,
+    "6": 3,
+    "7": 3,
+    "8": 3,
+    "None": 31
+   },
+   "R@3_macro_retrieval_only": 0.804
+  },
+  "global_holdout": {
+   "queries": 118,
+   "with_equipment_gold_not_rank1": 75,
+   "ratio": 0.636,
+   "with_unretrieved_equipment_gold": 13,
+   "rank_distribution": {
+    "1": 93,
+    "2": 53,
+    "3": 32,
+    "4": 12,
+    "5": 10,
+    "6": 4,
+    "7": 3,
+    "8": 2,
+    "None": 16
+   },
+   "R@3_macro_retrieval_only": 0.837
+  }
+ },
+ "test_split_leave_source_out": {
+  "queries": 52,
+  "with_equipment_gold_not_rank1": 34,
+  "ratio": 0.654,
+  "with_unretrieved_equipment_gold": 8,
+  "rank_distribution": {
+   "1": 39,
+   "2": 24,
+   "3": 12,
+   "4": 1,
+   "7": 1,
+   "8": 1,
+   "None": 11
+  },
+  "R@3_macro_retrieval_only": 0.84
+ },
+ "synonym_queries_regex_unmatched": [
+  "Q3-008",
+  "Q3-010",
+  "Q3-017",
+  "Q3-019",
+  "Q3-046",
+  "Q3-050",
+  "Q3-056",
+  "Q3-060",
+  "Q3-084",
+  "Q3-086"
+ ],
+ "negatives_in_retrieval_ranked_strict": 0,
+ "integrity": {
+  "duplicate_query_ids": [],
+  "unknown_codes": [],
+  "negative_also_gold": [],
+  "negative_supported_by_v2_for_query_eq": [],
+  "gold_without_evidence": [],
+  "queries_without_gold": [],
+  "gold_code_term_not_in_evidence_text": [],
+  "dev_nonscenario_anchor_overlapping_test": [],
+  "dev_scenario_partly_on_test_rows(설계상 허용: dev는 전체 인덱스로 평가)": [
+   "Q3-098",
+   "Q3-099",
+   "Q3-100",
+   "Q3-101",
+   "Q3-102",
+   "Q3-103",
+   "Q3-104",
+   "Q3-105",
+   "Q3-106",
+   "Q3-107",
+   "Q3-108",
+   "Q3-109"
+  ],
+  "duplicate_gold_signature": []
+ }
+}

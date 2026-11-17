@@ -1,0 +1,653 @@
+{
+ "d8_rows": 68,
+ "d8_bullets": 746,
+ "d8_bullets_not_found_in_pdf_text": [
+  [
+   "D8T-014",
+   "부적절한 자세 등에 의한 근골격계질환"
+  ],
+  [
+   "D8T-020",
+   "조리용 식기가 화구에 비해 지나치게큰 경우 기기 과열로 인한 폭발"
+  ],
+  [
+   "D8T-020",
+   "화구에 비해 지나치게 넓은 조리기구사용 금지"
+  ],
+  [
+   "D8T-026",
+   "선반에 적재하던 중 불안전한 상태의 발판에서 근로자 떨어짐"
+  ],
+  [
+   "D8T-026",
+   "선반은 편평하고 안정된 장소에 설치하고 충분한 강도의 재질 사용"
+  ],
+  [
+   "D8T-028",
+   "부적절한 근로자세(예시-쪼그려앉기 등에 의한 근골격계질환"
+  ],
+  [
+   "D8T-028",
+   "식재료는 작업할 분량만큼 나누어)작업"
+  ],
+  [
+   "D8T-047",
+   "뜨거운 조리기구 청소 중 화상·열상"
+  ],
+  [
+   "D8T-053",
+   "스팀기, 뜨거운 우유 등에 의한화상"
+  ],
+  [
+   "D8T-058",
+   "선반에 적재하던 중 불안전한 상태의 발판에서 근로자 떨어짐"
+  ],
+  [
+   "D8T-058",
+   "선반은 편평하고 안정된 장소에 설치하고 충분한 강도의 재질 사용"
+  ],
+  [
+   "D8T-060",
+   "부적절한 근로자세(예시-쪼그려 앉기장시간 서서 작업 등)에 의한 근골격계질환"
+  ],
+  [
+   "D8T-060",
+   "적절한 높이의 작업대 사용 및 작업공간 정리정돈,"
+  ],
+  [
+   "D8T-064",
+   "튀김기 주변 바닥이 미끄러워 넘어짐"
+  ]
+ ],
+ "d8_rows_by_industry": {
+  "한식": 14,
+  "중식": 10,
+  "피자": 12,
+  "치킨": 12,
+  "커피": 8,
+  "제과제빵": 12
+ },
+ "links": 274,
+ "links_by_source_type": {
+  "checklist": 49,
+  "case": 8,
+  "d8_table": 147,
+  "d5_visual": 70
+ },
+ "links_by_tier": {
+  "A": 195,
+  "B": 79
+ },
+ "links_unknown_equipment": [],
+ "links_unknown_hazard_code": [],
+ "links_duplicate_keys": [],
+ "links_hazard_code_term_not_in_text": [],
+ "equipment_with_links": 26,
+ "equipment_no_evidence": [
+  "EQ_GRILL",
+  "EQ_MICROWAVE",
+  "EQ_GRIDDLE",
+  "EQ_STEAMER",
+  "EQ_ODEN_WARMER",
+  "EQ_PORTABLE_BURNER",
+  "EQ_COOKING_ROBOT",
+  "EQ_MARINATOR",
+  "EQ_COFFEE_GRINDER",
+  "EQ_ICE_MAKER",
+  "EQ_ICE_CRUSHER",
+  "EQ_WATER_HEATER",
+  "EQ_BEER_DISPENSER",
+  "EQ_STERILIZER",
+  "EQ_SINK",
+  "EQ_DISPLAY_COOLER"
+ ],
+ "hazard_texts_without_code": 10,
+ "measure_relevance_rank_counts": {
+  "1": 178,
+  "2": 77,
+  "3": 23,
+  "4": 216
+ },
+ "master_v1_hazard_links": 115,
+ "master_v1_supported_by_v2": 56,
+ "master_v1_not_supported": [
+  [
+   "EQ_FRYER",
+   "fire",
+   "근거있음"
+  ],
+  [
+   "EQ_GAS_RANGE",
+   "respiratory",
+   "근거있음"
+  ],
+  [
+   "EQ_GAS_RANGE",
+   "fire",
+   "근거있음"
+  ],
+  [
+   "EQ_OVEN",
+   "fire",
+   "근거있음"
+  ],
+  [
+   "EQ_GRILL",
+   "burn",
+   "근거있음"
+  ],
+  [
+   "EQ_GRILL",
+   "fire",
+   "근거있음"
+  ],
+  [
+   "EQ_MICROWAVE",
+   "burn",
+   "근거있음"
+  ],
+  [
+   "EQ_MICROWAVE",
+   "electric",
+   "근거있음"
+  ],
+  [
+   "EQ_RICE_COOKER",
+   "slip",
+   "근거있음"
+  ],
+  [
+   "EQ_RICE_COOKER",
+   "ergonomic",
+   "근거있음"
+  ],
+  [
+   "EQ_SOUP_KETTLE",
+   "cut",
+   "근거있음"
+  ],
+  [
+   "EQ_SOUP_KETTLE",
+   "ergonomic",
+   "근거있음"
+  ],
+  [
+   "EQ_GRIDDLE",
+   "burn",
+   "제안"
+  ],
+  [
+   "EQ_GRIDDLE",
+   "fire",
+   "제안"
+  ],
+  [
+   "EQ_GRIDDLE",
+   "gas",
+   "제안"
+  ],
+  [
+   "EQ_STEAMER",
+   "burn",
+   "제안"
+  ],
+  [
+   "EQ_ODEN_WARMER",
+   "burn",
+   "제안"
+  ],
+  [
+   "EQ_ODEN_WARMER",
+   "electric",
+   "제안"
+  ],
+  [
+   "EQ_PORTABLE_BURNER",
+   "gas",
+   "제안"
+  ],
+  [
+   "EQ_PORTABLE_BURNER",
+   "fire",
+   "제안"
+  ],
+  [
+   "EQ_PORTABLE_BURNER",
+   "burn",
+   "제안"
+  ],
+  [
+   "EQ_COOKING_ROBOT",
+   "cut",
+   "제안"
+  ],
+  [
+   "EQ_COOKING_ROBOT",
+   "burn",
+   "제안"
+  ],
+  [
+   "EQ_MEAT_SLICER",
+   "electric",
+   "근거있음"
+  ],
+  [
+   "EQ_RICE_WASHER",
+   "electric",
+   "근거있음"
+  ],
+  [
+   "EQ_MARINATOR",
+   "cut",
+   "제안"
+  ],
+  [
+   "EQ_MARINATOR",
+   "electric",
+   "제안"
+  ],
+  [
+   "EQ_COFFEE_MACHINE",
+   "slip",
+   "근거있음"
+  ],
+  [
+   "EQ_COFFEE_MACHINE",
+   "electric",
+   "근거있음"
+  ],
+  [
+   "EQ_COFFEE_MACHINE",
+   "ergonomic",
+   "근거있음"
+  ],
+  [
+   "EQ_COFFEE_GRINDER",
+   "cut",
+   "근거있음"
+  ],
+  [
+   "EQ_COFFEE_GRINDER",
+   "electric",
+   "근거있음"
+  ],
+  [
+   "EQ_ICE_MAKER",
+   "electric",
+   "제안"
+  ],
+  [
+   "EQ_ICE_MAKER",
+   "slip",
+   "제안"
+  ],
+  [
+   "EQ_ICE_MAKER",
+   "chemical",
+   "제안"
+  ],
+  [
+   "EQ_ICE_CRUSHER",
+   "cut",
+   "제안"
+  ],
+  [
+   "EQ_ICE_CRUSHER",
+   "electric",
+   "제안"
+  ],
+  [
+   "EQ_WATER_HEATER",
+   "burn",
+   "제안"
+  ],
+  [
+   "EQ_WATER_HEATER",
+   "electric",
+   "제안"
+  ],
+  [
+   "EQ_BEER_DISPENSER",
+   "gas",
+   "제안"
+  ],
+  [
+   "EQ_BEER_DISPENSER",
+   "falling",
+   "제안"
+  ],
+  [
+   "EQ_BEER_DISPENSER",
+   "ergonomic",
+   "제안"
+  ],
+  [
+   "EQ_DISHWASHER",
+   "burn",
+   "근거있음"
+  ],
+  [
+   "EQ_DISHWASHER",
+   "slip",
+   "근거있음"
+  ],
+  [
+   "EQ_STERILIZER",
+   "burn",
+   "제안"
+  ],
+  [
+   "EQ_STERILIZER",
+   "chemical",
+   "근거있음"
+  ],
+  [
+   "EQ_SINK",
+   "slip",
+   "근거있음"
+  ],
+  [
+   "EQ_SINK",
+   "electric",
+   "근거있음"
+  ],
+  [
+   "EQ_SINK",
+   "chemical",
+   "근거있음"
+  ],
+  [
+   "EQ_SINK",
+   "cut",
+   "근거있음"
+  ],
+  [
+   "EQ_EXHAUST_HOOD",
+   "cut",
+   "근거있음"
+  ],
+  [
+   "EQ_WASTE_OIL_CONTAINER",
+   "ergonomic",
+   "제안"
+  ],
+  [
+   "EQ_WASTE_OIL_CONTAINER",
+   "slip",
+   "제안"
+  ],
+  [
+   "EQ_REFRIGERATOR",
+   "electric",
+   "제안"
+  ],
+  [
+   "EQ_WALKIN_COOLER",
+   "heat_cold",
+   "근거있음"
+  ],
+  [
+   "EQ_WALKIN_COOLER",
+   "slip",
+   "근거있음"
+  ],
+  [
+   "EQ_DISPLAY_COOLER",
+   "electric",
+   "근거있음"
+  ],
+  [
+   "EQ_DISPLAY_COOLER",
+   "falling",
+   "근거있음"
+  ],
+  [
+   "EQ_CART",
+   "ergonomic",
+   "근거있음"
+  ]
+ ],
+ "v2_links_not_in_master_v1": [
+  [
+   "EQ_EXHAUST_HOOD",
+   "chemical"
+  ],
+  [
+   "EQ_EXHAUST_HOOD",
+   "ergonomic"
+  ],
+  [
+   "EQ_EXHAUST_HOOD",
+   "slip"
+  ],
+  [
+   "EQ_FRYER",
+   "respiratory"
+  ],
+  [
+   "EQ_GAS_RANGE",
+   "falling"
+  ],
+  [
+   "EQ_LADDER",
+   "slip"
+  ],
+  [
+   "EQ_MOTORCYCLE",
+   "ergonomic"
+  ],
+  [
+   "EQ_MOTORCYCLE",
+   "falling"
+  ],
+  [
+   "EQ_REFRIGERATOR",
+   "entrapment"
+  ],
+  [
+   "EQ_REFRIGERATOR",
+   "ergonomic"
+  ],
+  [
+   "EQ_SCISSORS",
+   "falling"
+  ],
+  [
+   "EQ_SOUP_KETTLE",
+   "respiratory"
+  ]
+ ],
+ "focus": {
+  "EQ_KNIFE_BOARD": {
+   "hazard_codes": {
+    "cut": {
+     "sources": 9,
+     "measures": 27,
+     "measures_rank1_2": 19
+    },
+    "falling": {
+     "sources": 6,
+     "measures": 17,
+     "measures_rank1_2": 11
+    },
+    "ergonomic": {
+     "sources": 5,
+     "measures": 13,
+     "measures_rank1_2": 9
+    }
+   },
+   "measure_only": 6
+  },
+  "EQ_MARINATOR": {
+   "hazard_codes": {},
+   "measure_only": 0
+  }
+ },
+ "gold_items": 11,
+ "gold_by_tier": {
+  "R": 5,
+  "P": 6
+ },
+ "gold_default_eval": [
+  "G-R01",
+  "G-R02",
+  "G-R03",
+  "G-R04",
+  "G-R05"
+ ],
+ "gold_leakage_high": [
+  "G-R01",
+  "G-R02",
+  "G-R03",
+  "G-R04"
+ ],
+ "gold_evidence_records": 40,
+ "index_coverage_of_gold_codes": [
+  {
+   "gold_id": "G-R01",
+   "equipment_id": "EQ_ELECTRIC_PANEL",
+   "gold": [
+    "electric",
+    "fire",
+    "gas"
+   ],
+   "index_codes_all": [
+    "electric",
+    "fire",
+    "gas"
+   ],
+   "covered_all": [
+    "electric",
+    "fire",
+    "gas"
+   ],
+   "index_codes_without_leaked_case": [
+    "electric"
+   ],
+   "covered_without_leaked_case": [
+    "electric"
+   ]
+  },
+  {
+   "gold_id": "G-R02",
+   "equipment_id": "EQ_GAS_CYLINDER",
+   "gold": [
+    "fire",
+    "gas"
+   ],
+   "index_codes_all": [
+    "fire",
+    "gas"
+   ],
+   "covered_all": [
+    "fire",
+    "gas"
+   ],
+   "index_codes_without_leaked_case": [],
+   "covered_without_leaked_case": []
+  },
+  {
+   "gold_id": "G-R04",
+   "equipment_id": "EQ_ELECTRIC_PANEL",
+   "gold": [
+    "electric"
+   ],
+   "index_codes_all": [
+    "electric",
+    "fire",
+    "gas"
+   ],
+   "covered_all": [
+    "electric"
+   ],
+   "index_codes_without_leaked_case": [
+    "electric",
+    "fire",
+    "gas"
+   ],
+   "covered_without_leaked_case": [
+    "electric"
+   ]
+  },
+  {
+   "gold_id": "G-R05",
+   "equipment_id": "EQ_SINK",
+   "gold": [
+    "burn"
+   ],
+   "index_codes_all": [],
+   "covered_all": [],
+   "index_codes_without_leaked_case": [],
+   "covered_without_leaked_case": []
+  },
+  {
+   "gold_id": "G-P01",
+   "equipment_id": "EQ_MIXER",
+   "gold": [
+    "cut"
+   ],
+   "index_codes_all": [
+    "cut",
+    "electric"
+   ],
+   "covered_all": [
+    "cut"
+   ],
+   "index_codes_without_leaked_case": [
+    "cut",
+    "electric"
+   ],
+   "covered_without_leaked_case": [
+    "cut"
+   ]
+  },
+  {
+   "gold_id": "G-P02",
+   "equipment_id": "EQ_KNIFE_BOARD",
+   "gold": [
+    "cut"
+   ],
+   "index_codes_all": [
+    "cut",
+    "ergonomic",
+    "falling"
+   ],
+   "covered_all": [
+    "cut"
+   ],
+   "index_codes_without_leaked_case": [
+    "cut",
+    "ergonomic",
+    "falling"
+   ],
+   "covered_without_leaked_case": [
+    "cut"
+   ]
+  },
+  {
+   "gold_id": "G-P03",
+   "equipment_id": "EQ_MOTORCYCLE",
+   "gold": [
+    "traffic"
+   ],
+   "index_codes_all": [
+    "ergonomic",
+    "falling",
+    "slip",
+    "traffic"
+   ],
+   "covered_all": [
+    "traffic"
+   ],
+   "index_codes_without_leaked_case": [
+    "ergonomic",
+    "falling",
+    "slip",
+    "traffic"
+   ],
+   "covered_without_leaked_case": [
+    "traffic"
+   ]
+  }
+ ]
+}

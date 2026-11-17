@@ -1,0 +1,14 @@
+{
+  "assessment_id": "A-EXAMPLE-1",
+  "detection_request_id": "det-EXAMPLE-0001",
+  "detection_status": "ok",
+  "master_version": "v1-draft",
+  "confirmed_by": "user",
+  "confirmed_at": "2026-11-16T13:02:00+09:00",
+  "equipment": [
+    { "equipment_id": "EQ_FRYER", "display_name": "튀김기", "origin": "detected", "user_action": "kept", "detection_refs": ["photo-1#d1"] },
+    { "equipment_id": "EQ_GAS_RANGE", "display_name": "가스레인지", "origin": "detected", "user_action": "relabeled", "original_equipment_id": "EQ_OVEN", "detection_refs": ["photo-1#d2"] },
+    { "equipment_id": "EQ_MICROWAVE", "display_name": "전자레인지", "origin": "detected", "user_action": "removed", "detection_refs": ["photo-2#d1"] },
+    { "equipment_id": "EQ_MARINATOR", "display_name": "염지기", "origin": "user_added", "user_action": "added", "detection_refs": [] }
+  ]
+}

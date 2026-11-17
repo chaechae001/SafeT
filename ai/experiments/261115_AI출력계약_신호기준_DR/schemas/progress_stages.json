@@ -1,0 +1,57 @@
+{
+  "description": "AI 호출별 진행률 단계(화면설계서 v3.19). percent는 해당 단계가 끝났을 때 서버가 보내는 값이다. 100은 서버 저장 성공 응답 후에만 보낸다. 출처 쪽 번호는 화면설계서 기준.",
+  "s04_draft": {
+    "source_page": 15,
+    "stages": [
+      { "stage": "analyze_input", "percent": 20, "label": "입력을 분석하고 있어요", "work": "사진·글·음성 전사문·기기 목록 정리, 사진 장소 연결" },
+      { "stage": "generate_items", "percent": 40, "label": "위험 항목을 만들고 있어요", "work": "작업·위험요인·사고 유형·원인·설명 생성, RAG 검색" },
+      { "stage": "judge_signal", "percent": 60, "label": "위험 신호를 판단하고 있어요", "work": "signal·signal_reason 판단, 법령 조항 검증, 현재 조치 후보 생성" },
+      { "stage": "recommend_measures", "percent": 80, "label": "대책을 추천하고 있어요", "work": "빨강·노랑 추천 대책 3개 생성, 스키마 검증" },
+      { "stage": "save_draft", "percent": 100, "label": "초안을 저장하고 있어요", "work": "백엔드 저장 성공 후 S05로 이동" }
+    ],
+    "note": "15쪽 문구는 80% 단계를 '대책 추천·예상 신호'로 적었으나, 결정 5는 예상 신호를 평가표 저장 때 판단한다고 정했다. 이 계약은 결정 5를 따른다(문서 4.3절)."
+  },
+  "s07_add": {
+    "source_page": 25,
+    "stages": [
+      { "stage": "analyze_candidates", "percent": 25, "label": "위험 후보를 분석하고 있어요", "work": "선택 후보를 항목으로 확장, 중복 조합 재확인" },
+      { "stage": "judge_signal", "percent": 50, "label": "위험 신호를 판단하고 있어요", "work": "signal·signal_reason·법령" },
+      { "stage": "measures_and_candidates", "percent": 80, "label": "대책과 현재 조치 후보를 준비하고 있어요", "work": "추천 대책 3개·현재 조치 후보" },
+      { "stage": "saved", "percent": 100, "label": "항목을 추가했어요", "work": "백엔드 저장 성공 후 S05로 이동" }
+    ]
+  },
+  "s07_candidates": {
+    "source_page": 24,
+    "stages": [],
+    "note": "후보 보기의 로딩 방식은 설계서에 없음. 원형 로딩만 쓰는 안을 제안(확인 필요)."
+  },
+  "s05d_save": {
+    "source_page": 25,
+    "stages": [
+      { "stage": "save_data", "percent": 30, "label": "평가표를 저장하고 있어요", "work": "draft 저장(필수값 검사 없음)" },
+      { "stage": "judge_expected_signal", "percent": 70, "label": "개선 후 예상 신호를 판단하고 있어요", "work": "대책이 바뀐 항목만 expected_signal 판단" },
+      { "stage": "done", "percent": 100, "label": "저장했어요", "work": "판단 결과 저장 성공 후 원래 화면 유지" }
+    ],
+    "note": "대책이 바뀐 항목이 없으면 AI를 호출하지 않고 원형 로딩만 짧게 보여준다."
+  },
+  "s05d_confirm": {
+    "source_page": 25,
+    "stages": [
+      { "stage": "judge_remaining_expected_signal", "percent": 50, "label": "남은 예상 신호를 판단하고 있어요", "work": "아직 판단하지 않았거나 대책이 바뀐 항목" },
+      { "stage": "aggregate_followups", "percent": 80, "label": "후속업무를 정리하고 있어요", "work": "빨강·노랑 + 대책 추가 초록 집계" },
+      { "stage": "confirmed", "percent": 100, "label": "평가표를 확정했어요", "work": "status=confirmed 잠금 후 S08 이동" }
+    ],
+    "note": "확정 전 필수값 검사(off 남음 포함)에 걸리면 진행률을 띄우지 않고 해당 필드로 이동한다(결정 13)."
+  },
+  "f03_result": {
+    "source_page": 39,
+    "stages": [
+      { "stage": "validate", "percent": 15, "label": "입력을 확인하고 있어요", "work": "결과·완료일 필수, 완료일 ≤ 오늘" },
+      { "stage": "save_result", "percent": 35, "label": "결과와 사진을 저장하고 있어요", "work": "action_record 저장, status=done" },
+      { "stage": "recompute_post_signal", "percent": 65, "label": "조치 후 신호를 다시 산정하고 있어요", "work": "post_signal·post_signal_reason 산정" },
+      { "stage": "update_followups", "percent": 85, "label": "후속업무를 갱신하고 있어요", "work": "후속업무 건수 갱신, 36쪽 1번 결정에 따른 추가 개선 처리" },
+      { "stage": "done", "percent": 100, "label": "조치를 기록했어요", "work": "F03-R 산정 결과 표시" }
+    ],
+    "note": "필수값 누락이면 15%에서 멈추고 해당 칸으로 이동. 재산정만 실패하면 결과는 저장된 채 post_signal=off로 F03-R에 '다시 산정'만 제공."
+  }
+}
