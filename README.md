@@ -28,3 +28,5 @@
 
 작업별 브랜치에서 개발하고 PR 검토 후 main에 병합합니다.
 비밀정보·현장 원본·모델 가중치는 커밋하지 않습니다.
+
+- [AI 입력 해석과 DB 위험성평가 연결](docs/implementation/catalog-ai.md) · [추출 계약](contracts/catalog_ai/README.md)

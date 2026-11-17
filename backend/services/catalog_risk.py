@@ -77,6 +77,11 @@ def recalculate(db, item, edit, email, revision, no):
         return {state['links'][str(a.id)] for a in actions if a.checked and str(a.id) in state['links']}
     current = selected(edit.curr)
     answered = edit.none or any(a.checked for a in edit.curr)
+    ai = state.get('ai')
+    if ai:
+        # 명시적으로 선택한 조치와 조치 없음만 미확인 상태를 해소한다.
+        ai['unknown_ids'] = [] if edit.none else [cid for cid in ai['unknown_ids'] if cid not in current]
+        answered = answered and ai['match']['applicability']=='confirmed' and not ai['unknown_ids'] and not ai['match']['uncertainties']
     result = evaluate(state['scenario'], current, answered=answered)
     planned = selected(edit.plans)
     projected = None
