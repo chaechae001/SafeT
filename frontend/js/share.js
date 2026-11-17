@@ -40,10 +40,17 @@
       $('#item-count').text(res.item_count);
       var s = res.share;
       $('#share-on, #reissue-link').prop('hidden', !s);
-      $('#share-off').prop('hidden', !!s);
+      $('#share-off').prop('hidden', !!s || res.status === 'none');   // 처음(만든 적 없음)엔 '중지' 안내를 띄우지 않음
       if (!s) {
         $('#share_url').val('');
         $('#qr-box').removeClass('qr-box--ready').text('QR');
+        if (res.status === 'expired') {
+          $('#share-off-title').text('공유 링크가 만료되었어요.');
+          $('#share-off-desc').text('7일이 지나 이전 링크는 열리지 않아요. 다시 공유하려면 새 링크를 발급해 주세요.');
+        } else {
+          $('#share-off-title').text('공유를 중지했어요.');
+          $('#share-off-desc').text('이전 링크는 열리지 않아요. 다시 공유하려면 새 링크를 발급해 주세요.');
+        }
         return;
       }
       $('#share_url').val(s.url);
@@ -78,8 +85,11 @@
     }
     if (SafeT.current) SafeT.current.setEval(evalNo);
 
-    // 처음 열 때: 링크가 없으면 만들고, 있으면 그대로 (평가표당 1개)
-    call('post', '/evals/' + evalNo + '/share');
+    // 처음 열 때: 조회만. 링크를 만든 적이 없을 때(status=none)만 바로 발급 (설계서 30쪽 '결과 공유를 누르면 링크 생성')
+    // 중지·만료된 뒤에는 자동으로 만들지 않고 '새 링크 발급' 버튼으로만 (2026-11-17 결정)
+    call('get', '/evals/' + evalNo + '/share').done(function (res) {
+      if (res.status === 'none') call('post', '/evals/' + evalNo + '/share');
+    });
 
     $('#copy-link').on('click', function () {
       var url = $('#share_url').val();

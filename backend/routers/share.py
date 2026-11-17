@@ -2,6 +2,7 @@
 
 공유하는 사람 (로그인 필요, 내 평가표, 참여자 전원 서명 후):
   GET  /evals/{eval_no}/share          지금 쓸 수 있는 링크 (없으면 share: null)
+                                       status: active / none(만든 적 없음) / stopped / expired · 조회만, 발급 안 함
   POST /evals/{eval_no}/share          링크가 없으면 만들고 있으면 그대로 (평가표당 1개, 7일)
   POST /evals/{eval_no}/share/reissue  이전 링크를 막고 새 링크 발급
   POST /evals/{eval_no}/share/stop     공유 중지 (이전 링크 바로 막힘)
