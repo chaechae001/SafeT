@@ -349,3 +349,18 @@ python backend/unit_tests/browser_catalog_smoke.py
 [입출력 계약](../contracts/catalog_ai/README.md) · [저장·화면 연결](../docs/implementation/catalog-ai.md).
 
 AI 연결 검사에는 새 근거가 과거 선택과 상충하는 경우, 계획/시점 미확인 근거 거부, 질문 문구 인용 거부, 이전 근거 계약 재확인, 100개 초과 질문 답변, 동시 재확인·확정 요청의 revision·확정 잠금 검사가 포함된다.
+
+## 평가표 삭제·휴지통 (H02 · C02 · 2026-11-17)
+
+로그인 필요 · 내 평가표만 · **작성 중(W) 평가표만** 삭제할 수 있습니다(확정·서명된 평가표는 409 `EVAL_LOCKED`, 법정 기록 보존).
+
+| 메서드·경로 | 설명 |
+|---|---|
+| DELETE /evals/{eval_no} | 휴지통으로 옮깁니다(`del_yn='Y'`, `del_dt`). 내 평가표 목록·편집 화면에서 빠집니다 |
+| GET /trash | 휴지통 목록과 남은 일수(`days_left`). 30일 지난 평가표는 이때 영구 삭제합니다 |
+| POST /trash/{eval_no}/restore | 복원(`del_yn='N'`). 이전 입력 그대로 작성 중으로. 30일이 지났으면 410 `TRASH_EXPIRED` |
+| DELETE /trash/{eval_no} | 영구 삭제. 복원할 수 없습니다 |
+
+- 영구 삭제는 평가표와 딸린 행(`eval_action`, `eval_file`, `risk_event`, `eval_share`, `eval_sign`, `eval_report`, `eval_dtl`, `eval_machine`, `eval_member`)을 참조 순서대로 지웁니다.
+- 30일 자동 삭제는 별도 예약 작업 없이 휴지통 목록을 열 때(그리고 만료된 평가표를 복원하려 할 때) 실행합니다. 운영에서 정확한 시점이 필요하면 예약 작업을 따로 둡니다.
+- 코드: `routers/trash.py`, `services/trash.py`. 테스트: `tests/test_trash.py`(DB 필요).
