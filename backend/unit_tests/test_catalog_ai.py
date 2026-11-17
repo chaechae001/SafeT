@@ -10,7 +10,7 @@ CAT=json.loads(ai.catalog.SEED.read_text(encoding='utf-8'))['scenarios']
 
 def test_text_evidence_and_machine_registration_are_not_observations():
     inp=ai.make_input({'request_key':'test','text':'튀김 작업','machines':[{'machine_nm':'튀김기'}]})
-    r={'evidence':[{'id':'E1','media_id':'TEXT','kind':'reported','statement':'없는 문구'}],'matches':[],'unmatched_observations':[]}
+    r={'evidence':[{'id':'E1','media_id':'TEXT','kind':'reported','time_scope':'current','statement':'없는 문구'}],'matches':[],'unmatched_observations':[]}
     with pytest.raises(AuthError):ai.validate(r,inp,CAT)
     r['evidence'][0].update(media_id='MACHINES',statement=inp['media'][1]['content'])
     with pytest.raises(AuthError):ai.validate(r,inp,CAT)
@@ -64,3 +64,11 @@ def test_photo_only_retrieval_and_public_schema(monkeypatch):
     assert {s['id'] for s in candidates}=={s['id'] for s in CAT}
     stored=json.loads((ai.PROMPT.parents[2]/'contracts/catalog_ai/analysis.schema.json').read_text(encoding='utf-8'))
     assert stored==ai.Extraction.model_json_schema()
+
+
+@pytest.mark.parametrize('base',['http://[','https://name:secret@example.invalid','https://example.invalid?token=secret'])
+def test_invalid_endpoint_is_explicit_without_credentials(monkeypatch,base):
+    monkeypatch.setenv('SAFET_AI_BASE_URL',base)
+    monkeypatch.setenv('SAFET_AI_MODEL','synthetic')
+    with pytest.raises(AuthError) as err:ai.configuration()
+    assert err.value.code=='RISK_MODEL_UNCONFIGURED' and 'secret' not in err.value.message
