@@ -1,0 +1,284 @@
+[
+ {
+  "interrupt": "confirm_equipment",
+  "shown": {
+   "step": "confirm_equipment",
+   "message": "탐지된 기기를 확인하세요(유지·수정·삭제·추가).",
+   "proposed": [
+    {
+     "equipment_id": "EQ_FRYER",
+     "display_name": "튀김기",
+     "origin": "detected",
+     "detection_refs": [
+      "photo-1#d1"
+     ]
+    },
+    {
+     "equipment_id": "EQ_KNIFE_BOARD",
+     "display_name": "칼·도마",
+     "origin": "detected",
+     "detection_refs": [
+      "photo-1#d2"
+     ]
+    },
+    {
+     "equipment_id": "EQ_REFRIGERATOR",
+     "display_name": "업소용 냉장·냉동고",
+     "origin": "detected",
+     "detection_refs": [
+      "photo-2#d1"
+     ]
+    },
+    {
+     "equipment_id": "EQ_WALKIN_COOLER",
+     "display_name": "냉장·냉동창고",
+     "origin": "detected",
+     "detection_refs": [
+      "photo-2#d2"
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "resume": {
+   "synthetic": true,
+   "actions": [
+    {
+     "equipment_id": "EQ_WALKIN_COOLER",
+     "action": "removed"
+    }
+   ],
+   "added": [
+    "EQ_MARINATOR"
+   ]
+  }
+ },
+ {
+  "interrupt": "select_and_rate",
+  "shown": {
+   "step": "select_and_rate",
+   "message": "후보를 고르고 가능성·중대성을 직접 입력하세요(AI는 위험도를 정하지 않습니다).",
+   "scale": {
+    "scale_id": "safet-3x3-freq-severity",
+    "scale_version": "1.0-proposed",
+    "status": "노션 H1 3×3 빈도·강도법 + 신호등 해석 B(사용자 결정 2026-11-16, adoption_status=proposed, 전문가 채택 전)",
+    "likelihood": [
+     {
+      "level": 1,
+      "label": "거의 없음"
+     },
+     {
+      "level": 2,
+      "label": "가끔"
+     },
+     {
+      "level": 3,
+      "label": "빈번"
+     }
+    ],
+    "severity": [
+     {
+      "level": 1,
+      "label": "소"
+     },
+     {
+      "level": 2,
+      "label": "중"
+     },
+     {
+      "level": 3,
+      "label": "대"
+     }
+    ]
+   },
+   "candidates": [
+    {
+     "candidate_id": "EQ_FRYER:burn",
+     "hazard": "튀김기 열기 및 기름에 화상·열상",
+     "accident_type": {
+      "code": "burn",
+      "label": "고온 접촉·화상"
+     },
+     "rationale": "튀김기의 고온과 기름으로 인한 화상 위험이 여러 출처에서 언급되었다.",
+     "measures": [
+      "m-EQ_FRYER-burn-1",
+      "m-EQ_FRYER-burn-2",
+      "m-EQ_FRYER-burn-3"
+     ]
+    },
+    {
+     "candidate_id": "EQ_FRYER:slip",
+     "hazard": "튀김기 주변 바닥이 미끄러워넘어짐",
+     "accident_type": {
+      "code": "slip",
+      "label": "미끄러짐·넘어짐"
+     },
+     "rationale": "튀김기 주변 바닥의 미끄러움이 넘어짐 위험을 초래할 수 있다는 점이 여러 출처에서 지적되었다.",
+     "measures": [
+      "m-EQ_FRYER-slip-1",
+      "m-EQ_FRYER-slip-2",
+      "m-EQ_FRYER-slip-3"
+     ]
+    },
+    {
+     "candidate_id": "EQ_FRYER:respiratory",
+     "hazard": "환기시설은 정상적으로 작동한다.",
+     "accident_type": {
+      "code": "respiratory",
+      "label": "조리흄·환기·유해가스 노출"
+     },
+     "rationale": "정상 작동하는 환기시설이 조리흄과 유해가스 노출 위험을 관리하고 있다는 근거가 제시되었다.",
+     "measures": [
+      "m-EQ_FRYER-respiratory-1"
+     ]
+    },
+    {
+     "candidate_id": "EQ_FRYER:gas",
+     "hazard": "가스누출 자동차단기 및 누설경보기 작동테스트를 주기적으로 실시한다.",
+     "accident_type": {
+      "code": "gas",
+      "label": "가스 누출·폭발"
+     },
+     "rationale": "주기적인 가스 누출 검사와 경보 시스템 작동 테스트가 실시되어 가스 누출 위험이 관리되고 있다.",
+     "measures": [
+      "m-EQ_FRYER-gas-1"
+     ]
+    },
+    {
+     "candidate_id": "EQ_KNIFE_BOARD:cut",
+     "hazard": "칼 등에 절단·베임·찔림",
+     "accident_type": {
+      "code": "cut",
+      "label": "베임·절단·끼임"
+     },
+     "rationale": "칼과 도마 사용 중 가장 빈번하게 발생하는 위험 요인으로 베임과 절단이 언급되었습니다.",
+     "measures": [
+      "m-EQ_KNIFE_BOARD-cut-1",
+      "m-EQ_KNIFE_BOARD-cut-2",
+      "m-EQ_KNIFE_BOARD-cut-3"
+     ]
+    },
+    {
+     "candidate_id": "EQ_KNIFE_BOARD:falling",
+     "hazard": "작업대에서 칼이 낙하하여 베임·찔림",
+     "accident_type": {
+      "code": "falling",
+      "label": "낙하·충돌·추락"
+     },
+     "rationale": "칼의 낙하로 인한 베임과 상해 위험이 언급되어 있어 중요한 위험 요인입니다.",
+     "measures": [
+      "m-EQ_KNIFE_BOARD-falling-1",
+      "m-EQ_KNIFE_BOARD-falling-2",
+      "m-EQ_KNIFE_BOARD-falling-3"
+     ]
+    },
+    {
+     "candidate_id": "EQ_KNIFE_BOARD:ergonomic",
+     "hazard": "반복작업에 따른 근골격계질환",
+     "accident_type": {
+      "code": "ergonomic",
+      "label": "중량물·근골격계 부담"
+     },
+     "rationale": "반복적인 칼 사용 작업으로 인한 근골격계 질환 위험이 지적되었습니다.",
+     "measures": [
+      "m-EQ_KNIFE_BOARD-ergonomic-1",
+      "m-EQ_KNIFE_BOARD-ergonomic-2",
+      "m-EQ_KNIFE_BOARD-ergonomic-3"
+     ]
+    },
+    {
+     "candidate_id": "EQ_REFRIGERATOR:slip",
+     "hazard": "냉장·냉동고 출입 시 넘어짐",
+     "accident_type": {
+      "code": "slip",
+      "label": "미끄러짐·넘어짐"
+     },
+     "rationale": "업소용 냉장·냉동고 출입 시 넘어짐 위험이 여러 출처에서 보고되어 빈번하게 발생할 수 있는 위험 요인입니다.",
+     "measures": [
+      "m-EQ_REFRIGERATOR-slip-1",
+      "m-EQ_REFRIGERATOR-slip-2",
+      "m-EQ_REFRIGERATOR-slip-3"
+     ]
+    },
+    {
+     "candidate_id": "EQ_REFRIGERATOR:falling",
+     "hazard": "선반에 부딪힘",
+     "accident_type": {
+      "code": "falling",
+      "label": "낙하·충돌·추락"
+     },
+     "rationale": "냉장·냉동고 내에서 선반에 부딪히는 낙하 및 충돌 위험이 근골격계 부담과 함께 작업자 안전에 중요한 요소로 지적되었습니다.",
+     "measures": [
+      "m-EQ_REFRIGERATOR-falling-1",
+      "m-EQ_REFRIGERATOR-falling-2",
+      "m-EQ_REFRIGERATOR-falling-3"
+     ]
+    },
+    {
+     "candidate_id": "EQ_REFRIGERATOR:ergonomic",
+     "hazard": "근골격계 질환",
+     "accident_type": {
+      "code": "ergonomic",
+      "label": "중량물·근골격계 부담"
+     },
+     "rationale": "무거운 식재료나 물품을 다루는 과정에서 근골격계 질환 위험이 지속적으로 제기되었습니다.",
+     "measures": [
+      "m-EQ_REFRIGERATOR-ergonomic-1",
+      "m-EQ_REFRIGERATOR-ergonomic-2",
+      "m-EQ_REFRIGERATOR-ergonomic-3"
+     ]
+    },
+    {
+     "candidate_id": "EQ_REFRIGERATOR:heat_cold",
+     "hazard": "냉장·냉동고에 저온주의 표지를 부착한다.",
+     "accident_type": {
+      "code": "heat_cold",
+      "label": "고열·한랭 노출"
+     },
+     "rationale": "저온 환경에서 장시간 작업 시 방한 장비 착용의 필요성이 강조되어 한랭 노출 위험이 고려됩니다.",
+     "measures": [
+      "m-EQ_REFRIGERATOR-heat_cold-1",
+      "m-EQ_REFRIGERATOR-heat_cold-2",
+      "m-EQ_REFRIGERATOR-heat_cold-3"
+     ]
+    },
+    {
+     "candidate_id": "EQ_REFRIGERATOR:entrapment",
+     "hazard": "냉장·냉동고 출입문은 내부에서도 열리는지 정기적으로 확인하다.",
+     "accident_type": {
+      "code": "entrapment",
+      "label": "냉장·냉동실 갇힘"
+     },
+     "rationale": "냉장·냉동고 출입문 관리 부실로 인한 갇힘 위험이 안전 관리 측면에서 중요한 고려사항으로 제기되었습니다.",
+     "measures": [
+      "m-EQ_REFRIGERATOR-entrapment-1",
+      "m-EQ_REFRIGERATOR-entrapment-2"
+     ]
+    }
+   ],
+   "flagged": []
+  }
+ },
+ {
+  "resume": {
+   "synthetic": true,
+   "selections": [
+    {
+     "candidate_id": "EQ_FRYER:burn",
+     "likelihood": 2,
+     "severity": 3,
+     "measure_ids": [
+      "m-EQ_FRYER-burn-1"
+     ]
+    },
+    {
+     "candidate_id": "EQ_FRYER:slip",
+     "likelihood": 1,
+     "severity": 2,
+     "measure_ids": []
+    }
+   ]
+  }
+ }
+]

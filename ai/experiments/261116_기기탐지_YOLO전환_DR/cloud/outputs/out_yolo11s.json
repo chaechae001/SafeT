@@ -1,0 +1,8692 @@
+{
+ "model_output": {
+  "request_id": "detect_compare_yolo_coco",
+  "status": "ok",
+  "error_code": null,
+  "detector": {
+   "model_name": "yolo_coco",
+   "model_version": "ultralytics 8.4.215 / yolo11s.pt",
+   "weights_sha256": "85a76fe86dd8afe384648546b56a7a78580c7cb7b404fc595f97969322d502d5",
+   "class_map_version": "261116_사전학습클래스_대응표_v1",
+   "score_threshold_applied": 0.05,
+   "prompt_set_version": null
+  },
+  "master_version": "v1-draft",
+  "judged_at": "2026-11-16T16:55:26+09:00",
+  "photos": [
+   {
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 1600,
+    "height": 900
+   },
+   {
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 1600,
+    "height": 900
+   },
+   {
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 1600,
+    "height": 900
+   },
+   {
+    "photo_id": "261113_P07_gkMLRGZIHsc_0314.00s_DR",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 1600,
+    "height": 900
+   },
+   {
+    "photo_id": "261113_P09_gkMLRGZIHsc_0414.00s_DR",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 1600,
+    "height": 900
+   },
+   {
+    "photo_id": "261113_P11_TCdTyi29FJA_0095.90s_DR",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 1600,
+    "height": 900
+   },
+   {
+    "photo_id": "261113_P12_TCdTyi29FJA_0103.00s_DR",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 1600,
+    "height": 900
+   },
+   {
+    "photo_id": "C02_kkubeurakko_process_2",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 906,
+    "height": 1120
+   },
+   {
+    "photo_id": "C03_kkubeurakko_process_3",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 906,
+    "height": 1120
+   },
+   {
+    "photo_id": "G02_goobne_fryer",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 640,
+    "height": 600
+   },
+   {
+    "photo_id": "K01_kyochon_robot",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 433,
+    "height": 330
+   },
+   {
+    "photo_id": "PotPlayer64_QgHfifs4YE",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 1600,
+    "height": 900
+   },
+   {
+    "photo_id": "PotPlayer64_VW1iKQ5C4k",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 1600,
+    "height": 900
+   },
+   {
+    "photo_id": "_fAwR9CFoyI_0121",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 455,
+    "height": 251
+   },
+   {
+    "photo_id": "bbq_inspection_2023",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 1200,
+    "height": 913
+   },
+   {
+    "photo_id": "brave_ZcRVMActFC",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 1085,
+    "height": 997
+   },
+   {
+    "photo_id": "brave_uFFOgcRwoD",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 1164,
+    "height": 988
+   },
+   {
+    "photo_id": "dongdaemun_bhc_1",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 1387,
+    "height": 1040
+   },
+   {
+    "photo_id": "dongdaemun_bhc_3",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 1387,
+    "height": 1040
+   },
+   {
+    "photo_id": "nahYjWAkqY8_0015",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 455,
+    "height": 251
+   },
+   {
+    "photo_id": "seongdong_bbq_haengdang_1",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 1600,
+    "height": 1200
+   },
+   {
+    "photo_id": "seongdong_bbq_haengdang_3",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 1600,
+    "height": 1200
+   },
+   {
+    "photo_id": "seongdong_bbq_haengdang_4",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 1600,
+    "height": 1200
+   },
+   {
+    "photo_id": "seongdong_kyochon_1",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 1600,
+    "height": 1200
+   },
+   {
+    "photo_id": "seongdong_kyochon_3",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 1600,
+    "height": 1200
+   },
+   {
+    "photo_id": "seongdong_kyochon_4",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 1600,
+    "height": 1200
+   },
+   {
+    "photo_id": "seongdong_nene_geumho_1",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 1280,
+    "height": 962
+   },
+   {
+    "photo_id": "seongdong_nene_geumho_2",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 1280,
+    "height": 962
+   },
+   {
+    "photo_id": "seongdong_nene_geumho_3",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 1280,
+    "height": 962
+   },
+   {
+    "photo_id": "seongdong_nene_geumho_4",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 1280,
+    "height": 962
+   },
+   {
+    "photo_id": "seongdong_nene_seongsu_1",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 1200,
+    "height": 1600
+   },
+   {
+    "photo_id": "seongdong_nene_seongsu_3",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 1600,
+    "height": 1200
+   },
+   {
+    "photo_id": "seongdong_nene_seongsu_4",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 1600,
+    "height": 1200
+   },
+   {
+    "photo_id": "zT1kAueZC7k_0019",
+    "status": "analyzed",
+    "error_code": null,
+    "width": 1280,
+    "height": 720
+   }
+  ],
+  "detections": [
+   {
+    "detection_id": "d1",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": null,
+    "detector_class": "bowl",
+    "class_map_match": null,
+    "confidence": 0.9435,
+    "bbox": [
+     0.2307,
+     0.7708,
+     0.4216,
+     0.9572
+    ]
+   },
+   {
+    "detection_id": "d2",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": null,
+    "detector_class": "person",
+    "class_map_match": null,
+    "confidence": 0.9256,
+    "bbox": [
+     0.5867,
+     0.1389,
+     0.813,
+     0.9651
+    ]
+   },
+   {
+    "detection_id": "d3",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": null,
+    "detector_class": "person",
+    "class_map_match": null,
+    "confidence": 0.9052,
+    "bbox": [
+     0.2274,
+     0.2049,
+     0.5293,
+     0.7967
+    ]
+   },
+   {
+    "detection_id": "d4",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "refrigerator",
+    "class_map_match": "direct",
+    "confidence": 0.8433,
+    "bbox": [
+     0,
+     0.1303,
+     0.3422,
+     0.914
+    ]
+   },
+   {
+    "detection_id": "d5",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_DISPLAY_COOLER",
+    "detector_class": "refrigerator",
+    "class_map_match": "partial",
+    "confidence": 0.8433,
+    "bbox": [
+     0,
+     0.1303,
+     0.3422,
+     0.914
+    ]
+   },
+   {
+    "detection_id": "d6",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": null,
+    "detector_class": "apple",
+    "class_map_match": null,
+    "confidence": 0.8417,
+    "bbox": [
+     0.5095,
+     0.7374,
+     0.5633,
+     0.8337
+    ]
+   },
+   {
+    "detection_id": "d7",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": null,
+    "detector_class": "apple",
+    "class_map_match": null,
+    "confidence": 0.7871,
+    "bbox": [
+     0.5559,
+     0.7115,
+     0.6024,
+     0.7976
+    ]
+   },
+   {
+    "detection_id": "d8",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_KNIFE_BOARD",
+    "detector_class": "knife",
+    "class_map_match": "partial",
+    "confidence": 0.6865,
+    "bbox": [
+     0.4246,
+     0.7142,
+     0.5038,
+     0.778
+    ]
+   },
+   {
+    "detection_id": "d9",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": null,
+    "detector_class": "person",
+    "class_map_match": null,
+    "confidence": 0.4011,
+    "bbox": [
+     0.9631,
+     0.3203,
+     0.9997,
+     0.5698
+    ]
+   },
+   {
+    "detection_id": "d10",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": null,
+    "detector_class": "cup",
+    "class_map_match": null,
+    "confidence": 0.3768,
+    "bbox": [
+     0.7392,
+     0.1797,
+     0.7577,
+     0.2242
+    ]
+   },
+   {
+    "detection_id": "d11",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": null,
+    "detector_class": "bottle",
+    "class_map_match": null,
+    "confidence": 0.3196,
+    "bbox": [
+     0.607,
+     0.0234,
+     0.6395,
+     0.0824
+    ]
+   },
+   {
+    "detection_id": "d12",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": null,
+    "detector_class": "bottle",
+    "class_map_match": null,
+    "confidence": 0.3164,
+    "bbox": [
+     0.6171,
+     0.1762,
+     0.6398,
+     0.2664
+    ]
+   },
+   {
+    "detection_id": "d13",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": null,
+    "detector_class": "bottle",
+    "class_map_match": null,
+    "confidence": 0.2919,
+    "bbox": [
+     0.608,
+     0.0821,
+     0.6313,
+     0.1365
+    ]
+   },
+   {
+    "detection_id": "d14",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": null,
+    "detector_class": "apple",
+    "class_map_match": null,
+    "confidence": 0.2819,
+    "bbox": [
+     0.4418,
+     0.7615,
+     0.4975,
+     0.8317
+    ]
+   },
+   {
+    "detection_id": "d15",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": null,
+    "detector_class": "cup",
+    "class_map_match": null,
+    "confidence": 0.2778,
+    "bbox": [
+     0.8095,
+     0.0458,
+     0.8286,
+     0.0823
+    ]
+   },
+   {
+    "detection_id": "d16",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": null,
+    "detector_class": "bottle",
+    "class_map_match": null,
+    "confidence": 0.2215,
+    "bbox": [
+     0.5847,
+     0.1604,
+     0.6096,
+     0.2137
+    ]
+   },
+   {
+    "detection_id": "d17",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": null,
+    "detector_class": "cup",
+    "class_map_match": null,
+    "confidence": 0.2172,
+    "bbox": [
+     0.5843,
+     0.0917,
+     0.6079,
+     0.1442
+    ]
+   },
+   {
+    "detection_id": "d18",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave",
+    "class_map_match": "direct",
+    "confidence": 0.2003,
+    "bbox": [
+     0.5206,
+     0.3215,
+     0.6071,
+     0.5136
+    ]
+   },
+   {
+    "detection_id": "d19",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": null,
+    "detector_class": "bottle",
+    "class_map_match": null,
+    "confidence": 0.1736,
+    "bbox": [
+     0.5845,
+     0.0911,
+     0.6078,
+     0.1443
+    ]
+   },
+   {
+    "detection_id": "d20",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": null,
+    "detector_class": "apple",
+    "class_map_match": null,
+    "confidence": 0.1687,
+    "bbox": [
+     0.4111,
+     0.7866,
+     0.4666,
+     0.876
+    ]
+   },
+   {
+    "detection_id": "d21",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": null,
+    "detector_class": "bottle",
+    "class_map_match": null,
+    "confidence": 0.1382,
+    "bbox": [
+     0.5828,
+     0.0348,
+     0.6072,
+     0.0892
+    ]
+   },
+   {
+    "detection_id": "d22",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "refrigerator",
+    "class_map_match": "direct",
+    "confidence": 0.1181,
+    "bbox": [
+     0.0006,
+     0.1185,
+     0.1436,
+     0.96
+    ]
+   },
+   {
+    "detection_id": "d23",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_DISPLAY_COOLER",
+    "detector_class": "refrigerator",
+    "class_map_match": "partial",
+    "confidence": 0.1181,
+    "bbox": [
+     0.0006,
+     0.1185,
+     0.1436,
+     0.96
+    ]
+   },
+   {
+    "detection_id": "d24",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": null,
+    "detector_class": "bottle",
+    "class_map_match": null,
+    "confidence": 0.1167,
+    "bbox": [
+     0.7269,
+     0.1443,
+     0.7453,
+     0.2509
+    ]
+   },
+   {
+    "detection_id": "d25",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": null,
+    "detector_class": "cup",
+    "class_map_match": null,
+    "confidence": 0.1101,
+    "bbox": [
+     0.5852,
+     0.216,
+     0.6092,
+     0.2681
+    ]
+   },
+   {
+    "detection_id": "d26",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": null,
+    "detector_class": "bottle",
+    "class_map_match": null,
+    "confidence": 0.1057,
+    "bbox": [
+     0.5856,
+     0.2158,
+     0.6099,
+     0.2678
+    ]
+   },
+   {
+    "detection_id": "d27",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_KNIFE_BOARD",
+    "detector_class": "knife",
+    "class_map_match": "partial",
+    "confidence": 0.1025,
+    "bbox": [
+     0.6571,
+     0.7261,
+     0.7119,
+     0.7944
+    ]
+   },
+   {
+    "detection_id": "d28",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": null,
+    "detector_class": "cup",
+    "class_map_match": null,
+    "confidence": 0.1,
+    "bbox": [
+     0.5564,
+     0.2233,
+     0.5774,
+     0.2754
+    ]
+   },
+   {
+    "detection_id": "d29",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": null,
+    "detector_class": "cup",
+    "class_map_match": null,
+    "confidence": 0.0983,
+    "bbox": [
+     0.5848,
+     0.1606,
+     0.6088,
+     0.2139
+    ]
+   },
+   {
+    "detection_id": "d30",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": null,
+    "detector_class": "dining table",
+    "class_map_match": null,
+    "confidence": 0.0975,
+    "bbox": [
+     0.2403,
+     0.6921,
+     0.7466,
+     0.9901
+    ]
+   },
+   {
+    "detection_id": "d31",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": null,
+    "detector_class": "bowl",
+    "class_map_match": null,
+    "confidence": 0.0933,
+    "bbox": [
+     0.4107,
+     0.78,
+     0.4665,
+     0.8765
+    ]
+   },
+   {
+    "detection_id": "d32",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": null,
+    "detector_class": "dining table",
+    "class_map_match": null,
+    "confidence": 0.0909,
+    "bbox": [
+     0.0092,
+     0.7655,
+     0.4939,
+     0.9924
+    ]
+   },
+   {
+    "detection_id": "d33",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": null,
+    "detector_class": "cup",
+    "class_map_match": null,
+    "confidence": 0.0888,
+    "bbox": [
+     0.7387,
+     0.2226,
+     0.7584,
+     0.2519
+    ]
+   },
+   {
+    "detection_id": "d34",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_KNIFE_BOARD",
+    "detector_class": "knife",
+    "class_map_match": "partial",
+    "confidence": 0.0827,
+    "bbox": [
+     0.3855,
+     0.7473,
+     0.4956,
+     0.79
+    ]
+   },
+   {
+    "detection_id": "d35",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "refrigerator",
+    "class_map_match": "direct",
+    "confidence": 0.0781,
+    "bbox": [
+     0.7528,
+     0.1725,
+     0.8854,
+     0.5001
+    ]
+   },
+   {
+    "detection_id": "d36",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_DISPLAY_COOLER",
+    "detector_class": "refrigerator",
+    "class_map_match": "partial",
+    "confidence": 0.0781,
+    "bbox": [
+     0.7528,
+     0.1725,
+     0.8854,
+     0.5001
+    ]
+   },
+   {
+    "detection_id": "d37",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": null,
+    "detector_class": "chair",
+    "class_map_match": null,
+    "confidence": 0.0635,
+    "bbox": [
+     0.9759,
+     0.9488,
+     0.9999,
+     0.9998
+    ]
+   },
+   {
+    "detection_id": "d38",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "refrigerator",
+    "class_map_match": "direct",
+    "confidence": 0.0608,
+    "bbox": [
+     0.7387,
+     0.1694,
+     0.8912,
+     0.9279
+    ]
+   },
+   {
+    "detection_id": "d39",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": "EQ_DISPLAY_COOLER",
+    "detector_class": "refrigerator",
+    "class_map_match": "partial",
+    "confidence": 0.0608,
+    "bbox": [
+     0.7387,
+     0.1694,
+     0.8912,
+     0.9279
+    ]
+   },
+   {
+    "detection_id": "d40",
+    "photo_id": "261113_P01_bApoYZBPCLE_0148.00s_DR",
+    "equipment_id": null,
+    "detector_class": "cup",
+    "class_map_match": null,
+    "confidence": 0.0582,
+    "bbox": [
+     0.5435,
+     0.2838,
+     0.558,
+     0.3252
+    ]
+   },
+   {
+    "detection_id": "d41",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.1192,
+    "bbox": [
+     0.5341,
+     0.1984,
+     0.999,
+     0.9947
+    ]
+   },
+   {
+    "detection_id": "d42",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.1192,
+    "bbox": [
+     0.5341,
+     0.1984,
+     0.999,
+     0.9947
+    ]
+   },
+   {
+    "detection_id": "d43",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.1192,
+    "bbox": [
+     0.5341,
+     0.1984,
+     0.999,
+     0.9947
+    ]
+   },
+   {
+    "detection_id": "d44",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.1165,
+    "bbox": [
+     0.0015,
+     0.016,
+     0.5247,
+     0.9673
+    ]
+   },
+   {
+    "detection_id": "d45",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.1165,
+    "bbox": [
+     0.0015,
+     0.016,
+     0.5247,
+     0.9673
+    ]
+   },
+   {
+    "detection_id": "d46",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.1165,
+    "bbox": [
+     0.0015,
+     0.016,
+     0.5247,
+     0.9673
+    ]
+   },
+   {
+    "detection_id": "d47",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": "EQ_KNIFE_BOARD",
+    "detector_class": "knife",
+    "class_map_match": "partial",
+    "confidence": 0.0619,
+    "bbox": [
+     0.1931,
+     0.5443,
+     0.5186,
+     0.7165
+    ]
+   },
+   {
+    "detection_id": "d48",
+    "photo_id": "261113_P04_bApoYZBPCLE_0513.00s_DR",
+    "equipment_id": null,
+    "detector_class": "bird",
+    "class_map_match": null,
+    "confidence": 0.0552,
+    "bbox": [
+     0.279,
+     0.0036,
+     0.5652,
+     0.4881
+    ]
+   },
+   {
+    "detection_id": "d49",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": null,
+    "detector_class": "person",
+    "class_map_match": null,
+    "confidence": 0.8801,
+    "bbox": [
+     0.3397,
+     0.037,
+     0.7229,
+     0.983
+    ]
+   },
+   {
+    "detection_id": "d50",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": null,
+    "detector_class": "person",
+    "class_map_match": null,
+    "confidence": 0.8546,
+    "bbox": [
+     0.6873,
+     0.0127,
+     1,
+     0.9659
+    ]
+   },
+   {
+    "detection_id": "d51",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": null,
+    "detector_class": "bowl",
+    "class_map_match": null,
+    "confidence": 0.7495,
+    "bbox": [
+     0.1095,
+     0.6089,
+     0.2924,
+     0.8284
+    ]
+   },
+   {
+    "detection_id": "d52",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": null,
+    "detector_class": "spoon",
+    "class_map_match": null,
+    "confidence": 0.3416,
+    "bbox": [
+     0.3127,
+     0.6788,
+     0.3517,
+     0.8358
+    ]
+   },
+   {
+    "detection_id": "d53",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": null,
+    "detector_class": "bowl",
+    "class_map_match": null,
+    "confidence": 0.322,
+    "bbox": [
+     0.2256,
+     0.7906,
+     0.4412,
+     0.903
+    ]
+   },
+   {
+    "detection_id": "d54",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "sink",
+    "class_map_match": "direct",
+    "confidence": 0.1957,
+    "bbox": [
+     0.2225,
+     0.7926,
+     0.4419,
+     0.9046
+    ]
+   },
+   {
+    "detection_id": "d55",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "refrigerator",
+    "class_map_match": "direct",
+    "confidence": 0.1791,
+    "bbox": [
+     0.0355,
+     0.0066,
+     0.4391,
+     0.8596
+    ]
+   },
+   {
+    "detection_id": "d56",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_DISPLAY_COOLER",
+    "detector_class": "refrigerator",
+    "class_map_match": "partial",
+    "confidence": 0.1791,
+    "bbox": [
+     0.0355,
+     0.0066,
+     0.4391,
+     0.8596
+    ]
+   },
+   {
+    "detection_id": "d57",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "refrigerator",
+    "class_map_match": "direct",
+    "confidence": 0.1355,
+    "bbox": [
+     0.5926,
+     0.0331,
+     0.7694,
+     0.8249
+    ]
+   },
+   {
+    "detection_id": "d58",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_DISPLAY_COOLER",
+    "detector_class": "refrigerator",
+    "class_map_match": "partial",
+    "confidence": 0.1355,
+    "bbox": [
+     0.5926,
+     0.0331,
+     0.7694,
+     0.8249
+    ]
+   },
+   {
+    "detection_id": "d59",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": null,
+    "detector_class": "bowl",
+    "class_map_match": null,
+    "confidence": 0.112,
+    "bbox": [
+     0.2745,
+     0.8144,
+     0.3265,
+     0.8624
+    ]
+   },
+   {
+    "detection_id": "d60",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "refrigerator",
+    "class_map_match": "direct",
+    "confidence": 0.102,
+    "bbox": [
+     0.0016,
+     0.017,
+     0.1982,
+     0.8422
+    ]
+   },
+   {
+    "detection_id": "d61",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_DISPLAY_COOLER",
+    "detector_class": "refrigerator",
+    "class_map_match": "partial",
+    "confidence": 0.102,
+    "bbox": [
+     0.0016,
+     0.017,
+     0.1982,
+     0.8422
+    ]
+   },
+   {
+    "detection_id": "d62",
+    "photo_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "sink",
+    "class_map_match": "direct",
+    "confidence": 0.083,
+    "bbox": [
+     0.1062,
+     0.705,
+     0.5473,
+     0.9895
+    ]
+   },
+   {
+    "detection_id": "d63",
+    "photo_id": "261113_P07_gkMLRGZIHsc_0314.00s_DR",
+    "equipment_id": null,
+    "detector_class": "spoon",
+    "class_map_match": null,
+    "confidence": 0.1286,
+    "bbox": [
+     0.3486,
+     0.0015,
+     0.4836,
+     0.5867
+    ]
+   },
+   {
+    "detection_id": "d64",
+    "photo_id": "261113_P09_gkMLRGZIHsc_0414.00s_DR",
+    "equipment_id": null,
+    "detector_class": "person",
+    "class_map_match": null,
+    "confidence": 0.8813,
+    "bbox": [
+     0.1826,
+     0.1026,
+     0.6495,
+     0.9841
+    ]
+   },
+   {
+    "detection_id": "d65",
+    "photo_id": "261113_P09_gkMLRGZIHsc_0414.00s_DR",
+    "equipment_id": null,
+    "detector_class": "bottle",
+    "class_map_match": null,
+    "confidence": 0.8379,
+    "bbox": [
+     0.9168,
+     0.2374,
+     0.9969,
+     0.4995
+    ]
+   },
+   {
+    "detection_id": "d66",
+    "photo_id": "261113_P09_gkMLRGZIHsc_0414.00s_DR",
+    "equipment_id": null,
+    "detector_class": "bowl",
+    "class_map_match": null,
+    "confidence": 0.796,
+    "bbox": [
+     0.6795,
+     0.6898,
+     0.8336,
+     0.788
+    ]
+   },
+   {
+    "detection_id": "d67",
+    "photo_id": "261113_P09_gkMLRGZIHsc_0414.00s_DR",
+    "equipment_id": null,
+    "detector_class": "bottle",
+    "class_map_match": null,
+    "confidence": 0.7637,
+    "bbox": [
+     0.8698,
+     0.1813,
+     0.9193,
+     0.4904
+    ]
+   },
+   {
+    "detection_id": "d68",
+    "photo_id": "261113_P09_gkMLRGZIHsc_0414.00s_DR",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.657,
+    "bbox": [
+     0.5013,
+     0.7992,
+     0.7943,
+     0.9924
+    ]
+   },
+   {
+    "detection_id": "d69",
+    "photo_id": "261113_P09_gkMLRGZIHsc_0414.00s_DR",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.657,
+    "bbox": [
+     0.5013,
+     0.7992,
+     0.7943,
+     0.9924
+    ]
+   },
+   {
+    "detection_id": "d70",
+    "photo_id": "261113_P09_gkMLRGZIHsc_0414.00s_DR",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.657,
+    "bbox": [
+     0.5013,
+     0.7992,
+     0.7943,
+     0.9924
+    ]
+   },
+   {
+    "detection_id": "d71",
+    "photo_id": "261113_P09_gkMLRGZIHsc_0414.00s_DR",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "sink",
+    "class_map_match": "direct",
+    "confidence": 0.4793,
+    "bbox": [
+     0.899,
+     0.8678,
+     0.9997,
+     0.994
+    ]
+   },
+   {
+    "detection_id": "d72",
+    "photo_id": "261113_P09_gkMLRGZIHsc_0414.00s_DR",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.231,
+    "bbox": [
+     0.0347,
+     0.7091,
+     0.2205,
+     0.9893
+    ]
+   },
+   {
+    "detection_id": "d73",
+    "photo_id": "261113_P09_gkMLRGZIHsc_0414.00s_DR",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.231,
+    "bbox": [
+     0.0347,
+     0.7091,
+     0.2205,
+     0.9893
+    ]
+   },
+   {
+    "detection_id": "d74",
+    "photo_id": "261113_P09_gkMLRGZIHsc_0414.00s_DR",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.231,
+    "bbox": [
+     0.0347,
+     0.7091,
+     0.2205,
+     0.9893
+    ]
+   },
+   {
+    "detection_id": "d75",
+    "photo_id": "261113_P09_gkMLRGZIHsc_0414.00s_DR",
+    "equipment_id": null,
+    "detector_class": "bottle",
+    "class_map_match": null,
+    "confidence": 0.1939,
+    "bbox": [
+     0.9088,
+     0.2078,
+     0.9486,
+     0.3616
+    ]
+   },
+   {
+    "detection_id": "d76",
+    "photo_id": "261113_P09_gkMLRGZIHsc_0414.00s_DR",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.1676,
+    "bbox": [
+     0.037,
+     0.8746,
+     0.2145,
+     0.9915
+    ]
+   },
+   {
+    "detection_id": "d77",
+    "photo_id": "261113_P09_gkMLRGZIHsc_0414.00s_DR",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.1676,
+    "bbox": [
+     0.037,
+     0.8746,
+     0.2145,
+     0.9915
+    ]
+   },
+   {
+    "detection_id": "d78",
+    "photo_id": "261113_P09_gkMLRGZIHsc_0414.00s_DR",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.1676,
+    "bbox": [
+     0.037,
+     0.8746,
+     0.2145,
+     0.9915
+    ]
+   },
+   {
+    "detection_id": "d79",
+    "photo_id": "261113_P09_gkMLRGZIHsc_0414.00s_DR",
+    "equipment_id": null,
+    "detector_class": "bottle",
+    "class_map_match": null,
+    "confidence": 0.1582,
+    "bbox": [
+     0.9073,
+     0.2065,
+     0.9492,
+     0.5054
+    ]
+   },
+   {
+    "detection_id": "d80",
+    "photo_id": "261113_P09_gkMLRGZIHsc_0414.00s_DR",
+    "equipment_id": null,
+    "detector_class": "bowl",
+    "class_map_match": null,
+    "confidence": 0.1257,
+    "bbox": [
+     0.6032,
+     0.7613,
+     0.7452,
+     0.8458
+    ]
+   },
+   {
+    "detection_id": "d81",
+    "photo_id": "261113_P09_gkMLRGZIHsc_0414.00s_DR",
+    "equipment_id": null,
+    "detector_class": "person",
+    "class_map_match": null,
+    "confidence": 0.1205,
+    "bbox": [
+     0.0002,
+     0.1321,
+     0.0732,
+     0.8657
+    ]
+   },
+   {
+    "detection_id": "d82",
+    "photo_id": "261113_P09_gkMLRGZIHsc_0414.00s_DR",
+    "equipment_id": null,
+    "detector_class": "bottle",
+    "class_map_match": null,
+    "confidence": 0.1119,
+    "bbox": [
+     0.9913,
+     0.559,
+     0.9999,
+     0.5882
+    ]
+   },
+   {
+    "detection_id": "d83",
+    "photo_id": "261113_P09_gkMLRGZIHsc_0414.00s_DR",
+    "equipment_id": null,
+    "detector_class": "person",
+    "class_map_match": null,
+    "confidence": 0.1116,
+    "bbox": [
+     0.0003,
+     0.7424,
+     0.0734,
+     0.8659
+    ]
+   },
+   {
+    "detection_id": "d84",
+    "photo_id": "261113_P09_gkMLRGZIHsc_0414.00s_DR",
+    "equipment_id": null,
+    "detector_class": "bottle",
+    "class_map_match": null,
+    "confidence": 0.1048,
+    "bbox": [
+     0.988,
+     0.2721,
+     0.9998,
+     0.4887
+    ]
+   },
+   {
+    "detection_id": "d85",
+    "photo_id": "261113_P09_gkMLRGZIHsc_0414.00s_DR",
+    "equipment_id": null,
+    "detector_class": "pizza",
+    "class_map_match": null,
+    "confidence": 0.0747,
+    "bbox": [
+     0.6442,
+     0.7918,
+     0.6947,
+     0.8118
+    ]
+   },
+   {
+    "detection_id": "d86",
+    "photo_id": "261113_P11_TCdTyi29FJA_0095.90s_DR",
+    "equipment_id": null,
+    "detector_class": "person",
+    "class_map_match": null,
+    "confidence": 0.5448,
+    "bbox": [
+     0.3831,
+     0,
+     0.9977,
+     0.9578
+    ]
+   },
+   {
+    "detection_id": "d87",
+    "photo_id": "261113_P11_TCdTyi29FJA_0095.90s_DR",
+    "equipment_id": null,
+    "detector_class": "bowl",
+    "class_map_match": null,
+    "confidence": 0.4745,
+    "bbox": [
+     0.0916,
+     0.5107,
+     0.4404,
+     0.9436
+    ]
+   },
+   {
+    "detection_id": "d88",
+    "photo_id": "261113_P11_TCdTyi29FJA_0095.90s_DR",
+    "equipment_id": null,
+    "detector_class": "person",
+    "class_map_match": null,
+    "confidence": 0.2873,
+    "bbox": [
+     0.1767,
+     0.0012,
+     0.5556,
+     0.4568
+    ]
+   },
+   {
+    "detection_id": "d89",
+    "photo_id": "261113_P11_TCdTyi29FJA_0095.90s_DR",
+    "equipment_id": null,
+    "detector_class": "person",
+    "class_map_match": null,
+    "confidence": 0.2847,
+    "bbox": [
+     0.3573,
+     0,
+     0.7273,
+     0.887
+    ]
+   },
+   {
+    "detection_id": "d90",
+    "photo_id": "261113_P11_TCdTyi29FJA_0095.90s_DR",
+    "equipment_id": "EQ_KNIFE_BOARD",
+    "detector_class": "knife",
+    "class_map_match": "partial",
+    "confidence": 0.2228,
+    "bbox": [
+     0.2511,
+     0.3714,
+     0.4201,
+     0.6939
+    ]
+   },
+   {
+    "detection_id": "d91",
+    "photo_id": "261113_P11_TCdTyi29FJA_0095.90s_DR",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "refrigerator",
+    "class_map_match": "direct",
+    "confidence": 0.1935,
+    "bbox": [
+     0.0043,
+     0.0304,
+     0.5387,
+     0.9478
+    ]
+   },
+   {
+    "detection_id": "d92",
+    "photo_id": "261113_P11_TCdTyi29FJA_0095.90s_DR",
+    "equipment_id": "EQ_DISPLAY_COOLER",
+    "detector_class": "refrigerator",
+    "class_map_match": "partial",
+    "confidence": 0.1935,
+    "bbox": [
+     0.0043,
+     0.0304,
+     0.5387,
+     0.9478
+    ]
+   },
+   {
+    "detection_id": "d93",
+    "photo_id": "261113_P11_TCdTyi29FJA_0095.90s_DR",
+    "equipment_id": null,
+    "detector_class": "spoon",
+    "class_map_match": null,
+    "confidence": 0.0921,
+    "bbox": [
+     0.2474,
+     0.3736,
+     0.4208,
+     0.7599
+    ]
+   },
+   {
+    "detection_id": "d94",
+    "photo_id": "261113_P11_TCdTyi29FJA_0095.90s_DR",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.0615,
+    "bbox": [
+     0.104,
+     0.4335,
+     0.5467,
+     0.9783
+    ]
+   },
+   {
+    "detection_id": "d95",
+    "photo_id": "261113_P11_TCdTyi29FJA_0095.90s_DR",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.0615,
+    "bbox": [
+     0.104,
+     0.4335,
+     0.5467,
+     0.9783
+    ]
+   },
+   {
+    "detection_id": "d96",
+    "photo_id": "261113_P11_TCdTyi29FJA_0095.90s_DR",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.0615,
+    "bbox": [
+     0.104,
+     0.4335,
+     0.5467,
+     0.9783
+    ]
+   },
+   {
+    "detection_id": "d97",
+    "photo_id": "261113_P11_TCdTyi29FJA_0095.90s_DR",
+    "equipment_id": null,
+    "detector_class": "person",
+    "class_map_match": null,
+    "confidence": 0.0553,
+    "bbox": [
+     0.0822,
+     0.0247,
+     0.7675,
+     0.9579
+    ]
+   },
+   {
+    "detection_id": "d98",
+    "photo_id": "261113_P11_TCdTyi29FJA_0095.90s_DR",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.054,
+    "bbox": [
+     0.1407,
+     0.8463,
+     0.5476,
+     0.9914
+    ]
+   },
+   {
+    "detection_id": "d99",
+    "photo_id": "261113_P11_TCdTyi29FJA_0095.90s_DR",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.054,
+    "bbox": [
+     0.1407,
+     0.8463,
+     0.5476,
+     0.9914
+    ]
+   },
+   {
+    "detection_id": "d100",
+    "photo_id": "261113_P11_TCdTyi29FJA_0095.90s_DR",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.054,
+    "bbox": [
+     0.1407,
+     0.8463,
+     0.5476,
+     0.9914
+    ]
+   },
+   {
+    "detection_id": "d101",
+    "photo_id": "261113_P12_TCdTyi29FJA_0103.00s_DR",
+    "equipment_id": null,
+    "detector_class": "person",
+    "class_map_match": null,
+    "confidence": 0.3775,
+    "bbox": [
+     0.8183,
+     0.0635,
+     0.9993,
+     0.9119
+    ]
+   },
+   {
+    "detection_id": "d102",
+    "photo_id": "261113_P12_TCdTyi29FJA_0103.00s_DR",
+    "equipment_id": null,
+    "detector_class": "person",
+    "class_map_match": null,
+    "confidence": 0.2163,
+    "bbox": [
+     0.6246,
+     0.0013,
+     0.8495,
+     0.1593
+    ]
+   },
+   {
+    "detection_id": "d103",
+    "photo_id": "261113_P12_TCdTyi29FJA_0103.00s_DR",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.2074,
+    "bbox": [
+     0.0041,
+     0.0036,
+     0.5603,
+     0.8711
+    ]
+   },
+   {
+    "detection_id": "d104",
+    "photo_id": "261113_P12_TCdTyi29FJA_0103.00s_DR",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.2074,
+    "bbox": [
+     0.0041,
+     0.0036,
+     0.5603,
+     0.8711
+    ]
+   },
+   {
+    "detection_id": "d105",
+    "photo_id": "261113_P12_TCdTyi29FJA_0103.00s_DR",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.2074,
+    "bbox": [
+     0.0041,
+     0.0036,
+     0.5603,
+     0.8711
+    ]
+   },
+   {
+    "detection_id": "d106",
+    "photo_id": "261113_P12_TCdTyi29FJA_0103.00s_DR",
+    "equipment_id": "EQ_KNIFE_BOARD",
+    "detector_class": "knife",
+    "class_map_match": "partial",
+    "confidence": 0.143,
+    "bbox": [
+     0.5373,
+     0.1512,
+     0.6535,
+     0.506
+    ]
+   },
+   {
+    "detection_id": "d107",
+    "photo_id": "261113_P12_TCdTyi29FJA_0103.00s_DR",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.1294,
+    "bbox": [
+     0.5234,
+     0.0028,
+     0.9902,
+     0.7792
+    ]
+   },
+   {
+    "detection_id": "d108",
+    "photo_id": "261113_P12_TCdTyi29FJA_0103.00s_DR",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.1294,
+    "bbox": [
+     0.5234,
+     0.0028,
+     0.9902,
+     0.7792
+    ]
+   },
+   {
+    "detection_id": "d109",
+    "photo_id": "261113_P12_TCdTyi29FJA_0103.00s_DR",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.1294,
+    "bbox": [
+     0.5234,
+     0.0028,
+     0.9902,
+     0.7792
+    ]
+   },
+   {
+    "detection_id": "d110",
+    "photo_id": "261113_P12_TCdTyi29FJA_0103.00s_DR",
+    "equipment_id": null,
+    "detector_class": "pizza",
+    "class_map_match": null,
+    "confidence": 0.1251,
+    "bbox": [
+     0.0397,
+     0.2039,
+     0.5079,
+     0.8379
+    ]
+   },
+   {
+    "detection_id": "d111",
+    "photo_id": "261113_P12_TCdTyi29FJA_0103.00s_DR",
+    "equipment_id": null,
+    "detector_class": "pizza",
+    "class_map_match": null,
+    "confidence": 0.0517,
+    "bbox": [
+     0.414,
+     0.3353,
+     0.549,
+     0.4897
+    ]
+   },
+   {
+    "detection_id": "d112",
+    "photo_id": "261113_P12_TCdTyi29FJA_0103.00s_DR",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.0514,
+    "bbox": [
+     0.0006,
+     0.0022,
+     0.3283,
+     0.6479
+    ]
+   },
+   {
+    "detection_id": "d113",
+    "photo_id": "261113_P12_TCdTyi29FJA_0103.00s_DR",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.0514,
+    "bbox": [
+     0.0006,
+     0.0022,
+     0.3283,
+     0.6479
+    ]
+   },
+   {
+    "detection_id": "d114",
+    "photo_id": "261113_P12_TCdTyi29FJA_0103.00s_DR",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.0514,
+    "bbox": [
+     0.0006,
+     0.0022,
+     0.3283,
+     0.6479
+    ]
+   },
+   {
+    "detection_id": "d115",
+    "photo_id": "C02_kkubeurakko_process_2",
+    "equipment_id": null,
+    "detector_class": "person",
+    "class_map_match": null,
+    "confidence": 0.3773,
+    "bbox": [
+     0.0049,
+     0.2572,
+     0.7324,
+     0.7498
+    ]
+   },
+   {
+    "detection_id": "d116",
+    "photo_id": "C02_kkubeurakko_process_2",
+    "equipment_id": null,
+    "detector_class": "keyboard",
+    "class_map_match": null,
+    "confidence": 0.0586,
+    "bbox": [
+     0.3635,
+     0.2291,
+     0.9992,
+     0.3831
+    ]
+   },
+   {
+    "detection_id": "d117",
+    "photo_id": "C02_kkubeurakko_process_2",
+    "equipment_id": null,
+    "detector_class": "keyboard",
+    "class_map_match": null,
+    "confidence": 0.0521,
+    "bbox": [
+     0.6588,
+     0.2338,
+     0.9989,
+     0.3715
+    ]
+   },
+   {
+    "detection_id": "d118",
+    "photo_id": "C03_kkubeurakko_process_3",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.1862,
+    "bbox": [
+     0.0015,
+     0.2671,
+     0.5926,
+     0.8459
+    ]
+   },
+   {
+    "detection_id": "d119",
+    "photo_id": "C03_kkubeurakko_process_3",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.1862,
+    "bbox": [
+     0.0015,
+     0.2671,
+     0.5926,
+     0.8459
+    ]
+   },
+   {
+    "detection_id": "d120",
+    "photo_id": "C03_kkubeurakko_process_3",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.1862,
+    "bbox": [
+     0.0015,
+     0.2671,
+     0.5926,
+     0.8459
+    ]
+   },
+   {
+    "detection_id": "d121",
+    "photo_id": "C03_kkubeurakko_process_3",
+    "equipment_id": null,
+    "detector_class": "bowl",
+    "class_map_match": null,
+    "confidence": 0.1565,
+    "bbox": [
+     0.0237,
+     0.006,
+     0.6587,
+     0.5176
+    ]
+   },
+   {
+    "detection_id": "d122",
+    "photo_id": "C03_kkubeurakko_process_3",
+    "equipment_id": null,
+    "detector_class": "bowl",
+    "class_map_match": null,
+    "confidence": 0.1461,
+    "bbox": [
+     0.0858,
+     0.2697,
+     0.6559,
+     0.6301
+    ]
+   },
+   {
+    "detection_id": "d123",
+    "photo_id": "C03_kkubeurakko_process_3",
+    "equipment_id": null,
+    "detector_class": "carrot",
+    "class_map_match": null,
+    "confidence": 0.1169,
+    "bbox": [
+     0.2128,
+     0.3588,
+     0.3107,
+     0.4713
+    ]
+   },
+   {
+    "detection_id": "d124",
+    "photo_id": "C03_kkubeurakko_process_3",
+    "equipment_id": null,
+    "detector_class": "banana",
+    "class_map_match": null,
+    "confidence": 0.0994,
+    "bbox": [
+     0.2181,
+     0.5228,
+     0.3327,
+     0.6181
+    ]
+   },
+   {
+    "detection_id": "d125",
+    "photo_id": "C03_kkubeurakko_process_3",
+    "equipment_id": null,
+    "detector_class": "banana",
+    "class_map_match": null,
+    "confidence": 0.0795,
+    "bbox": [
+     0.5596,
+     0.4868,
+     0.6348,
+     0.5518
+    ]
+   },
+   {
+    "detection_id": "d126",
+    "photo_id": "C03_kkubeurakko_process_3",
+    "equipment_id": null,
+    "detector_class": "banana",
+    "class_map_match": null,
+    "confidence": 0.0534,
+    "bbox": [
+     0.2124,
+     0.3596,
+     0.3101,
+     0.471
+    ]
+   },
+   {
+    "detection_id": "d127",
+    "photo_id": "C03_kkubeurakko_process_3",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.0531,
+    "bbox": [
+     0.3278,
+     0.322,
+     0.9432,
+     0.8478
+    ]
+   },
+   {
+    "detection_id": "d128",
+    "photo_id": "C03_kkubeurakko_process_3",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.0531,
+    "bbox": [
+     0.3278,
+     0.322,
+     0.9432,
+     0.8478
+    ]
+   },
+   {
+    "detection_id": "d129",
+    "photo_id": "C03_kkubeurakko_process_3",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.0531,
+    "bbox": [
+     0.3278,
+     0.322,
+     0.9432,
+     0.8478
+    ]
+   },
+   {
+    "detection_id": "d130",
+    "photo_id": "G02_goobne_fryer",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.3429,
+    "bbox": [
+     0.2937,
+     0.3153,
+     0.7529,
+     0.7453
+    ]
+   },
+   {
+    "detection_id": "d131",
+    "photo_id": "G02_goobne_fryer",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.3429,
+    "bbox": [
+     0.2937,
+     0.3153,
+     0.7529,
+     0.7453
+    ]
+   },
+   {
+    "detection_id": "d132",
+    "photo_id": "G02_goobne_fryer",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.3429,
+    "bbox": [
+     0.2937,
+     0.3153,
+     0.7529,
+     0.7453
+    ]
+   },
+   {
+    "detection_id": "d133",
+    "photo_id": "G02_goobne_fryer",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.1736,
+    "bbox": [
+     0.2665,
+     0.0951,
+     0.7262,
+     0.6483
+    ]
+   },
+   {
+    "detection_id": "d134",
+    "photo_id": "G02_goobne_fryer",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.1736,
+    "bbox": [
+     0.2665,
+     0.0951,
+     0.7262,
+     0.6483
+    ]
+   },
+   {
+    "detection_id": "d135",
+    "photo_id": "G02_goobne_fryer",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.1736,
+    "bbox": [
+     0.2665,
+     0.0951,
+     0.7262,
+     0.6483
+    ]
+   },
+   {
+    "detection_id": "d136",
+    "photo_id": "G02_goobne_fryer",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave",
+    "class_map_match": "direct",
+    "confidence": 0.1061,
+    "bbox": [
+     0.3167,
+     0.0972,
+     0.7113,
+     0.3311
+    ]
+   },
+   {
+    "detection_id": "d137",
+    "photo_id": "G02_goobne_fryer",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "refrigerator",
+    "class_map_match": "direct",
+    "confidence": 0.0952,
+    "bbox": [
+     0.2683,
+     0.0973,
+     0.726,
+     0.6005
+    ]
+   },
+   {
+    "detection_id": "d138",
+    "photo_id": "G02_goobne_fryer",
+    "equipment_id": "EQ_DISPLAY_COOLER",
+    "detector_class": "refrigerator",
+    "class_map_match": "partial",
+    "confidence": 0.0952,
+    "bbox": [
+     0.2683,
+     0.0973,
+     0.726,
+     0.6005
+    ]
+   },
+   {
+    "detection_id": "d139",
+    "photo_id": "K01_kyochon_robot",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.3288,
+    "bbox": [
+     0.0002,
+     0.6075,
+     0.1545,
+     0.8527
+    ]
+   },
+   {
+    "detection_id": "d140",
+    "photo_id": "K01_kyochon_robot",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.3288,
+    "bbox": [
+     0.0002,
+     0.6075,
+     0.1545,
+     0.8527
+    ]
+   },
+   {
+    "detection_id": "d141",
+    "photo_id": "K01_kyochon_robot",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.3288,
+    "bbox": [
+     0.0002,
+     0.6075,
+     0.1545,
+     0.8527
+    ]
+   },
+   {
+    "detection_id": "d142",
+    "photo_id": "K01_kyochon_robot",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "sink",
+    "class_map_match": "direct",
+    "confidence": 0.2938,
+    "bbox": [
+     0.5716,
+     0.7616,
+     0.8665,
+     0.9917
+    ]
+   },
+   {
+    "detection_id": "d143",
+    "photo_id": "K01_kyochon_robot",
+    "equipment_id": null,
+    "detector_class": "pizza",
+    "class_map_match": null,
+    "confidence": 0.2809,
+    "bbox": [
+     0.6431,
+     0.4762,
+     0.7895,
+     0.5377
+    ]
+   },
+   {
+    "detection_id": "d144",
+    "photo_id": "K01_kyochon_robot",
+    "equipment_id": null,
+    "detector_class": "pizza",
+    "class_map_match": null,
+    "confidence": 0.1131,
+    "bbox": [
+     0.461,
+     0.623,
+     0.5751,
+     0.7006
+    ]
+   },
+   {
+    "detection_id": "d145",
+    "photo_id": "K01_kyochon_robot",
+    "equipment_id": null,
+    "detector_class": "bowl",
+    "class_map_match": null,
+    "confidence": 0.0819,
+    "bbox": [
+     0.6355,
+     0.4759,
+     0.7885,
+     0.5384
+    ]
+   },
+   {
+    "detection_id": "d146",
+    "photo_id": "K01_kyochon_robot",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.0811,
+    "bbox": [
+     0.6316,
+     0.1541,
+     0.9999,
+     0.7592
+    ]
+   },
+   {
+    "detection_id": "d147",
+    "photo_id": "K01_kyochon_robot",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.0811,
+    "bbox": [
+     0.6316,
+     0.1541,
+     0.9999,
+     0.7592
+    ]
+   },
+   {
+    "detection_id": "d148",
+    "photo_id": "K01_kyochon_robot",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.0811,
+    "bbox": [
+     0.6316,
+     0.1541,
+     0.9999,
+     0.7592
+    ]
+   },
+   {
+    "detection_id": "d149",
+    "photo_id": "K01_kyochon_robot",
+    "equipment_id": null,
+    "detector_class": "bowl",
+    "class_map_match": null,
+    "confidence": 0.0718,
+    "bbox": [
+     0.6279,
+     0.3834,
+     0.8482,
+     0.5735
+    ]
+   },
+   {
+    "detection_id": "d150",
+    "photo_id": "K01_kyochon_robot",
+    "equipment_id": null,
+    "detector_class": "cup",
+    "class_map_match": null,
+    "confidence": 0.0596,
+    "bbox": [
+     0.0354,
+     0.8305,
+     0.0963,
+     0.9071
+    ]
+   },
+   {
+    "detection_id": "d151",
+    "photo_id": "PotPlayer64_QgHfifs4YE",
+    "equipment_id": null,
+    "detector_class": "person",
+    "class_map_match": null,
+    "confidence": 0.8123,
+    "bbox": [
+     0.6161,
+     0.235,
+     0.9991,
+     0.5175
+    ]
+   },
+   {
+    "detection_id": "d152",
+    "photo_id": "PotPlayer64_QgHfifs4YE",
+    "equipment_id": null,
+    "detector_class": "person",
+    "class_map_match": null,
+    "confidence": 0.5127,
+    "bbox": [
+     0.8604,
+     0.4294,
+     0.9998,
+     0.9467
+    ]
+   },
+   {
+    "detection_id": "d153",
+    "photo_id": "PotPlayer64_QgHfifs4YE",
+    "equipment_id": null,
+    "detector_class": "bowl",
+    "class_map_match": null,
+    "confidence": 0.5056,
+    "bbox": [
+     0.5278,
+     0.7928,
+     0.9602,
+     0.9929
+    ]
+   },
+   {
+    "detection_id": "d154",
+    "photo_id": "PotPlayer64_QgHfifs4YE",
+    "equipment_id": null,
+    "detector_class": "person",
+    "class_map_match": null,
+    "confidence": 0.2991,
+    "bbox": [
+     0.8913,
+     0.001,
+     0.9996,
+     0.1764
+    ]
+   },
+   {
+    "detection_id": "d155",
+    "photo_id": "PotPlayer64_QgHfifs4YE",
+    "equipment_id": null,
+    "detector_class": "pizza",
+    "class_map_match": null,
+    "confidence": 0.2792,
+    "bbox": [
+     0.1689,
+     0.136,
+     0.6163,
+     0.9578
+    ]
+   },
+   {
+    "detection_id": "d156",
+    "photo_id": "PotPlayer64_QgHfifs4YE",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.2726,
+    "bbox": [
+     0,
+     0,
+     0.524,
+     0.8703
+    ]
+   },
+   {
+    "detection_id": "d157",
+    "photo_id": "PotPlayer64_QgHfifs4YE",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.2726,
+    "bbox": [
+     0,
+     0,
+     0.524,
+     0.8703
+    ]
+   },
+   {
+    "detection_id": "d158",
+    "photo_id": "PotPlayer64_QgHfifs4YE",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.2726,
+    "bbox": [
+     0,
+     0,
+     0.524,
+     0.8703
+    ]
+   },
+   {
+    "detection_id": "d159",
+    "photo_id": "PotPlayer64_QgHfifs4YE",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.0933,
+    "bbox": [
+     0.24,
+     0.0039,
+     0.8159,
+     0.9596
+    ]
+   },
+   {
+    "detection_id": "d160",
+    "photo_id": "PotPlayer64_QgHfifs4YE",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.0933,
+    "bbox": [
+     0.24,
+     0.0039,
+     0.8159,
+     0.9596
+    ]
+   },
+   {
+    "detection_id": "d161",
+    "photo_id": "PotPlayer64_QgHfifs4YE",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.0933,
+    "bbox": [
+     0.24,
+     0.0039,
+     0.8159,
+     0.9596
+    ]
+   },
+   {
+    "detection_id": "d162",
+    "photo_id": "PotPlayer64_VW1iKQ5C4k",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.1661,
+    "bbox": [
+     0.6547,
+     0.2186,
+     0.9991,
+     0.7662
+    ]
+   },
+   {
+    "detection_id": "d163",
+    "photo_id": "PotPlayer64_VW1iKQ5C4k",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.1661,
+    "bbox": [
+     0.6547,
+     0.2186,
+     0.9991,
+     0.7662
+    ]
+   },
+   {
+    "detection_id": "d164",
+    "photo_id": "PotPlayer64_VW1iKQ5C4k",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.1661,
+    "bbox": [
+     0.6547,
+     0.2186,
+     0.9991,
+     0.7662
+    ]
+   },
+   {
+    "detection_id": "d165",
+    "photo_id": "PotPlayer64_VW1iKQ5C4k",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.1617,
+    "bbox": [
+     0.3099,
+     0.1935,
+     0.6239,
+     0.775
+    ]
+   },
+   {
+    "detection_id": "d166",
+    "photo_id": "PotPlayer64_VW1iKQ5C4k",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.1617,
+    "bbox": [
+     0.3099,
+     0.1935,
+     0.6239,
+     0.775
+    ]
+   },
+   {
+    "detection_id": "d167",
+    "photo_id": "PotPlayer64_VW1iKQ5C4k",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.1617,
+    "bbox": [
+     0.3099,
+     0.1935,
+     0.6239,
+     0.775
+    ]
+   },
+   {
+    "detection_id": "d168",
+    "photo_id": "PotPlayer64_VW1iKQ5C4k",
+    "equipment_id": null,
+    "detector_class": "person",
+    "class_map_match": null,
+    "confidence": 0.1149,
+    "bbox": [
+     0.5452,
+     0.8959,
+     0.646,
+     0.9991
+    ]
+   },
+   {
+    "detection_id": "d169",
+    "photo_id": "_fAwR9CFoyI_0121",
+    "equipment_id": null,
+    "detector_class": "person",
+    "class_map_match": null,
+    "confidence": 0.8656,
+    "bbox": [
+     0.0736,
+     0.0352,
+     0.4615,
+     0.975
+    ]
+   },
+   {
+    "detection_id": "d170",
+    "photo_id": "_fAwR9CFoyI_0121",
+    "equipment_id": null,
+    "detector_class": "bowl",
+    "class_map_match": null,
+    "confidence": 0.7638,
+    "bbox": [
+     0.3177,
+     0.6437,
+     0.523,
+     0.8836
+    ]
+   },
+   {
+    "detection_id": "d171",
+    "photo_id": "_fAwR9CFoyI_0121",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave",
+    "class_map_match": "direct",
+    "confidence": 0.5741,
+    "bbox": [
+     0.4624,
+     0.1156,
+     0.578,
+     0.3439
+    ]
+   },
+   {
+    "detection_id": "d172",
+    "photo_id": "_fAwR9CFoyI_0121",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "refrigerator",
+    "class_map_match": "direct",
+    "confidence": 0.3044,
+    "bbox": [
+     0.3076,
+     0.0421,
+     0.6997,
+     0.7308
+    ]
+   },
+   {
+    "detection_id": "d173",
+    "photo_id": "_fAwR9CFoyI_0121",
+    "equipment_id": "EQ_DISPLAY_COOLER",
+    "detector_class": "refrigerator",
+    "class_map_match": "partial",
+    "confidence": 0.3044,
+    "bbox": [
+     0.3076,
+     0.0421,
+     0.6997,
+     0.7308
+    ]
+   },
+   {
+    "detection_id": "d174",
+    "photo_id": "_fAwR9CFoyI_0121",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.2812,
+    "bbox": [
+     0.4949,
+     0.4732,
+     0.9916,
+     0.9859
+    ]
+   },
+   {
+    "detection_id": "d175",
+    "photo_id": "_fAwR9CFoyI_0121",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.2812,
+    "bbox": [
+     0.4949,
+     0.4732,
+     0.9916,
+     0.9859
+    ]
+   },
+   {
+    "detection_id": "d176",
+    "photo_id": "_fAwR9CFoyI_0121",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.2812,
+    "bbox": [
+     0.4949,
+     0.4732,
+     0.9916,
+     0.9859
+    ]
+   },
+   {
+    "detection_id": "d177",
+    "photo_id": "_fAwR9CFoyI_0121",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "refrigerator",
+    "class_map_match": "direct",
+    "confidence": 0.1227,
+    "bbox": [
+     0.0036,
+     0.0014,
+     0.4015,
+     0.5706
+    ]
+   },
+   {
+    "detection_id": "d178",
+    "photo_id": "_fAwR9CFoyI_0121",
+    "equipment_id": "EQ_DISPLAY_COOLER",
+    "detector_class": "refrigerator",
+    "class_map_match": "partial",
+    "confidence": 0.1227,
+    "bbox": [
+     0.0036,
+     0.0014,
+     0.4015,
+     0.5706
+    ]
+   },
+   {
+    "detection_id": "d179",
+    "photo_id": "_fAwR9CFoyI_0121",
+    "equipment_id": null,
+    "detector_class": "bottle",
+    "class_map_match": null,
+    "confidence": 0.1048,
+    "bbox": [
+     0.049,
+     0.0013,
+     0.0809,
+     0.1091
+    ]
+   },
+   {
+    "detection_id": "d180",
+    "photo_id": "_fAwR9CFoyI_0121",
+    "equipment_id": null,
+    "detector_class": "bottle",
+    "class_map_match": null,
+    "confidence": 0.0572,
+    "bbox": [
+     0.5283,
+     0.3842,
+     0.5563,
+     0.4853
+    ]
+   },
+   {
+    "detection_id": "d181",
+    "photo_id": "_fAwR9CFoyI_0121",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.0518,
+    "bbox": [
+     0.362,
+     0.1913,
+     0.9131,
+     0.9793
+    ]
+   },
+   {
+    "detection_id": "d182",
+    "photo_id": "_fAwR9CFoyI_0121",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.0518,
+    "bbox": [
+     0.362,
+     0.1913,
+     0.9131,
+     0.9793
+    ]
+   },
+   {
+    "detection_id": "d183",
+    "photo_id": "_fAwR9CFoyI_0121",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.0518,
+    "bbox": [
+     0.362,
+     0.1913,
+     0.9131,
+     0.9793
+    ]
+   },
+   {
+    "detection_id": "d184",
+    "photo_id": "bbq_inspection_2023",
+    "equipment_id": null,
+    "detector_class": "person",
+    "class_map_match": null,
+    "confidence": 0.8666,
+    "bbox": [
+     0.9027,
+     0.4781,
+     0.9996,
+     0.9898
+    ]
+   },
+   {
+    "detection_id": "d185",
+    "photo_id": "bbq_inspection_2023",
+    "equipment_id": null,
+    "detector_class": "person",
+    "class_map_match": null,
+    "confidence": 0.7523,
+    "bbox": [
+     0.3041,
+     0.2453,
+     0.6019,
+     0.8047
+    ]
+   },
+   {
+    "detection_id": "d186",
+    "photo_id": "bbq_inspection_2023",
+    "equipment_id": null,
+    "detector_class": "bottle",
+    "class_map_match": null,
+    "confidence": 0.5671,
+    "bbox": [
+     0.2994,
+     0.6442,
+     0.3483,
+     0.7813
+    ]
+   },
+   {
+    "detection_id": "d187",
+    "photo_id": "bbq_inspection_2023",
+    "equipment_id": null,
+    "detector_class": "bowl",
+    "class_map_match": null,
+    "confidence": 0.4258,
+    "bbox": [
+     0.1614,
+     0.6552,
+     0.3041,
+     0.7361
+    ]
+   },
+   {
+    "detection_id": "d188",
+    "photo_id": "bbq_inspection_2023",
+    "equipment_id": null,
+    "detector_class": "person",
+    "class_map_match": null,
+    "confidence": 0.3404,
+    "bbox": [
+     0.3823,
+     0.235,
+     0.9263,
+     0.9716
+    ]
+   },
+   {
+    "detection_id": "d189",
+    "photo_id": "bbq_inspection_2023",
+    "equipment_id": null,
+    "detector_class": "spoon",
+    "class_map_match": null,
+    "confidence": 0.2238,
+    "bbox": [
+     0.097,
+     0.2974,
+     0.1908,
+     0.3459
+    ]
+   },
+   {
+    "detection_id": "d190",
+    "photo_id": "bbq_inspection_2023",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.2096,
+    "bbox": [
+     0.1717,
+     0.4175,
+     0.3541,
+     0.606
+    ]
+   },
+   {
+    "detection_id": "d191",
+    "photo_id": "bbq_inspection_2023",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.2096,
+    "bbox": [
+     0.1717,
+     0.4175,
+     0.3541,
+     0.606
+    ]
+   },
+   {
+    "detection_id": "d192",
+    "photo_id": "bbq_inspection_2023",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.2096,
+    "bbox": [
+     0.1717,
+     0.4175,
+     0.3541,
+     0.606
+    ]
+   },
+   {
+    "detection_id": "d193",
+    "photo_id": "bbq_inspection_2023",
+    "equipment_id": null,
+    "detector_class": "bowl",
+    "class_map_match": null,
+    "confidence": 0.177,
+    "bbox": [
+     0.9608,
+     0.3231,
+     1,
+     0.3443
+    ]
+   },
+   {
+    "detection_id": "d194",
+    "photo_id": "bbq_inspection_2023",
+    "equipment_id": null,
+    "detector_class": "bowl",
+    "class_map_match": null,
+    "confidence": 0.1474,
+    "bbox": [
+     0.9582,
+     0.3008,
+     0.9999,
+     0.3302
+    ]
+   },
+   {
+    "detection_id": "d195",
+    "photo_id": "bbq_inspection_2023",
+    "equipment_id": null,
+    "detector_class": "handbag",
+    "class_map_match": null,
+    "confidence": 0.1408,
+    "bbox": [
+     0.4589,
+     0.4514,
+     0.5274,
+     0.613
+    ]
+   },
+   {
+    "detection_id": "d196",
+    "photo_id": "bbq_inspection_2023",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave",
+    "class_map_match": "direct",
+    "confidence": 0.1092,
+    "bbox": [
+     0.1726,
+     0.4214,
+     0.3195,
+     0.6017
+    ]
+   },
+   {
+    "detection_id": "d197",
+    "photo_id": "bbq_inspection_2023",
+    "equipment_id": null,
+    "detector_class": "person",
+    "class_map_match": null,
+    "confidence": 0.0998,
+    "bbox": [
+     0.5179,
+     0.0422,
+     0.9132,
+     0.7193
+    ]
+   },
+   {
+    "detection_id": "d198",
+    "photo_id": "bbq_inspection_2023",
+    "equipment_id": null,
+    "detector_class": "cell phone",
+    "class_map_match": null,
+    "confidence": 0.0995,
+    "bbox": [
+     0.4398,
+     0.6573,
+     0.5319,
+     0.6803
+    ]
+   },
+   {
+    "detection_id": "d199",
+    "photo_id": "bbq_inspection_2023",
+    "equipment_id": null,
+    "detector_class": "person",
+    "class_map_match": null,
+    "confidence": 0.0974,
+    "bbox": [
+     0.3701,
+     0.2211,
+     0.6625,
+     0.9911
+    ]
+   },
+   {
+    "detection_id": "d200",
+    "photo_id": "bbq_inspection_2023",
+    "equipment_id": null,
+    "detector_class": "person",
+    "class_map_match": null,
+    "confidence": 0.0945,
+    "bbox": [
+     0.3011,
+     0.3971,
+     0.5493,
+     0.9896
+    ]
+   },
+   {
+    "detection_id": "d201",
+    "photo_id": "bbq_inspection_2023",
+    "equipment_id": null,
+    "detector_class": "handbag",
+    "class_map_match": null,
+    "confidence": 0.0715,
+    "bbox": [
+     0.6372,
+     0.2674,
+     0.7816,
+     0.4637
+    ]
+   },
+   {
+    "detection_id": "d202",
+    "photo_id": "bbq_inspection_2023",
+    "equipment_id": null,
+    "detector_class": "spoon",
+    "class_map_match": null,
+    "confidence": 0.0701,
+    "bbox": [
+     0.1891,
+     0.6588,
+     0.3018,
+     0.7186
+    ]
+   },
+   {
+    "detection_id": "d203",
+    "photo_id": "bbq_inspection_2023",
+    "equipment_id": null,
+    "detector_class": "donut",
+    "class_map_match": null,
+    "confidence": 0.0649,
+    "bbox": [
+     0.0738,
+     0.8052,
+     0.1081,
+     0.8335
+    ]
+   },
+   {
+    "detection_id": "d204",
+    "photo_id": "bbq_inspection_2023",
+    "equipment_id": null,
+    "detector_class": "donut",
+    "class_map_match": null,
+    "confidence": 0.053,
+    "bbox": [
+     0.0345,
+     0.8136,
+     0.0685,
+     0.844
+    ]
+   },
+   {
+    "detection_id": "d205",
+    "photo_id": "brave_ZcRVMActFC",
+    "equipment_id": null,
+    "detector_class": "bowl",
+    "class_map_match": null,
+    "confidence": 0.7905,
+    "bbox": [
+     0.3654,
+     0.7797,
+     0.5065,
+     0.8626
+    ]
+   },
+   {
+    "detection_id": "d206",
+    "photo_id": "brave_ZcRVMActFC",
+    "equipment_id": null,
+    "detector_class": "bowl",
+    "class_map_match": null,
+    "confidence": 0.359,
+    "bbox": [
+     0.4367,
+     0.7803,
+     0.5079,
+     0.8636
+    ]
+   },
+   {
+    "detection_id": "d207",
+    "photo_id": "brave_ZcRVMActFC",
+    "equipment_id": null,
+    "detector_class": "bottle",
+    "class_map_match": null,
+    "confidence": 0.296,
+    "bbox": [
+     0.6159,
+     0.4351,
+     0.6763,
+     0.5681
+    ]
+   },
+   {
+    "detection_id": "d208",
+    "photo_id": "brave_ZcRVMActFC",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.244,
+    "bbox": [
+     0.0014,
+     0.5242,
+     0.3047,
+     0.981
+    ]
+   },
+   {
+    "detection_id": "d209",
+    "photo_id": "brave_ZcRVMActFC",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.244,
+    "bbox": [
+     0.0014,
+     0.5242,
+     0.3047,
+     0.981
+    ]
+   },
+   {
+    "detection_id": "d210",
+    "photo_id": "brave_ZcRVMActFC",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.244,
+    "bbox": [
+     0.0014,
+     0.5242,
+     0.3047,
+     0.981
+    ]
+   },
+   {
+    "detection_id": "d211",
+    "photo_id": "brave_ZcRVMActFC",
+    "equipment_id": null,
+    "detector_class": "bottle",
+    "class_map_match": null,
+    "confidence": 0.209,
+    "bbox": [
+     0.8302,
+     0.6841,
+     0.8573,
+     0.7591
+    ]
+   },
+   {
+    "detection_id": "d212",
+    "photo_id": "brave_ZcRVMActFC",
+    "equipment_id": null,
+    "detector_class": "bowl",
+    "class_map_match": null,
+    "confidence": 0.1755,
+    "bbox": [
+     0.5181,
+     0.5104,
+     0.5757,
+     0.6179
+    ]
+   },
+   {
+    "detection_id": "d213",
+    "photo_id": "brave_ZcRVMActFC",
+    "equipment_id": null,
+    "detector_class": "person",
+    "class_map_match": null,
+    "confidence": 0.1748,
+    "bbox": [
+     0.137,
+     0.0054,
+     0.5672,
+     0.4006
+    ]
+   },
+   {
+    "detection_id": "d214",
+    "photo_id": "brave_ZcRVMActFC",
+    "equipment_id": null,
+    "detector_class": "bowl",
+    "class_map_match": null,
+    "confidence": 0.1674,
+    "bbox": [
+     0.3365,
+     0.3806,
+     0.4728,
+     0.4898
+    ]
+   },
+   {
+    "detection_id": "d215",
+    "photo_id": "brave_ZcRVMActFC",
+    "equipment_id": null,
+    "detector_class": "bowl",
+    "class_map_match": null,
+    "confidence": 0.1533,
+    "bbox": [
+     0.0878,
+     0.0725,
+     0.1978,
+     0.1666
+    ]
+   },
+   {
+    "detection_id": "d216",
+    "photo_id": "brave_ZcRVMActFC",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "sink",
+    "class_map_match": "direct",
+    "confidence": 0.1386,
+    "bbox": [
+     0.0001,
+     0.7562,
+     0.1341,
+     0.9031
+    ]
+   },
+   {
+    "detection_id": "d217",
+    "photo_id": "brave_ZcRVMActFC",
+    "equipment_id": null,
+    "detector_class": "bottle",
+    "class_map_match": null,
+    "confidence": 0.1263,
+    "bbox": [
+     0.9457,
+     0.1129,
+     0.9998,
+     0.301
+    ]
+   },
+   {
+    "detection_id": "d218",
+    "photo_id": "brave_ZcRVMActFC",
+    "equipment_id": null,
+    "detector_class": "bowl",
+    "class_map_match": null,
+    "confidence": 0.1207,
+    "bbox": [
+     0.0344,
+     0.2225,
+     0.1572,
+     0.2961
+    ]
+   },
+   {
+    "detection_id": "d219",
+    "photo_id": "brave_ZcRVMActFC",
+    "equipment_id": null,
+    "detector_class": "bottle",
+    "class_map_match": null,
+    "confidence": 0.115,
+    "bbox": [
+     0.0211,
+     0.0821,
+     0.0649,
+     0.2403
+    ]
+   },
+   {
+    "detection_id": "d220",
+    "photo_id": "brave_ZcRVMActFC",
+    "equipment_id": null,
+    "detector_class": "bowl",
+    "class_map_match": null,
+    "confidence": 0.1016,
+    "bbox": [
+     0.44,
+     0.7795,
+     0.5067,
+     0.8123
+    ]
+   },
+   {
+    "detection_id": "d221",
+    "photo_id": "brave_ZcRVMActFC",
+    "equipment_id": null,
+    "detector_class": "spoon",
+    "class_map_match": null,
+    "confidence": 0.0939,
+    "bbox": [
+     0.8596,
+     0.0022,
+     0.8952,
+     0.0968
+    ]
+   },
+   {
+    "detection_id": "d222",
+    "photo_id": "brave_ZcRVMActFC",
+    "equipment_id": null,
+    "detector_class": "bowl",
+    "class_map_match": null,
+    "confidence": 0.0906,
+    "bbox": [
+     0.941,
+     0.4484,
+     0.9998,
+     0.5092
+    ]
+   },
+   {
+    "detection_id": "d223",
+    "photo_id": "brave_ZcRVMActFC",
+    "equipment_id": null,
+    "detector_class": "bowl",
+    "class_map_match": null,
+    "confidence": 0.0847,
+    "bbox": [
+     0.3665,
+     0.783,
+     0.405,
+     0.8454
+    ]
+   },
+   {
+    "detection_id": "d224",
+    "photo_id": "brave_ZcRVMActFC",
+    "equipment_id": null,
+    "detector_class": "bottle",
+    "class_map_match": null,
+    "confidence": 0.0773,
+    "bbox": [
+     0.8001,
+     0.7101,
+     0.8974,
+     0.9802
+    ]
+   },
+   {
+    "detection_id": "d225",
+    "photo_id": "brave_ZcRVMActFC",
+    "equipment_id": null,
+    "detector_class": "bottle",
+    "class_map_match": null,
+    "confidence": 0.0704,
+    "bbox": [
+     0.8357,
+     0.7026,
+     0.8868,
+     0.7879
+    ]
+   },
+   {
+    "detection_id": "d226",
+    "photo_id": "brave_ZcRVMActFC",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "sink",
+    "class_map_match": "direct",
+    "confidence": 0.0633,
+    "bbox": [
+     0.71,
+     0.241,
+     0.8103,
+     0.2824
+    ]
+   },
+   {
+    "detection_id": "d227",
+    "photo_id": "brave_ZcRVMActFC",
+    "equipment_id": null,
+    "detector_class": "vase",
+    "class_map_match": null,
+    "confidence": 0.0609,
+    "bbox": [
+     0.682,
+     0.4195,
+     0.7559,
+     0.5577
+    ]
+   },
+   {
+    "detection_id": "d228",
+    "photo_id": "brave_ZcRVMActFC",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.0578,
+    "bbox": [
+     0.5162,
+     0.2259,
+     0.9973,
+     0.644
+    ]
+   },
+   {
+    "detection_id": "d229",
+    "photo_id": "brave_ZcRVMActFC",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.0578,
+    "bbox": [
+     0.5162,
+     0.2259,
+     0.9973,
+     0.644
+    ]
+   },
+   {
+    "detection_id": "d230",
+    "photo_id": "brave_ZcRVMActFC",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.0578,
+    "bbox": [
+     0.5162,
+     0.2259,
+     0.9973,
+     0.644
+    ]
+   },
+   {
+    "detection_id": "d231",
+    "photo_id": "brave_uFFOgcRwoD",
+    "equipment_id": null,
+    "detector_class": "person",
+    "class_map_match": null,
+    "confidence": 0.6896,
+    "bbox": [
+     0.3284,
+     0.0968,
+     0.4297,
+     0.3167
+    ]
+   },
+   {
+    "detection_id": "d232",
+    "photo_id": "brave_uFFOgcRwoD",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.1644,
+    "bbox": [
+     0.1208,
+     0.4369,
+     0.3646,
+     0.6264
+    ]
+   },
+   {
+    "detection_id": "d233",
+    "photo_id": "brave_uFFOgcRwoD",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.1644,
+    "bbox": [
+     0.1208,
+     0.4369,
+     0.3646,
+     0.6264
+    ]
+   },
+   {
+    "detection_id": "d234",
+    "photo_id": "brave_uFFOgcRwoD",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.1644,
+    "bbox": [
+     0.1208,
+     0.4369,
+     0.3646,
+     0.6264
+    ]
+   },
+   {
+    "detection_id": "d235",
+    "photo_id": "brave_uFFOgcRwoD",
+    "equipment_id": null,
+    "detector_class": "toilet",
+    "class_map_match": null,
+    "confidence": 0.1634,
+    "bbox": [
+     0.438,
+     0.4648,
+     0.6427,
+     0.797
+    ]
+   },
+   {
+    "detection_id": "d236",
+    "photo_id": "brave_uFFOgcRwoD",
+    "equipment_id": null,
+    "detector_class": "bottle",
+    "class_map_match": null,
+    "confidence": 0.1444,
+    "bbox": [
+     0.5375,
+     0.3967,
+     0.5645,
+     0.4735
+    ]
+   },
+   {
+    "detection_id": "d237",
+    "photo_id": "brave_uFFOgcRwoD",
+    "equipment_id": null,
+    "detector_class": "umbrella",
+    "class_map_match": null,
+    "confidence": 0.1066,
+    "bbox": [
+     0.0017,
+     0.0005,
+     0.4333,
+     0.0934
+    ]
+   },
+   {
+    "detection_id": "d238",
+    "photo_id": "brave_uFFOgcRwoD",
+    "equipment_id": null,
+    "detector_class": "toilet",
+    "class_map_match": null,
+    "confidence": 0.0826,
+    "bbox": [
+     0.2468,
+     0.4587,
+     0.6453,
+     0.989
+    ]
+   },
+   {
+    "detection_id": "d239",
+    "photo_id": "brave_uFFOgcRwoD",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.0638,
+    "bbox": [
+     0.0003,
+     0.3248,
+     0.1819,
+     0.6263
+    ]
+   },
+   {
+    "detection_id": "d240",
+    "photo_id": "brave_uFFOgcRwoD",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.0638,
+    "bbox": [
+     0.0003,
+     0.3248,
+     0.1819,
+     0.6263
+    ]
+   },
+   {
+    "detection_id": "d241",
+    "photo_id": "brave_uFFOgcRwoD",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.0638,
+    "bbox": [
+     0.0003,
+     0.3248,
+     0.1819,
+     0.6263
+    ]
+   },
+   {
+    "detection_id": "d242",
+    "photo_id": "dongdaemun_bhc_1",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.5707,
+    "bbox": [
+     0.6813,
+     0.6521,
+     0.9978,
+     0.9986
+    ]
+   },
+   {
+    "detection_id": "d243",
+    "photo_id": "dongdaemun_bhc_1",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.5707,
+    "bbox": [
+     0.6813,
+     0.6521,
+     0.9978,
+     0.9986
+    ]
+   },
+   {
+    "detection_id": "d244",
+    "photo_id": "dongdaemun_bhc_1",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.5707,
+    "bbox": [
+     0.6813,
+     0.6521,
+     0.9978,
+     0.9986
+    ]
+   },
+   {
+    "detection_id": "d245",
+    "photo_id": "dongdaemun_bhc_1",
+    "equipment_id": "EQ_SCISSORS",
+    "detector_class": "scissors",
+    "class_map_match": "direct",
+    "confidence": 0.5465,
+    "bbox": [
+     0.553,
+     0.5577,
+     0.5813,
+     0.6607
+    ]
+   },
+   {
+    "detection_id": "d246",
+    "photo_id": "dongdaemun_bhc_1",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.4295,
+    "bbox": [
+     0.4975,
+     0.7112,
+     0.8048,
+     1.0
+    ]
+   },
+   {
+    "detection_id": "d247",
+    "photo_id": "dongdaemun_bhc_1",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.4295,
+    "bbox": [
+     0.4975,
+     0.7112,
+     0.8048,
+     1.0
+    ]
+   },
+   {
+    "detection_id": "d248",
+    "photo_id": "dongdaemun_bhc_1",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.4295,
+    "bbox": [
+     0.4975,
+     0.7112,
+     0.8048,
+     1.0
+    ]
+   },
+   {
+    "detection_id": "d249",
+    "photo_id": "dongdaemun_bhc_1",
+    "equipment_id": "EQ_KNIFE_BOARD",
+    "detector_class": "knife",
+    "class_map_match": "partial",
+    "confidence": 0.2299,
+    "bbox": [
+     0.5748,
+     0.7373,
+     0.599,
+     0.8007
+    ]
+   },
+   {
+    "detection_id": "d250",
+    "photo_id": "dongdaemun_bhc_1",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.1858,
+    "bbox": [
+     0.0512,
+     0.8169,
+     0.263,
+     0.9996
+    ]
+   },
+   {
+    "detection_id": "d251",
+    "photo_id": "dongdaemun_bhc_1",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.1858,
+    "bbox": [
+     0.0512,
+     0.8169,
+     0.263,
+     0.9996
+    ]
+   },
+   {
+    "detection_id": "d252",
+    "photo_id": "dongdaemun_bhc_1",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.1858,
+    "bbox": [
+     0.0512,
+     0.8169,
+     0.263,
+     0.9996
+    ]
+   },
+   {
+    "detection_id": "d253",
+    "photo_id": "dongdaemun_bhc_1",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.1858,
+    "bbox": [
+     0.2654,
+     0.6469,
+     0.5305,
+     0.9988
+    ]
+   },
+   {
+    "detection_id": "d254",
+    "photo_id": "dongdaemun_bhc_1",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.1858,
+    "bbox": [
+     0.2654,
+     0.6469,
+     0.5305,
+     0.9988
+    ]
+   },
+   {
+    "detection_id": "d255",
+    "photo_id": "dongdaemun_bhc_1",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.1858,
+    "bbox": [
+     0.2654,
+     0.6469,
+     0.5305,
+     0.9988
+    ]
+   },
+   {
+    "detection_id": "d256",
+    "photo_id": "dongdaemun_bhc_1",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "refrigerator",
+    "class_map_match": "direct",
+    "confidence": 0.1639,
+    "bbox": [
+     0.0002,
+     0.2628,
+     0.0583,
+     0.5912
+    ]
+   },
+   {
+    "detection_id": "d257",
+    "photo_id": "dongdaemun_bhc_1",
+    "equipment_id": "EQ_DISPLAY_COOLER",
+    "detector_class": "refrigerator",
+    "class_map_match": "partial",
+    "confidence": 0.1639,
+    "bbox": [
+     0.0002,
+     0.2628,
+     0.0583,
+     0.5912
+    ]
+   },
+   {
+    "detection_id": "d258",
+    "photo_id": "dongdaemun_bhc_1",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.1447,
+    "bbox": [
+     0.7811,
+     0.7933,
+     0.9632,
+     0.9996
+    ]
+   },
+   {
+    "detection_id": "d259",
+    "photo_id": "dongdaemun_bhc_1",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.1447,
+    "bbox": [
+     0.7811,
+     0.7933,
+     0.9632,
+     0.9996
+    ]
+   },
+   {
+    "detection_id": "d260",
+    "photo_id": "dongdaemun_bhc_1",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.1447,
+    "bbox": [
+     0.7811,
+     0.7933,
+     0.9632,
+     0.9996
+    ]
+   },
+   {
+    "detection_id": "d261",
+    "photo_id": "dongdaemun_bhc_1",
+    "equipment_id": null,
+    "detector_class": "clock",
+    "class_map_match": null,
+    "confidence": 0.1184,
+    "bbox": [
+     0.1749,
+     0.1195,
+     0.2245,
+     0.1719
+    ]
+   },
+   {
+    "detection_id": "d262",
+    "photo_id": "dongdaemun_bhc_1",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.1003,
+    "bbox": [
+     0.0004,
+     0.7084,
+     0.0982,
+     0.9975
+    ]
+   },
+   {
+    "detection_id": "d263",
+    "photo_id": "dongdaemun_bhc_1",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.1003,
+    "bbox": [
+     0.0004,
+     0.7084,
+     0.0982,
+     0.9975
+    ]
+   },
+   {
+    "detection_id": "d264",
+    "photo_id": "dongdaemun_bhc_1",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.1003,
+    "bbox": [
+     0.0004,
+     0.7084,
+     0.0982,
+     0.9975
+    ]
+   },
+   {
+    "detection_id": "d265",
+    "photo_id": "dongdaemun_bhc_1",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "refrigerator",
+    "class_map_match": "direct",
+    "confidence": 0.083,
+    "bbox": [
+     0.0423,
+     0.6397,
+     0.2934,
+     0.9987
+    ]
+   },
+   {
+    "detection_id": "d266",
+    "photo_id": "dongdaemun_bhc_1",
+    "equipment_id": "EQ_DISPLAY_COOLER",
+    "detector_class": "refrigerator",
+    "class_map_match": "partial",
+    "confidence": 0.083,
+    "bbox": [
+     0.0423,
+     0.6397,
+     0.2934,
+     0.9987
+    ]
+   },
+   {
+    "detection_id": "d267",
+    "photo_id": "dongdaemun_bhc_1",
+    "equipment_id": null,
+    "detector_class": "spoon",
+    "class_map_match": null,
+    "confidence": 0.0647,
+    "bbox": [
+     0.5744,
+     0.7356,
+     0.5995,
+     0.8
+    ]
+   },
+   {
+    "detection_id": "d268",
+    "photo_id": "dongdaemun_bhc_3",
+    "equipment_id": null,
+    "detector_class": "chair",
+    "class_map_match": null,
+    "confidence": 0.923,
+    "bbox": [
+     0.4416,
+     0.6298,
+     0.5489,
+     0.8607
+    ]
+   },
+   {
+    "detection_id": "d269",
+    "photo_id": "dongdaemun_bhc_3",
+    "equipment_id": null,
+    "detector_class": "tv",
+    "class_map_match": null,
+    "confidence": 0.8317,
+    "bbox": [
+     0.4683,
+     0.4541,
+     0.5728,
+     0.5406
+    ]
+   },
+   {
+    "detection_id": "d270",
+    "photo_id": "dongdaemun_bhc_3",
+    "equipment_id": null,
+    "detector_class": "keyboard",
+    "class_map_match": null,
+    "confidence": 0.7273,
+    "bbox": [
+     0.4897,
+     0.5477,
+     0.5716,
+     0.5633
+    ]
+   },
+   {
+    "detection_id": "d271",
+    "photo_id": "dongdaemun_bhc_3",
+    "equipment_id": null,
+    "detector_class": "tv",
+    "class_map_match": null,
+    "confidence": 0.6534,
+    "bbox": [
+     0.5846,
+     0.427,
+     0.6732,
+     0.5154
+    ]
+   },
+   {
+    "detection_id": "d272",
+    "photo_id": "dongdaemun_bhc_3",
+    "equipment_id": null,
+    "detector_class": "mouse",
+    "class_map_match": null,
+    "confidence": 0.4651,
+    "bbox": [
+     0.561,
+     0.5593,
+     0.5747,
+     0.5706
+    ]
+   },
+   {
+    "detection_id": "d273",
+    "photo_id": "dongdaemun_bhc_3",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "refrigerator",
+    "class_map_match": "direct",
+    "confidence": 0.4621,
+    "bbox": [
+     0.0003,
+     0.2649,
+     0.0893,
+     0.7587
+    ]
+   },
+   {
+    "detection_id": "d274",
+    "photo_id": "dongdaemun_bhc_3",
+    "equipment_id": "EQ_DISPLAY_COOLER",
+    "detector_class": "refrigerator",
+    "class_map_match": "partial",
+    "confidence": 0.4621,
+    "bbox": [
+     0.0003,
+     0.2649,
+     0.0893,
+     0.7587
+    ]
+   },
+   {
+    "detection_id": "d275",
+    "photo_id": "dongdaemun_bhc_3",
+    "equipment_id": null,
+    "detector_class": "tv",
+    "class_map_match": null,
+    "confidence": 0.4249,
+    "bbox": [
+     0.3793,
+     0.3619,
+     0.4272,
+     0.4411
+    ]
+   },
+   {
+    "detection_id": "d276",
+    "photo_id": "dongdaemun_bhc_3",
+    "equipment_id": null,
+    "detector_class": "bottle",
+    "class_map_match": null,
+    "confidence": 0.3784,
+    "bbox": [
+     0.5783,
+     0.5336,
+     0.5918,
+     0.5676
+    ]
+   },
+   {
+    "detection_id": "d277",
+    "photo_id": "dongdaemun_bhc_3",
+    "equipment_id": null,
+    "detector_class": "bowl",
+    "class_map_match": null,
+    "confidence": 0.2756,
+    "bbox": [
+     0.5938,
+     0.7201,
+     0.6311,
+     0.7717
+    ]
+   },
+   {
+    "detection_id": "d278",
+    "photo_id": "dongdaemun_bhc_3",
+    "equipment_id": null,
+    "detector_class": "spoon",
+    "class_map_match": null,
+    "confidence": 0.246,
+    "bbox": [
+     0.0064,
+     0.7027,
+     0.0878,
+     0.7747
+    ]
+   },
+   {
+    "detection_id": "d279",
+    "photo_id": "dongdaemun_bhc_3",
+    "equipment_id": null,
+    "detector_class": "bottle",
+    "class_map_match": null,
+    "confidence": 0.2408,
+    "bbox": [
+     0.6844,
+     0.5414,
+     0.7024,
+     0.588
+    ]
+   },
+   {
+    "detection_id": "d280",
+    "photo_id": "dongdaemun_bhc_3",
+    "equipment_id": null,
+    "detector_class": "bottle",
+    "class_map_match": null,
+    "confidence": 0.1795,
+    "bbox": [
+     0.5933,
+     0.5251,
+     0.603,
+     0.5636
+    ]
+   },
+   {
+    "detection_id": "d281",
+    "photo_id": "dongdaemun_bhc_3",
+    "equipment_id": null,
+    "detector_class": "bowl",
+    "class_map_match": null,
+    "confidence": 0.174,
+    "bbox": [
+     0.6214,
+     0.7309,
+     0.6394,
+     0.7858
+    ]
+   },
+   {
+    "detection_id": "d282",
+    "photo_id": "dongdaemun_bhc_3",
+    "equipment_id": null,
+    "detector_class": "cup",
+    "class_map_match": null,
+    "confidence": 0.1679,
+    "bbox": [
+     0.4401,
+     0.6147,
+     0.4611,
+     0.6443
+    ]
+   },
+   {
+    "detection_id": "d283",
+    "photo_id": "dongdaemun_bhc_3",
+    "equipment_id": null,
+    "detector_class": "bottle",
+    "class_map_match": null,
+    "confidence": 0.1664,
+    "bbox": [
+     0.6619,
+     0.5378,
+     0.6832,
+     0.5868
+    ]
+   },
+   {
+    "detection_id": "d284",
+    "photo_id": "dongdaemun_bhc_3",
+    "equipment_id": null,
+    "detector_class": "car",
+    "class_map_match": null,
+    "confidence": 0.1605,
+    "bbox": [
+     0.2891,
+     0.4623,
+     0.3778,
+     0.5294
+    ]
+   },
+   {
+    "detection_id": "d285",
+    "photo_id": "dongdaemun_bhc_3",
+    "equipment_id": "EQ_MICROWAVE",
+    "detector_class": "microwave",
+    "class_map_match": "direct",
+    "confidence": 0.1396,
+    "bbox": [
+     0.3489,
+     0.597,
+     0.4404,
+     0.6678
+    ]
+   },
+   {
+    "detection_id": "d286",
+    "photo_id": "dongdaemun_bhc_3",
+    "equipment_id": "EQ_KNIFE_BOARD",
+    "detector_class": "knife",
+    "class_map_match": "partial",
+    "confidence": 0.1283,
+    "bbox": [
+     0,
+     0.6983,
+     0.0481,
+     0.7829
+    ]
+   },
+   {
+    "detection_id": "d287",
+    "photo_id": "dongdaemun_bhc_3",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "refrigerator",
+    "class_map_match": "direct",
+    "confidence": 0.1028,
+    "bbox": [
+     0.0945,
+     0.2537,
+     0.198,
+     0.6242
+    ]
+   },
+   {
+    "detection_id": "d288",
+    "photo_id": "dongdaemun_bhc_3",
+    "equipment_id": "EQ_DISPLAY_COOLER",
+    "detector_class": "refrigerator",
+    "class_map_match": "partial",
+    "confidence": 0.1028,
+    "bbox": [
+     0.0945,
+     0.2537,
+     0.198,
+     0.6242
+    ]
+   },
+   {
+    "detection_id": "d289",
+    "photo_id": "dongdaemun_bhc_3",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.0945,
+    "bbox": [
+     0.6634,
+     0.6797,
+     0.999,
+     0.9994
+    ]
+   },
+   {
+    "detection_id": "d290",
+    "photo_id": "dongdaemun_bhc_3",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.0945,
+    "bbox": [
+     0.6634,
+     0.6797,
+     0.999,
+     0.9994
+    ]
+   },
+   {
+    "detection_id": "d291",
+    "photo_id": "dongdaemun_bhc_3",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.0945,
+    "bbox": [
+     0.6634,
+     0.6797,
+     0.999,
+     0.9994
+    ]
+   },
+   {
+    "detection_id": "d292",
+    "photo_id": "dongdaemun_bhc_3",
+    "equipment_id": null,
+    "detector_class": "mouse",
+    "class_map_match": null,
+    "confidence": 0.093,
+    "bbox": [
+     0.5212,
+     0.56,
+     0.5447,
+     0.572
+    ]
+   },
+   {
+    "detection_id": "d293",
+    "photo_id": "dongdaemun_bhc_3",
+    "equipment_id": null,
+    "detector_class": "bowl",
+    "class_map_match": null,
+    "confidence": 0.0906,
+    "bbox": [
+     0.6164,
+     0.3449,
+     0.6514,
+     0.3667
+    ]
+   },
+   {
+    "detection_id": "d294",
+    "photo_id": "dongdaemun_bhc_3",
+    "equipment_id": null,
+    "detector_class": "tv",
+    "class_map_match": null,
+    "confidence": 0.081,
+    "bbox": [
+     0.3488,
+     0.5991,
+     0.4406,
+     0.6672
+    ]
+   },
+   {
+    "detection_id": "d295",
+    "photo_id": "dongdaemun_bhc_3",
+    "equipment_id": null,
+    "detector_class": "bottle",
+    "class_map_match": null,
+    "confidence": 0.0774,
+    "bbox": [
+     0.4827,
+     0.2606,
+     0.5104,
+     0.3537
+    ]
+   },
+   {
+    "detection_id": "d296",
+    "photo_id": "dongdaemun_bhc_3",
+    "equipment_id": null,
+    "detector_class": "mouse",
+    "class_map_match": null,
+    "confidence": 0.0765,
+    "bbox": [
+     0.5611,
+     0.5589,
+     0.5926,
+     0.5723
+    ]
+   },
+   {
+    "detection_id": "d297",
+    "photo_id": "dongdaemun_bhc_3",
+    "equipment_id": null,
+    "detector_class": "cup",
+    "class_map_match": null,
+    "confidence": 0.0723,
+    "bbox": [
+     0.6358,
+     0.5594,
+     0.6507,
+     0.5891
+    ]
+   },
+   {
+    "detection_id": "d298",
+    "photo_id": "dongdaemun_bhc_3",
+    "equipment_id": null,
+    "detector_class": "bowl",
+    "class_map_match": null,
+    "confidence": 0.0661,
+    "bbox": [
+     0.5878,
+     0.6902,
+     0.6291,
+     0.7263
+    ]
+   },
+   {
+    "detection_id": "d299",
+    "photo_id": "dongdaemun_bhc_3",
+    "equipment_id": null,
+    "detector_class": "bowl",
+    "class_map_match": null,
+    "confidence": 0.0611,
+    "bbox": [
+     0.2985,
+     0.6599,
+     0.3443,
+     0.7278
+    ]
+   },
+   {
+    "detection_id": "d300",
+    "photo_id": "dongdaemun_bhc_3",
+    "equipment_id": null,
+    "detector_class": "bowl",
+    "class_map_match": null,
+    "confidence": 0.054,
+    "bbox": [
+     0.1524,
+     0.7001,
+     0.2974,
+     0.8543
+    ]
+   },
+   {
+    "detection_id": "d301",
+    "photo_id": "dongdaemun_bhc_3",
+    "equipment_id": null,
+    "detector_class": "car",
+    "class_map_match": null,
+    "confidence": 0.0518,
+    "bbox": [
+     0.2908,
+     0.4618,
+     0.4594,
+     0.5305
+    ]
+   },
+   {
+    "detection_id": "d302",
+    "photo_id": "dongdaemun_bhc_3",
+    "equipment_id": null,
+    "detector_class": "handbag",
+    "class_map_match": null,
+    "confidence": 0.0507,
+    "bbox": [
+     0.2983,
+     0.6582,
+     0.3442,
+     0.7281
+    ]
+   },
+   {
+    "detection_id": "d303",
+    "photo_id": "nahYjWAkqY8_0015",
+    "equipment_id": null,
+    "detector_class": "person",
+    "class_map_match": null,
+    "confidence": 0.0894,
+    "bbox": [
+     0.6198,
+     0.7027,
+     0.9992,
+     0.989
+    ]
+   },
+   {
+    "detection_id": "d304",
+    "photo_id": "nahYjWAkqY8_0015",
+    "equipment_id": null,
+    "detector_class": "spoon",
+    "class_map_match": null,
+    "confidence": 0.0876,
+    "bbox": [
+     0.7207,
+     0.1088,
+     0.8253,
+     0.1538
+    ]
+   },
+   {
+    "detection_id": "d305",
+    "photo_id": "seongdong_bbq_haengdang_1",
+    "equipment_id": null,
+    "detector_class": "bottle",
+    "class_map_match": null,
+    "confidence": 0.7566,
+    "bbox": [
+     0.2086,
+     0.6105,
+     0.2608,
+     0.7354
+    ]
+   },
+   {
+    "detection_id": "d306",
+    "photo_id": "seongdong_bbq_haengdang_1",
+    "equipment_id": null,
+    "detector_class": "cup",
+    "class_map_match": null,
+    "confidence": 0.6726,
+    "bbox": [
+     0.5357,
+     0.1204,
+     0.5861,
+     0.1836
+    ]
+   },
+   {
+    "detection_id": "d307",
+    "photo_id": "seongdong_bbq_haengdang_1",
+    "equipment_id": null,
+    "detector_class": "cup",
+    "class_map_match": null,
+    "confidence": 0.3191,
+    "bbox": [
+     0.4904,
+     0.044,
+     0.5361,
+     0.1844
+    ]
+   },
+   {
+    "detection_id": "d308",
+    "photo_id": "seongdong_bbq_haengdang_1",
+    "equipment_id": null,
+    "detector_class": "bottle",
+    "class_map_match": null,
+    "confidence": 0.2788,
+    "bbox": [
+     0.0684,
+     0.5776,
+     0.098,
+     0.6736
+    ]
+   },
+   {
+    "detection_id": "d309",
+    "photo_id": "seongdong_bbq_haengdang_1",
+    "equipment_id": null,
+    "detector_class": "bottle",
+    "class_map_match": null,
+    "confidence": 0.2702,
+    "bbox": [
+     0.0453,
+     0.5692,
+     0.0726,
+     0.6721
+    ]
+   },
+   {
+    "detection_id": "d310",
+    "photo_id": "seongdong_bbq_haengdang_1",
+    "equipment_id": null,
+    "detector_class": "toothbrush",
+    "class_map_match": null,
+    "confidence": 0.1919,
+    "bbox": [
+     0.2931,
+     0.2337,
+     0.3244,
+     0.4132
+    ]
+   },
+   {
+    "detection_id": "d311",
+    "photo_id": "seongdong_bbq_haengdang_1",
+    "equipment_id": null,
+    "detector_class": "bottle",
+    "class_map_match": null,
+    "confidence": 0.1483,
+    "bbox": [
+     0.0914,
+     0.583,
+     0.1208,
+     0.6817
+    ]
+   },
+   {
+    "detection_id": "d312",
+    "photo_id": "seongdong_bbq_haengdang_1",
+    "equipment_id": null,
+    "detector_class": "stop sign",
+    "class_map_match": null,
+    "confidence": 0.1313,
+    "bbox": [
+     0.8585,
+     0.3048,
+     0.9996,
+     0.9984
+    ]
+   },
+   {
+    "detection_id": "d313",
+    "photo_id": "seongdong_bbq_haengdang_1",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "sink",
+    "class_map_match": "direct",
+    "confidence": 0.1198,
+    "bbox": [
+     0.0892,
+     0.5874,
+     0.5668,
+     0.7907
+    ]
+   },
+   {
+    "detection_id": "d314",
+    "photo_id": "seongdong_bbq_haengdang_1",
+    "equipment_id": null,
+    "detector_class": "bottle",
+    "class_map_match": null,
+    "confidence": 0.0946,
+    "bbox": [
+     0.2538,
+     0.4225,
+     0.2653,
+     0.4671
+    ]
+   },
+   {
+    "detection_id": "d315",
+    "photo_id": "seongdong_bbq_haengdang_1",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "sink",
+    "class_map_match": "direct",
+    "confidence": 0.0746,
+    "bbox": [
+     0.0831,
+     0.4529,
+     0.648,
+     0.9389
+    ]
+   },
+   {
+    "detection_id": "d316",
+    "photo_id": "seongdong_bbq_haengdang_1",
+    "equipment_id": null,
+    "detector_class": "toothbrush",
+    "class_map_match": null,
+    "confidence": 0.0614,
+    "bbox": [
+     0.2493,
+     0.2275,
+     0.2928,
+     0.3395
+    ]
+   },
+   {
+    "detection_id": "d317",
+    "photo_id": "seongdong_bbq_haengdang_1",
+    "equipment_id": null,
+    "detector_class": "bottle",
+    "class_map_match": null,
+    "confidence": 0.054,
+    "bbox": [
+     0.0001,
+     0.5487,
+     0.0181,
+     0.6514
+    ]
+   },
+   {
+    "detection_id": "d318",
+    "photo_id": "seongdong_bbq_haengdang_1",
+    "equipment_id": null,
+    "detector_class": "bottle",
+    "class_map_match": null,
+    "confidence": 0.05,
+    "bbox": [
+     0.2084,
+     0.6521,
+     0.2321,
+     0.7304
+    ]
+   },
+   {
+    "detection_id": "d319",
+    "photo_id": "seongdong_bbq_haengdang_3",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.2549,
+    "bbox": [
+     0.643,
+     0.378,
+     0.8505,
+     0.6768
+    ]
+   },
+   {
+    "detection_id": "d320",
+    "photo_id": "seongdong_bbq_haengdang_3",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.2549,
+    "bbox": [
+     0.643,
+     0.378,
+     0.8505,
+     0.6768
+    ]
+   },
+   {
+    "detection_id": "d321",
+    "photo_id": "seongdong_bbq_haengdang_3",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.2549,
+    "bbox": [
+     0.643,
+     0.378,
+     0.8505,
+     0.6768
+    ]
+   },
+   {
+    "detection_id": "d322",
+    "photo_id": "seongdong_bbq_haengdang_3",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.1938,
+    "bbox": [
+     0.4933,
+     0.3959,
+     0.9277,
+     1
+    ]
+   },
+   {
+    "detection_id": "d323",
+    "photo_id": "seongdong_bbq_haengdang_3",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.1938,
+    "bbox": [
+     0.4933,
+     0.3959,
+     0.9277,
+     1
+    ]
+   },
+   {
+    "detection_id": "d324",
+    "photo_id": "seongdong_bbq_haengdang_3",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.1938,
+    "bbox": [
+     0.4933,
+     0.3959,
+     0.9277,
+     1
+    ]
+   },
+   {
+    "detection_id": "d325",
+    "photo_id": "seongdong_bbq_haengdang_3",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "refrigerator",
+    "class_map_match": "direct",
+    "confidence": 0.1689,
+    "bbox": [
+     0.225,
+     0.2382,
+     0.5137,
+     0.813
+    ]
+   },
+   {
+    "detection_id": "d326",
+    "photo_id": "seongdong_bbq_haengdang_3",
+    "equipment_id": "EQ_DISPLAY_COOLER",
+    "detector_class": "refrigerator",
+    "class_map_match": "partial",
+    "confidence": 0.1689,
+    "bbox": [
+     0.225,
+     0.2382,
+     0.5137,
+     0.813
+    ]
+   },
+   {
+    "detection_id": "d327",
+    "photo_id": "seongdong_bbq_haengdang_3",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.0947,
+    "bbox": [
+     0.1532,
+     0.4134,
+     0.6514,
+     1
+    ]
+   },
+   {
+    "detection_id": "d328",
+    "photo_id": "seongdong_bbq_haengdang_3",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.0947,
+    "bbox": [
+     0.1532,
+     0.4134,
+     0.6514,
+     1
+    ]
+   },
+   {
+    "detection_id": "d329",
+    "photo_id": "seongdong_bbq_haengdang_3",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.0947,
+    "bbox": [
+     0.1532,
+     0.4134,
+     0.6514,
+     1
+    ]
+   },
+   {
+    "detection_id": "d330",
+    "photo_id": "seongdong_bbq_haengdang_3",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.0806,
+    "bbox": [
+     0.8226,
+     0.6852,
+     0.9998,
+     0.9978
+    ]
+   },
+   {
+    "detection_id": "d331",
+    "photo_id": "seongdong_bbq_haengdang_3",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.0806,
+    "bbox": [
+     0.8226,
+     0.6852,
+     0.9998,
+     0.9978
+    ]
+   },
+   {
+    "detection_id": "d332",
+    "photo_id": "seongdong_bbq_haengdang_3",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.0806,
+    "bbox": [
+     0.8226,
+     0.6852,
+     0.9998,
+     0.9978
+    ]
+   },
+   {
+    "detection_id": "d333",
+    "photo_id": "seongdong_bbq_haengdang_3",
+    "equipment_id": null,
+    "detector_class": "spoon",
+    "class_map_match": null,
+    "confidence": 0.0768,
+    "bbox": [
+     0.8702,
+     0.2877,
+     0.9103,
+     0.4603
+    ]
+   },
+   {
+    "detection_id": "d334",
+    "photo_id": "seongdong_bbq_haengdang_3",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "refrigerator",
+    "class_map_match": "direct",
+    "confidence": 0.0691,
+    "bbox": [
+     0.1646,
+     0.1576,
+     0.6621,
+     0.7966
+    ]
+   },
+   {
+    "detection_id": "d335",
+    "photo_id": "seongdong_bbq_haengdang_3",
+    "equipment_id": "EQ_DISPLAY_COOLER",
+    "detector_class": "refrigerator",
+    "class_map_match": "partial",
+    "confidence": 0.0691,
+    "bbox": [
+     0.1646,
+     0.1576,
+     0.6621,
+     0.7966
+    ]
+   },
+   {
+    "detection_id": "d336",
+    "photo_id": "seongdong_bbq_haengdang_3",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.0614,
+    "bbox": [
+     0.7012,
+     0.7526,
+     0.8681,
+     0.9994
+    ]
+   },
+   {
+    "detection_id": "d337",
+    "photo_id": "seongdong_bbq_haengdang_3",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.0614,
+    "bbox": [
+     0.7012,
+     0.7526,
+     0.8681,
+     0.9994
+    ]
+   },
+   {
+    "detection_id": "d338",
+    "photo_id": "seongdong_bbq_haengdang_3",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.0614,
+    "bbox": [
+     0.7012,
+     0.7526,
+     0.8681,
+     0.9994
+    ]
+   },
+   {
+    "detection_id": "d339",
+    "photo_id": "seongdong_bbq_haengdang_4",
+    "equipment_id": null,
+    "detector_class": "bottle",
+    "class_map_match": null,
+    "confidence": 0.512,
+    "bbox": [
+     0.4714,
+     0.1776,
+     0.5059,
+     0.28
+    ]
+   },
+   {
+    "detection_id": "d340",
+    "photo_id": "seongdong_bbq_haengdang_4",
+    "equipment_id": null,
+    "detector_class": "cup",
+    "class_map_match": null,
+    "confidence": 0.4502,
+    "bbox": [
+     0.4686,
+     0.0907,
+     0.5199,
+     0.1468
+    ]
+   },
+   {
+    "detection_id": "d341",
+    "photo_id": "seongdong_bbq_haengdang_4",
+    "equipment_id": null,
+    "detector_class": "bottle",
+    "class_map_match": null,
+    "confidence": 0.4113,
+    "bbox": [
+     0.434,
+     0.1705,
+     0.4591,
+     0.2339
+    ]
+   },
+   {
+    "detection_id": "d342",
+    "photo_id": "seongdong_bbq_haengdang_4",
+    "equipment_id": null,
+    "detector_class": "bottle",
+    "class_map_match": null,
+    "confidence": 0.3956,
+    "bbox": [
+     0.4063,
+     0.1698,
+     0.4379,
+     0.2426
+    ]
+   },
+   {
+    "detection_id": "d343",
+    "photo_id": "seongdong_bbq_haengdang_4",
+    "equipment_id": null,
+    "detector_class": "bottle",
+    "class_map_match": null,
+    "confidence": 0.3854,
+    "bbox": [
+     0.643,
+     0.0362,
+     0.759,
+     0.2513
+    ]
+   },
+   {
+    "detection_id": "d344",
+    "photo_id": "seongdong_bbq_haengdang_4",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "refrigerator",
+    "class_map_match": "direct",
+    "confidence": 0.352,
+    "bbox": [
+     0.0006,
+     0,
+     0.2908,
+     0.513
+    ]
+   },
+   {
+    "detection_id": "d345",
+    "photo_id": "seongdong_bbq_haengdang_4",
+    "equipment_id": "EQ_DISPLAY_COOLER",
+    "detector_class": "refrigerator",
+    "class_map_match": "partial",
+    "confidence": 0.352,
+    "bbox": [
+     0.0006,
+     0,
+     0.2908,
+     0.513
+    ]
+   },
+   {
+    "detection_id": "d346",
+    "photo_id": "seongdong_bbq_haengdang_4",
+    "equipment_id": null,
+    "detector_class": "bottle",
+    "class_map_match": null,
+    "confidence": 0.3318,
+    "bbox": [
+     0.5098,
+     0.1542,
+     0.5354,
+     0.2508
+    ]
+   },
+   {
+    "detection_id": "d347",
+    "photo_id": "seongdong_bbq_haengdang_4",
+    "equipment_id": null,
+    "detector_class": "bottle",
+    "class_map_match": null,
+    "confidence": 0.2849,
+    "bbox": [
+     0.4982,
+     0.1628,
+     0.516,
+     0.2641
+    ]
+   },
+   {
+    "detection_id": "d348",
+    "photo_id": "seongdong_bbq_haengdang_4",
+    "equipment_id": null,
+    "detector_class": "cup",
+    "class_map_match": null,
+    "confidence": 0.2571,
+    "bbox": [
+     0.4696,
+     0.1242,
+     0.539,
+     0.1818
+    ]
+   },
+   {
+    "detection_id": "d349",
+    "photo_id": "seongdong_bbq_haengdang_4",
+    "equipment_id": null,
+    "detector_class": "bowl",
+    "class_map_match": null,
+    "confidence": 0.2448,
+    "bbox": [
+     0.5526,
+     0.2569,
+     0.6557,
+     0.3433
+    ]
+   },
+   {
+    "detection_id": "d350",
+    "photo_id": "seongdong_bbq_haengdang_4",
+    "equipment_id": null,
+    "detector_class": "cup",
+    "class_map_match": null,
+    "confidence": 0.2171,
+    "bbox": [
+     0.3812,
+     0.2184,
+     0.4335,
+     0.3024
+    ]
+   },
+   {
+    "detection_id": "d351",
+    "photo_id": "seongdong_bbq_haengdang_4",
+    "equipment_id": null,
+    "detector_class": "cup",
+    "class_map_match": null,
+    "confidence": 0.1236,
+    "bbox": [
+     0.3818,
+     0.2259,
+     0.4978,
+     0.3287
+    ]
+   },
+   {
+    "detection_id": "d352",
+    "photo_id": "seongdong_bbq_haengdang_4",
+    "equipment_id": null,
+    "detector_class": "bottle",
+    "class_map_match": null,
+    "confidence": 0.1166,
+    "bbox": [
+     0.3896,
+     0.1841,
+     0.4127,
+     0.2207
+    ]
+   },
+   {
+    "detection_id": "d353",
+    "photo_id": "seongdong_bbq_haengdang_4",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.1018,
+    "bbox": [
+     0.6181,
+     0.2861,
+     0.9989,
+     0.8691
+    ]
+   },
+   {
+    "detection_id": "d354",
+    "photo_id": "seongdong_bbq_haengdang_4",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.1018,
+    "bbox": [
+     0.6181,
+     0.2861,
+     0.9989,
+     0.8691
+    ]
+   },
+   {
+    "detection_id": "d355",
+    "photo_id": "seongdong_bbq_haengdang_4",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.1018,
+    "bbox": [
+     0.6181,
+     0.2861,
+     0.9989,
+     0.8691
+    ]
+   },
+   {
+    "detection_id": "d356",
+    "photo_id": "seongdong_bbq_haengdang_4",
+    "equipment_id": null,
+    "detector_class": "bottle",
+    "class_map_match": null,
+    "confidence": 0.0922,
+    "bbox": [
+     0.1203,
+     0.1209,
+     0.1382,
+     0.1506
+    ]
+   },
+   {
+    "detection_id": "d357",
+    "photo_id": "seongdong_bbq_haengdang_4",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "refrigerator",
+    "class_map_match": "direct",
+    "confidence": 0.0897,
+    "bbox": [
+     0.6226,
+     0.3878,
+     0.9994,
+     0.9934
+    ]
+   },
+   {
+    "detection_id": "d358",
+    "photo_id": "seongdong_bbq_haengdang_4",
+    "equipment_id": "EQ_DISPLAY_COOLER",
+    "detector_class": "refrigerator",
+    "class_map_match": "partial",
+    "confidence": 0.0897,
+    "bbox": [
+     0.6226,
+     0.3878,
+     0.9994,
+     0.9934
+    ]
+   },
+   {
+    "detection_id": "d359",
+    "photo_id": "seongdong_bbq_haengdang_4",
+    "equipment_id": null,
+    "detector_class": "bowl",
+    "class_map_match": null,
+    "confidence": 0.0656,
+    "bbox": [
+     0.8492,
+     0.6315,
+     0.9541,
+     0.7106
+    ]
+   },
+   {
+    "detection_id": "d360",
+    "photo_id": "seongdong_bbq_haengdang_4",
+    "equipment_id": null,
+    "detector_class": "banana",
+    "class_map_match": null,
+    "confidence": 0.0556,
+    "bbox": [
+     0.3945,
+     0.2361,
+     0.495,
+     0.3289
+    ]
+   },
+   {
+    "detection_id": "d361",
+    "photo_id": "seongdong_bbq_haengdang_4",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "refrigerator",
+    "class_map_match": "direct",
+    "confidence": 0.0513,
+    "bbox": [
+     0.263,
+     0.2134,
+     0.7769,
+     0.8665
+    ]
+   },
+   {
+    "detection_id": "d362",
+    "photo_id": "seongdong_bbq_haengdang_4",
+    "equipment_id": "EQ_DISPLAY_COOLER",
+    "detector_class": "refrigerator",
+    "class_map_match": "partial",
+    "confidence": 0.0513,
+    "bbox": [
+     0.263,
+     0.2134,
+     0.7769,
+     0.8665
+    ]
+   },
+   {
+    "detection_id": "d363",
+    "photo_id": "seongdong_kyochon_1",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.7564,
+    "bbox": [
+     0.6395,
+     0.6636,
+     0.9067,
+     0.999
+    ]
+   },
+   {
+    "detection_id": "d364",
+    "photo_id": "seongdong_kyochon_1",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.7564,
+    "bbox": [
+     0.6395,
+     0.6636,
+     0.9067,
+     0.999
+    ]
+   },
+   {
+    "detection_id": "d365",
+    "photo_id": "seongdong_kyochon_1",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.7564,
+    "bbox": [
+     0.6395,
+     0.6636,
+     0.9067,
+     0.999
+    ]
+   },
+   {
+    "detection_id": "d366",
+    "photo_id": "seongdong_kyochon_1",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.2437,
+    "bbox": [
+     0.3949,
+     0.6542,
+     0.6228,
+     0.9878
+    ]
+   },
+   {
+    "detection_id": "d367",
+    "photo_id": "seongdong_kyochon_1",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.2437,
+    "bbox": [
+     0.3949,
+     0.6542,
+     0.6228,
+     0.9878
+    ]
+   },
+   {
+    "detection_id": "d368",
+    "photo_id": "seongdong_kyochon_1",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.2437,
+    "bbox": [
+     0.3949,
+     0.6542,
+     0.6228,
+     0.9878
+    ]
+   },
+   {
+    "detection_id": "d369",
+    "photo_id": "seongdong_kyochon_1",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.1466,
+    "bbox": [
+     0.086,
+     0.5491,
+     0.2504,
+     0.965
+    ]
+   },
+   {
+    "detection_id": "d370",
+    "photo_id": "seongdong_kyochon_1",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.1466,
+    "bbox": [
+     0.086,
+     0.5491,
+     0.2504,
+     0.965
+    ]
+   },
+   {
+    "detection_id": "d371",
+    "photo_id": "seongdong_kyochon_1",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.1466,
+    "bbox": [
+     0.086,
+     0.5491,
+     0.2504,
+     0.965
+    ]
+   },
+   {
+    "detection_id": "d372",
+    "photo_id": "seongdong_kyochon_1",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.0952,
+    "bbox": [
+     0.3975,
+     0.6676,
+     0.606,
+     0.7776
+    ]
+   },
+   {
+    "detection_id": "d373",
+    "photo_id": "seongdong_kyochon_1",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.0952,
+    "bbox": [
+     0.3975,
+     0.6676,
+     0.606,
+     0.7776
+    ]
+   },
+   {
+    "detection_id": "d374",
+    "photo_id": "seongdong_kyochon_1",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.0952,
+    "bbox": [
+     0.3975,
+     0.6676,
+     0.606,
+     0.7776
+    ]
+   },
+   {
+    "detection_id": "d375",
+    "photo_id": "seongdong_kyochon_1",
+    "equipment_id": null,
+    "detector_class": "bowl",
+    "class_map_match": null,
+    "confidence": 0.0864,
+    "bbox": [
+     0.2831,
+     0.4825,
+     0.4097,
+     0.593
+    ]
+   },
+   {
+    "detection_id": "d376",
+    "photo_id": "seongdong_kyochon_1",
+    "equipment_id": null,
+    "detector_class": "bowl",
+    "class_map_match": null,
+    "confidence": 0.0663,
+    "bbox": [
+     0.0126,
+     0.4294,
+     0.1477,
+     0.5317
+    ]
+   },
+   {
+    "detection_id": "d377",
+    "photo_id": "seongdong_kyochon_1",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.0651,
+    "bbox": [
+     0.086,
+     0.5186,
+     0.3994,
+     0.9718
+    ]
+   },
+   {
+    "detection_id": "d378",
+    "photo_id": "seongdong_kyochon_1",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.0651,
+    "bbox": [
+     0.086,
+     0.5186,
+     0.3994,
+     0.9718
+    ]
+   },
+   {
+    "detection_id": "d379",
+    "photo_id": "seongdong_kyochon_1",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.0651,
+    "bbox": [
+     0.086,
+     0.5186,
+     0.3994,
+     0.9718
+    ]
+   },
+   {
+    "detection_id": "d380",
+    "photo_id": "seongdong_kyochon_1",
+    "equipment_id": null,
+    "detector_class": "bowl",
+    "class_map_match": null,
+    "confidence": 0.0568,
+    "bbox": [
+     0.0104,
+     0.2292,
+     0.0608,
+     0.2908
+    ]
+   },
+   {
+    "detection_id": "d381",
+    "photo_id": "seongdong_kyochon_1",
+    "equipment_id": null,
+    "detector_class": "clock",
+    "class_map_match": null,
+    "confidence": 0.0557,
+    "bbox": [
+     0.1065,
+     0.6138,
+     0.2131,
+     0.6876
+    ]
+   },
+   {
+    "detection_id": "d382",
+    "photo_id": "seongdong_kyochon_3",
+    "equipment_id": null,
+    "detector_class": "bowl",
+    "class_map_match": null,
+    "confidence": 0.9218,
+    "bbox": [
+     0.377,
+     0.4747,
+     0.4877,
+     0.5767
+    ]
+   },
+   {
+    "detection_id": "d383",
+    "photo_id": "seongdong_kyochon_3",
+    "equipment_id": null,
+    "detector_class": "bowl",
+    "class_map_match": null,
+    "confidence": 0.837,
+    "bbox": [
+     0.4689,
+     0.4266,
+     0.5681,
+     0.5189
+    ]
+   },
+   {
+    "detection_id": "d384",
+    "photo_id": "seongdong_kyochon_3",
+    "equipment_id": null,
+    "detector_class": "bowl",
+    "class_map_match": null,
+    "confidence": 0.7683,
+    "bbox": [
+     0.8296,
+     0.2735,
+     0.907,
+     0.3294
+    ]
+   },
+   {
+    "detection_id": "d385",
+    "photo_id": "seongdong_kyochon_3",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.2737,
+    "bbox": [
+     0.6498,
+     0.0022,
+     0.773,
+     0.1968
+    ]
+   },
+   {
+    "detection_id": "d386",
+    "photo_id": "seongdong_kyochon_3",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.2737,
+    "bbox": [
+     0.6498,
+     0.0022,
+     0.773,
+     0.1968
+    ]
+   },
+   {
+    "detection_id": "d387",
+    "photo_id": "seongdong_kyochon_3",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.2737,
+    "bbox": [
+     0.6498,
+     0.0022,
+     0.773,
+     0.1968
+    ]
+   },
+   {
+    "detection_id": "d388",
+    "photo_id": "seongdong_kyochon_3",
+    "equipment_id": null,
+    "detector_class": "spoon",
+    "class_map_match": null,
+    "confidence": 0.2726,
+    "bbox": [
+     0.854,
+     0.1387,
+     0.9464,
+     0.3156
+    ]
+   },
+   {
+    "detection_id": "d389",
+    "photo_id": "seongdong_kyochon_3",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.2545,
+    "bbox": [
+     0.507,
+     0,
+     0.6828,
+     0.232
+    ]
+   },
+   {
+    "detection_id": "d390",
+    "photo_id": "seongdong_kyochon_3",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.2545,
+    "bbox": [
+     0.507,
+     0,
+     0.6828,
+     0.232
+    ]
+   },
+   {
+    "detection_id": "d391",
+    "photo_id": "seongdong_kyochon_3",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.2545,
+    "bbox": [
+     0.507,
+     0,
+     0.6828,
+     0.232
+    ]
+   },
+   {
+    "detection_id": "d392",
+    "photo_id": "seongdong_kyochon_3",
+    "equipment_id": "EQ_KNIFE_BOARD",
+    "detector_class": "knife",
+    "class_map_match": "partial",
+    "confidence": 0.2517,
+    "bbox": [
+     0.7709,
+     0.504,
+     0.9963,
+     0.5618
+    ]
+   },
+   {
+    "detection_id": "d393",
+    "photo_id": "seongdong_kyochon_3",
+    "equipment_id": "EQ_KNIFE_BOARD",
+    "detector_class": "knife",
+    "class_map_match": "partial",
+    "confidence": 0.2317,
+    "bbox": [
+     0.4885,
+     0.2262,
+     0.5792,
+     0.3412
+    ]
+   },
+   {
+    "detection_id": "d394",
+    "photo_id": "seongdong_kyochon_3",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.2292,
+    "bbox": [
+     0.3615,
+     0.0902,
+     0.4587,
+     0.2805
+    ]
+   },
+   {
+    "detection_id": "d395",
+    "photo_id": "seongdong_kyochon_3",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.2292,
+    "bbox": [
+     0.3615,
+     0.0902,
+     0.4587,
+     0.2805
+    ]
+   },
+   {
+    "detection_id": "d396",
+    "photo_id": "seongdong_kyochon_3",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.2292,
+    "bbox": [
+     0.3615,
+     0.0902,
+     0.4587,
+     0.2805
+    ]
+   },
+   {
+    "detection_id": "d397",
+    "photo_id": "seongdong_kyochon_3",
+    "equipment_id": "EQ_KNIFE_BOARD",
+    "detector_class": "knife",
+    "class_map_match": "partial",
+    "confidence": 0.1901,
+    "bbox": [
+     0.266,
+     0.2916,
+     0.3596,
+     0.4317
+    ]
+   },
+   {
+    "detection_id": "d398",
+    "photo_id": "seongdong_kyochon_3",
+    "equipment_id": null,
+    "detector_class": "bowl",
+    "class_map_match": null,
+    "confidence": 0.1108,
+    "bbox": [
+     0.0005,
+     0.4979,
+     0.2226,
+     0.7821
+    ]
+   },
+   {
+    "detection_id": "d399",
+    "photo_id": "seongdong_kyochon_3",
+    "equipment_id": null,
+    "detector_class": "spoon",
+    "class_map_match": null,
+    "confidence": 0.1058,
+    "bbox": [
+     0.1633,
+     0.5466,
+     0.2541,
+     0.6405
+    ]
+   },
+   {
+    "detection_id": "d400",
+    "photo_id": "seongdong_kyochon_3",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.104,
+    "bbox": [
+     0.2252,
+     0.0639,
+     0.3633,
+     0.3356
+    ]
+   },
+   {
+    "detection_id": "d401",
+    "photo_id": "seongdong_kyochon_3",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.104,
+    "bbox": [
+     0.2252,
+     0.0639,
+     0.3633,
+     0.3356
+    ]
+   },
+   {
+    "detection_id": "d402",
+    "photo_id": "seongdong_kyochon_3",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.104,
+    "bbox": [
+     0.2252,
+     0.0639,
+     0.3633,
+     0.3356
+    ]
+   },
+   {
+    "detection_id": "d403",
+    "photo_id": "seongdong_kyochon_3",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.0907,
+    "bbox": [
+     0.0003,
+     0.0013,
+     0.191,
+     0.3968
+    ]
+   },
+   {
+    "detection_id": "d404",
+    "photo_id": "seongdong_kyochon_3",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.0907,
+    "bbox": [
+     0.0003,
+     0.0013,
+     0.191,
+     0.3968
+    ]
+   },
+   {
+    "detection_id": "d405",
+    "photo_id": "seongdong_kyochon_3",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.0907,
+    "bbox": [
+     0.0003,
+     0.0013,
+     0.191,
+     0.3968
+    ]
+   },
+   {
+    "detection_id": "d406",
+    "photo_id": "seongdong_kyochon_3",
+    "equipment_id": null,
+    "detector_class": "cup",
+    "class_map_match": null,
+    "confidence": 0.0844,
+    "bbox": [
+     0.9803,
+     0.1579,
+     0.9998,
+     0.1836
+    ]
+   },
+   {
+    "detection_id": "d407",
+    "photo_id": "seongdong_kyochon_3",
+    "equipment_id": "EQ_KNIFE_BOARD",
+    "detector_class": "knife",
+    "class_map_match": "partial",
+    "confidence": 0.0762,
+    "bbox": [
+     0.6178,
+     0.1704,
+     0.7288,
+     0.2796
+    ]
+   },
+   {
+    "detection_id": "d408",
+    "photo_id": "seongdong_kyochon_3",
+    "equipment_id": "EQ_KNIFE_BOARD",
+    "detector_class": "knife",
+    "class_map_match": "partial",
+    "confidence": 0.0624,
+    "bbox": [
+     0.9157,
+     0.36,
+     0.9988,
+     0.3934
+    ]
+   },
+   {
+    "detection_id": "d409",
+    "photo_id": "seongdong_kyochon_3",
+    "equipment_id": "EQ_KNIFE_BOARD",
+    "detector_class": "knife",
+    "class_map_match": "partial",
+    "confidence": 0.0607,
+    "bbox": [
+     0.9512,
+     0.3452,
+     0.9998,
+     0.3763
+    ]
+   },
+   {
+    "detection_id": "d410",
+    "photo_id": "seongdong_kyochon_3",
+    "equipment_id": null,
+    "detector_class": "clock",
+    "class_map_match": null,
+    "confidence": 0.0577,
+    "bbox": [
+     0.3669,
+     0.0948,
+     0.4574,
+     0.154
+    ]
+   },
+   {
+    "detection_id": "d411",
+    "photo_id": "seongdong_kyochon_3",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "sink",
+    "class_map_match": "direct",
+    "confidence": 0.0505,
+    "bbox": [
+     0.0001,
+     0.4988,
+     0.2219,
+     0.7822
+    ]
+   },
+   {
+    "detection_id": "d412",
+    "photo_id": "seongdong_kyochon_4",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "refrigerator",
+    "class_map_match": "direct",
+    "confidence": 0.3501,
+    "bbox": [
+     0.2554,
+     0.0036,
+     0.5817,
+     0.5835
+    ]
+   },
+   {
+    "detection_id": "d413",
+    "photo_id": "seongdong_kyochon_4",
+    "equipment_id": "EQ_DISPLAY_COOLER",
+    "detector_class": "refrigerator",
+    "class_map_match": "partial",
+    "confidence": 0.3501,
+    "bbox": [
+     0.2554,
+     0.0036,
+     0.5817,
+     0.5835
+    ]
+   },
+   {
+    "detection_id": "d414",
+    "photo_id": "seongdong_kyochon_4",
+    "equipment_id": null,
+    "detector_class": "bowl",
+    "class_map_match": null,
+    "confidence": 0.3408,
+    "bbox": [
+     0.5425,
+     0.26,
+     0.6342,
+     0.3245
+    ]
+   },
+   {
+    "detection_id": "d415",
+    "photo_id": "seongdong_kyochon_4",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.1749,
+    "bbox": [
+     0.2436,
+     0.3885,
+     0.6461,
+     0.9952
+    ]
+   },
+   {
+    "detection_id": "d416",
+    "photo_id": "seongdong_kyochon_4",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.1749,
+    "bbox": [
+     0.2436,
+     0.3885,
+     0.6461,
+     0.9952
+    ]
+   },
+   {
+    "detection_id": "d417",
+    "photo_id": "seongdong_kyochon_4",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.1749,
+    "bbox": [
+     0.2436,
+     0.3885,
+     0.6461,
+     0.9952
+    ]
+   },
+   {
+    "detection_id": "d418",
+    "photo_id": "seongdong_kyochon_4",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.0825,
+    "bbox": [
+     0.5452,
+     0.4029,
+     0.997,
+     0.9979
+    ]
+   },
+   {
+    "detection_id": "d419",
+    "photo_id": "seongdong_kyochon_4",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.0825,
+    "bbox": [
+     0.5452,
+     0.4029,
+     0.997,
+     0.9979
+    ]
+   },
+   {
+    "detection_id": "d420",
+    "photo_id": "seongdong_kyochon_4",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.0825,
+    "bbox": [
+     0.5452,
+     0.4029,
+     0.997,
+     0.9979
+    ]
+   },
+   {
+    "detection_id": "d421",
+    "photo_id": "seongdong_kyochon_4",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "refrigerator",
+    "class_map_match": "direct",
+    "confidence": 0.0807,
+    "bbox": [
+     0,
+     0.0147,
+     0.3237,
+     0.7222
+    ]
+   },
+   {
+    "detection_id": "d422",
+    "photo_id": "seongdong_kyochon_4",
+    "equipment_id": "EQ_DISPLAY_COOLER",
+    "detector_class": "refrigerator",
+    "class_map_match": "partial",
+    "confidence": 0.0807,
+    "bbox": [
+     0,
+     0.0147,
+     0.3237,
+     0.7222
+    ]
+   },
+   {
+    "detection_id": "d423",
+    "photo_id": "seongdong_kyochon_4",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.0806,
+    "bbox": [
+     0.6431,
+     0.8374,
+     0.9585,
+     0.9996
+    ]
+   },
+   {
+    "detection_id": "d424",
+    "photo_id": "seongdong_kyochon_4",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.0806,
+    "bbox": [
+     0.6431,
+     0.8374,
+     0.9585,
+     0.9996
+    ]
+   },
+   {
+    "detection_id": "d425",
+    "photo_id": "seongdong_kyochon_4",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.0806,
+    "bbox": [
+     0.6431,
+     0.8374,
+     0.9585,
+     0.9996
+    ]
+   },
+   {
+    "detection_id": "d426",
+    "photo_id": "seongdong_kyochon_4",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "refrigerator",
+    "class_map_match": "direct",
+    "confidence": 0.0699,
+    "bbox": [
+     0.6427,
+     0.8475,
+     0.9558,
+     0.9996
+    ]
+   },
+   {
+    "detection_id": "d427",
+    "photo_id": "seongdong_kyochon_4",
+    "equipment_id": "EQ_DISPLAY_COOLER",
+    "detector_class": "refrigerator",
+    "class_map_match": "partial",
+    "confidence": 0.0699,
+    "bbox": [
+     0.6427,
+     0.8475,
+     0.9558,
+     0.9996
+    ]
+   },
+   {
+    "detection_id": "d428",
+    "photo_id": "seongdong_kyochon_4",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.0693,
+    "bbox": [
+     0.0077,
+     0.4296,
+     0.4575,
+     0.9888
+    ]
+   },
+   {
+    "detection_id": "d429",
+    "photo_id": "seongdong_kyochon_4",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.0693,
+    "bbox": [
+     0.0077,
+     0.4296,
+     0.4575,
+     0.9888
+    ]
+   },
+   {
+    "detection_id": "d430",
+    "photo_id": "seongdong_kyochon_4",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.0693,
+    "bbox": [
+     0.0077,
+     0.4296,
+     0.4575,
+     0.9888
+    ]
+   },
+   {
+    "detection_id": "d431",
+    "photo_id": "seongdong_kyochon_4",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.0501,
+    "bbox": [
+     0.3528,
+     0.3302,
+     0.7996,
+     0.9907
+    ]
+   },
+   {
+    "detection_id": "d432",
+    "photo_id": "seongdong_kyochon_4",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.0501,
+    "bbox": [
+     0.3528,
+     0.3302,
+     0.7996,
+     0.9907
+    ]
+   },
+   {
+    "detection_id": "d433",
+    "photo_id": "seongdong_kyochon_4",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.0501,
+    "bbox": [
+     0.3528,
+     0.3302,
+     0.7996,
+     0.9907
+    ]
+   },
+   {
+    "detection_id": "d434",
+    "photo_id": "seongdong_nene_geumho_1",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "sink",
+    "class_map_match": "direct",
+    "confidence": 0.7144,
+    "bbox": [
+     0.9019,
+     0.3362,
+     0.9998,
+     0.4658
+    ]
+   },
+   {
+    "detection_id": "d435",
+    "photo_id": "seongdong_nene_geumho_1",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "sink",
+    "class_map_match": "direct",
+    "confidence": 0.6648,
+    "bbox": [
+     0.2617,
+     0.0419,
+     0.4264,
+     0.2258
+    ]
+   },
+   {
+    "detection_id": "d436",
+    "photo_id": "seongdong_nene_geumho_1",
+    "equipment_id": null,
+    "detector_class": "toilet",
+    "class_map_match": null,
+    "confidence": 0.4633,
+    "bbox": [
+     0.8651,
+     0.7946,
+     0.9997,
+     0.9958
+    ]
+   },
+   {
+    "detection_id": "d437",
+    "photo_id": "seongdong_nene_geumho_1",
+    "equipment_id": null,
+    "detector_class": "bowl",
+    "class_map_match": null,
+    "confidence": 0.3791,
+    "bbox": [
+     0.4645,
+     0.0086,
+     0.7663,
+     0.233
+    ]
+   },
+   {
+    "detection_id": "d438",
+    "photo_id": "seongdong_nene_geumho_1",
+    "equipment_id": null,
+    "detector_class": "cup",
+    "class_map_match": null,
+    "confidence": 0.2072,
+    "bbox": [
+     0.7748,
+     0.1039,
+     0.8288,
+     0.1787
+    ]
+   },
+   {
+    "detection_id": "d439",
+    "photo_id": "seongdong_nene_geumho_1",
+    "equipment_id": null,
+    "detector_class": "cup",
+    "class_map_match": null,
+    "confidence": 0.1127,
+    "bbox": [
+     0.8232,
+     0.1523,
+     0.8636,
+     0.1777
+    ]
+   },
+   {
+    "detection_id": "d440",
+    "photo_id": "seongdong_nene_geumho_1",
+    "equipment_id": null,
+    "detector_class": "bowl",
+    "class_map_match": null,
+    "confidence": 0.1081,
+    "bbox": [
+     0.823,
+     0.1525,
+     0.8638,
+     0.1777
+    ]
+   },
+   {
+    "detection_id": "d441",
+    "photo_id": "seongdong_nene_geumho_1",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "sink",
+    "class_map_match": "direct",
+    "confidence": 0.1045,
+    "bbox": [
+     0.125,
+     0.5719,
+     0.6096,
+     0.7938
+    ]
+   },
+   {
+    "detection_id": "d442",
+    "photo_id": "seongdong_nene_geumho_1",
+    "equipment_id": null,
+    "detector_class": "toilet",
+    "class_map_match": null,
+    "confidence": 0.0739,
+    "bbox": [
+     0.9805,
+     0.752,
+     0.9998,
+     0.8054
+    ]
+   },
+   {
+    "detection_id": "d443",
+    "photo_id": "seongdong_nene_geumho_1",
+    "equipment_id": null,
+    "detector_class": "bowl",
+    "class_map_match": null,
+    "confidence": 0.057,
+    "bbox": [
+     0.7331,
+     0.1758,
+     0.8942,
+     0.2441
+    ]
+   },
+   {
+    "detection_id": "d444",
+    "photo_id": "seongdong_nene_geumho_2",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.401,
+    "bbox": [
+     0.1488,
+     0.3426,
+     0.6306,
+     0.9861
+    ]
+   },
+   {
+    "detection_id": "d445",
+    "photo_id": "seongdong_nene_geumho_2",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.401,
+    "bbox": [
+     0.1488,
+     0.3426,
+     0.6306,
+     0.9861
+    ]
+   },
+   {
+    "detection_id": "d446",
+    "photo_id": "seongdong_nene_geumho_2",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.401,
+    "bbox": [
+     0.1488,
+     0.3426,
+     0.6306,
+     0.9861
+    ]
+   },
+   {
+    "detection_id": "d447",
+    "photo_id": "seongdong_nene_geumho_2",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.0839,
+    "bbox": [
+     0.2181,
+     0.342,
+     0.9307,
+     0.9207
+    ]
+   },
+   {
+    "detection_id": "d448",
+    "photo_id": "seongdong_nene_geumho_2",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.0839,
+    "bbox": [
+     0.2181,
+     0.342,
+     0.9307,
+     0.9207
+    ]
+   },
+   {
+    "detection_id": "d449",
+    "photo_id": "seongdong_nene_geumho_2",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.0839,
+    "bbox": [
+     0.2181,
+     0.342,
+     0.9307,
+     0.9207
+    ]
+   },
+   {
+    "detection_id": "d450",
+    "photo_id": "seongdong_nene_geumho_2",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.0759,
+    "bbox": [
+     0.5746,
+     0.432,
+     0.9851,
+     0.9842
+    ]
+   },
+   {
+    "detection_id": "d451",
+    "photo_id": "seongdong_nene_geumho_2",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.0759,
+    "bbox": [
+     0.5746,
+     0.432,
+     0.9851,
+     0.9842
+    ]
+   },
+   {
+    "detection_id": "d452",
+    "photo_id": "seongdong_nene_geumho_2",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.0759,
+    "bbox": [
+     0.5746,
+     0.432,
+     0.9851,
+     0.9842
+    ]
+   },
+   {
+    "detection_id": "d453",
+    "photo_id": "seongdong_nene_geumho_2",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.0709,
+    "bbox": [
+     0.0659,
+     0.6919,
+     0.5634,
+     0.9905
+    ]
+   },
+   {
+    "detection_id": "d454",
+    "photo_id": "seongdong_nene_geumho_2",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.0709,
+    "bbox": [
+     0.0659,
+     0.6919,
+     0.5634,
+     0.9905
+    ]
+   },
+   {
+    "detection_id": "d455",
+    "photo_id": "seongdong_nene_geumho_2",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.0709,
+    "bbox": [
+     0.0659,
+     0.6919,
+     0.5634,
+     0.9905
+    ]
+   },
+   {
+    "detection_id": "d456",
+    "photo_id": "seongdong_nene_geumho_2",
+    "equipment_id": null,
+    "detector_class": "spoon",
+    "class_map_match": null,
+    "confidence": 0.0639,
+    "bbox": [
+     0.8417,
+     0.5503,
+     0.8882,
+     0.7461
+    ]
+   },
+   {
+    "detection_id": "d457",
+    "photo_id": "seongdong_nene_geumho_3",
+    "equipment_id": "EQ_SCISSORS",
+    "detector_class": "scissors",
+    "class_map_match": "direct",
+    "confidence": 0.5627,
+    "bbox": [
+     0.4705,
+     0.0011,
+     0.5353,
+     0.1449
+    ]
+   },
+   {
+    "detection_id": "d458",
+    "photo_id": "seongdong_nene_geumho_3",
+    "equipment_id": null,
+    "detector_class": "spoon",
+    "class_map_match": null,
+    "confidence": 0.2164,
+    "bbox": [
+     0.1066,
+     0.003,
+     0.1972,
+     0.3205
+    ]
+   },
+   {
+    "detection_id": "d459",
+    "photo_id": "seongdong_nene_geumho_3",
+    "equipment_id": "EQ_KNIFE_BOARD",
+    "detector_class": "knife",
+    "class_map_match": "partial",
+    "confidence": 0.159,
+    "bbox": [
+     0.5759,
+     0.1316,
+     0.5925,
+     0.2308
+    ]
+   },
+   {
+    "detection_id": "d460",
+    "photo_id": "seongdong_nene_geumho_3",
+    "equipment_id": "EQ_SCISSORS",
+    "detector_class": "scissors",
+    "class_map_match": "direct",
+    "confidence": 0.1206,
+    "bbox": [
+     0.426,
+     0.0004,
+     0.4479,
+     0.1504
+    ]
+   },
+   {
+    "detection_id": "d461",
+    "photo_id": "seongdong_nene_geumho_3",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.1128,
+    "bbox": [
+     0.5087,
+     0.3303,
+     0.9996,
+     0.98
+    ]
+   },
+   {
+    "detection_id": "d462",
+    "photo_id": "seongdong_nene_geumho_3",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.1128,
+    "bbox": [
+     0.5087,
+     0.3303,
+     0.9996,
+     0.98
+    ]
+   },
+   {
+    "detection_id": "d463",
+    "photo_id": "seongdong_nene_geumho_3",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.1128,
+    "bbox": [
+     0.5087,
+     0.3303,
+     0.9996,
+     0.98
+    ]
+   },
+   {
+    "detection_id": "d464",
+    "photo_id": "seongdong_nene_geumho_3",
+    "equipment_id": null,
+    "detector_class": "bowl",
+    "class_map_match": null,
+    "confidence": 0.0614,
+    "bbox": [
+     0.558,
+     0.6518,
+     0.6429,
+     0.7151
+    ]
+   },
+   {
+    "detection_id": "d465",
+    "photo_id": "seongdong_nene_geumho_3",
+    "equipment_id": null,
+    "detector_class": "toothbrush",
+    "class_map_match": null,
+    "confidence": 0.0508,
+    "bbox": [
+     0.1068,
+     0.0024,
+     0.1965,
+     0.3196
+    ]
+   },
+   {
+    "detection_id": "d466",
+    "photo_id": "seongdong_nene_geumho_4",
+    "equipment_id": null,
+    "detector_class": "clock",
+    "class_map_match": null,
+    "confidence": 0.2883,
+    "bbox": [
+     0.5575,
+     0.558,
+     0.6913,
+     0.713
+    ]
+   },
+   {
+    "detection_id": "d467",
+    "photo_id": "seongdong_nene_geumho_4",
+    "equipment_id": null,
+    "detector_class": "clock",
+    "class_map_match": null,
+    "confidence": 0.1238,
+    "bbox": [
+     0.2502,
+     0.4395,
+     0.4007,
+     0.5414
+    ]
+   },
+   {
+    "detection_id": "d468",
+    "photo_id": "seongdong_nene_geumho_4",
+    "equipment_id": null,
+    "detector_class": "book",
+    "class_map_match": null,
+    "confidence": 0.1004,
+    "bbox": [
+     0.1836,
+     0.852,
+     0.3423,
+     0.9977
+    ]
+   },
+   {
+    "detection_id": "d469",
+    "photo_id": "seongdong_nene_geumho_4",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.0929,
+    "bbox": [
+     0.044,
+     0.3465,
+     0.5743,
+     0.9899
+    ]
+   },
+   {
+    "detection_id": "d470",
+    "photo_id": "seongdong_nene_geumho_4",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.0929,
+    "bbox": [
+     0.044,
+     0.3465,
+     0.5743,
+     0.9899
+    ]
+   },
+   {
+    "detection_id": "d471",
+    "photo_id": "seongdong_nene_geumho_4",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.0929,
+    "bbox": [
+     0.044,
+     0.3465,
+     0.5743,
+     0.9899
+    ]
+   },
+   {
+    "detection_id": "d472",
+    "photo_id": "seongdong_nene_seongsu_1",
+    "equipment_id": null,
+    "detector_class": "bottle",
+    "class_map_match": null,
+    "confidence": 0.7034,
+    "bbox": [
+     0.9085,
+     0.5979,
+     0.9766,
+     0.6987
+    ]
+   },
+   {
+    "detection_id": "d473",
+    "photo_id": "seongdong_nene_seongsu_1",
+    "equipment_id": null,
+    "detector_class": "bottle",
+    "class_map_match": null,
+    "confidence": 0.6675,
+    "bbox": [
+     0.9606,
+     0.614,
+     0.9998,
+     0.7115
+    ]
+   },
+   {
+    "detection_id": "d474",
+    "photo_id": "seongdong_nene_seongsu_1",
+    "equipment_id": null,
+    "detector_class": "bottle",
+    "class_map_match": null,
+    "confidence": 0.2821,
+    "bbox": [
+     0.6731,
+     0.0001,
+     0.749,
+     0.0396
+    ]
+   },
+   {
+    "detection_id": "d475",
+    "photo_id": "seongdong_nene_seongsu_1",
+    "equipment_id": null,
+    "detector_class": "bottle",
+    "class_map_match": null,
+    "confidence": 0.2444,
+    "bbox": [
+     0.439,
+     0,
+     0.5107,
+     0.0197
+    ]
+   },
+   {
+    "detection_id": "d476",
+    "photo_id": "seongdong_nene_seongsu_1",
+    "equipment_id": null,
+    "detector_class": "bottle",
+    "class_map_match": null,
+    "confidence": 0.2137,
+    "bbox": [
+     0.6061,
+     0.0,
+     0.6824,
+     0.0329
+    ]
+   },
+   {
+    "detection_id": "d477",
+    "photo_id": "seongdong_nene_seongsu_1",
+    "equipment_id": null,
+    "detector_class": "bottle",
+    "class_map_match": null,
+    "confidence": 0.2032,
+    "bbox": [
+     0.7433,
+     0.0,
+     0.8017,
+     0.0401
+    ]
+   },
+   {
+    "detection_id": "d478",
+    "photo_id": "seongdong_nene_seongsu_1",
+    "equipment_id": null,
+    "detector_class": "cup",
+    "class_map_match": null,
+    "confidence": 0.1623,
+    "bbox": [
+     0.5361,
+     0.0,
+     0.6111,
+     0.0286
+    ]
+   },
+   {
+    "detection_id": "d479",
+    "photo_id": "seongdong_nene_seongsu_1",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.1271,
+    "bbox": [
+     0.5925,
+     0.2207,
+     0.9709,
+     0.7787
+    ]
+   },
+   {
+    "detection_id": "d480",
+    "photo_id": "seongdong_nene_seongsu_1",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.1271,
+    "bbox": [
+     0.5925,
+     0.2207,
+     0.9709,
+     0.7787
+    ]
+   },
+   {
+    "detection_id": "d481",
+    "photo_id": "seongdong_nene_seongsu_1",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.1271,
+    "bbox": [
+     0.5925,
+     0.2207,
+     0.9709,
+     0.7787
+    ]
+   },
+   {
+    "detection_id": "d482",
+    "photo_id": "seongdong_nene_seongsu_1",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "refrigerator",
+    "class_map_match": "direct",
+    "confidence": 0.1144,
+    "bbox": [
+     0.1333,
+     0.5518,
+     0.5971,
+     0.9568
+    ]
+   },
+   {
+    "detection_id": "d483",
+    "photo_id": "seongdong_nene_seongsu_1",
+    "equipment_id": "EQ_DISPLAY_COOLER",
+    "detector_class": "refrigerator",
+    "class_map_match": "partial",
+    "confidence": 0.1144,
+    "bbox": [
+     0.1333,
+     0.5518,
+     0.5971,
+     0.9568
+    ]
+   },
+   {
+    "detection_id": "d484",
+    "photo_id": "seongdong_nene_seongsu_1",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.1087,
+    "bbox": [
+     0.2395,
+     0.5184,
+     0.941,
+     0.8818
+    ]
+   },
+   {
+    "detection_id": "d485",
+    "photo_id": "seongdong_nene_seongsu_1",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.1087,
+    "bbox": [
+     0.2395,
+     0.5184,
+     0.941,
+     0.8818
+    ]
+   },
+   {
+    "detection_id": "d486",
+    "photo_id": "seongdong_nene_seongsu_1",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.1087,
+    "bbox": [
+     0.2395,
+     0.5184,
+     0.941,
+     0.8818
+    ]
+   },
+   {
+    "detection_id": "d487",
+    "photo_id": "seongdong_nene_seongsu_1",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.0976,
+    "bbox": [
+     0.0684,
+     0.2708,
+     0.7273,
+     0.8484
+    ]
+   },
+   {
+    "detection_id": "d488",
+    "photo_id": "seongdong_nene_seongsu_1",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.0976,
+    "bbox": [
+     0.0684,
+     0.2708,
+     0.7273,
+     0.8484
+    ]
+   },
+   {
+    "detection_id": "d489",
+    "photo_id": "seongdong_nene_seongsu_1",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.0976,
+    "bbox": [
+     0.0684,
+     0.2708,
+     0.7273,
+     0.8484
+    ]
+   },
+   {
+    "detection_id": "d490",
+    "photo_id": "seongdong_nene_seongsu_1",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "refrigerator",
+    "class_map_match": "direct",
+    "confidence": 0.0942,
+    "bbox": [
+     0.083,
+     0.2946,
+     0.7237,
+     0.8832
+    ]
+   },
+   {
+    "detection_id": "d491",
+    "photo_id": "seongdong_nene_seongsu_1",
+    "equipment_id": "EQ_DISPLAY_COOLER",
+    "detector_class": "refrigerator",
+    "class_map_match": "partial",
+    "confidence": 0.0942,
+    "bbox": [
+     0.083,
+     0.2946,
+     0.7237,
+     0.8832
+    ]
+   },
+   {
+    "detection_id": "d492",
+    "photo_id": "seongdong_nene_seongsu_1",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.0858,
+    "bbox": [
+     0.2282,
+     0.2133,
+     0.9756,
+     0.7997
+    ]
+   },
+   {
+    "detection_id": "d493",
+    "photo_id": "seongdong_nene_seongsu_1",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.0858,
+    "bbox": [
+     0.2282,
+     0.2133,
+     0.9756,
+     0.7997
+    ]
+   },
+   {
+    "detection_id": "d494",
+    "photo_id": "seongdong_nene_seongsu_1",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.0858,
+    "bbox": [
+     0.2282,
+     0.2133,
+     0.9756,
+     0.7997
+    ]
+   },
+   {
+    "detection_id": "d495",
+    "photo_id": "seongdong_nene_seongsu_1",
+    "equipment_id": null,
+    "detector_class": "bottle",
+    "class_map_match": null,
+    "confidence": 0.0805,
+    "bbox": [
+     0.3479,
+     0.0002,
+     0.4264,
+     0.0156
+    ]
+   },
+   {
+    "detection_id": "d496",
+    "photo_id": "seongdong_nene_seongsu_1",
+    "equipment_id": null,
+    "detector_class": "bottle",
+    "class_map_match": null,
+    "confidence": 0.0788,
+    "bbox": [
+     0.5353,
+     0.0001,
+     0.6107,
+     0.0284
+    ]
+   },
+   {
+    "detection_id": "d497",
+    "photo_id": "seongdong_nene_seongsu_1",
+    "equipment_id": null,
+    "detector_class": "book",
+    "class_map_match": null,
+    "confidence": 0.0712,
+    "bbox": [
+     0.1448,
+     0.0,
+     0.3103,
+     0.0682
+    ]
+   },
+   {
+    "detection_id": "d498",
+    "photo_id": "seongdong_nene_seongsu_1",
+    "equipment_id": null,
+    "detector_class": "bottle",
+    "class_map_match": null,
+    "confidence": 0.0538,
+    "bbox": [
+     0.3065,
+     0.0001,
+     0.3459,
+     0.0087
+    ]
+   },
+   {
+    "detection_id": "d499",
+    "photo_id": "seongdong_nene_seongsu_1",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "detector_class": "refrigerator",
+    "class_map_match": "direct",
+    "confidence": 0.0528,
+    "bbox": [
+     0.5859,
+     0.2194,
+     0.9876,
+     0.7804
+    ]
+   },
+   {
+    "detection_id": "d500",
+    "photo_id": "seongdong_nene_seongsu_1",
+    "equipment_id": "EQ_DISPLAY_COOLER",
+    "detector_class": "refrigerator",
+    "class_map_match": "partial",
+    "confidence": 0.0528,
+    "bbox": [
+     0.5859,
+     0.2194,
+     0.9876,
+     0.7804
+    ]
+   },
+   {
+    "detection_id": "d501",
+    "photo_id": "seongdong_nene_seongsu_1",
+    "equipment_id": null,
+    "detector_class": "clock",
+    "class_map_match": null,
+    "confidence": 0.0526,
+    "bbox": [
+     0.9089,
+     0.0033,
+     0.9534,
+     0.026
+    ]
+   },
+   {
+    "detection_id": "d502",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": null,
+    "detector_class": "bowl",
+    "class_map_match": null,
+    "confidence": 0.7886,
+    "bbox": [
+     0.2123,
+     0.2964,
+     0.3128,
+     0.3643
+    ]
+   },
+   {
+    "detection_id": "d503",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": "EQ_SCISSORS",
+    "detector_class": "scissors",
+    "class_map_match": "direct",
+    "confidence": 0.7426,
+    "bbox": [
+     0.0853,
+     0.3922,
+     0.1261,
+     0.5432
+    ]
+   },
+   {
+    "detection_id": "d504",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": null,
+    "detector_class": "cup",
+    "class_map_match": null,
+    "confidence": 0.6989,
+    "bbox": [
+     0.563,
+     0.1117,
+     0.6119,
+     0.2496
+    ]
+   },
+   {
+    "detection_id": "d505",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": "EQ_SCISSORS",
+    "detector_class": "scissors",
+    "class_map_match": "direct",
+    "confidence": 0.5934,
+    "bbox": [
+     0.5122,
+     0.2942,
+     0.5361,
+     0.4511
+    ]
+   },
+   {
+    "detection_id": "d506",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": "EQ_SCISSORS",
+    "detector_class": "scissors",
+    "class_map_match": "direct",
+    "confidence": 0.5618,
+    "bbox": [
+     0.022,
+     0.3916,
+     0.072,
+     0.5154
+    ]
+   },
+   {
+    "detection_id": "d507",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": "EQ_SCISSORS",
+    "detector_class": "scissors",
+    "class_map_match": "direct",
+    "confidence": 0.4708,
+    "bbox": [
+     0.7528,
+     0.2779,
+     0.8193,
+     0.4186
+    ]
+   },
+   {
+    "detection_id": "d508",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": null,
+    "detector_class": "spoon",
+    "class_map_match": null,
+    "confidence": 0.4197,
+    "bbox": [
+     0.0706,
+     0.3999,
+     0.1012,
+     0.5891
+    ]
+   },
+   {
+    "detection_id": "d509",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": null,
+    "detector_class": "bowl",
+    "class_map_match": null,
+    "confidence": 0.3847,
+    "bbox": [
+     0.7661,
+     0.1283,
+     0.8297,
+     0.2151
+    ]
+   },
+   {
+    "detection_id": "d510",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": "EQ_SCISSORS",
+    "detector_class": "scissors",
+    "class_map_match": "direct",
+    "confidence": 0.3788,
+    "bbox": [
+     0.7193,
+     0.2801,
+     0.7623,
+     0.4264
+    ]
+   },
+   {
+    "detection_id": "d511",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": "EQ_SCISSORS",
+    "detector_class": "scissors",
+    "class_map_match": "direct",
+    "confidence": 0.3738,
+    "bbox": [
+     0.661,
+     0.2833,
+     0.7183,
+     0.4628
+    ]
+   },
+   {
+    "detection_id": "d512",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": null,
+    "detector_class": "bottle",
+    "class_map_match": null,
+    "confidence": 0.3733,
+    "bbox": [
+     0.3358,
+     0.0,
+     0.3675,
+     0.0704
+    ]
+   },
+   {
+    "detection_id": "d513",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": "EQ_SCISSORS",
+    "detector_class": "scissors",
+    "class_map_match": "direct",
+    "confidence": 0.3251,
+    "bbox": [
+     0.0216,
+     0.3913,
+     0.0656,
+     0.4496
+    ]
+   },
+   {
+    "detection_id": "d514",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.3175,
+    "bbox": [
+     0.0033,
+     0.6122,
+     0.4611,
+     0.9975
+    ]
+   },
+   {
+    "detection_id": "d515",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.3175,
+    "bbox": [
+     0.0033,
+     0.6122,
+     0.4611,
+     0.9975
+    ]
+   },
+   {
+    "detection_id": "d516",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.3175,
+    "bbox": [
+     0.0033,
+     0.6122,
+     0.4611,
+     0.9975
+    ]
+   },
+   {
+    "detection_id": "d517",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": null,
+    "detector_class": "bottle",
+    "class_map_match": null,
+    "confidence": 0.2946,
+    "bbox": [
+     0.1579,
+     0.1834,
+     0.1964,
+     0.2445
+    ]
+   },
+   {
+    "detection_id": "d518",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": null,
+    "detector_class": "bowl",
+    "class_map_match": null,
+    "confidence": 0.2848,
+    "bbox": [
+     0.5139,
+     0,
+     0.6492,
+     0.0517
+    ]
+   },
+   {
+    "detection_id": "d519",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": null,
+    "detector_class": "bowl",
+    "class_map_match": null,
+    "confidence": 0.2679,
+    "bbox": [
+     0.1043,
+     0.0242,
+     0.2083,
+     0.0922
+    ]
+   },
+   {
+    "detection_id": "d520",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": null,
+    "detector_class": "cup",
+    "class_map_match": null,
+    "confidence": 0.2411,
+    "bbox": [
+     0.0194,
+     0.1546,
+     0.0835,
+     0.2818
+    ]
+   },
+   {
+    "detection_id": "d521",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": null,
+    "detector_class": "cup",
+    "class_map_match": null,
+    "confidence": 0.239,
+    "bbox": [
+     0.3643,
+     0.168,
+     0.4372,
+     0.2627
+    ]
+   },
+   {
+    "detection_id": "d522",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": null,
+    "detector_class": "bowl",
+    "class_map_match": null,
+    "confidence": 0.2316,
+    "bbox": [
+     0.0807,
+     0.203,
+     0.1543,
+     0.2796
+    ]
+   },
+   {
+    "detection_id": "d523",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": null,
+    "detector_class": "banana",
+    "class_map_match": null,
+    "confidence": 0.2182,
+    "bbox": [
+     0.0001,
+     0.6914,
+     0.0515,
+     0.7452
+    ]
+   },
+   {
+    "detection_id": "d524",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": null,
+    "detector_class": "spoon",
+    "class_map_match": null,
+    "confidence": 0.2024,
+    "bbox": [
+     0.3921,
+     0.1219,
+     0.4287,
+     0.1696
+    ]
+   },
+   {
+    "detection_id": "d525",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": null,
+    "detector_class": "bowl",
+    "class_map_match": null,
+    "confidence": 0.1807,
+    "bbox": [
+     0.5651,
+     0.1864,
+     0.6593,
+     0.2448
+    ]
+   },
+   {
+    "detection_id": "d526",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": null,
+    "detector_class": "cup",
+    "class_map_match": null,
+    "confidence": 0.1787,
+    "bbox": [
+     0.0806,
+     0.2032,
+     0.1541,
+     0.2799
+    ]
+   },
+   {
+    "detection_id": "d527",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": "EQ_SCISSORS",
+    "detector_class": "scissors",
+    "class_map_match": "direct",
+    "confidence": 0.1719,
+    "bbox": [
+     0.6782,
+     0.2867,
+     0.7191,
+     0.416
+    ]
+   },
+   {
+    "detection_id": "d528",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": null,
+    "detector_class": "spoon",
+    "class_map_match": null,
+    "confidence": 0.1714,
+    "bbox": [
+     0.4653,
+     0.3189,
+     0.5036,
+     0.3961
+    ]
+   },
+   {
+    "detection_id": "d529",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": null,
+    "detector_class": "spoon",
+    "class_map_match": null,
+    "confidence": 0.1657,
+    "bbox": [
+     0.3581,
+     0.1397,
+     0.3976,
+     0.1743
+    ]
+   },
+   {
+    "detection_id": "d530",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": null,
+    "detector_class": "bowl",
+    "class_map_match": null,
+    "confidence": 0.1602,
+    "bbox": [
+     0.0995,
+     0.1675,
+     0.1584,
+     0.2147
+    ]
+   },
+   {
+    "detection_id": "d531",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": null,
+    "detector_class": "bowl",
+    "class_map_match": null,
+    "confidence": 0.1452,
+    "bbox": [
+     0.6105,
+     0.1436,
+     0.6534,
+     0.1827
+    ]
+   },
+   {
+    "detection_id": "d532",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": null,
+    "detector_class": "spoon",
+    "class_map_match": null,
+    "confidence": 0.1377,
+    "bbox": [
+     0.1488,
+     0.4293,
+     0.1798,
+     0.575
+    ]
+   },
+   {
+    "detection_id": "d533",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": null,
+    "detector_class": "bowl",
+    "class_map_match": null,
+    "confidence": 0.129,
+    "bbox": [
+     0.1486,
+     0.2381,
+     0.1987,
+     0.2771
+    ]
+   },
+   {
+    "detection_id": "d534",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": null,
+    "detector_class": "spoon",
+    "class_map_match": null,
+    "confidence": 0.1288,
+    "bbox": [
+     0.6604,
+     0.3046,
+     0.6863,
+     0.4616
+    ]
+   },
+   {
+    "detection_id": "d535",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "sink",
+    "class_map_match": "direct",
+    "confidence": 0.1247,
+    "bbox": [
+     0.0024,
+     0.6974,
+     0.3099,
+     0.8243
+    ]
+   },
+   {
+    "detection_id": "d536",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": "EQ_KNIFE_BOARD",
+    "detector_class": "knife",
+    "class_map_match": "partial",
+    "confidence": 0.1167,
+    "bbox": [
+     0.5711,
+     0.3052,
+     0.5877,
+     0.4561
+    ]
+   },
+   {
+    "detection_id": "d537",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": null,
+    "detector_class": "spoon",
+    "class_map_match": null,
+    "confidence": 0.1099,
+    "bbox": [
+     0.6434,
+     0.3065,
+     0.662,
+     0.4684
+    ]
+   },
+   {
+    "detection_id": "d538",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": null,
+    "detector_class": "bottle",
+    "class_map_match": null,
+    "confidence": 0.1079,
+    "bbox": [
+     0.2654,
+     0.1661,
+     0.3148,
+     0.269
+    ]
+   },
+   {
+    "detection_id": "d539",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": null,
+    "detector_class": "bottle",
+    "class_map_match": null,
+    "confidence": 0.1038,
+    "bbox": [
+     0.1919,
+     0.1591,
+     0.2407,
+     0.2702
+    ]
+   },
+   {
+    "detection_id": "d540",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": "EQ_SCISSORS",
+    "detector_class": "scissors",
+    "class_map_match": "direct",
+    "confidence": 0.1032,
+    "bbox": [
+     0.0674,
+     0.3971,
+     0.1004,
+     0.5893
+    ]
+   },
+   {
+    "detection_id": "d541",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": "EQ_SCISSORS",
+    "detector_class": "scissors",
+    "class_map_match": "direct",
+    "confidence": 0.1025,
+    "bbox": [
+     0.661,
+     0.3093,
+     0.6825,
+     0.4629
+    ]
+   },
+   {
+    "detection_id": "d542",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": "EQ_KNIFE_BOARD",
+    "detector_class": "knife",
+    "class_map_match": "partial",
+    "confidence": 0.0969,
+    "bbox": [
+     0.6371,
+     0.304,
+     0.6668,
+     0.5015
+    ]
+   },
+   {
+    "detection_id": "d543",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": "EQ_SINK",
+    "detector_class": "sink",
+    "class_map_match": "direct",
+    "confidence": 0.089,
+    "bbox": [
+     0.0036,
+     0.6891,
+     0.1547,
+     0.8033
+    ]
+   },
+   {
+    "detection_id": "d544",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": null,
+    "detector_class": "bowl",
+    "class_map_match": null,
+    "confidence": 0.088,
+    "bbox": [
+     0.5717,
+     0.1383,
+     0.6539,
+     0.185
+    ]
+   },
+   {
+    "detection_id": "d545",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": "EQ_SCISSORS",
+    "detector_class": "scissors",
+    "class_map_match": "direct",
+    "confidence": 0.0852,
+    "bbox": [
+     0.5124,
+     0.2933,
+     0.5339,
+     0.3651
+    ]
+   },
+   {
+    "detection_id": "d546",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": null,
+    "detector_class": "bowl",
+    "class_map_match": null,
+    "confidence": 0.0851,
+    "bbox": [
+     0.6123,
+     0.1851,
+     0.6591,
+     0.244
+    ]
+   },
+   {
+    "detection_id": "d547",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": null,
+    "detector_class": "spoon",
+    "class_map_match": null,
+    "confidence": 0.0811,
+    "bbox": [
+     0.6309,
+     0.299,
+     0.6553,
+     0.4963
+    ]
+   },
+   {
+    "detection_id": "d548",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": "EQ_SCISSORS",
+    "detector_class": "scissors",
+    "class_map_match": "direct",
+    "confidence": 0.0789,
+    "bbox": [
+     0.5154,
+     0.2966,
+     0.554,
+     0.4509
+    ]
+   },
+   {
+    "detection_id": "d549",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": null,
+    "detector_class": "bottle",
+    "class_map_match": null,
+    "confidence": 0.0789,
+    "bbox": [
+     0.0209,
+     0.1553,
+     0.0836,
+     0.2817
+    ]
+   },
+   {
+    "detection_id": "d550",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": null,
+    "detector_class": "spoon",
+    "class_map_match": null,
+    "confidence": 0.076,
+    "bbox": [
+     0.412,
+     0.1347,
+     0.4299,
+     0.1708
+    ]
+   },
+   {
+    "detection_id": "d551",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": "EQ_SCISSORS",
+    "detector_class": "scissors",
+    "class_map_match": "direct",
+    "confidence": 0.0757,
+    "bbox": [
+     0.6439,
+     0.3073,
+     0.6612,
+     0.4648
+    ]
+   },
+   {
+    "detection_id": "d552",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.0752,
+    "bbox": [
+     0.4009,
+     0.5361,
+     0.9212,
+     0.979
+    ]
+   },
+   {
+    "detection_id": "d553",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.0752,
+    "bbox": [
+     0.4009,
+     0.5361,
+     0.9212,
+     0.979
+    ]
+   },
+   {
+    "detection_id": "d554",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.0752,
+    "bbox": [
+     0.4009,
+     0.5361,
+     0.9212,
+     0.979
+    ]
+   },
+   {
+    "detection_id": "d555",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": null,
+    "detector_class": "bowl",
+    "class_map_match": null,
+    "confidence": 0.0716,
+    "bbox": [
+     0.6103,
+     0.1401,
+     0.6534,
+     0.1635
+    ]
+   },
+   {
+    "detection_id": "d556",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": null,
+    "detector_class": "spoon",
+    "class_map_match": null,
+    "confidence": 0.0714,
+    "bbox": [
+     0.4233,
+     0.1353,
+     0.441,
+     0.1724
+    ]
+   },
+   {
+    "detection_id": "d557",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": null,
+    "detector_class": "bowl",
+    "class_map_match": null,
+    "confidence": 0.0696,
+    "bbox": [
+     0.1564,
+     0.066,
+     0.3054,
+     0.1568
+    ]
+   },
+   {
+    "detection_id": "d558",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": null,
+    "detector_class": "cup",
+    "class_map_match": null,
+    "confidence": 0.0677,
+    "bbox": [
+     0.3922,
+     0.1212,
+     0.4278,
+     0.1705
+    ]
+   },
+   {
+    "detection_id": "d559",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": null,
+    "detector_class": "bowl",
+    "class_map_match": null,
+    "confidence": 0.0674,
+    "bbox": [
+     0.3707,
+     0.0001,
+     0.503,
+     0.0653
+    ]
+   },
+   {
+    "detection_id": "d560",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": "EQ_SCISSORS",
+    "detector_class": "scissors",
+    "class_map_match": "direct",
+    "confidence": 0.0609,
+    "bbox": [
+     0.0856,
+     0.3919,
+     0.1259,
+     0.4545
+    ]
+   },
+   {
+    "detection_id": "d561",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": "EQ_SCISSORS",
+    "detector_class": "scissors",
+    "class_map_match": "direct",
+    "confidence": 0.057,
+    "bbox": [
+     0.5322,
+     0.2968,
+     0.5545,
+     0.3676
+    ]
+   },
+   {
+    "detection_id": "d562",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": null,
+    "detector_class": "cup",
+    "class_map_match": null,
+    "confidence": 0.0548,
+    "bbox": [
+     0.0009,
+     0.0002,
+     0.0972,
+     0.0429
+    ]
+   },
+   {
+    "detection_id": "d563",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": null,
+    "detector_class": "bowl",
+    "class_map_match": null,
+    "confidence": 0.0547,
+    "bbox": [
+     0.0004,
+     0.0349,
+     0.1103,
+     0.1017
+    ]
+   },
+   {
+    "detection_id": "d564",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": null,
+    "detector_class": "spoon",
+    "class_map_match": null,
+    "confidence": 0.0537,
+    "bbox": [
+     0.3416,
+     0.1205,
+     0.3634,
+     0.1701
+    ]
+   },
+   {
+    "detection_id": "d565",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": null,
+    "detector_class": "spoon",
+    "class_map_match": null,
+    "confidence": 0.0521,
+    "bbox": [
+     0.6609,
+     0.2928,
+     0.7096,
+     0.4617
+    ]
+   },
+   {
+    "detection_id": "d566",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": "EQ_KNIFE_BOARD",
+    "detector_class": "knife",
+    "class_map_match": "partial",
+    "confidence": 0.0514,
+    "bbox": [
+     0.603,
+     0.3053,
+     0.6257,
+     0.4321
+    ]
+   },
+   {
+    "detection_id": "d567",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": "EQ_KNIFE_BOARD",
+    "detector_class": "knife",
+    "class_map_match": "partial",
+    "confidence": 0.0512,
+    "bbox": [
+     0.5569,
+     0.3018,
+     0.5734,
+     0.4564
+    ]
+   },
+   {
+    "detection_id": "d568",
+    "photo_id": "seongdong_nene_seongsu_3",
+    "equipment_id": null,
+    "detector_class": "cup",
+    "class_map_match": null,
+    "confidence": 0.0507,
+    "bbox": [
+     0.4534,
+     0.1386,
+     0.5211,
+     0.2533
+    ]
+   },
+   {
+    "detection_id": "d569",
+    "photo_id": "seongdong_nene_seongsu_4",
+    "equipment_id": null,
+    "detector_class": "bottle",
+    "class_map_match": null,
+    "confidence": 0.5251,
+    "bbox": [
+     0.4869,
+     0.9553,
+     0.5871,
+     0.9999
+    ]
+   },
+   {
+    "detection_id": "d570",
+    "photo_id": "seongdong_nene_seongsu_4",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.3615,
+    "bbox": [
+     0.6809,
+     0.5189,
+     0.9855,
+     0.7774
+    ]
+   },
+   {
+    "detection_id": "d571",
+    "photo_id": "seongdong_nene_seongsu_4",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.3615,
+    "bbox": [
+     0.6809,
+     0.5189,
+     0.9855,
+     0.7774
+    ]
+   },
+   {
+    "detection_id": "d572",
+    "photo_id": "seongdong_nene_seongsu_4",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.3615,
+    "bbox": [
+     0.6809,
+     0.5189,
+     0.9855,
+     0.7774
+    ]
+   },
+   {
+    "detection_id": "d573",
+    "photo_id": "seongdong_nene_seongsu_4",
+    "equipment_id": null,
+    "detector_class": "bowl",
+    "class_map_match": null,
+    "confidence": 0.3041,
+    "bbox": [
+     0.3707,
+     0.5943,
+     0.5219,
+     0.6636
+    ]
+   },
+   {
+    "detection_id": "d574",
+    "photo_id": "seongdong_nene_seongsu_4",
+    "equipment_id": null,
+    "detector_class": "spoon",
+    "class_map_match": null,
+    "confidence": 0.1964,
+    "bbox": [
+     0.737,
+     0.5798,
+     0.9519,
+     0.6697
+    ]
+   },
+   {
+    "detection_id": "d575",
+    "photo_id": "seongdong_nene_seongsu_4",
+    "equipment_id": null,
+    "detector_class": "bowl",
+    "class_map_match": null,
+    "confidence": 0.1448,
+    "bbox": [
+     0.0001,
+     0.5748,
+     0.0849,
+     0.6672
+    ]
+   },
+   {
+    "detection_id": "d576",
+    "photo_id": "seongdong_nene_seongsu_4",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.1234,
+    "bbox": [
+     0.0023,
+     0.5176,
+     0.3701,
+     1.0
+    ]
+   },
+   {
+    "detection_id": "d577",
+    "photo_id": "seongdong_nene_seongsu_4",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.1234,
+    "bbox": [
+     0.0023,
+     0.5176,
+     0.3701,
+     1.0
+    ]
+   },
+   {
+    "detection_id": "d578",
+    "photo_id": "seongdong_nene_seongsu_4",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.1234,
+    "bbox": [
+     0.0023,
+     0.5176,
+     0.3701,
+     1.0
+    ]
+   },
+   {
+    "detection_id": "d579",
+    "photo_id": "seongdong_nene_seongsu_4",
+    "equipment_id": null,
+    "detector_class": "bowl",
+    "class_map_match": null,
+    "confidence": 0.1023,
+    "bbox": [
+     0.5329,
+     0.5945,
+     0.6799,
+     0.6623
+    ]
+   },
+   {
+    "detection_id": "d580",
+    "photo_id": "seongdong_nene_seongsu_4",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.0981,
+    "bbox": [
+     0.0049,
+     0.5295,
+     0.4297,
+     0.7922
+    ]
+   },
+   {
+    "detection_id": "d581",
+    "photo_id": "seongdong_nene_seongsu_4",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.0981,
+    "bbox": [
+     0.0049,
+     0.5295,
+     0.4297,
+     0.7922
+    ]
+   },
+   {
+    "detection_id": "d582",
+    "photo_id": "seongdong_nene_seongsu_4",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.0981,
+    "bbox": [
+     0.0049,
+     0.5295,
+     0.4297,
+     0.7922
+    ]
+   },
+   {
+    "detection_id": "d583",
+    "photo_id": "seongdong_nene_seongsu_4",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.0806,
+    "bbox": [
+     0.3219,
+     0.5779,
+     0.7782,
+     0.9969
+    ]
+   },
+   {
+    "detection_id": "d584",
+    "photo_id": "seongdong_nene_seongsu_4",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.0806,
+    "bbox": [
+     0.3219,
+     0.5779,
+     0.7782,
+     0.9969
+    ]
+   },
+   {
+    "detection_id": "d585",
+    "photo_id": "seongdong_nene_seongsu_4",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.0806,
+    "bbox": [
+     0.3219,
+     0.5779,
+     0.7782,
+     0.9969
+    ]
+   },
+   {
+    "detection_id": "d586",
+    "photo_id": "seongdong_nene_seongsu_4",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.0632,
+    "bbox": [
+     0.6701,
+     0.513,
+     0.9993,
+     0.9979
+    ]
+   },
+   {
+    "detection_id": "d587",
+    "photo_id": "seongdong_nene_seongsu_4",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.0632,
+    "bbox": [
+     0.6701,
+     0.513,
+     0.9993,
+     0.9979
+    ]
+   },
+   {
+    "detection_id": "d588",
+    "photo_id": "seongdong_nene_seongsu_4",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.0632,
+    "bbox": [
+     0.6701,
+     0.513,
+     0.9993,
+     0.9979
+    ]
+   },
+   {
+    "detection_id": "d589",
+    "photo_id": "seongdong_nene_seongsu_4",
+    "equipment_id": null,
+    "detector_class": "spoon",
+    "class_map_match": null,
+    "confidence": 0.0545,
+    "bbox": [
+     0.3517,
+     0.5955,
+     0.4065,
+     0.6538
+    ]
+   },
+   {
+    "detection_id": "d590",
+    "photo_id": "seongdong_nene_seongsu_4",
+    "equipment_id": null,
+    "detector_class": "bottle",
+    "class_map_match": null,
+    "confidence": 0.053,
+    "bbox": [
+     0.5892,
+     0.954,
+     0.7225,
+     0.9996
+    ]
+   },
+   {
+    "detection_id": "d591",
+    "photo_id": "seongdong_nene_seongsu_4",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.0506,
+    "bbox": [
+     0.0015,
+     0.8101,
+     0.3252,
+     0.9992
+    ]
+   },
+   {
+    "detection_id": "d592",
+    "photo_id": "seongdong_nene_seongsu_4",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.0506,
+    "bbox": [
+     0.0015,
+     0.8101,
+     0.3252,
+     0.9992
+    ]
+   },
+   {
+    "detection_id": "d593",
+    "photo_id": "seongdong_nene_seongsu_4",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.0506,
+    "bbox": [
+     0.0015,
+     0.8101,
+     0.3252,
+     0.9992
+    ]
+   },
+   {
+    "detection_id": "d594",
+    "photo_id": "zT1kAueZC7k_0019",
+    "equipment_id": null,
+    "detector_class": "person",
+    "class_map_match": null,
+    "confidence": 0.872,
+    "bbox": [
+     0.7623,
+     0.0898,
+     0.9581,
+     0.683
+    ]
+   },
+   {
+    "detection_id": "d595",
+    "photo_id": "zT1kAueZC7k_0019",
+    "equipment_id": null,
+    "detector_class": "remote",
+    "class_map_match": null,
+    "confidence": 0.5934,
+    "bbox": [
+     0.6864,
+     0.2582,
+     0.9534,
+     0.6952
+    ]
+   },
+   {
+    "detection_id": "d596",
+    "photo_id": "zT1kAueZC7k_0019",
+    "equipment_id": "EQ_OVEN",
+    "detector_class": "oven",
+    "class_map_match": "direct",
+    "confidence": 0.1006,
+    "bbox": [
+     0.0007,
+     0.0402,
+     0.5143,
+     0.9685
+    ]
+   },
+   {
+    "detection_id": "d597",
+    "photo_id": "zT1kAueZC7k_0019",
+    "equipment_id": "EQ_GAS_RANGE",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.1006,
+    "bbox": [
+     0.0007,
+     0.0402,
+     0.5143,
+     0.9685
+    ]
+   },
+   {
+    "detection_id": "d598",
+    "photo_id": "zT1kAueZC7k_0019",
+    "equipment_id": "EQ_GRILL",
+    "detector_class": "oven",
+    "class_map_match": "partial",
+    "confidence": 0.1006,
+    "bbox": [
+     0.0007,
+     0.0402,
+     0.5143,
+     0.9685
+    ]
+   },
+   {
+    "detection_id": "d599",
+    "photo_id": "zT1kAueZC7k_0019",
+    "equipment_id": null,
+    "detector_class": "person",
+    "class_map_match": null,
+    "confidence": 0.0542,
+    "bbox": [
+     0.1765,
+     0.23,
+     0.6181,
+     0.786
+    ]
+   }
+  ]
+ },
+ "run_meta": {
+  "python": "3.10.14",
+  "torch": "2.7.1+cu118",
+  "cuda_available": true,
+  "gpu_name": "NVIDIA A100 80GB PCIe MIG 1g.10gb",
+  "max_gpu_mem_allocated_gb": 0.24,
+  "model_load_s": 1.42,
+  "per_image_s": [
+   2.026,
+   0.027,
+   0.026,
+   0.024,
+   0.025,
+   0.025,
+   0.025,
+   0.056,
+   0.033,
+   0.055,
+   0.054,
+   0.025,
+   0.024,
+   0.022,
+   0.032,
+   0.059,
+   0.057,
+   0.058,
+   0.032,
+   0.022,
+   0.032,
+   0.032,
+   0.039,
+   0.037,
+   0.034,
+   0.031,
+   0.028,
+   0.027,
+   0.028,
+   0.027,
+   0.059,
+   0.036,
+   0.031,
+   0.022
+  ],
+  "mean_image_s": 0.093,
+  "imgsz": 1280,
+  "n_prompts": 39
+ }
+}

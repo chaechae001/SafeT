@@ -1,0 +1,40 @@
+{
+  "_comment": "예시. 실제 모델 실행 결과가 아니다. 평가셋 dongdaemun_bhc_3 라벨을 바탕으로 만든 가상 응답. 해시는 자리 표시용.",
+  "model_output": {
+    "request_id": "req_example_v2_001",
+    "status": "ok",
+    "error_code": null,
+    "detector": {
+      "model_name": "example-coco-detector",
+      "model_version": "0.0-example",
+      "weights_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "class_map_version": "261116_사전학습클래스_대응표_v1",
+      "prompt_set_version": null,
+      "score_threshold_applied": 0.25
+    },
+    "master_version": "v1-draft",
+    "judged_at": "2026-11-16T10:00:00+09:00",
+    "photos": [{ "photo_id": "ph_1", "status": "analyzed", "error_code": null, "width": 1387, "height": 1040 }],
+    "detections": [
+      { "detection_id": "d1", "photo_id": "ph_1", "equipment_id": "EQ_REFRIGERATOR", "detector_class": "refrigerator", "class_map_match": "direct", "confidence": 0.88, "bbox": [0.0, 0.1, 0.2, 0.62] },
+      { "detection_id": "d2", "photo_id": "ph_1", "equipment_id": "EQ_REFRIGERATOR", "detector_class": "refrigerator", "class_map_match": "direct", "confidence": 0.79, "bbox": [0.09, 0.15, 0.2, 0.6] },
+      { "detection_id": "d3", "photo_id": "ph_1", "equipment_id": "EQ_MICROWAVE", "detector_class": "microwave", "class_map_match": "direct", "confidence": 0.91, "bbox": [0.35, 0.6, 0.44, 0.66] },
+      { "detection_id": "d4", "photo_id": "ph_1", "equipment_id": null, "detector_class": "chair", "class_map_match": null, "confidence": 0.85, "bbox": [0.44, 0.64, 0.55, 0.86] }
+    ]
+  },
+  "business_equipment_snapshot": [
+    { "equipment_id": "EQ_FRYER", "custom_name": null, "source": "db" },
+    { "equipment_id": "EQ_REFRIGERATOR", "custom_name": null, "source": "db" }
+  ],
+  "backend_result_with_threshold_0_5_for_illustration_only": {
+    "_comment": "임계값 0.5는 설명용 가정. d2는 COCO가 쇼케이스를 refrigerator로 낸 경우의 예(부분 대응 한계).",
+    "recognition_state": "success",
+    "ai_found": [
+      { "equipment_id": "EQ_MICROWAVE", "detection_refs": ["ph_1#d3"], "confidence": 0.91, "selected": true }
+    ],
+    "excluded": [
+      { "equipment_id": "EQ_REFRIGERATOR", "reason": "registered_db", "detection_refs": ["ph_1#d1", "ph_1#d2"] },
+      { "equipment_id": null, "reason": "unmapped", "detector_class": "chair", "detection_refs": ["ph_1#d4"] }
+    ]
+  }
+}

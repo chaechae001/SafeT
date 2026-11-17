@@ -1,0 +1,3 @@
+{"t": 1794879949.867497013, "event": "gpu_free_before", "mem_mib": 5}
+{"t": 1794880057.068070470, "event": "proc_exit", "mem_mib": 5}
+{"t": 1794880057.706030250, "event": "gpu_after", "mem_mib": 5}

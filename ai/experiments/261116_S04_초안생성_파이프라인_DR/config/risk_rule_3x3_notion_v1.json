@@ -1,0 +1,36 @@
+{
+  "scale_id": "safet-3x3-freq-severity",
+  "scale_version": "1.0-proposed",
+  "adoption_status": "proposed",
+  "adopted_by": null,
+  "adopted_at": null,
+  "method": "product",
+  "likelihood_levels": [
+    {"level": 1, "label": "거의 없음", "criteria": "3개월에 1회 정도", "source": {"doc": "230531_쉽고 간편한 위험성평가 방법 안내서", "printed_page": 34, "pdf_page": 38, "note": "빈도의 크기 산출 기준(예시). 개념 설명은 33쪽(PDF 37), 노션 표기 33p. 노션 'Safe-T AI 파트 작업현황과 계획_DR' H1 척도와 같음"}},
+    {"level": 2, "label": "가끔", "criteria": "1주일에 1회 정도", "source": {"doc": "230531_쉽고 간편한 위험성평가 방법 안내서", "printed_page": 34, "pdf_page": 38, "note": "빈도의 크기 산출 기준(예시)"}},
+    {"level": 3, "label": "빈번", "criteria": "1일에 1회 정도", "source": {"doc": "230531_쉽고 간편한 위험성평가 방법 안내서", "printed_page": 34, "pdf_page": 38, "note": "빈도의 크기 산출 기준(예시)"}}
+  ],
+  "severity_levels": [
+    {"level": 1, "label": "소", "criteria": "치료 불필요", "source": {"doc": "230531_쉽고 간편한 위험성평가 방법 안내서", "printed_page": 34, "pdf_page": 38, "note": "강도의 크기 산출 기준(예시). 안내서 문구 '비치료', 노션 문구 '치료 불필요'를 씀. 23년 안내서 61쪽(PDF 76)"}},
+    {"level": 2, "label": "중", "criteria": "휴업 필요", "source": {"doc": "230531_쉽고 간편한 위험성평가 방법 안내서", "printed_page": 34, "pdf_page": 38, "note": "강도의 크기 산출 기준(예시)"}},
+    {"level": 3, "label": "대", "criteria": "사망·장애", "source": {"doc": "230531_쉽고 간편한 위험성평가 방법 안내서", "printed_page": 34, "pdf_page": 38, "note": "강도의 크기 산출 기준(예시). 안내서 문구 '사망(장애 발생)', 노션 문구 '사망·장애'를 씀"}}
+  ],
+  "matrix": null,
+  "bands": [
+    {"min_score": 1, "max_score": 3, "band_code": "tolerable", "label": "허용 가능", "tolerable": true, "action": "(필요시) 개선", "signal": "green",
+     "source": {"doc": "230531_쉽고 간편한 위험성평가 방법 안내서", "printed_page": 34, "pdf_page": 38, "note": "허용 가능 여부 결정 예시(1~3 허용 가능). 초록 대응은 사용자 결정(2026-11-16, 해석 B)"}},
+    {"min_score": 4, "max_score": 9, "band_code": "not_tolerable", "label": "허용 불가능", "tolerable": false, "action": "개선책 마련·이행", "signal": "yellow",
+     "source": {"doc": "230531_쉽고 간편한 위험성평가 방법 안내서", "printed_page": 34, "pdf_page": 38, "note": "허용 가능 여부 결정 예시(4~9 허용 불가능). 노랑 대응은 사용자 결정(2026-11-16, 해석 B)"}}
+  ],
+  "severity_overrides": [
+    {"severity_level": 3, "band_code": "not_tolerable_severe", "label": "허용 불가능(중대성 대)", "tolerable": false, "action": "개선책 마련·이행", "signal": "red",
+     "source": {"doc": "노션 'Safe-T AI 파트 작업현황과 계획_DR'(팀 워크스페이스, 조회 2026-11-16) + 사용자 결정(2026-11-16, 해석 B)", "printed_page": null, "pdf_page": null, "note": "노션: '신호등 3색을 유지하되 빨강과 노랑은 중대성 3 여부로 나눕니다'. 안내서 근거 아님"}}
+  ],
+  "notes": [
+    "사용자 결정(2026-11-16): 계약 HITL v2 흐름을 따르고, 척도는 노션 'Safe-T AI 파트 작업현황과 계획_DR'의 H1(S1 3×3 빈도·강도법)으로 한다.",
+    "노션에는 빨강·노랑을 '중대성 3' 여부로 나눈다는 문장만 있어, 초록 경계와 가능성1×중대성3 처리는 사용자에게 확인했다. 사용자는 해석 B를 골랐다: 중대성 3이면 점수와 관계없이 빨강, 나머지는 점수 1~3 초록·4~9 노랑.",
+    "해석 B에서 가능성1×중대성3(점수 3)은 안내서 예시의 '허용 가능(1~3)'과 달리 허용 불가능(빨강)으로 처리한다. 이 차이는 안내서가 아니라 팀 결정에 근거한다.",
+    "adoption_status=proposed. 전문가 검토와 채택 기록(adopted_by)이 생기면 adopted로 바꾼다. 그 전까지 계산 결과 status는 rule_not_adopted이다.",
+    "등급 정의(빈도·강도 문구)는 안내서 예시를 옮긴 것이다. 안내서는 사전준비 단계에서 근로자와 상의해 기준을 정하라고 한다(쉽고 간편한 33쪽)."
+  ]
+}

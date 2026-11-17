@@ -1,0 +1,31 @@
+---
+config:
+  flowchart:
+    curve: linear
+---
+graph TD;
+	__start__([<p>__start__</p>]):::first
+	propose_equipment(propose_equipment)
+	confirm_equipment(confirm_equipment)
+	build_request(build_request)
+	retrieve(retrieve)
+	rank_llm(rank_llm)
+	assemble(assemble)
+	rationale_filter(rationale_filter)
+	select_and_rate(select_and_rate)
+	risk_rule(risk_rule)
+	__end__([<p>__end__</p>]):::last
+	__start__ --> propose_equipment;
+	assemble -. &nbsp;stop&nbsp; .-> __end__;
+	assemble -. &nbsp;ok&nbsp; .-> rationale_filter;
+	build_request --> retrieve;
+	confirm_equipment --> build_request;
+	propose_equipment --> confirm_equipment;
+	rank_llm --> assemble;
+	rationale_filter --> select_and_rate;
+	retrieve --> rank_llm;
+	select_and_rate --> risk_rule;
+	risk_rule --> __end__;
+	classDef default fill:#f2f0ff,line-height:1.2
+	classDef first fill-opacity:0
+	classDef last fill:#bfb6fc

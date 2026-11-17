@@ -1,0 +1,106 @@
+{
+ "events": [
+  {
+   "event": "resident_load_start",
+   "t": 1794886924.116,
+   "mem_mib": 5
+  },
+  {
+   "event": "resident_ready",
+   "t": 1794886965.622,
+   "mem_mib": 7843
+  },
+  {
+   "event": "warm_done",
+   "t": 1794886974.737,
+   "mem_mib": 7843
+  },
+  {
+   "event": "photo_arrived",
+   "t": 1794886975.088,
+   "mem_mib": 7843
+  },
+  {
+   "event": "resident_unloaded",
+   "t": 1794886977.53,
+   "mem_mib": 83
+  },
+  {
+   "event": "sam3_done",
+   "t": 1794887026.785,
+   "mem_mib": 83
+  },
+  {
+   "event": "sam3_unloaded",
+   "t": 1794887027.387,
+   "mem_mib": 83
+  },
+  {
+   "event": "confirm_screen_shown",
+   "t": 1794887027.632,
+   "mem_mib": 83
+  },
+  {
+   "event": "resident_reloaded",
+   "t": 1794887068.618,
+   "mem_mib": 7843
+  },
+  {
+   "event": "photo_done",
+   "t": 1794887092.628,
+   "mem_mib": 7843
+  }
+ ],
+ "summary": {
+  "unload_s": 2.44,
+  "sam3_s": 49.26,
+  "sam3_unload_s": 0.6,
+  "until_confirm_screen_s": 52.54,
+  "reload_after_screen_s": 40.99,
+  "photo_total_s": 117.54
+ },
+ "detection_items": [
+  {
+   "detection_id": "261113_P01_bApoYZBPCLE_0148.00s_DR#d18",
+   "equipment_id": "EQ_KNIFE_BOARD",
+   "confidence": 0.9648
+  },
+  {
+   "detection_id": "261113_P01_bApoYZBPCLE_0148.00s_DR#d28",
+   "equipment_id": "EQ_COFFEE_MACHINE",
+   "confidence": 0.8906
+  },
+  {
+   "detection_id": "261113_P01_bApoYZBPCLE_0148.00s_DR#d59",
+   "equipment_id": "EQ_ICE_CRUSHER",
+   "confidence": 0.8594
+  },
+  {
+   "detection_id": "261113_P01_bApoYZBPCLE_0148.00s_DR#d64",
+   "equipment_id": "EQ_BEER_DISPENSER",
+   "confidence": 0.5117
+  },
+  {
+   "detection_id": "261113_P01_bApoYZBPCLE_0148.00s_DR#d80",
+   "equipment_id": "EQ_REFRIGERATOR",
+   "confidence": 0.8086
+  }
+ ],
+ "interrupts": [
+  "confirm_equipment",
+  "select_and_rate"
+ ],
+ "trace": [
+  "intake: photo",
+  "propose_equipment: 5",
+  "confirm_equipment: 5 rows",
+  "build_request: 5 equipment",
+  "retrieve: 3/5 equipment with public evidence",
+  "rank_llm(vllm): 3 calls",
+  "assemble: status=partial, candidates=9",
+  "rationale_filter(a_flag): 0 flagged",
+  "select_and_rate: 1 selections",
+  "risk_rule: status=rule_not_adopted (노션 H1 3×3 빈도·강도법 + 신호등 해석 B(사용자 결정 2026-11-16, adoption_status=proposed, 전문가 채택 전))"
+ ],
+ "schema_errors": {}
+}

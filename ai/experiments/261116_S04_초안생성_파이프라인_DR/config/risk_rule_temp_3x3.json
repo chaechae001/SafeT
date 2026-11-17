@@ -1,0 +1,120 @@
+{
+  "scale_id": "temp-assumption-3x3",
+  "scale_version": "0.1-temp",
+  "adoption_status": "guide_example_not_adopted",
+  "adopted_by": null,
+  "adopted_at": null,
+  "method": "product",
+  "likelihood_levels": [
+    {
+      "level": 1,
+      "label": "거의 없음",
+      "criteria": "3개월에 1회 정도",
+      "source": {
+        "doc": "230531_쉽고 간편한 위험성평가 방법 안내서",
+        "printed_page": 34,
+        "pdf_page": 38,
+        "note": "빈도의 크기 산출 기준(예시)"
+      }
+    },
+    {
+      "level": 2,
+      "label": "가끔",
+      "criteria": "1주일에 1회 정도",
+      "source": {
+        "doc": "230531_쉽고 간편한 위험성평가 방법 안내서",
+        "printed_page": 34,
+        "pdf_page": 38,
+        "note": "빈도의 크기 산출 기준(예시)"
+      }
+    },
+    {
+      "level": 3,
+      "label": "빈번",
+      "criteria": "1일에 1회 정도",
+      "source": {
+        "doc": "230531_쉽고 간편한 위험성평가 방법 안내서",
+        "printed_page": 34,
+        "pdf_page": 38,
+        "note": "빈도의 크기 산출 기준(예시)"
+      }
+    }
+  ],
+  "severity_levels": [
+    {
+      "level": 1,
+      "label": "소",
+      "criteria": "비치료",
+      "source": {
+        "doc": "230531_쉽고 간편한 위험성평가 방법 안내서",
+        "printed_page": 34,
+        "pdf_page": 38,
+        "note": "강도의 크기 산출 기준(예시)"
+      }
+    },
+    {
+      "level": 2,
+      "label": "중",
+      "criteria": "휴업 필요",
+      "source": {
+        "doc": "230531_쉽고 간편한 위험성평가 방법 안내서",
+        "printed_page": 34,
+        "pdf_page": 38,
+        "note": "강도의 크기 산출 기준(예시)"
+      }
+    },
+    {
+      "level": 3,
+      "label": "대",
+      "criteria": "사망(장애 발생)",
+      "source": {
+        "doc": "230531_쉽고 간편한 위험성평가 방법 안내서",
+        "printed_page": 34,
+        "pdf_page": 38,
+        "note": "강도의 크기 산출 기준(예시)"
+      }
+    }
+  ],
+  "matrix": null,
+  "bands": [
+    {
+      "min_score": 1,
+      "max_score": 3,
+      "band_code": "tolerable",
+      "label": "허용 가능",
+      "tolerable": true,
+      "action": "(필요시) 개선",
+      "signal": null,
+      "source": {
+        "doc": "230531_쉽고 간편한 위험성평가 방법 안내서",
+        "printed_page": 34,
+        "pdf_page": 38,
+        "note": "허용 가능 여부 결정 예시. 23년 안내서 62쪽(PDF 77)에도 같은 예시"
+      }
+    },
+    {
+      "min_score": 4,
+      "max_score": 9,
+      "band_code": "not_tolerable",
+      "label": "허용 불가능",
+      "tolerable": false,
+      "action": "개선책 마련·이행",
+      "signal": null,
+      "source": {
+        "doc": "230531_쉽고 간편한 위험성평가 방법 안내서",
+        "printed_page": 34,
+        "pdf_page": 38,
+        "note": "허용 가능 여부 결정 예시"
+      }
+    }
+  ],
+  "notes": [
+    "임시 가정, 팀·전문가 확정 전. 3×3(발생 가능성 1~3 × 중대성 1~3)은 사용자 지시(2026-11-16)에 따른 임시 가정이다.",
+    "척도·구간 값은 계약 세션의 안내서 예시(examples_v2/risk_rule_config.guide_3x3_example.json)를 그대로 옮겼다. 새로 정한 값은 없다.",
+    "구간은 안내서 예시의 2개(허용 가능 1~3 / 허용 불가능 4~9)뿐이다. 빨강·노랑·초록 대응은 근거가 없어 signal=null.",
+    "adoption_status=guide_example_not_adopted라 계산 결과의 status는 rule_not_adopted(시험 계산)로 둔다.",
+    "안내서 예시를 그대로 옮긴 것이다. 운영에 쓰지 않는다(adoption_status).",
+    "예시는 2개 구간만 나눈다. 빨강·노랑·초록 3구간 경계는 안내서에 없어 signal을 null로 두었다.",
+    "사용자 시안의 3x3 '6/9' 구간은 예시로 표시되어 있고 안내서 근거를 찾지 못해 넣지 않았다."
+  ]
+}

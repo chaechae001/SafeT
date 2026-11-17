@@ -1,0 +1,7 @@
+[모의 응답 — 실제 모델 출력이 아님. LLM 경로의 파싱·후처리 검사용으로 이번 작업에서 손으로 작성함]
+{"items":[
+ {"work":"튀김 조리","hazard":"고온 기름 튐에 의한 화상","accident_type":"화상","cause":"물기 있는 재료 투입 시 기름이 튐","description":"뜨거운 기름이 튀어 손과 팔에 닿음","location":"주방 튀김기 앞","input_evidence":["text","photo-2"],"level":"high","level_reason":"고온 기름 화상은 장애가 남을 수 있음","rag_ids":["D5-p064-s1-c01"],"law_keys":[],"current_measure_row_ids":["CHK-4-3-2-01","CHK-4-3-2-03"],"recommended_measures":[{"text":"투입 전 재료 물기 제거","control_type":"administrative","source_ids":[]},{"text":"적합한 손·팔 보호구 착용","control_type":"ppe","source_ids":["CHK-4-3-2-01"]},{"text":"튀김기 주변 비산 방지판 설치","control_type":"engineering","source_ids":[]}]},
+ {"work":"바닥 이동","hazard":"바닥 물기에 의한 넘어짐","accident_type":"넘어짐","cause":"튀김기 앞 바닥 물기","description":"물기 있는 바닥에서 미끄러져 넘어짐","location":"주방 튀김기 앞","input_evidence":["audio-1"],"level":"medium","level_reason":"요양이 필요한 부상 가능","rag_ids":["D5-p065-s1-c01"],"law_keys":["산업안전보건기준에 관한 규칙|제3조","산업안전보건기준에 관한 규칙|제999조"],"current_measure_row_ids":["CHK-4-3-1-04","NOT-A-ROW"],"recommended_measures":[{"text":"바닥 물기 즉시 제거","control_type":"administrative","source_ids":[]},{"text":"미끄럼방지화 착용","control_type":"ppe","source_ids":[]}]},
+ {"work":"염지기 사용","hazard":"염지기 회전부 끼임","accident_type":"끼임","cause":"작동 중 손 투입","description":"작동 중 손이 끼임","location":null,"input_evidence":["text"],"level":"unknown","level_reason":"염지기 형태 정보 없음","rag_ids":[],"law_keys":[],"current_measure_row_ids":[],"recommended_measures":[]},
+ {"work":"","hazard":"필수값 누락 항목","accident_type":"기타","cause":"x","description":"x","level":"low"}
+]}

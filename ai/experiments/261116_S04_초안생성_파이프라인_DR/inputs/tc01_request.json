@@ -1,0 +1,23 @@
+{
+  "request_id": "tc01-261116-0001",
+  "assessment_id": "TC01-온기치킨-성수점-SYNTHETIC",
+  "criteria_version": null,
+  "business": { "business_id": "biz-ongi-seongsu", "industry": "치킨" },
+  "equipment": [
+    { "equipment_id": "eq-fryer", "name": "튀김기", "origin": "registered" },
+    { "equipment_id": "eq-gas-range", "name": "가스레인지", "origin": "registered" },
+    { "equipment_id": "eq-fridge", "name": "업소용 냉장고", "origin": "registered" },
+    { "equipment_id": "eq-knife-board", "name": "칼·도마", "origin": "registered" },
+    { "equipment_id": "eq-marinator", "name": "염지기", "origin": "registered" }
+  ],
+  "field_input": {
+    "photos": [
+      { "photo_id": "photo-1", "url": "https://safe-t.local/synthetic/tc01-photo-1.jpg", "location_label": null },
+      { "photo_id": "photo-2", "url": "https://safe-t.local/synthetic/tc01-photo-2.jpg", "location_label": "주방 튀김기 앞" }
+    ],
+    "text": "튀김할 때 기름이 튀어요. 닭은 칼과 도마로 손질한 뒤 염지기에 넣어요. 무거운 닭 상자를 냉장고로 자주 옮겨요.",
+    "voice_transcripts": [
+      { "audio_id": "audio-1", "transcript": "튀김기 앞 바닥에 물기가 있어요." }
+    ]
+  }
+}
