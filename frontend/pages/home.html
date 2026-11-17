@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>내 평가표 · Safe-T</title>
-  <link rel="stylesheet" href="../css/common.css">
-  <link rel="stylesheet" href="../css/home.css">
+  <link rel="stylesheet" href="../css/common.css?v=20261117">
+  <link rel="stylesheet" href="../css/home.css?v=20261117">
 </head>
 <body data-auth-required>
   <!-- home.html · 화면설계서 v3.19 통합본
@@ -30,7 +30,7 @@
       <section class="view home is-active" id="v-home" aria-label="H01 내 평가표">
         <!-- H01 내 평가표 · 화면설계서 10쪽
              테이블: eval_mst(eval_nm, eval_status, eval_dt, eval_writer, del_yn='N') · workplaces
-             - 탭 4개: 작성 중(W) / 확정(C) / 서명 완료(S) / 조치 완료(A)
+             - 탭: 전체(ALL) / 작성 중(W) / 확정(C) / 서명 완료(S) / 조치 완료(A)
              - 기간 처음 값: 이번 달 1일 ~ 오늘(한국 날짜), 사업장 처음 값: -전체-
              - 카드 왼쪽 버튼: 작성 중 = 서명하기·확정 후(비활성) / 확정 = 서명하기 n/m / 전원 서명 = 결과 공유
              - 목록 10개씩 -->
@@ -38,6 +38,7 @@
           <h1 class="page-title">내 평가표</h1>
 
           <nav class="tabs" aria-label="평가표 상태">
+            <a href="#v-home" data-tab="ALL">전체</a>
             <a href="#v-home" data-tab="W">작성 중</a>
             <a href="#v-home" data-tab="C" aria-current="page">확정</a>
             <a href="#v-home" data-tab="S">서명 완료</a>
@@ -95,9 +96,9 @@
     <p class="disclaimer">화면·입력 예시이며 실제 현장 판정이 아닙니다.</p>
   </div>
 
-  <script src="../js/vendor/jquery-3.7.1.min.js"></script>
-  <script src="../js/common.js"></script>
-  <script src="../js/api.js"></script>
-  <script src="../js/home.js"></script>
+  <script src="../js/vendor/jquery-3.7.1.min.js?v=20261117"></script>
+  <script src="../js/common.js?v=20261117"></script>
+  <script src="../js/api.js?v=20261117"></script>
+  <script src="../js/home.js?v=20261117"></script>
 </body>
 </html>

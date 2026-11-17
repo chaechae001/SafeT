@@ -3,7 +3,7 @@
    백엔드 API 와 연결되어 있습니다 (backend/routers/evaluations.py, 로그인 필요).
      GET /evals?tab=&start=&end=&work_no=&page=   평가표 목록 (10개씩)
      GET /workplaces                               사업장 선택 (사용 중인 사업장만)
-   - 탭 4개 + 목록 위 기간·사업장 선택 (바꾸면 바로 반영, 선택한 탭은 유지)
+   - 탭(전체·작성 중·확정·서명 완료·조치 완료) + 목록 위 기간·사업장 선택 (바꾸면 바로 반영, 선택한 탭은 유지)
    - 같은 평가표가 여러 탭에 나올 수 있음 (05쪽, 36쪽 2번 '임시 처리')
    - 다른 화면에 다녀오면 탭·기간·사업장·스크롤 복원
    ========================================================= */
@@ -71,8 +71,10 @@
         .appendTo($row);
     }
     // 오른쪽: 늘 문서 다운로드 (작성 중이면 '미확정' 표시와 함께 · 33쪽)
-    $('<button class="btn" type="button">엑셀 다운로드</button>')
-      .attr('data-todo', e.eval_status === 'W' ? '미확정 엑셀 다운로드는 API 연결 후 동작해요.' : '엑셀 다운로드는 API 연결 후 동작해요.')
+    // 결과서 PDF 내려받기 (api.js [data-report]). 작성 중이면 '미확정본'으로 만들어짐
+    $('<button class="btn" type="button">문서 다운로드</button>')
+      .attr('data-report', e.eval_no)
+      .attr('aria-label', (e.eval_nm || '평가표') + (e.eval_status === 'W' ? ' 미확정 문서 다운로드' : ' 문서 다운로드'))
       .appendTo($row);
     return $li;
   }

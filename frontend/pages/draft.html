@@ -4,11 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>초안 확인 · Safe-T</title>
-  <link rel="stylesheet" href="../css/common.css">
-  <link rel="stylesheet" href="../css/assessment.css">
-  <link rel="stylesheet" href="../css/draft.css">
-  <link rel="stylesheet" href="../css/risk.css">
-  <link rel="stylesheet" href="../css/bulk-assign.css">
+  <link rel="stylesheet" href="../css/common.css?v=20261117">
+  <link rel="stylesheet" href="../css/assessment.css?v=20261117">
+  <link rel="stylesheet" href="../css/draft.css?v=20261117">
+  <link rel="stylesheet" href="../css/risk.css?v=20261117">
+  <link rel="stylesheet" href="../css/bulk-assign.css?v=20261117">
 </head>
 <body data-auth-required data-assessment>
   <!-- draft.html · 화면설계서 v3.19 통합본
@@ -204,8 +204,9 @@
                 <span class="section-title">개선대책 계획<span class="req" id="d-plan-req" aria-hidden="true">*</span></span>
               </legend>
 
-              <!-- 초록 항목만: 현재 상태 유지 / 대책 추가 -->
-              <div class="segmented" id="d-green-switch" hidden>
+              <!-- 초록 항목만: 현재 상태 유지 / 대책 추가 (둘 중 하나 필수 · 고르기 전엔 노란 안내와 강조) -->
+              <p class="notice small" id="d-green-need" hidden>하 항목도 둘 중 하나를 골라야 확정할 수 있어요. 지금 조치로 충분하면 '현재 상태 유지', 대책을 더 하려면 '대책 추가'를 눌러 주세요.</p>
+              <div class="segmented" id="d-green-switch" aria-describedby="d-green-need" hidden>
                 <label><input type="radio" name="keep_yn" value="Y"> 현재 상태 유지</label>
                 <label><input type="radio" name="keep_yn" value="N"> 대책 추가</label>
               </div>
@@ -227,8 +228,7 @@
                 <p class="hint">대책을 고르면 평가표를 저장할 때 AI가 개선 후 예상 신호를 한 번에 판단해요.</p>
               </div>
             </fieldset>
-
-            <p class="notice notice--muted small">평가표 저장은 이 항목만이 아니라 평가표 전체를 저장해요.</p>
+            <!-- '평가표 전체 저장' 안내는 저장 버튼을 누를 때 확인 창으로 표시 (draft.js #d-save) -->
           </form>
         </div>
         <div class="bottom-bar">
@@ -382,10 +382,10 @@
     <p class="disclaimer">화면·입력 예시이며 실제 현장 판정이 아닙니다.</p>
   </div>
 
-  <script src="../js/vendor/jquery-3.7.1.min.js"></script>
-  <script src="../js/common.js"></script>
-  <script src="../js/api.js"></script>
-  <script src="../js/risk-assessment.js"></script>
-  <script src="../js/draft.js"></script>
+  <script src="../js/vendor/jquery-3.7.1.min.js?v=20261117"></script>
+  <script src="../js/common.js?v=20261117"></script>
+  <script src="../js/api.js?v=20261117"></script>
+  <script src="../js/risk-assessment.js?v=20261117"></script>
+  <script src="../js/draft.js?v=20261117"></script>
 </body>
 </html>

@@ -4,8 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>위험성평가표 내려받기 · Safe-T</title>
-  <link rel="stylesheet" href="../css/common.css">
-  <link rel="stylesheet" href="../css/share.css">
+  <link rel="stylesheet" href="../css/common.css?v=20261117">
+  <link rel="stylesheet" href="../css/share.css?v=20261117">
+  <meta name="robots" content="noindex">
 </head>
 <body>
   <!-- share-download.html · 화면설계서 v3.19 통합본
@@ -22,43 +23,45 @@
         <!-- SHARE 받는 사람 화면 (링크로 열림 · 로그인 없음) · 화면설계서 30쪽
              - 평가표 이름·사업장·평가일·확정일과 PDF 파일 정보, PDF 다운로드 버튼 하나
              - 항목 수정·서명 없음. 열람·다운로드는 결과 확인·서명으로 기록하지 않음(다운로드 횟수만)
-             - 만료·중지된 링크는 만료 안내 -->
+             - 만료·중지된 링크는 만료 안내
+             - API(로그인 없음): GET /share/{토큰}, GET /share/{토큰}/pdf (share.js) -->
         <div class="page">
-          <div class="stack">
-            <h1 class="page-title">11월 주방 위험성평가</h1>
+          <div class="stack" id="dl-info" hidden>
+            <h1 class="page-title" id="dl-title">위험성평가표</h1>
             <dl class="kv">
-              <dt>사업장</dt><dd>온기치킨 성수점</dd>
-              <dt>평가일</dt><dd>2026.11.14</dd>
-              <dt>확정일</dt><dd>2026.11.14</dd>
-              <dt>위험 항목</dt><dd>7건</dd>
-              <dt>작성자</dt><dd>김하늘</dd>
+              <dt>사업장</dt><dd id="dl-workplace">—</dd>
+              <dt>평가일</dt><dd id="dl-eval-dt">—</dd>
+              <dt>확정일</dt><dd id="dl-confirm-dt">—</dd>
+              <dt>위험 항목</dt><dd id="dl-items">—</dd>
+              <dt>작성자</dt><dd id="dl-writer">—</dd>
             </dl>
           </div>
 
-          <div class="card share__file">
+          <div class="card share__file" id="dl-file" hidden>
             <span class="share__file-icon" aria-hidden="true">PDF</span>
             <div>
-              <p class="strong">11월주방위험성평가_20261114_확정.pdf</p>
-              <p class="card__meta">위험성평가표 전체 · 약 1.2MB</p>
+              <p class="strong" id="dl-file-nm">위험성평가결과서.pdf</p>
+              <p class="card__meta">위험성평가표 전체 · 서명 현황 포함(서명 이미지 제외)</p>
             </div>
           </div>
 
-          <p class="hint center">이 링크는 2026.11.21까지 열 수 있어요.</p>
+          <p class="hint center" id="dl-expire" hidden></p>
 
-          <!-- 만료·중지된 링크일 때 (예시 · 숨김) -->
-          <p class="notice notice--danger" hidden>링크가 만료되었어요. 보낸 분께 다시 요청해 주세요.</p>
+          <p class="notice notice--danger" id="dl-expired" hidden>링크가 만료되었어요. 보낸 분께 다시 요청해 주세요.</p>
+          <p class="hint center" id="dl-loading">평가표 정보를 불러오고 있어요.</p>
         </div>
         <div class="bottom-bar">
-          <button class="btn btn--primary" id="pdf-download" type="button">PDF 다운로드</button>
+          <button class="btn btn--primary" id="pdf-download" type="button" disabled>PDF 다운로드</button>
         </div>
       </section>
     </main>
 
-    <p class="disclaimer">화면·입력 예시이며 실제 현장 판정이 아닙니다.</p>
+    <p class="disclaimer">Safe-T에서 확정된 위험성평가표입니다. 최종 안전 판단은 현장 담당자가 합니다.</p>
   </div>
 
-  <script src="../js/vendor/jquery-3.7.1.min.js"></script>
-  <script src="../js/common.js"></script>
-  <script src="../js/share.js"></script>
+  <script src="../js/vendor/jquery-3.7.1.min.js?v=20261117"></script>
+  <script src="../js/common.js?v=20261117"></script>
+  <script src="../js/api.js?v=20261117"></script>
+  <script src="../js/share.js?v=20261117"></script>
 </body>
 </html>

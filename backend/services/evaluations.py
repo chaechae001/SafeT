@@ -1,6 +1,7 @@
 """내 평가표 목록 (H01 · 화면설계서 10쪽)
 
 - 탭 4개 (같은 평가표가 여러 탭에 나올 수 있음 · 05쪽, 36쪽 2번 '임시 처리')
+    ALL 전체    : 상태 조건 없음 (2026-11-17 추가, 화면 맨 앞 탭)
     W 작성 중   : eval_status = 'W'
     C 확정      : eval_status IN ('C','S','A')   (확정된 평가표 전체)
     S 서명 완료 : sign_end_dt 가 있음
@@ -19,6 +20,7 @@ from services.auth import AuthError
 PAGE_SIZE = 10
 
 TAB_WHERE = {
+    "ALL": "1 = 1",                                   # 전체: 상태 조건 없음 (휴지통·기간·사업장 조건은 그대로)
     "W": "m.eval_status = 'W'",
     "C": "m.eval_status IN ('C', 'S', 'A')",
     "S": "m.sign_end_dt IS NOT NULL",

@@ -285,7 +285,10 @@
     $('#d-keep-note').prop('hidden', !(isG && it.keep === 'Y'));
     $('#d-plan-wait').prop('hidden', !isN);
     $('#d-plan-body').prop('hidden', !showPlan);
-    $('#d-plan-req').prop('hidden', !showPlan);
+    $('#d-plan-req').prop('hidden', !showPlan && !isG);   // 초록은 '유지/대책 추가' 선택 자체가 필수
+    var greenNeed = isG && !it.keep;
+    $('#d-green-need').prop('hidden', !greenNeed);
+    $('#d-green-switch').toggleClass('segmented--need', greenNeed);
     if (showPlan) {
       renderChecks($('#d-plan-list'), it.plans, 'plan', it);
       renderOwner(it);
@@ -321,8 +324,8 @@
     } else if (field === 'plan') {
       $('#d-plan').addClass('is-invalid');
       if(cur().signal==='G' && !cur().keep){
-        $msg.text('현재 상태 유지 또는 대책 추가를 선택해 주세요.');
-        $('#d-green-switch').before($msg);$focus=$('#d-green-switch input').first();
+        // 이미 보이는 노란 안내(#d-green-need)를 그대로 사용해 같은 문구를 두 번 띄우지 않음
+        $msg=$('#d-green-need');$focus=$('#d-green-switch input').first();
       }else{ $('#d-plan-list').before($msg);$focus=$('#d-plan-list input').first(); }
     } else {
       $('#d-owner').after($msg);
@@ -576,7 +579,16 @@
       window.scrollTo(0, 0);
     });
 
-    $('#d-save').on('click', function () { saveDraft('v-risk'); });
+    // 위험 상세의 저장도 평가표 전체를 저장한다는 점을 확인 창으로 알림
+    $('#d-save').on('click', function () {
+      if (busy || !evaluation) return;
+      SafeT.confirm({
+        title: '평가표 저장',
+        message: '이 항목만이 아니라 평가표 전체를 저장해요. 저장할까요?',
+        ok: '저장',
+        cancel: '취소'
+      }).then(function (yes) { if (yes) saveDraft('v-risk'); });
+    });
 
     $('#d-rejudge').on('click',function(){if(evaluation.generation_source==='catalog_ai_v1' && evaluation.risk_assessment.questions.length){SafeT.go('v-list');$('#risk-question-panel textarea').first().trigger('focus');return;}if(evaluation.generation_source==='catalog_v1' || evaluation.generation_source==='catalog_ai_v1'){saveDraft('v-risk');return;}SafeT.toast('실제 위험 판단 모델 연결 후 다시 판단할 수 있어요. 현재 입력은 저장할 수 있습니다.');});
 

@@ -264,6 +264,67 @@ $env:ALLOW_DB_TESTS="1"; .venv\Scripts\python -m pytest -q; Remove-Item Env:ALLO
 기존 개인 개발 DB와 `.env`를 확인하고 평가표 추가 필드를 적용한 뒤 API·화면 서버를 실행합니다.
 설정만 검사하려면 `--check`를 추가합니다. [실행·검사 안내](../docs/implementation/assessment-authoring.md#pc에서-한-번에-실행).
 
+## 문서 다운로드 (위험성평가 결과서 PDF · 2026-11-17)
+
+`GET /evals/{eval_no}/report` · 로그인 필요 · 내 평가표만(남의 것·휴지통은 404).
+
+- 결과: `application/pdf` 첨부 파일. 파일 이름은 `평가명_위험성평가결과서.pdf`, 작성 중이면 `_미확정`이 붙습니다.
+- 작성 중(W) 평가표도 내려받을 수 있고, 문서에 '미확정본'으로 표시합니다. demo로 만든 평가표는 '시험용 합성 자료'로 표시합니다.
+- 요청할 때마다 새로 만듭니다. `eval_report`에 파일을 저장하는 부분은 파일 보관 위치가 정해진 뒤 연결합니다.
+- 코드: `services/report_service.py`(값 모으기·PDF), `templates/report.html`(문서 모양), `routers/report.py`(API).
+  참고 원본은 `dev_docs/report_service.py`, `dev_docs/report.html`(WeasyPrint 기준)입니다.
+- PDF 엔진은 **xhtml2pdf**입니다. pip 설치만으로 Windows·Linux에서 같이 동작합니다(WeasyPrint는 Windows에 GTK가 필요).
+- **한글 폰트가 필요합니다.** Windows는 맑은 고딕을 자동으로 씁니다. Linux 서버는 `apt install fonts-nanum`을 하거나, `.env`의 `REPORT_FONT_REGULAR`·`REPORT_FONT_BOLD`에 TTF 경로를 넣습니다. `.otf`(Noto CJK 등)는 읽지 못합니다. 폰트가 없으면 503 `REPORT_FONT_MISSING`을 돌려줍니다.
+- 참고 원본과 다른 점: 가능성×중대성 판단 기준표와 가능성·중대성 열은 뺐습니다(판정 기준 팀 결정 전). '판단 필요'는 따로 세고 낮은 위험으로 보지 않습니다.
+
+검사 (DB 없이):
+
+```powershell
+backend\.venv\Scripts\python -m pytest backend/unit_tests/test_report.py -q
+```
+
+## 참여자 서명 (SIGN · 2026-11-17)
+
+로그인 필요 · 내 평가표만 · 확정(C·S·A)된 평가표에서만 동작합니다(작성 중이면 409 `EVAL_NOT_CONFIRMED`).
+
+| 메서드·경로 | 설명 |
+|---|---|
+| GET /evals/{eval_no}/signs | 참여 근로자별 서명 여부·시각, 서명 수. 서명 이미지는 내려주지 않습니다 |
+| POST /evals/{eval_no}/signs | `{member_no, confirm: true, sign_img: "data:image/png;base64,..."}` 저장 후 갱신된 현황 |
+
+- 저장 위치: `eval_sign`(`signer_type='WO'` 참여 근로자, `confirm_yn='Y'`, `sign_yn='Y'`, `sign_img`, `sign_dt`).
+- 참여 근로자마다 한 번만 저장합니다. 저장한 서명은 정정할 수 없습니다(다시 보내면 409 `ALREADY_SIGNED`).
+- 전원이 서명하면 `eval_mst.sign_end_dt`를 기록하고 상태를 C → S(서명 완료)로 바꿉니다. 조치 완료(A)는 그대로 둡니다.
+- 서명 이미지는 PNG data URL만 받습니다(약 220KB 이하). 문서 다운로드 PDF의 서명 칸에 이 이미지가 들어갑니다.
+- 코드: `routers/sign.py`, `services/sign.py`, `schemas/sign.py`. 테스트: `tests/test_sign.py`(DB 필요).
+
+## 개발 화면 서버 캐시 끔 (2026-11-17)
+
+`run_local.py`의 화면 서버(8000번)를 `python -m http.server` 대신 `backend/dev_static_server.py`로 띄웁니다.
+기존 서버는 캐시 금지 헤더가 없어, 브라우저가 고친 JS 대신 예전 파일을 그대로 쓰는 일이 있었습니다(서명이 화면에만 표시되고 저장되지 않음).
+새 서버는 `Cache-Control: no-store`를 보내 항상 새 파일을 줍니다. 개발 확인 전용이며 운영 배포에는 쓰지 않습니다.
+직접 띄울 때: `python backend/dev_static_server.py 8000 --directory frontend`
+
+## 결과 공유 (SHARE · 2026-11-17)
+
+참여자 전원이 서명한(`sign_end_dt` 있음) 확정 평가표만 공유할 수 있습니다(아니면 409 `SIGN_NOT_DONE`).
+
+| 메서드·경로 | 로그인 | 설명 |
+|---|---|---|
+| GET /evals/{eval_no}/share | 필요 | 지금 쓸 수 있는 링크(없으면 `share: null`) |
+| POST /evals/{eval_no}/share | 필요 | 링크가 없으면 만들고, 있으면 그대로 돌려줍니다(평가표당 1개, 7일) |
+| POST /evals/{eval_no}/share/reissue | 필요 | 이전 링크를 막고 새 링크를 발급합니다 |
+| POST /evals/{eval_no}/share/stop | 필요 | 공유 중지. 이전 링크는 바로 열리지 않습니다 |
+| GET /share/{token} | 없음 | 받는 사람 화면용 평가표 정보 |
+| GET /share/{token}/pdf | 없음 | 공유본 PDF. 다운로드 횟수만 +1 |
+
+- 없는 링크, 중지된 링크, 만료된 링크는 모두 410 `SHARE_EXPIRED`("링크가 만료되었어요. 보낸 분께 다시 요청해 주세요.")로 같게 답합니다.
+- 링크를 만들 때 `eval_report`에 공유본 기록(`sign_yn='N'`)을 남기고, `eval_share`에 토큰(24자 임의값)·만료일(7일)을 저장합니다.
+- 공유본 PDF에는 서명 원본 이미지를 넣지 않고 서명 여부·시각만 표시합니다(화면설계서 29·30쪽). 내 평가표의 '문서 다운로드'는 서명 이미지를 포함합니다.
+- 링크 주소는 `.env`의 `SHARE_BASE_URL`(받는 사람 화면 주소) 뒤에 `?t=토큰`을 붙여 만듭니다. QR 코드도 같은 주소로 서버에서 만듭니다(`segno`, SVG).
+  휴대폰으로 QR을 찍어 보려면 `SHARE_BASE_URL`을 PC 내부 IP 주소로 바꾸고, 화면·API 서버도 그 주소로 열려 있어야 합니다.
+- 링크를 열거나 내려받은 것은 결과 확인·서명으로 기록하지 않습니다.
+- 코드: `routers/share.py`, `services/share.py`. 테스트: `tests/test_share.py`(DB 필요).
 
 ## DB 기준 평가
 

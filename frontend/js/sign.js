@@ -1,42 +1,96 @@
 /* =========================================================
-   참여자 서명 (sign.html) · SIGN ① 참여자 선택 · ② 서명
+   참여자 서명 (sign.html) · SIGN ① 참여자 선택 · ② 서명 · 화면설계서 29쪽
+   API (로그인 필요, backend/routers/sign.py)
+     GET  /evals/{번호}/signs   참여 근로자별 서명 여부 (서명 이미지는 받지 않음)
+     POST /evals/{번호}/signs   {member_no, confirm: true, sign_img: PNG data URL}
    - 확인 체크 + 서명 획이 있어야 '서명 저장' 활성
-   - 저장한 서명은 정정 불가, 저장은 원형 로딩만
+   - 저장한 서명은 정정 불가, 저장은 원형 로딩만, 서버 성공 응답 후에만 '서명 완료'로 표시
    - 전원 서명 완료 시 '모두 서명했습니다' + 하단 '내 평가표로'
-   서명 저장은 API 연결 전이라 화면 안에서만 반영합니다.
    ========================================================= */
 (function ($, SafeT) {
   'use strict';
 
-  var hasStroke = false;
+  var evalNo = Number(new URLSearchParams(location.search).get('eval')) || (SafeT.current && SafeT.current.evalNo());
+  var data = null;                // 서버 응답 (summary)
+  var hasStroke = false, saving = false;
   var canvas, ctx;
 
-  function selected() {
-    var $r = $('#signer-list input:checked');
-    return $r.length ? $.trim($r.closest('label').find('b').text()) : '';
+  function member(no) {
+    return (data ? data.members : []).filter(function (m) { return m.member_no === no; })[0] || null;
+  }
+  function pickedNo() {
+    var v = $('#signer-list input:checked').val();
+    return v ? Number(v) : null;
+  }
+
+  /* ---------- ① 참여자 목록 ---------- */
+  function render(res) {
+    data = res;
+    $('.js-eval-nm').text(res.eval_nm || '평가표');
+    $('#sign-count').text(res.signed_count + '/' + res.member_count);
+    var keep = pickedNo();
+    var $list = $('#signer-list').removeAttr('aria-busy');
+    $list.children('label').remove();
+    $.each(res.members, function (_, m) {
+      var $l = $('<label class="check signer">').toggleClass('signer--done', m.signed);
+      $('<input type="radio" name="member_no">').val(m.member_no)
+        .prop({ disabled: m.signed, checked: !m.signed && m.member_no === keep }).appendTo($l);
+      $('<span class="check__text">').append($('<b>').text(m.member_nm))
+        .append(' <span class="muted small">· 참여 근로자</span>').appendTo($l);
+      $('<span class="tag">').toggleClass('tag--warn', !m.signed)
+        .text(m.signed ? '서명 완료' : '서명 필요').appendTo($l);
+      $list.append($l);
+    });
+    $('#signer-empty').prop('hidden', res.member_count > 0);
+    updatePick();
   }
 
   function updatePick() {
-    var total = $('#signer-list input').length;
-    var done = $('#signer-list input:disabled').length;
-    $('#sign-count').text(done + '/' + total);
-    if (done === total) {                       // 전원 서명 완료
-      $('#sign-done').prop('hidden', false);
-      $('#pick-btn').replaceWith('<a class="btn btn--primary" href="home.html">내 평가표로</a>');
-      return;
-    }
-    var name = selected();
-    $('#pick-btn').prop('disabled', !name).text(name ? name + '로 서명하기' : '본인 이름을 선택해 주세요');
+    var allDone = !!data && data.member_count > 0 && data.signed_count === data.member_count;
+    $('#sign-done').prop('hidden', !allDone);
+    $('#to-home').prop('hidden', !(allDone || (data && !data.member_count)));
+    $('#pick-btn').prop('hidden', allDone || (data && !data.member_count));
+    var m = member(pickedNo());
+    $('#pick-btn').prop('disabled', !m).text(m ? m.member_nm + '로 서명하기' : '본인 이름을 선택해 주세요');
   }
 
+  function load() {
+    return SafeT.api.get('/evals/' + evalNo + '/signs').done(render).fail(function (err) {
+      SafeT.toast(err.message);
+      if (err.code === 'EVAL_NOT_CONFIRMED' || err.status === 404) {
+        setTimeout(function () { window.location.href = 'home.html'; }, 1200);
+      }
+    });
+  }
+
+  /* ---------- ② 서명 칸 ---------- */
   function updateSave() {
-    $('#sign-save').prop('disabled', !(hasStroke && $('#sign-form input[name="confirm_yn"]').is(':checked')));
+    $('#sign-save').prop('disabled', saving || !(hasStroke && $('#sign-form input[name="confirm_yn"]').is(':checked')));
+  }
+
+  function clearPad() {
+    var r = canvas.getBoundingClientRect();
+    ctx.clearRect(0, 0, r.width, r.height);
+    hasStroke = false;
+    updateSave();
+  }
+
+  /** 저장용 PNG: 화면 배율(devicePixelRatio)과 무관하게 칸 크기 그대로 줄여 흰 배경으로 (용량 제한 대비) */
+  function exportPng() {
+    var r = canvas.getBoundingClientRect();
+    var out = document.createElement('canvas');
+    out.width = Math.max(1, Math.round(r.width));
+    out.height = Math.max(1, Math.round(r.height));
+    var o = out.getContext('2d');
+    o.fillStyle = '#ffffff';
+    o.fillRect(0, 0, out.width, out.height);
+    o.drawImage(canvas, 0, 0, out.width, out.height);
+    return out.toDataURL('image/png');
   }
 
   function setupPad() {
-    var $pad = $('#sign-pad');
-    canvas = $('<canvas class="sign-pad" id="sign-canvas" aria-label="여기에 직접 서명"></canvas>').get(0);
-    $pad.replaceWith(canvas);
+    canvas = $('<canvas class="sign-pad" id="sign-canvas" role="img" aria-label="서명 입력 칸. 손가락이나 마우스로 직접 서명"></canvas>').get(0);
+    $('#sign-pad').replaceWith(canvas);
     ctx = canvas.getContext('2d');
     var drawing = false;
 
@@ -51,7 +105,7 @@
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
       ctx.strokeStyle = '#1d2420';
-      hasStroke = false;
+      hasStroke = false;              // 크기가 바뀌면 칸이 비워지므로 다시 서명
       updateSave();
     }
     function pos(e) {
@@ -60,6 +114,7 @@
     }
 
     canvas.addEventListener('pointerdown', function (e) {
+      if (saving) return;
       drawing = true;
       canvas.setPointerCapture(e.pointerId);
       var p = pos(e);
@@ -84,28 +139,35 @@
 
   $(function () {
     setupPad();
-    updatePick();
     updateSave();
+    if (!evalNo) {
+      SafeT.toast('내 평가표에서 평가표를 다시 골라 주세요.');
+      setTimeout(function () { window.location.href = 'home.html'; }, 1200);
+      return;
+    }
+    if (SafeT.current) SafeT.current.setEval(evalNo);
+    load();
 
     $('#signer-list').on('change', 'input', updatePick);
 
     // ① → ②: 고른 사람 이름으로 서명 화면
     $('#pick-form').on('safet:submit', function (e) {
       e.preventDefault();
-      var name = selected();
-      $('#draw-name').text(name + ' · 참여 근로자');
+      var m = member(pickedNo());
+      if (!m || m.signed) { updatePick(); return; }
+      $('#draw-name').text(m.member_nm + ' · 참여 근로자');
       $('#sign-form input[name="confirm_yn"]').prop('checked', false);
       SafeT.go('v-draw');
+      clearPad();
+    });
+
+    // ② 화면을 주소로 바로 열었거나 고른 사람이 없으면 ①로
+    $('#v-draw').on('safet:show', function () {
+      if (!member(pickedNo())) SafeT.go('v-pick');
     });
 
     $('#sign-form').on('change', 'input[name="confirm_yn"]', updateSave);
-
-    $('#sign-clear').on('click', function () {      // 서명 칸만 비우기
-      var r = canvas.getBoundingClientRect();
-      ctx.clearRect(0, 0, r.width, r.height);
-      hasStroke = false;
-      updateSave();
-    });
+    $('#sign-clear').on('click', clearPad);      // 서명 칸만 비우기
 
     $('#sign-form').on('safet:validate', function (e) {
       if (!hasStroke) {
@@ -116,20 +178,29 @@
 
     $('#sign-form').on('safet:submit', function (e) {
       e.preventDefault();
-      var name = selected();
+      var m = member(pickedNo());
+      if (saving || !m || !hasStroke || !$('#sign-form input[name="confirm_yn"]').is(':checked')) return;
+      saving = true;
+      updateSave();
       SafeT.loading(true);
-      SafeT.wait(500).then(function () {
-        // 서명자·서명 시각 저장 (API 연결 후). 저장한 서명은 정정 불가 → 목록에서 선택 불가로
-        var $r = $('#signer-list input:checked');
-        var $l = $r.closest('label').addClass('signer--done');
-        $r.prop({ checked: false, disabled: true });
-        $l.find('.tag').removeClass('tag--warn').text('서명 완료');
-        $('#sign-clear').trigger('click');
-        SafeT.loading(false);
-        SafeT.toast(name + ' 님의 서명을 저장했어요');
-        updatePick();
-        SafeT.go('v-pick');
-      });
+      SafeT.api.post('/evals/' + evalNo + '/signs', { member_no: m.member_no, confirm: true, sign_img: exportPng() })
+        .done(function (res) {
+          render(res);                             // 서버가 돌려준 목록으로만 '서명 완료' 표시
+          clearPad();
+          SafeT.toast(m.member_nm + ' 님의 서명을 저장했어요');
+          SafeT.go('v-pick');
+        })
+        .fail(function (err) {
+          SafeT.toast(err.message);
+          if (err.code === 'ALREADY_SIGNED' || err.code === 'MEMBER_NOT_FOUND') {
+            load().always(function () { SafeT.go('v-pick'); });
+          }
+        })
+        .always(function () {
+          saving = false;
+          SafeT.loading(false);
+          updateSave();
+        });
     });
   });
 })(jQuery, window.SafeT);
