@@ -101,6 +101,20 @@ def test_재발급하면_이전_링크_막힘(client, setup):
     assert client.get(f"/share/{new}").status_code == 200
 
 
+def test_조회는_발급하지_않고_상태만_알려줌(client, setup):
+    no, h = setup["ids"]["서명완료"], setup["auth"]
+    first = client.get(f"/evals/{no}/share", headers=h).json()
+    assert (first["share"], first["status"]) == (None, "none")                       # 만든 적 없음
+    assert client.post(f"/evals/{no}/share", headers=h).json()["status"] == "active"
+    client.post(f"/evals/{no}/share/stop", headers=h)
+    again = client.get(f"/evals/{no}/share", headers=h).json()
+    assert (again["share"], again["status"]) == (None, "stopped")                   # 다시 열어도 새 링크 없음
+    assert db_one("SELECT COUNT(*) c FROM eval_share WHERE eval_no = :n AND stop_yn = 'N'", n=no)["c"] == 0
+    tok = token_of(client.post(f"/evals/{no}/share", headers=h))                    # 버튼으로 새 발급
+    db_exec("UPDATE eval_share SET expire_dt = '2020-01-01 00:00:00' WHERE share_token = :t", t=tok)
+    assert client.get(f"/evals/{no}/share", headers=h).json()["status"] == "expired"
+
+
 def test_공유_중지와_만료(client, setup):
     no = setup["ids"]["서명완료"]
     tok = token_of(client.post(f"/evals/{no}/share", headers=setup["auth"]))

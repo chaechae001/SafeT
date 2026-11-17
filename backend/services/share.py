@@ -64,10 +64,21 @@ def _create(db, m, email, t):
             n=m["eval_no"], r=rep, tok=token, x=t + timedelta(days=SHARE_DAYS), t=t, e=email)
 
 
+def _last_status(db, no, share):
+    """지금 링크 상태: active(사용 중) / none(만든 적 없음) / stopped(중지) / expired(7일 지남)
+    화면은 none 일 때만 열면서 자동 발급하고, 중지·만료 뒤에는 '새 링크 발급' 버튼으로만 만듦"""
+    if share:
+        return "active"
+    last = rows(db, "SELECT stop_yn FROM eval_share WHERE eval_no = :n ORDER BY share_no DESC LIMIT 1", n=no)
+    if not last:
+        return "none"
+    return "stopped" if last[0]["stop_yn"] == "Y" else "expired"
+
+
 def _view(db, m, share):
     items = rows(db, "SELECT COUNT(*) c FROM eval_dtl WHERE eval_no = :n", n=m["eval_no"])[0]["c"]
     out = dict(eval_no=m["eval_no"], eval_nm=m["eval_nm"], eval_status=m["eval_status"], item_count=items,
-               sign_end_dt=m["sign_end_dt"], share=None)
+               sign_end_dt=m["sign_end_dt"], share=None, status=_last_status(db, m["eval_no"], share))
     if share:
         url = share_url(share["share_token"])
         out["share"] = dict(url=url, expire_dt=share["expire_dt"], download_cnt=share["download_cnt"] or 0,

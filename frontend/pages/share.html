@@ -54,10 +54,10 @@
             </div>
           </section>
 
-          <!-- 공유 중지 상태 -->
+          <!-- 공유 중지·만료 상태: 화면을 다시 열어도 자동 발급하지 않고 버튼으로만 새 링크 -->
           <section class="card" id="share-off" hidden>
-            <p class="strong">공유를 중지했어요.</p>
-            <p class="card__meta">이전 링크는 열리지 않아요. 다시 공유하려면 새 링크를 발급해 주세요.</p>
+            <p class="strong" id="share-off-title">공유를 중지했어요.</p>
+            <p class="card__meta" id="share-off-desc">이전 링크는 열리지 않아요. 다시 공유하려면 새 링크를 발급해 주세요.</p>
             <div class="btn-row">
               <button class="btn btn--primary" id="share-new" type="button">새 링크 발급</button>
             </div>
