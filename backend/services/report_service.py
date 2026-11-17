@@ -27,7 +27,10 @@ GRADE_NM = {"R": "상 · 우선 개선", "Y": "중 · 개선 필요", "G": "하 
 STATUS_NM = {"W": "작성 중 · 미확정", "C": "확정", "S": "서명 완료", "A": "조치 완료"}
 GRADE_RANK = {"R": 3, "Y": 2, "G": 1}
 METHOD_NM = {
-    "restaurant_v2": "음식점 위험성평가 v2 기준 (상·중·하 3단계)",
+    # generation_source 값별 표시 (services/catalog_risk.py · catalog_ai.py 의 SOURCE)
+    "catalog_v1": "DB 기준 위험성평가 · 현재 조치와 개선대책을 공통 기준으로 계산",
+    "catalog_ai_v1": "AI 입력 해석 + DB 기준 공통 계산 · AI 결과는 현장 확인 필요",
+    "restaurant_v2": "음식점 위험성평가 v2 기준 (상·중·하 3단계) · 이전 방식",
     "demo": "개발 시험용 합성 자료 · 실제 현장 판정 아님",
     "unavailable": "AI 판단 미연결 · 판단 필요 항목은 담당자 확인 필요",
 }
