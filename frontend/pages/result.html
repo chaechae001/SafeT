@@ -4,10 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>확정된 평가표 · Safe-T</title>
-  <link rel="stylesheet" href="../css/common.css">
-  <link rel="stylesheet" href="../css/assessment.css">
-  <link rel="stylesheet" href="../css/result.css">
-  <link rel="stylesheet" href="../css/risk.css">
+  <link rel="stylesheet" href="../css/common.css?v=20261117">
+  <link rel="stylesheet" href="../css/assessment.css?v=20261117">
+  <link rel="stylesheet" href="../css/result.css?v=20261117">
+  <link rel="stylesheet" href="../css/risk.css?v=20261117">
 </head>
 <body data-auth-required data-assessment>
   <!-- result.html · 화면설계서 v3.19 통합본 SH v3
@@ -35,11 +35,12 @@
              테이블: eval_mst(eval_status='C', confirm_dt) · eval_dtl · eval_action(check_yn='Y'만)
              - 체크박스·입력칸·편집 버튼 없음. 수정 불가·버전 없음·삭제 불가
              - 서명·공유는 내 평가표 카드 버튼에서 (여기에는 두지 않음)
-             - 하단: 내 평가표로 / 엑셀 다운로드(지점장 수정용) -->
+             - 하단: 내 평가표로 / 문서 다운로드 -->
         <div class="page" aria-live="polite"><p>평가표를 불러오고 있어요.</p></div>
         <div class="bottom-bar">
           <a class="btn" href="home.html">내 평가표로</a>
-          <button class="btn btn--primary" type="button" data-todo="엑셀 다운로드는 API 연결 후 동작해요.">엑셀 다운로드</button>
+          <!-- 결과서 PDF: data-report 가 비어 있으면 지금 보는 평가표 (api.js) -->
+          <button class="btn btn--primary" type="button" data-report="">문서 다운로드</button>
         </div>
       </section>
       <section class="view risk" id="v-detail" aria-label="S08-D 위험 상세(읽기 전용)">
@@ -60,10 +61,10 @@
     <p class="disclaimer">화면·입력 예시이며 실제 현장 판정이 아닙니다.</p>
   </div>
 
-  <script src="../js/vendor/jquery-3.7.1.min.js"></script>
-  <script src="../js/common.js"></script>
-  <script src="../js/api.js"></script>
-  <script src="../js/risk-assessment.js"></script>
-  <script src="../js/assessment-result.js"></script>
+  <script src="../js/vendor/jquery-3.7.1.min.js?v=20261117"></script>
+  <script src="../js/common.js?v=20261117"></script>
+  <script src="../js/api.js?v=20261117"></script>
+  <script src="../js/risk-assessment.js?v=20261117"></script>
+  <script src="../js/assessment-result.js?v=20261117"></script>
 </body>
 </html>

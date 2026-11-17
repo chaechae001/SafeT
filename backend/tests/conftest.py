@@ -86,7 +86,8 @@ def email():
 
 def purge_user_rows(c, addr):
     """테스트 이메일로 만든 평가표·사업장·사용자 행 삭제 (참조 순서대로)"""
-    for t in ("eval_sign", "eval_member"):
+    # eval_share → eval_report 순서 (공유가 문서를 참조)
+    for t in ("eval_share", "eval_report", "eval_sign", "eval_member"):
         c.execute(text(f"DELETE FROM {t} WHERE eval_no IN (SELECT eval_no FROM eval_mst WHERE email = :e)"), {"e": addr})
     c.execute(text("DELETE FROM eval_mst WHERE email = :e"), {"e": addr})
     c.execute(text("DELETE FROM workplace_machine WHERE work_no IN (SELECT work_no FROM workplaces WHERE email = :e)"), {"e": addr})
@@ -105,6 +106,8 @@ def biz_code():
     with engine.begin() as c:
         # 이 업종 사업장에 달린 평가표부터 (참조 순서)
         ev = "SELECT eval_no FROM eval_mst WHERE work_no IN (SELECT work_no FROM workplaces WHERE biz_code = :b)"
+        c.execute(text(f"DELETE FROM eval_share WHERE eval_no IN ({ev})"), {"b": code})
+        c.execute(text(f"DELETE FROM eval_report WHERE eval_no IN ({ev})"), {"b": code})
         c.execute(text(f"DELETE FROM eval_sign WHERE eval_no IN ({ev})"), {"b": code})
         c.execute(text(f"DELETE FROM eval_member WHERE eval_no IN ({ev})"), {"b": code})
         c.execute(text("DELETE FROM eval_mst WHERE work_no IN (SELECT work_no FROM workplaces WHERE biz_code = :b)"), {"b": code})

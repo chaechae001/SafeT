@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>참여자 서명 · Safe-T</title>
-  <link rel="stylesheet" href="../css/common.css">
-  <link rel="stylesheet" href="../css/sign.css">
+  <link rel="stylesheet" href="../css/common.css?v=20261117">
+  <link rel="stylesheet" href="../css/sign.css?v=20261117">
 </head>
 <body data-auth-required>
   <!-- sign.html · 화면설계서 v3.19 통합본
@@ -31,42 +31,28 @@
       <section class="view sign is-active" id="v-pick" aria-label="SIGN ① 참여자 선택">
         <!-- SIGN ① 참여자 선택 · 화면설계서 29쪽
              테이블: eval_member(member_nm) · eval_sign(member_no, signer_type, sign_yn, sign_dt)
-             - 확정(eval_status='C')된 평가표에서만 열림
+             - 확정(eval_status C·S·A)된 평가표에서만 열림 · API: GET/POST /evals/{번호}/signs (sign.js)
              - 서명 완료한 사람은 흐리게, 선택 불가
              - 전원 서명 완료 시 '모두 서명했습니다' + 하단 '내 평가표로' -->
         <div class="page">
           <div class="stack">
             <h1 class="page-title">참여자 서명</h1>
-            <p class="eyebrow">11월 주방 위험성평가 · 확정본 · 서명 <span id="sign-count">1/3</span></p>
+            <p class="eyebrow"><span class="js-eval-nm">평가표</span> · 확정본 · 서명 <span id="sign-count">-</span></p>
           </div>
 
-          <!-- 전원 서명 완료 시 (예시 · 숨김) -->
           <p class="notice notice--done" id="sign-done" hidden>모두 서명했습니다.</p>
 
           <form id="pick-form" class="stack" action="#v-draw" method="get">
-            <fieldset class="check-list" id="signer-list">
+            <fieldset class="check-list" id="signer-list" aria-busy="true">
               <legend class="page-desc">본인 이름을 선택해 주세요. 기본정보에 등록한 참여 근로자예요.</legend>
-              <label class="check signer signer--done">
-                <input type="radio" name="member_no" value="1" disabled>
-                <span class="check__text"><b>이민호</b> <span class="muted small">· 참여 근로자</span></span>
-                <span class="tag">서명 완료</span>
-              </label>
-              <label class="check signer">
-                <input type="radio" name="member_no" value="2" checked>
-                <span class="check__text"><b>박지수</b> <span class="muted small">· 참여 근로자</span></span>
-                <span class="tag tag--warn">서명 필요</span>
-              </label>
-              <label class="check signer">
-                <input type="radio" name="member_no" value="3">
-                <span class="check__text"><b>정유진</b> <span class="muted small">· 참여 근로자</span></span>
-                <span class="tag tag--warn">서명 필요</span>
-              </label>
+              <!-- 참여 근로자 목록은 sign.js 가 서버 값으로 채움 -->
             </fieldset>
+            <p class="empty small" id="signer-empty" hidden>등록된 참여 근로자가 없어요. 서명할 사람이 없습니다.</p>
           </form>
         </div>
         <div class="bottom-bar">
-          <button class="btn btn--primary" id="pick-btn" type="submit" form="pick-form">박지수로 서명하기</button>
-          <!-- 전원 서명 완료 시: <a class="btn btn--primary" href="home.html">내 평가표로</a> -->
+          <button class="btn btn--primary" id="pick-btn" type="submit" form="pick-form" disabled>본인 이름을 선택해 주세요</button>
+          <a class="btn btn--primary" id="to-home" href="home.html" hidden>내 평가표로</a>
         </div>
       </section>
       <section class="view sign" id="v-draw" aria-label="SIGN ② 서명">
@@ -78,12 +64,12 @@
         <div class="page">
           <div class="stack">
             <h1 class="page-title">참여자 서명</h1>
-            <p class="eyebrow">11월 주방 위험성평가 · 확정본</p>
+            <p class="eyebrow"><span class="js-eval-nm">평가표</span> · 확정본</p>
           </div>
 
           <form id="sign-form" class="stack" action="#v-pick" method="get">
             <div class="card">
-              <p class="card__title" id="draw-name">박지수 · 참여 근로자</p>
+              <p class="card__title" id="draw-name">참여 근로자</p>
               <p class="card__meta">이 평가에 참여했고, 확정된 결과와 계획을 확인했어요.</p>
             </div>
 
@@ -107,12 +93,12 @@
       </section>
     </main>
 
-    <p class="disclaimer">화면·입력 예시이며 실제 현장 판정이 아닙니다.</p>
+    <p class="disclaimer">서명은 확정된 평가표의 결과와 계획을 확인했다는 기록입니다. 실제 조치 완료를 뜻하지 않습니다.</p>
   </div>
 
-  <script src="../js/vendor/jquery-3.7.1.min.js"></script>
-  <script src="../js/common.js"></script>
-  <script src="../js/api.js"></script>
-  <script src="../js/sign.js"></script>
+  <script src="../js/vendor/jquery-3.7.1.min.js?v=20261117"></script>
+  <script src="../js/common.js?v=20261117"></script>
+  <script src="../js/api.js?v=20261117"></script>
+  <script src="../js/sign.js?v=20261117"></script>
 </body>
 </html>

@@ -264,11 +264,74 @@
     return d.promise();
   }
 
+  /** 파일 내려받기 (로그인 토큰을 붙여 GET → 브라우저 저장). 성공 시 파일 이름으로 resolve */
+  function download(path) {
+    var d = $.Deferred();
+    var token = SafeT.auth.token();
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', BASE + path);
+    if (token) xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+    xhr.responseType = 'blob';
+    xhr.timeout = 60000;
+    xhr.onload = function () {
+      if (xhr.status >= 200 && xhr.status < 300) {
+        // Content-Disposition: filename*=UTF-8''한글이름.pdf (main.py 에서 노출 허용)
+        var cd = xhr.getResponseHeader('Content-Disposition') || '';
+        var m = /filename\*=UTF-8''([^;]+)/i.exec(cd) || /filename="?([^";]+)"?/i.exec(cd);
+        var name = 'safet-document.pdf';
+        if (m) { try { name = decodeURIComponent(m[1]); } catch (err) { name = m[1]; } }
+        var url = URL.createObjectURL(xhr.response);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = name;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        setTimeout(function () { URL.revokeObjectURL(url); }, 10000);
+        d.resolve(name);
+        return;
+      }
+      // 오류 본문(JSON)을 읽어 request() 와 같은 모양으로
+      var reader = new FileReader();
+      reader.onload = function () {
+        var json = null;
+        try { json = JSON.parse(reader.result); } catch (err) { /* JSON 아님 */ }
+        var err = toError({ status: xhr.status, responseJSON: json }, 'error');
+        if (token && err.status === 401 && (err.code === 'TOKEN_EXPIRED' || err.code === 'LOGIN_REQUIRED')) {
+          SafeT.auth.toLogin(err.code === 'TOKEN_EXPIRED' ? 'expired' : 'required');
+        }
+        d.reject(err);
+      };
+      reader.readAsText(xhr.response);
+    };
+    xhr.onerror = function () { d.reject(toError({ status: 0 }, 'error')); };
+    xhr.ontimeout = function () { d.reject(toError({ status: 0 }, 'timeout')); };
+    xhr.send();
+    return d.promise();
+  }
+
   SafeT.api = {
     base: BASE,
     get: function (path) { return request('GET', path); },
     post: function (path, body) { return request('POST', path, body || {}); },
     put: function (path, body) { return request('PUT', path, body || {}); },
-    del: function (path) { return request('DELETE', path); }
+    del: function (path) { return request('DELETE', path); },
+    download: download
   };
+
+  /* ---------- 문서 다운로드 (위험성평가 결과서 PDF · GET /evals/{번호}/report) ----------
+     <button data-report="평가표 번호"> · 값이 비어 있으면 지금 보는 평가표(SafeT.current) */
+  var reporting = false;
+  $(document).on('click', '[data-report]', function (e) {
+    e.preventDefault();
+    if (reporting) return;                                   // 연속 클릭 방지
+    var no = $(this).attr('data-report') || (SafeT.current && SafeT.current.evalNo());
+    if (!no) { SafeT.toast('평가표를 다시 골라 주세요.'); return; }
+    reporting = true;
+    SafeT.loading(true);
+    download('/evals/' + encodeURIComponent(no) + '/report')
+      .done(function () { SafeT.toast('문서를 내려받았어요.'); })
+      .fail(function (err) { SafeT.toast(err.message); })
+      .always(function () { reporting = false; SafeT.loading(false); });
+  });
 })(jQuery, window);

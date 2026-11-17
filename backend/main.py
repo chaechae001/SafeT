@@ -13,7 +13,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 import database  # noqa: F401  (.env 를 먼저 읽음)
-from routers import auth, evaluations, health, workplaces, assessment
+from routers import auth, evaluations, health, workplaces, assessment, report, sign, share
 from services.auth import AuthError
 
 app = FastAPI(title="Safe-T API", version="0.1.0")
@@ -29,7 +29,7 @@ app.add_middleware(
     allow_origins=FRONTEND_ORIGINS,
     allow_methods=["GET", "POST", "PUT", "DELETE"],
     allow_headers=["Content-Type", "Authorization"],
-    expose_headers=["Retry-After"],
+    expose_headers=["Retry-After", "Content-Disposition"],   # 문서 다운로드 파일 이름
 )
 
 app.include_router(health.router)
@@ -37,6 +37,9 @@ app.include_router(auth.router)
 app.include_router(workplaces.router)
 app.include_router(evaluations.router)
 app.include_router(assessment.router)
+app.include_router(report.router)
+app.include_router(sign.router)
+app.include_router(share.router)
 
 
 @app.exception_handler(AuthError)

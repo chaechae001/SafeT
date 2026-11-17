@@ -59,7 +59,8 @@ def main():
         if args.demo:
             env['SAFET_ASSESSMENT_MODE'] = 'demo'
         children.append(subprocess.Popen([sys.executable, '-m', 'uvicorn', 'main:app', '--host', '127.0.0.1', '--port', '8001'], cwd=ROOT / 'backend', env=env))
-        children.append(subprocess.Popen([sys.executable, '-m', 'http.server', '8000', '--bind', '127.0.0.1', '--directory', str(ROOT / 'frontend')], cwd=ROOT, env=env))
+        # 화면 서버: 캐시를 끈 개발용 서버 (고친 JS·CSS 가 바로 반영되도록 · dev_static_server.py)
+        children.append(subprocess.Popen([sys.executable, str(ROOT / 'backend/dev_static_server.py'), '8000', '--bind', '127.0.0.1', '--directory', str(ROOT / 'frontend')], cwd=ROOT, env=env))
         opener = build_opener(ProxyHandler({}))
         for attempt in range(100):
             if any(p.poll() is not None for p in children):

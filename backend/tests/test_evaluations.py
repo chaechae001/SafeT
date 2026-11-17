@@ -57,6 +57,7 @@ def test_로그인_없으면_401(client):
 
 
 def test_탭별_목록_중복표시_최근순(client, setup):
+    assert names(get(client, setup, tab="ALL")) == ["확정B", "작성중A", "조치D", "서명C"]  # 상태 무관, 휴지통 제외
     assert names(get(client, setup, tab="W")) == ["작성중A"]                       # 휴지통 제외
     assert names(get(client, setup, tab="C")) == ["확정B", "조치D", "서명C"]        # 확정 전체, 평가일 최근 순
     assert names(get(client, setup, tab="S")) == ["조치D", "서명C"]                 # 서명완료일 있음
