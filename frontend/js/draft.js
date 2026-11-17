@@ -25,7 +25,7 @@
     return $.extend({
       job: '', factor: '', type: '', signal: 'N', title: '', desc: '', cause: '', reason: '', law: null,
       curr: [], none: false, plans: [], keep: null, owner: null, due: '',
-      judged: true          // eval_dtl.after_judge_yn: 대책이 바뀌면 false → 저장 때 AI 재판단
+      judged: true          // eval_dtl.after_judge_yn: 대책이 바뀌면 false → 저장 때 예상 위험도 재계산
     }, o);
   }
 
@@ -301,7 +301,7 @@
   // 확정 시 빠진 값: 해당 필드로 이동해 그 자리에서 안내 (결정 13)
   var MISSING_MSG = {
     current: "현재 안전조치를 선택하거나 '현재 조치 없음'을 체크해 주세요.",
-    signal: 'AI 판단이 필요한 항목이에요. 다시 판단한 뒤 확정할 수 있어요.',
+    signal: '현재 조치를 선택하거나 조치 없음을 체크한 뒤 저장해 주세요.',
     plan: '개선대책을 1개 이상 선택해 주세요.',
     owner: '담당자·예정일을 일괄 지정에서 넣어 주세요.'
   };

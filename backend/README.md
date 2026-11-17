@@ -325,3 +325,7 @@ backend\.venv\Scripts\python -m pytest backend/unit_tests/test_report.py -q
   휴대폰으로 QR을 찍어 보려면 `SHARE_BASE_URL`을 PC 내부 IP 주소로 바꾸고, 화면·API 서버도 그 주소로 열려 있어야 합니다.
 - 링크를 열거나 내려받은 것은 결과 확인·서명으로 기록하지 않습니다.
 - 코드: `routers/share.py`, `services/share.py`. 테스트: `tests/test_share.py`(DB 필요).
+
+## DB 기준 평가
+
+`python backend/run_local.py --catalog --migrate`로 실행합니다. 현재 조치와 개선대책 선택을 같은 함수로 계산하며 개선 후 값은 예상 결과입니다.
