@@ -1,0 +1,16 @@
+{
+  "request_id": "6f1c2a90-0d4e-4b8e-9a51-000000000003",
+  "call": "f03_post_signal",
+  "status": "ok",
+  "item_id": "R01",
+  "round": 1,
+  "post_signal": "green",
+  "post_signal_reason": "[예시] 물기 제거 절차 적용과 보호구 착용이 결과 문장과 사진 1장에서 확인되어 유지 관리로 산정했어요.",
+  "post_signal_source": "ai",
+  "model_version": "safet-judge-EXAMPLE-0.1",
+  "criteria_version": null,
+  "judged_at": "2026-11-16T10:12:40+09:00",
+  "off_reason_code": null,
+  "evidence_used": { "result_text": true, "photo_ids": ["after-1"] },
+  "followup_needed": false
+}

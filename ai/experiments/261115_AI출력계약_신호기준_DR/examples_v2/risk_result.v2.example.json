@@ -1,0 +1,39 @@
+{
+  "assessment_id": "A-EXAMPLE-1",
+  "computed_by": "rule_engine",
+  "rule": {
+    "scale_id": "guide-kras-3x3-example",
+    "scale_version": "0.1",
+    "adoption_status": "guide_example_not_adopted",
+    "method": "product",
+    "engine_version": "EXAMPLE"
+  },
+  "computed_at": "2026-11-16T13:11:05+09:00",
+  "status": "rule_not_adopted",
+  "results": [
+    {
+      "selection_id": "sel-1",
+      "phase": "before_measures",
+      "result_status": "computed",
+      "likelihood_level": 2,
+      "severity_level": 3,
+      "risk_score": 6,
+      "band_code": "not_tolerable",
+      "tolerable": false,
+      "signal": null,
+      "input_hash": "EXAMPLE-sha256-sel-1"
+    },
+    {
+      "selection_id": "sel-2",
+      "phase": "before_measures",
+      "result_status": "computed",
+      "likelihood_level": 1,
+      "severity_level": 2,
+      "risk_score": 2,
+      "band_code": "tolerable",
+      "tolerable": true,
+      "signal": null,
+      "input_hash": "EXAMPLE-sha256-sel-2"
+    }
+  ]
+}

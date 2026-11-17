@@ -1,0 +1,39 @@
+{
+  "request_id": "7a2d0c11-5b6e-4f0a-8c21-000000000101",
+  "call": "hazard_candidates_v2",
+  "status": "partial",
+  "model_version": "safet-cand-EXAMPLE-0.1",
+  "kb_version": "rag-kb-v1",
+  "generated_at": "2026-11-16T13:05:10+09:00",
+  "groups": [
+    {
+      "equipment_id": "EQ_FRYER",
+      "display_name": "튀김기",
+      "group_status": "ok",
+      "candidates": [
+        {
+          "candidate_id": "cand-fryer-1",
+          "work": "튀김 조리",
+          "hazard": "[예시] 가스 배관·호스 연결부 누출로 화재·폭발 위험",
+          "accident_type": { "code": "gas", "label": "가스 누출·폭발" },
+          "rationale": "[예시] 음식점업 자율안전점검표의 조리설비 항목이 배관·호스 누출 확인과 가스누출 차단기 점검을 요구한다.",
+          "source_refs": [
+            { "source_id": "CHK-4-2-3-01", "source_type": "checklist", "kb_version": "rag-kb-v1", "source_file": "RAG용/음식점업 자율안전점검표.pdf", "pdf_page": 6, "quote": null },
+            { "source_id": "CHK-4-2-3-02", "source_type": "checklist", "kb_version": "rag-kb-v1", "source_file": "RAG용/음식점업 자율안전점검표.pdf", "pdf_page": 6, "quote": null }
+          ],
+          "measure_candidates": [
+            { "measure_id": "m-fryer-1", "text": "배관·호스 연결상태와 파손 여부 확인", "control_type": "administrative", "source_refs": [ { "source_id": "CHK-4-2-3-01", "source_type": "checklist" } ] },
+            { "measure_id": "m-fryer-2", "text": "가스누출 자동차단기·누설경보기 주기적 작동 시험", "control_type": "engineering", "source_refs": [ { "source_id": "CHK-4-2-3-02", "source_type": "checklist" } ] }
+          ],
+          "laws": []
+        }
+      ]
+    },
+    {
+      "equipment_id": "EQ_MARINATOR",
+      "display_name": "염지기",
+      "group_status": "no_source_found",
+      "candidates": []
+    }
+  ]
+}

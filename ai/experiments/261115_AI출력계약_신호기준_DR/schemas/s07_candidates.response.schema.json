@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://safe-t.local/schemas/s07_candidates.response.schema.json",
+  "title": "S07 키워드 위험 후보 응답",
+  "description": "후보에는 신호·대책을 만들지 않는다. 신호·대책은 '선택한 항목 추가'(s07_add)에서 만든다. 후보가 없으면 status=ok, candidates=[].",
+  "type": "object",
+  "required": ["request_id", "call", "status"],
+  "properties": {
+    "request_id": { "$ref": "common.schema.json#/$defs/RequestId" },
+    "call": { "const": "s07_candidates" },
+    "status": { "type": "string", "enum": ["ok", "failed"] }
+  },
+  "if": { "properties": { "status": { "const": "failed" } } },
+  "then": {
+    "required": ["error"],
+    "properties": { "request_id": true, "call": true, "status": true, "error": { "$ref": "common.schema.json#/$defs/ErrorBody" } },
+    "additionalProperties": false
+  },
+  "else": {
+    "required": ["model_version", "candidates"],
+    "properties": {
+      "request_id": true, "call": true, "status": true,
+      "model_version": { "type": "string" },
+      "candidates": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["candidate_key", "work", "hazard"],
+          "properties": {
+            "candidate_key": { "type": "string", "minLength": 1 },
+            "work": { "type": "string", "minLength": 1 },
+            "hazard": { "type": "string", "minLength": 1, "description": "후보 문구(예: 반죽기 회전부에 손 끼임)" },
+            "accident_type": { "type": ["string", "null"] }
+          }
+        }
+      }
+    },
+    "additionalProperties": false
+  }
+}

@@ -1,0 +1,145 @@
+﻿industry,industry_name,order,equipment_id,standard_name,basis_type,basis_note
+chicken,치킨,1,EQ_FRYER,튀김기,업종근거,D8 p264
+chicken,치킨,2,EQ_OVEN,오븐,업종근거,D8 p264
+chicken,치킨,3,EQ_KNIFE_BOARD,칼·도마,업종근거,D8 p263
+chicken,치킨,4,EQ_SCISSORS,주방가위,업종근거,D8 p263
+chicken,치킨,5,EQ_VEG_CUTTER,채소절단기,업종근거,D8 p263
+chicken,치킨,6,EQ_MIXER,혼합기·믹서기,업종근거,D8 p263-264
+chicken,치킨,7,EQ_DISHWASHER,식기세척기,업종근거,D8 p266
+chicken,치킨,8,EQ_STERILIZER,식기소독기,업종근거,D8 p266
+chicken,치킨,9,EQ_WASTE_OIL_CONTAINER,폐유통,업종근거,D8 p266
+chicken,치킨,10,EQ_REFRIGERATOR,업소용 냉장·냉동고,업종근거,D8 p263
+chicken,치킨,11,EQ_CART,운반대차,업종근거,D8 p262
+chicken,치킨,12,EQ_SHELF,적재 선반,업종근거,D8 p263
+chicken,치킨,13,EQ_MOTORCYCLE,배달 이륜차,업종근거,D8 p265
+chicken,치킨,14,EQ_GAS_RANGE,가스레인지,공통근거,CHK p6. 화면설계서 p9 치킨 예시에도 있음
+chicken,치킨,15,EQ_EXHAUST_HOOD,배기후드,공통근거,CHK p8
+chicken,치킨,16,EQ_LADDER,사다리·작업발판,공통근거,CHK p3-4
+chicken,치킨,17,EQ_GAS_CYLINDER,가스용기(LPG·부탄),공통근거,CHK p12
+chicken,치킨,18,EQ_ELECTRIC_PANEL,전기설비(분전반·콘센트·멀티탭),공통근거,"사례 CASE_A p15·p18, CASE_N p42"
+chicken,치킨,19,EQ_GRILL,그릴,제안,사진 관찰(BBQ 행당점)
+chicken,치킨,20,EQ_MICROWAVE,전자레인지,제안,"사진 관찰(bhc 휘경점, BBQ 영상)"
+chicken,치킨,21,EQ_RICE_COOKER,취반기·밥솥,제안,사진 관찰(교촌 용답점)
+chicken,치킨,22,EQ_COOKING_ROBOT,조리 로봇,제안,사진 관찰
+chicken,치킨,23,EQ_MARINATOR,염지기,제안,화면설계서 예시
+chicken,치킨,24,EQ_ICE_MAKER,제빙기,제안,
+chicken,치킨,25,EQ_WATER_HEATER,온수기,제안,화면설계서 예시
+chicken,치킨,26,EQ_BEER_DISPENSER,생맥주 디스펜서,제안,사진 관찰 추정
+chicken,치킨,27,EQ_SINK,세척대(싱크대),제안,설거지 작업 근거 D8 p266
+chicken,치킨,28,EQ_DISPLAY_COOLER,쇼케이스 냉장고,제안,사진 관찰(bhc 휘경점)
+bunsik,분식,1,EQ_GAS_RANGE,가스레인지,공통근거,CHK p6
+bunsik,분식,2,EQ_DISHWASHER,식기세척기,공통근거,CHK p8
+bunsik,분식,3,EQ_EXHAUST_HOOD,배기후드,공통근거,CHK p8
+bunsik,분식,4,EQ_REFRIGERATOR,업소용 냉장·냉동고,공통근거,CHK p10
+bunsik,분식,5,EQ_CART,운반대차,공통근거,CHK p10
+bunsik,분식,6,EQ_SHELF,적재 선반,공통근거,CHK p10
+bunsik,분식,7,EQ_LADDER,사다리·작업발판,공통근거,CHK p3-4
+bunsik,분식,8,EQ_MOTORCYCLE,배달 이륜차,공통근거,CHK p9
+bunsik,분식,9,EQ_GAS_CYLINDER,가스용기(LPG·부탄),공통근거,CHK p12
+bunsik,분식,10,EQ_ELECTRIC_PANEL,전기설비(분전반·콘센트·멀티탭),공통근거,"사례 CASE_A p15·p18, CASE_N p42"
+bunsik,분식,11,EQ_FRYER,튀김기,제안,분식 근거 없음. 튀김 메뉴 가정
+bunsik,분식,12,EQ_MICROWAVE,전자레인지,제안,
+bunsik,분식,13,EQ_RICE_COOKER,취반기·밥솥,제안,김밥·덮밥 메뉴 가정
+bunsik,분식,14,EQ_SOUP_KETTLE,국솥,제안,국물 메뉴 가정
+bunsik,분식,15,EQ_GRIDDLE,철판(그리들),제안,
+bunsik,분식,16,EQ_STEAMER,찜기,제안,
+bunsik,분식,17,EQ_ODEN_WARMER,어묵 보온기,제안,
+bunsik,분식,18,EQ_PORTABLE_BURNER,휴대용 가스버너,제안,즉석 메뉴 가정
+bunsik,분식,19,EQ_KNIFE_BOARD,칼·도마,제안,
+bunsik,분식,20,EQ_SCISSORS,주방가위,제안,
+bunsik,분식,21,EQ_VEG_CUTTER,채소절단기,제안,
+bunsik,분식,22,EQ_MIXER,혼합기·믹서기,제안,
+bunsik,분식,23,EQ_DOUGH_MIXER,반죽기,제안,D8 중식 p255 참고(면·만두 반죽 가정)
+bunsik,분식,24,EQ_NOODLE_MACHINE,제면기,제안,D8 중식 p253-255 참고(면 메뉴 가정)
+bunsik,분식,25,EQ_WATER_HEATER,온수기,제안,
+bunsik,분식,26,EQ_STERILIZER,식기소독기,제안,
+bunsik,분식,27,EQ_SINK,세척대(싱크대),제안,
+bunsik,분식,28,EQ_DISPLAY_COOLER,쇼케이스 냉장고,제안,
+cafe,카페,1,EQ_KNIFE_BOARD,칼·도마,업종근거,D8 p267 칼(사무용). 조리용 칼은 아님
+cafe,카페,2,EQ_MIXER,혼합기·믹서기,업종근거,D8 p268
+cafe,카페,3,EQ_COFFEE_MACHINE,커피머신,업종근거,D8 p268-269
+cafe,카페,4,EQ_COFFEE_GRINDER,커피 그라인더,업종근거,D8 p268
+cafe,카페,5,EQ_DISHWASHER,식기세척기,업종근거,D8 p270
+cafe,카페,6,EQ_STERILIZER,식기소독기,업종근거,D8 p270
+cafe,카페,7,EQ_REFRIGERATOR,업소용 냉장·냉동고,업종근거,D8 p267
+cafe,카페,8,EQ_CART,운반대차,업종근거,D8 p267
+cafe,카페,9,EQ_SHELF,적재 선반,업종근거,D8 p268
+cafe,카페,10,EQ_LADDER,사다리·작업발판,공통근거,CHK p3-4
+cafe,카페,11,EQ_MOTORCYCLE,배달 이륜차,공통근거,CHK p9
+cafe,카페,12,EQ_ELECTRIC_PANEL,전기설비(분전반·콘센트·멀티탭),공통근거,"사례 CASE_A p15·p18, CASE_N p42"
+cafe,카페,13,EQ_OVEN,오븐,제안,D8 제과제빵 p273-274 참고. 커피 절에는 없음
+cafe,카페,14,EQ_MICROWAVE,전자레인지,제안,D8 제과제빵 p274 참고
+cafe,카페,15,EQ_DOUGH_MIXER,반죽기,제안,D8 제과제빵 p272 참고
+cafe,카페,16,EQ_ICE_MAKER,제빙기,제안,
+cafe,카페,17,EQ_ICE_CRUSHER,쇄빙기·빙수기,제안,D8 제과제빵 p274 참고
+cafe,카페,18,EQ_WATER_HEATER,온수기,제안,
+cafe,카페,19,EQ_SINK,세척대(싱크대),제안,
+cafe,카페,20,EQ_DISPLAY_COOLER,쇼케이스 냉장고,제안,D8 제과제빵 p274 참고
+korean,한식,1,EQ_FRYER,튀김기,업종근거,D8 p250
+korean,한식,2,EQ_GAS_RANGE,가스레인지,업종근거,D8 p250
+korean,한식,3,EQ_OVEN,오븐,업종근거,D8 p250
+korean,한식,4,EQ_RICE_COOKER,취반기·밥솥,업종근거,D8 p250
+korean,한식,5,EQ_SOUP_KETTLE,국솥,업종근거,D8 p250
+korean,한식,6,EQ_KNIFE_BOARD,칼·도마,업종근거,D8 p249
+korean,한식,7,EQ_SCISSORS,주방가위,업종근거,D8 p249
+korean,한식,8,EQ_VEG_CUTTER,채소절단기,업종근거,D8 p249
+korean,한식,9,EQ_RICE_WASHER,세미기,업종근거,D8 p249
+korean,한식,10,EQ_DISHWASHER,식기세척기,업종근거,D8 p252
+korean,한식,11,EQ_STERILIZER,식기소독기,업종근거,D8 p252
+korean,한식,12,EQ_EXHAUST_HOOD,배기후드,업종근거,D8 p252-253 후드청소
+korean,한식,13,EQ_REFRIGERATOR,업소용 냉장·냉동고,업종근거,D8 p248
+korean,한식,14,EQ_CART,운반대차,업종근거,D8 p248
+korean,한식,15,EQ_SHELF,적재 선반,업종근거,D8 p248
+korean,한식,16,EQ_MOTORCYCLE,배달 이륜차,업종근거,D8 p251
+korean,한식,17,EQ_MEAT_SLICER,육절기,공통근거,D5 p69
+korean,한식,18,EQ_MIXER,혼합기·믹서기,공통근거,CHK p5
+korean,한식,19,EQ_WALKIN_COOLER,냉장·냉동창고,공통근거,"CHK p10, p14"
+korean,한식,20,EQ_LADDER,사다리·작업발판,공통근거,CHK p3-4
+korean,한식,21,EQ_DUMBWAITER,덤웨이터(간이리프트),공통근거,CHK p7
+korean,한식,22,EQ_GAS_CYLINDER,가스용기(LPG·부탄),공통근거,"CHK p12, 사례 p16-17"
+korean,한식,23,EQ_ELECTRIC_PANEL,전기설비(분전반·콘센트·멀티탭),공통근거,"사례 CASE_A p15·p18, CASE_N p42"
+korean,한식,24,EQ_GRILL,그릴,제안,구이 메뉴 가정
+korean,한식,25,EQ_GRIDDLE,철판(그리들),제안,
+korean,한식,26,EQ_STEAMER,찜기,제안,
+korean,한식,27,EQ_PORTABLE_BURNER,휴대용 가스버너,제안,홀 조리 메뉴 가정
+korean,한식,28,EQ_NOODLE_MACHINE,제면기,제안,
+korean,한식,29,EQ_SINK,세척대(싱크대),제안,설거지 작업 근거 D8 p252
+korean,한식,30,EQ_WASTE_OIL_CONTAINER,폐유통,제안,D8 p252 폐유 운반 작업 참고
+korean,한식,31,EQ_DISPLAY_COOLER,쇼케이스 냉장고,제안,
+other,기타,1,EQ_FRYER,튀김기,공통근거,CHK p6
+other,기타,2,EQ_GAS_RANGE,가스레인지,공통근거,CHK p6
+other,기타,3,EQ_SOUP_KETTLE,국솥,공통근거,CHK p6
+other,기타,4,EQ_KNIFE_BOARD,칼·도마,공통근거,D5 p69
+other,기타,5,EQ_VEG_CUTTER,채소절단기,공통근거,CHK p5
+other,기타,6,EQ_MEAT_SLICER,육절기,공통근거,"D5 p69, CHK p5"
+other,기타,7,EQ_MIXER,혼합기·믹서기,공통근거,CHK p5
+other,기타,8,EQ_DOUGH_MIXER,반죽기,공통근거,CHK p5
+other,기타,9,EQ_NOODLE_MACHINE,제면기,공통근거,CHK p5
+other,기타,10,EQ_DISHWASHER,식기세척기,공통근거,CHK p8
+other,기타,11,EQ_EXHAUST_HOOD,배기후드,공통근거,CHK p8
+other,기타,12,EQ_REFRIGERATOR,업소용 냉장·냉동고,공통근거,CHK p10
+other,기타,13,EQ_WALKIN_COOLER,냉장·냉동창고,공통근거,"CHK p10, p14"
+other,기타,14,EQ_CART,운반대차,공통근거,CHK p10
+other,기타,15,EQ_SHELF,적재 선반,공통근거,CHK p10
+other,기타,16,EQ_LADDER,사다리·작업발판,공통근거,CHK p3-4
+other,기타,17,EQ_DUMBWAITER,덤웨이터(간이리프트),공통근거,CHK p7
+other,기타,18,EQ_MOTORCYCLE,배달 이륜차,공통근거,CHK p9
+other,기타,19,EQ_GAS_CYLINDER,가스용기(LPG·부탄),공통근거,CHK p12
+other,기타,20,EQ_ELECTRIC_PANEL,전기설비(분전반·콘센트·멀티탭),공통근거,"사례 CASE_A p15·p18, CASE_N p42"
+other,기타,21,EQ_OVEN,오븐,제안,공통 점검표에 없음
+other,기타,22,EQ_GRILL,그릴,제안,
+other,기타,23,EQ_MICROWAVE,전자레인지,제안,
+other,기타,24,EQ_RICE_COOKER,취반기·밥솥,제안,
+other,기타,25,EQ_GRIDDLE,철판(그리들),제안,
+other,기타,26,EQ_STEAMER,찜기,제안,
+other,기타,27,EQ_PORTABLE_BURNER,휴대용 가스버너,제안,
+other,기타,28,EQ_SCISSORS,주방가위,제안,
+other,기타,29,EQ_RICE_WASHER,세미기,제안,
+other,기타,30,EQ_ICE_MAKER,제빙기,제안,
+other,기타,31,EQ_ICE_CRUSHER,쇄빙기·빙수기,제안,
+other,기타,32,EQ_WATER_HEATER,온수기,제안,
+other,기타,33,EQ_BEER_DISPENSER,생맥주 디스펜서,제안,
+other,기타,34,EQ_STERILIZER,식기소독기,제안,
+other,기타,35,EQ_SINK,세척대(싱크대),제안,
+other,기타,36,EQ_WASTE_OIL_CONTAINER,폐유통,제안,
+other,기타,37,EQ_DISPLAY_COOLER,쇼케이스 냉장고,제안,

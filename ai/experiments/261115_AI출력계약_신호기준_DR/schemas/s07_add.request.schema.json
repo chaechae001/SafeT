@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://safe-t.local/schemas/s07_add.request.schema.json",
+  "title": "S07 선택한 항목 추가 요청",
+  "description": "24·25쪽. 사용자가 체크한 후보만 보낸다(1개 이상). 기존 항목은 바꾸지 않고 리스트 끝에 붙인다.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["request_id", "assessment_id", "industry", "selected_candidates"],
+  "properties": {
+    "request_id": { "$ref": "common.schema.json#/$defs/RequestId" },
+    "assessment_id": { "type": "string" },
+    "criteria_version": { "type": ["string", "null"] },
+    "industry": { "type": "string" },
+    "equipment": { "type": "array", "items": { "type": "string" } },
+    "keyword": { "type": "string" },
+    "selected_candidates": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["candidate_key", "work", "hazard"],
+        "properties": {
+          "candidate_key": { "type": "string" },
+          "work": { "type": "string" },
+          "hazard": { "type": "string" },
+          "accident_type": { "type": ["string", "null"] }
+        }
+      }
+    }
+  }
+}

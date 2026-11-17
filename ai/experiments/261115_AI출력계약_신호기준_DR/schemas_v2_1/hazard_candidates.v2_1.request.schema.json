@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://safe-t.local/schemas/v2_1/hazard_candidates.v2_1.request.schema.json",
+  "title": "(b) 기기별 위험요인 후보 추천 요청 (흐름 ③, 백엔드 → LLM 서비스)",
+  "description": "사용자가 확정한 기기(user_action != removed)만 보낸다. 사진은 보내지 않는다(사진 분석은 기기 식별만 담당). 작성자·참여자 이름 등 개인정보는 넣지 않는다.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "request_id",
+    "assessment_id",
+    "industry",
+    "kb_version",
+    "equipment"
+  ],
+  "properties": {
+    "request_id": {
+      "$ref": "common.v2_1.schema.json#/$defs/RequestId"
+    },
+    "assessment_id": {
+      "type": "string"
+    },
+    "industry": {
+      "type": "string",
+      "minLength": 1
+    },
+    "kb_version": {
+      "type": "string",
+      "description": "검색할 위험성평가 데이터(RAG 지식베이스) 버전"
+    },
+    "max_candidates_per_equipment": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 1,
+      "description": "기기당 후보 상한. 값은 팀 결정 필요"
+    },
+    "equipment": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "equipment_id",
+          "display_name"
+        ],
+        "properties": {
+          "equipment_id": {
+            "oneOf": [
+              {
+                "$ref": "common.v2_1.schema.json#/$defs/EquipmentId"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "display_name": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "work_keyword": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "기기와 무관한 작업 위험 추천용 키워드(v3.19 S07 키워드 추가에 해당). 사용 여부 팀 결정 필요"
+    },
+    "exclude_candidate_keys": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "이미 평가표에 있는 '기기+위험요인' 조합 키. 중복 후보 제외용"
+    }
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://safe-t.local/schemas/v2/user_selection.v2.schema.json",
+  "title": "(c) 사용자 선택 결과 (흐름 ④, 화면 → 백엔드)",
+  "description": "사용자가 고른 위험요인과 직접 고른 발생 가능성·중대성, 선택한 대책. 모든 판단 값의 출처는 사용자다. 등급 값이 척도 범위 안인지는 서버가 scale_id 설정으로 검사한다.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["assessment_id", "scale_id", "scale_version", "candidates_request_id", "selections"],
+  "properties": {
+    "assessment_id": { "type": "string" },
+    "scale_id": { "type": "string", "description": "risk_rule_config.v2의 scale_id" },
+    "scale_version": { "type": "string" },
+    "candidates_request_id": { "type": ["string", "null"], "description": "후보를 받은 hazard_candidates 요청 ID. 후보 없이 직접 입력만 했으면 null" },
+    "selections": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["selection_id", "phase", "equipment_id", "origin", "hazard", "accident_type", "likelihood", "severity", "current_measures", "selected_measures", "decided_by", "decided_at"],
+        "properties": {
+          "selection_id": { "type": "string", "minLength": 1 },
+          "phase": {
+            "type": "string",
+            "enum": ["before_measures", "after_measures"],
+            "description": "before_measures=평가 시점(현재 조치 반영). after_measures=대책 실행 후 다시 고른 값(v3.19 조치 후 신호 대체안)"
+          },
+          "parent_selection_id": { "type": ["string", "null"], "description": "after_measures일 때 원래 항목 ID" },
+          "equipment_id": { "oneOf": [{ "$ref": "common.v2.schema.json#/$defs/EquipmentId" }, { "type": "null" }] },
+          "origin": { "type": "string", "enum": ["ai_candidate", "user_custom"] },
+          "candidate_id": { "type": ["string", "null"], "description": "ai_candidate이면 필수" },
+          "hazard": { "type": "string", "minLength": 1 },
+          "hazard_edited": { "type": "boolean", "description": "AI 후보 문구를 사용자가 고쳤는지" },
+          "accident_type": { "$ref": "common.v2.schema.json#/$defs/AccidentType" },
+          "source_refs": { "type": "array", "items": { "$ref": "common.v2.schema.json#/$defs/SourceRef" }, "description": "후보의 출처 사본(평가서 근거 표시용)" },
+          "likelihood": { "$ref": "common.v2.schema.json#/$defs/ScaleLevel" },
+          "severity": { "$ref": "common.v2.schema.json#/$defs/ScaleLevel" },
+          "current_measures": { "type": "array", "items": { "type": "string", "minLength": 1 }, "description": "현재 시행 중인 조치. 가능성·중대성은 현재 조치를 고려해 고른다(23년 안내서 61쪽)" },
+          "selected_measures": { "type": "array", "items": { "$ref": "common.v2.schema.json#/$defs/UserMeasure" } },
+          "owner_name": { "type": ["string", "null"] },
+          "due_date": { "type": ["string", "null"], "format": "date" },
+          "decided_by": { "const": "user" },
+          "decided_at": { "$ref": "common.v2.schema.json#/$defs/IsoDateTime" }
+        },
+        "allOf": [
+          { "if": { "properties": { "origin": { "const": "ai_candidate" } } }, "then": { "required": ["candidate_id"], "properties": { "candidate_id": { "type": "string", "minLength": 1 } } } },
+          { "if": { "properties": { "phase": { "const": "after_measures" } } }, "then": { "required": ["parent_selection_id"], "properties": { "parent_selection_id": { "type": "string" } } } }
+        ]
+      }
+    }
+  }
+}

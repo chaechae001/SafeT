@@ -1,0 +1,100 @@
+{
+  "request_id": "6f1c2a90-0d4e-4b8e-9a51-000000000001",
+  "call": "s04_draft",
+  "status": "partial",
+  "model_version": "safet-draft-EXAMPLE-0.1",
+  "criteria_version": null,
+  "generated_at": "2026-11-15T14:20:05+09:00",
+  "warnings": ["[예시 데이터] 화면설계서 20·23쪽 예시 문구를 옮긴 합성 예시이며 실제 현장 판정이 아님"],
+  "items": [
+    {
+      "item_key": "draft-1",
+      "work": "튀김 조리",
+      "location": "주방 튀김기 앞",
+      "hazard": "고온 기름 튐에 의한 화상",
+      "accident_type": "화상",
+      "cause": "물기 있는 재료 투입 시 기름이 튐 · 바스켓을 꺼낼 때 기름이 손에 떨어짐",
+      "description": "뜨거운 기름이 튀어 손과 팔에 닿음",
+      "equipment_refs": ["eq-fryer"],
+      "evidence_refs": ["photo-1", "text"],
+      "signal": "red",
+      "signal_source": "ai",
+      "signal_reason": "[예시] 고온의 기름을 매일 반복 사용하고 현재 조치가 일부만 있어 화상 가능성과 정도가 높다고 판단했어요.",
+      "model_version": "safet-draft-EXAMPLE-0.1",
+      "criteria_version": null,
+      "judged_at": "2026-11-15T14:20:03+09:00",
+      "off_reason_code": null,
+      "basis": { "method": "three_level", "level": "high", "frequency": null, "severity": null, "tolerable": false, "matched_rules": [] },
+      "laws": [
+        {
+          "law_id": null,
+          "law_name": "산업안전보건기준에 관한 규칙",
+          "article_no": "제32조",
+          "article_title": "보호구의 지급 등",
+          "summary": "[예시 데이터] 응답 형식 설명용. 실제 표시는 법령 검증 절차를 통과한 조항만.",
+          "source_url": "https://www.law.go.kr/법령/산업안전보건기준에관한규칙",
+          "verified": true,
+          "verified_at": "2026-11-15T14:20:02+09:00"
+        }
+      ],
+      "current_measure_candidates": [
+        { "candidate_id": "cm-1", "text": "긴 집게를 사용한다" },
+        { "candidate_id": "cm-2", "text": "재료의 물기를 제거한다" },
+        { "candidate_id": "cm-3", "text": "적합한 보호구를 착용한다" }
+      ],
+      "recommendation_status": "ok",
+      "recommended_measures": [
+        { "measure_id": "rm-1", "text": "투입 전 재료 물기 제거", "control_type": "administrative" },
+        { "measure_id": "rm-2", "text": "적합한 손·팔 보호구 착용", "control_type": "ppe" },
+        { "measure_id": "rm-3", "text": "튀김기 주변 비산 방지판 설치", "control_type": "engineering" }
+      ]
+    },
+    {
+      "item_key": "draft-3",
+      "work": "칼 보관",
+      "location": null,
+      "hazard": "칼날 접촉에 의한 베임",
+      "accident_type": "베임",
+      "cause": "칼을 꺼내거나 넣을 때 칼날에 손이 닿음",
+      "description": "칼 보관 중 칼날에 손이 베임",
+      "signal": "green",
+      "signal_source": "ai",
+      "signal_reason": "[예시] 칼집·칼꽂이 보관이 확인되어 현재 상태를 유지 관리하면 된다고 판단했어요.",
+      "model_version": "safet-draft-EXAMPLE-0.1",
+      "criteria_version": null,
+      "judged_at": "2026-11-15T14:20:03+09:00",
+      "off_reason_code": null,
+      "laws": [],
+      "current_measure_candidates": [
+        { "candidate_id": "cm-7", "text": "칼집·칼꽂이에 보관한다" },
+        { "candidate_id": "cm-8", "text": "사용 후 바로 세척·보관한다" }
+      ],
+      "recommendation_status": "ok",
+      "recommended_measures": [
+        { "measure_id": "rm-7", "text": "칼 보관대에 칼날 덮개 사용", "control_type": "engineering" },
+        { "measure_id": "rm-8", "text": "칼 사용 구역 표시", "control_type": "administrative" },
+        { "measure_id": "rm-9", "text": "베임 방지 장갑 비치", "control_type": "ppe" }
+      ]
+    },
+    {
+      "item_key": "draft-6",
+      "work": "바닥 청소",
+      "location": "주방 바닥",
+      "hazard": "젖은 바닥에서 미끄러짐",
+      "accident_type": "넘어짐",
+      "cause": "청소 후 물기가 남은 바닥을 걸음",
+      "description": "물기 있는 바닥에서 미끄러져 넘어짐",
+      "signal": "off",
+      "signal_source": "ai",
+      "signal_reason": "신호를 판단하지 못했어요. 다시 판단을 눌러 주세요.",
+      "model_version": "safet-draft-EXAMPLE-0.1",
+      "criteria_version": null,
+      "judged_at": "2026-11-15T14:20:04+09:00",
+      "off_reason_code": "invalid_output",
+      "laws": [],
+      "current_measure_candidates": [],
+      "recommendation_status": "not_applicable",
+      "recommended_measures": []
+    }
+  ]
+}
