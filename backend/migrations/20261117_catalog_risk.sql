@@ -1,0 +1,18 @@
+CREATE TABLE IF NOT EXISTS risk_catalog (
+ scenario_id VARCHAR(60) NOT NULL,
+ version VARCHAR(40) NOT NULL,
+ payload LONGTEXT NOT NULL,
+ PRIMARY KEY (scenario_id, version)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+ALTER TABLE eval_dtl ADD COLUMN IF NOT EXISTS catalog_state LONGTEXT NULL;
+CREATE TABLE IF NOT EXISTS risk_event (
+ event_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+ eval_no INT NOT NULL,
+ item_id INT NOT NULL,
+ revision INT NOT NULL,
+ kind VARCHAR(30) NOT NULL,
+ actor VARCHAR(100) NOT NULL,
+ payload LONGTEXT NOT NULL,
+ created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ INDEX ix_risk_event_eval (eval_no, revision)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

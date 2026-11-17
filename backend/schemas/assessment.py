@@ -29,6 +29,7 @@ class Photo(StrictModel):
         return value
 
 class CreateAssessment(StrictModel):
+    catalog_ids: list[Annotated[str, Field(min_length=1, max_length=60)]] = Field(default_factory=list, max_length=100)
     request_key: UUID
     work_no: int = Field(gt=0)
     eval_dt: date
@@ -40,7 +41,7 @@ class CreateAssessment(StrictModel):
 
     @model_validator(mode='after')
     def inputs(self):
-        if not (self.text or self.voice_text or self.photos): raise ValueError('사진·전사문·글 중 하나 이상 필요합니다.')
+        if not (self.text or self.voice_text or self.photos or self.catalog_ids): raise ValueError('사진·전사문·글 또는 DB 작업 선택이 필요합니다.')
         if len(self.members) != len(set(self.members)): raise ValueError('참여자 이름이 중복됩니다.')
         return self
 
@@ -79,7 +80,7 @@ class RiskAnswer(StrictModel):
     question_id: str = Field(min_length=1,max_length=100)
     answer: str = Field(min_length=1,max_length=2000)
 
-class RiskAnswers(StrictModel):
+class AnswerRisk(StrictModel):
     revision: int = Field(ge=1)
     answers: list[RiskAnswer] = Field(default_factory=list,max_length=100)
     additional_text: str = Field(default='',max_length=10000)

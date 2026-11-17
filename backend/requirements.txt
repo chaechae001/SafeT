@@ -30,4 +30,3 @@ PyJWT==2.10.1
 pytest==8.3.5
 # 테스트에서 API 호출 (FastAPI TestClient)
 httpx==0.28.1
-jsonschema==4.26.0
