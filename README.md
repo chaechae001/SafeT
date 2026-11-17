@@ -9,7 +9,7 @@
 - 서버: Python 3.11·FastAPI
 - Python: 3.11 고정(`.python-version`). 예외: SAM 3는 Python 3.12 이상이 필요해 별도 venv/컨테이너로 실행하고, 본체(3.11)와는 탐지 결과 JSON으로만 연결한다.
 - DB: MariaDB·ChromaDB
-- AI: Qwen 2.5-VL-3B (변경 가능)
+- AI: EXAONE 3.5 7.8B Instruct AWQ (변경 가능)
 
 ## 구조
 
