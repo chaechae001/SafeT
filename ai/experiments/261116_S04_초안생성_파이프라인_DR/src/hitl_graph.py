@@ -338,6 +338,7 @@ class State(TypedDict, total=False):
     response: dict             # 계약 hazard_candidates.v2.response
     filter_log: list[dict]
     user_selection: dict       # 계약 user_selection.v2_1
+    selection_errors: list[str]  # 선택 입력 검증 오류. 있으면 위험도 계산 없이 다시 선택을 요청한다
     risk_result: dict          # 계약 risk_result.v2_1
     checks: dict               # 단계별 스키마 검사 결과
     trace: list[str]
@@ -537,19 +538,19 @@ class HitlGraph:
                          "candidates": [{"candidate_id": c["candidate_id"], "hazard": c["hazard"], "accident_type": c["accident_type"],
                                          "rationale": c["rationale"], "measures": [m["measure_id"] for m in c["measure_candidates"]],
                                          "catalog_scenario_ids": c.get("catalog_scenario_ids", [])} for _, c in cands],
-                         "flagged": [x["candidate_id"] for x in s.get("filter_log", [])]})
+                         "flagged": [x["candidate_id"] for x in s.get("filter_log", [])],
+                         "errors": s.get("selection_errors") or []})
         cmap = {c["candidate_id"]: (g["equipment_id"], c) for g, c in cands}
-        sels = []
-        for i, a in enumerate(ans["selections"], 1):
+        sels, errs = [], []
+        for i, a in enumerate(ans.get("selections") or [], 1):
+            e = selection_errors(a, cmap, self.risk)
+            if e:
+                errs += [f"선택 {i}({a.get('candidate_id')}): {x}" for x in e]
+                continue
             eid, c = cmap[a["candidate_id"]]
             ms = {m["measure_id"]: m for m in c["measure_candidates"]}
             sid = a.get("catalog_scenario_id")
-            if sid is not None and sid not in self.risk.scenarios:
-                raise ValueError(f"카탈로그에 없는 시나리오: {sid}")
-            known = {x["id"] for x in self.risk.controls(sid)} if sid else set()
-            cur, plan = a.get("current_control_ids", []), a.get("plan_control_ids", [])
-            if (set(cur) | set(plan)) - known:
-                raise ValueError(f"시나리오 {sid}에 없는 조치 ID: {sorted((set(cur) | set(plan)) - known)}")
+            cur, plan = a.get("current_control_ids") or [], a.get("plan_control_ids") or []
             sels.append({"selection_id": f"sel-{i}", "equipment_id": eid,
                          "origin": "ai_candidate", "candidate_id": c["candidate_id"], "hazard": c["hazard"], "hazard_edited": False,
                          "accident_type": c["accident_type"], "source_refs": c["source_refs"],
@@ -560,8 +561,11 @@ class HitlGraph:
                          "owner_name": None, "due_date": None, "decided_by": "user", "decided_at": ans.get("decided_at") or now_kst()})
         us = {"assessment_id": s["assessment_id"], "policy_version": self.risk.policy,
               "candidates_request_id": s["request"]["request_id"], "selections": sels}
-        return {"user_selection": us, "checks": {**s["checks"], "user_selection.v2_1": validate("user_selection.v2_1.schema.json", us)},
-                "trace": s["trace"] + [f"select_and_rate: {len(sels)} selections"]}
+        schema_errs = validate("user_selection.v2_1.schema.json", us)
+        errs += [f"계약 user_selection.v2_1: {x}" for x in schema_errs]
+        return {"user_selection": us, "selection_errors": errs,
+                "checks": {**s["checks"], "user_selection.v2_1": schema_errs},
+                "trace": s["trace"] + [f"select_and_rate: {len(sels)} selections" + (f", {len(errs)} errors → 다시 선택" if errs else "")]}
 
     def risk_rule(self, s: State) -> dict:
         """백엔드 정책(CATALOG-MVP-1.0)으로 현재·예상 위험도를 계산한다. 노드 이름은 이전 그래프와 맞추려고 유지."""
@@ -597,9 +601,34 @@ class HitlGraph:
         g.add_conditional_edges("assemble", lambda s: "stop" if s["checks"]["hazard_candidates.v2_1.response"] else "ok",
                                 {"ok": "rationale_filter", "stop": END})
         g.add_edge("rationale_filter", "select_and_rate")
-        g.add_edge("select_and_rate", "risk_rule")
+        # 선택 입력 검증 실패면 위험도를 계산하지 않고 다시 선택을 요청한다
+        g.add_conditional_edges("select_and_rate", lambda s: "retry" if s.get("selection_errors") else "ok",
+                                {"ok": "risk_rule", "retry": "select_and_rate"})
         g.add_edge("risk_rule", END)
         return g.compile(checkpointer=checkpointer or InMemorySaver())
+
+def selection_errors(a: dict, cmap: dict, risk) -> list[str]:
+    """사람 선택 1건의 입력 검증. 오류 문장 목록을 돌려준다(빈 목록이면 정상)."""
+    if a.get("candidate_id") not in cmap:
+        return ["화면에 없는 후보입니다."]
+    sid = a.get("catalog_scenario_id")
+    cur, plan = a.get("current_control_ids") or [], a.get("plan_control_ids") or []
+    if sid is not None and sid not in risk.scenarios:
+        return [f"카탈로그에 없는 위험 상황입니다: {sid}"]
+    errs = []
+    if sid is None and (cur or plan):
+        errs.append("위험 상황(카탈로그)을 고르지 않고 조치를 골랐습니다.")
+    known = {x["id"] for x in risk.controls(sid)} if sid else set()
+    if sid and (set(cur) | set(plan)) - known:
+        errs.append(f"이 위험 상황에 없는 조치입니다: {sorted((set(cur) | set(plan)) - known)}")
+    if a.get("no_current_controls") and cur:
+        errs.append("'현재 조치 없음'과 현재 조치를 함께 골랐습니다. 둘 중 하나만 고르세요.")
+    if set(cur) & set(plan):
+        errs.append(f"같은 조치를 현재 조치와 개선 계획에 함께 골랐습니다: {sorted(set(cur) & set(plan))}")
+    if len(set(cur)) != len(cur) or len(set(plan)) != len(plan):
+        errs.append("같은 조치를 두 번 골랐습니다.")
+    return errs
+
 
 def synthetic_answer(shown: dict, cand: dict, cur_n: int = 0, plan_rest: bool = False, none: bool = False, measures: int = 0) -> dict:
     """시험용 합성 사람 입력. 첫 번째 연결 시나리오를 고르고, 핵심 조치 앞 cur_n개를 현재 조치로, 나머지를 계획으로 둔다.

@@ -48,12 +48,52 @@ def run(name: str, init: dict) -> dict:
             "risk": [(x["catalog_scenario_id"], x["status"], x["grade"], x["signal"]) for x in (r.get("risk_result") or {}).get("results", [])]}
 
 
+def run_invalid_then_fix() -> dict:
+    """잘못된 선택('현재 조치 없음' + 현재 조치)이면 위험도를 계산하지 않고 다시 선택을 요청하는지, 고친 뒤 계산되는지."""
+    from langgraph.types import Command
+    hg = HitlGraph(backend="replay")
+    app = hg.build()
+    cfg = {"configurable": {"thread_id": "inputs-invalid"}}
+    r = app.invoke({"assessment_id": "A-SYNTH-invalid", "trace": [], "checks": {}, **CASES["text"]}, cfg)
+    steps, errors_shown, risk_before_fix = [], None, None
+    fixed = False
+    while "__interrupt__" in r:
+        iv = r["__interrupt__"][0].value
+        steps.append(iv["step"])
+        if iv["step"] == "confirm_equipment":
+            ans = {"synthetic": True, "actions": [], "added": []}
+        else:
+            c = next(x for x in iv["candidates"] if x["catalog_scenario_ids"])
+            good = synthetic_answer(iv, c, cur_n=1)
+            if not fixed and not iv["errors"]:
+                ans = {"synthetic": True, "selections": [{**good, "no_current_controls": True}]}   # 모순 입력
+            else:
+                errors_shown = iv["errors"]
+                risk_before_fix = app.get_state(cfg).values.get("risk_result")
+                ans = {"synthetic": True, "selections": [good]}
+                fixed = True
+        r = app.invoke(Command(resume=ans), cfg)
+        if len(steps) > 6:
+            break
+    hg.close()
+    rr = (r.get("risk_result") or {}).get("results", [])
+    ok = (steps.count("select_and_rate") == 2 and bool(errors_shown) and risk_before_fix is None
+          and bool(rr) and all(x["status"] == "calculated" for x in rr))
+    return {"interrupts": steps, "errors_shown": errors_shown, "risk_before_fix": risk_before_fix,
+            "risk": [(x["catalog_scenario_id"], x["status"], x["grade"], x["signal"]) for x in rr], "ok": ok}
+
+
 def main():
     out = {k: run(k, v) for k, v in CASES.items()}
+    out["invalid_then_fix"] = run_invalid_then_fix()
     OUT.mkdir(parents=True, exist_ok=True)
     (OUT / "inputs_test.json").write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
+    inv = out.pop("invalid_then_fix")
     print(json.dumps({k: {x: v[x] for x in ("interrupts", "proposed", "origins", "schema_errors", "risk_status")} for k, v in out.items()}, ensure_ascii=False))
-    ok = all(not v["schema_errors"] and v["risk_status"] for v in out.values()) and out["voice"]["interrupts"][0] == "confirm_transcript"
+    print(json.dumps({"invalid_then_fix": inv}, ensure_ascii=False))
+    ok = (all(not v["schema_errors"] and v["risk_status"] for v in out.values()) and out["voice"]["interrupts"][0] == "confirm_transcript"
+          and inv["ok"])
+    out["invalid_then_fix"] = inv
     sys.exit(0 if ok else 1)
 
 

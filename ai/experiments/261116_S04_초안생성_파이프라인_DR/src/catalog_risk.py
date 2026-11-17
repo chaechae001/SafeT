@@ -62,6 +62,13 @@ class CatalogRisk:
                             "catalog_scenario_id": None, "severity": None, "control_band": None, "grade": None, "signal": "N",
                             "reason": "카탈로그에 없는 위험입니다. 판단이 필요합니다."})
                 continue
+            bad = self.input_errors(x)
+            if bad:   # 모순·잘못된 입력은 계산하지 않는다(그래프는 이 전에 다시 선택을 요청한다)
+                out.append({"selection_id": x["selection_id"], "phase": "current", "status": "needs_information",
+                            "catalog_scenario_id": sid if sid in self.scenarios else None, "severity": None,
+                            "control_band": None, "grade": None, "signal": "N",
+                            "reason": "입력을 다시 확인해야 합니다. " + " ".join(bad)})
+                continue
             scn = self.scenarios[sid]
             cur = set(x["current_control_ids"])
             answered = bool(x["no_current_controls"]) or bool(cur)
@@ -74,6 +81,22 @@ class CatalogRisk:
                 out.append(self._row(x["selection_id"], "expected", sid, e))
         return {"assessment_id": assessment_id, "computed_by": "backend_risk_policy", "policy_version": self.policy,
                 "computed_at": computed_at, "results": out}
+
+    def input_errors(self, x: dict) -> list[str]:
+        """계산 전 입력 검사: 없는 시나리오·조치, '현재 조치 없음'과 현재 조치 동시 선택, 현재·계획 중복."""
+        sid = x.get("catalog_scenario_id")
+        if sid not in self.scenarios:
+            return [f"카탈로그에 없는 위험 상황입니다({sid})."]
+        cur, plan = set(x.get("current_control_ids") or []), set(x.get("plan_control_ids") or [])
+        known = {c["id"] for c in self.scenarios[sid]["controls"]}
+        errs = []
+        if (cur | plan) - known:
+            errs.append("이 위험 상황에 없는 조치가 있습니다.")
+        if x.get("no_current_controls") and cur:
+            errs.append("'현재 조치 없음'과 현재 조치를 함께 골랐습니다.")
+        if cur & plan:
+            errs.append("같은 조치를 현재 조치와 개선 계획에 함께 골랐습니다.")
+        return errs
 
     @staticmethod
     def _row(sel_id, phase, sid, r):
@@ -93,13 +116,20 @@ def selftest() -> dict:
         {"selection_id": "t2", "catalog_scenario_id": "ENV", "current_control_ids": [], "no_current_controls": False, "plan_control_ids": []},
         {"selection_id": "t3", "catalog_scenario_id": "ENV", "current_control_ids": allc, "no_current_controls": False, "plan_control_ids": []},
         {"selection_id": "t4", "catalog_scenario_id": None, "current_control_ids": [], "no_current_controls": True, "plan_control_ids": []},
+        # 잘못된 입력: 계산하지 않고 needs_information
+        {"selection_id": "t5", "catalog_scenario_id": "ENV", "current_control_ids": crit[:1], "no_current_controls": True, "plan_control_ids": []},
+        {"selection_id": "t6", "catalog_scenario_id": "ENV", "current_control_ids": crit[:1], "no_current_controls": False, "plan_control_ids": crit[:1]},
+        {"selection_id": "t7", "catalog_scenario_id": "NOPE", "current_control_ids": [], "no_current_controls": True, "plan_control_ids": []},
     ]
     rr = cr.compute("A-SELFTEST", sels, "2026-11-17T00:00:00+09:00")
     got = [(r["selection_id"], r["phase"], r["status"], r["control_band"], r["grade"], r["signal"]) for r in rr["results"]]
     want = [("t1", "current", "calculated", 3, "상", "R"), ("t1", "expected", "calculated", 2, "중", "Y"),
             ("t2", "current", "needs_information", None, None, "N"),
             ("t3", "current", "calculated", 1, "중", "Y"),
-            ("t4", "current", "not_in_catalog", None, None, "N")]
+            ("t4", "current", "not_in_catalog", None, None, "N"),
+            ("t5", "current", "needs_information", None, None, "N"),
+            ("t6", "current", "needs_information", None, None, "N"),
+            ("t7", "current", "needs_information", None, None, "N")]
     m = {"튀김기 고온 기름 화상": cr.match("튀김기", "기름 교체 중 고온 기름이 튐"),
          "냉장고 앞 바닥 미끄러짐": cr.match("냉장고", "바닥이 미끄러워 넘어짐"),
          "염지기 손 끼임": cr.match("염지기", "회전부 청소 중 손 끼임")}
