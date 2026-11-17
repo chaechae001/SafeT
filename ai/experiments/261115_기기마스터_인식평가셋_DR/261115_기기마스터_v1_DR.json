@@ -1,0 +1,4650 @@
+{
+  "name": "Safe-T 업종별 기기 마스터 초안",
+  "version": "v1-draft",
+  "created_date_kst": "2026-11-16",
+  "status": "초안. 전문가·팀 검수 전. 확정 요구사항 아님.",
+  "screen_refs": [
+    "화면설계서 v3.19 p9(B02)",
+    "p14(S03)",
+    "p34(business_equipment, ai_found)"
+  ],
+  "usage": {
+    "B02": "industry_lists[업종].items를 미체크 상태로 불러온다(source=db).",
+    "S03": "비전 인식 결과의 equipment_id는 equipment[] 안의 값만 쓴다."
+  },
+  "id_rule": "EQ_ + 영문 대문자 스네이크. 한 번 배포한 ID는 바꾸지 않는다(폐기 시 deprecated 표시 제안).",
+  "basis_types": {
+    "업종근거": "D8 해당 업종 절에 기기가 명시됨(치킨→치킨, 카페→커피, 한식→한식).",
+    "공통근거": "음식점업 공통 자료(CHK·D5·사례)에 있음. 이 업종 목록에 넣는 판단은 프로젝트 제안이며 검수 필요.",
+    "제안": "이 업종에 대한 근거 자료 없음. 다른 업종 근거·사진 관찰·화면 예시를 참고한 제안."
+  },
+  "hazard_codes": {
+    "slip": "미끄러짐·넘어짐",
+    "cut": "베임·절단·끼임",
+    "burn": "고온 접촉·화상",
+    "fire": "화재",
+    "gas": "가스 누출·폭발",
+    "electric": "감전·전기 위험",
+    "chemical": "세척제·화학물질",
+    "ergonomic": "중량물·근골격계 부담",
+    "falling": "낙하·충돌·추락",
+    "respiratory": "조리흄·환기·유해가스 노출",
+    "traffic": "교통사고",
+    "noise_vibration": "소음·진동",
+    "heat_cold": "고열·한랭 노출",
+    "entrapment": "냉장·냉동실 갇힘"
+  },
+  "hazard_code_source": "261113_위험요인설정_검토_DR/261113_분야별_위험요인_설정_v1_DR.json (model_risk_types 10개 + additional_topics 4개)",
+  "sources": {
+    "CHK": {
+      "title": "음식점업 자율안전점검표",
+      "path": "RAG용/음식점업 자율안전점검표.pdf",
+      "page_basis": "PDF 쪽",
+      "note": "음식점업 공통 점검표. 업종 구분 없음.",
+      "rag_row_prefix": "261115_RAG_구조화표_v1_DR.jsonl row_id CHK-*"
+    },
+    "D8": {
+      "title": "프랜차이즈 가맹본부의 산재예방 조치 이행 실태조사 및 개선방안 마련 최종보고서",
+      "path": "RAG용/최종보고서_프랜차이즈 가맹본부의 산재예방 조치 이행 실태조사 및 개선방안 마련.pdf",
+      "page_basis": "PDF 쪽(인쇄 쪽 = PDF 쪽 - 24)",
+      "note": "VI장 업종별 안전보건 현장 가이드(한식 p247-253, 중식 p253-257, 피자 p258-261, 치킨 p262-266, 커피 p267-270, 제과제빵 p271-275). p96-97은 국외 레스토랑 가이드 정리.",
+      "rag_chunk_prefix": "D8-pNNN"
+    },
+    "D5": {
+      "title": "서비스업 재해사례 중심 위험성평가 방법 안내서(2023)",
+      "path": "RAG용/[2023-중소기업지원실-404]_[2023-중소기업지원실-404]서비스업+재해사례+중심+위험성평가+방법+안내서.pdf",
+      "page_basis": "PDF 쪽",
+      "note": "음식업 p58-73. 원문 글꼴 문제로 OCR 텍스트 사용. 오인식 가능, 원문 대조 필요.",
+      "rag_chunk_prefix": "D5-pNNN"
+    },
+    "CASE_A": {
+      "title": "노인인력개발원 안전보건관리 에센스(실제 사업장 위험성평가 사례)",
+      "path": "261113_restaurant_completed_assessments_DR/261113_노인인력개발원_안전보건관리에센스_원본_DR.pdf",
+      "page_basis": "PDF 쪽",
+      "note": "음식점·카페 사례. 261115_RAG_구조화표 row CASE-FOOD_A_*, CASE-CAFE_B_*"
+    },
+    "CASE_N": {
+      "title": "난정평화교육원 2025 위험성평가 결과(급식실)",
+      "path": "261113_restaurant_completed_assessments_DR/261113_난정평화교육원_2025_위험성평가결과_원본_DR.pdf",
+      "page_basis": "PDF 쪽",
+      "note": "급식실 사례. row CASE-KITCHEN_N_*"
+    },
+    "DESIGN": {
+      "title": "Safe-T 화면설계서 v3.19",
+      "path": "261115_SafeT_화면설계서_v3.19_통합본_SH_v3.pdf",
+      "page_basis": "PDF 쪽",
+      "note": "화면 예시. 안전 근거가 아니다. 제안 항목의 출처 표시용."
+    },
+    "PHOTO": {
+      "title": "실제사진 폴더 관찰",
+      "path": "실제사진/",
+      "note": "사진에서 기기 존재를 관찰한 것. 위험요인 근거가 아니다."
+    }
+  },
+  "excluded_candidates": {
+    "소화기·가스누설경보기·자동차단기": "안전장치·대책이므로 기기 목록에서 제외. 위험요인 대책 쪽에서 다룸.",
+    "세제·청소기·빵틀·피자샵": "D8 기계·기구 목록에 있으나 기기 인식·업종 목록 가치가 낮아 제외(제외 판단은 제안).",
+    "중화웍·피자반달칼": "중식·피자 전용. Safe-T 업종(치킨·분식·카페·한식·기타)에 해당 절 없음.",
+    "작업대·조리대": "거의 모든 사진에 있어 구분력이 낮음. 제외(제안)."
+  },
+  "equipment": [
+    {
+      "equipment_id": "EQ_FRYER",
+      "standard_name": "튀김기",
+      "area": "kitchen",
+      "synonyms": [
+        "프라이어",
+        "딥프라이어",
+        "튀김솥",
+        "전기튀김기",
+        "가스튀김기"
+      ],
+      "evidence_status": "근거있음",
+      "hazard_evidence_status": "근거있음",
+      "related_hazards": [
+        {
+          "code": "burn",
+          "name": "고온 접촉·화상",
+          "summary": "튀김기 열기·기름에 화상",
+          "refs": [
+            {
+              "src": "D8",
+              "page": 265,
+              "locator": "D8-p265-s1-c01"
+            },
+            {
+              "src": "D8",
+              "page": 250,
+              "locator": "D8-p250-s1-c01"
+            }
+          ],
+          "evidence": "근거있음"
+        },
+        {
+          "code": "fire",
+          "name": "화재",
+          "summary": "유류화재(식용유 착화)",
+          "refs": [
+            {
+              "src": "D8",
+              "page": 265,
+              "locator": ""
+            },
+            {
+              "src": "D5",
+              "page": 64,
+              "locator": "D5-p064-s1-c01"
+            }
+          ],
+          "evidence": "근거있음"
+        },
+        {
+          "code": "slip",
+          "name": "미끄러짐·넘어짐",
+          "summary": "튀김기 주변 바닥 기름으로 넘어짐",
+          "refs": [
+            {
+              "src": "D8",
+              "page": 265,
+              "locator": ""
+            }
+          ],
+          "evidence": "근거있음"
+        },
+        {
+          "code": "gas",
+          "name": "가스 누출·폭발",
+          "summary": "가스식 조리설비 배관·호스 누출",
+          "refs": [
+            {
+              "src": "CHK",
+              "page": 6,
+              "locator": "CHK-4-2-3-01"
+            }
+          ],
+          "evidence": "근거있음"
+        }
+      ],
+      "sources": [
+        {
+          "src": "CHK",
+          "page": 6,
+          "locator": "CHK-4-2-3 조리설비·기구(회전식 국솥, 튀김기 등)"
+        },
+        {
+          "src": "D8",
+          "page": 264,
+          "locator": "치킨 ④ 조리 및 담기: 튀김기, 오븐기"
+        },
+        {
+          "src": "D8",
+          "page": 250,
+          "locator": "한식 ④ 조리: 튀김기"
+        },
+        {
+          "src": "D8",
+          "page": 96,
+          "locator": "국외: 딥프라이어"
+        }
+      ],
+      "industries": [
+        {
+          "industry": "chicken",
+          "industry_name": "치킨",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p264"
+        },
+        {
+          "industry": "bunsik",
+          "industry_name": "분식",
+          "basis_type": "제안",
+          "basis_note": "분식 근거 없음. 튀김 메뉴 가정"
+        },
+        {
+          "industry": "korean",
+          "industry_name": "한식",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p250"
+        },
+        {
+          "industry": "other",
+          "industry_name": "기타",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p6"
+        }
+      ],
+      "note": "",
+      "review_status": "전문가·팀 검수 전"
+    },
+    {
+      "equipment_id": "EQ_GAS_RANGE",
+      "standard_name": "가스레인지",
+      "area": "kitchen",
+      "synonyms": [
+        "가스테이블",
+        "화구",
+        "버너",
+        "레인지",
+        "중화레인지",
+        "쿡탑"
+      ],
+      "evidence_status": "근거있음",
+      "hazard_evidence_status": "근거있음",
+      "related_hazards": [
+        {
+          "code": "gas",
+          "name": "가스 누출·폭발",
+          "summary": "가스 누출 시 화재·폭발",
+          "refs": [
+            {
+              "src": "CHK",
+              "page": 6,
+              "locator": "CHK-4-2-2-02"
+            },
+            {
+              "src": "D8",
+              "page": 251,
+              "locator": ""
+            }
+          ],
+          "evidence": "근거있음"
+        },
+        {
+          "code": "respiratory",
+          "name": "조리흄·환기·유해가스 노출",
+          "summary": "불완전 연소로 CO 발생·중독",
+          "refs": [
+            {
+              "src": "D8",
+              "page": 251,
+              "locator": "D8-p251-s1-c01"
+            }
+          ],
+          "evidence": "근거있음"
+        },
+        {
+          "code": "burn",
+          "name": "고온 접촉·화상",
+          "summary": "가스테이블 본체·증기에 화상",
+          "refs": [
+            {
+              "src": "D8",
+              "page": 251,
+              "locator": ""
+            }
+          ],
+          "evidence": "근거있음"
+        },
+        {
+          "code": "fire",
+          "name": "화재",
+          "summary": "조리 중 화재",
+          "refs": [
+            {
+              "src": "D5",
+              "page": 64,
+              "locator": ""
+            }
+          ],
+          "evidence": "근거있음"
+        }
+      ],
+      "sources": [
+        {
+          "src": "CHK",
+          "page": 6,
+          "locator": "CHK-4-2-2 가스테이블(가스레인지)"
+        },
+        {
+          "src": "D8",
+          "page": 250,
+          "locator": "한식 ④ 조리: 가스테이블"
+        },
+        {
+          "src": "D8",
+          "page": 255,
+          "locator": "중식: 가스테이블"
+        }
+      ],
+      "industries": [
+        {
+          "industry": "chicken",
+          "industry_name": "치킨",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p6. 화면설계서 p9 치킨 예시에도 있음"
+        },
+        {
+          "industry": "bunsik",
+          "industry_name": "분식",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p6"
+        },
+        {
+          "industry": "korean",
+          "industry_name": "한식",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p250"
+        },
+        {
+          "industry": "other",
+          "industry_name": "기타",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p6"
+        }
+      ],
+      "note": "",
+      "review_status": "전문가·팀 검수 전"
+    },
+    {
+      "equipment_id": "EQ_OVEN",
+      "standard_name": "오븐",
+      "area": "kitchen",
+      "synonyms": [
+        "오븐기",
+        "컨벡션오븐",
+        "콤비오븐",
+        "화덕",
+        "로스터"
+      ],
+      "evidence_status": "근거있음",
+      "hazard_evidence_status": "근거있음",
+      "related_hazards": [
+        {
+          "code": "burn",
+          "name": "고온 접촉·화상",
+          "summary": "고온 스팀·본체·핫플레이트에 화상",
+          "refs": [
+            {
+              "src": "D8",
+              "page": 250,
+              "locator": ""
+            },
+            {
+              "src": "D8",
+              "page": 273,
+              "locator": ""
+            }
+          ],
+          "evidence": "근거있음"
+        },
+        {
+          "code": "falling",
+          "name": "낙하·충돌·추락",
+          "summary": "개방된 오븐 문에 부딪힘",
+          "refs": [
+            {
+              "src": "D8",
+              "page": 250,
+              "locator": ""
+            }
+          ],
+          "evidence": "근거있음"
+        },
+        {
+          "code": "fire",
+          "name": "화재",
+          "summary": "밀폐용기 가열 시 폭발·가연물 화재",
+          "refs": [
+            {
+              "src": "D8",
+              "page": 250,
+              "locator": ""
+            }
+          ],
+          "evidence": "근거있음"
+        },
+        {
+          "code": "slip",
+          "name": "미끄러짐·넘어짐",
+          "summary": "오븐 주변 밀가루 등으로 넘어짐",
+          "refs": [
+            {
+              "src": "D8",
+              "page": 250,
+              "locator": ""
+            }
+          ],
+          "evidence": "근거있음"
+        }
+      ],
+      "sources": [
+        {
+          "src": "D8",
+          "page": 264,
+          "locator": "치킨: 오븐기"
+        },
+        {
+          "src": "D8",
+          "page": 250,
+          "locator": "한식: 오븐기"
+        },
+        {
+          "src": "D8",
+          "page": 273,
+          "locator": "제과제빵: 오븐기"
+        },
+        {
+          "src": "D8",
+          "page": 96,
+          "locator": "국외: 오븐"
+        }
+      ],
+      "industries": [
+        {
+          "industry": "chicken",
+          "industry_name": "치킨",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p264"
+        },
+        {
+          "industry": "cafe",
+          "industry_name": "카페",
+          "basis_type": "제안",
+          "basis_note": "D8 제과제빵 p273-274 참고. 커피 절에는 없음"
+        },
+        {
+          "industry": "korean",
+          "industry_name": "한식",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p250"
+        },
+        {
+          "industry": "other",
+          "industry_name": "기타",
+          "basis_type": "제안",
+          "basis_note": "공통 점검표에 없음"
+        }
+      ],
+      "note": "",
+      "review_status": "전문가·팀 검수 전"
+    },
+    {
+      "equipment_id": "EQ_GRILL",
+      "standard_name": "그릴",
+      "area": "kitchen",
+      "synonyms": [
+        "샐러맨더",
+        "상부 가열식 그릴",
+        "숯불구이기",
+        "석쇠"
+      ],
+      "evidence_status": "근거있음",
+      "hazard_evidence_status": "근거있음",
+      "related_hazards": [
+        {
+          "code": "burn",
+          "name": "고온 접촉·화상",
+          "summary": "고온 본체에 화상",
+          "refs": [
+            {
+              "src": "D8",
+              "page": 96,
+              "locator": ""
+            }
+          ],
+          "evidence": "근거있음"
+        },
+        {
+          "code": "fire",
+          "name": "화재",
+          "summary": "기름·가연물 화재",
+          "refs": [
+            {
+              "src": "D8",
+              "page": 96,
+              "locator": ""
+            }
+          ],
+          "evidence": "근거있음"
+        }
+      ],
+      "sources": [
+        {
+          "src": "D8",
+          "page": 96,
+          "locator": "국외 레스토랑: 가스레인지·오븐·그릴 사용"
+        },
+        {
+          "src": "PHOTO",
+          "page": null,
+          "locator": "seongdong_bbq_haengdang_3"
+        }
+      ],
+      "industries": [
+        {
+          "industry": "chicken",
+          "industry_name": "치킨",
+          "basis_type": "제안",
+          "basis_note": "사진 관찰(BBQ 행당점)"
+        },
+        {
+          "industry": "korean",
+          "industry_name": "한식",
+          "basis_type": "제안",
+          "basis_note": "구이 메뉴 가정"
+        },
+        {
+          "industry": "other",
+          "industry_name": "기타",
+          "basis_type": "제안",
+          "basis_note": ""
+        }
+      ],
+      "note": "국내 음식점 자료 근거 없음. 국외 가이드(D8 p96)만 있음.",
+      "review_status": "전문가·팀 검수 전"
+    },
+    {
+      "equipment_id": "EQ_MICROWAVE",
+      "standard_name": "전자레인지",
+      "area": "kitchen",
+      "synonyms": [
+        "전자렌지"
+      ],
+      "evidence_status": "근거있음",
+      "hazard_evidence_status": "근거있음",
+      "related_hazards": [
+        {
+          "code": "burn",
+          "name": "고온 접촉·화상",
+          "summary": "꺼낸 용기·증기에 화상",
+          "refs": [
+            {
+              "src": "D8",
+              "page": 96,
+              "locator": ""
+            }
+          ],
+          "evidence": "근거있음"
+        },
+        {
+          "code": "electric",
+          "name": "감전·전기 위험",
+          "summary": "금속 용기 사용 시 스파크",
+          "refs": [
+            {
+              "src": "D8",
+              "page": 96,
+              "locator": ""
+            }
+          ],
+          "evidence": "근거있음"
+        }
+      ],
+      "sources": [
+        {
+          "src": "D8",
+          "page": 96,
+          "locator": "국외: 전자레인지 사용"
+        },
+        {
+          "src": "D8",
+          "page": 274,
+          "locator": "제과제빵 ⑤ 진열·판매: 전자렌지"
+        }
+      ],
+      "industries": [
+        {
+          "industry": "chicken",
+          "industry_name": "치킨",
+          "basis_type": "제안",
+          "basis_note": "사진 관찰(bhc 휘경점, BBQ 영상)"
+        },
+        {
+          "industry": "bunsik",
+          "industry_name": "분식",
+          "basis_type": "제안",
+          "basis_note": ""
+        },
+        {
+          "industry": "cafe",
+          "industry_name": "카페",
+          "basis_type": "제안",
+          "basis_note": "D8 제과제빵 p274 참고"
+        },
+        {
+          "industry": "other",
+          "industry_name": "기타",
+          "basis_type": "제안",
+          "basis_note": ""
+        }
+      ],
+      "note": "",
+      "review_status": "전문가·팀 검수 전"
+    },
+    {
+      "equipment_id": "EQ_RICE_COOKER",
+      "standard_name": "취반기·밥솥",
+      "area": "kitchen",
+      "synonyms": [
+        "취반기",
+        "전기밥솥",
+        "업소용 밥솥",
+        "가스밥솥"
+      ],
+      "evidence_status": "근거있음",
+      "hazard_evidence_status": "근거있음",
+      "related_hazards": [
+        {
+          "code": "burn",
+          "name": "고온 접촉·화상",
+          "summary": "고온 본체·그릇·증기에 화상",
+          "refs": [
+            {
+              "src": "D8",
+              "page": 250,
+              "locator": ""
+            }
+          ],
+          "evidence": "근거있음"
+        },
+        {
+          "code": "slip",
+          "name": "미끄러짐·넘어짐",
+          "summary": "주변 바닥 미끄러움",
+          "refs": [
+            {
+              "src": "D8",
+              "page": 250,
+              "locator": ""
+            }
+          ],
+          "evidence": "근거있음"
+        },
+        {
+          "code": "ergonomic",
+          "name": "중량물·근골격계 부담",
+          "summary": "쌀·밥솥 운반 중량물",
+          "refs": [
+            {
+              "src": "D8",
+              "page": 250,
+              "locator": ""
+            }
+          ],
+          "evidence": "근거있음"
+        }
+      ],
+      "sources": [
+        {
+          "src": "D8",
+          "page": 250,
+          "locator": "한식 ④ 조리: 취반기"
+        },
+        {
+          "src": "D5",
+          "page": 71,
+          "locator": "후드 유속 기준표: 밥솥"
+        }
+      ],
+      "industries": [
+        {
+          "industry": "chicken",
+          "industry_name": "치킨",
+          "basis_type": "제안",
+          "basis_note": "사진 관찰(교촌 용답점)"
+        },
+        {
+          "industry": "bunsik",
+          "industry_name": "분식",
+          "basis_type": "제안",
+          "basis_note": "김밥·덮밥 메뉴 가정"
+        },
+        {
+          "industry": "korean",
+          "industry_name": "한식",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p250"
+        },
+        {
+          "industry": "other",
+          "industry_name": "기타",
+          "basis_type": "제안",
+          "basis_note": ""
+        }
+      ],
+      "note": "",
+      "review_status": "전문가·팀 검수 전"
+    },
+    {
+      "equipment_id": "EQ_SOUP_KETTLE",
+      "standard_name": "국솥",
+      "area": "kitchen",
+      "synonyms": [
+        "회전식 국솥",
+        "대형국솥",
+        "스팀솥",
+        "육수솥"
+      ],
+      "evidence_status": "근거있음",
+      "hazard_evidence_status": "근거있음",
+      "related_hazards": [
+        {
+          "code": "burn",
+          "name": "고온 접촉·화상",
+          "summary": "국솥 운반·증기 화상, 전면 차열판 필요",
+          "refs": [
+            {
+              "src": "CHK",
+              "page": 6,
+              "locator": "CHK-4-2-3-07"
+            },
+            {
+              "src": "D8",
+              "page": 251,
+              "locator": ""
+            }
+          ],
+          "evidence": "근거있음"
+        },
+        {
+          "code": "cut",
+          "name": "베임·절단·끼임",
+          "summary": "접이식 덮개 모서리·고정 불량",
+          "refs": [
+            {
+              "src": "CHK",
+              "page": 6,
+              "locator": "CHK-4-2-3-05"
+            }
+          ],
+          "evidence": "근거있음"
+        },
+        {
+          "code": "ergonomic",
+          "name": "중량물·근골격계 부담",
+          "summary": "중량물 취급 요통",
+          "refs": [
+            {
+              "src": "D8",
+              "page": 251,
+              "locator": ""
+            }
+          ],
+          "evidence": "근거있음"
+        },
+        {
+          "code": "gas",
+          "name": "가스 누출·폭발",
+          "summary": "가스 누출 점화로 화재·폭발",
+          "refs": [
+            {
+              "src": "D8",
+              "page": 251,
+              "locator": ""
+            }
+          ],
+          "evidence": "근거있음"
+        }
+      ],
+      "sources": [
+        {
+          "src": "CHK",
+          "page": 6,
+          "locator": "CHK-4-2-3 조리설비·기구(회전식 국솥, 튀김기 등)"
+        },
+        {
+          "src": "D8",
+          "page": 250,
+          "locator": "한식: 대형국솥"
+        }
+      ],
+      "industries": [
+        {
+          "industry": "bunsik",
+          "industry_name": "분식",
+          "basis_type": "제안",
+          "basis_note": "국물 메뉴 가정"
+        },
+        {
+          "industry": "korean",
+          "industry_name": "한식",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p250"
+        },
+        {
+          "industry": "other",
+          "industry_name": "기타",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p6"
+        }
+      ],
+      "note": "",
+      "review_status": "전문가·팀 검수 전"
+    },
+    {
+      "equipment_id": "EQ_GRIDDLE",
+      "standard_name": "철판(그리들)",
+      "area": "kitchen",
+      "synonyms": [
+        "그리들",
+        "전기 그리들",
+        "떡볶이 철판",
+        "부침 철판"
+      ],
+      "evidence_status": "제안",
+      "hazard_evidence_status": "제안",
+      "related_hazards": [
+        {
+          "code": "burn",
+          "name": "고온 접촉·화상",
+          "summary": "고온 철판 접촉",
+          "refs": [],
+          "evidence": "제안"
+        },
+        {
+          "code": "fire",
+          "name": "화재",
+          "summary": "기름 화재",
+          "refs": [],
+          "evidence": "제안"
+        },
+        {
+          "code": "gas",
+          "name": "가스 누출·폭발",
+          "summary": "가스식인 경우 누출",
+          "refs": [],
+          "evidence": "제안"
+        }
+      ],
+      "sources": [],
+      "industries": [
+        {
+          "industry": "bunsik",
+          "industry_name": "분식",
+          "basis_type": "제안",
+          "basis_note": ""
+        },
+        {
+          "industry": "korean",
+          "industry_name": "한식",
+          "basis_type": "제안",
+          "basis_note": ""
+        },
+        {
+          "industry": "other",
+          "industry_name": "기타",
+          "basis_type": "제안",
+          "basis_note": ""
+        }
+      ],
+      "note": "근거 자료 없음. 위험요인도 제안.",
+      "review_status": "전문가·팀 검수 전"
+    },
+    {
+      "equipment_id": "EQ_STEAMER",
+      "standard_name": "찜기",
+      "area": "kitchen",
+      "synonyms": [
+        "만두 찜기",
+        "찜솥",
+        "스티머"
+      ],
+      "evidence_status": "제안",
+      "hazard_evidence_status": "제안",
+      "related_hazards": [
+        {
+          "code": "burn",
+          "name": "고온 접촉·화상",
+          "summary": "증기 화상",
+          "refs": [],
+          "evidence": "제안"
+        }
+      ],
+      "sources": [],
+      "industries": [
+        {
+          "industry": "bunsik",
+          "industry_name": "분식",
+          "basis_type": "제안",
+          "basis_note": ""
+        },
+        {
+          "industry": "korean",
+          "industry_name": "한식",
+          "basis_type": "제안",
+          "basis_note": ""
+        },
+        {
+          "industry": "other",
+          "industry_name": "기타",
+          "basis_type": "제안",
+          "basis_note": ""
+        }
+      ],
+      "note": "근거 자료 없음. 위험요인도 제안.",
+      "review_status": "전문가·팀 검수 전"
+    },
+    {
+      "equipment_id": "EQ_ODEN_WARMER",
+      "standard_name": "어묵 보온기",
+      "area": "kitchen",
+      "synonyms": [
+        "어묵 온장고",
+        "보온통",
+        "중탕기"
+      ],
+      "evidence_status": "제안",
+      "hazard_evidence_status": "제안",
+      "related_hazards": [
+        {
+          "code": "burn",
+          "name": "고온 접촉·화상",
+          "summary": "뜨거운 국물·본체 접촉",
+          "refs": [],
+          "evidence": "제안"
+        },
+        {
+          "code": "electric",
+          "name": "감전·전기 위험",
+          "summary": "물기 있는 전기기기",
+          "refs": [],
+          "evidence": "제안"
+        }
+      ],
+      "sources": [],
+      "industries": [
+        {
+          "industry": "bunsik",
+          "industry_name": "분식",
+          "basis_type": "제안",
+          "basis_note": ""
+        }
+      ],
+      "note": "근거 자료 없음. 위험요인도 제안.",
+      "review_status": "전문가·팀 검수 전"
+    },
+    {
+      "equipment_id": "EQ_PORTABLE_BURNER",
+      "standard_name": "휴대용 가스버너",
+      "area": "hall",
+      "synonyms": [
+        "부루스타",
+        "테이블 버너",
+        "휴대용 가스레인지"
+      ],
+      "evidence_status": "제안",
+      "hazard_evidence_status": "제안",
+      "related_hazards": [
+        {
+          "code": "gas",
+          "name": "가스 누출·폭발",
+          "summary": "부탄캔 과열·누출 폭발",
+          "refs": [],
+          "evidence": "제안"
+        },
+        {
+          "code": "fire",
+          "name": "화재",
+          "summary": "화재",
+          "refs": [],
+          "evidence": "제안"
+        },
+        {
+          "code": "burn",
+          "name": "고온 접촉·화상",
+          "summary": "화상",
+          "refs": [],
+          "evidence": "제안"
+        }
+      ],
+      "sources": [],
+      "industries": [
+        {
+          "industry": "bunsik",
+          "industry_name": "분식",
+          "basis_type": "제안",
+          "basis_note": "즉석 메뉴 가정"
+        },
+        {
+          "industry": "korean",
+          "industry_name": "한식",
+          "basis_type": "제안",
+          "basis_note": "홀 조리 메뉴 가정"
+        },
+        {
+          "industry": "other",
+          "industry_name": "기타",
+          "basis_type": "제안",
+          "basis_note": ""
+        }
+      ],
+      "note": "근거 자료 없음. 위험요인도 제안.",
+      "review_status": "전문가·팀 검수 전"
+    },
+    {
+      "equipment_id": "EQ_COOKING_ROBOT",
+      "standard_name": "조리 로봇",
+      "area": "kitchen",
+      "synonyms": [
+        "튀김 로봇",
+        "로봇팔",
+        "협동로봇"
+      ],
+      "evidence_status": "제안",
+      "hazard_evidence_status": "제안",
+      "related_hazards": [
+        {
+          "code": "cut",
+          "name": "베임·절단·끼임",
+          "summary": "로봇팔 동작 범위에서 끼임·충돌",
+          "refs": [],
+          "evidence": "제안"
+        },
+        {
+          "code": "burn",
+          "name": "고온 접촉·화상",
+          "summary": "튀김 공정 화상",
+          "refs": [],
+          "evidence": "제안"
+        }
+      ],
+      "sources": [
+        {
+          "src": "PHOTO",
+          "page": null,
+          "locator": "K01_kyochon_robot"
+        }
+      ],
+      "industries": [
+        {
+          "industry": "chicken",
+          "industry_name": "치킨",
+          "basis_type": "제안",
+          "basis_note": "사진 관찰"
+        }
+      ],
+      "note": "근거 자료 없음. 산업용 로봇 관련 기준 확인 필요(미확인).",
+      "review_status": "전문가·팀 검수 전"
+    },
+    {
+      "equipment_id": "EQ_KNIFE_BOARD",
+      "standard_name": "칼·도마",
+      "area": "kitchen",
+      "synonyms": [
+        "칼",
+        "식칼",
+        "도마",
+        "조리용 칼"
+      ],
+      "evidence_status": "근거있음",
+      "hazard_evidence_status": "근거있음",
+      "related_hazards": [
+        {
+          "code": "cut",
+          "name": "베임·절단·끼임",
+          "summary": "칼에 절단·베임·찔림",
+          "refs": [
+            {
+              "src": "D8",
+              "page": 249,
+              "locator": ""
+            },
+            {
+              "src": "D8",
+              "page": 264,
+              "locator": ""
+            },
+            {
+              "src": "D5",
+              "page": 69,
+              "locator": "D5-p069-s1-c01"
+            }
+          ],
+          "evidence": "근거있음"
+        },
+        {
+          "code": "falling",
+          "name": "낙하·충돌·추락",
+          "summary": "칼·도마가 작업대에서 떨어져 발등 상해",
+          "refs": [
+            {
+              "src": "D8",
+              "page": 249,
+              "locator": ""
+            },
+            {
+              "src": "D8",
+              "page": 264,
+              "locator": ""
+            }
+          ],
+          "evidence": "근거있음"
+        },
+        {
+          "code": "ergonomic",
+          "name": "중량물·근골격계 부담",
+          "summary": "반복 칼질 근골격계 부담",
+          "refs": [
+            {
+              "src": "D8",
+              "page": 249,
+              "locator": ""
+            }
+          ],
+          "evidence": "근거있음"
+        }
+      ],
+      "sources": [
+        {
+          "src": "D8",
+          "page": 263,
+          "locator": "치킨 ③ 전처리: 칼, 가위"
+        },
+        {
+          "src": "D8",
+          "page": 249,
+          "locator": "한식 ③ 전처리: 칼, 가위"
+        },
+        {
+          "src": "D8",
+          "page": 267,
+          "locator": "커피 ② 검수·보관: 칼(사무용)"
+        },
+        {
+          "src": "D5",
+          "page": 69,
+          "locator": "절단용 수공구(칼) 작업"
+        },
+        {
+          "src": "DESIGN",
+          "page": 14,
+          "locator": "S03 예시 태그 \"칼·도마\""
+        }
+      ],
+      "industries": [
+        {
+          "industry": "chicken",
+          "industry_name": "치킨",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p263"
+        },
+        {
+          "industry": "bunsik",
+          "industry_name": "분식",
+          "basis_type": "제안",
+          "basis_note": ""
+        },
+        {
+          "industry": "cafe",
+          "industry_name": "카페",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p267 칼(사무용). 조리용 칼은 아님"
+        },
+        {
+          "industry": "korean",
+          "industry_name": "한식",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p249"
+        },
+        {
+          "industry": "other",
+          "industry_name": "기타",
+          "basis_type": "공통근거",
+          "basis_note": "D5 p69"
+        }
+      ],
+      "note": "화면설계서 S03 예시처럼 칼과 도마를 한 항목으로 묶음.",
+      "review_status": "전문가·팀 검수 전"
+    },
+    {
+      "equipment_id": "EQ_SCISSORS",
+      "standard_name": "주방가위",
+      "area": "kitchen",
+      "synonyms": [
+        "가위",
+        "조리용 가위"
+      ],
+      "evidence_status": "근거있음",
+      "hazard_evidence_status": "근거있음",
+      "related_hazards": [
+        {
+          "code": "cut",
+          "name": "베임·절단·끼임",
+          "summary": "베임·찔림",
+          "refs": [
+            {
+              "src": "D8",
+              "page": 263,
+              "locator": ""
+            }
+          ],
+          "evidence": "근거있음"
+        }
+      ],
+      "sources": [
+        {
+          "src": "D8",
+          "page": 263,
+          "locator": "치킨: 칼, 가위"
+        },
+        {
+          "src": "D8",
+          "page": 249,
+          "locator": "한식: 칼, 가위"
+        }
+      ],
+      "industries": [
+        {
+          "industry": "chicken",
+          "industry_name": "치킨",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p263"
+        },
+        {
+          "industry": "bunsik",
+          "industry_name": "분식",
+          "basis_type": "제안",
+          "basis_note": ""
+        },
+        {
+          "industry": "korean",
+          "industry_name": "한식",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p249"
+        },
+        {
+          "industry": "other",
+          "industry_name": "기타",
+          "basis_type": "제안",
+          "basis_note": ""
+        }
+      ],
+      "note": "",
+      "review_status": "전문가·팀 검수 전"
+    },
+    {
+      "equipment_id": "EQ_VEG_CUTTER",
+      "standard_name": "채소절단기",
+      "area": "kitchen",
+      "synonyms": [
+        "야채절단기",
+        "야채 슬라이서",
+        "채칼",
+        "다지기"
+      ],
+      "evidence_status": "근거있음",
+      "hazard_evidence_status": "근거있음",
+      "related_hazards": [
+        {
+          "code": "cut",
+          "name": "베임·절단·끼임",
+          "summary": "칼날에 손 절단·베임, 방호덮개·인터록 필요",
+          "refs": [
+            {
+              "src": "D8",
+              "page": 264,
+              "locator": ""
+            },
+            {
+              "src": "CHK",
+              "page": 5,
+              "locator": "CHK-4-2-1-02"
+            }
+          ],
+          "evidence": "근거있음"
+        },
+        {
+          "code": "electric",
+          "name": "감전·전기 위험",
+          "summary": "젖은 손 조작·가공기계 누전",
+          "refs": [
+            {
+              "src": "D8",
+              "page": 264,
+              "locator": ""
+            },
+            {
+              "src": "CHK",
+              "page": 5,
+              "locator": "CHK-4-2-1-08"
+            }
+          ],
+          "evidence": "근거있음"
+        }
+      ],
+      "sources": [
+        {
+          "src": "D8",
+          "page": 263,
+          "locator": "치킨 ③ 전처리: 채소절단기"
+        },
+        {
+          "src": "D8",
+          "page": 249,
+          "locator": "한식 ③ 전처리"
+        },
+        {
+          "src": "CHK",
+          "page": 5,
+          "locator": "CHK-4-2-1 식품가공기계(파쇄·절단·반죽·혼합·제면기)"
+        },
+        {
+          "src": "D5",
+          "page": 58,
+          "locator": "칼, 수동 절단기 사용 작업"
+        }
+      ],
+      "industries": [
+        {
+          "industry": "chicken",
+          "industry_name": "치킨",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p263"
+        },
+        {
+          "industry": "bunsik",
+          "industry_name": "분식",
+          "basis_type": "제안",
+          "basis_note": ""
+        },
+        {
+          "industry": "korean",
+          "industry_name": "한식",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p249"
+        },
+        {
+          "industry": "other",
+          "industry_name": "기타",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p5"
+        }
+      ],
+      "note": "수동 채칼도 동의어로 둠. 동력 기기와 위험 수준이 다르므로 검수 시 분리 여부 판단 필요.",
+      "review_status": "전문가·팀 검수 전"
+    },
+    {
+      "equipment_id": "EQ_MEAT_SLICER",
+      "standard_name": "육절기",
+      "area": "kitchen",
+      "synonyms": [
+        "고기 슬라이서",
+        "고기 절단기",
+        "골절기"
+      ],
+      "evidence_status": "근거있음",
+      "hazard_evidence_status": "근거있음",
+      "related_hazards": [
+        {
+          "code": "cut",
+          "name": "베임·절단·끼임",
+          "summary": "육절기 작업 중 베임",
+          "refs": [
+            {
+              "src": "D5",
+              "page": 69,
+              "locator": ""
+            }
+          ],
+          "evidence": "근거있음"
+        },
+        {
+          "code": "electric",
+          "name": "감전·전기 위험",
+          "summary": "가공기계 누전",
+          "refs": [
+            {
+              "src": "CHK",
+              "page": 5,
+              "locator": "CHK-4-2-1-08"
+            }
+          ],
+          "evidence": "근거있음"
+        }
+      ],
+      "sources": [
+        {
+          "src": "D5",
+          "page": 69,
+          "locator": "육절기 작업 중 베임 사망사례"
+        },
+        {
+          "src": "CHK",
+          "page": 5,
+          "locator": "식품가공기계(절단기)"
+        },
+        {
+          "src": "D8",
+          "page": 97,
+          "locator": "국외: 슬라이서"
+        }
+      ],
+      "industries": [
+        {
+          "industry": "korean",
+          "industry_name": "한식",
+          "basis_type": "공통근거",
+          "basis_note": "D5 p69"
+        },
+        {
+          "industry": "other",
+          "industry_name": "기타",
+          "basis_type": "공통근거",
+          "basis_note": "D5 p69, CHK p5"
+        }
+      ],
+      "note": "",
+      "review_status": "전문가·팀 검수 전"
+    },
+    {
+      "equipment_id": "EQ_MIXER",
+      "standard_name": "혼합기·믹서기",
+      "area": "kitchen",
+      "synonyms": [
+        "믹서",
+        "믹서기",
+        "블렌더",
+        "분쇄기",
+        "푸드프로세서",
+        "소스 혼합기"
+      ],
+      "evidence_status": "근거있음",
+      "hazard_evidence_status": "근거있음",
+      "related_hazards": [
+        {
+          "code": "cut",
+          "name": "베임·절단·끼임",
+          "summary": "회전부에 옷·손 말림, 투입구·청소 중 끼임",
+          "refs": [
+            {
+              "src": "D8",
+              "page": 264,
+              "locator": ""
+            },
+            {
+              "src": "D5",
+              "page": 68,
+              "locator": "D5-p068-s1-c01"
+            }
+          ],
+          "evidence": "근거있음"
+        },
+        {
+          "code": "electric",
+          "name": "감전·전기 위험",
+          "summary": "젖은 손 조작·누전",
+          "refs": [
+            {
+              "src": "D8",
+              "page": 264,
+              "locator": ""
+            },
+            {
+              "src": "CHK",
+              "page": 5,
+              "locator": ""
+            }
+          ],
+          "evidence": "근거있음"
+        }
+      ],
+      "sources": [
+        {
+          "src": "D8",
+          "page": 263,
+          "locator": "치킨 ③ 전처리: 분쇄기·믹서기"
+        },
+        {
+          "src": "D8",
+          "page": 264,
+          "locator": "치킨: 소스 혼합기 회전부"
+        },
+        {
+          "src": "D8",
+          "page": 268,
+          "locator": "커피 ③: 믹서기"
+        },
+        {
+          "src": "CHK",
+          "page": 5,
+          "locator": "식품가공기계(혼합기)"
+        },
+        {
+          "src": "D5",
+          "page": 68,
+          "locator": "혼합기(식품가공용) 작업"
+        }
+      ],
+      "industries": [
+        {
+          "industry": "chicken",
+          "industry_name": "치킨",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p263-264"
+        },
+        {
+          "industry": "bunsik",
+          "industry_name": "분식",
+          "basis_type": "제안",
+          "basis_note": ""
+        },
+        {
+          "industry": "cafe",
+          "industry_name": "카페",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p268"
+        },
+        {
+          "industry": "korean",
+          "industry_name": "한식",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p5"
+        },
+        {
+          "industry": "other",
+          "industry_name": "기타",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p5"
+        }
+      ],
+      "note": "",
+      "review_status": "전문가·팀 검수 전"
+    },
+    {
+      "equipment_id": "EQ_DOUGH_MIXER",
+      "standard_name": "반죽기",
+      "area": "kitchen",
+      "synonyms": [
+        "반죽 믹서",
+        "니더"
+      ],
+      "evidence_status": "근거있음",
+      "hazard_evidence_status": "근거있음",
+      "related_hazards": [
+        {
+          "code": "cut",
+          "name": "베임·절단·끼임",
+          "summary": "작동 중 용기 이물질 제거 시 손 말림",
+          "refs": [
+            {
+              "src": "D8",
+              "page": 255,
+              "locator": ""
+            }
+          ],
+          "evidence": "근거있음"
+        },
+        {
+          "code": "electric",
+          "name": "감전·전기 위험",
+          "summary": "본체 절연 파괴 누전",
+          "refs": [
+            {
+              "src": "D8",
+              "page": 255,
+              "locator": ""
+            }
+          ],
+          "evidence": "근거있음"
+        }
+      ],
+      "sources": [
+        {
+          "src": "D8",
+          "page": 255,
+          "locator": "중식: 반죽기"
+        },
+        {
+          "src": "D8",
+          "page": 272,
+          "locator": "제과제빵 ③: 반죽기"
+        },
+        {
+          "src": "CHK",
+          "page": 5,
+          "locator": "식품가공기계(반죽)"
+        }
+      ],
+      "industries": [
+        {
+          "industry": "bunsik",
+          "industry_name": "분식",
+          "basis_type": "제안",
+          "basis_note": "D8 중식 p255 참고(면·만두 반죽 가정)"
+        },
+        {
+          "industry": "cafe",
+          "industry_name": "카페",
+          "basis_type": "제안",
+          "basis_note": "D8 제과제빵 p272 참고"
+        },
+        {
+          "industry": "other",
+          "industry_name": "기타",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p5"
+        }
+      ],
+      "note": "화면설계서 B02(9쪽)에서 치킨 업종 \"직접 추가\" 예시로 쓰임. 치킨 기본 목록에는 넣지 않음.",
+      "review_status": "전문가·팀 검수 전"
+    },
+    {
+      "equipment_id": "EQ_NOODLE_MACHINE",
+      "standard_name": "제면기",
+      "area": "kitchen",
+      "synonyms": [
+        "국수 기계",
+        "면 뽑는 기계"
+      ],
+      "evidence_status": "근거있음",
+      "hazard_evidence_status": "근거있음",
+      "related_hazards": [
+        {
+          "code": "cut",
+          "name": "베임·절단·끼임",
+          "summary": "롤러에 손 감김·협착",
+          "refs": [
+            {
+              "src": "D8",
+              "page": 253,
+              "locator": ""
+            }
+          ],
+          "evidence": "근거있음"
+        },
+        {
+          "code": "electric",
+          "name": "감전·전기 위험",
+          "summary": "누전 감전",
+          "refs": [
+            {
+              "src": "D8",
+              "page": 253,
+              "locator": ""
+            }
+          ],
+          "evidence": "근거있음"
+        }
+      ],
+      "sources": [
+        {
+          "src": "D8",
+          "page": 253,
+          "locator": "중식 개요: 제면기"
+        },
+        {
+          "src": "CHK",
+          "page": 5,
+          "locator": "식품가공기계(제면기)"
+        },
+        {
+          "src": "D5",
+          "page": 68,
+          "locator": "제면작업"
+        }
+      ],
+      "industries": [
+        {
+          "industry": "bunsik",
+          "industry_name": "분식",
+          "basis_type": "제안",
+          "basis_note": "D8 중식 p253-255 참고(면 메뉴 가정)"
+        },
+        {
+          "industry": "korean",
+          "industry_name": "한식",
+          "basis_type": "제안",
+          "basis_note": ""
+        },
+        {
+          "industry": "other",
+          "industry_name": "기타",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p5"
+        }
+      ],
+      "note": "",
+      "review_status": "전문가·팀 검수 전"
+    },
+    {
+      "equipment_id": "EQ_RICE_WASHER",
+      "standard_name": "세미기",
+      "area": "kitchen",
+      "synonyms": [
+        "쌀 세척기"
+      ],
+      "evidence_status": "근거있음",
+      "hazard_evidence_status": "근거있음",
+      "related_hazards": [
+        {
+          "code": "cut",
+          "name": "베임·절단·끼임",
+          "summary": "회전부에 옷 감김·끼임",
+          "refs": [
+            {
+              "src": "D8",
+              "page": 249,
+              "locator": ""
+            }
+          ],
+          "evidence": "근거있음"
+        },
+        {
+          "code": "electric",
+          "name": "감전·전기 위험",
+          "summary": "젖은 손 작동 감전",
+          "refs": [
+            {
+              "src": "D8",
+              "page": 249,
+              "locator": ""
+            }
+          ],
+          "evidence": "근거있음"
+        }
+      ],
+      "sources": [
+        {
+          "src": "D8",
+          "page": 249,
+          "locator": "한식 ③ 전처리: 세미기"
+        }
+      ],
+      "industries": [
+        {
+          "industry": "korean",
+          "industry_name": "한식",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p249"
+        },
+        {
+          "industry": "other",
+          "industry_name": "기타",
+          "basis_type": "제안",
+          "basis_note": ""
+        }
+      ],
+      "note": "",
+      "review_status": "전문가·팀 검수 전"
+    },
+    {
+      "equipment_id": "EQ_MARINATOR",
+      "standard_name": "염지기",
+      "area": "kitchen",
+      "synonyms": [
+        "염지 텀블러",
+        "진공 텀블러",
+        "염지통"
+      ],
+      "evidence_status": "제안",
+      "hazard_evidence_status": "제안",
+      "related_hazards": [
+        {
+          "code": "cut",
+          "name": "베임·절단·끼임",
+          "summary": "회전 드럼 끼임(제안)",
+          "refs": [],
+          "evidence": "제안"
+        },
+        {
+          "code": "electric",
+          "name": "감전·전기 위험",
+          "summary": "물기 있는 전기기기(제안)",
+          "refs": [],
+          "evidence": "제안"
+        }
+      ],
+      "sources": [
+        {
+          "src": "DESIGN",
+          "page": 9,
+          "locator": "B02 치킨 목록 예시 \"염지기\""
+        }
+      ],
+      "industries": [
+        {
+          "industry": "chicken",
+          "industry_name": "치킨",
+          "basis_type": "제안",
+          "basis_note": "화면설계서 예시"
+        }
+      ],
+      "note": "안전 자료 근거 없음. 화면 예시에서만 확인. 실제 매장 보유 여부 확인 필요.",
+      "review_status": "전문가·팀 검수 전"
+    },
+    {
+      "equipment_id": "EQ_COFFEE_MACHINE",
+      "standard_name": "커피머신",
+      "area": "kitchen",
+      "synonyms": [
+        "에스프레소 머신",
+        "샷 추출기",
+        "스팀기",
+        "스팀 노즐"
+      ],
+      "evidence_status": "근거있음",
+      "hazard_evidence_status": "근거있음",
+      "related_hazards": [
+        {
+          "code": "burn",
+          "name": "고온 접촉·화상",
+          "summary": "고온 스팀·본체·뜨거운 우유에 화상",
+          "refs": [
+            {
+              "src": "D8",
+              "page": 269,
+              "locator": "D8-p269-s1-c01"
+            }
+          ],
+          "evidence": "근거있음"
+        },
+        {
+          "code": "slip",
+          "name": "미끄러짐·넘어짐",
+          "summary": "주변 바닥 물기로 넘어짐",
+          "refs": [
+            {
+              "src": "D8",
+              "page": 269,
+              "locator": ""
+            }
+          ],
+          "evidence": "근거있음"
+        },
+        {
+          "code": "electric",
+          "name": "감전·전기 위험",
+          "summary": "젖은 손 기기 작동 감전",
+          "refs": [
+            {
+              "src": "D8",
+              "page": 269,
+              "locator": ""
+            }
+          ],
+          "evidence": "근거있음"
+        },
+        {
+          "code": "ergonomic",
+          "name": "중량물·근골격계 부담",
+          "summary": "반복 추출·장시간 입식",
+          "refs": [
+            {
+              "src": "D8",
+              "page": 269,
+              "locator": ""
+            }
+          ],
+          "evidence": "근거있음"
+        }
+      ],
+      "sources": [
+        {
+          "src": "D8",
+          "page": 268,
+          "locator": "커피 ③ 기계점검: 그라인더, 믹서기, 스팀기"
+        },
+        {
+          "src": "D8",
+          "page": 269,
+          "locator": "커피 ④ 샷 추출: 샷 추출기, ⑤ 스팀기"
+        }
+      ],
+      "industries": [
+        {
+          "industry": "cafe",
+          "industry_name": "카페",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p268-269"
+        }
+      ],
+      "note": "",
+      "review_status": "전문가·팀 검수 전"
+    },
+    {
+      "equipment_id": "EQ_COFFEE_GRINDER",
+      "standard_name": "커피 그라인더",
+      "area": "kitchen",
+      "synonyms": [
+        "그라인더",
+        "원두 분쇄기"
+      ],
+      "evidence_status": "근거있음",
+      "hazard_evidence_status": "근거있음",
+      "related_hazards": [
+        {
+          "code": "cut",
+          "name": "베임·절단·끼임",
+          "summary": "분쇄부 접촉(방호덮개·인터록)",
+          "refs": [
+            {
+              "src": "D8",
+              "page": 268,
+              "locator": ""
+            }
+          ],
+          "evidence": "근거있음"
+        },
+        {
+          "code": "electric",
+          "name": "감전·전기 위험",
+          "summary": "외함접지·누전차단기",
+          "refs": [
+            {
+              "src": "D8",
+              "page": 269,
+              "locator": ""
+            }
+          ],
+          "evidence": "근거있음"
+        }
+      ],
+      "sources": [
+        {
+          "src": "D8",
+          "page": 268,
+          "locator": "커피 ③ 기계점검: 그라인더"
+        }
+      ],
+      "industries": [
+        {
+          "industry": "cafe",
+          "industry_name": "카페",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p268"
+        }
+      ],
+      "note": "",
+      "review_status": "전문가·팀 검수 전"
+    },
+    {
+      "equipment_id": "EQ_ICE_MAKER",
+      "standard_name": "제빙기",
+      "area": "kitchen",
+      "synonyms": [
+        "아이스 메이커"
+      ],
+      "evidence_status": "제안",
+      "hazard_evidence_status": "제안",
+      "related_hazards": [
+        {
+          "code": "electric",
+          "name": "감전·전기 위험",
+          "summary": "물기 있는 전기기기",
+          "refs": [],
+          "evidence": "제안"
+        },
+        {
+          "code": "slip",
+          "name": "미끄러짐·넘어짐",
+          "summary": "주변 물기",
+          "refs": [],
+          "evidence": "제안"
+        },
+        {
+          "code": "chemical",
+          "name": "세척제·화학물질",
+          "summary": "세척·소독제 취급",
+          "refs": [],
+          "evidence": "제안"
+        }
+      ],
+      "sources": [],
+      "industries": [
+        {
+          "industry": "chicken",
+          "industry_name": "치킨",
+          "basis_type": "제안",
+          "basis_note": ""
+        },
+        {
+          "industry": "cafe",
+          "industry_name": "카페",
+          "basis_type": "제안",
+          "basis_note": ""
+        },
+        {
+          "industry": "other",
+          "industry_name": "기타",
+          "basis_type": "제안",
+          "basis_note": ""
+        }
+      ],
+      "note": "근거 자료 없음. 위험요인도 제안.",
+      "review_status": "전문가·팀 검수 전"
+    },
+    {
+      "equipment_id": "EQ_ICE_CRUSHER",
+      "standard_name": "쇄빙기·빙수기",
+      "area": "kitchen",
+      "synonyms": [
+        "빙삭기",
+        "빙수기계",
+        "얼음 분쇄기"
+      ],
+      "evidence_status": "근거있음",
+      "hazard_evidence_status": "제안",
+      "related_hazards": [
+        {
+          "code": "cut",
+          "name": "베임·절단·끼임",
+          "summary": "회전날 접촉(제안)",
+          "refs": [],
+          "evidence": "제안"
+        },
+        {
+          "code": "electric",
+          "name": "감전·전기 위험",
+          "summary": "물기 있는 전기기기(제안)",
+          "refs": [],
+          "evidence": "제안"
+        }
+      ],
+      "sources": [
+        {
+          "src": "D8",
+          "page": 274,
+          "locator": "제과제빵 ⑤ 진열·판매: 쇄빙기"
+        }
+      ],
+      "industries": [
+        {
+          "industry": "cafe",
+          "industry_name": "카페",
+          "basis_type": "제안",
+          "basis_note": "D8 제과제빵 p274 참고"
+        },
+        {
+          "industry": "other",
+          "industry_name": "기타",
+          "basis_type": "제안",
+          "basis_note": ""
+        }
+      ],
+      "note": "D8은 기기명만 제시. 위험요인은 제안.",
+      "review_status": "전문가·팀 검수 전"
+    },
+    {
+      "equipment_id": "EQ_WATER_HEATER",
+      "standard_name": "온수기",
+      "area": "kitchen",
+      "synonyms": [
+        "소형 온수기",
+        "전기온수기",
+        "온수 디스펜서"
+      ],
+      "evidence_status": "제안",
+      "hazard_evidence_status": "제안",
+      "related_hazards": [
+        {
+          "code": "burn",
+          "name": "고온 접촉·화상",
+          "summary": "뜨거운 물 화상(제안)",
+          "refs": [],
+          "evidence": "제안"
+        },
+        {
+          "code": "electric",
+          "name": "감전·전기 위험",
+          "summary": "전기기기(제안)",
+          "refs": [],
+          "evidence": "제안"
+        }
+      ],
+      "sources": [
+        {
+          "src": "DESIGN",
+          "page": 14,
+          "locator": "S03 AI 인식 예시 \"소형 온수기\""
+        }
+      ],
+      "industries": [
+        {
+          "industry": "chicken",
+          "industry_name": "치킨",
+          "basis_type": "제안",
+          "basis_note": "화면설계서 예시"
+        },
+        {
+          "industry": "bunsik",
+          "industry_name": "분식",
+          "basis_type": "제안",
+          "basis_note": ""
+        },
+        {
+          "industry": "cafe",
+          "industry_name": "카페",
+          "basis_type": "제안",
+          "basis_note": ""
+        },
+        {
+          "industry": "other",
+          "industry_name": "기타",
+          "basis_type": "제안",
+          "basis_note": ""
+        }
+      ],
+      "note": "안전 자료 근거 없음.",
+      "review_status": "전문가·팀 검수 전"
+    },
+    {
+      "equipment_id": "EQ_BEER_DISPENSER",
+      "standard_name": "생맥주 디스펜서",
+      "area": "hall",
+      "synonyms": [
+        "생맥주 기계",
+        "맥주 서버",
+        "탄산가스 용기"
+      ],
+      "evidence_status": "제안",
+      "hazard_evidence_status": "제안",
+      "related_hazards": [
+        {
+          "code": "gas",
+          "name": "가스 누출·폭발",
+          "summary": "탄산가스(CO2) 용기 취급(제안)",
+          "refs": [],
+          "evidence": "제안"
+        },
+        {
+          "code": "falling",
+          "name": "낙하·충돌·추락",
+          "summary": "케그·가스용기 넘어짐(제안)",
+          "refs": [],
+          "evidence": "제안"
+        },
+        {
+          "code": "ergonomic",
+          "name": "중량물·근골격계 부담",
+          "summary": "케그 운반(제안)",
+          "refs": [],
+          "evidence": "제안"
+        }
+      ],
+      "sources": [
+        {
+          "src": "PHOTO",
+          "page": null,
+          "locator": "261113_P01_bApoYZBPCLE_0148.00s_DR(추정)"
+        }
+      ],
+      "industries": [
+        {
+          "industry": "chicken",
+          "industry_name": "치킨",
+          "basis_type": "제안",
+          "basis_note": "사진 관찰 추정"
+        },
+        {
+          "industry": "other",
+          "industry_name": "기타",
+          "basis_type": "제안",
+          "basis_note": ""
+        }
+      ],
+      "note": "근거 자료 없음. 사진 판독도 추정.",
+      "review_status": "전문가·팀 검수 전"
+    },
+    {
+      "equipment_id": "EQ_DISHWASHER",
+      "standard_name": "식기세척기",
+      "area": "kitchen",
+      "synonyms": [
+        "세척기",
+        "컨베이어 식기세척기",
+        "도어형 세척기"
+      ],
+      "evidence_status": "근거있음",
+      "hazard_evidence_status": "근거있음",
+      "related_hazards": [
+        {
+          "code": "cut",
+          "name": "베임·절단·끼임",
+          "summary": "컨베이어에 손 말림",
+          "refs": [
+            {
+              "src": "CHK",
+              "page": 8,
+              "locator": "CHK-4-2-5-01"
+            }
+          ],
+          "evidence": "근거있음"
+        },
+        {
+          "code": "electric",
+          "name": "감전·전기 위험",
+          "summary": "접지·누전차단기 미흡",
+          "refs": [
+            {
+              "src": "CHK",
+              "page": 8,
+              "locator": "CHK-4-2-5-03"
+            }
+          ],
+          "evidence": "근거있음"
+        },
+        {
+          "code": "burn",
+          "name": "고온 접촉·화상",
+          "summary": "증기가 근로자 방향 배출",
+          "refs": [
+            {
+              "src": "CHK",
+              "page": 8,
+              "locator": "CHK-4-2-5-06"
+            }
+          ],
+          "evidence": "근거있음"
+        },
+        {
+          "code": "slip",
+          "name": "미끄러짐·넘어짐",
+          "summary": "주변 물기",
+          "refs": [
+            {
+              "src": "CHK",
+              "page": 8,
+              "locator": "CHK-4-2-5-08"
+            }
+          ],
+          "evidence": "근거있음"
+        },
+        {
+          "code": "noise_vibration",
+          "name": "소음·진동",
+          "summary": "85dB 이상 소음 장소",
+          "refs": [
+            {
+              "src": "CHK",
+              "page": 13,
+              "locator": "CHK-4-4-2-09"
+            }
+          ],
+          "evidence": "근거있음"
+        }
+      ],
+      "sources": [
+        {
+          "src": "CHK",
+          "page": 8,
+          "locator": "CHK-4-2-5 식기세척기"
+        },
+        {
+          "src": "D8",
+          "page": 266,
+          "locator": "치킨 ⑥ 후처리: 세척기"
+        },
+        {
+          "src": "D8",
+          "page": 270,
+          "locator": "커피 ⑥: 세척기"
+        },
+        {
+          "src": "D8",
+          "page": 252,
+          "locator": "한식 ⑥: 세척기"
+        }
+      ],
+      "industries": [
+        {
+          "industry": "chicken",
+          "industry_name": "치킨",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p266"
+        },
+        {
+          "industry": "bunsik",
+          "industry_name": "분식",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p8"
+        },
+        {
+          "industry": "cafe",
+          "industry_name": "카페",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p270"
+        },
+        {
+          "industry": "korean",
+          "industry_name": "한식",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p252"
+        },
+        {
+          "industry": "other",
+          "industry_name": "기타",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p8"
+        }
+      ],
+      "note": "",
+      "review_status": "전문가·팀 검수 전"
+    },
+    {
+      "equipment_id": "EQ_STERILIZER",
+      "standard_name": "식기소독기",
+      "area": "kitchen",
+      "synonyms": [
+        "소독기",
+        "살균기",
+        "자외선 살균기",
+        "컵 소독기"
+      ],
+      "evidence_status": "근거있음",
+      "hazard_evidence_status": "근거있음",
+      "related_hazards": [
+        {
+          "code": "burn",
+          "name": "고온 접촉·화상",
+          "summary": "고온 소독 화상(제안)",
+          "refs": [],
+          "evidence": "제안"
+        },
+        {
+          "code": "chemical",
+          "name": "세척제·화학물질",
+          "summary": "살균기 자외선 노출 피부질환(도어 인터록)",
+          "refs": [
+            {
+              "src": "D8",
+              "page": 252,
+              "locator": ""
+            }
+          ],
+          "evidence": "근거있음"
+        }
+      ],
+      "sources": [
+        {
+          "src": "D8",
+          "page": 266,
+          "locator": "치킨 ⑥: 소독기"
+        },
+        {
+          "src": "D8",
+          "page": 270,
+          "locator": "커피 ⑥: 소독기"
+        },
+        {
+          "src": "D8",
+          "page": 252,
+          "locator": "한식 ⑥: 소독기, 살균기 자외선"
+        }
+      ],
+      "industries": [
+        {
+          "industry": "chicken",
+          "industry_name": "치킨",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p266"
+        },
+        {
+          "industry": "bunsik",
+          "industry_name": "분식",
+          "basis_type": "제안",
+          "basis_note": ""
+        },
+        {
+          "industry": "cafe",
+          "industry_name": "카페",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p270"
+        },
+        {
+          "industry": "korean",
+          "industry_name": "한식",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p252"
+        },
+        {
+          "industry": "other",
+          "industry_name": "기타",
+          "basis_type": "제안",
+          "basis_note": ""
+        }
+      ],
+      "note": "자외선 노출을 chemical로 분류한 것은 임시. 위험유형 체계에 맞는 코드 없음.",
+      "review_status": "전문가·팀 검수 전"
+    },
+    {
+      "equipment_id": "EQ_SINK",
+      "standard_name": "세척대(싱크대)",
+      "area": "kitchen",
+      "synonyms": [
+        "싱크대",
+        "개수대",
+        "세정대"
+      ],
+      "evidence_status": "근거있음",
+      "hazard_evidence_status": "근거있음",
+      "related_hazards": [
+        {
+          "code": "slip",
+          "name": "미끄러짐·넘어짐",
+          "summary": "바닥 물기·호스에 넘어짐",
+          "refs": [
+            {
+              "src": "D8",
+              "page": 252,
+              "locator": ""
+            }
+          ],
+          "evidence": "근거있음"
+        },
+        {
+          "code": "electric",
+          "name": "감전·전기 위험",
+          "summary": "젖은 손으로 콘센트 접촉",
+          "refs": [
+            {
+              "src": "D8",
+              "page": 252,
+              "locator": ""
+            }
+          ],
+          "evidence": "근거있음"
+        },
+        {
+          "code": "chemical",
+          "name": "세척제·화학물질",
+          "summary": "세척제 피부질환",
+          "refs": [
+            {
+              "src": "D8",
+              "page": 252,
+              "locator": ""
+            }
+          ],
+          "evidence": "근거있음"
+        },
+        {
+          "code": "cut",
+          "name": "베임·절단·끼임",
+          "summary": "깨진 그릇 베임",
+          "refs": [
+            {
+              "src": "D8",
+              "page": 252,
+              "locator": ""
+            }
+          ],
+          "evidence": "근거있음"
+        }
+      ],
+      "sources": [
+        {
+          "src": "D8",
+          "page": 252,
+          "locator": "한식 ⑥ 후처리(설거지) 작업 위험. 기기 목록에는 없음"
+        }
+      ],
+      "industries": [
+        {
+          "industry": "chicken",
+          "industry_name": "치킨",
+          "basis_type": "제안",
+          "basis_note": "설거지 작업 근거 D8 p266"
+        },
+        {
+          "industry": "bunsik",
+          "industry_name": "분식",
+          "basis_type": "제안",
+          "basis_note": ""
+        },
+        {
+          "industry": "cafe",
+          "industry_name": "카페",
+          "basis_type": "제안",
+          "basis_note": ""
+        },
+        {
+          "industry": "korean",
+          "industry_name": "한식",
+          "basis_type": "제안",
+          "basis_note": "설거지 작업 근거 D8 p252"
+        },
+        {
+          "industry": "other",
+          "industry_name": "기타",
+          "basis_type": "제안",
+          "basis_note": ""
+        }
+      ],
+      "note": "D8은 설거지 작업 위험을 다루지만 기기 목록에 싱크대를 넣지 않음. 기기 항목화는 제안.",
+      "review_status": "전문가·팀 검수 전"
+    },
+    {
+      "equipment_id": "EQ_EXHAUST_HOOD",
+      "standard_name": "배기후드",
+      "area": "kitchen",
+      "synonyms": [
+        "후드",
+        "배기팬",
+        "환풍기",
+        "덕트",
+        "환기설비"
+      ],
+      "evidence_status": "근거있음",
+      "hazard_evidence_status": "근거있음",
+      "related_hazards": [
+        {
+          "code": "falling",
+          "name": "낙하·충돌·추락",
+          "summary": "후드 청소 시 의자·조리대에서 떨어짐",
+          "refs": [
+            {
+              "src": "CHK",
+              "page": 8,
+              "locator": "CHK-4-2-6-02"
+            },
+            {
+              "src": "D8",
+              "page": 252,
+              "locator": ""
+            }
+          ],
+          "evidence": "근거있음"
+        },
+        {
+          "code": "cut",
+          "name": "베임·절단·끼임",
+          "summary": "배기팬 회전체 접촉",
+          "refs": [
+            {
+              "src": "CHK",
+              "page": 8,
+              "locator": "CHK-4-2-6-05"
+            }
+          ],
+          "evidence": "근거있음"
+        },
+        {
+          "code": "electric",
+          "name": "감전·전기 위험",
+          "summary": "배기팬 접지·누전",
+          "refs": [
+            {
+              "src": "CHK",
+              "page": 8,
+              "locator": "CHK-4-2-6-04"
+            }
+          ],
+          "evidence": "근거있음"
+        },
+        {
+          "code": "respiratory",
+          "name": "조리흄·환기·유해가스 노출",
+          "summary": "조리흄·환기 불량",
+          "refs": [
+            {
+              "src": "CHK",
+              "page": 8,
+              "locator": "CHK-4-2-6-03"
+            },
+            {
+              "src": "D5",
+              "page": 71,
+              "locator": ""
+            }
+          ],
+          "evidence": "근거있음"
+        },
+        {
+          "code": "fire",
+          "name": "화재",
+          "summary": "후드·덕트 기름때",
+          "refs": [
+            {
+              "src": "CHK",
+              "page": 8,
+              "locator": "CHK-4-2-6-01"
+            }
+          ],
+          "evidence": "근거있음"
+        },
+        {
+          "code": "noise_vibration",
+          "name": "소음·진동",
+          "summary": "소음 장소",
+          "refs": [
+            {
+              "src": "CHK",
+              "page": 13,
+              "locator": "CHK-4-4-2-09"
+            }
+          ],
+          "evidence": "근거있음"
+        }
+      ],
+      "sources": [
+        {
+          "src": "CHK",
+          "page": 8,
+          "locator": "CHK-4-2-6 배기후드"
+        },
+        {
+          "src": "D5",
+          "page": 70,
+          "locator": "배기후드 점검·청소"
+        },
+        {
+          "src": "D8",
+          "page": 252,
+          "locator": "한식 후드청소"
+        }
+      ],
+      "industries": [
+        {
+          "industry": "chicken",
+          "industry_name": "치킨",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p8"
+        },
+        {
+          "industry": "bunsik",
+          "industry_name": "분식",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p8"
+        },
+        {
+          "industry": "korean",
+          "industry_name": "한식",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p252-253 후드청소"
+        },
+        {
+          "industry": "other",
+          "industry_name": "기타",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p8"
+        }
+      ],
+      "note": "",
+      "review_status": "전문가·팀 검수 전"
+    },
+    {
+      "equipment_id": "EQ_WASTE_OIL_CONTAINER",
+      "standard_name": "폐유통",
+      "area": "kitchen",
+      "synonyms": [
+        "폐식용유 통",
+        "기름받이 통"
+      ],
+      "evidence_status": "근거있음",
+      "hazard_evidence_status": "근거있음",
+      "related_hazards": [
+        {
+          "code": "burn",
+          "name": "고온 접촉·화상",
+          "summary": "뜨거운 폐유 운반 중 화상",
+          "refs": [
+            {
+              "src": "D8",
+              "page": 252,
+              "locator": ""
+            }
+          ],
+          "evidence": "근거있음"
+        },
+        {
+          "code": "ergonomic",
+          "name": "중량물·근골격계 부담",
+          "summary": "폐유 운반 중량물(제안)",
+          "refs": [],
+          "evidence": "제안"
+        },
+        {
+          "code": "slip",
+          "name": "미끄러짐·넘어짐",
+          "summary": "기름 흘림(제안)",
+          "refs": [],
+          "evidence": "제안"
+        }
+      ],
+      "sources": [
+        {
+          "src": "D8",
+          "page": 266,
+          "locator": "치킨 ⑥ 후처리: 폐유 담은 통"
+        },
+        {
+          "src": "D8",
+          "page": 252,
+          "locator": "폐유 운반 중 화상"
+        }
+      ],
+      "industries": [
+        {
+          "industry": "chicken",
+          "industry_name": "치킨",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p266"
+        },
+        {
+          "industry": "korean",
+          "industry_name": "한식",
+          "basis_type": "제안",
+          "basis_note": "D8 p252 폐유 운반 작업 참고"
+        },
+        {
+          "industry": "other",
+          "industry_name": "기타",
+          "basis_type": "제안",
+          "basis_note": ""
+        }
+      ],
+      "note": "",
+      "review_status": "전문가·팀 검수 전"
+    },
+    {
+      "equipment_id": "EQ_REFRIGERATOR",
+      "standard_name": "업소용 냉장·냉동고",
+      "area": "storage",
+      "synonyms": [
+        "냉장고",
+        "냉동고",
+        "업소용 냉장고",
+        "테이블 냉장고",
+        "김치냉장고",
+        "다목적 냉동고"
+      ],
+      "evidence_status": "근거있음",
+      "hazard_evidence_status": "근거있음",
+      "related_hazards": [
+        {
+          "code": "slip",
+          "name": "미끄러짐·넘어짐",
+          "summary": "냉장·냉동고 출입 시 넘어짐",
+          "refs": [
+            {
+              "src": "D8",
+              "page": 248,
+              "locator": ""
+            }
+          ],
+          "evidence": "근거있음"
+        },
+        {
+          "code": "heat_cold",
+          "name": "고열·한랭 노출",
+          "summary": "장시간 저온 작업",
+          "refs": [
+            {
+              "src": "CHK",
+              "page": 10,
+              "locator": "CHK-4-3-1-10"
+            }
+          ],
+          "evidence": "근거있음"
+        },
+        {
+          "code": "falling",
+          "name": "낙하·충돌·추락",
+          "summary": "적재물 낙하(제안)",
+          "refs": [],
+          "evidence": "제안"
+        },
+        {
+          "code": "electric",
+          "name": "감전·전기 위험",
+          "summary": "전기기기 누전(제안)",
+          "refs": [],
+          "evidence": "제안"
+        }
+      ],
+      "sources": [
+        {
+          "src": "CHK",
+          "page": 10,
+          "locator": "CHK-4-3-1 식자재 운반·보관(냉장·냉동고)"
+        },
+        {
+          "src": "D8",
+          "page": 263,
+          "locator": "치킨 ② 냉장고 보관"
+        },
+        {
+          "src": "D8",
+          "page": 267,
+          "locator": "커피 ② 냉장고"
+        },
+        {
+          "src": "D8",
+          "page": 248,
+          "locator": "한식 ② 냉장고"
+        },
+        {
+          "src": "DESIGN",
+          "page": 14,
+          "locator": "S03 예시 \"업소용 냉장고\""
+        }
+      ],
+      "industries": [
+        {
+          "industry": "chicken",
+          "industry_name": "치킨",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p263"
+        },
+        {
+          "industry": "bunsik",
+          "industry_name": "분식",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p10"
+        },
+        {
+          "industry": "cafe",
+          "industry_name": "카페",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p267"
+        },
+        {
+          "industry": "korean",
+          "industry_name": "한식",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p248"
+        },
+        {
+          "industry": "other",
+          "industry_name": "기타",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p10"
+        }
+      ],
+      "note": "",
+      "review_status": "전문가·팀 검수 전"
+    },
+    {
+      "equipment_id": "EQ_WALKIN_COOLER",
+      "standard_name": "냉장·냉동창고",
+      "area": "storage",
+      "synonyms": [
+        "워크인 냉장고",
+        "워크인 냉동고",
+        "냉동창고",
+        "저온창고"
+      ],
+      "evidence_status": "근거있음",
+      "hazard_evidence_status": "근거있음",
+      "related_hazards": [
+        {
+          "code": "entrapment",
+          "name": "냉장·냉동실 갇힘",
+          "summary": "출입문이 안에서 열리지 않아 갇힘",
+          "refs": [
+            {
+              "src": "CHK",
+              "page": 10,
+              "locator": "CHK-4-3-1-09"
+            },
+            {
+              "src": "CHK",
+              "page": 14,
+              "locator": "CHK-4-4-3-07"
+            }
+          ],
+          "evidence": "근거있음"
+        },
+        {
+          "code": "heat_cold",
+          "name": "고열·한랭 노출",
+          "summary": "한랭 노출·저체온",
+          "refs": [
+            {
+              "src": "CHK",
+              "page": 14,
+              "locator": "CHK-4-4-3-10"
+            }
+          ],
+          "evidence": "근거있음"
+        },
+        {
+          "code": "slip",
+          "name": "미끄러짐·넘어짐",
+          "summary": "출입 시 넘어짐",
+          "refs": [
+            {
+              "src": "D5",
+              "page": 72,
+              "locator": ""
+            }
+          ],
+          "evidence": "근거있음"
+        }
+      ],
+      "sources": [
+        {
+          "src": "CHK",
+          "page": 10,
+          "locator": "냉장·냉동고 출입문"
+        },
+        {
+          "src": "CHK",
+          "page": 14,
+          "locator": "냉동·냉장창고"
+        }
+      ],
+      "industries": [
+        {
+          "industry": "korean",
+          "industry_name": "한식",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p10, p14"
+        },
+        {
+          "industry": "other",
+          "industry_name": "기타",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p10, p14"
+        }
+      ],
+      "note": "사람이 들어가는 창고형만 해당. 일반 냉장고와 구분.",
+      "review_status": "전문가·팀 검수 전"
+    },
+    {
+      "equipment_id": "EQ_DISPLAY_COOLER",
+      "standard_name": "쇼케이스 냉장고",
+      "area": "hall",
+      "synonyms": [
+        "음료 쇼케이스",
+        "음료 냉장고",
+        "진열 냉장고",
+        "매대"
+      ],
+      "evidence_status": "근거있음",
+      "hazard_evidence_status": "근거있음",
+      "related_hazards": [
+        {
+          "code": "electric",
+          "name": "감전·전기 위험",
+          "summary": "매대 전선 노출 감전",
+          "refs": [
+            {
+              "src": "D8",
+              "page": 274,
+              "locator": ""
+            }
+          ],
+          "evidence": "근거있음"
+        },
+        {
+          "code": "falling",
+          "name": "낙하·충돌·추락",
+          "summary": "이동대차와 부딪힘",
+          "refs": [
+            {
+              "src": "D8",
+              "page": 274,
+              "locator": ""
+            }
+          ],
+          "evidence": "근거있음"
+        }
+      ],
+      "sources": [
+        {
+          "src": "D8",
+          "page": 274,
+          "locator": "제과제빵 ⑤ 진열·판매 매대"
+        }
+      ],
+      "industries": [
+        {
+          "industry": "chicken",
+          "industry_name": "치킨",
+          "basis_type": "제안",
+          "basis_note": "사진 관찰(bhc 휘경점)"
+        },
+        {
+          "industry": "bunsik",
+          "industry_name": "분식",
+          "basis_type": "제안",
+          "basis_note": ""
+        },
+        {
+          "industry": "cafe",
+          "industry_name": "카페",
+          "basis_type": "제안",
+          "basis_note": "D8 제과제빵 p274 참고"
+        },
+        {
+          "industry": "korean",
+          "industry_name": "한식",
+          "basis_type": "제안",
+          "basis_note": ""
+        },
+        {
+          "industry": "other",
+          "industry_name": "기타",
+          "basis_type": "제안",
+          "basis_note": ""
+        }
+      ],
+      "note": "",
+      "review_status": "전문가·팀 검수 전"
+    },
+    {
+      "equipment_id": "EQ_CART",
+      "standard_name": "운반대차",
+      "area": "storage",
+      "synonyms": [
+        "이동대차",
+        "카트",
+        "서빙카트",
+        "대차",
+        "서빙용 이동식 대차"
+      ],
+      "evidence_status": "근거있음",
+      "hazard_evidence_status": "근거있음",
+      "related_hazards": [
+        {
+          "code": "ergonomic",
+          "name": "중량물·근골격계 부담",
+          "summary": "중량물 운반",
+          "refs": [
+            {
+              "src": "CHK",
+              "page": 10,
+              "locator": "CHK-4-3-1-03"
+            },
+            {
+              "src": "D8",
+              "page": 248,
+              "locator": ""
+            }
+          ],
+          "evidence": "근거있음"
+        },
+        {
+          "code": "falling",
+          "name": "낙하·충돌·추락",
+          "summary": "과적·편하중으로 물체 낙하",
+          "refs": [
+            {
+              "src": "D8",
+              "page": 248,
+              "locator": ""
+            }
+          ],
+          "evidence": "근거있음"
+        },
+        {
+          "code": "cut",
+          "name": "베임·절단·끼임",
+          "summary": "이동식 대차에 끼임",
+          "refs": [
+            {
+              "src": "D8",
+              "page": 248,
+              "locator": ""
+            }
+          ],
+          "evidence": "근거있음"
+        },
+        {
+          "code": "slip",
+          "name": "미끄러짐·넘어짐",
+          "summary": "바닥 돌출부·트랜치에 걸려 넘어짐",
+          "refs": [
+            {
+              "src": "D8",
+              "page": 248,
+              "locator": ""
+            }
+          ],
+          "evidence": "근거있음"
+        }
+      ],
+      "sources": [
+        {
+          "src": "CHK",
+          "page": 10,
+          "locator": "운반대차"
+        },
+        {
+          "src": "D5",
+          "page": 72,
+          "locator": "운반대차"
+        },
+        {
+          "src": "D8",
+          "page": 262,
+          "locator": "치킨 ① 이동대차"
+        },
+        {
+          "src": "D8",
+          "page": 267,
+          "locator": "커피 ① 이동대차"
+        },
+        {
+          "src": "D8",
+          "page": 248,
+          "locator": "한식 ① 이동대차"
+        }
+      ],
+      "industries": [
+        {
+          "industry": "chicken",
+          "industry_name": "치킨",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p262"
+        },
+        {
+          "industry": "bunsik",
+          "industry_name": "분식",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p10"
+        },
+        {
+          "industry": "cafe",
+          "industry_name": "카페",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p267"
+        },
+        {
+          "industry": "korean",
+          "industry_name": "한식",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p248"
+        },
+        {
+          "industry": "other",
+          "industry_name": "기타",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p10"
+        }
+      ],
+      "note": "",
+      "review_status": "전문가·팀 검수 전"
+    },
+    {
+      "equipment_id": "EQ_SHELF",
+      "standard_name": "적재 선반",
+      "area": "storage",
+      "synonyms": [
+        "선반",
+        "벽선반",
+        "랙",
+        "수납선반"
+      ],
+      "evidence_status": "근거있음",
+      "hazard_evidence_status": "근거있음",
+      "related_hazards": [
+        {
+          "code": "falling",
+          "name": "낙하·충돌·추락",
+          "summary": "선반에서 중량물 낙하·불안정한 발판에서 떨어짐",
+          "refs": [
+            {
+              "src": "D8",
+              "page": 248,
+              "locator": ""
+            },
+            {
+              "src": "CHK",
+              "page": 10,
+              "locator": "CHK-4-3-1-07"
+            }
+          ],
+          "evidence": "근거있음"
+        },
+        {
+          "code": "cut",
+          "name": "베임·절단·끼임",
+          "summary": "선반 날카로운 부분에 부딪힘·베임",
+          "refs": [
+            {
+              "src": "CHK",
+              "page": 10,
+              "locator": "CHK-4-3-1-06"
+            }
+          ],
+          "evidence": "근거있음"
+        },
+        {
+          "code": "ergonomic",
+          "name": "중량물·근골격계 부담",
+          "summary": "인력 적재 요통",
+          "refs": [
+            {
+              "src": "D8",
+              "page": 248,
+              "locator": ""
+            }
+          ],
+          "evidence": "근거있음"
+        }
+      ],
+      "sources": [
+        {
+          "src": "CHK",
+          "page": 10,
+          "locator": "선반"
+        },
+        {
+          "src": "D5",
+          "page": 72,
+          "locator": "선반"
+        },
+        {
+          "src": "D8",
+          "page": 263,
+          "locator": "치킨 ② 적재·보관"
+        },
+        {
+          "src": "D8",
+          "page": 268,
+          "locator": "커피 적재·보관"
+        },
+        {
+          "src": "D8",
+          "page": 248,
+          "locator": "한식 적재·보관"
+        }
+      ],
+      "industries": [
+        {
+          "industry": "chicken",
+          "industry_name": "치킨",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p263"
+        },
+        {
+          "industry": "bunsik",
+          "industry_name": "분식",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p10"
+        },
+        {
+          "industry": "cafe",
+          "industry_name": "카페",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p268"
+        },
+        {
+          "industry": "korean",
+          "industry_name": "한식",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p248"
+        },
+        {
+          "industry": "other",
+          "industry_name": "기타",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p10"
+        }
+      ],
+      "note": "D8은 기기 목록이 아니라 위험요인 표에서 선반을 다룸. 작업대 하부 선반은 제외.",
+      "review_status": "전문가·팀 검수 전"
+    },
+    {
+      "equipment_id": "EQ_LADDER",
+      "standard_name": "사다리·작업발판",
+      "area": "storage",
+      "synonyms": [
+        "이동식 사다리",
+        "A형 사다리",
+        "발붙임 사다리",
+        "작업발판"
+      ],
+      "evidence_status": "근거있음",
+      "hazard_evidence_status": "근거있음",
+      "related_hazards": [
+        {
+          "code": "falling",
+          "name": "낙하·충돌·추락",
+          "summary": "사다리·발판에서 추락",
+          "refs": [
+            {
+              "src": "CHK",
+              "page": 3,
+              "locator": "CHK-4-1-2"
+            },
+            {
+              "src": "D5",
+              "page": 66,
+              "locator": ""
+            }
+          ],
+          "evidence": "근거있음"
+        },
+        {
+          "code": "electric",
+          "name": "감전·전기 위험",
+          "summary": "주변 전선 감전",
+          "refs": [
+            {
+              "src": "CHK",
+              "page": 3,
+              "locator": "CHK-4-1-2-12"
+            }
+          ],
+          "evidence": "근거있음"
+        }
+      ],
+      "sources": [
+        {
+          "src": "CHK",
+          "page": 3,
+          "locator": "CHK-4-1-2 사다리"
+        },
+        {
+          "src": "D5",
+          "page": 58,
+          "locator": "사다리 작업 중 추락"
+        }
+      ],
+      "industries": [
+        {
+          "industry": "chicken",
+          "industry_name": "치킨",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p3-4"
+        },
+        {
+          "industry": "bunsik",
+          "industry_name": "분식",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p3-4"
+        },
+        {
+          "industry": "cafe",
+          "industry_name": "카페",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p3-4"
+        },
+        {
+          "industry": "korean",
+          "industry_name": "한식",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p3-4"
+        },
+        {
+          "industry": "other",
+          "industry_name": "기타",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p3-4"
+        }
+      ],
+      "note": "",
+      "review_status": "전문가·팀 검수 전"
+    },
+    {
+      "equipment_id": "EQ_DUMBWAITER",
+      "standard_name": "덤웨이터(간이리프트)",
+      "area": "storage",
+      "synonyms": [
+        "음식 운반용 승강기",
+        "간이리프트",
+        "리프트"
+      ],
+      "evidence_status": "근거있음",
+      "hazard_evidence_status": "근거있음",
+      "related_hazards": [
+        {
+          "code": "cut",
+          "name": "베임·절단·끼임",
+          "summary": "운반구·출입문 사이 끼임",
+          "refs": [
+            {
+              "src": "D5",
+              "page": 67,
+              "locator": ""
+            },
+            {
+              "src": "CHK",
+              "page": 7,
+              "locator": "CHK-4-2-4-08"
+            }
+          ],
+          "evidence": "근거있음"
+        },
+        {
+          "code": "falling",
+          "name": "낙하·충돌·추락",
+          "summary": "탑승·추락",
+          "refs": [
+            {
+              "src": "CHK",
+              "page": 7,
+              "locator": "CHK-4-2-4-01"
+            },
+            {
+              "src": "CHK",
+              "page": 10,
+              "locator": "CHK-4-3-1-12"
+            }
+          ],
+          "evidence": "근거있음"
+        }
+      ],
+      "sources": [
+        {
+          "src": "CHK",
+          "page": 7,
+          "locator": "CHK-4-2-4 리프트(간이리프트 등)"
+        },
+        {
+          "src": "D5",
+          "page": 67,
+          "locator": "음식 운반용 승강기(덤웨이터)"
+        }
+      ],
+      "industries": [
+        {
+          "industry": "korean",
+          "industry_name": "한식",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p7"
+        },
+        {
+          "industry": "other",
+          "industry_name": "기타",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p7"
+        }
+      ],
+      "note": "다층 매장에만 해당.",
+      "review_status": "전문가·팀 검수 전"
+    },
+    {
+      "equipment_id": "EQ_MOTORCYCLE",
+      "standard_name": "배달 이륜차",
+      "area": "delivery",
+      "synonyms": [
+        "오토바이",
+        "스쿠터",
+        "배달 오토바이"
+      ],
+      "evidence_status": "근거있음",
+      "hazard_evidence_status": "근거있음",
+      "related_hazards": [
+        {
+          "code": "traffic",
+          "name": "교통사고",
+          "summary": "배달 중 교통사고",
+          "refs": [
+            {
+              "src": "CHK",
+              "page": 9,
+              "locator": "CHK-4-2-7"
+            },
+            {
+              "src": "D5",
+              "page": 59,
+              "locator": ""
+            },
+            {
+              "src": "D8",
+              "page": 265,
+              "locator": ""
+            }
+          ],
+          "evidence": "근거있음"
+        },
+        {
+          "code": "slip",
+          "name": "미끄러짐·넘어짐",
+          "summary": "빗길·빙판길 미끄러짐",
+          "refs": [
+            {
+              "src": "D8",
+              "page": 251,
+              "locator": ""
+            }
+          ],
+          "evidence": "근거있음"
+        }
+      ],
+      "sources": [
+        {
+          "src": "CHK",
+          "page": 9,
+          "locator": "CHK-4-2-7 이륜차"
+        },
+        {
+          "src": "D8",
+          "page": 265,
+          "locator": "치킨 ⑤ 배달: 이륜차"
+        },
+        {
+          "src": "D8",
+          "page": 251,
+          "locator": "한식 ⑤ 배달: 이륜차"
+        },
+        {
+          "src": "D5",
+          "page": 59,
+          "locator": "이륜차 배달업무"
+        }
+      ],
+      "industries": [
+        {
+          "industry": "chicken",
+          "industry_name": "치킨",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p265"
+        },
+        {
+          "industry": "bunsik",
+          "industry_name": "분식",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p9"
+        },
+        {
+          "industry": "cafe",
+          "industry_name": "카페",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p9"
+        },
+        {
+          "industry": "korean",
+          "industry_name": "한식",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p251"
+        },
+        {
+          "industry": "other",
+          "industry_name": "기타",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p9"
+        }
+      ],
+      "note": "사진 인식 대상 아님(주방·홀 사진에 잘 나오지 않음). B02 목록용.",
+      "review_status": "전문가·팀 검수 전"
+    },
+    {
+      "equipment_id": "EQ_GAS_CYLINDER",
+      "standard_name": "가스용기(LPG·부탄)",
+      "area": "facility",
+      "synonyms": [
+        "LPG 용기",
+        "가스통",
+        "부탄캔",
+        "부탄가스"
+      ],
+      "evidence_status": "근거있음",
+      "hazard_evidence_status": "근거있음",
+      "related_hazards": [
+        {
+          "code": "gas",
+          "name": "가스 누출·폭발",
+          "summary": "용기 전도·파손으로 누출, 화재·폭발",
+          "refs": [
+            {
+              "src": "CASE_A",
+              "page": 16,
+              "locator": "CASE-FOOD_A_02"
+            },
+            {
+              "src": "CASE_A",
+              "page": 17,
+              "locator": "CASE-FOOD_A_03"
+            }
+          ],
+          "evidence": "근거있음"
+        },
+        {
+          "code": "fire",
+          "name": "화재",
+          "summary": "인화성 가스 화재",
+          "refs": [
+            {
+              "src": "CHK",
+              "page": 12,
+              "locator": "CHK-4-4-1-06"
+            }
+          ],
+          "evidence": "근거있음"
+        }
+      ],
+      "sources": [
+        {
+          "src": "CASE_A",
+          "page": 16,
+          "locator": "LPG 가스용기 전도방지"
+        },
+        {
+          "src": "CHK",
+          "page": 12,
+          "locator": "LPG가스 검지·경보장치"
+        },
+        {
+          "src": "D5",
+          "page": 64,
+          "locator": "LPG·LNG 감지기 위치"
+        }
+      ],
+      "industries": [
+        {
+          "industry": "chicken",
+          "industry_name": "치킨",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p12"
+        },
+        {
+          "industry": "bunsik",
+          "industry_name": "분식",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p12"
+        },
+        {
+          "industry": "korean",
+          "industry_name": "한식",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p12, 사례 p16-17"
+        },
+        {
+          "industry": "other",
+          "industry_name": "기타",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p12"
+        }
+      ],
+      "note": "부탄캔은 사진 관찰로 동의어에 추가. LPG 용기와 위험 수준이 다르므로 분리 여부 검수 필요.",
+      "review_status": "전문가·팀 검수 전"
+    },
+    {
+      "equipment_id": "EQ_ELECTRIC_PANEL",
+      "standard_name": "전기설비(분전반·콘센트·멀티탭)",
+      "area": "facility",
+      "synonyms": [
+        "분전반",
+        "콘센트",
+        "멀티탭",
+        "연장선",
+        "전선"
+      ],
+      "evidence_status": "근거있음",
+      "hazard_evidence_status": "근거있음",
+      "related_hazards": [
+        {
+          "code": "electric",
+          "name": "감전·전기 위험",
+          "summary": "분전반 잠금·표지 미흡, 바닥 콘센트 파손 감전",
+          "refs": [
+            {
+              "src": "CASE_N",
+              "page": 42,
+              "locator": "CASE-KITCHEN_N_01"
+            },
+            {
+              "src": "CASE_A",
+              "page": 15,
+              "locator": "CASE-FOOD_A_01"
+            }
+          ],
+          "evidence": "근거있음"
+        },
+        {
+          "code": "fire",
+          "name": "화재",
+          "summary": "콘센트 파손·전선 과열 화재",
+          "refs": [
+            {
+              "src": "CASE_A",
+              "page": 15,
+              "locator": "CASE-FOOD_A_01"
+            }
+          ],
+          "evidence": "근거있음"
+        },
+        {
+          "code": "gas",
+          "name": "가스 누출·폭발",
+          "summary": "가스 배관에 전선 고정 시 화재·폭발",
+          "refs": [
+            {
+              "src": "CASE_A",
+              "page": 18,
+              "locator": "CASE-FOOD_A_04"
+            }
+          ],
+          "evidence": "근거있음"
+        }
+      ],
+      "sources": [
+        {
+          "src": "CASE_A",
+          "page": 15,
+          "locator": "바닥 콘센트"
+        },
+        {
+          "src": "CASE_A",
+          "page": 18,
+          "locator": "가스배관 전선 고정"
+        },
+        {
+          "src": "CASE_N",
+          "page": 42,
+          "locator": "분전반"
+        },
+        {
+          "src": "D8",
+          "page": 97,
+          "locator": "통로 전기 코드"
+        },
+        {
+          "src": "CHK",
+          "page": 5,
+          "locator": "누전차단기"
+        }
+      ],
+      "industries": [
+        {
+          "industry": "chicken",
+          "industry_name": "치킨",
+          "basis_type": "공통근거",
+          "basis_note": "사례 CASE_A p15·p18, CASE_N p42"
+        },
+        {
+          "industry": "bunsik",
+          "industry_name": "분식",
+          "basis_type": "공통근거",
+          "basis_note": "사례 CASE_A p15·p18, CASE_N p42"
+        },
+        {
+          "industry": "cafe",
+          "industry_name": "카페",
+          "basis_type": "공통근거",
+          "basis_note": "사례 CASE_A p15·p18, CASE_N p42"
+        },
+        {
+          "industry": "korean",
+          "industry_name": "한식",
+          "basis_type": "공통근거",
+          "basis_note": "사례 CASE_A p15·p18, CASE_N p42"
+        },
+        {
+          "industry": "other",
+          "industry_name": "기타",
+          "basis_type": "공통근거",
+          "basis_note": "사례 CASE_A p15·p18, CASE_N p42"
+        }
+      ],
+      "note": "기기보다 설비에 가까움. B02 목록 포함 여부는 팀 결정 필요.",
+      "review_status": "전문가·팀 검수 전"
+    }
+  ],
+  "industry_lists": {
+    "chicken": {
+      "industry_name": "치킨",
+      "items": [
+        {
+          "equipment_id": "EQ_FRYER",
+          "standard_name": "튀김기",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p264"
+        },
+        {
+          "equipment_id": "EQ_OVEN",
+          "standard_name": "오븐",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p264"
+        },
+        {
+          "equipment_id": "EQ_KNIFE_BOARD",
+          "standard_name": "칼·도마",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p263"
+        },
+        {
+          "equipment_id": "EQ_SCISSORS",
+          "standard_name": "주방가위",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p263"
+        },
+        {
+          "equipment_id": "EQ_VEG_CUTTER",
+          "standard_name": "채소절단기",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p263"
+        },
+        {
+          "equipment_id": "EQ_MIXER",
+          "standard_name": "혼합기·믹서기",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p263-264"
+        },
+        {
+          "equipment_id": "EQ_DISHWASHER",
+          "standard_name": "식기세척기",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p266"
+        },
+        {
+          "equipment_id": "EQ_STERILIZER",
+          "standard_name": "식기소독기",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p266"
+        },
+        {
+          "equipment_id": "EQ_WASTE_OIL_CONTAINER",
+          "standard_name": "폐유통",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p266"
+        },
+        {
+          "equipment_id": "EQ_REFRIGERATOR",
+          "standard_name": "업소용 냉장·냉동고",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p263"
+        },
+        {
+          "equipment_id": "EQ_CART",
+          "standard_name": "운반대차",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p262"
+        },
+        {
+          "equipment_id": "EQ_SHELF",
+          "standard_name": "적재 선반",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p263"
+        },
+        {
+          "equipment_id": "EQ_MOTORCYCLE",
+          "standard_name": "배달 이륜차",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p265"
+        },
+        {
+          "equipment_id": "EQ_GAS_RANGE",
+          "standard_name": "가스레인지",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p6. 화면설계서 p9 치킨 예시에도 있음"
+        },
+        {
+          "equipment_id": "EQ_EXHAUST_HOOD",
+          "standard_name": "배기후드",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p8"
+        },
+        {
+          "equipment_id": "EQ_LADDER",
+          "standard_name": "사다리·작업발판",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p3-4"
+        },
+        {
+          "equipment_id": "EQ_GAS_CYLINDER",
+          "standard_name": "가스용기(LPG·부탄)",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p12"
+        },
+        {
+          "equipment_id": "EQ_ELECTRIC_PANEL",
+          "standard_name": "전기설비(분전반·콘센트·멀티탭)",
+          "basis_type": "공통근거",
+          "basis_note": "사례 CASE_A p15·p18, CASE_N p42"
+        },
+        {
+          "equipment_id": "EQ_GRILL",
+          "standard_name": "그릴",
+          "basis_type": "제안",
+          "basis_note": "사진 관찰(BBQ 행당점)"
+        },
+        {
+          "equipment_id": "EQ_MICROWAVE",
+          "standard_name": "전자레인지",
+          "basis_type": "제안",
+          "basis_note": "사진 관찰(bhc 휘경점, BBQ 영상)"
+        },
+        {
+          "equipment_id": "EQ_RICE_COOKER",
+          "standard_name": "취반기·밥솥",
+          "basis_type": "제안",
+          "basis_note": "사진 관찰(교촌 용답점)"
+        },
+        {
+          "equipment_id": "EQ_COOKING_ROBOT",
+          "standard_name": "조리 로봇",
+          "basis_type": "제안",
+          "basis_note": "사진 관찰"
+        },
+        {
+          "equipment_id": "EQ_MARINATOR",
+          "standard_name": "염지기",
+          "basis_type": "제안",
+          "basis_note": "화면설계서 예시"
+        },
+        {
+          "equipment_id": "EQ_ICE_MAKER",
+          "standard_name": "제빙기",
+          "basis_type": "제안",
+          "basis_note": ""
+        },
+        {
+          "equipment_id": "EQ_WATER_HEATER",
+          "standard_name": "온수기",
+          "basis_type": "제안",
+          "basis_note": "화면설계서 예시"
+        },
+        {
+          "equipment_id": "EQ_BEER_DISPENSER",
+          "standard_name": "생맥주 디스펜서",
+          "basis_type": "제안",
+          "basis_note": "사진 관찰 추정"
+        },
+        {
+          "equipment_id": "EQ_SINK",
+          "standard_name": "세척대(싱크대)",
+          "basis_type": "제안",
+          "basis_note": "설거지 작업 근거 D8 p266"
+        },
+        {
+          "equipment_id": "EQ_DISPLAY_COOLER",
+          "standard_name": "쇼케이스 냉장고",
+          "basis_type": "제안",
+          "basis_note": "사진 관찰(bhc 휘경점)"
+        }
+      ]
+    },
+    "bunsik": {
+      "industry_name": "분식",
+      "items": [
+        {
+          "equipment_id": "EQ_GAS_RANGE",
+          "standard_name": "가스레인지",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p6"
+        },
+        {
+          "equipment_id": "EQ_DISHWASHER",
+          "standard_name": "식기세척기",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p8"
+        },
+        {
+          "equipment_id": "EQ_EXHAUST_HOOD",
+          "standard_name": "배기후드",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p8"
+        },
+        {
+          "equipment_id": "EQ_REFRIGERATOR",
+          "standard_name": "업소용 냉장·냉동고",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p10"
+        },
+        {
+          "equipment_id": "EQ_CART",
+          "standard_name": "운반대차",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p10"
+        },
+        {
+          "equipment_id": "EQ_SHELF",
+          "standard_name": "적재 선반",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p10"
+        },
+        {
+          "equipment_id": "EQ_LADDER",
+          "standard_name": "사다리·작업발판",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p3-4"
+        },
+        {
+          "equipment_id": "EQ_MOTORCYCLE",
+          "standard_name": "배달 이륜차",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p9"
+        },
+        {
+          "equipment_id": "EQ_GAS_CYLINDER",
+          "standard_name": "가스용기(LPG·부탄)",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p12"
+        },
+        {
+          "equipment_id": "EQ_ELECTRIC_PANEL",
+          "standard_name": "전기설비(분전반·콘센트·멀티탭)",
+          "basis_type": "공통근거",
+          "basis_note": "사례 CASE_A p15·p18, CASE_N p42"
+        },
+        {
+          "equipment_id": "EQ_FRYER",
+          "standard_name": "튀김기",
+          "basis_type": "제안",
+          "basis_note": "분식 근거 없음. 튀김 메뉴 가정"
+        },
+        {
+          "equipment_id": "EQ_MICROWAVE",
+          "standard_name": "전자레인지",
+          "basis_type": "제안",
+          "basis_note": ""
+        },
+        {
+          "equipment_id": "EQ_RICE_COOKER",
+          "standard_name": "취반기·밥솥",
+          "basis_type": "제안",
+          "basis_note": "김밥·덮밥 메뉴 가정"
+        },
+        {
+          "equipment_id": "EQ_SOUP_KETTLE",
+          "standard_name": "국솥",
+          "basis_type": "제안",
+          "basis_note": "국물 메뉴 가정"
+        },
+        {
+          "equipment_id": "EQ_GRIDDLE",
+          "standard_name": "철판(그리들)",
+          "basis_type": "제안",
+          "basis_note": ""
+        },
+        {
+          "equipment_id": "EQ_STEAMER",
+          "standard_name": "찜기",
+          "basis_type": "제안",
+          "basis_note": ""
+        },
+        {
+          "equipment_id": "EQ_ODEN_WARMER",
+          "standard_name": "어묵 보온기",
+          "basis_type": "제안",
+          "basis_note": ""
+        },
+        {
+          "equipment_id": "EQ_PORTABLE_BURNER",
+          "standard_name": "휴대용 가스버너",
+          "basis_type": "제안",
+          "basis_note": "즉석 메뉴 가정"
+        },
+        {
+          "equipment_id": "EQ_KNIFE_BOARD",
+          "standard_name": "칼·도마",
+          "basis_type": "제안",
+          "basis_note": ""
+        },
+        {
+          "equipment_id": "EQ_SCISSORS",
+          "standard_name": "주방가위",
+          "basis_type": "제안",
+          "basis_note": ""
+        },
+        {
+          "equipment_id": "EQ_VEG_CUTTER",
+          "standard_name": "채소절단기",
+          "basis_type": "제안",
+          "basis_note": ""
+        },
+        {
+          "equipment_id": "EQ_MIXER",
+          "standard_name": "혼합기·믹서기",
+          "basis_type": "제안",
+          "basis_note": ""
+        },
+        {
+          "equipment_id": "EQ_DOUGH_MIXER",
+          "standard_name": "반죽기",
+          "basis_type": "제안",
+          "basis_note": "D8 중식 p255 참고(면·만두 반죽 가정)"
+        },
+        {
+          "equipment_id": "EQ_NOODLE_MACHINE",
+          "standard_name": "제면기",
+          "basis_type": "제안",
+          "basis_note": "D8 중식 p253-255 참고(면 메뉴 가정)"
+        },
+        {
+          "equipment_id": "EQ_WATER_HEATER",
+          "standard_name": "온수기",
+          "basis_type": "제안",
+          "basis_note": ""
+        },
+        {
+          "equipment_id": "EQ_STERILIZER",
+          "standard_name": "식기소독기",
+          "basis_type": "제안",
+          "basis_note": ""
+        },
+        {
+          "equipment_id": "EQ_SINK",
+          "standard_name": "세척대(싱크대)",
+          "basis_type": "제안",
+          "basis_note": ""
+        },
+        {
+          "equipment_id": "EQ_DISPLAY_COOLER",
+          "standard_name": "쇼케이스 냉장고",
+          "basis_type": "제안",
+          "basis_note": ""
+        }
+      ]
+    },
+    "cafe": {
+      "industry_name": "카페",
+      "items": [
+        {
+          "equipment_id": "EQ_KNIFE_BOARD",
+          "standard_name": "칼·도마",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p267 칼(사무용). 조리용 칼은 아님"
+        },
+        {
+          "equipment_id": "EQ_MIXER",
+          "standard_name": "혼합기·믹서기",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p268"
+        },
+        {
+          "equipment_id": "EQ_COFFEE_MACHINE",
+          "standard_name": "커피머신",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p268-269"
+        },
+        {
+          "equipment_id": "EQ_COFFEE_GRINDER",
+          "standard_name": "커피 그라인더",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p268"
+        },
+        {
+          "equipment_id": "EQ_DISHWASHER",
+          "standard_name": "식기세척기",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p270"
+        },
+        {
+          "equipment_id": "EQ_STERILIZER",
+          "standard_name": "식기소독기",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p270"
+        },
+        {
+          "equipment_id": "EQ_REFRIGERATOR",
+          "standard_name": "업소용 냉장·냉동고",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p267"
+        },
+        {
+          "equipment_id": "EQ_CART",
+          "standard_name": "운반대차",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p267"
+        },
+        {
+          "equipment_id": "EQ_SHELF",
+          "standard_name": "적재 선반",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p268"
+        },
+        {
+          "equipment_id": "EQ_LADDER",
+          "standard_name": "사다리·작업발판",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p3-4"
+        },
+        {
+          "equipment_id": "EQ_MOTORCYCLE",
+          "standard_name": "배달 이륜차",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p9"
+        },
+        {
+          "equipment_id": "EQ_ELECTRIC_PANEL",
+          "standard_name": "전기설비(분전반·콘센트·멀티탭)",
+          "basis_type": "공통근거",
+          "basis_note": "사례 CASE_A p15·p18, CASE_N p42"
+        },
+        {
+          "equipment_id": "EQ_OVEN",
+          "standard_name": "오븐",
+          "basis_type": "제안",
+          "basis_note": "D8 제과제빵 p273-274 참고. 커피 절에는 없음"
+        },
+        {
+          "equipment_id": "EQ_MICROWAVE",
+          "standard_name": "전자레인지",
+          "basis_type": "제안",
+          "basis_note": "D8 제과제빵 p274 참고"
+        },
+        {
+          "equipment_id": "EQ_DOUGH_MIXER",
+          "standard_name": "반죽기",
+          "basis_type": "제안",
+          "basis_note": "D8 제과제빵 p272 참고"
+        },
+        {
+          "equipment_id": "EQ_ICE_MAKER",
+          "standard_name": "제빙기",
+          "basis_type": "제안",
+          "basis_note": ""
+        },
+        {
+          "equipment_id": "EQ_ICE_CRUSHER",
+          "standard_name": "쇄빙기·빙수기",
+          "basis_type": "제안",
+          "basis_note": "D8 제과제빵 p274 참고"
+        },
+        {
+          "equipment_id": "EQ_WATER_HEATER",
+          "standard_name": "온수기",
+          "basis_type": "제안",
+          "basis_note": ""
+        },
+        {
+          "equipment_id": "EQ_SINK",
+          "standard_name": "세척대(싱크대)",
+          "basis_type": "제안",
+          "basis_note": ""
+        },
+        {
+          "equipment_id": "EQ_DISPLAY_COOLER",
+          "standard_name": "쇼케이스 냉장고",
+          "basis_type": "제안",
+          "basis_note": "D8 제과제빵 p274 참고"
+        }
+      ]
+    },
+    "korean": {
+      "industry_name": "한식",
+      "items": [
+        {
+          "equipment_id": "EQ_FRYER",
+          "standard_name": "튀김기",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p250"
+        },
+        {
+          "equipment_id": "EQ_GAS_RANGE",
+          "standard_name": "가스레인지",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p250"
+        },
+        {
+          "equipment_id": "EQ_OVEN",
+          "standard_name": "오븐",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p250"
+        },
+        {
+          "equipment_id": "EQ_RICE_COOKER",
+          "standard_name": "취반기·밥솥",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p250"
+        },
+        {
+          "equipment_id": "EQ_SOUP_KETTLE",
+          "standard_name": "국솥",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p250"
+        },
+        {
+          "equipment_id": "EQ_KNIFE_BOARD",
+          "standard_name": "칼·도마",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p249"
+        },
+        {
+          "equipment_id": "EQ_SCISSORS",
+          "standard_name": "주방가위",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p249"
+        },
+        {
+          "equipment_id": "EQ_VEG_CUTTER",
+          "standard_name": "채소절단기",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p249"
+        },
+        {
+          "equipment_id": "EQ_RICE_WASHER",
+          "standard_name": "세미기",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p249"
+        },
+        {
+          "equipment_id": "EQ_DISHWASHER",
+          "standard_name": "식기세척기",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p252"
+        },
+        {
+          "equipment_id": "EQ_STERILIZER",
+          "standard_name": "식기소독기",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p252"
+        },
+        {
+          "equipment_id": "EQ_EXHAUST_HOOD",
+          "standard_name": "배기후드",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p252-253 후드청소"
+        },
+        {
+          "equipment_id": "EQ_REFRIGERATOR",
+          "standard_name": "업소용 냉장·냉동고",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p248"
+        },
+        {
+          "equipment_id": "EQ_CART",
+          "standard_name": "운반대차",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p248"
+        },
+        {
+          "equipment_id": "EQ_SHELF",
+          "standard_name": "적재 선반",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p248"
+        },
+        {
+          "equipment_id": "EQ_MOTORCYCLE",
+          "standard_name": "배달 이륜차",
+          "basis_type": "업종근거",
+          "basis_note": "D8 p251"
+        },
+        {
+          "equipment_id": "EQ_MEAT_SLICER",
+          "standard_name": "육절기",
+          "basis_type": "공통근거",
+          "basis_note": "D5 p69"
+        },
+        {
+          "equipment_id": "EQ_MIXER",
+          "standard_name": "혼합기·믹서기",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p5"
+        },
+        {
+          "equipment_id": "EQ_WALKIN_COOLER",
+          "standard_name": "냉장·냉동창고",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p10, p14"
+        },
+        {
+          "equipment_id": "EQ_LADDER",
+          "standard_name": "사다리·작업발판",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p3-4"
+        },
+        {
+          "equipment_id": "EQ_DUMBWAITER",
+          "standard_name": "덤웨이터(간이리프트)",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p7"
+        },
+        {
+          "equipment_id": "EQ_GAS_CYLINDER",
+          "standard_name": "가스용기(LPG·부탄)",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p12, 사례 p16-17"
+        },
+        {
+          "equipment_id": "EQ_ELECTRIC_PANEL",
+          "standard_name": "전기설비(분전반·콘센트·멀티탭)",
+          "basis_type": "공통근거",
+          "basis_note": "사례 CASE_A p15·p18, CASE_N p42"
+        },
+        {
+          "equipment_id": "EQ_GRILL",
+          "standard_name": "그릴",
+          "basis_type": "제안",
+          "basis_note": "구이 메뉴 가정"
+        },
+        {
+          "equipment_id": "EQ_GRIDDLE",
+          "standard_name": "철판(그리들)",
+          "basis_type": "제안",
+          "basis_note": ""
+        },
+        {
+          "equipment_id": "EQ_STEAMER",
+          "standard_name": "찜기",
+          "basis_type": "제안",
+          "basis_note": ""
+        },
+        {
+          "equipment_id": "EQ_PORTABLE_BURNER",
+          "standard_name": "휴대용 가스버너",
+          "basis_type": "제안",
+          "basis_note": "홀 조리 메뉴 가정"
+        },
+        {
+          "equipment_id": "EQ_NOODLE_MACHINE",
+          "standard_name": "제면기",
+          "basis_type": "제안",
+          "basis_note": ""
+        },
+        {
+          "equipment_id": "EQ_SINK",
+          "standard_name": "세척대(싱크대)",
+          "basis_type": "제안",
+          "basis_note": "설거지 작업 근거 D8 p252"
+        },
+        {
+          "equipment_id": "EQ_WASTE_OIL_CONTAINER",
+          "standard_name": "폐유통",
+          "basis_type": "제안",
+          "basis_note": "D8 p252 폐유 운반 작업 참고"
+        },
+        {
+          "equipment_id": "EQ_DISPLAY_COOLER",
+          "standard_name": "쇼케이스 냉장고",
+          "basis_type": "제안",
+          "basis_note": ""
+        }
+      ]
+    },
+    "other": {
+      "industry_name": "기타",
+      "items": [
+        {
+          "equipment_id": "EQ_FRYER",
+          "standard_name": "튀김기",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p6"
+        },
+        {
+          "equipment_id": "EQ_GAS_RANGE",
+          "standard_name": "가스레인지",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p6"
+        },
+        {
+          "equipment_id": "EQ_SOUP_KETTLE",
+          "standard_name": "국솥",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p6"
+        },
+        {
+          "equipment_id": "EQ_KNIFE_BOARD",
+          "standard_name": "칼·도마",
+          "basis_type": "공통근거",
+          "basis_note": "D5 p69"
+        },
+        {
+          "equipment_id": "EQ_VEG_CUTTER",
+          "standard_name": "채소절단기",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p5"
+        },
+        {
+          "equipment_id": "EQ_MEAT_SLICER",
+          "standard_name": "육절기",
+          "basis_type": "공통근거",
+          "basis_note": "D5 p69, CHK p5"
+        },
+        {
+          "equipment_id": "EQ_MIXER",
+          "standard_name": "혼합기·믹서기",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p5"
+        },
+        {
+          "equipment_id": "EQ_DOUGH_MIXER",
+          "standard_name": "반죽기",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p5"
+        },
+        {
+          "equipment_id": "EQ_NOODLE_MACHINE",
+          "standard_name": "제면기",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p5"
+        },
+        {
+          "equipment_id": "EQ_DISHWASHER",
+          "standard_name": "식기세척기",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p8"
+        },
+        {
+          "equipment_id": "EQ_EXHAUST_HOOD",
+          "standard_name": "배기후드",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p8"
+        },
+        {
+          "equipment_id": "EQ_REFRIGERATOR",
+          "standard_name": "업소용 냉장·냉동고",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p10"
+        },
+        {
+          "equipment_id": "EQ_WALKIN_COOLER",
+          "standard_name": "냉장·냉동창고",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p10, p14"
+        },
+        {
+          "equipment_id": "EQ_CART",
+          "standard_name": "운반대차",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p10"
+        },
+        {
+          "equipment_id": "EQ_SHELF",
+          "standard_name": "적재 선반",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p10"
+        },
+        {
+          "equipment_id": "EQ_LADDER",
+          "standard_name": "사다리·작업발판",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p3-4"
+        },
+        {
+          "equipment_id": "EQ_DUMBWAITER",
+          "standard_name": "덤웨이터(간이리프트)",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p7"
+        },
+        {
+          "equipment_id": "EQ_MOTORCYCLE",
+          "standard_name": "배달 이륜차",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p9"
+        },
+        {
+          "equipment_id": "EQ_GAS_CYLINDER",
+          "standard_name": "가스용기(LPG·부탄)",
+          "basis_type": "공통근거",
+          "basis_note": "CHK p12"
+        },
+        {
+          "equipment_id": "EQ_ELECTRIC_PANEL",
+          "standard_name": "전기설비(분전반·콘센트·멀티탭)",
+          "basis_type": "공통근거",
+          "basis_note": "사례 CASE_A p15·p18, CASE_N p42"
+        },
+        {
+          "equipment_id": "EQ_OVEN",
+          "standard_name": "오븐",
+          "basis_type": "제안",
+          "basis_note": "공통 점검표에 없음"
+        },
+        {
+          "equipment_id": "EQ_GRILL",
+          "standard_name": "그릴",
+          "basis_type": "제안",
+          "basis_note": ""
+        },
+        {
+          "equipment_id": "EQ_MICROWAVE",
+          "standard_name": "전자레인지",
+          "basis_type": "제안",
+          "basis_note": ""
+        },
+        {
+          "equipment_id": "EQ_RICE_COOKER",
+          "standard_name": "취반기·밥솥",
+          "basis_type": "제안",
+          "basis_note": ""
+        },
+        {
+          "equipment_id": "EQ_GRIDDLE",
+          "standard_name": "철판(그리들)",
+          "basis_type": "제안",
+          "basis_note": ""
+        },
+        {
+          "equipment_id": "EQ_STEAMER",
+          "standard_name": "찜기",
+          "basis_type": "제안",
+          "basis_note": ""
+        },
+        {
+          "equipment_id": "EQ_PORTABLE_BURNER",
+          "standard_name": "휴대용 가스버너",
+          "basis_type": "제안",
+          "basis_note": ""
+        },
+        {
+          "equipment_id": "EQ_SCISSORS",
+          "standard_name": "주방가위",
+          "basis_type": "제안",
+          "basis_note": ""
+        },
+        {
+          "equipment_id": "EQ_RICE_WASHER",
+          "standard_name": "세미기",
+          "basis_type": "제안",
+          "basis_note": ""
+        },
+        {
+          "equipment_id": "EQ_ICE_MAKER",
+          "standard_name": "제빙기",
+          "basis_type": "제안",
+          "basis_note": ""
+        },
+        {
+          "equipment_id": "EQ_ICE_CRUSHER",
+          "standard_name": "쇄빙기·빙수기",
+          "basis_type": "제안",
+          "basis_note": ""
+        },
+        {
+          "equipment_id": "EQ_WATER_HEATER",
+          "standard_name": "온수기",
+          "basis_type": "제안",
+          "basis_note": ""
+        },
+        {
+          "equipment_id": "EQ_BEER_DISPENSER",
+          "standard_name": "생맥주 디스펜서",
+          "basis_type": "제안",
+          "basis_note": ""
+        },
+        {
+          "equipment_id": "EQ_STERILIZER",
+          "standard_name": "식기소독기",
+          "basis_type": "제안",
+          "basis_note": ""
+        },
+        {
+          "equipment_id": "EQ_SINK",
+          "standard_name": "세척대(싱크대)",
+          "basis_type": "제안",
+          "basis_note": ""
+        },
+        {
+          "equipment_id": "EQ_WASTE_OIL_CONTAINER",
+          "standard_name": "폐유통",
+          "basis_type": "제안",
+          "basis_note": ""
+        },
+        {
+          "equipment_id": "EQ_DISPLAY_COOLER",
+          "standard_name": "쇼케이스 냉장고",
+          "basis_type": "제안",
+          "basis_note": ""
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,138 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://safe-t.local/schemas/v2_1/equipment_confirmed.v2_1.schema.json",
+  "title": "(a) 기기 인식 결과 - 사용자 확인본 (흐름 ②)",
+  "description": "탐지 모델 원 응답은 기존 형식 v2를 그대로 쓴다: 261116_기기탐지_YOLO전환_DR/schemas/261116_기기탐지_출력.schema.json ($id safe-t/equipment_detection.response.v2-draft). 이 스키마는 그 결과를 사용자가 고친 뒤 확정한 기기 목록이다. LLM 위험요인 추천의 입력이 된다.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "assessment_id",
+    "detection_request_id",
+    "master_version",
+    "confirmed_by",
+    "confirmed_at",
+    "equipment"
+  ],
+  "properties": {
+    "assessment_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "detection_request_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "탐지 응답 v2의 request_id. 사진이 없거나 탐지를 쓰지 않았으면 null"
+    },
+    "detection_status": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "ok",
+        "partial",
+        "failed",
+        "no_photo",
+        null
+      ],
+      "description": "탐지 응답 v2의 status 사본. 실패여도 사용자가 직접 추가해 진행할 수 있다"
+    },
+    "master_version": {
+      "type": "string"
+    },
+    "confirmed_by": {
+      "const": "user"
+    },
+    "confirmed_at": {
+      "$ref": "common.v2_1.schema.json#/$defs/IsoDateTime"
+    },
+    "equipment": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "equipment_id",
+          "display_name",
+          "origin",
+          "user_action",
+          "detection_refs"
+        ],
+        "properties": {
+          "equipment_id": {
+            "oneOf": [
+              {
+                "$ref": "common.v2_1.schema.json#/$defs/EquipmentId"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "마스터에 없는 직접 입력 기기는 null"
+          },
+          "display_name": {
+            "type": "string",
+            "minLength": 1,
+            "description": "사용자에게 보인 이름(수정 후 값)"
+          },
+          "origin": {
+            "type": "string",
+            "enum": [
+              "detected",
+              "registered",
+              "user_added"
+            ],
+            "description": "detected=사진 탐지, registered=사업장 등록 기기, user_added=이 화면에서 직접 추가"
+          },
+          "user_action": {
+            "type": "string",
+            "enum": [
+              "kept",
+              "relabeled",
+              "added",
+              "removed"
+            ],
+            "description": "relabeled=탐지 라벨을 다른 기기로 고침. removed 항목도 남겨 탐지 오류 분석에 쓴다(LLM 입력에서는 제외)"
+          },
+          "original_equipment_id": {
+            "oneOf": [
+              {
+                "$ref": "common.v2_1.schema.json#/$defs/EquipmentId"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "relabeled일 때 탐지 모델이 낸 원래 ID"
+          },
+          "detection_refs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^.+#.+$"
+            },
+            "description": "photo_id#detection_id. 직접 추가 기기는 빈 배열"
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "user_action": {
+                  "const": "relabeled"
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "original_equipment_id"
+              ]
+            }
+          }
+        ]
+      }
+    }
+  }
+}

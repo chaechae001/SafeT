@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://safe-t.local/schemas/f03_post_signal.response.schema.json",
+  "title": "F03 조치 후 신호 재산정 응답",
+  "description": "34·40쪽 기록 항목: 산정 신호(post_signal) · 산정 이유(post_signal_reason) · 사용한 근거(결과 문장·사진) · 산정 시각 · 모델 버전. 사용자 수정 불가. 실패해도 조치 완료는 유지하고 post_signal=off, 재산정만 제공(40쪽). status=failed는 호출 자체 실패(네트워크 등)이며, 백엔드는 이때도 post_signal=off로 저장한다.",
+  "type": "object",
+  "required": ["request_id", "call", "status"],
+  "properties": {
+    "request_id": { "$ref": "common.schema.json#/$defs/RequestId" },
+    "call": { "const": "f03_post_signal" },
+    "status": { "type": "string", "enum": ["ok", "failed"] }
+  },
+  "if": { "properties": { "status": { "const": "failed" } } },
+  "then": {
+    "required": ["error"],
+    "properties": { "request_id": true, "call": true, "status": true, "error": { "$ref": "common.schema.json#/$defs/ErrorBody" } },
+    "additionalProperties": false
+  },
+  "else": {
+    "required": ["item_id", "round", "post_signal", "post_signal_reason", "post_signal_source", "model_version", "criteria_version", "judged_at", "off_reason_code", "evidence_used"],
+    "properties": {
+      "request_id": true, "call": true, "status": true,
+      "item_id": { "type": "string" },
+      "round": { "type": "integer", "minimum": 1 },
+      "post_signal": { "$ref": "common.schema.json#/$defs/Signal" },
+      "post_signal_reason": { "type": "string", "minLength": 1, "maxLength": 400 },
+      "post_signal_source": { "const": "ai" },
+      "model_version": { "type": "string" },
+      "criteria_version": { "type": ["string", "null"] },
+      "judged_at": { "$ref": "common.schema.json#/$defs/IsoDateTime" },
+      "off_reason_code": { "oneOf": [{ "$ref": "common.schema.json#/$defs/OffReasonCode" }, { "type": "null" }] },
+      "evidence_used": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["result_text", "photo_ids"],
+        "properties": {
+          "result_text": { "type": "boolean", "description": "실제 결과 문장을 근거로 썼는지" },
+          "photo_ids": { "type": "array", "items": { "type": "string" }, "description": "근거로 쓴 조치 후 사진 ID" }
+        }
+      },
+      "followup_needed": {
+        "type": "boolean",
+        "description": "post_signal이 red·yellow이면 true. 36쪽 확인 필요 1번 결정에 따라 '추가 개선' 항목 생성 여부를 백엔드가 정한다."
+      },
+      "basis": { "$ref": "common.schema.json#/$defs/JudgementBasis" }
+    },
+    "allOf": [
+      {
+        "if": { "properties": { "post_signal": { "const": "off" } } },
+        "then": { "properties": { "off_reason_code": { "$ref": "common.schema.json#/$defs/OffReasonCode" } } },
+        "else": { "properties": { "off_reason_code": { "type": "null" } } }
+      }
+    ],
+    "additionalProperties": false
+  }
+}

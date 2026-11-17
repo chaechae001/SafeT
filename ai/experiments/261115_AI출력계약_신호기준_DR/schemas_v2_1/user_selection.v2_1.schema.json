@@ -1,0 +1,201 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://safe-t.local/schemas/v2_1/user_selection.v2_1.schema.json",
+  "title": "(c) 사용자 선택 결과 (흐름 ④, 화면 → 백엔드)",
+  "description": "사용자가 고른 위험요인과 현재 조치·개선 계획. 피해 수준은 카탈로그 시나리오가 정하고 사용자는 고르지 않는다. 위험도는 백엔드가 계산한다(SafeT backend/domain/risk_policy.py · docs/implementation/catalog-risk.md (main 1daa5d8, #10)).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "assessment_id",
+    "policy_version",
+    "candidates_request_id",
+    "selections"
+  ],
+  "properties": {
+    "assessment_id": {
+      "type": "string"
+    },
+    "candidates_request_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "후보를 받은 hazard_candidates 요청 ID. 후보 없이 직접 입력만 했으면 null"
+    },
+    "selections": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "selection_id",
+          "equipment_id",
+          "origin",
+          "hazard",
+          "accident_type",
+          "catalog_scenario_id",
+          "current_control_ids",
+          "no_current_controls",
+          "plan_control_ids",
+          "selected_measures",
+          "decided_by",
+          "decided_at"
+        ],
+        "properties": {
+          "selection_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "equipment_id": {
+            "oneOf": [
+              {
+                "$ref": "common.v2_1.schema.json#/$defs/EquipmentId"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "origin": {
+            "type": "string",
+            "enum": [
+              "ai_candidate",
+              "user_custom"
+            ]
+          },
+          "candidate_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "ai_candidate이면 필수"
+          },
+          "hazard": {
+            "type": "string",
+            "minLength": 1
+          },
+          "hazard_edited": {
+            "type": "boolean",
+            "description": "AI 후보 문구를 사용자가 고쳤는지"
+          },
+          "accident_type": {
+            "$ref": "common.v2_1.schema.json#/$defs/AccidentType"
+          },
+          "source_refs": {
+            "type": "array",
+            "items": {
+              "$ref": "common.v2_1.schema.json#/$defs/SourceRef"
+            },
+            "description": "후보의 출처 사본(평가서 근거 표시용)"
+          },
+          "selected_measures": {
+            "type": "array",
+            "items": {
+              "$ref": "common.v2_1.schema.json#/$defs/UserMeasure"
+            }
+          },
+          "owner_name": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "due_date": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date"
+          },
+          "decided_by": {
+            "const": "user"
+          },
+          "decided_at": {
+            "$ref": "common.v2_1.schema.json#/$defs/IsoDateTime"
+          },
+          "catalog_scenario_id": {
+            "oneOf": [
+              {
+                "$ref": "common.v2_1.schema.json#/$defs/CatalogScenarioId"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "사용자가 확인한 카탈로그 시나리오. null이면 직접 추가 위험이며 계산하지 않는다(판단 필요)"
+          },
+          "current_control_ids": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "$ref": "common.v2_1.schema.json#/$defs/ControlId"
+            },
+            "description": "현재 시행 중이라고 고른 카탈로그 조치"
+          },
+          "no_current_controls": {
+            "type": "boolean",
+            "description": "'현재 조치 없음'을 명시적으로 골랐는지. 둘 다 비어 있고 false면 미응답"
+          },
+          "plan_control_ids": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "$ref": "common.v2_1.schema.json#/$defs/ControlId"
+            },
+            "description": "개선 계획으로 고른 카탈로그 조치. 예상 위험도 계산에 쓴다"
+          },
+          "custom_current_measures": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 500
+            },
+            "description": "직접 적은 현재 조치. 저장만 하고 계산에는 쓰지 않는다"
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "origin": {
+                  "const": "ai_candidate"
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "candidate_id"
+              ],
+              "properties": {
+                "candidate_id": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "no_current_controls": {
+                  "const": true
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "current_control_ids": {
+                  "maxItems": 0
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    "policy_version": {
+      "$ref": "common.v2_1.schema.json#/$defs/PolicyVersion"
+    }
+  }
+}

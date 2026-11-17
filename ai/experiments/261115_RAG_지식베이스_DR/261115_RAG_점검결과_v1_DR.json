@@ -1,0 +1,225 @@
+{
+  "chunks_total": 95,
+  "chunks_by_doc": {
+    "D1": 2,
+    "D2": 2,
+    "D4": 2,
+    "D5": 23,
+    "D6": 3,
+    "D7": 17,
+    "D8": 46
+  },
+  "chunks_by_method": {
+    "pdftotext_4.00": 72,
+    "pypdf_6.21.4": 2,
+    "ocr_windows_media_ocr_ko": 21
+  },
+  "chunk_id_unique": true,
+  "chunks_missing_required_fields": [],
+  "chunks_source_file_exists": true,
+  "chunk_chars_min_median_max": [
+    100,
+    728,
+    977
+  ],
+  "chunks_exact_duplicates": [],
+  "chunks_near_duplicates_ratio_ge_0.8": [
+    [
+      "D8-p249-s1-c01",
+      "D8-p264-s1-c01",
+      0.826
+    ]
+  ],
+  "ocr_chunks_hangul_ratio_min": 0.618,
+  "chunks_with_no_accident_terms": [
+    "D1-p002-s1-c01",
+    "D2-p124-s1-c01",
+    "D2-p124-s1-c02",
+    "D4-p112-s1-c02",
+    "D6-p013-s1-c01",
+    "D6-p112-s1-c02",
+    "D5-p012-s1-c01",
+    "D5-p012-s1-c02",
+    "D5-p066-s1-c02",
+    "D5-p067-s1-c02",
+    "D5-p068-s1-c02",
+    "D5-p073-s1-c01",
+    "D7-p001-s1-c01",
+    "D7-p007-s1-c01",
+    "D7-p016-s1-c01",
+    "D7-p017-s1-c01",
+    "D8-p037-s1-c01",
+    "D8-p037-s1-c02",
+    "D8-p071-s1-c01",
+    "D8-p096-s1-c02",
+    "D8-p253-s1-c01",
+    "D8-p266-s1-c02"
+  ],
+  "pages_covered": {
+    "D1": [
+      1,
+      2
+    ],
+    "D2": [
+      124
+    ],
+    "D4": [
+      112
+    ],
+    "D5": [
+      12,
+      58,
+      59,
+      60,
+      61,
+      62,
+      63,
+      64,
+      65,
+      66,
+      67,
+      68,
+      69,
+      70,
+      71,
+      72,
+      73
+    ],
+    "D6": [
+      13,
+      112
+    ],
+    "D7": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17
+    ],
+    "D8": [
+      36,
+      37,
+      63,
+      71,
+      96,
+      97,
+      120,
+      247,
+      248,
+      249,
+      250,
+      251,
+      252,
+      253,
+      254,
+      255,
+      256,
+      257,
+      258,
+      259,
+      260,
+      261,
+      262,
+      263,
+      264,
+      265,
+      266,
+      267,
+      268,
+      269,
+      270,
+      271,
+      272,
+      273,
+      274,
+      275
+    ]
+  },
+  "expected_pages_missing": {
+    "D5_58_73": [],
+    "D7_1_17": [],
+    "D8_247_275": []
+  },
+  "table_total": 181,
+  "table_by_type": {
+    "checklist": 173,
+    "case": 8
+  },
+  "table_row_id_unique": true,
+  "checklist_items_by_section": {
+    "위험성평가": 5,
+    "안전 및 보건에 관한 프로그램(가맹점)": 1,
+    "4-1-1. 바닥 및 통로": 11,
+    "4-1-2. 사다리": 17,
+    "4-2-1. 식품가공기계(파쇄·절단·반죽·혼합·제면기)": 12,
+    "4-2-2. 가스테이블(가스레인지)": 6,
+    "4-2-3. 조리설비·기구(회전식 국솥, 튀김기 등)": 7,
+    "4-2-4. 리프트(간이리프트 등)": 14,
+    "4-2-5. 식기세척기": 8,
+    "4-2-6. 배기후드": 6,
+    "4-2-7. 이륜차": 10,
+    "4-3-1. 식자재 운반 및 보관": 12,
+    "4-3-2. 조리": 10,
+    "4-4-1. 유해화학물질": 9,
+    "4-4-2. 소음 또는 진동": 9,
+    "4-4-3. 고열·한랭": 10,
+    "4-4-4. 근골격계질환": 9,
+    "4-4-5. 근로자 건강관리": 10,
+    "4-4-6. 응급조치": 7
+  },
+  "checklist_numbering_gaps": {},
+  "table_duplicate_source_text": [
+    [
+      "CHK-4-4-4-09",
+      "CHK-4-4-5-08"
+    ]
+  ],
+  "case_duplicate_hazard_text": [
+    [
+      "CASE-FOOD_A_02",
+      "CASE-FOOD_A_03"
+    ]
+  ],
+  "table_empty_source_text": [],
+  "table_field_fill": {
+    "work_or_object": 173,
+    "hazard_text": 8,
+    "hazard_terms_in_text": 70,
+    "accident_type_terms_in_text": 32,
+    "current_control": 0,
+    "improvement_measure": 8,
+    "checklist_control_item": 173
+  },
+  "checklist_text_not_found_in_pdf": [],
+  "law_verified": 19,
+  "law_unverified": 8,
+  "law_verified_by_law": {
+    "산업안전보건기준에 관한 규칙": 9,
+    "산업안전보건법": 4,
+    "산업안전보건법 시행령": 3,
+    "산업안전보건법 시행규칙": 3
+  },
+  "law_cited_chunk_missing": [],
+  "source_sha256": {
+    "11.15 서비스업 위험성평가 실행 안내서 제작 배포(산업안전기준과).pdf": "d6c235c8d121e193a1f35efb13941ab7d11708dac51beaf61baaf55ecf77c5aa",
+    "230522 23년 새로운 위험성 평가 안내서.pdf": "0c3f69d96b38b2b38500bc4175d14d48d8b537d7429e910ace2636694429fc0a",
+    "230531_쉽고 간편한 위험성평가 방법 안내서_(웹용).pdf": "d25dda1702405a3e46e52dee848eeccb75a5bf60255cb7694af76ae19d01edea",
+    "230918 소규모 사업장을 위한 위험성평가 안내서(최종).pdf": "62d4d6bc20232c63e8cc1cb918ee5bd69af342cc24c55166b265e6708767c175",
+    "[2023-중소기업지원실-404]_[2023-중소기업지원실-404]서비스업+재해사례+중심+위험성평가+방법+안내서.pdf": "86647c5f41565f1aa86a2b396694d3ad14d9ac395c39493ac2e2ebfb226de2c6",
+    "민간재해예방기관 종사자 매뉴얼_내지_웹(Final).pdf": "5766c28f072902b4d4dfe7d76dee45383108f69e5ae732a4a880a5e24bf581bf",
+    "음식점업 자율안전점검표.pdf": "88891ae0d584f458637a69779c279c76cf422f11be6fc71a9245424fdb996d3c",
+    "최종보고서_프랜차이즈 가맹본부의 산재예방 조치 이행 실태조사 및 개선방안 마련.pdf": "3c4c1721eca58ea3a4bfb7292f3149fa0767463a4685604c95a56769d4e450f3"
+  }
+}

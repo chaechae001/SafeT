@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://safe-t.local/schemas/f03_post_signal.request.schema.json",
+  "title": "F03 결과 저장 후 조치 후 신호 재산정 요청",
+  "description": "38~40쪽. 백엔드가 action_record를 먼저 저장(status=done)한 뒤 호출한다. AI는 위험·계획·실제 결과·사진으로 산정한다. 결과 내용을 고치면 새 회차(round)로 저장 후 다시 호출한다.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["request_id", "assessment_id", "item", "action_record"],
+  "properties": {
+    "request_id": { "$ref": "common.schema.json#/$defs/RequestId" },
+    "assessment_id": { "type": "string" },
+    "criteria_version": { "type": ["string", "null"] },
+    "item": {
+      "type": "object",
+      "unevaluatedProperties": false,
+      "allOf": [{ "$ref": "common.schema.json#/$defs/ItemContext" }],
+      "required": ["planned_measures"],
+      "properties": {
+        "planned_measures": { "type": "array", "items": { "$ref": "common.schema.json#/$defs/PlannedMeasure" } },
+        "expected_signal": { "oneOf": [{ "$ref": "common.schema.json#/$defs/Signal" }, { "type": "null" }] }
+      }
+    },
+    "action_record": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["round", "actual_result", "completed_date", "after_photos"],
+      "properties": {
+        "round": { "type": "integer", "minimum": 1 },
+        "actual_result": { "type": "string", "minLength": 1 },
+        "completed_date": { "type": "string", "format": "date", "description": "오늘(Asia/Seoul) 이하. 서버에서 검사한다." },
+        "after_photos": { "type": "array", "items": { "$ref": "common.schema.json#/$defs/Photo" } }
+      }
+    }
+  }
+}

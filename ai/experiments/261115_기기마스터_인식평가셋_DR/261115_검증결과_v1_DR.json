@@ -1,0 +1,244 @@
+{
+  "validated_date_kst": "2026-11-16",
+  "all_pass": true,
+  "problems": [],
+  "checks": [
+    {
+      "check": "master: equipment_id 중복 없음",
+      "pass": true,
+      "detail": 42
+    },
+    {
+      "check": "master: ID 형식 ^EQ_[A-Z0-9_]+$",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "master: 출처 키가 sources 표에 있음",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "check": "master: 위험요인 코드가 정의됨",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "check": "master: 업종근거는 D8 출처, 공통근거는 문서 출처 보유",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "check": "master: 업종 목록 항목이 모두 마스터에 있음",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "check": "master: 모든 항목이 1개 이상 업종 목록에 있음",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "check": "master: 업종 5개(치킨·분식·카페·한식·기타)",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "master: 이름·동의어가 여러 항목에 겹치지 않음(R6 대조용)",
+      "pass": true,
+      "detail": {}
+    },
+    {
+      "check": "evalset: image_id 중복 없음",
+      "pass": true,
+      "detail": 34
+    },
+    {
+      "check": "evalset: image_id 집합 = 실제사진 이미지 파일명 집합",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "check": "evalset: image_id = file 파일명(확장자 제외)",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "evalset: 파일 존재·sha256 일치",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "check": "evalset: label_id 중복 없음",
+      "pass": true,
+      "detail": 77
+    },
+    {
+      "check": "evalset: label_id 접두어 = image_id",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "evalset: 라벨·후보 equipment_id가 마스터에 있음",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "check": "evalset: 격자 칸 형식 [1-3][ABC]",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "evalset: 한 이미지에 같은 기기 라벨 중복 없음",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "check": "evalset: 모든 이미지 label_status = AI 보조 라벨, 사람 검수 전",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "evalset: 모든 이미지에 공유 권한 확인 필요 표시",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "원본 보존: 261113 이동파일목록 16장의 sha256 변화 없음",
+      "pass": true,
+      "detail": {
+        "compared": 16,
+        "mismatch": []
+      }
+    },
+    {
+      "check": "schema: 예시 model_output이 스키마를 통과",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "check": "schema: 잘못된 status 거부",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "schema: 예시 equipment_id가 마스터에 있음",
+      "pass": true,
+      "detail": [
+        "EQ_FRYER",
+        "EQ_RICE_COOKER",
+        "EQ_ELECTRIC_PANEL"
+      ]
+    }
+  ],
+  "summary": {
+    "master_equipment": 42,
+    "industry_list_sizes": {
+      "chicken": 28,
+      "bunsik": 28,
+      "cafe": 20,
+      "korean": 31,
+      "other": 37
+    },
+    "industry_basis_counts": {
+      "chicken": {
+        "업종근거": 13,
+        "공통근거": 5,
+        "제안": 10
+      },
+      "bunsik": {
+        "공통근거": 10,
+        "제안": 18
+      },
+      "cafe": {
+        "업종근거": 9,
+        "공통근거": 3,
+        "제안": 8
+      },
+      "korean": {
+        "업종근거": 16,
+        "공통근거": 7,
+        "제안": 8
+      },
+      "other": {
+        "공통근거": 20,
+        "제안": 17
+      }
+    },
+    "evidence_status_counts": {
+      "근거있음": 33,
+      "제안": 9
+    },
+    "images": 34,
+    "labels": 77,
+    "negative_images": 1,
+    "uncertain_candidates": 12,
+    "label_count_by_equipment": {
+      "EQ_FRYER": 20,
+      "EQ_SHELF": 11,
+      "EQ_EXHAUST_HOOD": 6,
+      "EQ_SINK": 6,
+      "EQ_REFRIGERATOR": 5,
+      "EQ_GAS_RANGE": 5,
+      "EQ_KNIFE_BOARD": 3,
+      "EQ_ELECTRIC_PANEL": 3,
+      "EQ_OVEN": 2,
+      "EQ_WASTE_OIL_CONTAINER": 2,
+      "EQ_MICROWAVE": 2,
+      "EQ_GAS_CYLINDER": 2,
+      "EQ_DISPLAY_COOLER": 2,
+      "EQ_SCISSORS": 2,
+      "EQ_BEER_DISPENSER": 1,
+      "EQ_COOKING_ROBOT": 1,
+      "EQ_CART": 1,
+      "EQ_GRILL": 1,
+      "EQ_RICE_COOKER": 1,
+      "EQ_VEG_CUTTER": 1
+    },
+    "clear_label_count_by_equipment": {
+      "EQ_FRYER": 17,
+      "EQ_SHELF": 6,
+      "EQ_REFRIGERATOR": 5,
+      "EQ_GAS_RANGE": 5,
+      "EQ_EXHAUST_HOOD": 5,
+      "EQ_SINK": 4,
+      "EQ_KNIFE_BOARD": 2,
+      "EQ_OVEN": 2,
+      "EQ_ELECTRIC_PANEL": 2,
+      "EQ_SCISSORS": 2,
+      "EQ_WASTE_OIL_CONTAINER": 1,
+      "EQ_COOKING_ROBOT": 1,
+      "EQ_GAS_CYLINDER": 1,
+      "EQ_DISPLAY_COOLER": 1,
+      "EQ_MICROWAVE": 1,
+      "EQ_GRILL": 1,
+      "EQ_RICE_COOKER": 1,
+      "EQ_VEG_CUTTER": 1
+    },
+    "equipment_without_any_label": [
+      "EQ_COFFEE_GRINDER",
+      "EQ_COFFEE_MACHINE",
+      "EQ_DISHWASHER",
+      "EQ_DOUGH_MIXER",
+      "EQ_DUMBWAITER",
+      "EQ_GRIDDLE",
+      "EQ_ICE_CRUSHER",
+      "EQ_ICE_MAKER",
+      "EQ_LADDER",
+      "EQ_MARINATOR",
+      "EQ_MEAT_SLICER",
+      "EQ_MIXER",
+      "EQ_MOTORCYCLE",
+      "EQ_NOODLE_MACHINE",
+      "EQ_ODEN_WARMER",
+      "EQ_PORTABLE_BURNER",
+      "EQ_RICE_WASHER",
+      "EQ_SOUP_KETTLE",
+      "EQ_STEAMER",
+      "EQ_STERILIZER",
+      "EQ_WALKIN_COOLER",
+      "EQ_WATER_HEATER"
+    ],
+    "scene_groups": 18
+  }
+}

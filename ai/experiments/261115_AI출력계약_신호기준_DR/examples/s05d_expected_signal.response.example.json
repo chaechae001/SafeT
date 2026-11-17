@@ -1,0 +1,19 @@
+{
+  "request_id": "6f1c2a90-0d4e-4b8e-9a51-000000000002",
+  "call": "s05d_expected_signal",
+  "status": "ok",
+  "model_version": "safet-judge-EXAMPLE-0.1",
+  "results": [
+    {
+      "item_id": "R01",
+      "expected_signal": "yellow",
+      "expected_signal_reason": "[예시] 물기 제거와 보호구 착용으로 화상 정도는 줄지만 기름 튐 자체는 남아 개선 필요로 예상했어요.",
+      "expected_signal_source": "ai",
+      "model_version": "safet-judge-EXAMPLE-0.1",
+      "criteria_version": null,
+      "judged_at": "2026-11-15T15:02:11+09:00",
+      "off_reason_code": null,
+      "measures_considered": ["투입 전 재료 물기 제거", "적합한 손·팔 보호구 착용"]
+    }
+  ]
+}

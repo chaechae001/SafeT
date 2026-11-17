@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://safe-t.local/schemas/v2/common.v2.schema.json",
+  "title": "Safe-T AI 출력 계약 v2 공통 정의 (Human-in-the-Loop, 초안)",
+  "description": "v2 원칙: 사진 분석은 기기 식별만, LLM은 후보 추천만, 최종 선택·발생 가능성·중대성은 사용자, 위험도는 규칙 엔진. LLM 출력에는 신호·위험도·가능성·중대성 값을 넣지 않는다.",
+  "$defs": {
+    "RequestId": { "type": "string", "minLength": 8 },
+    "IsoDateTime": { "type": "string", "format": "date-time", "description": "ISO 8601, Asia/Seoul +09:00" },
+    "EquipmentId": { "type": "string", "pattern": "^EQ_[A-Z0-9_]+$", "description": "기기 마스터 ID(261115_기기마스터_v1_DR.json)" },
+    "SourceRef": {
+      "description": "추천 근거 출처. RAG 지식베이스(261115_RAG_지식베이스_DR)의 ID를 그대로 쓴다. 출처 없는 후보는 응답에 넣지 않는다.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_id", "source_type"],
+      "properties": {
+        "source_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "구조화표 row_id(예: CHK-4-2-3-01, CASE-FOOD_A_01), 청크 chunk_id(예: D2-p066-...), 법령 검증목록 ID"
+        },
+        "source_type": { "type": "string", "enum": ["checklist", "case", "guide_chunk", "law"] },
+        "kb_version": { "type": ["string", "null"], "description": "지식베이스 버전(예: rag-kb-v1)" },
+        "source_file": { "type": ["string", "null"] },
+        "pdf_page": { "type": ["integer", "null"], "minimum": 1 },
+        "quote": { "type": ["string", "null"], "maxLength": 200, "description": "근거 원문 일부(짧게). 저작권상 길게 옮기지 않는다" }
+      }
+    },
+    "AccidentType": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "label"],
+      "properties": {
+        "code": { "type": "string", "pattern": "^[a-z_]+$", "description": "사고 유형 코드(예: burn, cut, slip). 코드표는 팀 결정 필요" },
+        "label": { "type": "string", "minLength": 1, "description": "화면 표시명(예: 화상)" }
+      }
+    },
+    "ControlType": {
+      "type": ["string", "null"],
+      "enum": ["elimination_substitution", "engineering", "administrative", "ppe", null],
+      "description": "고시 제12조 감소대책 순서 단계(23년 안내서 96쪽)."
+    },
+    "MeasureCandidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["measure_id", "text", "source_refs"],
+      "properties": {
+        "measure_id": { "type": "string", "minLength": 1 },
+        "text": { "type": "string", "minLength": 1, "maxLength": 120 },
+        "control_type": { "$ref": "#/$defs/ControlType" },
+        "source_refs": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/SourceRef" } }
+      }
+    },
+    "LawRef": {
+      "description": "v1과 같음. 검증된 조항만.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["law_name", "article_no", "article_title", "summary", "source_url", "verified", "verified_at"],
+      "properties": {
+        "law_id": { "type": ["string", "null"] },
+        "law_name": { "type": "string", "minLength": 1 },
+        "article_no": { "type": "string", "pattern": "^제[0-9]+조(의[0-9]+)?$" },
+        "article_title": { "type": "string", "minLength": 1 },
+        "summary": { "type": "string", "minLength": 1, "maxLength": 200 },
+        "source_url": { "type": "string", "format": "uri" },
+        "verified": { "const": true },
+        "verified_at": { "$ref": "#/$defs/IsoDateTime" }
+      }
+    },
+    "ScaleLevel": {
+      "description": "사용자가 고른 척도 등급. 숫자와 화면 문구를 함께 저장해 척도가 바뀌어도 당시 값을 알 수 있게 한다.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["level", "label"],
+      "properties": {
+        "level": { "type": "integer", "minimum": 1, "description": "척도 설정(risk_rule_config)의 levels[].level 중 하나. 범위 검사는 서버가 한다" },
+        "label": { "type": "string", "minLength": 1 }
+      }
+    },
+    "UserMeasure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["text", "source"],
+      "properties": {
+        "measure_id": { "type": ["string", "null"] },
+        "text": { "type": "string", "minLength": 1 },
+        "source": { "type": "string", "enum": ["ai_candidate", "user_custom"] }
+      }
+    },
+    "ErrorBody": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "message", "retryable"],
+      "properties": {
+        "code": { "type": "string", "enum": ["ai_error", "timeout", "invalid_output", "no_source_found", "bad_request", "cancelled"] },
+        "message": { "type": "string" },
+        "retryable": { "type": "boolean" }
+      }
+    },
+    "ForbiddenJudgementFields": {
+      "description": "LLM 출력에 나오면 안 되는 판단 필드. 후보 객체에 not 조건으로 붙인다.",
+      "not": {
+        "anyOf": [
+          { "required": ["signal"] },
+          { "required": ["risk_score"] },
+          { "required": ["risk_level"] },
+          { "required": ["likelihood"] },
+          { "required": ["severity"] },
+          { "required": ["expected_signal"] },
+          { "required": ["post_signal"] }
+        ]
+      }
+    }
+  }
+}

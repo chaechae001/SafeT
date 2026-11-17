@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://safe-t.local/schemas/v2/risk_result.v2.schema.json",
+  "title": "(d-2) 규칙 기반 위험도 계산 결과 (규칙 엔진 → 백엔드)",
+  "description": "user_selection.v2의 가능성·중대성과 risk_rule_config.v2로 계산한 결과. AI(LLM)는 관여하지 않는다(computed_by=rule_engine). 같은 입력·같은 규칙 버전이면 항상 같은 결과다. 운영 설정(adopted)이 없으면 계산하지 않고 status=rule_not_adopted로 둔다.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["assessment_id", "computed_by", "rule", "computed_at", "status", "results"],
+  "properties": {
+    "assessment_id": { "type": "string" },
+    "computed_by": { "const": "rule_engine" },
+    "rule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["scale_id", "scale_version", "adoption_status", "method", "engine_version"],
+      "properties": {
+        "scale_id": { "type": "string" },
+        "scale_version": { "type": "string" },
+        "adoption_status": { "type": "string", "enum": ["guide_example_not_adopted", "proposed", "adopted"] },
+        "method": { "type": "string", "enum": ["product", "sum", "matrix_lookup"] },
+        "engine_version": { "type": "string", "description": "계산 코드 버전(git 커밋 등)" }
+      }
+    },
+    "computed_at": { "type": "string", "format": "date-time" },
+    "status": {
+      "type": "string",
+      "enum": ["ok", "incomplete", "rule_not_adopted"],
+      "description": "incomplete=가능성·중대성 미입력 항목이 있음. rule_not_adopted=운영 채택 규칙 없음(시험 계산만 가능)"
+    },
+    "results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["selection_id", "phase", "result_status", "likelihood_level", "severity_level", "risk_score", "band_code", "tolerable", "signal", "input_hash"],
+        "properties": {
+          "selection_id": { "type": "string" },
+          "phase": { "type": "string", "enum": ["before_measures", "after_measures"] },
+          "result_status": {
+            "type": "string",
+            "enum": ["computed", "not_rated", "out_of_scale"],
+            "description": "not_rated=사용자가 아직 고르지 않음(v3.19 '판단 필요' 대체). out_of_scale=척도 밖 값(입력 오류)"
+          },
+          "likelihood_level": { "type": ["integer", "null"] },
+          "severity_level": { "type": ["integer", "null"] },
+          "risk_score": { "type": ["integer", "null"] },
+          "band_code": { "type": ["string", "null"] },
+          "tolerable": { "type": ["boolean", "null"] },
+          "signal": { "type": ["string", "null"], "enum": ["red", "yellow", "green", null], "description": "설정의 band.signal 사본. 대응이 없으면 null" },
+          "input_hash": { "type": "string", "description": "가능성·중대성·규칙 버전의 해시. 재계산 필요 여부 판단용" }
+        },
+        "allOf": [
+          {
+            "if": { "properties": { "result_status": { "const": "computed" } } },
+            "then": { "properties": { "likelihood_level": { "type": "integer" }, "severity_level": { "type": "integer" }, "risk_score": { "type": "integer" }, "band_code": { "type": "string" }, "tolerable": { "type": "boolean" } } },
+            "else": { "properties": { "risk_score": { "type": "null" }, "band_code": { "type": "null" }, "tolerable": { "type": "null" }, "signal": { "type": "null" } } }
+          }
+        ]
+      }
+    }
+  }
+}
