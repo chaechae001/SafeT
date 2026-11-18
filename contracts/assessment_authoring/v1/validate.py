@@ -55,7 +55,9 @@ def verify_sources():
     source = read("reference/SOURCE.json")
     require(len(source["base_commit"]) == 40 and all(c in "0123456789abcdef" for c in source["base_commit"]), "source commit")
     for name, expected in source["reference_sha256"].items():
-        require(hashlib.sha256((ROOT / "reference" / name).read_bytes()).hexdigest() == expected, "snapshot changed: " + name)
+        # Git may check text out as CRLF on Windows. SOURCE hashes use canonical LF.
+        raw = (ROOT / "reference" / name).read_bytes().replace(b"\r\n", b"\n")
+        require(hashlib.sha256(raw).hexdigest() == expected, "snapshot changed: " + name)
     repo = ROOT.parents[2]
     live = repo / "backend/domain/risk_policy.py"
     if live.is_file():

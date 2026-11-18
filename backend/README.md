@@ -2,6 +2,9 @@
 
 # 백엔드
 
+입력 기반 평가의 검색 근거를 화면·DB까지 연결하는 실행 방법과 계약은
+[검색 근거의 화면·DB 연결](../docs/implementation/authoring-rag-local-integration.md)을 참고한다.
+
 목표 환경은 Python 3.11·FastAPI·MariaDB입니다. 현재는 폴더와 안내만 있으며 실행할 API 서버·DB 연결 코드는 없습니다.
 
 | 경로 | 역할 |
@@ -394,3 +397,5 @@ Remove-Item Env:SAFET_RUN_LIVE_TEXT_TEST
 초안 생성·위험 추가·질문 답변은 DB 읽기 트랜잭션 종료 후 AI를 호출하고 저장 직전에 변경 여부를 다시 확인합니다. 사진 탐지 결과는 기존 상태 JSON에 보관하여 같은 사진을 반복 호출하지 않습니다. 관련 검사는 격리 `_test` DB에서 `python -m pytest backend/tests/test_ai_review_regressions.py backend/unit_tests/test_catalog_ai.py -q`로 실행합니다. 모의 AI를 사용하며 실제 서버를 호출하지 않습니다.
 
 [변경 범위와 검토 사항](../docs/implementation/review-fixes-20261118.md)
+
+N02·N08 문맥 확장 설정·검수: [설명](../docs/implementation/n02-n08-context-expansion.md). 환경변수 SAFET_RAG_CONTEXT_DIR을 지정하면 별도 검수 문맥을 추가하고, 미설정 시 기존 검색을 유지합니다.

@@ -1,2 +1,13 @@
 /* 해시로 같은 화면에 복귀할 때 제목이 sticky 상단 바 아래로 가려지지 않게 함. */
 body[data-assessment] .view { scroll-margin-top: 76px; }
+/* 검색 문헌은 현장 관찰과 별도 영역에 표시한다. */
+.rag-evidence { overflow-wrap: anywhere; }
+.rag-source { margin: 12px 0; padding: 12px; border-left: 3px solid #18766c; background: #f2f7f6; border-radius: 4px; }
+.rag-source blockquote { margin: 0 0 8px; font-weight: 600; }
+.rag-source p { margin: 4px 0; }
+.rag-summary { font-size: 1rem; font-weight: 600; line-height: 1.6; }
+.rag-application { font-size: .9rem; line-height: 1.5; }
+.rag-source .rag-citation { font-size: .75rem; color: #526463; line-height: 1.5; margin-top: 8px; }
+.rag-originals { margin-top: 12px; font-size: .85rem; }
+.rag-originals summary { cursor: pointer; color: #12675e; }
+.rag-originals blockquote { margin-top: 12px; font-weight: 400; }

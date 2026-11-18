@@ -5,6 +5,7 @@ from sqlalchemy.exc import IntegrityError, OperationalError
 from services.auth import AuthError, now
 from services import workplaces, assessment_provider as provider
 from services import catalog_risk as catalog
+from services import authoring_rag
 
 
 def rows(db, sql, **p): return [dict(r) for r in db.execute(text(sql),p).mappings()]
@@ -53,7 +54,12 @@ def detail(db,email,no):
         for a in rows(db,'SELECT * FROM eval_action WHERE eval_dtl_no=:n ORDER BY sort,action_no',n=it['id']):
             it['curr' if a['action_type']=='C' else 'plans'].append(dict(id=a['action_no'],text=a['action_text'],checked=a['check_yn']=='Y',ai=a['ai_yn']=='Y'))
         catalog.enrich(it, r.get('catalog_state'))
+        authoring_rag.enrich(it, it.get('catalog'))
         result['items'].append(it)
+    if m['generation_source'] == authoring_rag.SOURCE and result['items']:
+        snapshot = result['items'][0]['authoring']
+        result.update(assessment_mode='input_based', result_status=snapshot['result_status'],
+                      unmatched_risks=snapshot['unmatched_risks'])
     return result
 
 def insert_items(db,no,items,email,offset=0):
@@ -63,6 +69,7 @@ def insert_items(db,no,items,email,offset=0):
             for k,value in enumerate(values):
                 execute(db,"INSERT INTO eval_action (eval_dtl_no,action_type,action_text,check_yn,ai_yn,sort) VALUES (:d,:k,:t,'N','Y',:s)",d=result.lastrowid,k=kind,t=value,s=k)
         if it.get('catalog'): catalog.initialize(db,result.lastrowid,it['catalog'],it.get('ai_analysis'))
+        if it.get('authoring'): authoring_rag.initialize(db,result.lastrowid,it['authoring'])
 
 def create(db,email,body):
     key=str(body.request_key)
@@ -71,10 +78,12 @@ def create(db,email,body):
     w=workplaces.get_workplace(db,email,body.work_no)
     context=body.model_dump(); context['machines']=w['machines']
     use_catalog=catalog.enabled()
-    snapshot=catalog.list_catalog(db) if use_catalog else []
+    use_authoring=authoring_rag.enabled()
+    snapshot=catalog.list_catalog(db) if use_catalog or use_authoring else []
     # 외부 호출 전에 읽기 트랜잭션도 종료한다.
     db.rollback()
-    source,items=catalog.generate_snapshot(snapshot,context) if use_catalog else provider.generate(context)
+    source,items=(authoring_rag.generate(snapshot,context) if use_authoring else
+                  catalog.generate_snapshot(snapshot,context) if use_catalog else provider.generate(context))
     try:
         locked_rows(db,'SELECT work_no FROM workplaces WHERE work_no=:n FOR UPDATE',n=body.work_no)
         old=rows(db,'SELECT eval_no FROM eval_mst WHERE email=:e AND request_key=:k',e=email,k=key)
@@ -105,7 +114,7 @@ def validation(items):
     if not items: errors.append(dict(index=0,field='items',message='위험 항목이 없어요.'))
     for i,it in enumerate(items):
         def add(field,message): errors.append(dict(index=i,field=field,message=message))
-        if not it['none'] and not any(a['checked'] for a in it['curr']): add('current','현재 조치를 선택하거나 현재 조치 없음을 체크해 주세요.')
+        if it.get('assessment_mode') != 'input_based' and not it['none'] and not any(a['checked'] for a in it['curr']): add('current','현재 조치를 선택하거나 현재 조치 없음을 체크해 주세요.')
         if it['signal']=='N': add('signal','위험 신호 판단이 필요해요.')
         if it['signal']=='G' and it['keep'] not in ('Y','N'): add('plan','현재 상태 유지 또는 대책 추가를 선택해 주세요.')
         need=it['signal'] in ('R','Y') or (it['signal']=='G' and it['keep']=='N')
@@ -122,6 +131,8 @@ def save(db,email,no,body,confirm=False):
         if len(ids)!=len(set(ids)) or set(ids)!=set(originals): raise AuthError(400,'INVALID_ITEMS','평가표 항목이 일치하지 않아요. 다시 불러와 주세요.')
         for edit in body.items:
             orig=originals[edit.id]
+            if m['generation_source'] == authoring_rag.SOURCE:
+                authoring_rag.protect_current(orig, edit)
             # 기준 후보 문구·출처는 서버에서 관리하며 직접 추가 항목만 자유 입력을 허용한다.
             for kind,edits in (('C',edit.curr),('P',edit.plans)):
                 original=orig['curr' if kind=='C' else 'plans']; byid={a['id']:a for a in original}
@@ -147,7 +158,7 @@ def save(db,email,no,body,confirm=False):
             errors=validation(updated['items'])
             if errors: raise AuthError(422,'EVAL_INCOMPLETE','필수 항목을 확인해 주세요.',errors=errors)
         for it in updated['items']:
-            if m['generation_source'] in catalog.SOURCES: continue
+            if m['generation_source'] in (*catalog.SOURCES, authoring_rag.SOURCE): continue
             grade,judged=provider.project(it,m['generation_source'])
             execute(db,'UPDATE eval_dtl SET after_risk_grade=:g,after_judge_yn=:j WHERE eval_dtl_no=:n',g=grade,j='Y' if judged else 'N',n=it['id'])
         execute(db,'UPDATE eval_mst SET revision=revision+1,eval_status=:s,confirm_dt=:c,upt_dt=:t,upt_nm=:e WHERE eval_no=:n',s='C' if confirm else 'W',c=now() if confirm else None,t=now(),e=email,n=no)
@@ -159,6 +170,8 @@ def save(db,email,no,body,confirm=False):
 def add_risk(db,email,no,body):
     try:
         m=owned(db,email,no); writable(m,body.revision)
+        if m['generation_source']==authoring_rag.SOURCE:
+            raise AuthError(409,'AUTHORING_ADD_UNSUPPORTED','이 평가표의 위험 항목은 저장된 입력 분석 결과로 유지합니다. 새 작업은 새 평가표로 작성해 주세요.')
         data=detail(db,email,no)
         if len(data['items'])>=100: raise AuthError(400,'ITEM_LIMIT','최대 100개 항목까지 추가할 수 있어요.')
         # 서버 모드가 바뀌어도 기존 평가표의 생성 출처를 변경하지 않는다.

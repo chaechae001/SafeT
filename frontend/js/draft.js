@@ -41,6 +41,11 @@
     $('#d-reason-box .src').text(doc.generation_source==='demo'?'시험용 고정 신호':'판단 대기');
     $('.disclaimer').text(doc.generation_source==='demo' ? '개발 시험용 합성 평가표 · 실제 현장 판정에 사용하지 마세요.' : '실제 위험 판단 모델 미연결 · 판단 필요 항목은 확정할 수 없습니다.');
     if(['catalog_v1','catalog_ai_v1'].indexOf(doc.generation_source)!==-1){ $('.disclaimer').text('선택한 조치를 기준으로 계산한 위험도입니다.');$('#d-reason-box .src').text('DB 기준'); }
+    if(doc.assessment_mode==='input_based'){
+      $('.disclaimer').text('입력 기반 위험성평가표 · 미확인 조치는 실제 미실시와 구분하여 표시합니다.');
+      $('#d-reason-box .src').text('입력·문헌 기준');
+    }
+    $('a[href="#v-add"]').prop('hidden',doc.assessment_mode==='input_based');
     if(SafeT.catalogAI)SafeT.catalogAI.summary(doc,submitAnswers);
     renderList();
   }
@@ -78,7 +83,7 @@
   /** 빠진 값 목록 (확정 검사 순서): current · signal · plan · owner */
   function missing(it) {
     var m = [];
-    if ((!it.none && !checkedCount(it.curr)) || (it.catalog && !it.controls_reviewed)) m.push('current');
+    if (it.assessment_mode!=='input_based' && ((!it.none && !checkedCount(it.curr)) || (it.catalog && !it.controls_reviewed))) m.push('current');
     if (it.signal === 'N') m.push('signal');
     if (it.signal === 'G' && !it.keep) m.push('plan');
     if (needsPlan(it) && !checkedCount(it.plans)) m.push('plan');
@@ -112,7 +117,7 @@
     var nc = checkedCount(it.curr);
     var np = checkedCount(it.plans);
     if (it.signal === 'N') parts.push('판단 필요');
-    parts.push(it.none ? '현재 조치 없음' : (nc ? '현재 조치 ' + nc + '개' : '현재 조치 확인 필요'));
+    parts.push(it.none ? '현재 조치 없음' : (nc ? '현재 조치 ' + nc + '개' : it.assessment_mode==='input_based' ? '현재 조치 미확인' : '현재 조치 확인 필요'));
     if (it.signal === 'G' && !it.keep) {
       parts.push('유지 또는 대책 추가 선택 필요');
     } else if (it.signal === 'G' && it.keep === 'Y') {
@@ -183,6 +188,11 @@
 
   function renderChecks($list, arr, kind, it) {
     $list.empty();
+    if(kind==='curr' && it.assessment_mode==='input_based'){
+      if(!arr.length)$('<p class="hint">').text('입력에서 실시가 확인된 안전조치가 없습니다. 조치가 없다고 판단한 것은 아닙니다.').appendTo($list);
+      arr.forEach(function(a){$('<p>').text(a.text).appendTo($list);});
+      return;
+    }
     $.each(arr, function (_, a) {
       var id = 'chk-' + a.id;
       var $row = a.ai ? $('<label class="check">') : $('<div class="check">');
@@ -276,6 +286,7 @@
 
     if(SafeT.catalogAI)SafeT.catalogAI.detail(it);
     renderChecks($('#d-curr-list'), it.curr, 'curr', it);
+    $('[data-add="curr"]').prop('hidden',it.assessment_mode==='input_based');
 
     $('#d-green-switch').prop('hidden', !isG);
     if (isG) { $('#d-green-switch input').prop('checked',false); if(it.keep) $('#d-green-switch input[value="'+it.keep+'"]').prop('checked',true); }
@@ -294,6 +305,7 @@
 
     if(!$('#d-projection').length)$('<p id="d-projection" class="hint" aria-live="polite">').insertAfter('#d-plan-body');
     $('#d-projection').text(it.catalog ? (it.judged ? '개선대책 이행 시 예상 위험도: '+({R:'상',Y:'중',G:'하',N:'확인 필요'}[it.after])+' · 계획 이행과 효과를 가정한 값입니다.' : '예상 위험도: 저장 후 계산 · 실제 개선 결과와 구분합니다.') : '');
+    if(it.assessment_mode==='input_based')$('#d-projection').text('개선대책 선택은 계획으로 저장되며 입력 기반 현재 위험도를 변경하지 않습니다.');
     var pos = navPos();
     $('#d-prev').prop('disabled', pos.prev === null);
     $('#d-next').prop('disabled', pos.next === null);

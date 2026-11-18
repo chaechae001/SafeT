@@ -1,0 +1,192 @@
+{
+  "equipment": {
+    "EQ_FRYER": [
+      "FRY"
+    ],
+    "EQ_GAS_RANGE": [
+      "GAS"
+    ],
+    "EQ_OVEN": [
+      "OVEN"
+    ],
+    "EQ_GRIDDLE": [
+      "GRIDDLE"
+    ],
+    "EQ_SOUP_KETTLE": [
+      "KETTLE"
+    ],
+    "EQ_KNIFE_BOARD": [
+      "KNIFE"
+    ],
+    "EQ_VEG_CUTTER": [
+      "CUT"
+    ],
+    "EQ_MEAT_SLICER": [
+      "CUT"
+    ],
+    "EQ_MIXER": [
+      "MIX"
+    ],
+    "EQ_DOUGH_MIXER": [
+      "MIX"
+    ],
+    "EQ_NOODLE_MACHINE": [
+      "MIX"
+    ],
+    "EQ_RICE_COOKER": [
+      "RICE"
+    ],
+    "EQ_WALKIN_COOLER": [
+      "COLD"
+    ],
+    "EQ_DISHWASHER": [
+      "WASH"
+    ],
+    "EQ_EXHAUST_HOOD": [
+      "VENT"
+    ],
+    "EQ_CART": [
+      "TRANS"
+    ],
+    "EQ_SHELF": [
+      "STORAGE"
+    ],
+    "EQ_LADDER": [
+      "LADDER"
+    ],
+    "EQ_DUMBWAITER": [
+      "LIFT"
+    ],
+    "EQ_MOTORCYCLE": [
+      "DELIVERY"
+    ],
+    "EQ_ELECTRIC_PANEL": [
+      "ELECT"
+    ],
+    "EQ_GAS_CYLINDER": [
+      "GAS"
+    ],
+    "EQ_WASTE_OIL_CONTAINER": [
+      "FRY"
+    ]
+  },
+  "terms": {
+    "ENV": [
+      "통로 이동",
+      "물기",
+      "미끄러",
+      "젖은 바닥"
+    ],
+    "LADDER": [
+      "사다리",
+      "고소 청소"
+    ],
+    "TRANS": [
+      "운반대차",
+      "고온물 운반"
+    ],
+    "STORAGE": [
+      "식자재 적재",
+      "선반 인출"
+    ],
+    "COLD": [
+      "냉동실 내부",
+      "사람이 들어가는 냉장고"
+    ],
+    "KNIFE": [
+      "손칼",
+      "칼질",
+      "식재료 절단",
+      "칼로 채소",
+      "칼로 식재료"
+    ],
+    "KNIFE_STORAGE": [
+      "칼 보관",
+      "칼집",
+      "칼꽂이"
+    ],
+    "UV": [
+      "자외선 소독기",
+      "UV 램프"
+    ],
+    "CUT": [
+      "육절기",
+      "채소절단기",
+      "민서",
+      "띠톱"
+    ],
+    "MIX": [
+      "반죽기",
+      "제면기",
+      "혼합기"
+    ],
+    "RICE": [
+      "취반",
+      "밥솥"
+    ],
+    "GAS": [
+      "가스레인지",
+      "가스 연소기",
+      "가스 누출"
+    ],
+    "KETTLE": [
+      "회전 국솥"
+    ],
+    "FRY": [
+      "튀김",
+      "배유",
+      "기름 교체"
+    ],
+    "GRIDDLE": [
+      "철판 조리",
+      "부침기"
+    ],
+    "OVEN": [
+      "오븐"
+    ],
+    "VENT": [
+      "후드 청소",
+      "환기설비"
+    ],
+    "SERVE": [
+      "배식통",
+      "배식대"
+    ],
+    "LIFT": [
+      "소형화물승강기"
+    ],
+    "DELIVERY": [
+      "배달 운전",
+      "이륜차"
+    ],
+    "WASH": [
+      "식기세척기"
+    ],
+    "CHEM": [
+      "세정제",
+      "소독제",
+      "세제"
+    ],
+    "ELECT": [
+      "젖은 손",
+      "분전반",
+      "손상 케이블",
+      "전기기기 청소"
+    ],
+    "FIRE": [
+      "화기작업",
+      "용접",
+      "튀김유 화재"
+    ],
+    "MSD": [
+      "중량물",
+      "반복 작업",
+      "설거지"
+    ],
+    "PSYCH": [
+      "폭언",
+      "고객 응대",
+      "과도 업무"
+    ]
+  }
+}
