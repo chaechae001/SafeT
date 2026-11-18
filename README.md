@@ -8,7 +8,7 @@
 - 화면: HTML·CSS·JavaScript
 - 서버: Python 3.11·FastAPI
 - DB: MariaDB·ChromaDB
-- AI: Qwen 2.5-VL-3B (변경 가능)
+- AI: EXAONE 3.5 7.8B Instruct AWQ
 
 ## 구조
 
