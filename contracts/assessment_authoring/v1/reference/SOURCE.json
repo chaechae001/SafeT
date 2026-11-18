@@ -1,0 +1,16 @@
+{
+  "repository": "chaechae001/SafeT",
+  "path": "contracts/catalog_risk/catalog.json",
+  "blob_sha": "19cc6481cd75c6d2f1cb49763df9c817ae285d86",
+  "base_commit": "7514acd92b7d46864bb274d005a3844f83c1e60c",
+  "contract_version": "assessment-authoring-1",
+  "package_revision": "v3-reviewed",
+  "policy_path": "backend/domain/risk_policy.py",
+  "equipment_source_path": "ai/experiments/261115_기기마스터_인식평가셋_DR/261115_기기마스터_v1_DR.json",
+  "reference_sha256": {
+    "catalog.json": "5037cb5482063b321d609a36031fbe1c75e08cb148f8c86665a8eb38fd3f8fa8",
+    "equipment_ids.json": "8faac3e67fb27834348004338d99c2b675e964c017dc63f1d57fa820f2202ad0",
+    "legal_registry.json": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "risk_policy.py": "a385d162f2e8165d185b874ebb61abe9ab0826f43d5c7544eaf2722f9c2ee154"
+  }
+}

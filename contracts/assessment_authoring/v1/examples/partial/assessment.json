@@ -1,0 +1,20 @@
+{
+  "contract_version": "assessment-authoring-1",
+  "assessment_mode": "input_based",
+  "base_policy_version": "CATALOG-MVP-1.1",
+  "decision_policy_version": "CATALOG-MVP-1.1-AUTO-1.0",
+  "result_status": "partial",
+  "items": [
+    {
+      "scenario_id": "FRY",
+      "severity": 2,
+      "control_band": 3,
+      "grade": "상",
+      "status": "estimated_from_input"
+    }
+  ],
+  "review_candidates": [],
+  "unmatched_risks": [
+    "카탈로그 밖의 합성 작업"
+  ]
+}

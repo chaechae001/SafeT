@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version",
+    "candidates",
+    "unmatched"
+  ],
+  "properties": {
+    "contract_version": {
+      "const": "assessment-authoring-1"
+    },
+    "candidates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "scenario_id",
+          "source_refs",
+          "legal_refs",
+          "retrieval_status"
+        ],
+        "properties": {
+          "scenario_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source_refs": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "document_id",
+                "printed_page",
+                "pdf_page"
+              ],
+              "properties": {
+                "document_id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "printed_page": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "pdf_page": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            },
+            "maxItems": 2
+          },
+          "legal_refs": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "legal_id",
+                "url"
+              ],
+              "properties": {
+                "legal_id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "url": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          },
+          "retrieval_status": {
+            "type": "string",
+            "enum": [
+              "matched",
+              "no_evidence"
+            ]
+          }
+        }
+      }
+    },
+    "unmatched": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}
