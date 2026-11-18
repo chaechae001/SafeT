@@ -10,6 +10,7 @@ RESPONSE={'candidates':[{'scenario_id':'FRY','rationale':'사용자가 튀김 �
 
 @pytest.fixture
 def configured(monkeypatch):
+    monkeypatch.delenv("SAFET_AI_GATEWAY_URL", raising=False)
     monkeypatch.setenv('SAFET_AI_BASE_URL','https://model.invalid/v1');monkeypatch.setenv('SAFET_AI_MODEL','test-text-model')
     monkeypatch.setenv('SAFET_AI_API_KEY','test-secret-do-not-echo')
     monkeypatch.setenv('SAFET_DETECTOR_URL','https://detector.invalid/detect')
@@ -141,3 +142,77 @@ def test_photo_requires_human_confirmation(configured,monkeypatch):
     assert result[0]['questions'][0]['id']=='EQUIPMENT_CONFIRM_FRY'
     result=ai.analyze(ctx,CAT,answers=[{'question_id':'EQUIPMENT_CONFIRM_FRY','answer':'튀김기이고 사용합니다.'}])
     assert result[0]['questions']==[]
+
+
+def test_gateway_shared_auth_paths_and_switch_wait(configured, monkeypatch):
+    monkeypatch.setenv('SAFET_AI_GATEWAY_URL', 'https://gateway.invalid/proxy/8010')
+    paths = []
+    def handler(req):
+        paths.append(req.url.path)
+        assert req.url.host == 'gateway.invalid'
+        assert req.headers['Authorization'] == 'Bearer test-secret-do-not-echo'
+        assert req.extensions['timeout']['read'] == 180
+        body = json.loads(req.content)
+        if req.url.path.endswith('/v1/detect'):
+            return httpx.Response(200, json=sam_response(body))
+        if req.url.path.endswith('/tokenize'):
+            return httpx.Response(200, json={'count': 2000})
+        return httpx.Response(200, json={'choices': [{'finish_reason': 'stop', 'message': {'content': json.dumps(RESPONSE)}}]})
+    transport(monkeypatch, handler)
+    ai.analyze({'text': '합성 튀김 작업', 'photos': [{'data': 'data:image/jpeg;base64,YQ=='}]}, CAT)
+    assert paths == ['/proxy/8010/v1/detect', '/proxy/8010/tokenize', '/proxy/8010/v1/chat/completions']
+
+
+def test_gateway_missing_tokenize_does_not_generate(configured, monkeypatch):
+    monkeypatch.setenv('SAFET_AI_GATEWAY_URL', 'https://gateway.invalid/proxy/8010')
+    calls = []
+    def handler(req):
+        calls.append(str(req.url))
+        return httpx.Response(404, json={'error': 'unsupported'})
+    transport(monkeypatch, handler)
+    with pytest.raises(AuthError) as err:
+        ai.analyze({'text': '합성 튀김 작업'}, CAT)
+    assert err.value.code == 'AI_TOKENIZE_FAILED'
+    assert calls == ['https://gateway.invalid/proxy/8010/tokenize']
+
+
+def test_gateway_missing_key_blocks_before_request(configured, monkeypatch):
+    monkeypatch.setenv('SAFET_AI_GATEWAY_URL', 'https://gateway.invalid/proxy/8010')
+    monkeypatch.setenv('SAFET_AI_API_KEY', '')
+    transport(monkeypatch, lambda req: pytest.fail('키가 없으면 관문을 호출하면 안 됩니다.'))
+    with pytest.raises(AuthError) as err:
+        ai.analyze({'text': '합성 튀김 작업'}, CAT)
+    assert err.value.code == 'AI_UNCONFIGURED'
+    with pytest.raises(AuthError):
+        ai.detect_equipment([{'data': 'data:image/jpeg;base64,YQ=='}])
+
+
+@pytest.mark.parametrize('failure', [401, 429, 500, 'timeout'])
+def test_gateway_tokenize_failure_has_no_retry_or_generation(configured, monkeypatch, failure):
+    monkeypatch.setenv('SAFET_AI_GATEWAY_URL', 'https://gateway.invalid/proxy/8010')
+    calls = []
+    def handler(req):
+        calls.append(req.url.path)
+        if failure == 'timeout':
+            raise httpx.ReadTimeout('synthetic timeout', request=req)
+        return httpx.Response(failure, text='private upstream details')
+    transport(monkeypatch, handler)
+    with pytest.raises(AuthError) as err:
+        ai.analyze({'text': '합성 튀김 작업'}, CAT)
+    assert err.value.code == 'AI_TOKENIZE_FAILED'
+    assert 'private upstream' not in str(err.value)
+    assert calls == ['/proxy/8010/tokenize']
+
+
+@pytest.mark.parametrize('count', [True, -1, '2000', None])
+def test_gateway_invalid_token_count_cannot_start_generation(configured, monkeypatch, count):
+    monkeypatch.setenv('SAFET_AI_GATEWAY_URL', 'https://gateway.invalid/proxy/8010')
+    calls = []
+    def handler(req):
+        calls.append(req.url.path)
+        return httpx.Response(200, json={'count': count})
+    transport(monkeypatch, handler)
+    with pytest.raises(AuthError) as err:
+        ai.analyze({'text': '합성 튀김 작업'}, CAT)
+    assert err.value.code == 'AI_TOKENIZE_FAILED'
+    assert calls == ['/proxy/8010/tokenize']

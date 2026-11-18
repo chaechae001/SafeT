@@ -20,8 +20,27 @@ SOURCE = 'catalog_ai_v1'
 ROOT = Path(__file__).resolve().parents[2]
 
 
+def gateway_url():
+    """관문 설정 시 모든 모델 요청을 같은 주소로 보낸다."""
+    base = os.getenv('SAFET_AI_GATEWAY_URL', '').strip().rstrip('/')
+    if not base:
+        return ''
+    uri = urlparse(base)
+    if uri.scheme not in ('http', 'https') or not uri.netloc or uri.username or uri.password or uri.query or uri.fragment:
+        raise AuthError(503, 'AI_UNCONFIGURED', 'AI 관문 주소를 확인해 주세요.')
+    return base
+
+
+def model_headers(detector=False):
+    name = 'SAFET_DETECTOR_API_KEY' if detector and not gateway_url() else 'SAFET_AI_API_KEY'
+    key = os.getenv(name, '').strip()
+    if gateway_url() and not key:
+        raise AuthError(503, 'AI_UNCONFIGURED', 'AI 관문 인증 키가 필요해요. 입력은 유지됩니다.')
+    return {'Authorization': 'Bearer ' + key} if key else {}
+
+
 def configuration():
-    base = os.getenv('SAFET_AI_BASE_URL', '').rstrip('/')
+    base = gateway_url() + '/v1' if gateway_url() else os.getenv('SAFET_AI_BASE_URL', '').rstrip('/')
     model = os.getenv('SAFET_AI_MODEL', '').strip()
     uri = urlparse(base)
     try:
@@ -36,7 +55,7 @@ def configuration():
 
 
 def detect_equipment(photos):
-    endpoint=os.getenv('SAFET_DETECTOR_URL','').strip()
+    endpoint=gateway_url() + '/v1/detect' if gateway_url() else os.getenv('SAFET_DETECTOR_URL','').strip()
     uri=urlparse(endpoint)
     if uri.scheme not in ('http','https') or not uri.netloc or uri.username or uri.password or uri.query or uri.fragment:
         raise AuthError(503,'DETECTOR_UNCONFIGURED','사진 기기 탐지 서버 설정이 필요해요. 사진은 유지됩니다.')
@@ -56,10 +75,10 @@ def detect_equipment(photos):
             payload['photos'].append({'photo_id':f'PHOTO{i+1}','image_base64':encoded})
     except (ValueError,KeyError,TypeError):
         raise AuthError(422,'AI_IMAGE_INVALID','사진 형식·용량(장당 12MB 이하)과 탐지 임계값을 확인해 주세요.') from None
-    key=os.getenv('SAFET_DETECTOR_API_KEY','')
+    headers=model_headers(detector=True)
     try:
         with httpx.Client(timeout=httpx.Timeout(180,connect=10),follow_redirects=False,trust_env=False) as client:
-            with client.stream('POST',endpoint,json=payload,headers={'Authorization':'Bearer '+key} if key else {}) as response:
+            with client.stream('POST',endpoint,json=payload,headers=headers) as response:
                 response.raise_for_status();raw=bytearray()
                 for chunk in response.iter_bytes():
                     raw.extend(chunk)
@@ -102,12 +121,12 @@ def make_input(context, answers=None):
 
 def output_budget(base, model, messages, headers, requested):
     """vLLM의 동일 채팅 템플릿으로 계수한다. 미지원·실패 시 추정값으로 호출하지 않는다."""
-    endpoint=os.getenv('SAFET_AI_TOKENIZE_URL','').strip() or (base[:-3] if base.endswith('/v1') else base)+'/tokenize'
+    endpoint=(gateway_url() + '/tokenize') if gateway_url() else (os.getenv('SAFET_AI_TOKENIZE_URL','').strip() or (base[:-3] if base.endswith('/v1') else base)+'/tokenize')
     # 계수 요청에도 동일 인증을 사용하므로 다른 호스트로 키가 전달되지 않게 제한한다.
     if urlparse(endpoint).scheme!=urlparse(base).scheme or urlparse(endpoint).netloc!=urlparse(base).netloc:
         raise AuthError(503,'AI_UNCONFIGURED','토큰 계수 주소는 모델 서버와 같은 호스트여야 해요.')
     try:
-        with httpx.Client(timeout=30,follow_redirects=False,trust_env=False) as client:
+        with httpx.Client(timeout=httpx.Timeout(180,connect=10),follow_redirects=False,trust_env=False) as client:
             with client.stream('POST',endpoint,headers=headers,json={'model':model,'messages':messages,'add_generation_prompt':True}) as response:
                 response.raise_for_status();raw=bytearray()
                 for chunk in response.iter_bytes():
@@ -133,14 +152,13 @@ def request_analysis(media, images, scenarios, previous=None):
     previous_context=[{k:p[k] for k in ('scenario_id','rationale','evidence','questions')} for p in (previous or [])]
     task={'media':media,'previous':previous_context,'existing_scenario_ids':[p['scenario_id'] for p in (previous or [])]}
     content=json.dumps(task,ensure_ascii=False)  # EXAONE에는 탐지 JSON과 텍스트만 전달한다.
-    key=os.getenv('SAFET_AI_API_KEY','')
-    headers={'Authorization':'Bearer '+key} if key else {}
+    headers=model_headers()
     messages=[{'role':'system','content':prompt},{'role':'user','content':content}]
     tokens=output_budget(base,model,messages,headers,tokens)
     payload={'model':model,'messages':messages,
              'temperature':0,'max_tokens':tokens,'response_format':{'type':'json_object'}}
     try:
-        with httpx.Client(timeout=httpx.Timeout(120,connect=10),follow_redirects=False,trust_env=False) as client:
+        with httpx.Client(timeout=httpx.Timeout(180,connect=10),follow_redirects=False,trust_env=False) as client:
             with client.stream('POST',base+'/chat/completions',json=payload,headers=headers) as response:
                 response.raise_for_status()
                 raw=bytearray()

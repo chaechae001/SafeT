@@ -382,3 +382,8 @@ Remove-Item Env:SAFET_RUN_LIVE_TEXT_TEST
 전에는 잠그지 않고 골라서, 만료 경계에서 복원과 겹치면 복원 성공 응답이 나간 평가표가 지워지거나(innodb_snapshot_isolation OFF: 이전 MariaDB·MySQL) 목록이 1020 오류로 실패했습니다(ON: MariaDB 11.6.2+ 기본).
 지금은 복원이 먼저 커밋되면 만료 삭제에서 빠지고, 만료 삭제가 먼저 잠그면 복원은 기다렸다가 404를 받습니다.
 검사: `tests/test_trash.py`의 `test_만료_경계_*` (두 DB 연결, snapshot isolation ON·OFF 각각).
+
+
+## 8010 관문 연결
+
+`SAFET_AI_GATEWAY_URL`을 설정하면 텍스트·사진 모두 같은 관문과 `SAFET_AI_API_KEY`를 사용합니다. 현재 관문은 토큰 계수 경로가 없어 초안 생성이 차단됩니다. [확인 결과와 서버 보완 사항](../docs/implementation/gateway-integration-20261118.md)을 참고하세요.
