@@ -1,0 +1,58 @@
+{
+  "$defs": {
+    "Detection": {
+      "additionalProperties": false,
+      "properties": {
+        "photo_id": {
+          "maxLength": 80,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_:.-]+$",
+          "title": "Photo Id",
+          "type": "string"
+        },
+        "equipment": {
+          "maxLength": 100,
+          "minLength": 1,
+          "title": "Equipment",
+          "type": "string"
+        },
+        "confidence": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Confidence",
+          "type": "number"
+        }
+      },
+      "required": [
+        "photo_id",
+        "equipment",
+        "confidence"
+      ],
+      "title": "Detection",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "model": {
+      "maxLength": 200,
+      "minLength": 1,
+      "title": "Model",
+      "type": "string"
+    },
+    "detections": {
+      "items": {
+        "$ref": "#/$defs/Detection"
+      },
+      "maxItems": 100,
+      "title": "Detections",
+      "type": "array"
+    }
+  },
+  "required": [
+    "model",
+    "detections"
+  ],
+  "title": "DetectionResult",
+  "type": "object"
+}

@@ -1,0 +1,57 @@
+{
+  "$defs": {
+    "Answer": {
+      "additionalProperties": false,
+      "properties": {
+        "item_id": {
+          "exclusiveMinimum": 0,
+          "title": "Item Id",
+          "type": "integer"
+        },
+        "question_id": {
+          "maxLength": 80,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_:.-]+$",
+          "title": "Question Id",
+          "type": "string"
+        },
+        "answer": {
+          "maxLength": 2000,
+          "minLength": 1,
+          "title": "Answer",
+          "type": "string"
+        }
+      },
+      "required": [
+        "item_id",
+        "question_id",
+        "answer"
+      ],
+      "title": "Answer",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "revision": {
+      "minimum": 1,
+      "title": "Revision",
+      "type": "integer"
+    },
+    "answers": {
+      "items": {
+        "$ref": "#/$defs/Answer"
+      },
+      "maxItems": 100,
+      "minItems": 1,
+      "title": "Answers",
+      "type": "array"
+    }
+  },
+  "required": [
+    "revision",
+    "answers"
+  ],
+  "title": "RiskAnswers",
+  "type": "object"
+}

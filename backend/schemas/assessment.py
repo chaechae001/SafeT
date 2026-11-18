@@ -58,6 +58,7 @@ class ItemEdit(StrictModel):
     id: int = Field(gt=0)
     curr: list[ActionEdit] = Field(max_length=50)
     plans: list[ActionEdit] = Field(max_length=50)
+    controls_reviewed: bool = False
     none: bool = False
     keep: Literal['Y','N'] | None = None
     owner: Owner | None = None
@@ -75,12 +76,3 @@ class SaveAssessment(StrictModel):
 class AddRisk(StrictModel):
     revision: int = Field(ge=1)
     keyword: str = Field(min_length=1, max_length=200)
-
-class RiskAnswer(StrictModel):
-    question_id: str = Field(min_length=1,max_length=100)
-    answer: str = Field(min_length=1,max_length=2000)
-
-class AnswerRisk(StrictModel):
-    revision: int = Field(ge=1)
-    answers: list[RiskAnswer] = Field(default_factory=list,max_length=1000)
-    additional_text: str = Field(default='',max_length=10000)

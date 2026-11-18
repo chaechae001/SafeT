@@ -1,5 +1,5 @@
 {
-  "policy_version": "CATALOG-MVP-1.0",
+  "policy_version": "CATALOG-MVP-1.1",
   "notice": "문헌 기반 위험요인·조치와 서비스 판정 초안. 법정 판정식·사고 확률·실제 사업장 정답이 아님. 원문 사례를 변형한 시나리오와 서비스 예시를 구분한다.",
   "sources": [
     {
@@ -206,7 +206,7 @@
   "scenarios": [
     {
       "id": "ENV",
-      "policy_version": "CATALOG-MVP-1.0",
+      "policy_version": "CATALOG-MVP-1.1",
       "title": "젖거나 기름진 바닥에서 미끄러져 다침",
       "task": "통로 이동",
       "event": "넘어짐",
@@ -310,7 +310,7 @@
     },
     {
       "id": "LADDER",
-      "policy_version": "CATALOG-MVP-1.0",
+      "policy_version": "CATALOG-MVP-1.1",
       "title": "사다리·의자에서 균형을 잃고 떨어짐",
       "task": "고소 청소·물건 인출",
       "event": "추락",
@@ -392,7 +392,7 @@
     },
     {
       "id": "TRANS",
-      "policy_version": "CATALOG-MVP-1.0",
+      "policy_version": "CATALOG-MVP-1.1",
       "title": "대차 전도나 고온 운반물 유출로 충돌·화상",
       "task": "운반대차·고온물 운반",
       "event": "끼임",
@@ -495,7 +495,7 @@
     },
     {
       "id": "STORAGE",
-      "policy_version": "CATALOG-MVP-1.0",
+      "policy_version": "CATALOG-MVP-1.1",
       "title": "불안정한 적재물 낙하·선반 충돌",
       "task": "식자재 적재·인출",
       "event": "낙하 타격",
@@ -571,7 +571,7 @@
     },
     {
       "id": "COLD",
-      "policy_version": "CATALOG-MVP-1.0",
+      "policy_version": "CATALOG-MVP-1.1",
       "title": "내부에서 출입문을 열지 못해 갇힘",
       "task": "냉동실 내부 작업",
       "event": "갇힘",
@@ -641,7 +641,7 @@
     },
     {
       "id": "KNIFE",
-      "policy_version": "CATALOG-MVP-1.0",
+      "policy_version": "CATALOG-MVP-1.1",
       "title": "날에 손이 접촉해 베임",
       "task": "칼을 이용한 식재료 절단",
       "event": "베임",
@@ -719,7 +719,7 @@
     },
     {
       "id": "UV",
-      "policy_version": "CATALOG-MVP-1.0",
+      "policy_version": "CATALOG-MVP-1.1",
       "title": "살균 광원에 눈·피부가 노출됨",
       "task": "자외선 소독기 사용",
       "event": "눈",
@@ -779,7 +779,7 @@
     },
     {
       "id": "CUT",
-      "policy_version": "CATALOG-MVP-1.0",
+      "policy_version": "CATALOG-MVP-1.1",
       "title": "작동 중 날·회전체에 손이 닿아 절단·끼임",
       "task": "채소·육류 가공",
       "event": "절단",
@@ -892,7 +892,7 @@
     },
     {
       "id": "MIX",
-      "policy_version": "CATALOG-MVP-1.0",
+      "policy_version": "CATALOG-MVP-1.1",
       "title": "작동 중 회전체 접근으로 말림·끼임",
       "task": "혼합·반죽·제면",
       "event": "말림",
@@ -988,7 +988,7 @@
     },
     {
       "id": "RICE",
-      "policy_version": "CATALOG-MVP-1.0",
+      "policy_version": "CATALOG-MVP-1.1",
       "title": "증기·뜨거운 용기에 접촉해 화상",
       "task": "취반·보온 작업",
       "event": "끼임",
@@ -1077,7 +1077,7 @@
     },
     {
       "id": "GAS",
-      "policy_version": "CATALOG-MVP-1.0",
+      "policy_version": "CATALOG-MVP-1.1",
       "title": "가스 누출·불완전 연소로 폭발·중독",
       "task": "가스 연소기 사용",
       "event": "화재",
@@ -1204,7 +1204,7 @@
     },
     {
       "id": "KETTLE",
-      "policy_version": "CATALOG-MVP-1.0",
+      "policy_version": "CATALOG-MVP-1.1",
       "title": "솥 전도·회전으로 고온 내용물에 광범위 노출",
       "task": "회전 국솥 취급",
       "event": "화상",
@@ -1295,7 +1295,7 @@
     },
     {
       "id": "FRY",
-      "policy_version": "CATALOG-MVP-1.0",
+      "policy_version": "CATALOG-MVP-1.1",
       "title": "재료 투입·기름 취급 중 고온 기름이 튐",
       "task": "튀김 조리",
       "event": "고온유 화상",
@@ -1386,7 +1386,7 @@
     },
     {
       "id": "GRIDDLE",
-      "policy_version": "CATALOG-MVP-1.0",
+      "policy_version": "CATALOG-MVP-1.1",
       "title": "고온 철판·기름에 접촉해 화상",
       "task": "철판 조리",
       "event": "화상",
@@ -1453,7 +1453,7 @@
     },
     {
       "id": "OVEN",
-      "policy_version": "CATALOG-MVP-1.0",
+      "policy_version": "CATALOG-MVP-1.1",
       "title": "문 개방·트레이 인출 중 증기·열에 노출",
       "task": "오븐 조리",
       "event": "화상",
@@ -1527,7 +1527,7 @@
     },
     {
       "id": "VENT",
-      "policy_version": "CATALOG-MVP-1.0",
+      "policy_version": "CATALOG-MVP-1.1",
       "title": "환기 부족으로 유해 조리흄·연소가스에 노출",
       "task": "후드·환기설비 사용 및 청소",
       "event": "흡입 건강장해",
@@ -1631,7 +1631,7 @@
     },
     {
       "id": "SERVE",
-      "policy_version": "CATALOG-MVP-1.0",
+      "policy_version": "CATALOG-MVP-1.1",
       "title": "고온 음식 용기 이동·접촉 중 화상",
       "task": "배식통 취급",
       "event": "손 끼임",
@@ -1708,7 +1708,7 @@
     },
     {
       "id": "LIFT",
-      "policy_version": "CATALOG-MVP-1.0",
+      "policy_version": "CATALOG-MVP-1.1",
       "title": "승강로 접근·탑승·방호 결함으로 추락·끼임",
       "task": "소형화물승강기 사용",
       "event": "끼임",
@@ -1804,7 +1804,7 @@
     },
     {
       "id": "DELIVERY",
-      "policy_version": "CATALOG-MVP-1.0",
+      "policy_version": "CATALOG-MVP-1.1",
       "title": "도로 운행 중 충돌·전도",
       "task": "이륜차·차량 배달",
       "event": "교통 충돌",
@@ -1903,7 +1903,7 @@
     },
     {
       "id": "WASH",
-      "policy_version": "CATALOG-MVP-1.0",
+      "policy_version": "CATALOG-MVP-1.1",
       "title": "뜨거운 물·증기·세정제에 노출",
       "task": "식기세척기 사용",
       "event": "끼임",
@@ -1999,7 +1999,7 @@
     },
     {
       "id": "CHEM",
-      "policy_version": "CATALOG-MVP-1.0",
+      "policy_version": "CATALOG-MVP-1.1",
       "title": "혼합·비산·환기 부족으로 유해물질에 노출",
       "task": "세정제 취급",
       "event": "화학 화상",
@@ -2114,7 +2114,7 @@
     },
     {
       "id": "ELECT",
-      "policy_version": "CATALOG-MVP-1.0",
+      "policy_version": "CATALOG-MVP-1.1",
       "title": "절연 손상·누전 상태에서 충전부 접촉",
       "task": "전기기기 주변 물청소",
       "event": "감전",
@@ -2265,7 +2265,7 @@
     },
     {
       "id": "FIRE",
-      "policy_version": "CATALOG-MVP-1.0",
+      "policy_version": "CATALOG-MVP-1.1",
       "title": "점화원과 가연물이 접촉해 화재",
       "task": "화기·기름 취급",
       "event": "화재",
@@ -2365,7 +2365,7 @@
     },
     {
       "id": "MSD",
-      "policy_version": "CATALOG-MVP-1.0",
+      "policy_version": "CATALOG-MVP-1.1",
       "title": "반복·불편 자세·과도한 힘으로 근골격계 부담",
       "task": "반복 작업·중량물 취급",
       "event": "근골격계 질환",
@@ -2507,7 +2507,7 @@
     },
     {
       "id": "PSYCH",
-      "policy_version": "CATALOG-MVP-1.0",
+      "policy_version": "CATALOG-MVP-1.1",
       "title": "폭언·과도한 업무부담으로 정신건강 손상",
       "task": "고객 응대·업무 수행",
       "event": "정신/신체 건강장해",
@@ -2601,7 +2601,7 @@
     },
     {
       "id": "KNIFE_STORAGE",
-      "policy_version": "CATALOG-MVP-1.0",
+      "policy_version": "CATALOG-MVP-1.1",
       "title": "소형 칼 보관부 주변의 경미한 접촉",
       "task": "소형 칼 보관",
       "event": "경미한 베임",
