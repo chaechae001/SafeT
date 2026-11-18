@@ -4,6 +4,7 @@
   "required": [
     "contract_version",
     "assessment_mode",
+    "base_policy_version",
     "decision_policy_version",
     "result_status",
     "items",
@@ -15,6 +16,9 @@
     },
     "assessment_mode": {
       "const": "input_based"
+    },
+    "base_policy_version": {
+      "const": "CATALOG-MVP-1.1"
     },
     "decision_policy_version": {
       "const": "CATALOG-MVP-1.1-AUTO-1.0"
