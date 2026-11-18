@@ -250,3 +250,24 @@ def test_photo_question_overflow_rejects_instead_of_truncating(configured, monke
     with pytest.raises(AuthError) as err:
         ai.analyze({'text':'튀김','photos':[{'data':'data:image/jpeg;base64,YQ=='}]},CAT)
     assert err.value.code=='AI_QUESTION_LIMIT'
+
+
+def test_detector_threshold_default_and_override(configured,monkeypatch):
+    sent=[]
+    def handler(req):
+        body=json.loads(req.content);sent.append(body['score_threshold']);return httpx.Response(200,json=sam_response(body))
+    transport(monkeypatch,handler)
+    monkeypatch.delenv('SAFET_DETECTOR_THRESHOLD')
+    ai.detect_equipment([{'data':'data:image/jpeg;base64,YQ=='}])
+    monkeypatch.setenv('SAFET_DETECTOR_THRESHOLD','0.5')
+    ai.detect_equipment([{'data':'data:image/jpeg;base64,YQ=='}])
+    assert sent==[0.35,0.5]
+
+
+def test_repeated_boxes_reach_model_as_one_row_per_equipment(configured,monkeypatch):
+    box=lambda i,eid,cls,c:{'detection_id':f'd{i}','photo_id':'PHOTO1','equipment_id':eid,'detector_class':cls,
+                            'confidence':c,'bbox':[0.1,0.1,0.2,0.2],'equipment':cls}
+    hits=[box(i,'EQ_SHELF','shelf',0.4+i/1000) for i in range(30)]+[box(99,'EQ_FRYER','deep fryer',0.91),box(100,None,'tongs',0.5)]
+    monkeypatch.setattr(ai,'detect_equipment',lambda *a:{'model':'sam','detections':hits})
+    media,_=ai.make_input({'photos':[{'data':'data:image/jpeg;base64,YQ==','place':'주방'}]})
+    assert media[0]['detections']==['deep fryer 0.91','tongs 0.50','shelf 0.43']

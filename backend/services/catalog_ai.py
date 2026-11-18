@@ -19,6 +19,30 @@ from domain.risk_policy import POLICY
 
 SOURCE = 'catalog_ai_v1'
 ROOT = Path(__file__).resolve().parents[2]
+# SAM 3 평가셋 34장(AI 보조 라벨) 임계값 비교에서 재현율 우선 F2가 가장 높은 값.
+# 근거: ai/README.md '기기 탐지 임계값'. 환경변수로 바꿀 수 있다.
+DEFAULT_DETECTOR_THRESHOLD = '0.35'
+
+
+def detector_threshold():
+    return os.getenv('SAFET_DETECTOR_THRESHOLD', '').strip() or DEFAULT_DETECTOR_THRESHOLD
+
+
+def summarize_detections(hits):
+    """사진 1장의 탐지 박스를 기기별 한 줄 문자열로 줄인다. 예: 'deep fryer 0.91'
+
+    EXAONE은 박스 좌표를 쓰지 않는다. 같은 기기 박스가 수십 개 반복되면
+    4,096토큰 한도를 넘으므로 기기별 최고 점수만 넘긴다.
+    기기 ID(EQ_GRILL 등)는 넘기지 않는다. 모델이 카탈로그 ID로 착각해 'GRILL'을 낸 사례가 있다.
+    원본 탐지 결과는 사진 캐시에 그대로 남는다.
+    """
+    best = {}
+    for d in hits:
+        key = d.get('equipment_id') or d['equipment']
+        if key not in best or d['confidence'] > best[key]['confidence']:
+            best[key] = d
+    rows = sorted(best.values(), key=lambda d: (-d['confidence'], d['equipment']))
+    return [f"{d['equipment']} {d['confidence']:.2f}" for d in rows]
 
 
 def gateway_url():
@@ -63,7 +87,7 @@ def detect_equipment(photos):
     if not 1 <= len(photos) <= 8:
         raise AuthError(422,'AI_IMAGE_INVALID','사진은 1~8장까지 전달할 수 있어요.')
     try:
-        threshold=float(os.getenv('SAFET_DETECTOR_THRESHOLD','0.05'))
+        threshold=float(detector_threshold())
         if not 0 <= threshold <= 1: raise ValueError()
         payload={'request_id':str(uuid.uuid4()),'score_threshold':threshold,'photos':[]}
         for i,p in enumerate(photos):
@@ -110,7 +134,7 @@ def make_input(context, answers=None):
     if context.get('photos'):
         # 서버가 보관한 동일 사진·임계값의 탐지만 재사용한다. 클라이언트 입력 계약에는 캐시 필드가 없다.
         signature=json.dumps({'photos':[{'data':p['data'],'place':p.get('place','')} for p in context['photos']],
-                              'threshold':os.getenv('SAFET_DETECTOR_THRESHOLD','0.05')},sort_keys=True)
+                              'threshold':detector_threshold()},sort_keys=True)
         fingerprint=hashlib.sha256(signature.encode()).hexdigest()
         cache=context.get('_photo_cache')
         if not context.get('_refresh_photos') and cache and cache.get('version')==1 and cache.get('fingerprint')==fingerprint:
@@ -122,7 +146,7 @@ def make_input(context, answers=None):
             mid=f'PHOTO{i+1}'
             hits=[d for d in detected['detections'] if d['photo_id']==mid]
             media.append({'id':mid,'place':p.get('place',''),'kind':'equipment_detection',
-                          'detector_model':detected['model'],'detections':hits,
+                          'detector_model':detected['model'],'detections':summarize_detections(hits),
                           'notice':'기기 후보 탐지 결과이며 누출·정상 작동·현재 조치·노출을 확인한 것이 아님'})
     for i,a in enumerate(answers or []):
         media.append({'id':f'ANSWER{i+1}','text':json.dumps(a,ensure_ascii=False)})
