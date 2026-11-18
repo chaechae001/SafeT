@@ -6,6 +6,7 @@ This is not a general JSON Schema validator or a semantic evidence verifier.
 import copy
 import hashlib
 import json
+import re
 import runpy
 from pathlib import Path
 
@@ -55,7 +56,10 @@ def verify_sources():
     source = read("reference/SOURCE.json")
     require(len(source["base_commit"]) == 40 and all(c in "0123456789abcdef" for c in source["base_commit"]), "source commit")
     for name, expected in source["reference_sha256"].items():
-        require(hashlib.sha256((ROOT / "reference" / name).read_bytes()).hexdigest() == expected, "snapshot changed: " + name)
+        raw = (ROOT / "reference" / name).read_bytes().replace(b"\r\n", b"\n")
+        require(hashlib.sha256(raw).hexdigest() == expected, "snapshot changed: " + name)
+    ids = read("schemas/input.schema.json")["properties"]["equipment_ids"]["items"]["enum"]
+    require(sorted(ids) == sorted(read("reference/equipment_ids.json")), "equipment ID enum mismatch")
     repo = ROOT.parents[2]
     live = repo / "backend/domain/risk_policy.py"
     if live.is_file():
@@ -63,19 +67,24 @@ def verify_sources():
         require(json.loads((repo / source["path"]).read_text(encoding="utf-8-sig")) == read("reference/catalog.json"), "live catalog differs")
 
 
-def validate(i, r, a, legal_registry=None):
+def whole_sentence(quote, source):
+    # A quote cannot drop an initial negation or a qualifying clause at its end.
+    sentences = re.split(r"(?<=[.!?。！？])\s+|[\r\n]+", source.strip())
+    return quote.strip() in [sentence.strip() for sentence in sentences]
+
+
+def validate_bundles(i, r, a, catalog, registry):
     for name, value in (("input", i), ("retrieval", r), ("analysis", a)):
         check(value, read("schemas/" + name + ".schema.json"))
     media = {m["id"]: m for m in i["media"]}
     require(len(media) == len(i["media"]), "duplicate media")
     require(len(set(i["equipment_ids"])) == len(i["equipment_ids"]), "duplicate equipment")
-    registry = read("reference/legal_registry.json") if legal_registry is None else legal_registry
     retrieved = [c["scenario_id"] for c in r["candidates"]]
     require(len(retrieved) == len(set(retrieved)), "duplicate retrieval")
     for c in r["candidates"]:
-        require(c["scenario_id"] in CAT, "unknown scenario")
+        require(c["scenario_id"] in catalog, "unknown scenario")
         refs = c["source_refs"]
-        require(all(ref in CAT[c["scenario_id"]]["source_refs"] for ref in refs), "unverified source")
+        require(all(ref in catalog[c["scenario_id"]]["source_refs"] for ref in refs), "unverified source")
         require(len({json.dumps(ref, sort_keys=True) for ref in refs}) == len(refs), "duplicate source")
         for ref in c["legal_refs"]:
             require(any(ref["legal_id"] == trusted["legal_id"] and ref["url"] == trusted["url"] and c["scenario_id"] in trusted["scenario_ids"] for trusted in registry), "unverified legal ref")
@@ -83,16 +92,17 @@ def validate(i, r, a, legal_registry=None):
         require(c["retrieval_status"] == expected, "retrieval status mismatch")
     ids = [c["scenario_id"] for c in a["candidates"]]
     require(len(ids) == len(set(ids)), "duplicate candidate")
-    out = []
     for c in a["candidates"]:
         require(c["scenario_id"] in retrieved, "candidate outside retrieval")
         for e in c["evidence"]:
             require(e["media_id"] in media, "unknown media")
             require(e["statement"] in media[e["media_id"]]["text"], "scenario quote not in input")
-        scenario = CAT[c["scenario_id"]]
+        require(any(media[e["media_id"]]["kind"] in ("text", "voice_transcript")
+                    and whole_sentence(e["statement"], media[e["media_id"]]["text"])
+                    for e in c["evidence"]), "work needs a complete text or voice quote")
+        scenario = catalog[c["scenario_id"]]
         known = {x["id"] for x in scenario["controls"]}
-        critical = {x["id"] for x in scenario["controls"] if x["critical"]}
-        seen, supported = set(), set()
+        seen = set()
         for e in c["control_evidence"]:
             require(e["control_id"] in known and e["control_id"] not in seen, "invalid/duplicate control")
             seen.add(e["control_id"])
@@ -100,15 +110,25 @@ def validate(i, r, a, legal_registry=None):
             require(len(e["evidence_refs"]) == len(set(e["evidence_refs"])), "duplicate evidence")
             if e["state"] != "unknown":
                 require(bool(e["evidence_refs"]), "missing control evidence")
-                require(any(media[mid]["kind"] in ("text", "voice_transcript") and e["statement"] in media[mid]["text"] for mid in e["evidence_refs"]), "control requires direct input quote")
-            if e["state"] == "supported":
-                supported.add(e["control_id"])
+                require(all(media[mid]["kind"] in ("text", "voice_transcript") for mid in e["evidence_refs"]), "control references must be text or voice")
+                require(any(whole_sentence(e["statement"], media[mid]["text"]) for mid in e["evidence_refs"]), "control requires a whole input sentence")
+
+
+def validate(i, r, a, legal_registry=None):
+    registry = read("reference/legal_registry.json") if legal_registry is None else legal_registry
+    validate_bundles(i, r, a, CAT, registry)
+    out = []
+    for c in a["candidates"]:
+        scenario = CAT[c["scenario_id"]]
+        known = {x["id"] for x in scenario["controls"]}
+        critical = {x["id"] for x in scenario["controls"] if x["critical"]}
+        supported = {e["control_id"] for e in c["control_evidence"] if e["state"] == "supported"}
         band = 3 if not critical <= supported else (1 if known <= supported else 2)
         out.append(dict(scenario_id=scenario["id"], severity=scenario["severity"], control_band=band,
                         grade=POLICY["MATRIX"][scenario["severity"]][band], status="estimated_from_input"))
     unmatched = list(dict.fromkeys(r["unmatched"] + a["unmatched_risks"]))
     result = dict(contract_version="assessment-authoring-1", assessment_mode="input_based",
-                  decision_policy_version="CATALOG-MVP-1.1-AUTO-1.0",
+                  base_policy_version="CATALOG-MVP-1.1", decision_policy_version="CATALOG-MVP-1.1-AUTO-1.0",
                   result_status=("partial" if unmatched else "complete") if out else "no_supported_result",
                   items=out, unmatched_risks=unmatched)
     check(result, read("schemas/assessment.schema.json"))
@@ -123,6 +143,16 @@ def main():
         i, r, a = [read(prefix + n + ".json") for n in ("input", "retrieval", "analysis")]
         require(validate(i, r, a) == read(prefix + "assessment.json"), name)
         count += 1
+    photo = read("examples/input_variants/photo.json")
+    retrieval = read("examples/unknown/retrieval.json")
+    analysis = read("examples/unknown/analysis.json")
+    analysis["candidates"][0]["evidence"] = [{"media_id": photo["media"][0]["id"], "statement": photo["media"][0]["text"]}]
+    try:
+        validate(photo, retrieval, analysis)
+    except ValueError:
+        count += 1
+    else:
+        raise ValueError("detection alone produced a graded row")
     original = [read("examples/all_supported/" + n + ".json") for n in ("input", "retrieval", "analysis")]
     mutations = [
         (0, "media", []), (0, "equipment_ids", ["BAD"]),
@@ -139,6 +169,17 @@ def main():
         (1, "candidates.0.legal_refs", [{"legal_id": "BAD", "url": "https://example.invalid"}]),
         (0, "media.0.kind", "equipment_detection"),
     ]
+    original[0]["media"].extend([{"id":"NEG","kind":"text","text":"보호구를 착용하지 않습니다."},
+                                 {"id":"PHOTO","kind":"equipment_detection","text":"보호구 탐지"}])
+    mutations.append((2, "candidates.0.control_evidence.0.evidence_refs", ["TEXT", "PHOTO"]))
+    neg = copy.deepcopy(original)
+    neg[2]["candidates"][0]["control_evidence"][0].update(statement="보호구를 착용", evidence_refs=["NEG"])
+    try:
+        validate(*neg)
+    except ValueError:
+        count += 1
+    else:
+        raise ValueError("negation was truncated")
     for target, path, value in mutations:
         case = copy.deepcopy(original)
         cursor = case[target]
@@ -175,7 +216,7 @@ def main():
         for band, grade in enumerate(grades, 1):
             require(POLICY["MATRIX"][severity][band] == grade, "matrix regression")
             count += 1
-    print(f"PASS: {count} checks (5 examples, 15 rejected mutations, 4 boundaries, 9 matrix cells)")
+    print(f"PASS: {count} checks")
 
 
 if __name__ == "__main__":
