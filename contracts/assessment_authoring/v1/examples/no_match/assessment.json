@@ -5,6 +5,7 @@
   "decision_policy_version": "CATALOG-MVP-1.1-AUTO-1.0",
   "result_status": "no_supported_result",
   "items": [],
+  "review_candidates": [],
   "unmatched_risks": [
     "카탈로그 밖의 합성 작업"
   ]
