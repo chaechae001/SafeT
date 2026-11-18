@@ -114,7 +114,16 @@ def validate_bundles(i, r, a, catalog, registry):
                 require(any(whole_sentence(e["statement"], media[mid]["text"]) for mid in e["evidence_refs"]), "control requires a whole input sentence")
 
 
-def validate(i, r, a, legal_registry=None):
+def validate_assessment(result, catalog):
+    check(result, read("schemas/assessment.schema.json"))
+    review_ids = [c["scenario_id"] for c in result["review_candidates"]]
+    require(len(review_ids) == len(set(review_ids)), "duplicate review candidate")
+    require(set(review_ids) <= catalog.keys(), "unknown review candidate")
+    require(not set(review_ids).intersection(row["scenario_id"] for row in result["items"]),
+            "review candidate already graded")
+
+
+def validate(i, r, a, legal_registry=None, *, review_candidates=()):
     registry = read("reference/legal_registry.json") if legal_registry is None else legal_registry
     validate_bundles(i, r, a, CAT, registry)
     out = []
@@ -130,8 +139,8 @@ def validate(i, r, a, legal_registry=None):
     result = dict(contract_version="assessment-authoring-1", assessment_mode="input_based",
                   base_policy_version="CATALOG-MVP-1.1", decision_policy_version="CATALOG-MVP-1.1-AUTO-1.0",
                   result_status=("partial" if unmatched else "complete") if out else "no_supported_result",
-                  items=out, unmatched_risks=unmatched)
-    check(result, read("schemas/assessment.schema.json"))
+                  items=out, review_candidates=list(review_candidates), unmatched_risks=unmatched)
+    validate_assessment(result, CAT)
     return result
 
 
@@ -216,6 +225,31 @@ def main():
         for band, grade in enumerate(grades, 1):
             require(POLICY["MATRIX"][severity][band] == grade, "matrix regression")
             count += 1
+    voice, r, a = copy.deepcopy(original)
+    voice["media"][0].update(kind="voice_transcript", text="주방에서 튀김 조리를 합니다")
+    a["candidates"][0]["evidence"][0]["statement"] = voice["media"][0]["text"]
+    a["candidates"][0]["control_evidence"] = []
+    validate(voice, r, a)
+    count += 1
+
+    no_rows = read("examples/no_match/assessment.json")
+    for reason in ("work_unconfirmed", "input_denies_work"):
+        result = dict(no_rows, review_candidates=[{"scenario_id": "FRY", "reason": reason}])
+        validate_assessment(result, CAT)
+        count += 1
+    for result in (
+        dict(no_rows, review_candidates=[{"scenario_id": "BAD", "reason": "work_unconfirmed"}]),
+        dict(no_rows, review_candidates=[{"scenario_id": "FRY", "reason": "other"}]),
+        dict(read("examples/all_supported/assessment.json"),
+             review_candidates=[{"scenario_id": "FRY", "reason": "work_unconfirmed"}]),
+        dict(no_rows, review_candidates=[{"scenario_id": "FRY", "reason": "work_unconfirmed"}] * 2),
+    ):
+        try:
+            validate_assessment(result, CAT)
+        except ValueError:
+            count += 1
+        else:
+            raise ValueError("invalid review candidate accepted")
     print(f"PASS: {count} checks")
 
 
