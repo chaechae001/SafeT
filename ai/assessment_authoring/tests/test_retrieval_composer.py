@@ -121,6 +121,33 @@ class AuthoringTests(unittest.TestCase):
         self.assertEqual(result["retrieval_trace"]["work_review_candidates"], ["FRY"])
         self.assertEqual(result["assessment"]["rows"], [])
 
+    def test_photo_with_text_preserves_work_status(self):
+        for observation, rows, pending, excluded in [
+            ("칼로 채소를 썹니다.", [], ["FRY"], []),
+            ("주방에서 튀김 조리를 합니다.", ["FRY"], [], []),
+            ("튀김은 안 합니다.", [], [], ["FRY"]),
+            ("튀김 작업을 하지 않습니다.", [], [], ["FRY"]),
+            ("튀김 조리를 하지 않습니다.", [], [], ["FRY"]),
+            ("튀김기는 안 씁니다.", [], [], ["FRY"]),
+            ("튀김기 온도 조절기가 없다.", [], ["FRY"], []),
+            ("튀김은 안 합니다. 다른 곳에서는 튀김 조리를 합니다.", [], ["FRY"], []),
+        ]:
+            with self.subTest(observation=observation):
+                context = read("examples/input_variants/photo.json")
+                context["media"].append(dict(id="TEXT", kind="text", text=observation))
+                def extract(_, batch, catalog):
+                    self.assertFalse(excluded, "explicitly inapplicable work sent to extraction")
+                    self.assertIn("FRY", [c["scenario_id"] for c in batch["candidates"]])
+                    if rows:
+                        return read("examples/unknown/analysis.json")
+                    return dict(contract_version="assessment-authoring-1", candidates=[], unmatched_risks=[])
+
+                result = run_pipeline(context, build_context=copy.deepcopy, extract_analysis=extract,
+                                      catalog_snapshot=self.catalog)
+                self.assertEqual([row["scenario_id"] for row in result["assessment"]["rows"]], rows)
+                self.assertEqual(result["retrieval_trace"]["work_review_candidates"], pending)
+                self.assertEqual(result["retrieval_trace"]["not_applicable_candidates"], excluded)
+
     def test_irrelevant_note_does_not_make_draft_partial(self):
         self.i["media"].append(dict(id="NOTE", kind="text", text="주방 정리"))
         r, trace = retrieve_with_evidence(self.i, self.catalog)

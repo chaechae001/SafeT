@@ -11,8 +11,6 @@ def run_pipeline(raw_request, *, build_context, extract_analysis, catalog_snapsh
     analysis = dict(contract_version="assessment-authoring-1", candidates=[], unmatched_risks=[])
     has_work_input = any(m["kind"] in ("text", "voice_transcript") for m in context["media"])
     batches = candidate_batches(retrieval) if has_work_input else []
-    if not has_work_input:
-        trace["work_review_candidates"] = [c["scenario_id"] for c in retrieval["candidates"]]
     for batch in batches:
         part = extract_analysis(copy.deepcopy(context), copy.deepcopy(batch), copy.deepcopy(catalog_snapshot))
         # 각 배치 소속을 먼저 검사하여 다른 배치 ID를 끼워넣지 못하게 한다.
@@ -21,5 +19,9 @@ def run_pipeline(raw_request, *, build_context, extract_analysis, catalog_snapsh
         analysis["candidates"].extend(part["candidates"])
         analysis["unmatched_risks"].extend(part["unmatched_risks"])
     rendered = render_assessment(context, retrieval, analysis, catalog_snapshot, legal_registry=legal_registry)
+    assessed = {row["scenario_id"] for row in rendered["rows"]}
+    trace["work_review_candidates"] = sorted(
+        set(trace["equipment_candidates"]) - assessed - set(trace["not_applicable_candidates"])
+    )
     return dict(input=context, retrieval=retrieval, analysis=analysis, assessment=rendered, retrieval_trace=trace)
 
