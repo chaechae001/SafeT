@@ -1,0 +1,12 @@
+{
+  "contract_version": "assessment-authoring-1",
+  "catalog_version": "CATALOG-MVP-1.1",
+  "media": [
+    {
+      "id": "TEXT",
+      "kind": "text",
+      "text": "튀김기를 씁니다. 튀김기 과열 방지 장치가 고장 나서 지금은 쓰지 않습니다. 소화기는 있지만 K급 소화기는 없습니다."
+    }
+  ],
+  "equipment_ids": []
+}
