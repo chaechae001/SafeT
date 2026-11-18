@@ -1,0 +1,4 @@
+{
+  "finish_reason": "stop",
+  "content": "{\"candidates\": [{\"scenario_id\": \"FRY\", \"rationale\": \"튀김 조리 중 고온 기름이 튀어 화상을 입을 수 있음\", \"evidence\": [{\"media_id\": \"TEXT\", \"statement\": \"주방에서 튀김 조리를 합니다.\"}], \"control_evidence\": [], \"assumptions\": [\"입력에 현재 조치 진술이 없어 모든 조치를 확인하지 못함\"], \"questions\": []}], \"unmatched_risks\": []}"
+}
