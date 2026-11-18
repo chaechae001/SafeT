@@ -9,7 +9,7 @@
 from extraction_adapter import extract_analysis, run_extraction, ExtractionError
 
 analysis = extract_analysis(context, retrieval_bundle, catalog_snapshot)          # AnalysisBundle
-result = run_extraction(context, retrieval_bundle, catalog_snapshot, call_model)  # .analysis, .runs
+result = run_extraction(context, retrieval_bundle, catalog_snapshot, call_model)  # .analysis, .runs, .work_review_candidates
 ```
 
 - `catalog_snapshot`: `reference/catalog.json`과 같은 형식(`policy_version`, `scenarios`).
@@ -17,6 +17,7 @@ result = run_extraction(context, retrieval_bundle, catalog_snapshot, call_model)
 - 검색 후보를 3개씩 나누어 배치당 호출 1회를 수행하고 scenario_id 순서대로 합친다. 후보가 없으면 호출하지 않는다.
 - `unmatched_risks` = `retrieval.unmatched` + 모델 미매칭(중복 제거).
 - `runs`: 배치별 scenario_ids·모델·max_tokens·finish_reason·usage·prompt_version·prompt_sha256.
+- `work_review_candidates`: 검색 후보 중 작업 근거(텍스트·전사 문장)가 없어 analysis에서 빠진 scenario_id. 사진·글 혼합 입력에서도 채운다. 담당자 작업 확인 대상으로 보존한다(INTERFACES 담당자 확정 기준).
 - 실패는 `ExtractionError(code, detail)`로 던진다. detail에 모델 원문을 넣지 않는다.
 
 | code | 상황 |
@@ -27,7 +28,9 @@ result = run_extraction(context, retrieval_bundle, catalog_snapshot, call_model)
 | MODEL_OUTPUT_INCOMPLETE | stop 이외의 종료 사유 |
 | MODEL_OUTPUT_INVALID_JSON | 빈 응답, JSON 파싱 실패, 객체가 아님, JSON 뒤 추가 문장 |
 | MODEL_OUTPUT_SCHEMA | grade/severity 등 추가 필드, questions≠[], 잘못된 state |
-| MODEL_OUTPUT_REFERENCE | 배치 밖·중복 scenario, 미등록·중복 control, 없는 media, 위조 인용, 탐지·보유 근거의 supported |
+| MODEL_OUTPUT_REFERENCE | 배치 밖·중복 scenario, 미등록·중복 control, 없는 media, 위조·문장 일부 인용, 텍스트·전사 문장 없는 작업 근거, 탐지·보유 참조의 조치 판정 |
+
+인용 검사는 공통 `validate.py`의 `whole_sentence`를 그대로 사용한다. 인용은 원문 한 문장(문장부호까지)과 같아야 한다.
 
 ## 모델 설정
 
@@ -39,7 +42,7 @@ result = run_extraction(context, retrieval_bundle, catalog_snapshot, call_model)
 | 주소 | `SAFET_AI_BASE_URL` 또는 `SAFET_AI_GATEWAY_URL` |
 | 출력 한도 | `SAFET_AI_MAX_TOKENS`(256~2048, 기본 1024), 토큰 계수 후 입력+출력 4096 이내 |
 | 생성 | temperature 0, `response_format: json_object` |
-| 프롬프트 | `system_prompt.md` (`assessment-extraction-1`), 공통 `prompts/generation_system.txt` 12개 규칙 + 조치 근거 규칙 |
+| 프롬프트 | `system_prompt.md` (`assessment-extraction-2`), 공통 `prompts/generation_system.txt`(계약 `5a882f6`) 12개 규칙 + 조치 근거 규칙 |
 
 모델에는 시나리오 설명·조치 ID·핵심 여부·현재 조치 문구·문헌 참조만 보낸다. severity·initial_grade·plan_text는 보내지 않는다.
 언급 없는 조치는 응답에서 생략하게 하여 출력 길이를 줄인다. 누락 조치는 compose_assessment가 unknown으로 정규화한다.
@@ -63,7 +66,7 @@ python -m unittest discover -s ai/assessment_authoring/tests -v
 | --- | --- |
 | normal | 원문 직접 인용이 있는 조치만 supported |
 | unknown | 작업만 언급 → control_evidence 없음, assumptions 기록 |
-| detection_only | 사진 탐지·기기 목록만 → 조치 판정 없음 |
+| detection_only | 사진 탐지·기기 목록만 → analysis 후보 없음, FRY는 work_review_candidates |
 | negation | 고장·미보유 진술 → not_effective |
 | conflict | TEXT·VOICE 진술 상충 → unknown, 두 근거 보존 |
 | composite_partial | 보안경/내열 보호구 중 일부만 확인 → unknown |

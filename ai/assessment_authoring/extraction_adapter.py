@@ -21,7 +21,7 @@ CONTRACT = REPO / "contracts/assessment_authoring/v1"
 PROMPT_PATH = Path(__file__).resolve().parent / "system_prompt.md"
 CONTRACT_VERSION = "assessment-authoring-1"
 CATALOG_VERSION = "CATALOG-MVP-1.1"
-PROMPT_VERSION = "assessment-extraction-1"
+PROMPT_VERSION = "assessment-extraction-2"  # 2: 문장 전체 인용·탐지만 있는 후보 제외 (계약 5a882f6)
 DEFAULT_BATCH_SIZE = 3
 QUOTE_KINDS = ("text", "voice_transcript")
 MAX_RESPONSE_BYTES = 2_000_000
@@ -29,6 +29,7 @@ MAX_RESPONSE_BYTES = 2_000_000
 # 공통 계약 검사기의 스키마 검사 함수를 재사용한다(별도 구현으로 갈라지지 않게).
 _CONTRACT = runpy.run_path(str(CONTRACT / "validate.py"))
 _check = _CONTRACT["check"]
+_whole_sentence = _CONTRACT["whole_sentence"]  # 문장 일부 인용(부정·조건 누락) 차단
 _SCHEMAS = {name: _CONTRACT["read"]("schemas/" + name + ".schema.json") for name in ("input", "retrieval", "analysis")}
 
 
@@ -52,6 +53,8 @@ class ExtractionError(Exception):
 class ExtractionResult:
     analysis: dict
     runs: list = field(default_factory=list)  # 배치별 모델·토큰·종료 사유 기록
+    # 검색 후보 중 작업 근거가 없어 analysis에서 빠진 ID. 담당자 작업 확인 대상으로 보존한다.
+    work_review_candidates: list = field(default_factory=list)
 
 
 def load_system_prompt():
@@ -171,6 +174,10 @@ def check_batch_output(data, context, batch_ids, catalog):
             if key in quotes:
                 fail(where + ": duplicate evidence")
             quotes.add(key)
+        # 작업 근거: 텍스트·전사의 완전한 문장 인용이 최소 1개. 탐지·보유만으로는 행을 만들지 않는다.
+        if not any(media[e["media_id"]]["kind"] in QUOTE_KINDS
+                   and _whole_sentence(e["statement"], media[e["media_id"]]["text"]) for e in c["evidence"]):
+            fail(where + ": work needs a complete text or voice quote")
         known = {x["id"] for x in catalog[sid]["controls"]}
         controls = set()
         for k, e in enumerate(c["control_evidence"]):
@@ -190,8 +197,8 @@ def check_batch_output(data, context, batch_ids, catalog):
                 fail(at + ": missing evidence_refs")
             if any(media[r]["kind"] not in QUOTE_KINDS for r in refs):
                 fail(at + ": detection/inventory cannot support control state")
-            if not any(e["statement"] in media[r]["text"] for r in refs):
-                fail(at + ": control statement is not a direct quote")
+            if not any(_whole_sentence(e["statement"], media[r]["text"]) for r in refs):
+                fail(at + ": control statement is not a whole input sentence")
     return data
 
 
@@ -232,7 +239,8 @@ def run_extraction(context, retrieval_bundle, catalog_snapshot, call_model=None,
         "unmatched_risks": list(dict.fromkeys(unmatched)),
     }
     _check(analysis, _SCHEMAS["analysis"])
-    return ExtractionResult(analysis=analysis, runs=runs)
+    review = [c["scenario_id"] for c in candidates_in if c["scenario_id"] not in set(ids)]
+    return ExtractionResult(analysis=analysis, runs=runs, work_review_candidates=review)
 
 
 def extract_analysis(context, retrieval_bundle, catalog_snapshot, call_model=None, batch_size=DEFAULT_BATCH_SIZE):

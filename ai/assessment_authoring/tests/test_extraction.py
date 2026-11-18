@@ -82,10 +82,19 @@ class FixtureCases(unittest.TestCase):
             states, _ = self.states(name)
             self.assertEqual(states, {"FRY-C7": "unknown"})
 
-    def test_detection_only_has_no_control_state(self):
-        states, a = self.states("detection_only")
-        self.assertEqual(states, {})
-        self.assertTrue(a["candidates"][0]["assumptions"])
+    def test_detection_only_is_left_for_work_review(self):
+        i, r, m = load_case("detection_only")
+        result = ea.run_extraction(i, r, CATALOG, call_model=Mock(m))
+        self.assertEqual(result.analysis["candidates"], [])
+        self.assertEqual(result.work_review_candidates, ["FRY"])
+
+    def test_mixed_input_keeps_unconfirmed_detection(self):
+        # 사진에 튀김기, 글에는 다른 작업만 있으면 FRY는 행이 아니라 작업 확인 대상으로 남는다.
+        i, r, m = load_case("detection_only")
+        i["media"].append({"id": "TEXT", "kind": "text", "text": "칼로 채소를 썹니다."})
+        result = ea.run_extraction(i, r, CATALOG, call_model=Mock(m))
+        self.assertEqual(result.work_review_candidates, ["FRY"])
+        CONTRACT_VALIDATE(i, r, result.analysis)
 
     def test_no_match_keeps_unmatched_without_model_call(self):
         i, r, _ = load_case("no_match")
@@ -117,13 +126,14 @@ class Messages(unittest.TestCase):
              "candidates": [{"scenario_id": s, "source_refs": cat[s]["source_refs"][:2], "legal_refs": [],
                              "retrieval_status": "matched"} for s in ids]}
         fry = {"scenario_id": "FRY", "rationale": "튀김 조리 위험",
-               "evidence": [{"media_id": "TEXT", "statement": "튀김 조리를 합니다."}],
+               "evidence": [{"media_id": "TEXT", "statement": "주방에서 튀김 조리를 합니다."}],
                "control_evidence": [], "assumptions": [], "questions": []}
         mock = Mock(response([fry], ["모델 미매칭"]), response([], ["검색 미매칭"]))
         result = ea.run_extraction(i, r, CATALOG, call_model=mock)
         self.assertEqual([run["scenario_ids"] for run in result.runs], [["FRY", "GAS", "KNIFE"], ["CUT"]])
         self.assertEqual([c["scenario_id"] for c in result.analysis["candidates"]], ["FRY"])
         self.assertEqual(result.analysis["unmatched_risks"], ["검색 미매칭", "모델 미매칭"])
+        self.assertEqual(result.work_review_candidates, ["GAS", "KNIFE", "CUT"])
         CONTRACT_VALIDATE(i, r, result.analysis)
 
 
@@ -182,6 +192,8 @@ class Failures(unittest.TestCase):
         cases = {
             "fake_scenario_quote": lambda d: d["candidates"][0]["evidence"][0].update(statement="주방에서 튀김을 합니다."),
             "fake_control_quote": lambda d: ce(d)[0].update(statement="과열 방지 장치가 정상입니다."),
+            "partial_control_quote": lambda d: ce(d)[1].update(statement="기름은 완전히 식힌 뒤"),
+            "partial_scenario_quote": lambda d: d["candidates"][0]["evidence"][0].update(statement="튀김 조리를 합니다."),
             "unknown_media": lambda d: ce(d)[0].update(evidence_refs=["VOICE"]),
             "missing_refs": lambda d: ce(d)[0].update(evidence_refs=[]),
             "duplicate_refs": lambda d: ce(d)[0].update(evidence_refs=["TEXT", "TEXT"]),
@@ -196,13 +208,22 @@ class Failures(unittest.TestCase):
             with self.subTest(name=name):
                 self.expect("MODEL_OUTPUT_REFERENCE", self.mutated(fn))
 
-    def test_detection_cannot_support_control(self):
-        i, r, m = load_case("detection_only")
-        data = json.loads(m["content"])
-        data["candidates"][0]["control_evidence"] = [{"control_id": "FRY-C1", "state": "supported",
-                                                      "evidence_refs": ["PHOTO1"], "statement": "튀김기 후보가 탐지되었습니다."}]
-        with self.assertRaises(ea.ExtractionError) as ctx:
-            ea.extract_analysis(i, r, CATALOG, call_model=Mock({"finish_reason": "stop", "content": json.dumps(data, ensure_ascii=False)}))
+    def test_detection_cannot_establish_work_or_control(self):
+        i, r, _ = load_case("detection_only")
+        photo = "튀김기 후보가 탐지되었습니다. 작동 상태는 알 수 없습니다."
+        cand = {"scenario_id": "FRY", "rationale": "튀김기 탐지",
+                "evidence": [{"media_id": "PHOTO1", "statement": photo}],
+                "control_evidence": [], "assumptions": [], "questions": []}
+        with self.subTest("work"), self.assertRaises(ea.ExtractionError) as ctx:
+            ea.extract_analysis(i, r, CATALOG, call_model=Mock(response([cand])))
+        self.assertEqual(ctx.exception.code, "MODEL_OUTPUT_REFERENCE")
+        # 작업 문장이 있어도 탐지 media로 조치를 판정하지 못한다.
+        i["media"].append({"id": "TEXT", "kind": "text", "text": "튀김 조리를 합니다."})
+        cand["evidence"].append({"media_id": "TEXT", "statement": "튀김 조리를 합니다."})
+        cand["control_evidence"] = [{"control_id": "FRY-C1", "state": "supported",
+                                     "evidence_refs": ["TEXT", "PHOTO1"], "statement": "튀김 조리를 합니다."}]
+        with self.subTest("control"), self.assertRaises(ea.ExtractionError) as ctx:
+            ea.extract_analysis(i, r, CATALOG, call_model=Mock(response([cand])))
         self.assertEqual(ctx.exception.code, "MODEL_OUTPUT_REFERENCE")
 
     def test_error_does_not_leak_model_text(self):

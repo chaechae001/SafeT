@@ -1,4 +1,4 @@
 {
   "finish_reason": "stop",
-  "content": "{\"candidates\": [{\"scenario_id\": \"FRY\", \"rationale\": \"튀김기가 있어 튀김 조리 중 고온 기름 화상 위험이 있을 수 있음\", \"evidence\": [{\"media_id\": \"PHOTO1\", \"statement\": \"튀김기 후보가 탐지되었습니다.\"}], \"control_evidence\": [], \"assumptions\": [\"사진 탐지·기기 목록만 있어 실제 튀김 작업 여부와 조치 시행을 확인하지 못함\"], \"questions\": []}], \"unmatched_risks\": []}"
+  "content": "{\"candidates\": [], \"unmatched_risks\": []}"
 }
