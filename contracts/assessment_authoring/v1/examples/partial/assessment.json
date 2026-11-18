@@ -1,6 +1,7 @@
 {
   "contract_version": "assessment-authoring-1",
   "assessment_mode": "input_based",
+  "base_policy_version": "CATALOG-MVP-1.1",
   "decision_policy_version": "CATALOG-MVP-1.1-AUTO-1.0",
   "result_status": "partial",
   "items": [

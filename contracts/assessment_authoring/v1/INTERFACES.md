@@ -34,7 +34,7 @@ kind는 text / voice_transcript / equipment_detection / equipment_inventory다.
 equipment_ids는 reference/equipment_ids.json의 ID만 사용하며 중복을 제거한다. 글만 있으면 빈 배열이 가능하다.
 사진 탐지 0건은 “탐지된 기기 없음” 요약으로 남기고 탐지 오류와 구분한다. 빈 입력·파일/모델 오류는 성공 Bundle 대신 기존 오류 경로로 반환한다.
 
-analysis.evidence[].statement는 해당 media.text의 짧은 직접 인용이다.
+작업 적용의 근거로 텍스트·전사에서 온전한 문장이나 한 줄을 인용한다. 조치 supported/not_effective의 참조는 텍스트·전사만 허용한다.
 supported/not_effective의 statement도 참조 text/voice_transcript에 실제 존재하는 직접 인용이어야 한다.
 unknown의 statement는 부족·상충 이유이며 evidence_refs=[]가 가능하다. 조치가 응답에서 누락되면 unknown으로 정규화한다.
 잘못된 ID·위조 인용·중복은 오류다. 잘못된 supported를 조용히 unknown으로 바꾸어 성공시키지 않는다.
@@ -93,3 +93,14 @@ AssessmentCore는 통합 검사용 핵심 결과다. 서비스는 기존 catalog
 기존 수동 평가와 과거 저장 결과는 당시 정책으로 조회한다. 입력 revision이 달라진 늦은 결과로 덮어쓰지 않는다.
 생성·저장·재조회·화면·PDF의 grade/정책/근거가 일치하면 통합 완료다.
 
+
+## 담당자 확정 기준 (2026-11-19 팀 결정)
+
+`input_based`의 AI 출력과 계산 결과는 모두 초안이다. `complete`는 입력 처리 상태다.
+탐지·보유 정보만 있으면 검색 후보를 보존하고 작업 미확인으로 표시한다. 해당 작업을 뒷받침하는 텍스트·전사가 있을 때만 추정 등급 행을 만든다.
+현재 조치 근거가 부족하면 unknown으로 남긴다. 동일 등급이 나와도 조치 미실시 사실로 표시하지 않는다.
+담당자가 실제 작업 여부와 원문 근거를 행별로 검토하고 명시적으로 확정해야 한다.
+작업 미확인 후보는 확인해 재계산하거나 비적용으로 명시적으로 제외하기 전까지 확정을 보류한다.
+확정 API 연결 시 인증·소유권·revision 및 사용자 검토 기록을 서버에서 검사한다.
+모델 결과, 추정 등급, 처리 완료 상태로 검토 기록을 생성하지 않는다.
+기존 수동 경로의 확인·잠금 규칙은 유지한다.

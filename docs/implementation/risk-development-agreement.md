@@ -80,3 +80,5 @@ AI/RAG 실모델 연결·현장 정확도 검증은 별도 후속 작업이며 �
 로컬에서 AI 후보·추가 질문을 본 공통 계산 모듈에 연결했다.
 [AI 통합 검토 문서](ai-integration.md)의 범위·설정·검증을 참조한다.
 실제 모델 연결·검증 및 GitHub 반영은 해당 문서의 상태를 따른다.
+
+- 2026-11-19 팀 결정: input_based는 AI 초안 생성 후 담당자가 실제 작업과 근거를 검토해 명시적으로 확정한다. [담당자 확정 기준](../../contracts/assessment_authoring/v1/INTERFACES.md)을 따른다.
