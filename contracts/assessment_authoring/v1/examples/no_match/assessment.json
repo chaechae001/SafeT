@@ -1,0 +1,10 @@
+{
+  "contract_version": "assessment-authoring-1",
+  "assessment_mode": "input_based",
+  "decision_policy_version": "CATALOG-MVP-1.1-AUTO-1.0",
+  "result_status": "no_supported_result",
+  "items": [],
+  "unmatched_risks": [
+    "카탈로그 밖의 합성 작업"
+  ]
+}

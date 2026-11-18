@@ -1,0 +1,7 @@
+{
+  "scenario_id": "FRY",
+  "severity": 2,
+  "control_band": 1,
+  "grade": "중",
+  "status": "estimated_from_input"
+}

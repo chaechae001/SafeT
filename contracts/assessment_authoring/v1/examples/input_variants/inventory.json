@@ -1,0 +1,14 @@
+{
+  "contract_version": "assessment-authoring-1",
+  "catalog_version": "CATALOG-MVP-1.1",
+  "media": [
+    {
+      "id": "MACHINES",
+      "kind": "equipment_inventory",
+      "text": "등록 기기: 튀김기."
+    }
+  ],
+  "equipment_ids": [
+    "EQ_FRYER"
+  ]
+}

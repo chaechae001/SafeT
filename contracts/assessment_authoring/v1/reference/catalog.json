@@ -1,0 +1,2654 @@
+{
+  "policy_version": "CATALOG-MVP-1.1",
+  "notice": "문헌 기반 위험요인·조치와 서비스 판정 초안. 법정 판정식·사고 확률·실제 사업장 정답이 아님. 원문 사례를 변형한 시나리오와 서비스 예시를 구분한다.",
+  "sources": [
+    {
+      "id": "A",
+      "title": "쉽고 간편한 위험성평가 방법 안내서",
+      "printed_ranges": [
+        [
+          9,
+          15
+        ]
+      ],
+      "pdf_offset": 4,
+      "filename": "230531_쉽고 간편한 위험성평가 방법 안내서_(웹용).pdf"
+    },
+    {
+      "id": "B",
+      "title": "서비스업 재해사례 중심 위험성평가 방법 안내서",
+      "printed_ranges": [
+        [
+          50,
+          64
+        ]
+      ],
+      "pdf_offset": 8,
+      "filename": "[2023-중소기업지원실-404]_서비스업 재해사례 중심 위험성평가 방법 안내서.pdf"
+    },
+    {
+      "id": "C",
+      "title": "8권 음식및숙박업(자료실게시용)",
+      "printed_ranges": [
+        [
+          94,
+          96
+        ],
+        [
+          103,
+          165
+        ]
+      ],
+      "pdf_offset": 1,
+      "filename": "8권 음식및숙박업(자료실게시용).pdf"
+    }
+  ],
+  "guidance": [
+    {
+      "id": "GOV",
+      "name": "평가 운영",
+      "triggers": [
+        "설비",
+        "물질",
+        "공정",
+        "절차 변경 또는 사고",
+        "증상",
+        "아차사고 보고"
+      ],
+      "consequences": [
+        "위험요인 누락 및 개선 미이행"
+      ],
+      "critical_controls": [
+        "근로자 참여·현재/비정상작업 식별",
+        "사전 기준·허용수준 합의",
+        "개선 이행·효과 검증",
+        "변경/사고 후 재평가"
+      ],
+      "supporting_controls": [
+        "책임자·기한·기록·교육",
+        "외주/주변 근로자 포함"
+      ],
+      "questions": [
+        "현재 평가 범위와 변경사항은 무엇인가?",
+        "아차사고 원인이 해소되었는가?"
+      ],
+      "source_refs": [
+        {
+          "document_id": "C",
+          "printed_page": 94,
+          "pdf_page": 95
+        },
+        {
+          "document_id": "C",
+          "printed_page": 95,
+          "pdf_page": 96
+        },
+        {
+          "document_id": "C",
+          "printed_page": 96,
+          "pdf_page": 97
+        },
+        {
+          "document_id": "A",
+          "printed_page": 9,
+          "pdf_page": 13
+        },
+        {
+          "document_id": "A",
+          "printed_page": 10,
+          "pdf_page": 14
+        },
+        {
+          "document_id": "A",
+          "printed_page": 11,
+          "pdf_page": 15
+        },
+        {
+          "document_id": "A",
+          "printed_page": 12,
+          "pdf_page": 16
+        },
+        {
+          "document_id": "A",
+          "printed_page": 13,
+          "pdf_page": 17
+        },
+        {
+          "document_id": "A",
+          "printed_page": 14,
+          "pdf_page": 18
+        },
+        {
+          "document_id": "A",
+          "printed_page": 15,
+          "pdf_page": 19
+        }
+      ],
+      "default_severity": null,
+      "applicability_note": "기기 보유만으로 확정하지 말고 실제 작업·노출·조치 기능을 확인한다. 핵심/보완 분류는 사고 경로별로 재검토한다."
+    },
+    {
+      "id": "EMERGENCY",
+      "name": "사고 대응 준비",
+      "triggers": [
+        "화상",
+        "절단",
+        "감전",
+        "화학 노출",
+        "의식 이상 사고"
+      ],
+      "consequences": [
+        "구조 지연",
+        "2차 손상",
+        "잘못된 응급처치"
+      ],
+      "critical_controls": [
+        "현장 위험 차단·2차 피해 방지",
+        "연락/구조 체계",
+        "교육·구급품·장비",
+        "제품별 현행 SDS 대응"
+      ],
+      "supporting_controls": [
+        "사고 위치/인원 정보",
+        "훈련·역할",
+        "현행 전문기관 지침 관리"
+      ],
+      "questions": [
+        "현재 사고가 발생했는가?",
+        "대응 담당자·연락수단·구급품·훈련은?"
+      ],
+      "source_refs": [
+        {
+          "document_id": "C",
+          "printed_page": 142,
+          "pdf_page": 143
+        },
+        {
+          "document_id": "C",
+          "printed_page": 143,
+          "pdf_page": 144
+        },
+        {
+          "document_id": "C",
+          "printed_page": 144,
+          "pdf_page": 145
+        },
+        {
+          "document_id": "C",
+          "printed_page": 145,
+          "pdf_page": 146
+        },
+        {
+          "document_id": "C",
+          "printed_page": 147,
+          "pdf_page": 148
+        },
+        {
+          "document_id": "C",
+          "printed_page": 155,
+          "pdf_page": 156
+        },
+        {
+          "document_id": "C",
+          "printed_page": 156,
+          "pdf_page": 157
+        },
+        {
+          "document_id": "C",
+          "printed_page": 157,
+          "pdf_page": 158
+        }
+      ],
+      "default_severity": null,
+      "applicability_note": "기기 보유만으로 확정하지 말고 실제 작업·노출·조치 기능을 확인한다. 핵심/보완 분류는 사고 경로별로 재검토한다."
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "ENV",
+      "policy_version": "CATALOG-MVP-1.1",
+      "title": "젖거나 기름진 바닥에서 미끄러져 다침",
+      "task": "통로 이동",
+      "event": "넘어짐",
+      "scenario": "통로 이동 중 젖거나 기름진 바닥에서 미끄러져 다침",
+      "applicability_note": "기기 보유만으로 확정하지 말고 실제 작업·노출·조치 기능을 확인한다. 핵심/보완 분류는 사고 경로별로 재검토한다. 이 사례보다 피해가 커질 조건은 별도 위험으로 추가·검토한다.",
+      "severity": 2,
+      "severity_reason": "해당 문헌 기반 사고 경로에서 가능한 피해를 고려한 서비스 초안. 공식 문서에 표시된 확정 등급이 아님.",
+      "keywords": [
+        "바닥·통로·계단",
+        "물기",
+        "기름",
+        "호스",
+        "단차",
+        "장애물",
+        "뜨거운 음식 운반",
+        "통로 이동",
+        "바닥",
+        "통로"
+      ],
+      "controls": [
+        {
+          "id": "ENV-C1",
+          "critical": true,
+          "current_text": "오염 제거·배수/덮개",
+          "plan_text": "오염 제거·배수/덮개 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "ENV-C2",
+          "critical": true,
+          "current_text": "미끄럼 방지·안정된 매트",
+          "plan_text": "미끄럼 방지·안정된 매트 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "ENV-C3",
+          "critical": true,
+          "current_text": "계단/통로 안전 상태·손잡이",
+          "plan_text": "계단/통로 안전 상태·손잡이 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "ENV-C4",
+          "critical": true,
+          "current_text": "고온 운반 동선 분리",
+          "plan_text": "고온 운반 동선 분리 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "ENV-C5",
+          "critical": false,
+          "current_text": "조명",
+          "plan_text": "조명 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "ENV-C6",
+          "critical": false,
+          "current_text": "청소 표지/출입 통제",
+          "plan_text": "청소 표지/출입 통제 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "ENV-C7",
+          "critical": false,
+          "current_text": "적합 신발",
+          "plan_text": "적합 신발 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "ENV-C8",
+          "critical": false,
+          "current_text": "호스 정리",
+          "plan_text": "호스 정리 — 미실시·미흡 부분 개선"
+        }
+      ],
+      "source_refs": [
+        {
+          "document_id": "C",
+          "printed_page": 103,
+          "pdf_page": 104
+        },
+        {
+          "document_id": "C",
+          "printed_page": 105,
+          "pdf_page": 106
+        },
+        {
+          "document_id": "B",
+          "printed_page": 54,
+          "pdf_page": 62
+        },
+        {
+          "document_id": "B",
+          "printed_page": 55,
+          "pdf_page": 63
+        },
+        {
+          "document_id": "B",
+          "printed_page": 57,
+          "pdf_page": 65
+        }
+      ],
+      "case_kind": "document_derived_scenario",
+      "review_status": "service_policy_draft",
+      "initial_grade": "상",
+      "initial_assumption": "해당 작업에 노출되고 핵심 조치가 없는 경우의 기준값. 현장 미확인 초안은 확정 등급이 아님."
+    },
+    {
+      "id": "LADDER",
+      "policy_version": "CATALOG-MVP-1.1",
+      "title": "사다리·의자에서 균형을 잃고 떨어짐",
+      "task": "고소 청소·물건 인출",
+      "event": "추락",
+      "scenario": "고소 청소·물건 인출 중 사다리·의자에서 균형을 잃고 떨어짐",
+      "applicability_note": "기기 보유만으로 확정하지 말고 실제 작업·노출·조치 기능을 확인한다. 핵심/보완 분류는 사고 경로별로 재검토한다. 이 사례보다 피해가 커질 조건은 별도 위험으로 추가·검토한다.",
+      "severity": 3,
+      "severity_reason": "해당 문헌 기반 사고 경로에서 가능한 피해를 고려한 서비스 초안. 공식 문서에 표시된 확정 등급이 아님.",
+      "keywords": [
+        "고소 청소·사다리",
+        "선반 인출",
+        "후드 청소",
+        "사다리/의자 사용",
+        "고소 청소·물건 인출"
+      ],
+      "controls": [
+        {
+          "id": "LADDER-C1",
+          "critical": true,
+          "current_text": "적합 작업발판 우선",
+          "plan_text": "적합 작업발판 우선 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "LADDER-C2",
+          "critical": true,
+          "current_text": "안정된 바닥·전도 방지",
+          "plan_text": "안정된 바닥·전도 방지 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "LADDER-C3",
+          "critical": true,
+          "current_text": "장비/높이에 맞는 추락 방지·안전한 작업방법",
+          "plan_text": "장비/높이에 맞는 추락 방지·안전한 작업방법 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "LADDER-C4",
+          "critical": false,
+          "current_text": "보조 인원",
+          "plan_text": "보조 인원 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "LADDER-C5",
+          "critical": false,
+          "current_text": "안전모·필요 보호구",
+          "plan_text": "안전모·필요 보호구 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "LADDER-C6",
+          "critical": false,
+          "current_text": "상단 발판 사용 제한",
+          "plan_text": "상단 발판 사용 제한 — 미실시·미흡 부분 개선"
+        }
+      ],
+      "source_refs": [
+        {
+          "document_id": "C",
+          "printed_page": 103,
+          "pdf_page": 104
+        },
+        {
+          "document_id": "C",
+          "printed_page": 104,
+          "pdf_page": 105
+        },
+        {
+          "document_id": "C",
+          "printed_page": 131,
+          "pdf_page": 132
+        },
+        {
+          "document_id": "B",
+          "printed_page": 58,
+          "pdf_page": 66
+        }
+      ],
+      "case_kind": "document_derived_scenario",
+      "review_status": "service_policy_draft",
+      "initial_grade": "상",
+      "initial_assumption": "해당 작업에 노출되고 핵심 조치가 없는 경우의 기준값. 현장 미확인 초안은 확정 등급이 아님."
+    },
+    {
+      "id": "TRANS",
+      "policy_version": "CATALOG-MVP-1.1",
+      "title": "대차 전도나 고온 운반물 유출로 충돌·화상",
+      "task": "운반대차·고온물 운반",
+      "event": "끼임",
+      "scenario": "운반대차·고온물 운반 중 대차 전도나 고온 운반물 유출로 충돌·화상",
+      "applicability_note": "기기 보유만으로 확정하지 말고 실제 작업·노출·조치 기능을 확인한다. 핵심/보완 분류는 사고 경로별로 재검토한다. 이 사례보다 피해가 커질 조건은 별도 위험으로 추가·검토한다.",
+      "severity": 2,
+      "severity_reason": "해당 문헌 기반 사고 경로에서 가능한 피해를 고려한 서비스 초안. 공식 문서에 표시된 확정 등급이 아님.",
+      "keywords": [
+        "운반대차·고온 운반",
+        "카트",
+        "중량물",
+        "뜨거운 국/밥솥 이동",
+        "운반대차·고온물 운반"
+      ],
+      "controls": [
+        {
+          "id": "TRANS-C1",
+          "critical": true,
+          "current_text": "대차 바퀴/손잡이 정상",
+          "plan_text": "대차 바퀴/손잡이 정상 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "TRANS-C2",
+          "critical": true,
+          "current_text": "균형 적재·시야·정격",
+          "plan_text": "균형 적재·시야·정격 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "TRANS-C3",
+          "critical": true,
+          "current_text": "고온물 넘침 방지",
+          "plan_text": "고온물 넘침 방지 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "TRANS-C4",
+          "critical": true,
+          "current_text": "충분한 통로·안전 주차",
+          "plan_text": "충분한 통로·안전 주차 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "TRANS-C5",
+          "critical": false,
+          "current_text": "서행",
+          "plan_text": "서행 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "TRANS-C6",
+          "critical": false,
+          "current_text": "공동 운반",
+          "plan_text": "공동 운반 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "TRANS-C7",
+          "critical": false,
+          "current_text": "작업 전 바닥 정리",
+          "plan_text": "작업 전 바닥 정리 — 미실시·미흡 부분 개선"
+        }
+      ],
+      "source_refs": [
+        {
+          "document_id": "C",
+          "printed_page": 105,
+          "pdf_page": 106
+        },
+        {
+          "document_id": "C",
+          "printed_page": 106,
+          "pdf_page": 107
+        },
+        {
+          "document_id": "C",
+          "printed_page": 107,
+          "pdf_page": 108
+        },
+        {
+          "document_id": "C",
+          "printed_page": 108,
+          "pdf_page": 109
+        },
+        {
+          "document_id": "B",
+          "printed_page": 54,
+          "pdf_page": 62
+        },
+        {
+          "document_id": "B",
+          "printed_page": 55,
+          "pdf_page": 63
+        },
+        {
+          "document_id": "B",
+          "printed_page": 64,
+          "pdf_page": 72
+        }
+      ],
+      "case_kind": "document_derived_scenario",
+      "review_status": "service_policy_draft",
+      "initial_grade": "상",
+      "initial_assumption": "해당 작업에 노출되고 핵심 조치가 없는 경우의 기준값. 현장 미확인 초안은 확정 등급이 아님."
+    },
+    {
+      "id": "STORAGE",
+      "policy_version": "CATALOG-MVP-1.1",
+      "title": "불안정한 적재물 낙하·선반 충돌",
+      "task": "식자재 적재·인출",
+      "event": "낙하 타격",
+      "scenario": "식자재 적재·인출 중 불안정한 적재물 낙하·선반 충돌",
+      "applicability_note": "기기 보유만으로 확정하지 말고 실제 작업·노출·조치 기능을 확인한다. 핵심/보완 분류는 사고 경로별로 재검토한다. 이 사례보다 피해가 커질 조건은 별도 위험으로 추가·검토한다.",
+      "severity": 2,
+      "severity_reason": "해당 문헌 기반 사고 경로에서 가능한 피해를 고려한 서비스 초안. 공식 문서에 표시된 확정 등급이 아님.",
+      "keywords": [
+        "선반·적재·인출",
+        "높은 선반",
+        "무거운 자재",
+        "불안정 적재",
+        "식자재 적재·인출"
+      ],
+      "controls": [
+        {
+          "id": "STORAGE-C1",
+          "critical": true,
+          "current_text": "선반 고정/강도·안정 적재",
+          "plan_text": "선반 고정/강도·안정 적재 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "STORAGE-C2",
+          "critical": true,
+          "current_text": "무겁고 빈번한 물품 낮게",
+          "plan_text": "무겁고 빈번한 물품 낮게 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "STORAGE-C3",
+          "critical": true,
+          "current_text": "적합 발판·도달 범위",
+          "plan_text": "적합 발판·도달 범위 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "STORAGE-C4",
+          "critical": false,
+          "current_text": "중량/취급 표시",
+          "plan_text": "중량/취급 표시 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "STORAGE-C5",
+          "critical": false,
+          "current_text": "적재량 관리",
+          "plan_text": "적재량 관리 — 미실시·미흡 부분 개선"
+        }
+      ],
+      "source_refs": [
+        {
+          "document_id": "C",
+          "printed_page": 106,
+          "pdf_page": 107
+        },
+        {
+          "document_id": "C",
+          "printed_page": 107,
+          "pdf_page": 108
+        },
+        {
+          "document_id": "C",
+          "printed_page": 109,
+          "pdf_page": 110
+        },
+        {
+          "document_id": "B",
+          "printed_page": 64,
+          "pdf_page": 72
+        }
+      ],
+      "case_kind": "document_derived_scenario",
+      "review_status": "service_policy_draft",
+      "initial_grade": "상",
+      "initial_assumption": "해당 작업에 노출되고 핵심 조치가 없는 경우의 기준값. 현장 미확인 초안은 확정 등급이 아님."
+    },
+    {
+      "id": "COLD",
+      "policy_version": "CATALOG-MVP-1.1",
+      "title": "내부에서 출입문을 열지 못해 갇힘",
+      "task": "냉동실 내부 작업",
+      "event": "갇힘",
+      "scenario": "냉동실 내부 작업 중 내부에서 출입문을 열지 못해 갇힘",
+      "applicability_note": "기기 보유만으로 확정하지 말고 실제 작업·노출·조치 기능을 확인한다. 핵심/보완 분류는 사고 경로별로 재검토한다. 이 사례보다 피해가 커질 조건은 별도 위험으로 추가·검토한다.",
+      "severity": 3,
+      "severity_reason": "해당 문헌 기반 사고 경로에서 가능한 피해를 고려한 서비스 초안. 공식 문서에 표시된 확정 등급이 아님.",
+      "keywords": [
+        "냉장·냉동실",
+        "사람이 들어가는 냉장고",
+        "냉동실",
+        "냉동실 내부 작업"
+      ],
+      "controls": [
+        {
+          "id": "COLD-C1",
+          "critical": true,
+          "current_text": "안쪽에서 열리는 장치의 기능",
+          "plan_text": "안쪽에서 열리는 장치의 기능 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "COLD-C2",
+          "critical": true,
+          "current_text": "갇힘 방지·경보/연락",
+          "plan_text": "갇힘 방지·경보/연락 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "COLD-C3",
+          "critical": true,
+          "current_text": "외부 잠금 전 재실 확인",
+          "plan_text": "외부 잠금 전 재실 확인 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "COLD-C4",
+          "critical": false,
+          "current_text": "작업시간 관리",
+          "plan_text": "작업시간 관리 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "COLD-C5",
+          "critical": false,
+          "current_text": "방한 보호구·표지",
+          "plan_text": "방한 보호구·표지 — 미실시·미흡 부분 개선"
+        }
+      ],
+      "source_refs": [
+        {
+          "document_id": "C",
+          "printed_page": 107,
+          "pdf_page": 108
+        },
+        {
+          "document_id": "C",
+          "printed_page": 108,
+          "pdf_page": 109
+        },
+        {
+          "document_id": "B",
+          "printed_page": 64,
+          "pdf_page": 72
+        }
+      ],
+      "case_kind": "document_derived_scenario",
+      "review_status": "service_policy_draft",
+      "initial_grade": "상",
+      "initial_assumption": "해당 작업에 노출되고 핵심 조치가 없는 경우의 기준값. 현장 미확인 초안은 확정 등급이 아님."
+    },
+    {
+      "id": "KNIFE",
+      "policy_version": "CATALOG-MVP-1.1",
+      "title": "날에 손이 접촉해 베임",
+      "task": "칼을 이용한 식재료 절단",
+      "event": "베임",
+      "scenario": "칼을 이용한 식재료 절단 중 날에 손이 접촉해 베임",
+      "applicability_note": "기기 보유만으로 확정하지 말고 실제 작업·노출·조치 기능을 확인한다. 핵심/보완 분류는 사고 경로별로 재검토한다. 이 사례보다 피해가 커질 조건은 별도 위험으로 추가·검토한다.",
+      "severity": 2,
+      "severity_reason": "해당 문헌 기반 사고 경로에서 가능한 피해를 고려한 서비스 초안. 공식 문서에 표시된 확정 등급이 아님.",
+      "keywords": [
+        "손칼·도마",
+        "손칼 절단",
+        "해동 부족",
+        "날 취급",
+        "칼을 이용한 식재료 절단",
+        "칼"
+      ],
+      "controls": [
+        {
+          "id": "KNIFE-C1",
+          "critical": true,
+          "current_text": "용도 맞는 칼/도마·안정 자세",
+          "plan_text": "용도 맞는 칼/도마·안정 자세 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "KNIFE-C2",
+          "critical": true,
+          "current_text": "무리한 냉동 식품 절단 방지",
+          "plan_text": "무리한 냉동 식품 절단 방지 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "KNIFE-C3",
+          "critical": true,
+          "current_text": "안전한 사용/보관/전달",
+          "plan_text": "안전한 사용/보관/전달 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "KNIFE-C4",
+          "critical": false,
+          "current_text": "적합 절단방지 보호구",
+          "plan_text": "적합 절단방지 보호구 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "KNIFE-C5",
+          "critical": false,
+          "current_text": "정리",
+          "plan_text": "정리 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "KNIFE-C6",
+          "critical": false,
+          "current_text": "떨어지는 칼 잡지 않기",
+          "plan_text": "떨어지는 칼 잡지 않기 — 미실시·미흡 부분 개선"
+        }
+      ],
+      "source_refs": [
+        {
+          "document_id": "C",
+          "printed_page": 110,
+          "pdf_page": 111
+        },
+        {
+          "document_id": "C",
+          "printed_page": 111,
+          "pdf_page": 112
+        },
+        {
+          "document_id": "B",
+          "printed_page": 61,
+          "pdf_page": 69
+        }
+      ],
+      "case_kind": "document_derived_scenario",
+      "review_status": "service_policy_draft",
+      "initial_grade": "상",
+      "initial_assumption": "해당 작업에 노출되고 핵심 조치가 없는 경우의 기준값. 현장 미확인 초안은 확정 등급이 아님."
+    },
+    {
+      "id": "UV",
+      "policy_version": "CATALOG-MVP-1.1",
+      "title": "살균 광원에 눈·피부가 노출됨",
+      "task": "자외선 소독기 사용",
+      "event": "눈",
+      "scenario": "자외선 소독기 사용 중 살균 광원에 눈·피부가 노출됨",
+      "applicability_note": "기기 보유만으로 확정하지 말고 실제 작업·노출·조치 기능을 확인한다. 핵심/보완 분류는 사고 경로별로 재검토한다. 이 사례보다 피해가 커질 조건은 별도 위험으로 추가·검토한다.",
+      "severity": 2,
+      "severity_reason": "해당 문헌 기반 사고 경로에서 가능한 피해를 고려한 서비스 초안. 공식 문서에 표시된 확정 등급이 아님.",
+      "keywords": [
+        "자외선 소독기",
+        "UV 램프 작동",
+        "문 개방",
+        "램프 직시",
+        "자외선 소독기 사용"
+      ],
+      "controls": [
+        {
+          "id": "UV-C1",
+          "critical": true,
+          "current_text": "UV 노출 차단·덮개/연동 기능",
+          "plan_text": "UV 노출 차단·덮개/연동 기능 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "UV-C2",
+          "critical": true,
+          "current_text": "정비 시 격리",
+          "plan_text": "정비 시 격리 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "UV-C3",
+          "critical": false,
+          "current_text": "경고·교육",
+          "plan_text": "경고·교육 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "UV-C4",
+          "critical": false,
+          "current_text": "제조사 절차",
+          "plan_text": "제조사 절차 — 미실시·미흡 부분 개선"
+        }
+      ],
+      "source_refs": [
+        {
+          "document_id": "C",
+          "printed_page": 110,
+          "pdf_page": 111
+        },
+        {
+          "document_id": "C",
+          "printed_page": 111,
+          "pdf_page": 112
+        }
+      ],
+      "case_kind": "document_derived_scenario",
+      "review_status": "service_policy_draft",
+      "initial_grade": "상",
+      "initial_assumption": "해당 작업에 노출되고 핵심 조치가 없는 경우의 기준값. 현장 미확인 초안은 확정 등급이 아님."
+    },
+    {
+      "id": "CUT",
+      "policy_version": "CATALOG-MVP-1.1",
+      "title": "작동 중 날·회전체에 손이 닿아 절단·끼임",
+      "task": "채소·육류 가공",
+      "event": "절단",
+      "scenario": "채소·육류 가공 중 작동 중 날·회전체에 손이 닿아 절단·끼임",
+      "applicability_note": "기기 보유만으로 확정하지 말고 실제 작업·노출·조치 기능을 확인한다. 핵심/보완 분류는 사고 경로별로 재검토한다. 이 사례보다 피해가 커질 조건은 별도 위험으로 추가·검토한다.",
+      "severity": 3,
+      "severity_reason": "해당 문헌 기반 사고 경로에서 가능한 피해를 고려한 서비스 초안. 공식 문서에 표시된 확정 등급이 아님.",
+      "keywords": [
+        "채소·육류 가공기",
+        "채소/파 절단",
+        "박피",
+        "민서",
+        "띠톱",
+        "육절",
+        "연육",
+        "채소·육류 가공"
+      ],
+      "controls": [
+        {
+          "id": "CUT-C1",
+          "critical": true,
+          "current_text": "방호·연동·적정 가드 높이",
+          "plan_text": "방호·연동·적정 가드 높이 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "CUT-C2",
+          "critical": true,
+          "current_text": "누름봉·손 접근 차단",
+          "plan_text": "누름봉·손 접근 차단 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "CUT-C3",
+          "critical": true,
+          "current_text": "청소/이물제거 시 에너지 격리·완전정지·재가동 방지",
+          "plan_text": "청소/이물제거 시 에너지 격리·완전정지·재가동 방지 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "CUT-C4",
+          "critical": true,
+          "current_text": "날 손상 검사·교체",
+          "plan_text": "날 손상 검사·교체 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "CUT-C5",
+          "critical": true,
+          "current_text": "접지/전기 보호",
+          "plan_text": "접지/전기 보호 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "CUT-C6",
+          "critical": false,
+          "current_text": "접근 가능한 비상정지",
+          "plan_text": "접근 가능한 비상정지 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "CUT-C7",
+          "critical": false,
+          "current_text": "장갑/옷 말림 방지",
+          "plan_text": "장갑/옷 말림 방지 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "CUT-C8",
+          "critical": false,
+          "current_text": "무리한 힘·과다 투입 금지",
+          "plan_text": "무리한 힘·과다 투입 금지 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "CUT-C9",
+          "critical": false,
+          "current_text": "작업별 보호구",
+          "plan_text": "작업별 보호구 — 미실시·미흡 부분 개선"
+        }
+      ],
+      "source_refs": [
+        {
+          "document_id": "C",
+          "printed_page": 112,
+          "pdf_page": 113
+        },
+        {
+          "document_id": "C",
+          "printed_page": 113,
+          "pdf_page": 114
+        },
+        {
+          "document_id": "C",
+          "printed_page": 114,
+          "pdf_page": 115
+        },
+        {
+          "document_id": "C",
+          "printed_page": 115,
+          "pdf_page": 116
+        },
+        {
+          "document_id": "C",
+          "printed_page": 116,
+          "pdf_page": 117
+        },
+        {
+          "document_id": "C",
+          "printed_page": 117,
+          "pdf_page": 118
+        }
+      ],
+      "case_kind": "document_derived_scenario",
+      "review_status": "service_policy_draft",
+      "initial_grade": "상",
+      "initial_assumption": "해당 작업에 노출되고 핵심 조치가 없는 경우의 기준값. 현장 미확인 초안은 확정 등급이 아님."
+    },
+    {
+      "id": "MIX",
+      "policy_version": "CATALOG-MVP-1.1",
+      "title": "작동 중 회전체 접근으로 말림·끼임",
+      "task": "혼합·반죽·제면",
+      "event": "말림",
+      "scenario": "혼합·반죽·제면 중 작동 중 회전체 접근으로 말림·끼임",
+      "applicability_note": "기기 보유만으로 확정하지 말고 실제 작업·노출·조치 기능을 확인한다. 핵심/보완 분류는 사고 경로별로 재검토한다. 이 사례보다 피해가 커질 조건은 별도 위험으로 추가·검토한다.",
+      "severity": 3,
+      "severity_reason": "해당 문헌 기반 사고 경로에서 가능한 피해를 고려한 서비스 초안. 공식 문서에 표시된 확정 등급이 아님.",
+      "keywords": [
+        "반죽기·제면기",
+        "믹서",
+        "롤러 투입",
+        "이물 제거",
+        "세척",
+        "혼합·반죽·제면",
+        "반죽기",
+        "혼합기"
+      ],
+      "controls": [
+        {
+          "id": "MIX-C1",
+          "critical": true,
+          "current_text": "가드·연동·손 접근 차단",
+          "plan_text": "가드·연동·손 접근 차단 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "MIX-C2",
+          "critical": true,
+          "current_text": "청소/막힘 제거 격리·완전정지·재가동 방지",
+          "plan_text": "청소/막힘 제거 격리·완전정지·재가동 방지 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "MIX-C3",
+          "critical": true,
+          "current_text": "옷/장갑 말림 방지",
+          "plan_text": "옷/장갑 말림 방지 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "MIX-C4",
+          "critical": false,
+          "current_text": "비상정지",
+          "plan_text": "비상정지 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "MIX-C5",
+          "critical": false,
+          "current_text": "누름 도구",
+          "plan_text": "누름 도구 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "MIX-C6",
+          "critical": false,
+          "current_text": "접지·절연",
+          "plan_text": "접지·절연 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "MIX-C7",
+          "critical": false,
+          "current_text": "반죽 운반 부담 관리",
+          "plan_text": "반죽 운반 부담 관리 — 미실시·미흡 부분 개선"
+        }
+      ],
+      "source_refs": [
+        {
+          "document_id": "C",
+          "printed_page": 118,
+          "pdf_page": 119
+        },
+        {
+          "document_id": "C",
+          "printed_page": 119,
+          "pdf_page": 120
+        },
+        {
+          "document_id": "C",
+          "printed_page": 120,
+          "pdf_page": 121
+        },
+        {
+          "document_id": "C",
+          "printed_page": 121,
+          "pdf_page": 122
+        },
+        {
+          "document_id": "B",
+          "printed_page": 60,
+          "pdf_page": 68
+        }
+      ],
+      "case_kind": "document_derived_scenario",
+      "review_status": "service_policy_draft",
+      "initial_grade": "상",
+      "initial_assumption": "해당 작업에 노출되고 핵심 조치가 없는 경우의 기준값. 현장 미확인 초안은 확정 등급이 아님."
+    },
+    {
+      "id": "RICE",
+      "policy_version": "CATALOG-MVP-1.1",
+      "title": "증기·뜨거운 용기에 접촉해 화상",
+      "task": "취반·보온 작업",
+      "event": "끼임",
+      "scenario": "취반·보온 작업 중 증기·뜨거운 용기에 접촉해 화상",
+      "applicability_note": "기기 보유만으로 확정하지 말고 실제 작업·노출·조치 기능을 확인한다. 핵심/보완 분류는 사고 경로별로 재검토한다. 이 사례보다 피해가 커질 조건은 별도 위험으로 추가·검토한다.",
+      "severity": 2,
+      "severity_reason": "해당 문헌 기반 사고 경로에서 가능한 피해를 고려한 서비스 초안. 공식 문서에 표시된 확정 등급이 아님.",
+      "keywords": [
+        "세미·취반·보온",
+        "세미기 세척",
+        "취반기 개방",
+        "밥솥/트레이 운반",
+        "취반·보온 작업"
+      ],
+      "controls": [
+        {
+          "id": "RICE-C1",
+          "critical": true,
+          "current_text": "회전 접근 차단·청소 격리",
+          "plan_text": "회전 접근 차단·청소 격리 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "RICE-C2",
+          "critical": true,
+          "current_text": "물기 환경 전기 보호",
+          "plan_text": "물기 환경 전기 보호 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "RICE-C3",
+          "critical": true,
+          "current_text": "증기 배출·단열",
+          "plan_text": "증기 배출·단열 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "RICE-C4",
+          "critical": true,
+          "current_text": "가스 계통 안전",
+          "plan_text": "가스 계통 안전 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "RICE-C5",
+          "critical": true,
+          "current_text": "뜨거운 용기 안전 운반",
+          "plan_text": "뜨거운 용기 안전 운반 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "RICE-C6",
+          "critical": false,
+          "current_text": "내열 보호구",
+          "plan_text": "내열 보호구 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "RICE-C7",
+          "critical": false,
+          "current_text": "문 끼임 관리",
+          "plan_text": "문 끼임 관리 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "RICE-C8",
+          "critical": false,
+          "current_text": "중량·대차·공동 운반",
+          "plan_text": "중량·대차·공동 운반 — 미실시·미흡 부분 개선"
+        }
+      ],
+      "source_refs": [
+        {
+          "document_id": "C",
+          "printed_page": 122,
+          "pdf_page": 123
+        },
+        {
+          "document_id": "C",
+          "printed_page": 123,
+          "pdf_page": 124
+        },
+        {
+          "document_id": "C",
+          "printed_page": 124,
+          "pdf_page": 125
+        }
+      ],
+      "case_kind": "document_derived_scenario",
+      "review_status": "service_policy_draft",
+      "initial_grade": "상",
+      "initial_assumption": "해당 작업에 노출되고 핵심 조치가 없는 경우의 기준값. 현장 미확인 초안은 확정 등급이 아님."
+    },
+    {
+      "id": "GAS",
+      "policy_version": "CATALOG-MVP-1.1",
+      "title": "가스 누출·불완전 연소로 폭발·중독",
+      "task": "가스 연소기 사용",
+      "event": "화재",
+      "scenario": "가스 연소기 사용 중 가스 누출·불완전 연소로 폭발·중독",
+      "applicability_note": "기기 보유만으로 확정하지 말고 실제 작업·노출·조치 기능을 확인한다. 핵심/보완 분류는 사고 경로별로 재검토한다. 이 사례보다 피해가 커질 조건은 별도 위험으로 추가·검토한다.",
+      "severity": 3,
+      "severity_reason": "해당 문헌 기반 사고 경로에서 가능한 피해를 고려한 서비스 초안. 공식 문서에 표시된 확정 등급이 아님.",
+      "keywords": [
+        "가스 연소·누출",
+        "LPG/LNG 기기",
+        "호스",
+        "밸브",
+        "냄새/경보",
+        "가스 연소기 사용",
+        "가스레인지"
+      ],
+      "controls": [
+        {
+          "id": "GAS-C1",
+          "critical": true,
+          "current_text": "배관/호스/접속부 건전성",
+          "plan_text": "배관/호스/접속부 건전성 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "GAS-C2",
+          "critical": true,
+          "current_text": "적합 감지·차단의 기능",
+          "plan_text": "적합 감지·차단의 기능 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "GAS-C3",
+          "critical": true,
+          "current_text": "정상작업 환기",
+          "plan_text": "정상작업 환기 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "GAS-C4",
+          "critical": true,
+          "current_text": "실화/종료 시 안전 차단",
+          "plan_text": "실화/종료 시 안전 차단 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "GAS-C5",
+          "critical": true,
+          "current_text": "점화원/가연물 관리",
+          "plan_text": "점화원/가연물 관리 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "GAS-C6",
+          "critical": false,
+          "current_text": "정기 점검",
+          "plan_text": "정기 점검 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "GAS-C7",
+          "critical": false,
+          "current_text": "버너 청소",
+          "plan_text": "버너 청소 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "GAS-C8",
+          "critical": false,
+          "current_text": "정상 화염·기기 안정성",
+          "plan_text": "정상 화염·기기 안정성 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "GAS-C9",
+          "critical": false,
+          "current_text": "과대 냄비 방지",
+          "plan_text": "과대 냄비 방지 — 미실시·미흡 부분 개선"
+        }
+      ],
+      "source_refs": [
+        {
+          "document_id": "C",
+          "printed_page": 122,
+          "pdf_page": 123
+        },
+        {
+          "document_id": "C",
+          "printed_page": 123,
+          "pdf_page": 124
+        },
+        {
+          "document_id": "C",
+          "printed_page": 125,
+          "pdf_page": 126
+        },
+        {
+          "document_id": "C",
+          "printed_page": 126,
+          "pdf_page": 127
+        },
+        {
+          "document_id": "C",
+          "printed_page": 127,
+          "pdf_page": 128
+        },
+        {
+          "document_id": "C",
+          "printed_page": 129,
+          "pdf_page": 130
+        },
+        {
+          "document_id": "C",
+          "printed_page": 130,
+          "pdf_page": 131
+        },
+        {
+          "document_id": "C",
+          "printed_page": 132,
+          "pdf_page": 133
+        },
+        {
+          "document_id": "B",
+          "printed_page": 56,
+          "pdf_page": 64
+        }
+      ],
+      "case_kind": "document_derived_scenario",
+      "review_status": "service_policy_draft",
+      "initial_grade": "상",
+      "initial_assumption": "해당 작업에 노출되고 핵심 조치가 없는 경우의 기준값. 현장 미확인 초안은 확정 등급이 아님."
+    },
+    {
+      "id": "KETTLE",
+      "policy_version": "CATALOG-MVP-1.1",
+      "title": "솥 전도·회전으로 고온 내용물에 광범위 노출",
+      "task": "회전 국솥 취급",
+      "event": "화상",
+      "scenario": "회전 국솥 취급 중 솥 전도·회전으로 고온 내용물에 광범위 노출",
+      "applicability_note": "기기 보유만으로 확정하지 말고 실제 작업·노출·조치 기능을 확인한다. 핵심/보완 분류는 사고 경로별로 재검토한다. 이 사례보다 피해가 커질 조건은 별도 위험으로 추가·검토한다.",
+      "severity": 3,
+      "severity_reason": "해당 문헌 기반 사고 경로에서 가능한 피해를 고려한 서비스 초안. 공식 문서에 표시된 확정 등급이 아님.",
+      "keywords": [
+        "회전 국솥",
+        "가열",
+        "증기",
+        "뚜껑 개방",
+        "기울임",
+        "배출",
+        "회전 국솥 취급"
+      ],
+      "controls": [
+        {
+          "id": "KETTLE-C1",
+          "critical": true,
+          "current_text": "회전 손잡이 잠금/핀",
+          "plan_text": "회전 손잡이 잠금/핀 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "KETTLE-C2",
+          "critical": true,
+          "current_text": "뚜껑 안정",
+          "plan_text": "뚜껑 안정 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "KETTLE-C3",
+          "critical": true,
+          "current_text": "증기 배출·안전밸브/압력계",
+          "plan_text": "증기 배출·안전밸브/압력계 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "KETTLE-C4",
+          "critical": true,
+          "current_text": "가스/증기 연결 건전성",
+          "plan_text": "가스/증기 연결 건전성 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "KETTLE-C5",
+          "critical": true,
+          "current_text": "만재 기울임 방지",
+          "plan_text": "만재 기울임 방지 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "KETTLE-C6",
+          "critical": false,
+          "current_text": "서서히 배출",
+          "plan_text": "서서히 배출 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "KETTLE-C7",
+          "critical": false,
+          "current_text": "열 차단·보호구",
+          "plan_text": "열 차단·보호구 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "KETTLE-C8",
+          "critical": false,
+          "current_text": "급수 누수·날카로운 면 관리",
+          "plan_text": "급수 누수·날카로운 면 관리 — 미실시·미흡 부분 개선"
+        }
+      ],
+      "source_refs": [
+        {
+          "document_id": "C",
+          "printed_page": 126,
+          "pdf_page": 127
+        },
+        {
+          "document_id": "C",
+          "printed_page": 127,
+          "pdf_page": 128
+        },
+        {
+          "document_id": "C",
+          "printed_page": 133,
+          "pdf_page": 134
+        }
+      ],
+      "case_kind": "document_derived_scenario",
+      "review_status": "service_policy_draft",
+      "initial_grade": "상",
+      "initial_assumption": "해당 작업에 노출되고 핵심 조치가 없는 경우의 기준값. 현장 미확인 초안은 확정 등급이 아님."
+    },
+    {
+      "id": "FRY",
+      "policy_version": "CATALOG-MVP-1.1",
+      "title": "재료 투입·기름 취급 중 고온 기름이 튐",
+      "task": "튀김 조리",
+      "event": "고온유 화상",
+      "scenario": "튀김 조리 중 재료 투입·기름 취급 중 고온 기름이 튐",
+      "applicability_note": "기기 보유만으로 확정하지 말고 실제 작업·노출·조치 기능을 확인한다. 핵심/보완 분류는 사고 경로별로 재검토한다. 이 사례보다 피해가 커질 조건은 별도 위험으로 추가·검토한다.",
+      "severity": 2,
+      "severity_reason": "해당 문헌 기반 사고 경로에서 가능한 피해를 고려한 서비스 초안. 공식 문서에 표시된 확정 등급이 아님.",
+      "keywords": [
+        "튀김기·식용유",
+        "가열",
+        "튀김",
+        "배유",
+        "기름 교체",
+        "튀김 조리",
+        "튀김기"
+      ],
+      "controls": [
+        {
+          "id": "FRY-C1",
+          "critical": true,
+          "current_text": "온도 제어/과열 방지 확인",
+          "plan_text": "온도 제어/과열 방지 확인 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "FRY-C2",
+          "critical": true,
+          "current_text": "충분한 냉각 후 배유",
+          "plan_text": "충분한 냉각 후 배유 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "FRY-C3",
+          "critical": true,
+          "current_text": "수분 유입 방지",
+          "plan_text": "수분 유입 방지 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "FRY-C4",
+          "critical": true,
+          "current_text": "열원/가스/전기 안전",
+          "plan_text": "열원/가스/전기 안전 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "FRY-C5",
+          "critical": true,
+          "current_text": "적합한 K급 화재 대응",
+          "plan_text": "적합한 K급 화재 대응 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "FRY-C6",
+          "critical": false,
+          "current_text": "환기·열환경·휴식",
+          "plan_text": "환기·열환경·휴식 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "FRY-C7",
+          "critical": false,
+          "current_text": "보안경/내열 보호구",
+          "plan_text": "보안경/내열 보호구 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "FRY-C8",
+          "critical": false,
+          "current_text": "기름/바닥 오염 제거",
+          "plan_text": "기름/바닥 오염 제거 — 미실시·미흡 부분 개선"
+        }
+      ],
+      "source_refs": [
+        {
+          "document_id": "C",
+          "printed_page": 128,
+          "pdf_page": 129
+        },
+        {
+          "document_id": "C",
+          "printed_page": 133,
+          "pdf_page": 134
+        },
+        {
+          "document_id": "B",
+          "printed_page": 56,
+          "pdf_page": 64
+        }
+      ],
+      "case_kind": "document_derived_scenario",
+      "review_status": "service_policy_draft",
+      "initial_grade": "상",
+      "initial_assumption": "해당 작업에 노출되고 핵심 조치가 없는 경우의 기준값. 현장 미확인 초안은 확정 등급이 아님."
+    },
+    {
+      "id": "GRIDDLE",
+      "policy_version": "CATALOG-MVP-1.1",
+      "title": "고온 철판·기름에 접촉해 화상",
+      "task": "철판 조리",
+      "event": "화상",
+      "scenario": "철판 조리 중 고온 철판·기름에 접촉해 화상",
+      "applicability_note": "기기 보유만으로 확정하지 말고 실제 작업·노출·조치 기능을 확인한다. 핵심/보완 분류는 사고 경로별로 재검토한다. 이 사례보다 피해가 커질 조건은 별도 위험으로 추가·검토한다.",
+      "severity": 2,
+      "severity_reason": "해당 문헌 기반 사고 경로에서 가능한 피해를 고려한 서비스 초안. 공식 문서에 표시된 확정 등급이 아님.",
+      "keywords": [
+        "부침기·철판",
+        "기름받이",
+        "고온 철판",
+        "물 접촉",
+        "철판 조리"
+      ],
+      "controls": [
+        {
+          "id": "GRIDDLE-C1",
+          "critical": true,
+          "current_text": "뜨거운 판에 물 유입 방지",
+          "plan_text": "뜨거운 판에 물 유입 방지 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "GRIDDLE-C2",
+          "critical": true,
+          "current_text": "안전거리/접촉 방지",
+          "plan_text": "안전거리/접촉 방지 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "GRIDDLE-C3",
+          "critical": true,
+          "current_text": "가스 감지·차단·환기",
+          "plan_text": "가스 감지·차단·환기 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "GRIDDLE-C4",
+          "critical": true,
+          "current_text": "기름받이 관리",
+          "plan_text": "기름받이 관리 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "GRIDDLE-C5",
+          "critical": false,
+          "current_text": "팔/손/눈 보호",
+          "plan_text": "팔/손/눈 보호 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "GRIDDLE-C6",
+          "critical": false,
+          "current_text": "청소 시 냉각",
+          "plan_text": "청소 시 냉각 — 미실시·미흡 부분 개선"
+        }
+      ],
+      "source_refs": [
+        {
+          "document_id": "C",
+          "printed_page": 129,
+          "pdf_page": 130
+        }
+      ],
+      "case_kind": "document_derived_scenario",
+      "review_status": "service_policy_draft",
+      "initial_grade": "상",
+      "initial_assumption": "해당 작업에 노출되고 핵심 조치가 없는 경우의 기준값. 현장 미확인 초안은 확정 등급이 아님."
+    },
+    {
+      "id": "OVEN",
+      "policy_version": "CATALOG-MVP-1.1",
+      "title": "문 개방·트레이 인출 중 증기·열에 노출",
+      "task": "오븐 조리",
+      "event": "화상",
+      "scenario": "오븐 조리 중 문 개방·트레이 인출 중 증기·열에 노출",
+      "applicability_note": "기기 보유만으로 확정하지 말고 실제 작업·노출·조치 기능을 확인한다. 핵심/보완 분류는 사고 경로별로 재검토한다. 이 사례보다 피해가 커질 조건은 별도 위험으로 추가·검토한다.",
+      "severity": 2,
+      "severity_reason": "해당 문헌 기반 사고 경로에서 가능한 피해를 고려한 서비스 초안. 공식 문서에 표시된 확정 등급이 아님.",
+      "keywords": [
+        "오븐·콤비오븐",
+        "문 개방",
+        "뜨거운 트레이",
+        "스팀",
+        "가스",
+        "오븐 조리"
+      ],
+      "controls": [
+        {
+          "id": "OVEN-C1",
+          "critical": true,
+          "current_text": "열/증기 안전 배출·점진 개방",
+          "plan_text": "열/증기 안전 배출·점진 개방 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "OVEN-C2",
+          "critical": true,
+          "current_text": "정격 전원/열원 안전",
+          "plan_text": "정격 전원/열원 안전 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "OVEN-C3",
+          "critical": true,
+          "current_text": "유리/문 건전성",
+          "plan_text": "유리/문 건전성 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "OVEN-C4",
+          "critical": true,
+          "current_text": "가연물 이격",
+          "plan_text": "가연물 이격 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "OVEN-C5",
+          "critical": false,
+          "current_text": "내열 보호구",
+          "plan_text": "내열 보호구 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "OVEN-C6",
+          "critical": false,
+          "current_text": "기기 배치·바닥 관리",
+          "plan_text": "기기 배치·바닥 관리 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "OVEN-C7",
+          "critical": false,
+          "current_text": "종료 차단",
+          "plan_text": "종료 차단 — 미실시·미흡 부분 개선"
+        }
+      ],
+      "source_refs": [
+        {
+          "document_id": "C",
+          "printed_page": 130,
+          "pdf_page": 131
+        }
+      ],
+      "case_kind": "document_derived_scenario",
+      "review_status": "service_policy_draft",
+      "initial_grade": "상",
+      "initial_assumption": "해당 작업에 노출되고 핵심 조치가 없는 경우의 기준값. 현장 미확인 초안은 확정 등급이 아님."
+    },
+    {
+      "id": "VENT",
+      "policy_version": "CATALOG-MVP-1.1",
+      "title": "환기 부족으로 유해 조리흄·연소가스에 노출",
+      "task": "후드·환기설비 사용 및 청소",
+      "event": "흡입 건강장해",
+      "scenario": "후드·환기설비 사용 및 청소 중 환기 부족으로 유해 조리흄·연소가스에 노출",
+      "applicability_note": "기기 보유만으로 확정하지 말고 실제 작업·노출·조치 기능을 확인한다. 핵심/보완 분류는 사고 경로별로 재검토한다. 이 사례보다 피해가 커질 조건은 별도 위험으로 추가·검토한다.",
+      "severity": 3,
+      "severity_reason": "해당 문헌 기반 사고 경로에서 가능한 피해를 고려한 서비스 초안. 공식 문서에 표시된 확정 등급이 아님.",
+      "keywords": [
+        "후드·급배기·열환경",
+        "연소",
+        "조리흄",
+        "후드 오염/고장",
+        "청소",
+        "후드·환기설비 사용 및 청소"
+      ],
+      "controls": [
+        {
+          "id": "VENT-C1",
+          "critical": true,
+          "current_text": "열원/배치 맞는 포집·급배기",
+          "plan_text": "열원/배치 맞는 포집·급배기 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "VENT-C2",
+          "critical": true,
+          "current_text": "기능 확인·보수",
+          "plan_text": "기능 확인·보수 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "VENT-C3",
+          "critical": true,
+          "current_text": "후드 청소 안전 접근·에너지 격리",
+          "plan_text": "후드 청소 안전 접근·에너지 격리 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "VENT-C4",
+          "critical": true,
+          "current_text": "오염 축적 관리",
+          "plan_text": "오염 축적 관리 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "VENT-C5",
+          "critical": false,
+          "current_text": "노출시간·휴식",
+          "plan_text": "노출시간·휴식 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "VENT-C6",
+          "critical": false,
+          "current_text": "적합 세제/긴 도구",
+          "plan_text": "적합 세제/긴 도구 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "VENT-C7",
+          "critical": false,
+          "current_text": "관련 보호구",
+          "plan_text": "관련 보호구 — 미실시·미흡 부분 개선"
+        }
+      ],
+      "source_refs": [
+        {
+          "document_id": "C",
+          "printed_page": 125,
+          "pdf_page": 126
+        },
+        {
+          "document_id": "C",
+          "printed_page": 128,
+          "pdf_page": 129
+        },
+        {
+          "document_id": "C",
+          "printed_page": 131,
+          "pdf_page": 132
+        },
+        {
+          "document_id": "C",
+          "printed_page": 132,
+          "pdf_page": 133
+        },
+        {
+          "document_id": "C",
+          "printed_page": 141,
+          "pdf_page": 142
+        },
+        {
+          "document_id": "B",
+          "printed_page": 62,
+          "pdf_page": 70
+        },
+        {
+          "document_id": "B",
+          "printed_page": 63,
+          "pdf_page": 71
+        }
+      ],
+      "case_kind": "document_derived_scenario",
+      "review_status": "service_policy_draft",
+      "initial_grade": "상",
+      "initial_assumption": "해당 작업에 노출되고 핵심 조치가 없는 경우의 기준값. 현장 미확인 초안은 확정 등급이 아님."
+    },
+    {
+      "id": "SERVE",
+      "policy_version": "CATALOG-MVP-1.1",
+      "title": "고온 음식 용기 이동·접촉 중 화상",
+      "task": "배식통 취급",
+      "event": "손 끼임",
+      "scenario": "배식통 취급 중 고온 음식 용기 이동·접촉 중 화상",
+      "applicability_note": "기기 보유만으로 확정하지 말고 실제 작업·노출·조치 기능을 확인한다. 핵심/보완 분류는 사고 경로별로 재검토한다. 이 사례보다 피해가 커질 조건은 별도 위험으로 추가·검토한다.",
+      "severity": 2,
+      "severity_reason": "해당 문헌 기반 사고 경로에서 가능한 피해를 고려한 서비스 초안. 공식 문서에 표시된 확정 등급이 아님.",
+      "keywords": [
+        "배식대·배식통",
+        "보온 배식",
+        "통 삽입",
+        "이동",
+        "배식통 취급"
+      ],
+      "controls": [
+        {
+          "id": "SERVE-C1",
+          "critical": true,
+          "current_text": "배식통 삽입 접점 안전 구조/절차",
+          "plan_text": "배식통 삽입 접점 안전 구조/절차 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "SERVE-C2",
+          "critical": true,
+          "current_text": "열 접촉 방지",
+          "plan_text": "열 접촉 방지 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "SERVE-C3",
+          "critical": true,
+          "current_text": "물기 환경 전기 보호",
+          "plan_text": "물기 환경 전기 보호 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "SERVE-C4",
+          "critical": false,
+          "current_text": "케이블 덮개",
+          "plan_text": "케이블 덮개 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "SERVE-C5",
+          "critical": false,
+          "current_text": "대차/공동 운반",
+          "plan_text": "대차/공동 운반 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "SERVE-C6",
+          "critical": false,
+          "current_text": "내열 보호구",
+          "plan_text": "내열 보호구 — 미실시·미흡 부분 개선"
+        }
+      ],
+      "source_refs": [
+        {
+          "document_id": "C",
+          "printed_page": 134,
+          "pdf_page": 135
+        },
+        {
+          "document_id": "C",
+          "printed_page": 135,
+          "pdf_page": 136
+        },
+        {
+          "document_id": "C",
+          "printed_page": 136,
+          "pdf_page": 137
+        }
+      ],
+      "case_kind": "document_derived_scenario",
+      "review_status": "service_policy_draft",
+      "initial_grade": "상",
+      "initial_assumption": "해당 작업에 노출되고 핵심 조치가 없는 경우의 기준값. 현장 미확인 초안은 확정 등급이 아님."
+    },
+    {
+      "id": "LIFT",
+      "policy_version": "CATALOG-MVP-1.1",
+      "title": "승강로 접근·탑승·방호 결함으로 추락·끼임",
+      "task": "소형화물승강기 사용",
+      "event": "끼임",
+      "scenario": "소형화물승강기 사용 중 승강로 접근·탑승·방호 결함으로 추락·끼임",
+      "applicability_note": "기기 보유만으로 확정하지 말고 실제 작업·노출·조치 기능을 확인한다. 핵심/보완 분류는 사고 경로별로 재검토한다. 이 사례보다 피해가 커질 조건은 별도 위험으로 추가·검토한다.",
+      "severity": 3,
+      "severity_reason": "해당 문헌 기반 사고 경로에서 가능한 피해를 고려한 서비스 초안. 공식 문서에 표시된 확정 등급이 아님.",
+      "keywords": [
+        "소형화물승강기",
+        "운반구",
+        "층문",
+        "승강로",
+        "화물 운반",
+        "소형화물승강기 사용"
+      ],
+      "controls": [
+        {
+          "id": "LIFT-C1",
+          "critical": true,
+          "current_text": "층문 인터록·운행 제한 기능",
+          "plan_text": "층문 인터록·운행 제한 기능 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "LIFT-C2",
+          "critical": true,
+          "current_text": "로프/상하한/비상정지",
+          "plan_text": "로프/상하한/비상정지 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "LIFT-C3",
+          "critical": true,
+          "current_text": "출입·탑승 금지",
+          "plan_text": "출입·탑승 금지 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "LIFT-C4",
+          "critical": true,
+          "current_text": "문 강제개방 방지",
+          "plan_text": "문 강제개방 방지 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "LIFT-C5",
+          "critical": true,
+          "current_text": "정격 준수",
+          "plan_text": "정격 준수 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "LIFT-C6",
+          "critical": false,
+          "current_text": "경보",
+          "plan_text": "경보 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "LIFT-C7",
+          "critical": false,
+          "current_text": "중앙 균형 적재",
+          "plan_text": "중앙 균형 적재 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "LIFT-C8",
+          "critical": false,
+          "current_text": "문 기대기 금지",
+          "plan_text": "문 기대기 금지 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "LIFT-C9",
+          "critical": false,
+          "current_text": "점검",
+          "plan_text": "점검 — 미실시·미흡 부분 개선"
+        }
+      ],
+      "source_refs": [
+        {
+          "document_id": "C",
+          "printed_page": 135,
+          "pdf_page": 136
+        },
+        {
+          "document_id": "C",
+          "printed_page": 136,
+          "pdf_page": 137
+        },
+        {
+          "document_id": "B",
+          "printed_page": 59,
+          "pdf_page": 67
+        }
+      ],
+      "case_kind": "document_derived_scenario",
+      "review_status": "service_policy_draft",
+      "initial_grade": "상",
+      "initial_assumption": "해당 작업에 노출되고 핵심 조치가 없는 경우의 기준값. 현장 미확인 초안은 확정 등급이 아님."
+    },
+    {
+      "id": "DELIVERY",
+      "policy_version": "CATALOG-MVP-1.1",
+      "title": "도로 운행 중 충돌·전도",
+      "task": "이륜차·차량 배달",
+      "event": "교통 충돌",
+      "scenario": "이륜차·차량 배달 중 도로 운행 중 충돌·전도",
+      "applicability_note": "기기 보유만으로 확정하지 말고 실제 작업·노출·조치 기능을 확인한다. 핵심/보완 분류는 사고 경로별로 재검토한다. 이 사례보다 피해가 커질 조건은 별도 위험으로 추가·검토한다.",
+      "severity": 3,
+      "severity_reason": "해당 문헌 기반 사고 경로에서 가능한 피해를 고려한 서비스 초안. 공식 문서에 표시된 확정 등급이 아님.",
+      "keywords": [
+        "이륜차·차량 배달",
+        "배달 운전",
+        "정차",
+        "보행",
+        "계단 운반"
+      ],
+      "controls": [
+        {
+          "id": "DELIVERY-C1",
+          "critical": true,
+          "current_text": "적격 운전자·차량 상태",
+          "plan_text": "적격 운전자·차량 상태 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "DELIVERY-C2",
+          "critical": true,
+          "current_text": "법규·속도/거리·신호 준수",
+          "plan_text": "법규·속도/거리·신호 준수 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "DELIVERY-C3",
+          "critical": true,
+          "current_text": "기상 대응·무리한 시간압박 방지",
+          "plan_text": "기상 대응·무리한 시간압박 방지 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "DELIVERY-C4",
+          "critical": true,
+          "current_text": "적합 보호장구",
+          "plan_text": "적합 보호장구 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "DELIVERY-C5",
+          "critical": false,
+          "current_text": "전화 사용 방지",
+          "plan_text": "전화 사용 방지 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "DELIVERY-C6",
+          "critical": false,
+          "current_text": "운전 전 점검",
+          "plan_text": "운전 전 점검 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "DELIVERY-C7",
+          "critical": false,
+          "current_text": "차량 사각지대/후진 확인",
+          "plan_text": "차량 사각지대/후진 확인 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "DELIVERY-C8",
+          "critical": false,
+          "current_text": "고객응대 보호",
+          "plan_text": "고객응대 보호 — 미실시·미흡 부분 개선"
+        }
+      ],
+      "source_refs": [
+        {
+          "document_id": "C",
+          "printed_page": 137,
+          "pdf_page": 138
+        },
+        {
+          "document_id": "C",
+          "printed_page": 138,
+          "pdf_page": 139
+        },
+        {
+          "document_id": "B",
+          "printed_page": 51,
+          "pdf_page": 59
+        },
+        {
+          "document_id": "B",
+          "printed_page": 52,
+          "pdf_page": 60
+        },
+        {
+          "document_id": "B",
+          "printed_page": 53,
+          "pdf_page": 61
+        }
+      ],
+      "case_kind": "document_derived_scenario",
+      "review_status": "service_policy_draft",
+      "initial_grade": "상",
+      "initial_assumption": "해당 작업에 노출되고 핵심 조치가 없는 경우의 기준값. 현장 미확인 초안은 확정 등급이 아님."
+    },
+    {
+      "id": "WASH",
+      "policy_version": "CATALOG-MVP-1.1",
+      "title": "뜨거운 물·증기·세정제에 노출",
+      "task": "식기세척기 사용",
+      "event": "끼임",
+      "scenario": "식기세척기 사용 중 뜨거운 물·증기·세정제에 노출",
+      "applicability_note": "기기 보유만으로 확정하지 말고 실제 작업·노출·조치 기능을 확인한다. 핵심/보완 분류는 사고 경로별로 재검토한다. 이 사례보다 피해가 커질 조건은 별도 위험으로 추가·검토한다.",
+      "severity": 2,
+      "severity_reason": "해당 문헌 기반 사고 경로에서 가능한 피해를 고려한 서비스 초안. 공식 문서에 표시된 확정 등급이 아님.",
+      "keywords": [
+        "식기세척기",
+        "도어",
+        "컨베이어",
+        "플라이트",
+        "세척/정비",
+        "식기세척기 사용"
+      ],
+      "controls": [
+        {
+          "id": "WASH-C1",
+          "critical": true,
+          "current_text": "덮개·연동·리미트 스위치",
+          "plan_text": "덮개·연동·리미트 스위치 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "WASH-C2",
+          "critical": true,
+          "current_text": "청소/막힘 제거 격리",
+          "plan_text": "청소/막힘 제거 격리 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "WASH-C3",
+          "critical": true,
+          "current_text": "접근 가능한 비상정지",
+          "plan_text": "접근 가능한 비상정지 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "WASH-C4",
+          "critical": true,
+          "current_text": "누전 보호",
+          "plan_text": "누전 보호 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "WASH-C5",
+          "critical": true,
+          "current_text": "증기/날카로운 면 차단",
+          "plan_text": "증기/날카로운 면 차단 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "WASH-C6",
+          "critical": false,
+          "current_text": "벨트 속도",
+          "plan_text": "벨트 속도 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "WASH-C7",
+          "critical": false,
+          "current_text": "문 고정",
+          "plan_text": "문 고정 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "WASH-C8",
+          "critical": false,
+          "current_text": "정돈·물기",
+          "plan_text": "정돈·물기 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "WASH-C9",
+          "critical": false,
+          "current_text": "중량/반복 부담",
+          "plan_text": "중량/반복 부담 — 미실시·미흡 부분 개선"
+        }
+      ],
+      "source_refs": [
+        {
+          "document_id": "C",
+          "printed_page": 139,
+          "pdf_page": 140
+        },
+        {
+          "document_id": "C",
+          "printed_page": 140,
+          "pdf_page": 141
+        },
+        {
+          "document_id": "C",
+          "printed_page": 141,
+          "pdf_page": 142
+        }
+      ],
+      "case_kind": "document_derived_scenario",
+      "review_status": "service_policy_draft",
+      "initial_grade": "상",
+      "initial_assumption": "해당 작업에 노출되고 핵심 조치가 없는 경우의 기준값. 현장 미확인 초안은 확정 등급이 아님."
+    },
+    {
+      "id": "CHEM",
+      "policy_version": "CATALOG-MVP-1.1",
+      "title": "혼합·비산·환기 부족으로 유해물질에 노출",
+      "task": "세정제 취급",
+      "event": "화학 화상",
+      "scenario": "세정제 취급 중 혼합·비산·환기 부족으로 유해물질에 노출",
+      "applicability_note": "기기 보유만으로 확정하지 말고 실제 작업·노출·조치 기능을 확인한다. 핵심/보완 분류는 사고 경로별로 재검토한다. 이 사례보다 피해가 커질 조건은 별도 위험으로 추가·검토한다.",
+      "severity": 3,
+      "severity_reason": "해당 문헌 기반 사고 경로에서 가능한 피해를 고려한 서비스 초안. 공식 문서에 표시된 확정 등급이 아님.",
+      "keywords": [
+        "세정·소독·후드 세척",
+        "세제",
+        "소독제",
+        "산/염소 제품",
+        "분무/혼합",
+        "세정제 취급"
+      ],
+      "controls": [
+        {
+          "id": "CHEM-C1",
+          "critical": true,
+          "current_text": "실제 제품과 일치하는 최신 SDS",
+          "plan_text": "실제 제품과 일치하는 최신 SDS — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "CHEM-C2",
+          "critical": true,
+          "current_text": "혼합/비호환 접촉 방지",
+          "plan_text": "혼합/비호환 접촉 방지 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "CHEM-C3",
+          "critical": true,
+          "current_text": "밀폐·라벨·전용용기·분리 보관",
+          "plan_text": "밀폐·라벨·전용용기·분리 보관 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "CHEM-C4",
+          "critical": true,
+          "current_text": "적합 환기/노출 차단",
+          "plan_text": "적합 환기/노출 차단 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "CHEM-C5",
+          "critical": false,
+          "current_text": "작업별 내화학 장갑·안면/눈 보호",
+          "plan_text": "작업별 내화학 장갑·안면/눈 보호 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "CHEM-C6",
+          "critical": false,
+          "current_text": "교육",
+          "plan_text": "교육 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "CHEM-C7",
+          "critical": false,
+          "current_text": "긴 도구",
+          "plan_text": "긴 도구 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "CHEM-C8",
+          "critical": false,
+          "current_text": "누출/사고 대응 준비",
+          "plan_text": "누출/사고 대응 준비 — 미실시·미흡 부분 개선"
+        }
+      ],
+      "source_refs": [
+        {
+          "document_id": "C",
+          "printed_page": 139,
+          "pdf_page": 140
+        },
+        {
+          "document_id": "C",
+          "printed_page": 140,
+          "pdf_page": 141
+        },
+        {
+          "document_id": "C",
+          "printed_page": 141,
+          "pdf_page": 142
+        },
+        {
+          "document_id": "C",
+          "printed_page": 142,
+          "pdf_page": 143
+        },
+        {
+          "document_id": "C",
+          "printed_page": 143,
+          "pdf_page": 144
+        },
+        {
+          "document_id": "C",
+          "printed_page": 144,
+          "pdf_page": 145
+        },
+        {
+          "document_id": "C",
+          "printed_page": 145,
+          "pdf_page": 146
+        },
+        {
+          "document_id": "B",
+          "printed_page": 62,
+          "pdf_page": 70
+        }
+      ],
+      "case_kind": "document_derived_scenario",
+      "review_status": "service_policy_draft",
+      "initial_grade": "상",
+      "initial_assumption": "해당 작업에 노출되고 핵심 조치가 없는 경우의 기준값. 현장 미확인 초안은 확정 등급이 아님."
+    },
+    {
+      "id": "ELECT",
+      "policy_version": "CATALOG-MVP-1.1",
+      "title": "절연 손상·누전 상태에서 충전부 접촉",
+      "task": "전기기기 주변 물청소",
+      "event": "감전",
+      "scenario": "전기기기 주변 물청소 중 절연 손상·누전 상태에서 충전부 접촉",
+      "applicability_note": "기기 보유만으로 확정하지 말고 실제 작업·노출·조치 기능을 확인한다. 핵심/보완 분류는 사고 경로별로 재검토한다. 이 사례보다 피해가 커질 조건은 별도 위험으로 추가·검토한다.",
+      "severity": 3,
+      "severity_reason": "해당 문헌 기반 사고 경로에서 가능한 피해를 고려한 서비스 초안. 공식 문서에 표시된 확정 등급이 아님.",
+      "keywords": [
+        "전기설비·물청소",
+        "젖은 손",
+        "플러그",
+        "분전반",
+        "손상 케이블",
+        "전기기기 청소",
+        "전기기기 주변 물청소"
+      ],
+      "controls": [
+        {
+          "id": "ELECT-C1",
+          "critical": true,
+          "current_text": "충전부 방호·절연",
+          "plan_text": "충전부 방호·절연 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "ELECT-C2",
+          "critical": true,
+          "current_text": "해당 기기 접지·적합 누전보호",
+          "plan_text": "해당 기기 접지·적합 누전보호 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "ELECT-C3",
+          "critical": true,
+          "current_text": "물기/정격 맞는 연결",
+          "plan_text": "물기/정격 맞는 연결 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "ELECT-C4",
+          "critical": true,
+          "current_text": "청소·정비 에너지 격리",
+          "plan_text": "청소·정비 에너지 격리 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "ELECT-C5",
+          "critical": true,
+          "current_text": "손상품 사용중지",
+          "plan_text": "손상품 사용중지 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "ELECT-C6",
+          "critical": false,
+          "current_text": "케이블 통로·덮개",
+          "plan_text": "케이블 통로·덮개 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "ELECT-C7",
+          "critical": false,
+          "current_text": "점검/적격 수리",
+          "plan_text": "점검/적격 수리 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "ELECT-C8",
+          "critical": false,
+          "current_text": "인화물 분리",
+          "plan_text": "인화물 분리 — 미실시·미흡 부분 개선"
+        }
+      ],
+      "source_refs": [
+        {
+          "document_id": "C",
+          "printed_page": 112,
+          "pdf_page": 113
+        },
+        {
+          "document_id": "C",
+          "printed_page": 115,
+          "pdf_page": 116
+        },
+        {
+          "document_id": "C",
+          "printed_page": 118,
+          "pdf_page": 119
+        },
+        {
+          "document_id": "C",
+          "printed_page": 119,
+          "pdf_page": 120
+        },
+        {
+          "document_id": "C",
+          "printed_page": 122,
+          "pdf_page": 123
+        },
+        {
+          "document_id": "C",
+          "printed_page": 123,
+          "pdf_page": 124
+        },
+        {
+          "document_id": "C",
+          "printed_page": 124,
+          "pdf_page": 125
+        },
+        {
+          "document_id": "C",
+          "printed_page": 130,
+          "pdf_page": 131
+        },
+        {
+          "document_id": "C",
+          "printed_page": 131,
+          "pdf_page": 132
+        },
+        {
+          "document_id": "C",
+          "printed_page": 134,
+          "pdf_page": 135
+        },
+        {
+          "document_id": "C",
+          "printed_page": 139,
+          "pdf_page": 140
+        },
+        {
+          "document_id": "C",
+          "printed_page": 146,
+          "pdf_page": 147
+        },
+        {
+          "document_id": "C",
+          "printed_page": 147,
+          "pdf_page": 148
+        },
+        {
+          "document_id": "C",
+          "printed_page": 148,
+          "pdf_page": 149
+        },
+        {
+          "document_id": "C",
+          "printed_page": 149,
+          "pdf_page": 150
+        }
+      ],
+      "case_kind": "document_derived_scenario",
+      "review_status": "service_policy_draft",
+      "initial_grade": "상",
+      "initial_assumption": "해당 작업에 노출되고 핵심 조치가 없는 경우의 기준값. 현장 미확인 초안은 확정 등급이 아님."
+    },
+    {
+      "id": "FIRE",
+      "policy_version": "CATALOG-MVP-1.1",
+      "title": "점화원과 가연물이 접촉해 화재",
+      "task": "화기·기름 취급",
+      "event": "화재",
+      "scenario": "화기·기름 취급 중 점화원과 가연물이 접촉해 화재",
+      "applicability_note": "기기 보유만으로 확정하지 말고 실제 작업·노출·조치 기능을 확인한다. 핵심/보완 분류는 사고 경로별로 재검토한다. 이 사례보다 피해가 커질 조건은 별도 위험으로 추가·검토한다.",
+      "severity": 3,
+      "severity_reason": "해당 문헌 기반 사고 경로에서 가능한 피해를 고려한 서비스 초안. 공식 문서에 표시된 확정 등급이 아님.",
+      "keywords": [
+        "화재·화기작업·소방설비",
+        "튀김유",
+        "가스",
+        "전기",
+        "용접/절단",
+        "흡연",
+        "화기·기름 취급"
+      ],
+      "controls": [
+        {
+          "id": "FIRE-C1",
+          "critical": true,
+          "current_text": "점화원/가연물 격리",
+          "plan_text": "점화원/가연물 격리 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "FIRE-C2",
+          "critical": true,
+          "current_text": "화기작업 전후 확인·감시·불티 차단",
+          "plan_text": "화기작업 전후 확인·감시·불티 차단 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "FIRE-C3",
+          "critical": true,
+          "current_text": "적합 소화약제/장비 접근성",
+          "plan_text": "적합 소화약제/장비 접근성 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "FIRE-C4",
+          "critical": true,
+          "current_text": "안전한 대피 경로",
+          "plan_text": "안전한 대피 경로 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "FIRE-C5",
+          "critical": false,
+          "current_text": "교육·표지·점검",
+          "plan_text": "교육·표지·점검 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "FIRE-C6",
+          "critical": false,
+          "current_text": "소화기 압력/노즐/기한",
+          "plan_text": "소화기 압력/노즐/기한 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "FIRE-C7",
+          "critical": false,
+          "current_text": "온도·차광·건조 보관",
+          "plan_text": "온도·차광·건조 보관 — 미실시·미흡 부분 개선"
+        }
+      ],
+      "source_refs": [
+        {
+          "document_id": "C",
+          "printed_page": 150,
+          "pdf_page": 151
+        },
+        {
+          "document_id": "C",
+          "printed_page": 151,
+          "pdf_page": 152
+        },
+        {
+          "document_id": "C",
+          "printed_page": 152,
+          "pdf_page": 153
+        },
+        {
+          "document_id": "C",
+          "printed_page": 153,
+          "pdf_page": 154
+        },
+        {
+          "document_id": "C",
+          "printed_page": 154,
+          "pdf_page": 155
+        },
+        {
+          "document_id": "B",
+          "printed_page": 56,
+          "pdf_page": 64
+        }
+      ],
+      "case_kind": "document_derived_scenario",
+      "review_status": "service_policy_draft",
+      "initial_grade": "상",
+      "initial_assumption": "해당 작업에 노출되고 핵심 조치가 없는 경우의 기준값. 현장 미확인 초안은 확정 등급이 아님."
+    },
+    {
+      "id": "MSD",
+      "policy_version": "CATALOG-MVP-1.1",
+      "title": "반복·불편 자세·과도한 힘으로 근골격계 부담",
+      "task": "반복 작업·중량물 취급",
+      "event": "근골격계 질환",
+      "scenario": "반복 작업·중량물 취급 중 반복·불편 자세·과도한 힘으로 근골격계 부담",
+      "applicability_note": "기기 보유만으로 확정하지 말고 실제 작업·노출·조치 기능을 확인한다. 핵심/보완 분류는 사고 경로별로 재검토한다. 이 사례보다 피해가 커질 조건은 별도 위험으로 추가·검토한다.",
+      "severity": 2,
+      "severity_reason": "해당 문헌 기반 사고 경로에서 가능한 피해를 고려한 서비스 초안. 공식 문서에 표시된 확정 등급이 아님.",
+      "keywords": [
+        "반복·힘·자세·중량·진동",
+        "칼질",
+        "반죽",
+        "설거지",
+        "운반",
+        "고정자세",
+        "반복 작업·중량물 취급",
+        "중량물"
+      ],
+      "controls": [
+        {
+          "id": "MSD-C1",
+          "critical": true,
+          "current_text": "힘/반복/도달/높이 맞춘 설계",
+          "plan_text": "힘/반복/도달/높이 맞춘 설계 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "MSD-C2",
+          "critical": true,
+          "current_text": "보조도구·동력화·하중 감소",
+          "plan_text": "보조도구·동력화·하중 감소 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "MSD-C3",
+          "critical": true,
+          "current_text": "휴식/작업순환",
+          "plan_text": "휴식/작업순환 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "MSD-C4",
+          "critical": true,
+          "current_text": "증상 조기 보고·전문 평가",
+          "plan_text": "증상 조기 보고·전문 평가 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "MSD-C5",
+          "critical": false,
+          "current_text": "중립자세 교육",
+          "plan_text": "중립자세 교육 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "MSD-C6",
+          "critical": false,
+          "current_text": "적합 그립·저진동 도구",
+          "plan_text": "적합 그립·저진동 도구 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "MSD-C7",
+          "critical": false,
+          "current_text": "공간",
+          "plan_text": "공간 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "MSD-C8",
+          "critical": false,
+          "current_text": "스트레칭",
+          "plan_text": "스트레칭 — 미실시·미흡 부분 개선"
+        }
+      ],
+      "source_refs": [
+        {
+          "document_id": "C",
+          "printed_page": 106,
+          "pdf_page": 107
+        },
+        {
+          "document_id": "C",
+          "printed_page": 107,
+          "pdf_page": 108
+        },
+        {
+          "document_id": "C",
+          "printed_page": 109,
+          "pdf_page": 110
+        },
+        {
+          "document_id": "C",
+          "printed_page": 118,
+          "pdf_page": 119
+        },
+        {
+          "document_id": "C",
+          "printed_page": 122,
+          "pdf_page": 123
+        },
+        {
+          "document_id": "C",
+          "printed_page": 123,
+          "pdf_page": 124
+        },
+        {
+          "document_id": "C",
+          "printed_page": 127,
+          "pdf_page": 128
+        },
+        {
+          "document_id": "C",
+          "printed_page": 134,
+          "pdf_page": 135
+        },
+        {
+          "document_id": "C",
+          "printed_page": 139,
+          "pdf_page": 140
+        },
+        {
+          "document_id": "C",
+          "printed_page": 158,
+          "pdf_page": 159
+        },
+        {
+          "document_id": "C",
+          "printed_page": 159,
+          "pdf_page": 160
+        },
+        {
+          "document_id": "C",
+          "printed_page": 160,
+          "pdf_page": 161
+        },
+        {
+          "document_id": "C",
+          "printed_page": 161,
+          "pdf_page": 162
+        }
+      ],
+      "case_kind": "document_derived_scenario",
+      "review_status": "service_policy_draft",
+      "initial_grade": "상",
+      "initial_assumption": "해당 작업에 노출되고 핵심 조치가 없는 경우의 기준값. 현장 미확인 초안은 확정 등급이 아님."
+    },
+    {
+      "id": "PSYCH",
+      "policy_version": "CATALOG-MVP-1.1",
+      "title": "폭언·과도한 업무부담으로 정신건강 손상",
+      "task": "고객 응대·업무 수행",
+      "event": "정신/신체 건강장해",
+      "scenario": "고객 응대·업무 수행 중 폭언·과도한 업무부담으로 정신건강 손상",
+      "applicability_note": "기기 보유만으로 확정하지 말고 실제 작업·노출·조치 기능을 확인한다. 핵심/보완 분류는 사고 경로별로 재검토한다. 이 사례보다 피해가 커질 조건은 별도 위험으로 추가·검토한다.",
+      "severity": 2,
+      "severity_reason": "해당 문헌 기반 사고 경로에서 가능한 피해를 고려한 서비스 초안. 공식 문서에 표시된 확정 등급이 아님.",
+      "keywords": [
+        "직무스트레스·고객응대",
+        "폭언",
+        "폭력",
+        "과도 업무",
+        "불규칙 교대",
+        "고객 응대·업무 수행"
+      ],
+      "controls": [
+        {
+          "id": "PSYCH-C1",
+          "critical": true,
+          "current_text": "문제 상황 업무중단·분리·재접촉 방지",
+          "plan_text": "문제 상황 업무중단·분리·재접촉 방지 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "PSYCH-C2",
+          "critical": true,
+          "current_text": "불이익 금지·관리자 지원",
+          "plan_text": "불이익 금지·관리자 지원 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "PSYCH-C3",
+          "critical": true,
+          "current_text": "예측가능한 일정·적정 부담/휴식",
+          "plan_text": "예측가능한 일정·적정 부담/휴식 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "PSYCH-C4",
+          "critical": true,
+          "current_text": "치료/상담 지원",
+          "plan_text": "치료/상담 지원 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "PSYCH-C5",
+          "critical": false,
+          "current_text": "매뉴얼·교육·안내문·고충창구·별도 휴게공간",
+          "plan_text": "매뉴얼·교육·안내문·고충창구·별도 휴게공간 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "PSYCH-C6",
+          "critical": false,
+          "current_text": "증거/절차 지원",
+          "plan_text": "증거/절차 지원 — 미실시·미흡 부분 개선"
+        },
+        {
+          "id": "PSYCH-C7",
+          "critical": false,
+          "current_text": "근로자 참여",
+          "plan_text": "근로자 참여 — 미실시·미흡 부분 개선"
+        }
+      ],
+      "source_refs": [
+        {
+          "document_id": "C",
+          "printed_page": 138,
+          "pdf_page": 139
+        },
+        {
+          "document_id": "C",
+          "printed_page": 162,
+          "pdf_page": 163
+        },
+        {
+          "document_id": "C",
+          "printed_page": 163,
+          "pdf_page": 164
+        },
+        {
+          "document_id": "C",
+          "printed_page": 164,
+          "pdf_page": 165
+        },
+        {
+          "document_id": "C",
+          "printed_page": 165,
+          "pdf_page": 166
+        }
+      ],
+      "case_kind": "document_derived_scenario",
+      "review_status": "service_policy_draft",
+      "initial_grade": "상",
+      "initial_assumption": "해당 작업에 노출되고 핵심 조치가 없는 경우의 기준값. 현장 미확인 초안은 확정 등급이 아님."
+    },
+    {
+      "id": "KNIFE_STORAGE",
+      "policy_version": "CATALOG-MVP-1.1",
+      "title": "소형 칼 보관부 주변의 경미한 접촉",
+      "task": "소형 칼 보관",
+      "event": "경미한 베임",
+      "scenario": "날이 보호된 소형 칼 보관부를 정리하며 경미한 접촉만 가능한 조건",
+      "applicability_note": "절단 작업·노출된 큰 칼날·깊은 상처 가능 조건은 제외. 해당하면 KNIFE 또는 별도 평가.",
+      "severity": 1,
+      "severity_reason": "제한된 경미 접촉 시나리오의 서비스 가정이며 실제 재해사례의 피해를 축소한 것이 아님.",
+      "keywords": [
+        "칼 보관",
+        "칼집",
+        "칼꽂이"
+      ],
+      "controls": [
+        {
+          "id": "KS-C1",
+          "critical": true,
+          "current_text": "칼집·고정 보관함으로 날을 보호하고 고정 상태 확인",
+          "plan_text": "칼집·고정 보관함 설치 및 날 보호 상태 확인"
+        },
+        {
+          "id": "KS-C2",
+          "critical": false,
+          "current_text": "보관 위치와 꺼내는 방향을 구분하여 정리",
+          "plan_text": "보관 위치·인출 방향을 구분하여 정리"
+        }
+      ],
+      "source_refs": [
+        {
+          "document_id": "C",
+          "printed_page": 110,
+          "pdf_page": 111
+        },
+        {
+          "document_id": "C",
+          "printed_page": 111,
+          "pdf_page": 112
+        },
+        {
+          "document_id": "B",
+          "printed_page": 61,
+          "pdf_page": 69
+        }
+      ],
+      "case_kind": "service_example",
+      "review_status": "service_policy_draft",
+      "initial_grade": "중",
+      "initial_assumption": "경미 피해 조건에서 핵심 조치가 없는 경우"
+    }
+  ]
+}

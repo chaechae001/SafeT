@@ -1,0 +1,21 @@
+{
+  "contract_version": "assessment-authoring-1",
+  "candidates": [
+    {
+      "scenario_id": "FRY",
+      "rationale": "튀김 조리 중 고온 기름 접촉 위험",
+      "evidence": [
+        {
+          "media_id": "TEXT",
+          "statement": "주방에서 튀김 조리를 합니다."
+        }
+      ],
+      "control_evidence": [],
+      "assumptions": [
+        "입력에 없는 조치는 unknown으로 보존하고 계산에서 충족으로 인정하지 않음"
+      ],
+      "questions": []
+    }
+  ],
+  "unmatched_risks": []
+}

@@ -1,0 +1,12 @@
+{
+  "contract_version": "assessment-authoring-1",
+  "catalog_version": "CATALOG-MVP-1.1",
+  "media": [
+    {
+      "id": "TEXT",
+      "kind": "text",
+      "text": "주방에서 튀김 조리를 합니다."
+    }
+  ],
+  "equipment_ids": []
+}

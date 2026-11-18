@@ -1,0 +1,86 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version",
+    "assessment_mode",
+    "decision_policy_version",
+    "result_status",
+    "items",
+    "unmatched_risks"
+  ],
+  "properties": {
+    "contract_version": {
+      "const": "assessment-authoring-1"
+    },
+    "assessment_mode": {
+      "const": "input_based"
+    },
+    "decision_policy_version": {
+      "const": "CATALOG-MVP-1.1-AUTO-1.0"
+    },
+    "result_status": {
+      "type": "string",
+      "enum": [
+        "complete",
+        "partial",
+        "no_supported_result"
+      ]
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "scenario_id",
+          "severity",
+          "control_band",
+          "grade",
+          "status"
+        ],
+        "properties": {
+          "scenario_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "severity": {
+            "type": "integer",
+            "enum": [
+              1,
+              2,
+              3
+            ]
+          },
+          "control_band": {
+            "type": "integer",
+            "enum": [
+              1,
+              2,
+              3
+            ]
+          },
+          "grade": {
+            "type": "string",
+            "enum": [
+              "상",
+              "중",
+              "하"
+            ]
+          },
+          "status": {
+            "const": "estimated_from_input"
+          }
+        }
+      }
+    },
+    "unmatched_risks": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

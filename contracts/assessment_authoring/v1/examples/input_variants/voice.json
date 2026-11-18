@@ -1,0 +1,12 @@
+{
+  "contract_version": "assessment-authoring-1",
+  "catalog_version": "CATALOG-MVP-1.1",
+  "media": [
+    {
+      "id": "VOICE",
+      "kind": "voice_transcript",
+      "text": "주방에서 튀김 조리를 합니다. 보호구를 착용하지 않습니다."
+    }
+  ],
+  "equipment_ids": []
+}

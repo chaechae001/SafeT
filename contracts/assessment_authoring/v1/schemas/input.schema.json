@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version",
+    "catalog_version",
+    "media",
+    "equipment_ids"
+  ],
+  "properties": {
+    "contract_version": {
+      "const": "assessment-authoring-1"
+    },
+    "catalog_version": {
+      "const": "CATALOG-MVP-1.1"
+    },
+    "media": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "kind",
+          "text"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "text",
+              "voice_transcript",
+              "equipment_detection",
+              "equipment_inventory"
+            ]
+          },
+          "text": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "minItems": 1
+    },
+    "equipment_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "enum": [
+          "EQ_FRYER",
+          "EQ_GAS_RANGE",
+          "EQ_OVEN",
+          "EQ_GRILL",
+          "EQ_MICROWAVE",
+          "EQ_RICE_COOKER",
+          "EQ_SOUP_KETTLE",
+          "EQ_GRIDDLE",
+          "EQ_STEAMER",
+          "EQ_ODEN_WARMER",
+          "EQ_PORTABLE_BURNER",
+          "EQ_COOKING_ROBOT",
+          "EQ_KNIFE_BOARD",
+          "EQ_SCISSORS",
+          "EQ_VEG_CUTTER",
+          "EQ_MEAT_SLICER",
+          "EQ_MIXER",
+          "EQ_DOUGH_MIXER",
+          "EQ_NOODLE_MACHINE",
+          "EQ_RICE_WASHER",
+          "EQ_MARINATOR",
+          "EQ_COFFEE_MACHINE",
+          "EQ_COFFEE_GRINDER",
+          "EQ_ICE_MAKER",
+          "EQ_ICE_CRUSHER",
+          "EQ_WATER_HEATER",
+          "EQ_BEER_DISPENSER",
+          "EQ_DISHWASHER",
+          "EQ_STERILIZER",
+          "EQ_SINK",
+          "EQ_EXHAUST_HOOD",
+          "EQ_WASTE_OIL_CONTAINER",
+          "EQ_REFRIGERATOR",
+          "EQ_WALKIN_COOLER",
+          "EQ_DISPLAY_COOLER",
+          "EQ_CART",
+          "EQ_SHELF",
+          "EQ_LADDER",
+          "EQ_DUMBWAITER",
+          "EQ_MOTORCYCLE",
+          "EQ_GAS_CYLINDER",
+          "EQ_ELECTRIC_PANEL"
+        ]
+      }
+    }
+  }
+}

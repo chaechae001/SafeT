@@ -1,0 +1,95 @@
+# 공통 입출력과 연결 계약
+
+계약 버전은 `assessment-authoring-1`, 검토 묶음은 `v3-reviewed`다. 본 폴더는 구현 지침·Schema·합성 예제·검사 도구이며 서비스 어댑터는 각 담당자가 구현한다.
+
+## 함수 경계
+
+| 구현 담당 | 함수 | Input | Output |
+| --- | --- | --- | --- |
+| 입력 | build_context(raw_request, detection_result=None) | 기존 CreateAssessment 요청·기기 목록·탐지 결과 | InputBundle |
+| 검색·통합 | retrieve_evidence(context, catalog_snapshot) | InputBundle·카탈로그 | RetrievalBundle |
+| 추출 | extract_analysis(context, retrieval_bundle, catalog_snapshot) | 입력·후보·해당 조치 정의 | AnalysisBundle |
+| 검색·통합 | compose_assessment(context, retrieval_bundle, analysis_bundle, catalog_snapshot) | 검증할 세 Bundle·카탈로그 | AssessmentCore |
+| 검색·통합 | 서비스 호출부 | AssessmentCore·입력·근거·분석 | 기존 상세 응답·저장 JSON |
+
+호출 순서: build_context → retrieve_evidence → extract_analysis → compose_assessment → 기존 API/DB 매핑.
+compose_assessment는 LLM을 다시 호출하지 않는다. 검증·누락 조치 정규화·계산·핵심 결과 조립만 수행한다.
+모든 함수는 새로 구현할 인터페이스다. 현재 서비스에 이미 존재하는 것으로 가정하지 않는다.
+
+## 읽을 파일
+
+- InputBundle: `schemas/input.schema.json`, `examples/*/input.json`.
+- RetrievalBundle: `schemas/retrieval.schema.json`, `examples/*/retrieval.json`.
+- AnalysisBundle: `schemas/analysis.schema.json`, `examples/*/analysis.json`.
+- AssessmentCore: `schemas/assessment.schema.json`, `examples/*/assessment.json`.
+- 기존 `expected.json`은 한 행의 계산값이다. HTTP 전체 응답이 아니다.
+- 카탈로그: `reference/catalog.json`. 원본: `contracts/catalog_risk/catalog.json`.
+- 원본 SHA·해시: `reference/SOURCE.json`. base_commit은 원본 자료 기준이며 팀 개발 시작 커밋은 START_HERE.md에 따른다.
+
+## 입력·근거
+
+media는 최소 1개다. 텍스트·전사 원문과 부정·수치를 보존한다. 사진만 입력되면 탐지 요약을 media에 넣는다.
+kind는 text / voice_transcript / equipment_detection / equipment_inventory다.
+사업장 기기 목록은 equipment_inventory로 구분한다. 탐지·보유 정보는 기능 작동이나 조치 실행 증거가 아니다.
+equipment_ids는 reference/equipment_ids.json의 ID만 사용하며 중복을 제거한다. 글만 있으면 빈 배열이 가능하다.
+사진 탐지 0건은 “탐지된 기기 없음” 요약으로 남기고 탐지 오류와 구분한다. 빈 입력·파일/모델 오류는 성공 Bundle 대신 기존 오류 경로로 반환한다.
+
+analysis.evidence[].statement는 해당 media.text의 짧은 직접 인용이다.
+supported/not_effective의 statement도 참조 text/voice_transcript에 실제 존재하는 직접 인용이어야 한다.
+unknown의 statement는 부족·상충 이유이며 evidence_refs=[]가 가능하다. 조치가 응답에서 누락되면 unknown으로 정규화한다.
+잘못된 ID·위조 인용·중복은 오류다. 잘못된 supported를 조용히 unknown으로 바꾸어 성공시키지 않는다.
+문자열 포함 검사는 현장 진실·복합 조치 전체 충족·부정 해석을 보장하지 않는다. 추출 품질 사례에서 별도 확인한다.
+
+## 검색·법령
+
+후보는 배치당 3개, 문헌 근거는 후보당 최대 2개로 시작한다. 전체 후보 수를 3개로 잘라 버리지 않는다.
+여러 배치 결과는 scenario_id로 합치고 근거를 중복 제거한다. MVP는 평가표당 같은 scenario_id 한 행으로 합친다.
+기기 인스턴스별 다른 등급은 이번 계약에 포함하지 않는다. 서로 상충하는 조치 근거는 unknown으로 보존한다.
+문헌 source_refs는 해당 카탈로그 시나리오에 등록된 문서·쪽 조합만 전달한다.
+등록 후보에 입력 근거가 있지만 문헌이 없으면 retrieval_status=no_evidence로 유지하며 평가를 계속할 수 있다.
+법령은 법령 원문·시행일·적용 조건을 검수한 매핑만 사용한다. 법령 확인 실패 때문에 정상 위험행 전체를 폐기하지 않는다.
+
+기본 legal_registry.json은 빈 배열이므로 legal_refs=[]다. 검수 자료 확보 후 검색·통합 담당이 등록한다.
+등록 형식: legal_id, url, scenario_ids. 운영 매핑에는 시행일·검수 출처·적용 조건도 보존하고 조회 시 확인한다.
+validate(..., legal_registry=...)는 신뢰된 등록 자료와 ID/URL/시나리오 연결을 대조한다. 법률적 적용성 검증 도구가 아니다.
+검사 중 example.invalid 법령은 합성 등록 테스트 전용이며 실제 문서에 인용하지 않는다.
+
+## 계산·처리 상태
+
+assessment_mode=input_based, base_policy_version=CATALOG-MVP-1.1,
+decision_policy_version=CATALOG-MVP-1.1-AUTO-1.0.
+사용자 추가 입력·현재 조치 확인을 요구하지 않는다. questions=[]이며 모델은 등급을 생성하지 않는다.
+서버는 카탈로그 S와 기존 MATRIX를 재사용한다. 빈도×강도 계산이나 빈도 입력은 없다.
+핵심 조치 중 하나라도 supported가 아니면 C3, 핵심은 모두 supported이고 보완이 부족하면 C2, 전체가 supported이면 C1.
+unknown은 사실 미실시가 아니며 계산에서만 미충족으로 취급한다. 계획으로 현재 위험도를 낮추지 않는다.
+
+| 상황 | result_status | items |
+| --- | --- | --- |
+| 유효 행 있음·미매칭 없음 | complete | 상/중/하 행 |
+| 유효 행 있음·일부 미매칭 | partial | 유효한 행만 유지 |
+| 유효 행 없음 | no_supported_result | 빈 배열 |
+| 입력/모델/계약 오류 | 성공 결과를 반환하지 않음 | 기존 오류 경로 |
+
+retrieval.unmatched와 analysis.unmatched_risks를 합쳐 보존한다. 검색 후보의 단순 기각은 미매칭 위험과 구별한다.
+no_evidence는 문헌 검색 상태, unknown은 조치 근거 상태, result_status는 전체 처리 상태다. 서로 대체하지 않는다.
+개별 행 status=estimated_from_input이며 화면 등급은 상/중/하만 표시한다.
+
+## 기존 서비스 매핑
+
+AssessmentCore는 통합 검사용 핵심 결과다. 서비스는 기존 catalog_state JSON과 상세 응답에 다음을 연결한다.
+
+| 저장 내용 | 원천 |
+| --- | --- |
+| assessment_mode·정책 버전·result_status·unmatched_risks | AssessmentCore와 카탈로그 버전 |
+| 현재 등급·S·C·행 상태 | AssessmentCore.items |
+| 위험 설명·근거·가정 | 검증된 AnalysisBundle |
+| 현재 조치 | supported 입력 근거만. 없으면 “입력에서 확인된 조치 없음” |
+| 개선대책 | 카탈로그 plan_text. 현재 시행 사실로 저장하지 않음 |
+| 문헌·법령 참조 | 검증된 RetrievalBundle |
+| input_revision·모델/프롬프트/자료 버전 | 기존 실행 메타데이터 |
+
+기존 `backend/domain/risk_policy.py`의 MATRIX를 import한다. 이 묶음의 reference/risk_policy.py는 독립 실행 검사용 원본 스냅샷이며 서비스에서 import하지 않는다.
+사용자 확인을 뜻하는 answered/controls_reviewed를 true로 위조하지 않는다. input_based 분기에서 별도 계산하고 저장·확정 게이트도 같은 모드로 연결한다.
+기존 수동 평가와 과거 저장 결과는 당시 정책으로 조회한다. 입력 revision이 달라진 늦은 결과로 덮어쓰지 않는다.
+생성·저장·재조회·화면·PDF의 grade/정책/근거가 일치하면 통합 완료다.
+
