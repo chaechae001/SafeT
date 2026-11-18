@@ -56,7 +56,8 @@ class ExtractionError(Exception):
 class ExtractionResult:
     analysis: dict
     runs: list = field(default_factory=list)  # 배치별 모델·토큰·종료 사유 기록
-    # 검색 후보 중 작업 근거가 없어 analysis에서 빠진 ID. 담당자 작업 확인 대상으로 보존한다.
+    # 보조 진단: 이 호출의 검색 후보 중 analysis에서 빠진 ID(사유 구분 없음).
+    # 담당자 검토 대상의 공식 결과는 compose/run_pipeline이 만드는 AssessmentCore.review_candidates다.
     work_review_candidates: list = field(default_factory=list)
 
 

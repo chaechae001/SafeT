@@ -73,7 +73,7 @@ RAG 공급자가 설정되지 않으면 카탈로그 검색만 실행하고 trac
 
 ## 검사 결과
 
-검색·계산 unittest 26개와 추출 unittest 21개(합계 47개)를 함께 실행한다. 검색·계산 쪽 범위: 공통 예제 5종, 등급표 9조합, ID·근거·질문·중복 거절,
+검색·계산 unittest 27개와 추출 unittest 22개(합계 49개)를 함께 실행한다. 검색·계산 쪽 범위: 공통 예제 5종, 등급표 9조합, ID·근거·질문·중복 거절,
 누락 조치, 법령 등록, 배치 보존, 기기 오매핑 반례, RAG 실패/미매핑/이력,
 추천과 현재 등급 분리, 고정 함수 연결, 모델 호출 생략.
 공통 계약 33개와 저장소 지정 CPU self-test 3개도 실행한다.
@@ -104,7 +104,7 @@ result = run_extraction(context, retrieval_bundle, catalog_snapshot, call_model)
 - 후보를 3개씩 나누어 배치당 호출 1회. 후보가 없거나 텍스트·전사 media가 없으면(사진·기기 목록만) 모델을 호출하지 않는다.
 - `unmatched_risks` = `retrieval.unmatched` + 모델 미매칭(중복 제거).
 - `runs`: 배치별 scenario_ids·모델·max_tokens·finish_reason·usage·prompt_version·prompt_sha256.
-- `work_review_candidates`: 검색 후보 중 작업 근거(텍스트·전사 문장)가 없어 analysis에서 빠진 scenario_id. 사진 단독과 사진·글 혼합 입력 모두 채운다. 담당자 작업 확인 대상으로 보존한다.
+- `work_review_candidates`: 보조 진단. 이 호출의 검색 후보 중 analysis에서 빠진 scenario_id이며 사유를 구분하지 않는다. 담당자 검토 대상의 공식 결과는 `run_pipeline`이 만드는 `core.review_candidates`(`work_unconfirmed` / `input_denies_work`)다.
 - 인용은 공통 `validate.py`의 `whole_sentence`로 검사한다. 원문 한 문장(문장부호까지)과 같아야 하므로 부정문 일부("보호구를 착용")는 조치 근거가 되지 않는다.
 - 실패는 `ExtractionError(code, detail)`로 던진다. detail에 모델 원문·안내 문구·설정값을 넣지 않는다.
 
@@ -144,7 +144,7 @@ result = run_extraction(context, retrieval_bundle, catalog_snapshot, call_model)
 | --- | --- |
 | normal | 원문 문장 인용이 있는 조치만 supported |
 | unknown | 작업만 언급 → control_evidence 없음, assumptions 기록 |
-| detection_only | 사진 탐지·기기 목록만 → 모델 호출 없음, 분석 행 없음, FRY는 work_review_candidates |
+| detection_only | 사진 탐지·기기 목록만 → 모델 호출 없음, 분석 행 없음. run_pipeline에서 FRY는 core.review_candidates(work_unconfirmed) |
 | negation | 고장·미보유 진술 → not_effective |
 | conflict | TEXT·VOICE 진술 상충 → unknown, 두 근거 보존 |
 | composite_partial | 보안경/내열 보호구 중 일부만 확인 → unknown |

@@ -110,6 +110,21 @@ class FixtureCases(unittest.TestCase):
         core = out["assessment"]["core"]
         self.assertEqual([(x["scenario_id"], x["control_band"], x["grade"]) for x in core["items"]], [("FRY", 3, "상")])
         self.assertEqual(core["result_status"], "complete")
+        self.assertEqual(core["review_candidates"], [])
+
+    def test_pipeline_review_candidates_with_adapter(self):
+        # 사진 단독·사진+글 혼합에서 이 어댑터를 넣어도 공통 결과 core.review_candidates로 검토 대상이 남는다.
+        i, _, _ = load_case("detection_only")
+        mixed = copy.deepcopy(i)
+        mixed["media"].append({"id": "TEXT", "kind": "text", "text": "칼로 채소를 썹니다."})
+        for context, model in ((i, Mock()), (mixed, Mock(response([])))):
+            with self.subTest(media=[m["kind"] for m in context["media"]]):
+                extract = lambda c, b, k: ea.extract_analysis(c, b, k, call_model=model)  # noqa: E731
+                out = run_pipeline(context, build_context=copy.deepcopy, extract_analysis=extract,
+                                   catalog_snapshot=CATALOG)
+                core = out["assessment"]["core"]
+                self.assertEqual(core["items"], [])
+                self.assertEqual(core["review_candidates"], [{"scenario_id": "FRY", "reason": "work_unconfirmed"}])
 
     def test_no_match_keeps_unmatched_without_model_call(self):
         i, r, _ = load_case("no_match")
