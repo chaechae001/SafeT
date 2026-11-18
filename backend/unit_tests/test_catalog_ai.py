@@ -71,7 +71,6 @@ def test_outside_catalog_and_missing_configuration(configured,monkeypatch):
 
 @pytest.mark.parametrize('response',[
  httpx.Response(401,text='test-secret-do-not-echo private photo'),
- httpx.Response(200,json={'choices':[{'finish_reason':'length','message':{'content':json.dumps(RESPONSE)}}]}),
  httpx.Response(200,text='not JSON'),
  httpx.Response(200,content=b'x'*2_000_001),
 ])
@@ -79,6 +78,19 @@ def test_failure_not_leaked_or_replaced(configured,monkeypatch,response):
     transport(monkeypatch,lambda req:httpx.Response(200,json={'count':2000}) if req.url.path=='/tokenize' else response)
     with pytest.raises(AuthError) as e:ai.analyze({'text':'튀김'},CAT)
     assert e.value.code=='AI_REQUEST_FAILED' and 'test-secret' not in str(e.value)
+
+
+def test_truncated_response_is_rejected_even_with_valid_json(configured, monkeypatch):
+    def handler(req):
+        if req.url.path == '/tokenize':
+            return httpx.Response(200, json={'count': 3263})
+        return httpx.Response(200, json={'choices': [
+            {'finish_reason': 'length', 'message': {'content': json.dumps(RESPONSE)}}]})
+    transport(monkeypatch, handler)
+    with pytest.raises(AuthError) as err:
+        ai.analyze({'text': '튀김'}, CAT)
+    assert err.value.code == 'AI_OUTPUT_TRUNCATED'
+    assert '길이 한도' in err.value.message
 
 
 def test_photo_requires_detector(configured,monkeypatch):
@@ -95,16 +107,19 @@ def sam_response(body):
         'detector_class':'salamander broiler','confidence':0.9297,'bbox':[0.1,0.2,0.4,0.6]}]},
       'service_meta':{'per_image_s':[4.18]}}
 
-@pytest.mark.parametrize('count,allowed',[(3008,True),(3009,False),(4096,False)])
-def test_exact_context_budget(configured,monkeypatch,count,allowed):
+@pytest.mark.parametrize('count,expected', [(3008, 1024), (3009, 1023), (3263, 769),
+                                            (3776, 256), (3777, None), (4096, None)])
+def test_exact_context_budget(configured,monkeypatch,count,expected):
     calls=[]
     def handler(req):
         calls.append(req.url.path)
         if req.url.path=='/tokenize':return httpx.Response(200,json={'count':count})
-        assert json.loads(req.content)['max_tokens']+count+64<=4096
+        assert json.loads(req.content)['max_tokens'] == expected
         return httpx.Response(200,json={'choices':[{'finish_reason':'stop','message':{'content':json.dumps(RESPONSE)}}]})
     transport(monkeypatch,handler)
-    if allowed:ai.analyze({'text':'튀김'},CAT)
+    if expected is not None:
+        ai.analyze({'text':'튀김'},CAT)
+        assert calls == ['/tokenize', '/v1/chat/completions']
     else:
         with pytest.raises(AuthError) as err:ai.analyze({'text':'튀김'},CAT)
         assert err.value.code=='AI_INPUT_TOO_LONG' and calls==['/tokenize']
