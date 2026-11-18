@@ -54,8 +54,12 @@ def _purge_rows(db, no):
 
 
 def _purge_expired(db, email, t):
+    # 고를 때부터 잠금(FOR UPDATE): 동시에 복원이 들어오면 복원이 먼저 커밋됐을 땐 여기서 빠지고,
+    # 여기가 먼저 잠갔을 땐 복원이 기다렸다가 404. '복원 성공 → 삭제'가 겹치지 않게 함.
+    # 잠그지 않고 고르면 복원이 끼어든 뒤 그 평가표를 지우거나(snapshot isolation OFF),
+    # 1020 오류로 목록이 실패함(MariaDB 11.6.2+ 기본 ON).
     old = rows(db, "SELECT eval_no FROM eval_mst WHERE email = :e AND del_yn = 'Y' AND eval_status = 'W' "
-                   "AND (del_dt IS NULL OR del_dt <= :limit)", e=email, limit=t - timedelta(days=KEEP_DAYS))
+                   "AND (del_dt IS NULL OR del_dt <= :limit) FOR UPDATE", e=email, limit=t - timedelta(days=KEEP_DAYS))
     for r in old:
         _purge_rows(db, r['eval_no'])
     return len(old)

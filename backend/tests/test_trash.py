@@ -114,3 +114,103 @@ def test_남의_평가표는_404(client, setup):
     finally:
         with engine.begin() as c:
             purge_user_rows(c, other)
+
+
+
+def _race_setup(client, setup):
+    """만료 경계의 휴지통 평가표 → (email, no, base). base 시각엔 아직 만료 전, base+2분엔 만료"""
+    from datetime import timedelta
+
+    from services import trash as service
+    h, no = setup["auth"], setup["ids"]["작성중"]
+    email = db_one("SELECT email FROM eval_mst WHERE eval_no = :n", n=no)["email"]
+    client.delete(f"/evals/{no}", headers=h)
+    base = service.now()
+    db_exec("UPDATE eval_mst SET del_dt = :d WHERE eval_no = :n",
+            d=base - timedelta(days=service.KEEP_DAYS) + timedelta(minutes=1), n=no)
+    return email, no, base
+
+
+def _list_trash(email, snapshot):
+    """별도 DB 연결로 휴지통 목록 (이 연결만 innodb_snapshot_isolation 을 바꿨다가 되돌림)"""
+    from database import SessionLocal
+    from services import trash as service
+    db = SessionLocal()
+    try:
+        db.execute(text(f"SET SESSION innodb_snapshot_isolation = {snapshot}"))
+        db.commit()
+        return service.list_trash(db, email)
+    finally:
+        db.rollback()
+        db.execute(text("SET SESSION innodb_snapshot_isolation = DEFAULT"))   # 풀로 돌아가는 연결 원상복구
+        db.commit()
+        db.close()
+
+
+def _restore(email, no):
+    from database import SessionLocal
+    from services import trash as service
+    db = SessionLocal()
+    try:
+        return service.restore(db, email, no)
+    finally:
+        db.close()
+
+
+def _exists(no):
+    return db_one("SELECT COUNT(*) c FROM eval_mst WHERE eval_no = :n", n=no)["c"] == 1
+
+
+# snapshot: MariaDB 11.6.2+ 기본 ON. OFF 는 이전 MariaDB·MySQL 동작.
+# 수정 전 코드는 ON 이면 목록이 1020 오류, OFF 면 복원 성공한 평가표가 지워졌음.
+@pytest.mark.parametrize("snapshot", ["ON", "OFF"])
+def test_만료_경계_복원이_먼저면_자동삭제에서_빠짐(client, setup, monkeypatch, snapshot):
+    from datetime import timedelta
+
+    from services import trash as service
+    email, no, base = _race_setup(client, setup)
+    clock = {"t": base}
+    monkeypatch.setattr(service, "now", lambda: clock["t"])
+    assert _restore(email, no)["eval_no"] == no          # 복원: 아직 만료 전
+    clock["t"] = base + timedelta(minutes=2)
+    assert _list_trash(email, snapshot)["items"] == []   # 목록: 만료 시각 지남
+    m = db_one("SELECT del_yn, del_dt FROM eval_mst WHERE eval_no = :n", n=no)
+    assert m["del_yn"] == "N" and m["del_dt"] is None
+    for t in ("eval_dtl", "eval_member", "eval_machine", "eval_file"):
+        assert db_one(f"SELECT COUNT(*) c FROM {t} WHERE eval_no = :n", n=no)["c"] == 1, t
+
+
+@pytest.mark.parametrize("snapshot", ["ON", "OFF"])
+def test_만료_경계_자동삭제가_먼저면_복원은_404(client, setup, monkeypatch, snapshot):
+    """목록이 만료 대상을 고른 직후 복원 요청이 들어옴 → 복원은 잠금을 기다렸다가 404, 성공 응답 없음"""
+    import threading
+    from datetime import timedelta
+
+    from services import trash as service
+    from services.auth import AuthError
+    email, no, base = _race_setup(client, setup)
+    clock = {"t": base + timedelta(minutes=2)}           # 목록: 만료 시각 지남
+    monkeypatch.setattr(service, "now", lambda: clock["t"])
+    real_rows, result = service.rows, {}
+
+    def run_restore():
+        try:
+            result["ok"] = _restore(email, no)
+        except AuthError as e:
+            result["err"] = e
+
+    def rows_then_restore(db, sql, **p):
+        out = real_rows(db, sql, **p)
+        if "thread" not in result and "del_dt <= :limit" in sql:   # 만료 대상을 고른 직후 끼어들기
+            clock["t"] = base                                       # 복원: 아직 만료 전
+            result["thread"] = threading.Thread(target=run_restore)
+            result["thread"].start()
+            result["thread"].join(timeout=1)                         # 잠금이 없으면 이 안에 끝남
+            assert result["thread"].is_alive(), f"복원 요청이 잠금을 기다리지 않음: {result}"
+        return out
+
+    monkeypatch.setattr(service, "rows", rows_then_restore)
+    assert _list_trash(email, snapshot)["items"] == []
+    result["thread"].join(timeout=30)
+    assert "ok" not in result                                       # 복원 성공 응답이 나가지 않음
+    assert result["err"].status == 404 and not _exists(no)

@@ -364,3 +364,10 @@ AI 연결 검사에는 새 근거가 과거 선택과 상충하는 경우, 계�
 - 영구 삭제는 평가표와 딸린 행(`eval_action`, `eval_file`, `risk_event`, `eval_share`, `eval_sign`, `eval_report`, `eval_dtl`, `eval_machine`, `eval_member`)을 참조 순서대로 지웁니다.
 - 30일 자동 삭제는 별도 예약 작업 없이 휴지통 목록을 열 때(그리고 만료된 평가표를 복원하려 할 때) 실행합니다. 운영에서 정확한 시점이 필요하면 예약 작업을 따로 둡니다.
 - 코드: `routers/trash.py`, `services/trash.py`. 테스트: `tests/test_trash.py`(DB 필요).
+
+## 휴지통 만료 삭제·복원 동시 요청 (2026-11-18)
+
+휴지통 목록을 열 때 하는 만료 삭제(`services/trash.py` `_purge_expired`)가 만료 대상을 `FOR UPDATE`로 잠그면서 고릅니다.
+전에는 잠그지 않고 골라서, 만료 경계에서 복원과 겹치면 복원 성공 응답이 나간 평가표가 지워지거나(innodb_snapshot_isolation OFF: 이전 MariaDB·MySQL) 목록이 1020 오류로 실패했습니다(ON: MariaDB 11.6.2+ 기본).
+지금은 복원이 먼저 커밋되면 만료 삭제에서 빠지고, 만료 삭제가 먼저 잠그면 복원은 기다렸다가 404를 받습니다.
+검사: `tests/test_trash.py`의 `test_만료_경계_*` (두 DB 연결, snapshot isolation ON·OFF 각각).
