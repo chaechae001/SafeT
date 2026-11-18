@@ -90,6 +90,8 @@
   function needB(it) { return has(missing(it), 'owner'); }
   /** 후속업무: 빨강·노랑 + 대책을 추가한 초록 (판단 필요 제외) */
   function isFollow(it) { return it.signal !== 'N' && needsPlan(it); }
+  /** 담당자미지정: 담당자·예정일이 필요한데 하나라도 비어 있음 */
+  function ownerMissing(it) { return isFollow(it) && (!it.owner || !it.due); }
 
   function no(i) { return (i < 9 ? '0' : '') + (i + 1); }
 
@@ -130,10 +132,17 @@
 
   function renderList() {
     var $ol = $('#risk-list').empty();
+    var first = null;   // 화면에 보이는 입력 필요 항목 중 첫 번째 → 눌러서 시작하도록 강조
     $.each(items, function (i, it) {
-      if (filter === 'follow' && !isFollow(it)) return;
+      if (filter === 'input' && !needA(it)) return;
+      if ((filter === 'owner' || filter === 'follow') && !ownerMissing(it)) return;   // follow: 예전 저장 상태
       var need = missing(it).length > 0;
       var $a = $('<a class="card risk-card" href="#v-risk">').attr('data-index', i).toggleClass('card--need', need);
+      if (need && first === null) {
+        first = i;
+        $a.addClass('card--start').attr('aria-label', no(i) + ' ' + it.job + ' · 여기부터 입력해 주세요');
+        $('<span class="card__start">여기부터 입력 →</span>').appendTo($a);
+      }
       var $head = $('<span class="card__head">').appendTo($a);
       $('<span class="card__title">').text(no(i) + ' ' + it.job).appendTo($head);
       signalEl(it.signal).appendTo($head);
@@ -144,7 +153,7 @@
       $('<li>').append($a).appendTo($ol);
     });
     if (!$ol.children().length) {
-      $('<li class="empty">후속업무 항목이 없어요.</li>').appendTo($ol);
+      $('<li class="empty">').text(filter === 'input' ? '입력이 필요한 항목이 없어요.' : '담당자를 지정하지 않은 항목이 없어요.').appendTo($ol);
     }
     renderCounts();
   }
@@ -160,11 +169,15 @@
     $('#need-a').text(a + '건');
     $('#need-b').text(b + '건');
     $('#need-total, #count-all').text(items.length);
-    $('#count-follow').text(f);
+    var ownerDone = $.grep(items, function (it) { return isFollow(it) && !ownerMissing(it); }).length;
+    $('#count-input-done').text(items.length - a);
+    $('#v-list .draft__progress .js-total').text(items.length);
+    $('#count-owner-done').text(ownerDone);
+    $('#count-owner-total').text(f);
     $('#need-row-a').prop('hidden', !a);
     $('#btn-input').prop('hidden', !a).text(touched ? '이어서 입력' : '입력 시작');
     $('#need-row-b').prop('hidden', !b);
-    $('#btn-bulk').prop('hidden', !b);
+    // 일괄 지정 링크는 대책·조치 입력 여부와 관계없이 항상 보임
     $('#need-box').prop('hidden', !a && !b);
     $('#done-box').prop('hidden', !!(a || b));
     $('#btn-confirm').toggleClass('btn--emphasis', !a && !b);
@@ -234,9 +247,12 @@
     }
     return {
       prev: state.index > 0 ? state.index - 1 : null,
-      next: state.index < items.length - 1 ? state.index + 1 : null
+      // 전체 보기 마지막: 담당자·예정일 지정할 항목이 있으면 '다음' → 일괄 지정, 없으면 비활성
+      next: state.index < items.length - 1 ? state.index + 1 : (ownerPending() ? 'end' : null)
     };
   }
+  /** 담당자·예정일을 아직 지정하지 않은 후속업무 항목이 있는지 */
+  function ownerPending() { return items.some(function (it) { return needB(it); }); }
 
   function renderDetail() {
     var it = cur();
@@ -430,7 +446,8 @@
     SafeT.openModal('assign');
   }
 
-  function saveDraft(back, confirm) {
+  /** quiet=true: 저장 알림을 띄우지 않음 (부른 쪽이 완료 창 등 따로 안내할 때) */
+  function saveDraft(back, confirm, quiet) {
     if(busy || !evaluation) return $.Deferred().reject().promise();
     busy=true; SafeT.loading(true);
     var request=confirm ? SafeT.api.post('/evals/'+evalNo+'/confirm',payload()) : SafeT.api.put('/evals/'+evalNo,payload());
@@ -441,7 +458,7 @@
         // SH v3 25~27쪽: 확정 직후에는 이 문서의 읽기 전용 화면으로 이동.
         if(SafeT.current)SafeT.current.setEval(doc.eval_no);
         window.location.href=SafeT.current?'result.html':'result.html?eval='+doc.eval_no;
-      } else {SafeT.go(back || 'v-list');if(back==='v-risk')renderDetail();SafeT.toast('평가표를 저장했어요');}
+      } else {SafeT.go(back || 'v-list');if(back==='v-risk')renderDetail();if(!quiet)SafeT.toast('평가표를 저장했어요');}
     }).fail(apiError).always(function(){busy=false;SafeT.loading(false);$('#btn-confirm-ok').prop('disabled',false);});
     return request;
   }
@@ -524,13 +541,40 @@
       if (state.needList.length) openDetail(state.needList[0], 'need');
     });
 
-    $('#btn-bulk').on('click', function () {
+    $('#btn-bulk').on('click', function (e) {
+      e.preventDefault();
+      if ($(this).attr('aria-disabled') === 'true') return;
       SafeT.go('v-bulk', { only: null, back: 'v-list' });
     });
 
+    // 목록의 '평가표 저장': 화면이 그대로라 저장 여부를 놓치기 쉬움 → 완료 창으로 결과와 나가는 길을 함께 보여 줌
+    // (나가기 확인·추가 질문 답변 전 저장 등 다른 곳의 saveDraft 는 완료 창 없이 기존대로)
     $('#btn-save').on('click', function (e) {
       e.preventDefault();
-      saveDraft('v-list');
+      saveDraft('v-list', false, true).done(function () { SafeT.openModal('saved'); });
+    });
+
+    // 내 평가표로 나갈 때: '작성 중' 탭·사업장 -전체-·평가일이 들어간 기간으로 열어 이 평가표가 바로 보이게
+    function homeShowsThis() {
+      try {
+        var s = JSON.parse(sessionStorage.getItem('safet.home') || '{}');
+        var today = SafeT.today();
+        var d = evaluation && evaluation.eval_dt ? String(evaluation.eval_dt).slice(0, 10).replace(/-/g, '.') : '';
+        s.tab = 'W'; s.page = 1; s.scroll = 0; s.work = '';
+        if (!s.from) s.from = SafeT.formatDate(new Date(today.getFullYear(), today.getMonth(), 1));
+        if (!s.to) s.to = SafeT.formatDate(today);
+        if (d) { if (s.from > d) s.from = d; if (s.to < d) s.to = d; }
+        sessionStorage.setItem('safet.home', JSON.stringify(s));
+      } catch (err) { /* 저장 불가 환경 */ }
+    }
+    // 위쪽 '← 내 평가표'는 저장 안 한 변경이 있으면 아래 '나가기 확인'이 먼저 물어봄
+    $('.draft__back').on('click', homeShowsThis);
+    // 저장 완료 창의 '내 평가표로': 방금 저장했으니 바로 이동
+    $('#saved-home').on('click', function (e) {
+      e.preventDefault();
+      homeShowsThis();
+      SafeT.closeModal(true);
+      window.location.href = 'home.html';
     });
 
     $('#btn-confirm').on('click', function (e) {
@@ -583,7 +627,16 @@
 
     $('#d-next').on('click', function () {
       var n = navPos().next;
-      if (n === 'end') { SafeT.go('v-list'); return; }
+      if (n === 'end') {
+        // 마지막 항목 다음: 담당자·예정일 지정할 항목이 있으면 일괄 지정으로 바로, 없으면 리스트로
+        if (ownerPending()) {
+          SafeT.go('v-bulk', { only: null, back: 'v-list' });
+          SafeT.toast('마지막 항목이에요. 담당자·예정일을 지정해 주세요.');
+        } else {
+          SafeT.go('v-list');
+        }
+        return;
+      }
       if (n === null) return;
       state.index = n;
       renderDetail();

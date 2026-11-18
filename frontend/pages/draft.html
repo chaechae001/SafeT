@@ -46,35 +46,33 @@
       <section class="view draft is-active" id="v-list" aria-label="S05 초안 확인 리스트">
         <div class="page">
           <div class="stack">
-            <p class="eyebrow">11월 주방 위험성평가 · 온기치킨 성수점 · <span class="tag status" data-status="W">작성 중</span></p>
+            <!-- 윗줄: 왼쪽 '내 평가표' 링크(항상 보이는 나가는 길), 오른쪽 평가표 정보. 같은 줄이라 제목을 밀지 않음
+                 저장 안 한 변경이 있으면 draft.js 가 '저장하고 나갈까요?' 확인 -->
+            <div class="draft__top">
+              <a class="link small draft__back" href="home.html">← 내 평가표</a>
+            </div>
             <h1 class="page-title">위험과 대책을 확인해 주세요</h1>
           </div>
-
-          <!-- S05-A 상단 입력 안내: 건수는 확정 검사와 같은 함수로 계산 -->
-          <section class="notice" id="need-box" aria-label="입력 안내" aria-live="polite">
-            <div class="notice__row" id="need-row-a">
-              <span>안전조치·대책 입력 필요</span>
-              <span class="notice__count"><strong id="need-a">3건</strong> / 전체 <span id="need-total">7</span>건</span>
-            </div>
-            <div class="notice__row" id="need-row-b">
-              <span>담당자·예정일 입력 필요</span>
-              <span class="notice__count"><strong id="need-b">2건</strong></span>
-            </div>
-            <div class="btn-row">
-              <button class="btn btn--primary" id="btn-input" type="button">이어서 입력</button>
-              <button class="btn" id="btn-bulk" type="button">담당자·예정일 일괄 지정</button>
-            </div>
-          </section>
 
           <section class="notice notice--done" id="done-box" aria-label="입력 완료" hidden>
             <p>안전조치·대책과 담당자·예정일 입력을 모두 마쳤습니다.<br>이제 평가표를 확정하실 수 있습니다.</p>
           </section>
 
-          <!-- 한 줄 태그: 전체·후속업무 = 목록 거르기 버튼 / 입력 3/3 = 정보 배지(누를 수 없음) -->
+          <!-- 진행 현황: 입력 = 입력 끝난 항목/전체, 담당자 지정 = 지정 끝난 항목/지정이 필요한 항목 -->
+          <div class="draft__progress" aria-live="polite">
+            <div class="draft__stat"><span class="draft__stat-label">전체</span><span class="draft__stat-value"><strong id="count-all">7</strong>건</span></div>
+            <div class="draft__stat"><span class="draft__stat-label">입력</span><span class="draft__stat-value"><strong id="count-input-done">4</strong>/<span class="js-total">7</span></span></div>
+            <div class="draft__stat"><span class="draft__stat-label">담당자 지정</span><span class="draft__stat-value"><strong id="count-owner-done">3</strong>/<span id="count-owner-total">5</span></span></div>
+          </div>
+          <!-- 목록 거르기: 전체 / 입력필요(안전조치·대책 입력 필요) / 담당자미지정(담당자·예정일이 필요한데 비어 있음) -->
           <div class="tabs" role="group" aria-label="목록 보기">
-            <a href="#v-list" data-filter="all" aria-current="page">전체&nbsp;<span id="count-all">7</span>건</a>
-            <a href="#v-list" data-filter="follow">후속업무&nbsp;<span id="count-follow">5</span>건</a>
-            <span title="기본정보·현장·기기 단계 진행 정보">입력 3/3</span>
+            <a href="#v-list" data-filter="all" aria-current="page">전체</a>
+            <a href="#v-list" data-filter="input">입력필요</a>
+            <a href="#v-list" data-filter="owner">담당자미지정</a>
+          </div>
+          <!-- 담당자·예정일 일괄 지정: 항상 보임 -->
+          <div class="draft__bulk-row">
+            <a class="link small" id="btn-bulk" href="#v-bulk">담당자·예정일 일괄 지정</a>
           </div>
 
           <ol class="card-list" id="risk-list">
@@ -111,6 +109,23 @@
             <div class="modal__foot">
               <a class="btn" href="#v-list" data-close>취소</a>
               <button class="btn btn--primary" id="btn-confirm-ok" type="button">확정</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 평가표 저장 완료 창: 저장 결과와 나가는 길을 함께 보여 줌 (목록에서 저장했을 때 · draft.js) -->
+        <div class="modal" id="saved" role="dialog" aria-modal="true" aria-labelledby="saved-title" aria-describedby="saved-desc">
+          <div class="modal__box">
+            <div class="modal__head">
+              <h2 class="modal__title" id="saved-title">평가표를 저장했어요</h2>
+            </div>
+            <div class="modal__body">
+              <p id="saved-desc">작성 중 상태로 저장했어요. 내 평가표의 '작성 중' 탭에서 언제든 이어서 쓸 수 있어요.</p>
+              <p class="small muted">확정은 모든 항목을 마친 뒤에 해 주세요. 확정하면 수정할 수 없어요.</p>
+            </div>
+            <div class="modal__foot">
+              <button class="btn" type="button" data-close>계속 작성</button>
+              <a class="btn btn--primary" id="saved-home" href="home.html">내 평가표로</a>
             </div>
           </div>
         </div>
