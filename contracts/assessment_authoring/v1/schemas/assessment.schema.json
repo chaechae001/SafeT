@@ -8,6 +8,7 @@
     "decision_policy_version",
     "result_status",
     "items",
+    "review_candidates",
     "unmatched_risks"
   ],
   "properties": {
@@ -75,6 +76,18 @@
           "status": {
             "const": "estimated_from_input"
           }
+        }
+      }
+    },
+    "review_candidates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["scenario_id", "reason"],
+        "properties": {
+          "scenario_id": {"type": "string", "minLength": 1},
+          "reason": {"enum": ["work_unconfirmed", "input_denies_work"]}
         }
       }
     },

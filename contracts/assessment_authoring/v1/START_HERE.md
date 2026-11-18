@@ -29,7 +29,7 @@ README.md → INTERFACES.md → 담당 tasks 문서 → schemas → examples 순
 python contracts/assessment_authoring/v1/validate.py
 ```
 
-기대 결과는 PASS: 33 checks다. Python 3.11 이상, 추가 패키지·GPU·API 키가 필요 없다.
+기대 결과는 PASS: 43 checks다. Python 3.11 이상, 추가 패키지·GPU·API 키가 필요 없다.
 
 ## 3. 동시에 구현하기
 
