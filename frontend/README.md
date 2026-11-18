@@ -64,3 +64,14 @@ python -m http.server 8000 --directory frontend
 새 평가표 작성 → 초안 상세 → 일괄 지정 → 저장/확정 → 읽기 전용 조회를 연결했습니다.
 기존 데모 설명보다 [작성 흐름 구현·실행 안내](../docs/implementation/assessment-authoring.md)를 우선합니다.
 실제 모델은 미연결이며 기본 N, 명시적 개발 demo 모드만 합성 신호로 흐름을 시험합니다.
+
+## 사업장 수정 입력 보존 검사 (2026-11-18)
+
+사업장 수정 정보를 불러오는 동안에는 이름·기기 추가 입력을 잠시 막습니다. 저장 오류 후에는 입력을 유지하고 재시도할 수 있습니다.
+Python·Playwright·Edge가 준비된 환경에서 저장소 루트를 기준으로 실행합니다. 실제 DB·AI 호출 없이 화면 동작을 검사합니다.
+
+```powershell
+python backend/unit_tests/browser_workplace_edit_smoke.py
+```
+
+로컬 API·DB를 사용한 전체 흐름 검수 결과는 [사업장·평가표 검수 기록](../docs/implementation/local-flow-review-results.md)에 있습니다.
