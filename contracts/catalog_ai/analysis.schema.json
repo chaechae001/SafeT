@@ -29,7 +29,7 @@
           "items": {
             "$ref": "#/$defs/Question"
           },
-          "maxItems": 10,
+          "maxItems": 11,
           "title": "Questions",
           "type": "array"
         }

@@ -191,7 +191,7 @@ def test_만료_경계_자동삭제가_먼저면_복원은_404(client, setup, mo
     email, no, base = _race_setup(client, setup)
     clock = {"t": base + timedelta(minutes=2)}           # 목록: 만료 시각 지남
     monkeypatch.setattr(service, "now", lambda: clock["t"])
-    real_rows, result = service.rows, {}
+    real_rows, result = service.locked_rows, {}
 
     def run_restore():
         try:
@@ -209,7 +209,7 @@ def test_만료_경계_자동삭제가_먼저면_복원은_404(client, setup, mo
             assert result["thread"].is_alive(), f"복원 요청이 잠금을 기다리지 않음: {result}"
         return out
 
-    monkeypatch.setattr(service, "rows", rows_then_restore)
+    monkeypatch.setattr(service, "locked_rows", rows_then_restore)
     assert _list_trash(email, snapshot)["items"] == []
     result["thread"].join(timeout=30)
     assert "ok" not in result                                       # 복원 성공 응답이 나가지 않음

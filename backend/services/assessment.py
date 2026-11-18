@@ -1,7 +1,7 @@
 """ERD V1.1 평가표 작성/저장/확정. 트랜잭션·소유권·revision·상태 잠금."""
 import json
 from sqlalchemy import text
-from sqlalchemy.exc import IntegrityError
+from sqlalchemy.exc import IntegrityError, OperationalError
 from services.auth import AuthError, now
 from services import workplaces, assessment_provider as provider
 from services import catalog_risk as catalog
@@ -9,10 +9,26 @@ from services import catalog_risk as catalog
 
 def rows(db, sql, **p): return [dict(r) for r in db.execute(text(sql),p).mappings()]
 def execute(db, sql, **p): return db.execute(text(sql),p)
+def locked_rows(db, sql, **params):
+    """쓰기 전 최초 잠금만 재시도한다. 이미 수행한 쓰기나 AI 호출은 반복하지 않는다."""
+    for attempt in range(2):
+        try:
+            return rows(db, sql, **params)
+        except OperationalError as exc:
+            code = exc.orig.args[0] if exc.orig.args else None
+            if code not in (1020, 1205, 1213):
+                raise
+            db.rollback()
+            if code != 1020 or attempt:
+                raise AuthError(409, 'CONCURRENT_CHANGE', '다른 요청이 자료를 변경했어요. 새로 불러와 주세요.') from None
+
+
 def owned(db, email, no, lock=False):
-    r=rows(db,"SELECT * FROM eval_mst WHERE eval_no=:n AND email=:e AND COALESCE(del_yn,'N')='N'" + (' FOR UPDATE' if lock else ''),n=no,e=email)
+    sql="SELECT * FROM eval_mst WHERE eval_no=:n AND email=:e AND COALESCE(del_yn,'N')='N'" + (' FOR UPDATE' if lock else '')
+    r=(locked_rows if lock else rows)(db,sql,n=no,e=email)
     if not r: raise AuthError(404,'EVAL_NOT_FOUND','평가표를 찾을 수 없어요.')
     return r[0]
+
 def writable(m,revision):
     if m['eval_status']!='W': raise AuthError(409,'EVAL_LOCKED','확정된 평가표는 수정할 수 없어요.')
     if m['revision']!=revision: raise AuthError(409,'STALE_REVISION','다른 화면에서 저장했어요. 내용을 복사한 뒤 새로 불러와 주세요.')
@@ -52,12 +68,20 @@ def create(db,email,body):
     key=str(body.request_key)
     old=rows(db,'SELECT eval_no FROM eval_mst WHERE email=:e AND request_key=:k',e=email,k=key)
     if old: return detail(db,email,old[0]['eval_no'])
-    # 같은 사업장 생성·삭제·수정을 직렬화하고 잠금 후 상태 확인.
-    execute(db,'SELECT work_no FROM workplaces WHERE work_no=:n FOR UPDATE',n=body.work_no)
     w=workplaces.get_workplace(db,email,body.work_no)
     context=body.model_dump(); context['machines']=w['machines']
-    source,items=catalog.generate(db,context) if catalog.enabled() else provider.generate(context)
+    use_catalog=catalog.enabled()
+    snapshot=catalog.list_catalog(db) if use_catalog else []
+    # 외부 호출 전에 읽기 트랜잭션도 종료한다.
+    db.rollback()
+    source,items=catalog.generate_snapshot(snapshot,context) if use_catalog else provider.generate(context)
     try:
+        locked_rows(db,'SELECT work_no FROM workplaces WHERE work_no=:n FOR UPDATE',n=body.work_no)
+        old=rows(db,'SELECT eval_no FROM eval_mst WHERE email=:e AND request_key=:k',e=email,k=key)
+        if old: return detail(db,email,old[0]['eval_no'])
+        fresh=workplaces.get_workplace(db,email,body.work_no)
+        if any(fresh[k]!=w[k] for k in ('workplace','biz_code','machines')):
+            raise AuthError(409,'WORKPLACE_CHANGED','분석 중 사업장 정보가 변경됐어요. 다시 확인해 주세요.')
         r=execute(db,"INSERT INTO eval_mst (work_no,email,eval_nm,eval_writer,eval_dt,eval_status,del_yn,request_key,revision,generation_source,ins_dt,ins_nm,upt_dt,upt_nm) VALUES (:w,:e,:nm,:writer,:dt,'W','N',:key,1,:src,:t,:e,:t,:e)",w=body.work_no,e=email,nm=f"{body.eval_dt} {w['workplace']} 위험성평가",writer=body.eval_writer,dt=body.eval_dt,key=key,src=source,t=now())
         no=r.lastrowid
         for i,name in enumerate(body.members): execute(db,'INSERT INTO eval_member (eval_no,member_nm,sort) VALUES (:n,:name,:i)',n=no,name=name,i=i)
@@ -72,6 +96,8 @@ def create(db,email,body):
         old=rows(db,'SELECT eval_no FROM eval_mst WHERE email=:e AND request_key=:k',e=email,k=key)
         if old: return detail(db,email,old[0]['eval_no'])
         raise
+    except Exception:
+        db.rollback();raise
     return detail(db,email,no)
 
 def validation(items):
@@ -132,20 +158,26 @@ def save(db,email,no,body,confirm=False):
 
 def add_risk(db,email,no,body):
     try:
-        m=owned(db,email,no,True); writable(m,body.revision)
+        m=owned(db,email,no); writable(m,body.revision)
         data=detail(db,email,no)
         if len(data['items'])>=100: raise AuthError(400,'ITEM_LIMIT','최대 100개 항목까지 추가할 수 있어요.')
         # 서버 모드가 바뀌어도 기존 평가표의 생성 출처를 변경하지 않는다.
         if m['generation_source'] in catalog.SOURCES:
             from services.catalog_ai import restore_input
-            source,items=catalog.generate(db,restore_input(data),body.keyword,source=m['generation_source'])
+            snapshot=catalog.list_catalog(db)
+            db.rollback()
+            source,items=catalog.generate_snapshot(snapshot,restore_input(data),body.keyword,source=m['generation_source'])
             existing={it['catalog']['scenario']['id'] for it in data['items'] if it.get('catalog')}
             items=[it for it in items if it['catalog']['id'] not in existing]
             if not items: raise AuthError(409,'DUPLICATE_RISK','이미 추가된 DB 위험요인입니다.')
             if len(data['items'])+len(items)>100: raise AuthError(400,'ITEM_LIMIT','최대 100개 항목까지 추가할 수 있어요.')
         else:
+            db.rollback()
             source,items=provider.generate(data,body.keyword)
         if source!=m['generation_source']: raise AuthError(409,'PROVIDER_CHANGED','생성 모드가 바뀌었어요. 기존 평가표의 출처를 유지해야 합니다.')
+        current=owned(db,email,no,True);writable(current,body.revision)
+        if current['generation_source']!=m['generation_source']:
+            raise AuthError(409,'PROVIDER_CHANGED','평가표 생성 기준이 변경됐어요.')
         insert_items(db,no,items,email,len(data['items']))
         execute(db,'UPDATE eval_mst SET revision=revision+1,upt_dt=:t WHERE eval_no=:n',n=no,t=now())
         db.commit(); return detail(db,email,no)
@@ -158,7 +190,7 @@ def answer_risks(db,email,no,body):
     from services import catalog_ai
     from schemas.assessment import ItemEdit
     try:
-        m=owned(db,email,no,True);writable(m,body.revision)
+        m=owned(db,email,no);writable(m,body.revision)
         if m['generation_source']!=catalog.AI_SOURCE:
             raise AuthError(409,'AI_MODE_REQUIRED','AI로 생성한 초안에서만 답변을 반영할 수 있어요.')
         doc=detail(db,email,no)
@@ -176,7 +208,11 @@ def answer_risks(db,email,no,body):
         if len(combined)>100:raise AuthError(422,'ANSWER_LIMIT','답변 누적 한도를 넘었습니다. 새 평가표로 검토해 주세요.')
         # 해당 평가표 생성 당시의 기준 스냅샷만 사용한다.
         scenarios=[it['catalog']['scenario'] for it in doc['items']]
+        db.rollback()
         reports=catalog_ai.analyze(catalog_ai.restore_input(doc),scenarios,combined,prior)
+        current=owned(db,email,no,True);writable(current,body.revision)
+        if current['generation_source']!=m['generation_source']:
+            raise AuthError(409,'PROVIDER_CHANGED','평가표 생성 기준이 변경됐어요.')
         byid={r['scenario_id']:r for r in reports}
         for it in doc['items']:
             state=it['catalog'];report=byid[state['scenario']['id']]

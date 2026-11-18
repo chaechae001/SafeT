@@ -20,7 +20,7 @@ class Candidate(Strict):
     scenario_id: Identifier
     rationale: Text
     evidence: list[Evidence] = Field(min_length=1, max_length=20)
-    questions: list[Question] = Field(max_length=10)
+    questions: list[Question] = Field(max_length=11)
 
 class Analysis(Strict):
     candidates: list[Candidate] = Field(min_length=1, max_length=26)

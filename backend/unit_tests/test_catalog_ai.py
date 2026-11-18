@@ -216,3 +216,37 @@ def test_gateway_invalid_token_count_cannot_start_generation(configured, monkeyp
         ai.analyze({'text': '합성 튀김 작업'}, CAT)
     assert err.value.code == 'AI_TOKENIZE_FAILED'
     assert calls == ['/proxy/8010/tokenize']
+
+
+def test_photo_keeps_tenth_question_and_reuses_detection(configured, monkeypatch):
+    report=copy.deepcopy(RESPONSE)
+    report['candidates'][0]['questions']=[{'id':f'Q{i}','text':f'확인 {i}'} for i in range(1,11)]
+    calls=[]
+    monkeypatch.setattr(ai,'request_analysis',lambda *a:copy.deepcopy(report))
+    def detect(photos):
+        calls.append(photos)
+        return {'model':'sam-test','detections':[]}
+    monkeypatch.setattr(ai,'detect_equipment',detect)
+    ctx={'text':'튀김','photos':[{'data':'data:image/jpeg;base64,YQ==','place':'합성'}]}
+    result=ai.analyze(ctx,CAT)
+    assert [q['id'] for q in result[0]['questions']]==[f'Q{i}' for i in range(1,11)]+['EQUIPMENT_CONFIRM_FRY']
+    # DB에 보관되는 JSON을 거쳐 복원된 캐시를 재사용한다.
+    doc={'machines':[], 'inputs':[{'file_type':'P','ori_file_nm':'fixture.jpg','place_nm':'합성','file_text':ctx['photos'][0]['data']}],
+         'items':[{'catalog':{'ai_analysis':json.loads(json.dumps(result[0]))}}]}
+    restored=ai.restore_input(doc)
+    restored['text']='튀김'
+    ai.analyze(restored,CAT,answers=[{'question_id':'Q1','answer':'확인'}],previous=result)
+    assert len(calls)==1
+    restored['photos'][0]['data']='data:image/jpeg;base64,Yg=='
+    ai.analyze(restored,CAT)
+    assert len(calls)==2
+
+
+def test_photo_question_overflow_rejects_instead_of_truncating(configured, monkeypatch):
+    report=copy.deepcopy(RESPONSE)
+    report['candidates'][0]['questions']=[{'id':f'Q{i}','text':f'확인 {i}'} for i in range(11)]
+    monkeypatch.setattr(ai,'request_analysis',lambda *a:report)
+    monkeypatch.setattr(ai,'detect_equipment',lambda *a:{'model':'sam','detections':[]})
+    with pytest.raises(AuthError) as err:
+        ai.analyze({'text':'튀김','photos':[{'data':'data:image/jpeg;base64,YQ=='}]},CAT)
+    assert err.value.code=='AI_QUESTION_LIMIT'

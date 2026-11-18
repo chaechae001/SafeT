@@ -4,6 +4,7 @@ SAM 사진 탐지 결과·전사문 전달, 제한된 응답 크기, 오류 시 
 판정 엔진은 가져오지 않는다. 모든 등급 계산은 domain.risk_policy가 담당한다.
 """
 import base64
+import hashlib
 import uuid
 import json
 import os
@@ -107,7 +108,16 @@ def make_input(context, answers=None):
         media.append({'id':'MACHINES','text':'보유기기이며 실제 가동·노출 확정 아님: '+json.dumps(context['machines'],ensure_ascii=False)})
     images = []
     if context.get('photos'):
-        detected=detect_equipment(context['photos'])
+        # 서버가 보관한 동일 사진·임계값의 탐지만 재사용한다. 클라이언트 입력 계약에는 캐시 필드가 없다.
+        signature=json.dumps({'photos':[{'data':p['data'],'place':p.get('place','')} for p in context['photos']],
+                              'threshold':os.getenv('SAFET_DETECTOR_THRESHOLD','0.05')},sort_keys=True)
+        fingerprint=hashlib.sha256(signature.encode()).hexdigest()
+        cache=context.get('_photo_cache')
+        if not context.get('_refresh_photos') and cache and cache.get('version')==1 and cache.get('fingerprint')==fingerprint:
+            detected=cache['detection']
+        else:
+            detected=detect_equipment(context['photos'])
+        context['_photo_cache']={'version':1,'fingerprint':fingerprint,'detection':detected}
         for i,p in enumerate(context['photos']):
             mid=f'PHOTO{i+1}'
             hits=[d for d in detected['detections'] if d['photo_id']==mid]
@@ -199,10 +209,13 @@ def analyze(context, scenarios, answers=None, previous=None):
         for candidate in parsed.candidates:
             qid='EQUIPMENT_CONFIRM_'+candidate.scenario_id
             if any(a.get('question_id')==qid for a in (answers or [])): continue
-            candidate.questions=[q for q in candidate.questions if q.id!=qid][:9]
+            if any(q.id==qid for q in candidate.questions): continue
             from schemas.catalog_ai import Question
             candidate.questions.append(Question(id=qid,text='사진 탐지는 틀릴 수 있어요. 이 위험 후보와 관련된 기기가 실제로 있고 해당 작업을 하나요? 잘못 인식한 기기는 답변에 알려 주세요.'))
+    if any(len(c.questions)>11 for c in parsed.candidates) or sum(len(c.questions) for c in parsed.candidates)>100:
+        raise AuthError(422,'AI_QUESTION_LIMIT','확인 질문이 너무 많아요. 입력 범위를 나누어 주세요. 질문을 삭제하지 않았습니다.')
     stamp={'model':model,'analyzed_at':datetime.now(timezone.utc).isoformat(),'policy_version':POLICY,'prompt_version':'catalog-ai-2'}
+    if context.get('_photo_cache'):stamp['photo_cache']=context['_photo_cache']
     return [dict(c.model_dump(),input_evidence=[m for m in media if m['id'] in {e.media_id for e in c.evidence}],**stamp) for c in parsed.candidates]
 
 
@@ -212,4 +225,9 @@ def restore_input(doc):
         if f['file_type']=='P':context['photos'].append({'name':f['ori_file_nm'],'place':f['place_nm'],'data':f['file_text']})
         elif f['file_type']=='T':context['text']+='\n'+f['file_text']
         elif f['file_type']=='V':context['voice_text']+='\n'+f['file_text']
+    for item in doc['items']:
+        cache=(item.get('catalog') or {}).get('ai_analysis',{}).get('photo_cache')
+        if cache:
+            context['_photo_cache']=cache
+            break
     return context

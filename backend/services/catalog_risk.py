@@ -35,7 +35,11 @@ def list_catalog(db):
 
 
 def generate(db, context, keyword=None, source=None):
-    catalog = list_catalog(db)
+    return generate_snapshot(list_catalog(db), context, keyword, source)
+
+
+def generate_snapshot(catalog, context, keyword=None, source=None):
+    """DB 세션 없이 미리 읽은 기준으로 분석한다."""
     source = source or os.getenv('SAFET_ASSESSMENT_MODE', SOURCE)
     if source == AI_SOURCE:
         from services import catalog_ai
