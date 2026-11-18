@@ -18,10 +18,15 @@ def run_pipeline(raw_request, *, build_context, extract_analysis, catalog_snapsh
         part = validate_analysis(context, batch, part, catalog_snapshot, legal_registry)
         analysis["candidates"].extend(part["candidates"])
         analysis["unmatched_risks"].extend(part["unmatched_risks"])
-    rendered = render_assessment(context, retrieval, analysis, catalog_snapshot, legal_registry=legal_registry)
-    assessed = {row["scenario_id"] for row in rendered["rows"]}
-    trace["work_review_candidates"] = sorted(
-        set(trace["equipment_candidates"]) - assessed - set(trace["not_applicable_candidates"])
-    )
+    denied = set(trace["not_applicable_candidates"])
+    assessed = {candidate["scenario_id"] for candidate in analysis["candidates"]}
+    pending = set(trace["equipment_candidates"]) - assessed - denied
+    review_candidates = [
+        {"scenario_id": sid, "reason": "input_denies_work" if sid in denied else "work_unconfirmed"}
+        for sid in sorted(pending | denied)
+    ]
+    trace["work_review_candidates"] = sorted(pending)
+    rendered = render_assessment(context, retrieval, analysis, catalog_snapshot,
+                                 legal_registry=legal_registry, review_candidates=review_candidates)
     return dict(input=context, retrieval=retrieval, analysis=analysis, assessment=rendered, retrieval_trace=trace)
 

@@ -120,6 +120,8 @@ class AuthoringTests(unittest.TestCase):
                               catalog_snapshot=self.catalog)
         self.assertEqual(result["retrieval_trace"]["work_review_candidates"], ["FRY"])
         self.assertEqual(result["assessment"]["rows"], [])
+        self.assertEqual(result["assessment"]["core"]["review_candidates"],
+                         [{"scenario_id": "FRY", "reason": "work_unconfirmed"}])
 
     def test_photo_with_text_preserves_work_status(self):
         for observation, rows, pending, excluded in [
@@ -147,6 +149,9 @@ class AuthoringTests(unittest.TestCase):
                 self.assertEqual([row["scenario_id"] for row in result["assessment"]["rows"]], rows)
                 self.assertEqual(result["retrieval_trace"]["work_review_candidates"], pending)
                 self.assertEqual(result["retrieval_trace"]["not_applicable_candidates"], excluded)
+                self.assertEqual(result["assessment"]["core"]["review_candidates"],
+                                 [{"scenario_id": sid, "reason": "work_unconfirmed"} for sid in pending]
+                                 + [{"scenario_id": sid, "reason": "input_denies_work"} for sid in excluded])
 
     def test_irrelevant_note_does_not_make_draft_partial(self):
         self.i["media"].append(dict(id="NOTE", kind="text", text="주방 정리"))
