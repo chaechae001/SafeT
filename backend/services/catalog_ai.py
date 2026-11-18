@@ -18,6 +18,7 @@ from services.auth import AuthError
 from domain.risk_policy import POLICY
 
 SOURCE = 'catalog_ai_v1'
+MIN_OUTPUT_TOKENS = 256
 ROOT = Path(__file__).resolve().parents[2]
 # SAM 3 평가셋 34장(AI 보조 라벨) 임계값 비교에서 재현율 우선 F2가 가장 높은 값.
 # 근거: ai/README.md '기기 탐지 임계값'. 환경변수로 바꿀 수 있다.
@@ -70,7 +71,7 @@ def configuration():
     uri = urlparse(base)
     try:
         tokens = int(os.getenv('SAFET_AI_MAX_TOKENS', '1024'))
-        valid = 256 <= tokens <= 2048
+        valid = MIN_OUTPUT_TOKENS <= tokens <= 2048
         uri.port
     except ValueError:
         valid = False
@@ -171,10 +172,10 @@ def output_budget(base, model, messages, headers, requested):
     except (httpx.HTTPError,ValueError,KeyError,TypeError):
         raise AuthError(503,'AI_TOKENIZE_FAILED','모델 서버의 토큰 계수 연결을 확인해 주세요. 입력은 유지됩니다.') from None
     # 배포 안내를 보수적으로 해석하여 입력+출력 전체를 4096 이내로 제한한다.
-    available=4096-count-64
-    if available<requested:
-        raise AuthError(422,'AI_INPUT_TOO_LONG','AI 입력과 답변 공간이 4,096토큰을 넘어요. 현장 설명·사진 수를 줄여 주세요. 입력은 유지됩니다.')
-    return requested
+    available = 4096 - count - 64
+    if available < MIN_OUTPUT_TOKENS:
+        raise AuthError(422, 'AI_INPUT_TOO_LONG', 'AI 답변을 생성할 공간이 부족해요. 작업을 나누거나 설명·사진 수를 줄여 다시 시도해 주세요.')
+    return min(requested, available)
 
 
 def request_analysis(media, images, scenarios, previous=None):
@@ -200,6 +201,8 @@ def request_analysis(media, images, scenarios, previous=None):
                     raw.extend(chunk)
                     if len(raw)>2_000_000:raise ValueError('응답 크기 초과')
         choice=json.loads(raw)['choices'][0]
+        if choice.get('finish_reason') == 'length':
+            raise AuthError(422, 'AI_OUTPUT_TRUNCATED', 'AI 답변이 길이 한도에서 중단됐어요. 한 번에 한 작업만 요청하거나 설명·사진 수를 줄여 다시 시도해 주세요.')
         if choice.get('finish_reason') not in ('stop',None):raise ValueError('미완료 응답')
         return json.loads(choice['message']['content'])
     except (httpx.HTTPError,ValueError,KeyError,IndexError,TypeError):
