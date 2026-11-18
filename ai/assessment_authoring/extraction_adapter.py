@@ -12,9 +12,11 @@
 """
 import hashlib
 import json
-import runpy
 from dataclasses import dataclass, field
 from pathlib import Path
+
+# 공통 계약 검사기의 함수를 재사용한다(별도 구현으로 갈라지지 않게). 저장소 루트를 기준으로 import한다.
+from contracts.assessment_authoring.v1 import validate as _contract
 
 REPO = Path(__file__).resolve().parents[2]
 CONTRACT = REPO / "contracts/assessment_authoring/v1"
@@ -24,19 +26,20 @@ CATALOG_VERSION = "CATALOG-MVP-1.1"
 PROMPT_VERSION = "assessment-extraction-2"  # 2: 문장 전체 인용·탐지만 있는 후보 제외 (계약 5a882f6)
 DEFAULT_BATCH_SIZE = 3
 QUOTE_KINDS = ("text", "voice_transcript")
+# backend AuthError 코드 → ExtractionError 코드 (나머지 설정 오류는 MODEL_UNCONFIGURED)
+_SETUP_ERRORS = {"AI_TOKENIZE_FAILED": "MODEL_TOKENIZE_FAILED", "AI_INPUT_TOO_LONG": "INPUT_TOO_LONG"}
 MAX_RESPONSE_BYTES = 2_000_000
 
-# 공통 계약 검사기의 스키마 검사 함수를 재사용한다(별도 구현으로 갈라지지 않게).
-_CONTRACT = runpy.run_path(str(CONTRACT / "validate.py"))
-_check = _CONTRACT["check"]
-_whole_sentence = _CONTRACT["whole_sentence"]  # 문장 일부 인용(부정·조건 누락) 차단
-_SCHEMAS = {name: _CONTRACT["read"]("schemas/" + name + ".schema.json") for name in ("input", "retrieval", "analysis")}
+_check = _contract.check
+_whole_sentence = _contract.whole_sentence  # 문장 일부 인용(부정·조건 누락) 차단
+_SCHEMAS = {name: _contract.read("schemas/" + name + ".schema.json") for name in ("input", "retrieval", "analysis")}
 
 
 class ExtractionError(Exception):
     """성공 Bundle 대신 기존 오류 경로로 반환할 추출 실패.
 
-    code: INPUT_INVALID | MODEL_REQUEST_FAILED | MODEL_OUTPUT_TRUNCATED |
+    code: INPUT_INVALID | INPUT_TOO_LONG | MODEL_UNCONFIGURED | MODEL_TOKENIZE_FAILED |
+          MODEL_REQUEST_FAILED | MODEL_OUTPUT_TRUNCATED |
           MODEL_OUTPUT_INCOMPLETE | MODEL_OUTPUT_INVALID_JSON | MODEL_OUTPUT_SCHEMA |
           MODEL_OUTPUT_REFERENCE
     detail에는 모델 원문을 넣지 않는다.
@@ -213,7 +216,9 @@ def run_extraction(context, retrieval_bundle, catalog_snapshot, call_model=None,
     system_prompt, prompt_sha = load_system_prompt()
     candidates_in = retrieval_bundle["candidates"]
     merged, unmatched, runs = [], list(retrieval_bundle["unmatched"]), []
-    for start in range(0, len(candidates_in), batch_size):
+    # 사진·기기 목록만 있으면 작업 근거가 될 문장이 없다. 모델을 부르지 않고 후보는 작업 확인 대상으로 남긴다.
+    has_work_text = any(m["kind"] in QUOTE_KINDS for m in context["media"])
+    for start in range(0, len(candidates_in) if has_work_text else 0, batch_size):
         batch = candidates_in[start:start + batch_size]
         batch_ids = [c["scenario_id"] for c in batch]
         messages = build_messages(context, batch, catalog, system_prompt)
@@ -257,12 +262,20 @@ def exaone_chat(messages):
     SAFET_AI_BASE_URL(또는 SAFET_AI_GATEWAY_URL)·SAFET_AI_MODEL·SAFET_AI_MAX_TOKENS를 따른다.
     실제 모델 검사 전에는 이 함수를 호출하지 않는다(mock 검사만 수행).
     """
-    import httpx
-    from services import catalog_ai as svc
+    try:
+        import httpx
+        from services import catalog_ai as svc
+        from services.auth import AuthError
+    except ImportError:
+        raise ExtractionError("MODEL_UNCONFIGURED", "backend model client is not importable") from None
 
-    base, model, tokens = svc.configuration()
-    headers = svc.model_headers()
-    tokens = svc.output_budget(base, model, messages, headers, tokens)  # 입력+출력 4096 이내
+    try:
+        base, model, tokens = svc.configuration()
+        headers = svc.model_headers()
+        tokens = svc.output_budget(base, model, messages, headers, tokens)  # 입력+출력 4096 이내
+    except AuthError as e:
+        # 설정·계수 오류도 문서의 ExtractionError로 전달한다. 원래 코드만 남기고 안내 문구·설정값은 넣지 않는다.
+        raise ExtractionError(_SETUP_ERRORS.get(e.code, "MODEL_UNCONFIGURED"), "backend " + e.code) from None
     payload = {"model": model, "messages": messages, "temperature": 0, "max_tokens": tokens,
                "response_format": {"type": "json_object"}}
     try:
