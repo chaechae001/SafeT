@@ -124,10 +124,12 @@
             </div>
             <div class="modal__body">
               <p>휴지통으로 옮겨요. 30일 동안 복원할 수 있고, 그 뒤에는 자동으로 영구 삭제돼요.</p>
+              <p class="small muted">저장하지 않은 변경은 휴지통에 남지 않아요. 필요하면 먼저 평가표를 저장해 주세요.</p>
             </div>
             <div class="modal__foot">
               <a class="btn" href="#v-list" data-close>취소</a>
-              <a class="btn btn--danger" href="trash.html">삭제</a>
+              <!-- draft.js 가 DELETE /evals/{번호} 후 내 평가표로 이동 (알림: 휴지통으로 옮김) -->
+              <a class="btn btn--danger" href="home.html">삭제</a>
             </div>
           </div>
         </div>

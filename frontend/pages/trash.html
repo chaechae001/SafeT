@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>휴지통 · Safe-T</title>
-  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/common.css?v=20261117">
 </head>
 <body data-auth-required>
   <!-- trash.html · 화면설계서 v3.19 통합본
@@ -30,58 +30,44 @@
         <!-- H02 휴지통 · 화면설계서 31쪽
              테이블: eval_mst(del_yn='Y', del_dt) · 작성 중 평가표만 대상, 30일 뒤 자동 영구 삭제
              - 확정·서명된 평가표는 삭제 불가(법정 기록 보존 3년)
-             - 복원하면 작성 중 탭으로 돌아감 -->
+             - 복원하면 작성 중 탭으로 돌아감
+             - API: GET /trash · POST /trash/{번호}/restore · DELETE /trash/{번호} (trash.js) -->
         <div class="page">
           <div class="stack">
             <h1 class="page-title">휴지통</h1>
             <p class="page-desc">삭제한 작성 중 평가표는 30일 동안 여기에 남아요.</p>
           </div>
 
-          <ul class="card-list">
-            <li class="card">
-              <p class="card__title">9월 홀 위험성평가</p>
-              <p class="card__meta">작성 중 · 삭제 2026.11.02 · <strong>18일 후 영구 삭제</strong></p>
-              <div class="btn-row">
-                <a class="btn" href="home.html">복원</a>
-                <a class="btn btn--danger" href="#purge-1">영구 삭제</a>
-              </div>
-            </li>
-            <li class="card">
-              <p class="card__title">8월 주방 위험성평가</p>
-              <p class="card__meta">작성 중 · 삭제 2026.10.20 · <strong>6일 후 영구 삭제</strong></p>
-              <div class="btn-row">
-                <a class="btn" href="home.html">복원</a>
-                <a class="btn btn--danger" href="#purge-1">영구 삭제</a>
-              </div>
-            </li>
-          </ul>
+          <!-- 휴지통 목록은 trash.js 가 서버 값으로 채움 -->
+          <ul class="card-list" id="trash-list" aria-busy="true" aria-live="polite"></ul>
+          <p class="empty" id="trash-empty" hidden>휴지통이 비어 있어요.</p>
 
           <p class="notice notice--muted small">영구 삭제하면 복원할 수 없어요. 확정·서명된 평가표는 삭제할 수 없어요.</p>
         </div>
-        <div class="modal" id="purge-1" role="dialog" aria-modal="true" aria-labelledby="purge-1-title">
+        <div class="modal" id="purge-1" role="alertdialog" aria-modal="true" aria-labelledby="purge-1-title">
           <div class="modal__box">
             <div class="modal__head">
               <h2 class="modal__title" id="purge-1-title">영구 삭제할까요?</h2>
-              <a class="modal__close" href="#v-trash" aria-label="닫기">X</a>
+              <a class="modal__close" href="#v-trash" data-close aria-label="닫기">X</a>
             </div>
             <div class="modal__body">
               <p>영구 삭제하면 복원할 수 없어요.</p>
             </div>
             <div class="modal__foot">
-              <a class="btn" href="#v-trash">취소</a>
-              <a class="btn btn--danger" href="#v-trash">영구 삭제</a>
+              <a class="btn" href="#v-trash" data-close>취소</a>
+              <button class="btn btn--danger" id="purge-ok" type="button">영구 삭제</button>
             </div>
           </div>
         </div>
       </section>
     </main>
 
-    <p class="disclaimer">화면·입력 예시이며 실제 현장 판정이 아닙니다.</p>
+    <p class="disclaimer">보관 기간 30일이 지난 평가표는 자동으로 영구 삭제돼요.</p>
   </div>
 
-  <script src="../js/vendor/jquery-3.7.1.min.js"></script>
-  <script src="../js/common.js"></script>
-  <script src="../js/api.js"></script>
-  <script src="../js/trash.js"></script>
+  <script src="../js/vendor/jquery-3.7.1.min.js?v=20261117"></script>
+  <script src="../js/common.js?v=20261117"></script>
+  <script src="../js/api.js?v=20261117"></script>
+  <script src="../js/trash.js?v=20261117"></script>
 </body>
 </html>
