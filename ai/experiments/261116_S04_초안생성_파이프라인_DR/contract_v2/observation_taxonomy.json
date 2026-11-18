@@ -1,0 +1,21 @@
+{
+  "_about": "관찰 위험 상태 분류(초안). 코드와 이름은 기기마스터 v1 hazard_codes(출처: 261113_분야별_위험요인_설정_v1_DR.json model_risk_types 10개 + additional_topics 4개)를 그대로 쓴다. table_terms는 RAG 구조화 표(261115_RAG_구조화표_v1_DR.jsonl)의 accident_type_terms_in_text·hazard_terms_in_text에 실제로 나오는 낱말 중 해당 코드에 대응하는 것만 골랐다(작성자 대응, 검수 전). 안전 기준이 아니다.",
+  "version": "obs-taxonomy-0.1-draft",
+  "codes": {
+    "slip": {"name": "미끄러짐·넘어짐", "table_terms": ["넘어짐·미끄러짐", "넘어짐", "미끄러짐", "물기", "기름기"]},
+    "cut": {"name": "베임·절단·끼임", "table_terms": ["베임", "찔림", "끼임", "끼임(말림)", "칼날", "회전날", "톱날", "회전체", "동력전달부"]},
+    "burn": {"name": "고온 접촉·화상", "table_terms": ["화상", "열상", "고온", "증기"]},
+    "fire": {"name": "화재", "table_terms": ["화재", "인화성"]},
+    "gas": {"name": "가스 누출·폭발", "table_terms": ["누출", "폭발", "가스", "가스누출", "LPG", "LNG", "배관"]},
+    "electric": {"name": "감전·전기 위험", "table_terms": ["감전", "전선", "콘센트", "분전반", "전기설비"]},
+    "chemical": {"name": "세척제·화학물질", "table_terms": ["유해화학물질", "락스", "세척제"]},
+    "ergonomic": {"name": "중량물·근골격계 부담", "table_terms": ["근골격계질환", "중량물", "운반대차"]},
+    "falling": {"name": "낙하·충돌·추락", "table_terms": ["떨어짐", "충돌", "부딪힘", "선반"]},
+    "respiratory": {"name": "조리흄·환기·유해가스 노출", "table_terms": ["조리흄"]},
+    "traffic": {"name": "교통사고", "table_terms": []},
+    "noise_vibration": {"name": "소음·진동", "table_terms": ["소음", "진동"]},
+    "heat_cold": {"name": "고열·한랭 노출", "table_terms": ["고열", "한랭", "저체온증"]},
+    "entrapment": {"name": "냉장·냉동실 갇힘", "table_terms": ["냉장·냉동고", "출입문"]},
+    "none": {"name": "위험 상태 관찰 없음", "table_terms": []}
+  }
+}

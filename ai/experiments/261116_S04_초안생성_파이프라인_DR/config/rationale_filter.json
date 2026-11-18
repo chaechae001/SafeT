@@ -1,0 +1,69 @@
+{
+  "filter_version": "0.2-draft",
+  "status": "시험용. 파이프라인 미연결. 팀 결정 전",
+  "note": "추천 설명문(rationale)의 위험 정도 판단 표현을 찾는 규칙. 규칙 그룹마다 근거를 적는다. 근거 문서에 없는 표현은 'author_draft'로 두고 '작성자 초안, 팀 확정 전'으로 표시한다. 안전 기준이나 임계값을 정하지 않는다.",
+  "groups": [
+    {
+      "group_id": "G1_risk_high_low",
+      "label": "위험 정도 판단 문구(높다·낮다)",
+      "basis": "documented",
+      "sources": [
+        "261115_AI출력계약_신호기준_DR/schemas_v2/hazard_candidates.v2.response.schema.json — rationale 설명: '위험 정도 판단 문구(높다·낮다)는 쓰지 않는다'",
+        "261115_AI출력계약_신호기준_DR/261116_AI출력계약_HITL_v2_DR.md 2.2절 rationale 행",
+        "src/hitl_exaone.py 프롬프트 규칙 3: '위험의 높고 낮음은 쓰지 않는다'"
+      ],
+      "patterns": [
+        "위험(?:도|성)?(?:이|가|은|는)?\\s*(?:매우|더|가장|상당히|비교적|상대적으로|특히|아주)?\\s*(?:높|낮)",
+        "위험(?:이|가|은|는)\\s*[^.,]{0,12}?(?:높음|높다|높습|높고|낮음|낮다|낮습|낮고|낮지)",
+        "(?:높|낮)은\\s*위험"
+      ]
+    },
+    {
+      "group_id": "G2_grade_score_signal",
+      "label": "위험도·등급·점수·신호 언급",
+      "basis": "documented",
+      "sources": [
+        "src/hitl_exaone.py SYSTEM·프롬프트 규칙 4: '위험도·등급·점수·신호는 쓰지 않는다'",
+        "schemas_v2/common.v2.schema.json ForbiddenJudgementFields(signal, risk_score, risk_level 등) — 필드 금지 규칙을 설명문 단어로 옮긴 것"
+      ],
+      "patterns": [
+        "위험도(?!\\s*(?:존재|있|없|함께|뒤따|따르))",
+        "위험성\\s*(?:등급|수준)",
+        "(?:위험|안전)\\s*등급",
+        "점수",
+        "신호등"
+      ],
+      "known_false_positive_risk": "'신호'만 쓰면 '경보 신호' 같은 근거 문장도 잡힌다. 그래서 '신호등'만 넣었다(작성자 판단). v0.2: '위험도 존재한다'처럼 '도'가 조사인 경우를 제외(작성자 판단)."
+    },
+    {
+      "group_id": "G3_degree_words",
+      "label": "정도·우선순위 판단 어휘",
+      "basis": "author_draft",
+      "status": "작성자 초안, 팀 확정 전",
+      "sources": [
+        "근거 문서 없음. G1의 취지(위험 정도를 말하지 않음)와 계약의 likelihood·severity 금지 필드에서 작성자가 확장한 목록"
+      ],
+      "patterns": [
+        "(?:위험|가능성|중대성|피해|부상)(?:이|가|은|는)?\\s*(?:매우|더|가장)?\\s*(?:크|작)",
+        "(?:가능성|중대성)(?:이|가|은|는)?\\s*(?:매우|더|가장)?\\s*(?:높|낮)",
+        "심각한|심각하",
+        "치명적",
+        "매우\\s*위험",
+        "가장\\s*(?:중요한|위험한|큰|흔한)",
+        "상대적으로\\s*(?:높|낮)",
+        "큰\\s*(?:위협|위험)",
+        "중요한\\s*(?:안전\\s*)?위험\\s*요(?:인|소)"
+      ]
+    }
+  ],
+  "replace": {
+    "evidence_chars": 80,
+    "template": "근거 자료: '{evidence}'({source_id}).",
+    "fallback_template": "근거 출처: {source_ids}.",
+    "max_len": 300
+  },
+  "history": [
+    "0.1-draft: 첫 시험. 결과는 runs/hitl_recommend/rationale_filter/v0.1/",
+    "0.2-draft: v0.1 오탐 1건('위험도 존재한다'의 '도'는 조사)과 미탐(부사 '상대적으로', 단어 사이 거리)을 보완. 작성자(비전문가) 검토 대상"
+  ]
+}

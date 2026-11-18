@@ -1,0 +1,799 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://safe-t.local/schemas/v2/common.schema.json",
+  "title": "Safe-T AI 출력 계약 공통 정의 v2 초안(사진 분석 단계 추가)",
+  "description": "화면설계서 v3.19(261115) 15·20·21·24·25·34·38~40쪽 기준. AI가 만든 값만 정의한다. 사용자가 확인해 저장하는 값(current_measures, current_none, confirmed, selected_measure_ids, custom_measures, owner_*, due_date)은 AI 응답에 넣지 않는다(34쪽). v2(2026-11-16, 제안): 사진 상태 관찰(Observation)·기기 탐지(Detection) 정의와 RiskItemAI의 근거 참조(observation_refs·detection_refs)를 추가했다. v1 원본은 고치지 않는다.",
+  "$defs": {
+    "Signal": {
+      "description": "34쪽 signal = red | yellow | green | off. red=즉시 개선, yellow=개선 필요, green=유지 관리, off=판단 필요(모두 꺼짐). 결정 1.",
+      "type": "string",
+      "enum": [
+        "red",
+        "yellow",
+        "green",
+        "off"
+      ]
+    },
+    "OffReasonCode": {
+      "description": "signal이 off일 때 원인. 화면에는 모두 '판단 필요'로 같게 보이고, 재시도 여부와 로그 분석에 쓴다(제안 필드).",
+      "type": "string",
+      "enum": [
+        "ai_error",
+        "timeout",
+        "invalid_output",
+        "insufficient_input",
+        "criteria_not_set"
+      ]
+    },
+    "IsoDateTime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Asia/Seoul 오프셋(+09:00)을 포함한 ISO 8601 시각."
+    },
+    "RequestId": {
+      "type": "string",
+      "minLength": 8,
+      "description": "클라이언트가 만든 요청 ID(UUID 권장). 중복 클릭 방지(38쪽)와 늦게 도착한 응답 무시(15쪽)에 쓴다."
+    },
+    "JudgementBasis": {
+      "description": "신호를 어떤 판단기준으로 정했는지 남기는 감사용 값(제안 필드). 판단기준 자체는 팀·전문가가 정한다(신호기준 문서 참고).",
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": false,
+      "required": [
+        "method",
+        "tolerable"
+      ],
+      "properties": {
+        "method": {
+          "type": "string",
+          "enum": [
+            "three_level",
+            "frequency_severity",
+            "checklist"
+          ],
+          "description": "three_level=위험성 수준 3단계 판단법, frequency_severity=빈도·강도법, checklist=체크리스트법(적정/보완)."
+        },
+        "level": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "high",
+            "medium",
+            "low",
+            null
+          ],
+          "description": "3단계 판단법의 상(high)·중(medium)·하(low)."
+        },
+        "frequency": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1
+        },
+        "severity": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1
+        },
+        "tolerable": {
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "description": "사업장 허용 가능 위험성 수준 이내인지. off이면 null."
+        },
+        "matched_rules": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "적용한 판단기준 항목 ID(예: 'criteria-v1.R1')."
+        }
+      }
+    },
+    "SignalJudgement": {
+      "description": "현재 신호 판단 결과. 필드명은 34쪽(signal, signal_source, signal_reason, model_version)을 그대로 쓴다.",
+      "type": "object",
+      "required": [
+        "signal",
+        "signal_source",
+        "signal_reason",
+        "model_version",
+        "criteria_version",
+        "judged_at",
+        "off_reason_code"
+      ],
+      "properties": {
+        "signal": {
+          "$ref": "#/$defs/Signal"
+        },
+        "signal_source": {
+          "const": "ai"
+        },
+        "signal_reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 400,
+          "description": "판단 이유(펼쳐보기 문구). off이면 '판단하지 못한 이유'를 사용자 문구로 쓴다."
+        },
+        "model_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "criteria_version": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "적용한 신호 판단기준표 버전. 팀 확정 전에는 null 가능."
+        },
+        "judged_at": {
+          "$ref": "#/$defs/IsoDateTime"
+        },
+        "off_reason_code": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/OffReasonCode"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "basis": {
+          "$ref": "#/$defs/JudgementBasis"
+        }
+      },
+      "if": {
+        "properties": {
+          "signal": {
+            "const": "off"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "off_reason_code": {
+            "$ref": "#/$defs/OffReasonCode"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "off_reason_code": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    "LawRef": {
+      "description": "관련 법령. 검증된 조항만 응답에 넣는다(20쪽, 결정 기준). 검증 실패 조항은 서버에서 제거하고 응답에 넣지 않는다.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "law_name",
+        "article_no",
+        "article_title",
+        "summary",
+        "source_url",
+        "verified",
+        "verified_at"
+      ],
+      "properties": {
+        "law_id": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "법령 DB 내부 ID(있으면)."
+        },
+        "law_name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "예: 산업안전보건기준에 관한 규칙"
+        },
+        "article_no": {
+          "type": "string",
+          "pattern": "^제[0-9]+조(의[0-9]+)?$"
+        },
+        "article_title": {
+          "type": "string",
+          "minLength": 1,
+          "description": "조항명"
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200,
+          "description": "요지"
+        },
+        "source_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "원문 링크(새 창)"
+        },
+        "verified": {
+          "const": true
+        },
+        "verified_at": {
+          "$ref": "#/$defs/IsoDateTime"
+        }
+      }
+    },
+    "CurrentMeasureCandidate": {
+      "description": "현재 조치 후보. 사용자가 체크하기 전까지 미선택이다(결정 2).",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "candidate_id",
+        "text"
+      ],
+      "properties": {
+        "candidate_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120
+        }
+      }
+    },
+    "RecommendedMeasure": {
+      "description": "AI 추천 대책. 처음엔 미체크(결정 4).",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "measure_id",
+        "text"
+      ],
+      "properties": {
+        "measure_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "control_type": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "elimination_substitution",
+            "engineering",
+            "administrative",
+            "ppe",
+            null
+          ],
+          "description": "위험성 감소대책 순서(고시 제12조: 제거·대체 → 공학적 → 관리적 → 개인보호구) 중 해당 단계. 제안 필드."
+        }
+      }
+    },
+    "RiskItemAI": {
+      "description": "AI가 만든 위험 항목 1건. 사용자 입력 필드는 포함하지 않는다. v2: evidence_refs 필수, observation_refs·detection_refs 추가.",
+      "type": "object",
+      "unevaluatedProperties": false,
+      "allOf": [
+        {
+          "$ref": "#/$defs/SignalJudgement"
+        }
+      ],
+      "required": [
+        "item_key",
+        "work",
+        "hazard",
+        "accident_type",
+        "cause",
+        "description",
+        "laws",
+        "current_measure_candidates",
+        "recommendation_status",
+        "recommended_measures",
+        "evidence_refs"
+      ],
+      "properties": {
+        "item_key": {
+          "type": "string",
+          "minLength": 1,
+          "description": "AI 응답 안의 임시 키. 서버가 저장하며 item_id를 붙인다."
+        },
+        "work": {
+          "type": "string",
+          "minLength": 1,
+          "description": "작업(예: 튀김 조리)"
+        },
+        "location": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "장소(사진별 장소 입력 등). 없으면 null."
+        },
+        "hazard": {
+          "type": "string",
+          "minLength": 1,
+          "description": "위험요인 제목(예: 고온 기름 튐에 의한 화상)"
+        },
+        "accident_type": {
+          "type": "string",
+          "minLength": 1,
+          "description": "사고 유형 태그(예: 화상). 코드표는 팀 결정 필요."
+        },
+        "cause": {
+          "type": "string",
+          "minLength": 1,
+          "description": "원인(입력 필요 모드 18쪽에 짧게 표시)"
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1,
+          "description": "위험 설명(예: 뜨거운 기름이 튀어 손과 팔에 닿음)"
+        },
+        "equipment_refs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "관련 기기 equipment_id 목록(선택)."
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "판단에 쓴 입력 근거 ID(photo_id, audio_id, 'text'). RAG 문서 ID도 넣을 수 있다(선택)."
+        },
+        "laws": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/LawRef"
+          }
+        },
+        "current_measure_candidates": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/CurrentMeasureCandidate"
+          },
+          "description": "후보가 없으면 빈 배열. 사용자는 '+ 직접 추가'나 '현재 조치 없음'으로 보완한다."
+        },
+        "recommendation_status": {
+          "type": "string",
+          "enum": [
+            "ok",
+            "failed",
+            "not_applicable"
+          ],
+          "description": "ok=추천 생성, failed=추천만 실패(재시도·직접 추가, 15쪽), not_applicable=추천 대상 아님(off 또는 초록 미생성)."
+        },
+        "recommended_measures": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/RecommendedMeasure"
+          },
+          "maxItems": 3
+        },
+        "observation_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^obs-"
+          },
+          "description": "근거 관찰 ID. 사진 입력이 있는데 비어 있으면 그 항목은 signal=off(insufficient_input)로 둔다(파이프라인 규칙)."
+        },
+        "detection_refs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "근거 탐지 ID"
+        }
+      },
+      "$comment": "빨강·노랑은 추천 3개 또는 failed. off는 추천 없음. 초록은 23쪽 '대책 추가' 탭 추천을 초안 때 만들지 팀 결정 전이므로 ok(3개) 또는 not_applicable(0개) 둘 다 허용.",
+      "oneOf": [
+        {
+          "properties": {
+            "signal": {
+              "enum": [
+                "red",
+                "yellow",
+                "green"
+              ]
+            },
+            "recommendation_status": {
+              "const": "ok"
+            },
+            "recommended_measures": {
+              "minItems": 3,
+              "maxItems": 3
+            }
+          }
+        },
+        {
+          "properties": {
+            "signal": {
+              "enum": [
+                "red",
+                "yellow"
+              ]
+            },
+            "recommendation_status": {
+              "const": "failed"
+            },
+            "recommended_measures": {
+              "maxItems": 0
+            }
+          }
+        },
+        {
+          "properties": {
+            "signal": {
+              "enum": [
+                "green",
+                "off"
+              ]
+            },
+            "recommendation_status": {
+              "const": "not_applicable"
+            },
+            "recommended_measures": {
+              "maxItems": 0
+            }
+          }
+        }
+      ]
+    },
+    "PlannedMeasure": {
+      "description": "사용자가 채택한 대책(추천 체크 + 직접 추가). 예상 신호·조치 후 신호 판단 입력으로 쓴다.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "text",
+        "source"
+      ],
+      "properties": {
+        "measure_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source": {
+          "type": "string",
+          "enum": [
+            "recommended",
+            "custom"
+          ]
+        }
+      }
+    },
+    "ItemContext": {
+      "description": "예상 신호·조치 후 신호를 판단할 때 넘기는 저장된 항목 정보. 확장하는 쪽에서 unevaluatedProperties=false로 닫는다.",
+      "type": "object",
+      "required": [
+        "item_id",
+        "work",
+        "hazard",
+        "accident_type",
+        "cause",
+        "signal",
+        "signal_reason",
+        "current_measures",
+        "current_none"
+      ],
+      "properties": {
+        "item_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "work": {
+          "type": "string"
+        },
+        "location": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "hazard": {
+          "type": "string"
+        },
+        "accident_type": {
+          "type": "string"
+        },
+        "cause": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "signal": {
+          "$ref": "#/$defs/Signal"
+        },
+        "signal_reason": {
+          "type": "string"
+        },
+        "current_measures": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "사용자가 확인한 현재 조치 문구(후보 체크 + 직접 추가)."
+        },
+        "current_none": {
+          "type": "boolean"
+        }
+      }
+    },
+    "Photo": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "photo_id",
+        "url"
+      ],
+      "properties": {
+        "photo_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "AI 서버만 읽을 수 있는 서명 URL 권장."
+        },
+        "location_label": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "ErrorBody": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "code",
+        "message",
+        "retryable"
+      ],
+      "properties": {
+        "code": {
+          "type": "string",
+          "enum": [
+            "ai_error",
+            "timeout",
+            "invalid_output",
+            "insufficient_input",
+            "criteria_not_set",
+            "cancelled",
+            "bad_request"
+          ]
+        },
+        "message": {
+          "type": "string",
+          "description": "사용자에게 보여줄 수 있는 한국어 문구. 내부 스택·비밀값 금지."
+        },
+        "retryable": {
+          "type": "boolean"
+        }
+      }
+    },
+    "ProgressEvent": {
+      "description": "진행률 이벤트(SSE 또는 폴링). 서버는 단계가 끝날 때만 percent를 올린다. 단계 안의 천천히 차오르는 표시는 클라이언트가 다음 단계 값 미만으로 보간한다(15쪽). 100은 서버 저장 성공 후에만 보낸다(25·39쪽).",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "request_id",
+        "call",
+        "stage",
+        "percent",
+        "label",
+        "state"
+      ],
+      "properties": {
+        "request_id": {
+          "$ref": "#/$defs/RequestId"
+        },
+        "call": {
+          "type": "string",
+          "enum": [
+            "s04_draft",
+            "s07_add",
+            "s05d_save",
+            "s05d_confirm",
+            "f03_result"
+          ]
+        },
+        "stage": {
+          "type": "string"
+        },
+        "percent": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "label": {
+          "type": "string",
+          "description": "막대 위 단계 문구"
+        },
+        "state": {
+          "type": "string",
+          "enum": [
+            "running",
+            "done",
+            "failed",
+            "cancelled"
+          ]
+        }
+      }
+    },
+    "HazardStateCode": {
+      "description": "관찰 위험 상태 분류. contract_v2/observation_taxonomy.json(기기마스터 hazard_codes와 같은 코드 + none)",
+      "type": "string",
+      "enum": [
+        "slip",
+        "cut",
+        "burn",
+        "fire",
+        "gas",
+        "electric",
+        "chemical",
+        "ergonomic",
+        "falling",
+        "respiratory",
+        "traffic",
+        "noise_vibration",
+        "heat_cold",
+        "entrapment",
+        "none"
+      ]
+    },
+    "BBoxNorm": {
+      "description": "정규화 좌표 [x0, y0, x1, y1] (0~1, EXIF 회전 적용 화면 기준)",
+      "type": "array",
+      "items": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1
+      },
+      "minItems": 4,
+      "maxItems": 4
+    },
+    "Detection": {
+      "description": "기기 탐지 결과(탐지 모델 담당). VLM은 기기를 판정하지 않는다. 탐지 모델 전에는 평가셋 라벨을 source=oracle_label로 넣는다.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "detection_id",
+        "photo_id",
+        "equipment_id",
+        "bbox_norm",
+        "confidence",
+        "source"
+      ],
+      "properties": {
+        "detection_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "photo_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "equipment_id": {
+          "type": "string",
+          "pattern": "^EQ_[A-Z0-9_]+$",
+          "description": "기기마스터 equipment_id"
+        },
+        "bbox_norm": {
+          "$ref": "#/$defs/BBoxNorm"
+        },
+        "confidence": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 1
+        },
+        "source": {
+          "type": "string",
+          "enum": [
+            "model",
+            "oracle_label"
+          ],
+          "description": "oracle_label = 평가셋 라벨을 탐지 결과 대신 넣은 것(탐지 성능 평가에 쓰면 안 됨)"
+        },
+        "detector_version": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "Observation": {
+      "description": "VLM 사진 상태 관찰 1건. 보이는 상태(물기·기름·적재·불꽃·전선 등)만 쓰고 기기 이름을 판정하지 않는다.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "observation_id",
+        "photo_id",
+        "location",
+        "text",
+        "hazard_state",
+        "confidence",
+        "confidence_source",
+        "model_version"
+      ],
+      "properties": {
+        "observation_id": {
+          "type": "string",
+          "pattern": "^obs-"
+        },
+        "photo_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "location": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "사진별 장소 입력(S02). 없으면 null"
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "hazard_state": {
+          "$ref": "#/$defs/HazardStateCode"
+        },
+        "confidence": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 1
+        },
+        "confidence_source": {
+          "type": "string",
+          "enum": [
+            "model_self_report",
+            "calibrated",
+            "none"
+          ],
+          "description": "model_self_report = 모델이 스스로 적은 값(보정 전, 신뢰 근거 아님)"
+        },
+        "model_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "equipment_term_flag": {
+          "type": "boolean",
+          "description": "관찰 문장에 기기 이름이 들어가 있으면 true(후처리 검사 결과)"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "request_id": "case-FOOD_A_04-261116",
+  "assessment_id": "CASE-FOOD_A_04",
+  "criteria_version": null,
+  "business": {
+    "industry": "음식점"
+  },
+  "equipment": [],
+  "field_input": {
+    "photos": [],
+    "text": "가스 배관에 전선을 묶어 사용한 상태",
+    "voice_transcripts": []
+  }
+}

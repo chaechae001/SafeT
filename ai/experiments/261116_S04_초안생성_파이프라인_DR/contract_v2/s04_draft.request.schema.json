@@ -1,0 +1,154 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://safe-t.local/schemas/v2/s04_draft.request.schema.json",
+  "title": "S04 초안 생성 요청 v2 초안 (사진 분석 단계 포함)",
+  "description": "입력 01~03 완료 후 호출(15쪽). 사진·글·음성 전사문 중 하나 이상 필요(02 현장입력 최소 입력 규칙). 작성자·참여자 이름 등 개인정보는 보내지 않는다.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "request_id",
+    "assessment_id",
+    "business",
+    "equipment",
+    "field_input"
+  ],
+  "properties": {
+    "request_id": {
+      "$ref": "common.schema.json#/$defs/RequestId"
+    },
+    "assessment_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "criteria_version": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "적용할 신호 판단기준표 버전. 미확정이면 null."
+    },
+    "business": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "industry"
+      ],
+      "properties": {
+        "business_id": {
+          "type": "string"
+        },
+        "industry": {
+          "type": "string",
+          "minLength": 1,
+          "description": "업종(예: 치킨)"
+        }
+      }
+    },
+    "equipment": {
+      "type": "array",
+      "description": "assessment_equipment 스냅샷: 사업장 등록 기기 + ai_found 중 selected=true(34쪽).",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "origin"
+        ],
+        "properties": {
+          "equipment_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "origin": {
+            "type": "string",
+            "enum": [
+              "registered",
+              "ai_found"
+            ]
+          }
+        }
+      }
+    },
+    "field_input": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "photos",
+        "text",
+        "voice_transcripts"
+      ],
+      "properties": {
+        "photos": {
+          "type": "array",
+          "items": {
+            "$ref": "common.schema.json#/$defs/Photo"
+          }
+        },
+        "text": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "현장 설명(직접 입력)"
+        },
+        "voice_transcripts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "audio_id",
+              "transcript"
+            ],
+            "properties": {
+              "audio_id": {
+                "type": "string"
+              },
+              "transcript": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        }
+      },
+      "anyOf": [
+        {
+          "properties": {
+            "photos": {
+              "minItems": 1
+            }
+          }
+        },
+        {
+          "properties": {
+            "text": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        {
+          "properties": {
+            "voice_transcripts": {
+              "minItems": 1
+            }
+          }
+        }
+      ]
+    },
+    "detections": {
+      "type": "array",
+      "items": {
+        "$ref": "common.schema.json#/$defs/Detection"
+      },
+      "description": "기기 탐지 결과(사진별). 탐지 모델 준비 전에는 source=oracle_label."
+    }
+  }
+}

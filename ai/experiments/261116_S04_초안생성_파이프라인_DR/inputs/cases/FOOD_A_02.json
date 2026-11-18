@@ -1,0 +1,14 @@
+{
+  "request_id": "case-FOOD_A_02-261116",
+  "assessment_id": "CASE-FOOD_A_02",
+  "criteria_version": null,
+  "business": {
+    "industry": "음식점"
+  },
+  "equipment": [],
+  "field_input": {
+    "photos": [],
+    "text": "LPG 용기를 고정하지 않아 넘어질 위험",
+    "voice_transcripts": []
+  }
+}

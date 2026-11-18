@@ -1,0 +1,156 @@
+{
+ "util": 0.7,
+ "load_s": 21.42,
+ "results": [
+  {
+   "unit_id": "E:EQ_FRYER",
+   "content": "{\"ranked\":[\n    {\"code\":\"burn\",\"source_ids\":[\"D8T-008\",\"D8T-043\",\"D8T-064\"],\"rationale\":\"튀김기의 고온과 기름으로 인한 화상 위험이 여러 출처에서 언급되었다.\"},\n    {\"code\":\"slip\",\"source_ids\":[\"D8T-008\",\"D8T-043\",\"D8T-064\"],\"rationale\":\"튀김기 주변 바닥의 미끄러움이 넘어짐 위험을 초래할 수 있다는 점이 여러 출처에서 지적되었다.\"},\n    {\"code\":\"respiratory\",\"source_ids\":[\"CHK-4-2-3-03\"],\"rationale\":\"정상 작동하는 환기시설이 조리흄과 유해가스 노출 위험을 관리하고 있다는 근거가 제시되었다.\"},\n    {\"code\":\"gas\",\"source_ids\":[\"CHK-4-2-3-02\"],\"rationale\":\"주기적인 가스 누출 검사와 경보 시스템 작동 테스트가 실시되어 가스 누출 위험이 관리되고 있다.\"}\n]}",
+   "ok": true,
+   "seconds": 9.12
+  },
+  {
+   "unit_id": "E:EQ_GAS_RANGE",
+   "content": "{\"ranked\":[\n    {\"code\":\"burn\",\"source_ids\":[\"D8T-009\"],\"rationale\":\"가스레인지에서 고온으로 인한 화상 위험이 직접적으로 언급되었다.\"},\n    {\"code\":\"gas\",\"source_ids\":[\"CHK-4-2-2-02\"],\"rationale\":\"가스 누출이나 폭발 위험은 안전 장치의 설치와 작동 상태에 따라 관리되고 있지만, 여전히 중요한 위험 요인이다.\"},\n    {\"code\":\"falling\",\"source_ids\":[\"CHK-4-2-2-04\"],\"rationale\":\"가스테이블의 안정적인 설치는 낙하 위험을 줄이지만, 여전히 물리적 충격이나 불안정한 환경에서의 위험은 존재한다.\"}\n]}",
+   "ok": true,
+   "seconds": 4.936
+  },
+  {
+   "unit_id": "E:EQ_OVEN",
+   "content": "{\"ranked\":[\n    {\"code\":\"falling\",\"source_ids\":[\"D8T-006\",\"D8T-063\"],\"rationale\":\"오븐의 개방된 문에 부딪히는 상황은 사용자가 문을 열거나 닫을 때 발생할 수 있어 직접적인 충돌 위험이 높습니다.\"},\n    {\"code\":\"burn\",\"source_ids\":[\"D8T-031\"],\"rationale\":\"오븐 내부의 고온은 화상 위험을 직접적으로 초래하며, 이는 오븐 사용 시 가장 중요한 안전 위험 요인 중 하나입니다.\"},\n    {\"code\":\"slip\",\"source_ids\":[\"D8T-006\",\"D8T-063\"],\"rationale\":\"오븐 주변 바닥의 미끄러운 상태는 사용자의 주의가 분산되었을 때 발생할 수 있어, 특히 작업 공간 관리가 중요합니다.\"}\n]}",
+   "ok": true,
+   "seconds": 5.687
+  },
+  {
+   "unit_id": "E:EQ_RICE_COOKER",
+   "content": "{\"ranked\":[\n    {\"code\":\"burn\",\"source_ids\":[\"D8T-007\"],\"rationale\":\"취반기의 고온 본체 및 그릇, 증기로 인해 화상이나 열상 위험이 존재한다.\"}\n]}",
+   "ok": true,
+   "seconds": 1.674
+  },
+  {
+   "unit_id": "E:EQ_SOUP_KETTLE",
+   "content": "{\"ranked\":[\n    {\"code\":\"burn\",\"source_ids\":[\"CHK-4-2-3-07\",\"D8T-009\"],\"rationale\":\"국솥은 고온으로 작동하므로 화상 위험이 존재하며, 특히 운반 중에도 화상 위험이 지적되었다.\"},\n    {\"code\":\"gas\",\"source_ids\":[\"CHK-4-2-3-02\"],\"rationale\":\"가스 누출 및 폭발 위험은 주기적인 안전 장치 테스트를 통해 관리되고 있으나, 국솥 자체의 가스 사용 여부에 대한 명확한 언급이 부족하다.\"},\n    {\"code\":\"respiratory\",\"source_ids\":[\"CHK-4-2-3-03\"],\"rationale\":\"환기시설의 정상 작동은 조리흄과 유해가스 노출 위험을 줄이는 데 도움이 되지만, 국솥 사용 특성상 직접적인 위험 요인으로서의 강조는 상대적으로 낮다.\"}\n]}",
+   "ok": true,
+   "seconds": 6.149
+  },
+  {
+   "unit_id": "E:EQ_KNIFE_BOARD",
+   "content": "{\"ranked\":[\n    {\"code\":\"cut\",\"source_ids\":[\"D8T-003\",\"D8T-017\",\"D8T-027\",\"D8T-030\"],\"rationale\":\"칼과 도마 사용 중 가장 빈번하게 발생하는 위험 요인으로 베임과 절단이 언급되었습니다.\"},\n    {\"code\":\"falling\",\"source_ids\":[\"D8T-003\",\"D8T-017\",\"D8T-027\",\"D8T-030\"],\"rationale\":\"칼의 낙하로 인한 베임과 상해 위험이 언급되어 있어 중요한 위험 요인입니다.\"},\n    {\"code\":\"ergonomic\",\"source_ids\":[\"D8T-003\",\"D8T-017\",\"D8T-027\",\"D8T-039\"],\"rationale\":\"반복적인 칼 사용 작업으로 인한 근골격계 질환 위험이 지적되었습니다.\"}\n]}",
+   "ok": true,
+   "seconds": 6.567
+  },
+  {
+   "unit_id": "E:EQ_SCISSORS",
+   "content": "{\"ranked\":[\n    {\"code\":\"cut\",\"source_ids\":[\"D8T-030\"],\"rationale\":\"주방가위는 날카로운 날이 있어 사용자나 타인이 베임이나 찔림의 위험에 노출될 수 있습니다.\"},\n    {\"code\":\"falling\",\"source_ids\":[\"D8T-030\"],\"rationale\":\"가위를 떨어뜨리거나 잘못 다루면 발등이나 하체에 상해를 입을 위험이 있습니다.\"}\n]}",
+   "ok": true,
+   "seconds": 3.216
+  },
+  {
+   "unit_id": "E:EQ_VEG_CUTTER",
+   "content": "{\"ranked\":[\n    {\"code\":\"cut\",\"source_ids\":[\"D8T-005\",\"D8T-019\",\"D8T-029\"],\"rationale\":\"채소절단기는 사용자의 손 절단 및 베임 위험이 잘 알려져 있으며, 여러 출처에서 이러한 위험을 강조하고 있다.\"},\n    {\"code\":\"electric\",\"source_ids\":[\"CHK-4-2-1-06\",\"CHK-4-2-1-07\",\"CHK-4-2-1-08\"],\"rationale\":\"절연 상태와 누전차단기의 설치 상태가 언급되어 전기적 위험에 대한 관리가 이루어지고 있음을 보여준다.\"}\n]}",
+   "ok": true,
+   "seconds": 4.802
+  },
+  {
+   "unit_id": "E:EQ_MEAT_SLICER",
+   "content": "{\"ranked\":[{\"code\":\"cut\",\"source_ids\":[\"D5V-069-r1\",\"D5V-069-r2\"],\"rationale\":\"육절기 작업 중 베임 사고가 두 개의 출처에서 보고되어 작업 중 발생 가능한 주요 위험 요인으로 확인됨.\"}]}",
+   "ok": true,
+   "seconds": 2.173
+  },
+  {
+   "unit_id": "E:EQ_MIXER",
+   "content": "{\"ranked\":[\n    {\"code\":\"cut\",\"source_ids\":[\"D5V-068-r1\",\"D5V-068-r2\",\"D8T-041\"],\"rationale\":\"혼합기 사용 중 끼임 위험이 보고되었으며, 회전부에서 옷이 말려 끼임의 위험도 존재한다.\"},\n    {\"code\":\"electric\",\"source_ids\":[\"CHK-4-2-1-06\",\"CHK-4-2-1-07\",\"CHK-4-2-1-08\"],\"rationale\":\"절연 상태와 안전 장치(누전차단기)가 적절히 설치되어 전기적 위험은 관리되고 있으나 여전히 전기 관련 위험 요인이 존재한다.\"}\n]}",
+   "ok": true,
+   "seconds": 5.187
+  },
+  {
+   "unit_id": "E:EQ_DOUGH_MIXER",
+   "content": "{\"ranked\":[\n    {\"code\":\"cut\",\"source_ids\":[\"D8T-019\",\"D8T-029\",\"D8T-061\"],\"rationale\":\"반죽기 작동 중 이물질 제거나 옷소매 등이 끼임으로 인한 끼임 및 베임 위험이 보고되었다.\"},\n    {\"code\":\"electric\",\"source_ids\":[\"D8T-029\"],\"rationale\":\"젖은 손으로 작동 중 감전 위험이 언급되었으나, 다른 전기 안전 장치의 설치 상태에 대한 근거가 있어 상대적으로 관리되고 있을 가능성이 있다.\"}\n]}",
+   "ok": true,
+   "seconds": 4.307
+  },
+  {
+   "unit_id": "E:EQ_NOODLE_MACHINE",
+   "content": "{\"ranked\":[\n    {\"code\":\"cut\",\"source_ids\":[\"CHK-4-2-1-01\"],\"rationale\":\"제면기는 식품 가공 과정에서 베임이나 절단 위험이 내재되어 있으며, 안전 확인 신고 제품임에도 불구하고 사용 중 주의가 필요하다.\"},\n    {\"code\":\"electric\",\"source_ids\":[\"CHK-4-2-1-06\", \"CHK-4-2-1-07\", \"CHK-4-2-1-08\"] ,\"rationale\":\"절연 상태와 안전 장치(누전차단기)가 확인되어 전기적 위험은 상대적으로 낮지만, 전기 장비의 특성상 여전히 주의가 필요하다.\"}\n]}",
+   "ok": true,
+   "seconds": 4.887
+  },
+  {
+   "unit_id": "E:EQ_RICE_WASHER",
+   "content": "{\"ranked\":[{\"code\":\"cut\",\"source_ids\":[\"D8T-005\"],\"rationale\":\"세미기의 회전부에서 옷이 감겨서 끼임으로 인해 베임이나 절단 위험이 발생할 수 있습니다.\"}]}",
+   "ok": true,
+   "seconds": 1.779
+  },
+  {
+   "unit_id": "E:EQ_COFFEE_MACHINE",
+   "content": "{\"ranked\":[\n    {\"code\":\"burn\",\n     \"source_ids\":[\"D8T-051\", \"D8T-053\"],\n     \"rationale\":\"커피머신에서 스팀 기능이나 뜨거운 재료 사용 시 고온으로 인한 화상 위험이 존재한다.\"}\n]}",
+   "ok": true,
+   "seconds": 2.104
+  },
+  {
+   "unit_id": "E:EQ_DISHWASHER",
+   "content": "{\"ranked\":[\n    {\"code\":\"cut\",\"source_ids\":[\"CHK-4-2-5-07\"],\"rationale\":\"식기세척기의 모서리에 커버가 설치되어 베임이나 절단 위험이 최소화되었다.\"},\n    {\"code\":\"cut\",\"source_ids\":[\"CHK-4-2-5-01\"],\"rationale\":\"컨베이어 벨트 관련 안전 조치로 인해 작업자의 손이 말리는 위험이 관리되고 있다.\"},\n    {\"code\":\"cut\",\"source_ids\":[\"CHK-4-2-5-05\"],\"rationale\":\"컨베이어 벨트의 일정한 속도 유지로 인한 물리적 위험 요소가 감소되었다.\"}\n  ]}",
+   "ok": true,
+   "seconds": 4.893
+  },
+  {
+   "unit_id": "E:EQ_EXHAUST_HOOD",
+   "content": "{\"ranked\":[\n    {\"code\":\"falling\",\"source_ids\":[\"D8T-014\",\"D8T-024\",\"D8T-036\",\"D8T-048\"],\"rationale\":\"배기후드 청소 중 의자나 조리대 위에서 떨어지는 사고 위험이 여러 근거에서 언급되었다.\"},\n    {\"code\":\"slip\",\"source_ids\":[\"D8T-014\",\"D8T-024\",\"D8T-036\",\"D8T-056\"],\"rationale\":\"바닥에 방치된 호스 등으로 인한 미끄러짐과 넘어짐 위험이 여러 근거에서 확인되었다.\"},\n    {\"code\":\"chemical\",\"source_ids\":[\"D5V-070-r1\",\"D5V-070-r2\"],\"rationale\":\"조리흄 발생과 화학물질 누출로 인한 위험이 여러 근거에서 언급되었다.\"},\n    {\"code\":\"respiratory\",\"source_ids\":[\"CHK-4-2-6-03\",\"CHK-4-3-2-06\",\"D5V-070-r1\",\"D5V-070-r2\"],\"rationale\":\"배기후드의 성능과 환기 상태가 조리흄과 유해가스 노출 위험에 영향을 미친다는 점이 강조되었다.\"},\n    {\"code\":\"electric\",\"source_ids\":[\"CHK-4-2-6-04\"],\"rationale\":\"배기팬의 접지 상태와 누전차단기 작동 여부가 전기 위험 관리에 중요하다는 근거가 제시되었다.\"},\n    {\"code\":\"noise_vibration\",\"source_ids\":[\"CHK-4-4-2-09\"],\"rationale\":\"소음에 대한 경고와 청력 보호 필요성이 언급되었으나, 구체적인 배기후드 관련 위험은 제한적이다.\"},\n    {\"code\":\"ergonomic\",\"source_ids\":[\"D8T-014\",\"D8T-024\",\"D8T-036\",\"D8T-056\"],\"rationale\":\"부적절한 자세로 인한 근골격계 질환 위험이 여러 근거에서 제기되었다.\"}\n]}",
+   "ok": true,
+   "seconds": 14.553
+  },
+  {
+   "unit_id": "E:EQ_WASTE_OIL_CONTAINER",
+   "content": "{\"ranked\":[\n    {\"code\":\"burn\",\n     \"source_ids\":[\"D8T-013\", \"D8T-023\", \"D8T-047\", \"D8T-067\"],\n     \"rationale\":\"폐유 운반 과정에서 고온으로 인한 화상 위험이 여러 사례에서 보고되었습니다.\"}\n]}",
+   "ok": true,
+   "seconds": 2.598
+  },
+  {
+   "unit_id": "E:EQ_REFRIGERATOR",
+   "content": "{\"ranked\":[\n    {\"code\":\"slip\",\"source_ids\":[\"D8T-002\",\"D8T-016\",\"D8T-026\",\"D8T-038\"],\"rationale\":\"업소용 냉장·냉동고 출입 시 넘어짐 위험이 여러 출처에서 보고되어 빈번하게 발생할 수 있는 위험 요인입니다.\"},\n    {\"code\":\"falling\",\"source_ids\":[\"D5V-072B-r1\",\"D5V-072B-r2\"],\"rationale\":\"냉장·냉동고 내에서 선반에 부딪히는 낙하 및 충돌 위험이 근골격계 부담과 함께 작업자 안전에 중요한 요소로 지적되었습니다.\"},\n    {\"code\":\"ergonomic\",\"source_ids\":[\"D5V-072B-r1\",\"D5V-072B-r2\"],\"rationale\":\"무거운 식재료나 물품을 다루는 과정에서 근골격계 질환 위험이 지속적으로 제기되었습니다.\"},\n    {\"code\":\"heat_cold\",\"source_ids\":[\"CHK-4-3-1-08\",\"CHK-4-3-1-10\",\"D5V-072B-r1\",\"D5V-072B-r2\"],\"rationale\":\"저온 환경에서 장시간 작업 시 방한 장비 착용의 필요성이 강조되어 한랭 노출 위험이 고려됩니다.\"},\n    {\"code\":\"entrapment\",\"source_ids\":[\"CHK-4-3-1-09\",\"CHK-4-3-1-11\"],\"rationale\":\"냉장·냉동고 출입문 관리 부실로 인한 갇힘 위험이 안전 관리 측면에서 중요한 고려사항으로 제기되었습니다.\"}\n]}",
+   "ok": true,
+   "seconds": 11.5
+  },
+  {
+   "unit_id": "E:EQ_WALKIN_COOLER",
+   "content": "{\"ranked\":[{\"code\":\"entrapment\",\"source_ids\":[\"CHK-4-4-3-07\"],\"rationale\":\"냉동·냉장창고의 출입문이 임의로 잠기지 않도록 조치되어 있어 내부에서의 갇힘 위험이 관리되고 있다.\"}]}",
+   "ok": true,
+   "seconds": 2.133
+  },
+  {
+   "unit_id": "E:EQ_CART",
+   "content": "{\"ranked\":[\n    {\"code\":\"falling\",\"source_ids\":[\"D8T-001\",\"D8T-015\",\"D8T-025\",\"D8T-037\"],\"rationale\":\"과적재나 편하중으로 인해 물체가 떨어져 부딪히는 위험이 가장 빈번하게 언급됨.\"},\n    {\"code\":\"slip\",\"source_ids\":[\"D8T-001\",\"D8T-015\",\"D8T-025\",\"D8T-037\"],\"rationale\":\"매장 바닥의 돌출부나 트랜치에 의해 대차 바퀴가 걸려 넘어질 위험이 지속적으로 제기됨.\"},\n    {\"code\":\"cut\",\"source_ids\":[\"D8T-001\",\"D8T-015\",\"D8T-025\",\"D8T-037\"],\"rationale\":\"대차에 끼임으로 인한 위험이 언급되지만, 낙하 및 미끄러짐 위험에 비해 상대적으로 덜 강조됨.\"}\n]}",
+   "ok": true,
+   "seconds": 6.818
+  },
+  {
+   "unit_id": "E:EQ_SHELF",
+   "content": "{\"ranked\":[\n    {\"code\":\"falling\",\"source_ids\":[\"D8T-002\",\"D8T-016\",\"D8T-020\"],\"rationale\":\"중량물의 낙하와 근로자에게 물건이 떨어지는 위험이 여러 근거에서 언급되었다.\"},\n    {\"code\":\"cut\",\"source_ids\":[\"CHK-4-3-1-06\"],\"rationale\":\"선반의 날카로운 부분으로 인한 부딪힘이나 베임 위험이 지적되었다.\"},\n    {\"code\":\"ergonomic\",\"source_ids\":[\"D8T-002\",\"D8T-016\",\"D8T-026\",\"D8T-038\"],\"rationale\":\"중량물 취급 과정에서의 근골격계 부담 위험이 여러 근거에서 언급되었다.\"}\n]}",
+   "ok": true,
+   "seconds": 5.74
+  },
+  {
+   "unit_id": "E:EQ_LADDER",
+   "content": "{\"ranked\":[\n    {\"code\":\"falling\",\"source_ids\":[\"CHK-4-1-2-10\",\"CHK-4-1-2-13\",\"CHK-4-1-2-14\",\"D5V-066-r1\"],\"rationale\":\"사다리 작업 중 보행자 통행로나 문이 열리는 곳에서의 충돌 가능성, 추락 위험성, 무거운 짐 운반으로 인한 추락 위험, 그리고 작업 중 추락 위험이 가장 직접적이고 빈번하게 언급되었다.\"},\n    {\"code\":\"slip\",\"source_ids\":[\"CHK-4-1-2-05\",\"CHK-4-1-2-06\"],\"rationale\":\"미끄러짐 방지 장치와 안전한 설치 위치의 중요성이 강조되어 있어, 안정적인 작업 환경 조성에 필수적인 요소로 보인다.\"},\n    {\"code\":\"electric\",\"source_ids\":[\"CHK-4-1-2-12\"] ,\"rationale\":\"전기적 위험 요소는 중요하지만, 사다리 사용 시 주요한 전기적 위험 확인과 안전거리 확보의 필요성이 언급되었다.\"}\n]}",
+   "ok": true,
+   "seconds": 7.457
+  },
+  {
+   "unit_id": "E:EQ_DUMBWAITER",
+   "content": "{\"ranked\":[\n    {\"code\":\"cut\",\"source_ids\":[\"D8T-033\",\"D8T-045\"],\"rationale\":\"덤웨이터 사용 중 손이나 머리가 끼일 위험이 여러 출처에서 보고되었습니다.\"},\n    {\"code\":\"falling\",\"source_ids\":[\"D5V-067-r1\",\"D5V-067-r2\",\"D5V-067-r3\"],\"rationale\":\"리프트 사용 중 끼임과 함께 추락 위험이 여러 사례에서 확인되었습니다.\"}\n]}",
+   "ok": true,
+   "seconds": 4.007
+  },
+  {
+   "unit_id": "E:EQ_MOTORCYCLE",
+   "content": "{\"ranked\":[\n    {\"code\":\"traffic\",\"source_ids\":[\"D8T-012\",\"D8T-034\",\"D8T-046\",\"D5V-059-r1\"],\n     \"rationale\":\"과속 및 교통신호 위반은 배달 이륜차에서 빈번한 교통사고 원인으로 작용한다.\"},\n    {\"code\":\"slip\",\"source_ids\":[\"D8T-012\",\"D8T-034\",\"D8T-046\"],\n     \"rationale\":\"빗길이나 빙판길에서의 미끄러짐은 배달 중 이륜차 운행 안전성에 큰 위협이 된다.\"},\n    {\"code\":\"ergonomic\",\"source_ids\":[\"D8T-012\",\"D8T-034\",\"D8T-046\"],\n     \"rationale\":\"중량물 취급은 배달원의 근골격계 질환 위험을 높인다.\"},\n    {\"code\":\"falling\",\"source_ids\":[\"CHK-4-2-7-08\"],\n     \"rationale\":\"이륜차에 적재된 물건의 안정성 부족은 낙하 및 충돌 위험을 증가시킨다.\"}\n]}",
+   "ok": true,
+   "seconds": 7.926
+  },
+  {
+   "unit_id": "E:EQ_ELECTRIC_PANEL",
+   "content": "{\"ranked\":[\n    {\"code\":\"electric\",\"source_ids\":[\"CHK-4-1-2-12\",\"CHK-4-2-1-07\",\"D8T-013\",\"D8T-023\"],\n     \"rationale\":\"전기설비 주변에서 젖은 손으로 접촉하거나 안전거리 미확보로 인한 감전 위험이 가장 직접적이고 높음.\"}\n]}",
+   "ok": true,
+   "seconds": 3.003
+  }
+ ]
+}

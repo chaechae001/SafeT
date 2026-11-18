@@ -1,0 +1,508 @@
+{
+ "old": {
+  "recall": 0.821,
+  "precision": 1.0,
+  "tp": 23,
+  "fp": 0,
+  "fn": 5,
+  "rows": [
+   {
+    "id": "S01",
+    "cond": "clean",
+    "text": "튀김기 기름을 교체하다가 손등에 기름이 튀었습니다.",
+    "got": [
+     "EQ_FRYER"
+    ],
+    "miss": [],
+    "extra": []
+   },
+   {
+    "id": "S01",
+    "cond": "snr10",
+    "text": "튀김기 기름을 교체하다가 손등에 기름이 씌웠습니다.",
+    "got": [
+     "EQ_FRYER"
+    ],
+    "miss": [],
+    "extra": []
+   },
+   {
+    "id": "S02",
+    "cond": "clean",
+    "text": "가스레인지 옆바닥이 미끄러워서 넘어질 뻔했어요.",
+    "got": [
+     "EQ_GAS_RANGE"
+    ],
+    "miss": [],
+    "extra": []
+   },
+   {
+    "id": "S02",
+    "cond": "snr10",
+    "text": "바스레인지 옆 바닥이 미끄러워서 넘어질 뻔했어요.",
+    "got": [
+     "EQ_GAS_RANGE"
+    ],
+    "miss": [],
+    "extra": []
+   },
+   {
+    "id": "S03",
+    "cond": "clean",
+    "text": "칼과 도마를 씻다가 손가락을 베였습니다.",
+    "got": [
+     "EQ_KNIFE_BOARD"
+    ],
+    "miss": [],
+    "extra": []
+   },
+   {
+    "id": "S03",
+    "cond": "snr10",
+    "text": "팔과 두말을 씻다가 손가락을 세웠습니다.",
+    "got": [],
+    "miss": [
+     "EQ_KNIFE_BOARD"
+    ],
+    "extra": []
+   },
+   {
+    "id": "S04",
+    "cond": "clean",
+    "text": "6절기 나를 청소할 때 전원을 끄지 않았습니다.",
+    "got": [],
+    "miss": [
+     "EQ_MEAT_SLICER"
+    ],
+    "extra": []
+   },
+   {
+    "id": "S04",
+    "cond": "snr10",
+    "text": "6절 뒷날을 청소할 때 전원을 두지 않았습니다.",
+    "got": [],
+    "miss": [
+     "EQ_MEAT_SLICER"
+    ],
+    "extra": []
+   },
+   {
+    "id": "S05",
+    "cond": "clean",
+    "text": "워크인 냉장실 문이 안에서 잘 안열립니다.",
+    "got": [
+     "EQ_WALKIN_COOLER"
+    ],
+    "miss": [],
+    "extra": []
+   },
+   {
+    "id": "S05",
+    "cond": "snr10",
+    "text": "워크인 냉장실 미니 안에서 잘 안 열립니다.",
+    "got": [
+     "EQ_WALKIN_COOLER"
+    ],
+    "miss": [],
+    "extra": []
+   },
+   {
+    "id": "S06",
+    "cond": "clean",
+    "text": "배기 후드 필터에 기름때가 많이 쌓여 있습니다.",
+    "got": [
+     "EQ_EXHAUST_HOOD"
+    ],
+    "miss": [],
+    "extra": []
+   },
+   {
+    "id": "S06",
+    "cond": "snr10",
+    "text": "대기후드 후추터에 기름재가 많이 쌓여있습니다.",
+    "got": [
+     "EQ_EXHAUST_HOOD"
+    ],
+    "miss": [],
+    "extra": []
+   },
+   {
+    "id": "S07",
+    "cond": "clean",
+    "text": "반죽기에 손을 넣어 반죽을 꺼내다가 위험했습니다.",
+    "got": [
+     "EQ_DOUGH_MIXER"
+    ],
+    "miss": [],
+    "extra": []
+   },
+   {
+    "id": "S07",
+    "cond": "snr10",
+    "text": "반죽기에 손을 넣어 반죽을 꺼내다가 위험했습니다.",
+    "got": [
+     "EQ_DOUGH_MIXER"
+    ],
+    "miss": [],
+    "extra": []
+   },
+   {
+    "id": "S08",
+    "cond": "clean",
+    "text": "식기세척기 근처 전선이 물에 젖어 있었습니다.",
+    "got": [
+     "EQ_DISHWASHER",
+     "EQ_ELECTRIC_PANEL"
+    ],
+    "miss": [],
+    "extra": []
+   },
+   {
+    "id": "S08",
+    "cond": "snr10",
+    "text": "식기세척기 근처 전선이 물에 젖어 있었습니다.",
+    "got": [
+     "EQ_DISHWASHER",
+     "EQ_ELECTRIC_PANEL"
+    ],
+    "miss": [],
+    "extra": []
+   },
+   {
+    "id": "S09",
+    "cond": "clean",
+    "text": "선반 위쪽 무거운 박스를 사다리 없이 꺼냈습니다.",
+    "got": [
+     "EQ_LADDER",
+     "EQ_SHELF"
+    ],
+    "miss": [],
+    "extra": []
+   },
+   {
+    "id": "S09",
+    "cond": "snr10",
+    "text": "선반 위쪽 무거운 박수를 사다리 없이 꺼냈습니다.",
+    "got": [
+     "EQ_LADDER",
+     "EQ_SHELF"
+    ],
+    "miss": [],
+    "extra": []
+   },
+   {
+    "id": "S10",
+    "cond": "clean",
+    "text": "배달 오토바이를 타고 비오는 날 급하게 출발했습니다.",
+    "got": [
+     "EQ_MOTORCYCLE"
+    ],
+    "miss": [],
+    "extra": []
+   },
+   {
+    "id": "S10",
+    "cond": "snr10",
+    "text": "배달 오토바이를 타고 비 오는 날 급하게 출발했습니다.",
+    "got": [
+     "EQ_MOTORCYCLE"
+    ],
+    "miss": [],
+    "extra": []
+   },
+   {
+    "id": "S11",
+    "cond": "clean",
+    "text": "국솥에서 뜨거운 국물을 옮기다가 쏟을 뻔했어요.",
+    "got": [
+     "EQ_SOUP_KETTLE"
+    ],
+    "miss": [],
+    "extra": []
+   },
+   {
+    "id": "S11",
+    "cond": "snr10",
+    "text": "곡 속에서 뜨거운 국물을 옮기다가 쏙을 꺼냈어요.",
+    "got": [],
+    "miss": [
+     "EQ_SOUP_KETTLE"
+    ],
+    "extra": []
+   },
+   {
+    "id": "S12",
+    "cond": "clean",
+    "text": "분전반 문이 열려 있고 주변에 상자가 쌓여 있습니다.",
+    "got": [
+     "EQ_ELECTRIC_PANEL"
+    ],
+    "miss": [],
+    "extra": []
+   },
+   {
+    "id": "S12",
+    "cond": "snr10",
+    "text": "운전관 문이 열려있고 주변에 상자가 쌓여있습니다.",
+    "got": [],
+    "miss": [
+     "EQ_ELECTRIC_PANEL"
+    ],
+    "extra": []
+   }
+  ]
+ },
+ "new": {
+  "recall": 0.857,
+  "precision": 1.0,
+  "tp": 24,
+  "fp": 0,
+  "fn": 4,
+  "rows": [
+   {
+    "id": "S01",
+    "cond": "clean",
+    "text": "튀김기 기름을 교체하다가 손등에 기름이 튀었습니다.",
+    "got": [
+     "EQ_FRYER"
+    ],
+    "miss": [],
+    "extra": []
+   },
+   {
+    "id": "S01",
+    "cond": "snr10",
+    "text": "튀김기 기름을 교체하다가 손등에 기름이 씌웠습니다.",
+    "got": [
+     "EQ_FRYER"
+    ],
+    "miss": [],
+    "extra": []
+   },
+   {
+    "id": "S02",
+    "cond": "clean",
+    "text": "가스레인지 옆바닥이 미끄러워서 넘어질 뻔했어요.",
+    "got": [
+     "EQ_GAS_RANGE"
+    ],
+    "miss": [],
+    "extra": []
+   },
+   {
+    "id": "S02",
+    "cond": "snr10",
+    "text": "바스레인지 옆 바닥이 미끄러워서 넘어질 뻔했어요.",
+    "got": [
+     "EQ_GAS_RANGE"
+    ],
+    "miss": [],
+    "extra": []
+   },
+   {
+    "id": "S03",
+    "cond": "clean",
+    "text": "칼과 도마를 씻다가 손가락을 베였습니다.",
+    "got": [
+     "EQ_KNIFE_BOARD"
+    ],
+    "miss": [],
+    "extra": []
+   },
+   {
+    "id": "S03",
+    "cond": "snr10",
+    "text": "팔과 두말을 씻다가 손가락을 세웠습니다.",
+    "got": [],
+    "miss": [
+     "EQ_KNIFE_BOARD"
+    ],
+    "extra": []
+   },
+   {
+    "id": "S04",
+    "cond": "clean",
+    "text": "6절기 나를 청소할 때 전원을 끄지 않았습니다.",
+    "got": [
+     "EQ_MEAT_SLICER"
+    ],
+    "miss": [],
+    "extra": []
+   },
+   {
+    "id": "S04",
+    "cond": "snr10",
+    "text": "6절 뒷날을 청소할 때 전원을 두지 않았습니다.",
+    "got": [],
+    "miss": [
+     "EQ_MEAT_SLICER"
+    ],
+    "extra": []
+   },
+   {
+    "id": "S05",
+    "cond": "clean",
+    "text": "워크인 냉장실 문이 안에서 잘 안열립니다.",
+    "got": [
+     "EQ_WALKIN_COOLER"
+    ],
+    "miss": [],
+    "extra": []
+   },
+   {
+    "id": "S05",
+    "cond": "snr10",
+    "text": "워크인 냉장실 미니 안에서 잘 안 열립니다.",
+    "got": [
+     "EQ_WALKIN_COOLER"
+    ],
+    "miss": [],
+    "extra": []
+   },
+   {
+    "id": "S06",
+    "cond": "clean",
+    "text": "배기 후드 필터에 기름때가 많이 쌓여 있습니다.",
+    "got": [
+     "EQ_EXHAUST_HOOD"
+    ],
+    "miss": [],
+    "extra": []
+   },
+   {
+    "id": "S06",
+    "cond": "snr10",
+    "text": "대기후드 후추터에 기름재가 많이 쌓여있습니다.",
+    "got": [
+     "EQ_EXHAUST_HOOD"
+    ],
+    "miss": [],
+    "extra": []
+   },
+   {
+    "id": "S07",
+    "cond": "clean",
+    "text": "반죽기에 손을 넣어 반죽을 꺼내다가 위험했습니다.",
+    "got": [
+     "EQ_DOUGH_MIXER"
+    ],
+    "miss": [],
+    "extra": []
+   },
+   {
+    "id": "S07",
+    "cond": "snr10",
+    "text": "반죽기에 손을 넣어 반죽을 꺼내다가 위험했습니다.",
+    "got": [
+     "EQ_DOUGH_MIXER"
+    ],
+    "miss": [],
+    "extra": []
+   },
+   {
+    "id": "S08",
+    "cond": "clean",
+    "text": "식기세척기 근처 전선이 물에 젖어 있었습니다.",
+    "got": [
+     "EQ_DISHWASHER",
+     "EQ_ELECTRIC_PANEL"
+    ],
+    "miss": [],
+    "extra": []
+   },
+   {
+    "id": "S08",
+    "cond": "snr10",
+    "text": "식기세척기 근처 전선이 물에 젖어 있었습니다.",
+    "got": [
+     "EQ_DISHWASHER",
+     "EQ_ELECTRIC_PANEL"
+    ],
+    "miss": [],
+    "extra": []
+   },
+   {
+    "id": "S09",
+    "cond": "clean",
+    "text": "선반 위쪽 무거운 박스를 사다리 없이 꺼냈습니다.",
+    "got": [
+     "EQ_LADDER",
+     "EQ_SHELF"
+    ],
+    "miss": [],
+    "extra": []
+   },
+   {
+    "id": "S09",
+    "cond": "snr10",
+    "text": "선반 위쪽 무거운 박수를 사다리 없이 꺼냈습니다.",
+    "got": [
+     "EQ_LADDER",
+     "EQ_SHELF"
+    ],
+    "miss": [],
+    "extra": []
+   },
+   {
+    "id": "S10",
+    "cond": "clean",
+    "text": "배달 오토바이를 타고 비오는 날 급하게 출발했습니다.",
+    "got": [
+     "EQ_MOTORCYCLE"
+    ],
+    "miss": [],
+    "extra": []
+   },
+   {
+    "id": "S10",
+    "cond": "snr10",
+    "text": "배달 오토바이를 타고 비 오는 날 급하게 출발했습니다.",
+    "got": [
+     "EQ_MOTORCYCLE"
+    ],
+    "miss": [],
+    "extra": []
+   },
+   {
+    "id": "S11",
+    "cond": "clean",
+    "text": "국솥에서 뜨거운 국물을 옮기다가 쏟을 뻔했어요.",
+    "got": [
+     "EQ_SOUP_KETTLE"
+    ],
+    "miss": [],
+    "extra": []
+   },
+   {
+    "id": "S11",
+    "cond": "snr10",
+    "text": "곡 속에서 뜨거운 국물을 옮기다가 쏙을 꺼냈어요.",
+    "got": [],
+    "miss": [
+     "EQ_SOUP_KETTLE"
+    ],
+    "extra": []
+   },
+   {
+    "id": "S12",
+    "cond": "clean",
+    "text": "분전반 문이 열려 있고 주변에 상자가 쌓여 있습니다.",
+    "got": [
+     "EQ_ELECTRIC_PANEL"
+    ],
+    "miss": [],
+    "extra": []
+   },
+   {
+    "id": "S12",
+    "cond": "snr10",
+    "text": "운전관 문이 열려있고 주변에 상자가 쌓여있습니다.",
+    "got": [],
+    "miss": [
+     "EQ_ELECTRIC_PANEL"
+    ],
+    "extra": []
+   }
+  ]
+ }
+}

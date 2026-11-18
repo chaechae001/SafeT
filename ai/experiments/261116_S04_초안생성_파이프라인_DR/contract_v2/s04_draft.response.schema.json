@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://safe-t.local/schemas/v2/s04_draft.response.schema.json",
+  "title": "S04 초안 생성 응답 v2 초안 (사진 상태 관찰 포함)",
+  "description": "status=ok: 모든 항목 정상. partial: 일부 항목이 off이거나 추천만 실패(항목은 그대로 저장). failed: 초안 전체 실패 → 입력 유지 후 재시도(15쪽). 사용자 입력 필드(현재 조치 선택, 대책 체크, 담당자·예정일, 실제 결과·완료일)는 만들지 않는다.",
+  "type": "object",
+  "required": [
+    "request_id",
+    "call",
+    "status"
+  ],
+  "properties": {
+    "request_id": {
+      "$ref": "common.schema.json#/$defs/RequestId"
+    },
+    "call": {
+      "const": "s04_draft"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "ok",
+        "partial",
+        "failed"
+      ]
+    }
+  },
+  "if": {
+    "properties": {
+      "status": {
+        "const": "failed"
+      }
+    }
+  },
+  "then": {
+    "required": [
+      "error"
+    ],
+    "properties": {
+      "request_id": true,
+      "call": true,
+      "status": true,
+      "error": {
+        "$ref": "common.schema.json#/$defs/ErrorBody"
+      }
+    },
+    "additionalProperties": false
+  },
+  "else": {
+    "required": [
+      "model_version",
+      "criteria_version",
+      "generated_at",
+      "items",
+      "observations"
+    ],
+    "properties": {
+      "request_id": true,
+      "call": true,
+      "status": true,
+      "model_version": {
+        "type": "string",
+        "minLength": 1
+      },
+      "criteria_version": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "generated_at": {
+        "$ref": "common.schema.json#/$defs/IsoDateTime"
+      },
+      "items": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "$ref": "common.schema.json#/$defs/RiskItemAI"
+        }
+      },
+      "warnings": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "observations": {
+        "type": "array",
+        "items": {
+          "$ref": "common.schema.json#/$defs/Observation"
+        },
+        "description": "사진 상태 관찰(VLM). 사진이 없으면 빈 배열."
+      },
+      "analysis_stages": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "stage",
+            "model_version"
+          ],
+          "properties": {
+            "stage": {
+              "type": "string",
+              "enum": [
+                "detect_equipment",
+                "observe_state",
+                "generate_items",
+                "select_measures"
+              ]
+            },
+            "model_version": {
+              "type": "string"
+            },
+            "source": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "additionalProperties": false
+  }
+}

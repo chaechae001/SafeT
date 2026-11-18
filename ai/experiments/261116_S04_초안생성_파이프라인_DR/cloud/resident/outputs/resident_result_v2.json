@@ -1,0 +1,174 @@
+{
+ "python": "3.11.18",
+ "note": "합성 음성·합성 사람 입력. LLM·STT 한 프로세스 상주",
+ "results": [
+  {
+   "case": "voice_S01_clean",
+   "wall_s": 51.34,
+   "until_first_interrupt_s": 6.2,
+   "interrupts": [
+    "confirm_transcript",
+    "confirm_equipment",
+    "select_and_rate"
+   ],
+   "transcript": {
+    "text": "튀김기 기름을 교체하다가 손등에 기름이 튀었습니다.",
+    "seconds": 0.616,
+    "mode": "faster_whisper",
+    "model_version": "deepdml/faster-whisper-large-v3-turbo-ct2@4df90f75",
+    "edited": false
+   },
+   "input_text": "튀김기 기름을 교체하다가 손등에 기름이 튀었습니다.",
+   "proposed": [
+    "EQ_FRYER"
+   ],
+   "trace": [
+    "intake: voice",
+    "transcribe(faster_whisper): 0.616s, edited=False",
+    "text_to_equipment: 1 (기기마스터 이름·동의어)",
+    "confirm_equipment: 1 rows",
+    "build_request: 1 equipment",
+    "retrieve: 1/1 equipment with public evidence",
+    "rank_llm(vllm): 1 calls",
+    "assemble: status=ok, candidates=4",
+    "rationale_filter(a_flag): 0 flagged",
+    "select_and_rate: 1 selections",
+    "risk_rule: status=rule_not_adopted (노션 H1 3×3 빈도·강도법 + 신호등 해석 B(사용자 결정 2026-11-16, adoption_status=proposed, 전문가 채택 전))"
+   ],
+   "schema_errors": {},
+   "llm_calls": {
+    "EQ_FRYER": {
+     "attempts": 1,
+     "seconds": 8.396,
+     "mode": "vllm"
+    }
+   },
+   "risk_status": "rule_not_adopted"
+  },
+  {
+   "case": "voice_S05_snr10",
+   "wall_s": 8.12,
+   "until_first_interrupt_s": 0.51,
+   "interrupts": [
+    "confirm_transcript",
+    "confirm_equipment",
+    "select_and_rate"
+   ],
+   "transcript": {
+    "text": "워크인 냉장실 미니 안에서 잘 안 열립니다.",
+    "seconds": 0.55,
+    "mode": "faster_whisper",
+    "model_version": "deepdml/faster-whisper-large-v3-turbo-ct2@4df90f75",
+    "edited": false
+   },
+   "input_text": "워크인 냉장실 미니 안에서 잘 안 열립니다.",
+   "proposed": [],
+   "trace": [
+    "intake: voice",
+    "transcribe(faster_whisper): 0.55s, edited=False",
+    "text_to_equipment: 0 (기기마스터 이름·동의어)",
+    "confirm_equipment: 1 rows",
+    "build_request: 1 equipment",
+    "retrieve: 1/1 equipment with public evidence",
+    "rank_llm(vllm): 1 calls",
+    "assemble: status=ok, candidates=4",
+    "rationale_filter(a_flag): 0 flagged",
+    "select_and_rate: 1 selections",
+    "risk_rule: status=rule_not_adopted (노션 H1 3×3 빈도·강도법 + 신호등 해석 B(사용자 결정 2026-11-16, adoption_status=proposed, 전문가 채택 전))"
+   ],
+   "schema_errors": {},
+   "llm_calls": {
+    "EQ_FRYER": {
+     "attempts": 1,
+     "seconds": 7.029,
+     "mode": "vllm"
+    }
+   },
+   "risk_status": "rule_not_adopted"
+  },
+  {
+   "case": "text_1",
+   "wall_s": 18.67,
+   "until_first_interrupt_s": 0.0,
+   "interrupts": [
+    "confirm_equipment",
+    "select_and_rate"
+   ],
+   "transcript": null,
+   "input_text": "튀김기 기름을 교체하다가 손등에 기름이 튀었고, 냉장고 앞 바닥이 미끄러웠습니다.",
+   "proposed": [
+    "EQ_FRYER",
+    "EQ_REFRIGERATOR"
+   ],
+   "trace": [
+    "intake: text",
+    "text_to_equipment: 2 (기기마스터 이름·동의어)",
+    "confirm_equipment: 2 rows",
+    "build_request: 2 equipment",
+    "retrieve: 2/2 equipment with public evidence",
+    "rank_llm(vllm): 2 calls",
+    "assemble: status=ok, candidates=9",
+    "rationale_filter(a_flag): 0 flagged",
+    "select_and_rate: 1 selections",
+    "risk_rule: status=rule_not_adopted (노션 H1 3×3 빈도·강도법 + 신호등 해석 B(사용자 결정 2026-11-16, adoption_status=proposed, 전문가 채택 전))"
+   ],
+   "schema_errors": {},
+   "llm_calls": {
+    "EQ_FRYER": {
+     "attempts": 1,
+     "seconds": 7.015,
+     "mode": "vllm"
+    },
+    "EQ_REFRIGERATOR": {
+     "attempts": 1,
+     "seconds": 11.62,
+     "mode": "vllm"
+    }
+   },
+   "risk_status": "rule_not_adopted"
+  },
+  {
+   "case": "voice_S01_clean_again",
+   "wall_s": 8.17,
+   "until_first_interrupt_s": 0.55,
+   "interrupts": [
+    "confirm_transcript",
+    "confirm_equipment",
+    "select_and_rate"
+   ],
+   "transcript": {
+    "text": "튀김기 기름을 교체하다가 손등에 기름이 튀었습니다.",
+    "seconds": 0.521,
+    "mode": "faster_whisper",
+    "model_version": "deepdml/faster-whisper-large-v3-turbo-ct2@4df90f75",
+    "edited": false
+   },
+   "input_text": "튀김기 기름을 교체하다가 손등에 기름이 튀었습니다.",
+   "proposed": [
+    "EQ_FRYER"
+   ],
+   "trace": [
+    "intake: voice",
+    "transcribe(faster_whisper): 0.521s, edited=False",
+    "text_to_equipment: 1 (기기마스터 이름·동의어)",
+    "confirm_equipment: 1 rows",
+    "build_request: 1 equipment",
+    "retrieve: 1/1 equipment with public evidence",
+    "rank_llm(vllm): 1 calls",
+    "assemble: status=ok, candidates=4",
+    "rationale_filter(a_flag): 0 flagged",
+    "select_and_rate: 1 selections",
+    "risk_rule: status=rule_not_adopted (노션 H1 3×3 빈도·강도법 + 신호등 해석 B(사용자 결정 2026-11-16, adoption_status=proposed, 전문가 채택 전))"
+   ],
+   "schema_errors": {},
+   "llm_calls": {
+    "EQ_FRYER": {
+     "attempts": 1,
+     "seconds": 7.072,
+     "mode": "vllm"
+    }
+   },
+   "risk_status": "rule_not_adopted"
+  }
+ ]
+}

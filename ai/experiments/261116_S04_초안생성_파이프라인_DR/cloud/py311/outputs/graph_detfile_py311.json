@@ -1,0 +1,252 @@
+{
+ "python": "3.11.18",
+ "detection_input": {
+  "detection_request_id": "detect_compare_sam3",
+  "status": "ok",
+  "source": "SAM 3(det-sam3, Python 3.12) JSON",
+  "items": [
+   {
+    "detection_id": "261113_P01_bApoYZBPCLE_0148.00s_DR#d64",
+    "equipment_id": "EQ_BEER_DISPENSER",
+    "confidence": 0.5117
+   },
+   {
+    "detection_id": "261113_P01_bApoYZBPCLE_0148.00s_DR#d35",
+    "equipment_id": "EQ_COFFEE_GRINDER",
+    "confidence": 0.3984
+   },
+   {
+    "detection_id": "261113_P01_bApoYZBPCLE_0148.00s_DR#d28",
+    "equipment_id": "EQ_COFFEE_MACHINE",
+    "confidence": 0.8906
+   },
+   {
+    "detection_id": "261113_P04_bApoYZBPCLE_0513.00s_DR#d230",
+    "equipment_id": "EQ_COOKING_ROBOT",
+    "confidence": 0.125
+   },
+   {
+    "detection_id": "261113_P04_bApoYZBPCLE_0513.00s_DR#d289",
+    "equipment_id": "EQ_DOUGH_MIXER",
+    "confidence": 0.375
+   },
+   {
+    "detection_id": "261113_P01_bApoYZBPCLE_0148.00s_DR#d73",
+    "equipment_id": "EQ_EXHAUST_HOOD",
+    "confidence": 0.0972
+   },
+   {
+    "detection_id": "261113_P04_bApoYZBPCLE_0513.00s_DR#d145",
+    "equipment_id": "EQ_FRYER",
+    "confidence": 0.8008
+   },
+   {
+    "detection_id": "261113_P04_bApoYZBPCLE_0513.00s_DR#d155",
+    "equipment_id": "EQ_GAS_RANGE",
+    "confidence": 0.0986
+   },
+   {
+    "detection_id": "261113_P04_bApoYZBPCLE_0513.00s_DR#d199",
+    "equipment_id": "EQ_GRIDDLE",
+    "confidence": 0.5352
+   },
+   {
+    "detection_id": "261113_P04_bApoYZBPCLE_0513.00s_DR#d162",
+    "equipment_id": "EQ_GRILL",
+    "confidence": 0.9297
+   },
+   {
+    "detection_id": "261113_P01_bApoYZBPCLE_0148.00s_DR#d59",
+    "equipment_id": "EQ_ICE_CRUSHER",
+    "confidence": 0.8594
+   },
+   {
+    "detection_id": "261113_P01_bApoYZBPCLE_0148.00s_DR#d43",
+    "equipment_id": "EQ_ICE_MAKER",
+    "confidence": 0.209
+   },
+   {
+    "detection_id": "261113_P01_bApoYZBPCLE_0148.00s_DR#d18",
+    "equipment_id": "EQ_KNIFE_BOARD",
+    "confidence": 0.9648
+   },
+   {
+    "detection_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR#d319",
+    "equipment_id": "EQ_MICROWAVE",
+    "confidence": 0.7812
+   },
+   {
+    "detection_id": "261113_P04_bApoYZBPCLE_0513.00s_DR#d259",
+    "equipment_id": "EQ_MIXER",
+    "confidence": 0.5977
+   },
+   {
+    "detection_id": "261113_P04_bApoYZBPCLE_0513.00s_DR#d302",
+    "equipment_id": "EQ_NOODLE_MACHINE",
+    "confidence": 0.6992
+   },
+   {
+    "detection_id": "261113_P04_bApoYZBPCLE_0513.00s_DR#d223",
+    "equipment_id": "EQ_PORTABLE_BURNER",
+    "confidence": 0.5469
+   },
+   {
+    "detection_id": "261113_P01_bApoYZBPCLE_0148.00s_DR#d80",
+    "equipment_id": "EQ_REFRIGERATOR",
+    "confidence": 0.8086
+   },
+   {
+    "detection_id": "261113_P01_bApoYZBPCLE_0148.00s_DR#d22",
+    "equipment_id": "EQ_SCISSORS",
+    "confidence": 0.0708
+   },
+   {
+    "detection_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR#d426",
+    "equipment_id": "EQ_SHELF",
+    "confidence": 0.9219
+   },
+   {
+    "detection_id": "261113_P06_gkMLRGZIHsc_0311.00s_DR#d346",
+    "equipment_id": "EQ_SINK",
+    "confidence": 0.3301
+   },
+   {
+    "detection_id": "261113_P04_bApoYZBPCLE_0513.00s_DR#d231",
+    "equipment_id": "EQ_VEG_CUTTER",
+    "confidence": 0.1836
+   }
+  ]
+ },
+ "proposed_equipment": [
+  "EQ_BEER_DISPENSER",
+  "EQ_COFFEE_GRINDER",
+  "EQ_COFFEE_MACHINE",
+  "EQ_COOKING_ROBOT",
+  "EQ_DOUGH_MIXER",
+  "EQ_EXHAUST_HOOD",
+  "EQ_FRYER",
+  "EQ_GAS_RANGE",
+  "EQ_GRIDDLE",
+  "EQ_GRILL",
+  "EQ_ICE_CRUSHER",
+  "EQ_ICE_MAKER",
+  "EQ_KNIFE_BOARD",
+  "EQ_MICROWAVE",
+  "EQ_MIXER",
+  "EQ_NOODLE_MACHINE",
+  "EQ_PORTABLE_BURNER",
+  "EQ_REFRIGERATOR",
+  "EQ_SCISSORS",
+  "EQ_SHELF",
+  "EQ_SINK",
+  "EQ_VEG_CUTTER"
+ ],
+ "trace": [
+  "propose_equipment: 22",
+  "confirm_equipment: 22 rows",
+  "build_request: 22 equipment",
+  "retrieve: 12/22 equipment with public evidence",
+  "rank_llm(vllm): 12 calls",
+  "assemble: status=partial, candidates=36",
+  "rationale_filter(a_flag): 1 flagged",
+  "select_and_rate: 2 selections",
+  "risk_rule: status=rule_not_adopted (노션 H1 3×3 빈도·강도법 + 신호등 해석 B(사용자 결정 2026-11-16, adoption_status=proposed, 전문가 채택 전))"
+ ],
+ "schema_errors": {},
+ "postprocess": {
+  "outside_pool_codes": 0,
+  "dup_codes": 0,
+  "invalid_source_ids": 0,
+  "dropped_no_valid_source": 0,
+  "judgement_words": 0,
+  "parse_fail": 0
+ },
+ "llm_calls": {
+  "EQ_BEER_DISPENSER": null,
+  "EQ_COFFEE_GRINDER": null,
+  "EQ_COFFEE_MACHINE": {
+   "attempts": 1,
+   "seconds": 3.723,
+   "mode": "vllm"
+  },
+  "EQ_COOKING_ROBOT": null,
+  "EQ_DOUGH_MIXER": {
+   "attempts": 1,
+   "seconds": 4.248,
+   "mode": "vllm"
+  },
+  "EQ_EXHAUST_HOOD": {
+   "attempts": 1,
+   "seconds": 14.476,
+   "mode": "vllm"
+  },
+  "EQ_FRYER": {
+   "attempts": 1,
+   "seconds": 7.253,
+   "mode": "vllm"
+  },
+  "EQ_GAS_RANGE": {
+   "attempts": 1,
+   "seconds": 4.922,
+   "mode": "vllm"
+  },
+  "EQ_GRIDDLE": null,
+  "EQ_GRILL": null,
+  "EQ_ICE_CRUSHER": null,
+  "EQ_ICE_MAKER": null,
+  "EQ_KNIFE_BOARD": {
+   "attempts": 1,
+   "seconds": 6.64,
+   "mode": "vllm"
+  },
+  "EQ_MICROWAVE": null,
+  "EQ_MIXER": {
+   "attempts": 1,
+   "seconds": 5.093,
+   "mode": "vllm"
+  },
+  "EQ_NOODLE_MACHINE": {
+   "attempts": 1,
+   "seconds": 4.797,
+   "mode": "vllm"
+  },
+  "EQ_PORTABLE_BURNER": null,
+  "EQ_REFRIGERATOR": {
+   "attempts": 1,
+   "seconds": 11.517,
+   "mode": "vllm"
+  },
+  "EQ_SCISSORS": {
+   "attempts": 1,
+   "seconds": 3.226,
+   "mode": "vllm"
+  },
+  "EQ_SHELF": {
+   "attempts": 1,
+   "seconds": 5.76,
+   "mode": "vllm"
+  },
+  "EQ_SINK": null,
+  "EQ_VEG_CUTTER": {
+   "attempts": 1,
+   "seconds": 4.864,
+   "mode": "vllm"
+  }
+ },
+ "risk": [
+  [
+   "sel-1",
+   4,
+   "not_tolerable",
+   "yellow"
+  ],
+  [
+   "sel-2",
+   4,
+   "not_tolerable",
+   "yellow"
+  ]
+ ],
+ "wall_seconds": 114.95,
+ "note": "SAM 3 결과는 실제 Cloud 실행, 사람 입력은 합성(시험용)"
+}

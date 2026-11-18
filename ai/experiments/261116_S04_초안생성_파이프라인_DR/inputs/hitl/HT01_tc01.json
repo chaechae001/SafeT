@@ -1,0 +1,7 @@
+{
+  "request_id": "hitl-HT01-tc01",
+  "_note": "합성 데모 입력. TC01(가상 치킨집, inputs/tc01_request.json)의 기기를 사용자가 확인했다고 가정한 목록과 현장 설명. 정답셋 평가에는 쓰지 않는다.",
+  "industry": "chicken",
+  "equipment_ids": ["EQ_FRYER", "EQ_KNIFE_BOARD", "EQ_MARINATOR", "EQ_REFRIGERATOR"],
+  "site_note": "튀김할 때 기름이 튀어요. 닭은 칼과 도마로 손질한 뒤 염지기에 넣어요. 무거운 닭 상자를 냉장고로 자주 옮겨요. 튀김기 앞 바닥에 물기가 있어요."
+}

@@ -1,0 +1,14 @@
+{
+  "request_id": "case-KITCHEN_N_01-261116",
+  "assessment_id": "CASE-KITCHEN_N_01",
+  "criteria_version": null,
+  "business": {
+    "industry": "음식점"
+  },
+  "equipment": [],
+  "field_input": {
+    "photos": [],
+    "text": "급식실 분전반에 감전 경고표지와 잠금 관리가 부족한 상태",
+    "voice_transcripts": []
+  }
+}

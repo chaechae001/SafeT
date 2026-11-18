@@ -1,0 +1,34 @@
+{
+  "_about": "Human-in-the-Loop 추천형 S04 설정(2026-11-16). LLM은 기기별 위험요인 후보와 예방대책 후보만 추천한다. 신호·위험도·등급은 출력하지 않는다. 발생 가능성·중대성은 사용자가 고르고 위험도는 규칙으로 계산한다(척도 미확정).",
+  "version": "hitl-recommend-0.1",
+  "risk_scale_status": "척도 미확정",
+  "methods": {
+    "R_bm25": "검색만. 기기마스터 없이 기기명으로 구조화표·청크를 BM25 검색하고, 검색된 문장의 위험 낱말로 코드를 모아 점수 합 순으로 정렬",
+    "R_index": "검색만. 기기마스터(기기→위험요인 인덱스)의 related_hazards(근거있음→제안)를 먼저, 다음에 BM25에서만 나온 코드를 점수 순으로",
+    "A_llm": "LLM 단독. 기기 표준명과 위험 분류 코드 목록만 주고 후보를 추천",
+    "B_rag": "RAG 기반. R_index 상위 후보와 근거 발췌를 주고 LLM이 정렬·설명. LLM이 고른 후보만",
+    "B_rag_fill": "B_rag 뒤에 LLM이 고르지 않은 R_index 후보를 원래 순서로 붙임(재현율 확인용)"
+  },
+  "retrieval": {
+    "bm25_rows_top": 20,
+    "bm25_chunks_top": 10,
+    "exclude_case_rows": true,
+    "_exclude_case_rows": "사례(평가 기록) 행은 정답셋 출처와 겹칠 수 있어 위험요인 인덱스에서 뺀다(데이터 누출 방지).",
+    "pool_size_for_llm": 8,
+    "evidence_rows_per_code": 2
+  },
+  "llm": {
+    "max_candidates": 6,
+    "prompt_version_A": "hitl-A-v1",
+    "prompt_version_B": "hitl-B-v1"
+  },
+  "measures": {
+    "count": 3,
+    "default_stage": "c2",
+    "_note": "대책 후보는 3차 라운드의 C2(서버 규칙: 기기 매핑 점검표 행 중 위험 코드 낱말이 든 행 → 같은 코드 전체 행, BM25 순)와 C1(LLM이 후보 10개 중 3개 선택)을 재사용한다. C1 응답이 없거나 규칙을 어기면 C2로 대체한다."
+  },
+  "eval": {
+    "k_values": [1, 3, 5],
+    "ground_truth_key": "equipment_id → hazard_code"
+  }
+}

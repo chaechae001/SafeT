@@ -1,0 +1,14 @@
+{
+  "request_id": "case-KITCHEN_N_02-261116",
+  "assessment_id": "CASE-KITCHEN_N_02",
+  "criteria_version": null,
+  "business": {
+    "industry": "음식점"
+  },
+  "equipment": [],
+  "field_input": {
+    "photos": [],
+    "text": "급식실 벽면 분전반의 감전 경고표지가 누락된 상태",
+    "voice_transcripts": []
+  }
+}

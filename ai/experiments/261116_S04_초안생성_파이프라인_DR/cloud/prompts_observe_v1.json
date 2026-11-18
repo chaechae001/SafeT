@@ -1,0 +1,189 @@
+{
+ "prompt_version": "observe-v1",
+ "calls": [
+  {
+   "case_id": "PC01",
+   "photo_id": "PC01-photo-1",
+   "image_file": "images/261113_P04_bApoYZBPCLE_0513.00s_DR_1280.jpg",
+   "messages": [
+    {
+     "role": "system",
+     "content": "너는 음식점 주방 사진에서 안전과 관련된 '상태'만 관찰해 적는 보조 도구다. 사진에 실제로 보이는 것만 쓴다. 보이지 않는 것을 추측하지 않는다. 기기 이름을 쓰지 않는다. 출력은 JSON 하나만 쓴다."
+    },
+    {
+     "role": "user",
+     "content": [
+      {
+       "type": "image"
+      },
+      {
+       "type": "text",
+       "text": "사진 장소(사용자 입력): 주방 튀김기 앞\n\n할 일: 이 사진에서 사고로 이어질 수 있는 상태를 최대 5개 관찰해 적는다.\n관찰 대상은 바닥·작업대·벽·통로의 상태, 물이나 기름, 불꽃이나 열, 쌓인 물건, 전선과 콘센트, 용기, 날카로운 도구의 놓인 상태 같은 것이다.\n\n규칙:\n1. text: 보이는 상태를 한국어 한 문장으로 쓴다. 위치(바닥, 위쪽 선반, 왼쪽 등)를 함께 쓴다. 기기나 제품의 이름은 쓰지 않는다.\n2. hazard_state: 아래 코드 중 하나만 쓴다.\n- slip: 미끄러짐·넘어짐\n- cut: 베임·절단·끼임\n- burn: 고온 접촉·화상\n- fire: 화재\n- gas: 가스 누출·폭발\n- electric: 감전·전기 위험\n- chemical: 세척제·화학물질\n- ergonomic: 중량물·근골격계 부담\n- falling: 낙하·충돌·추락\n- respiratory: 조리흄·환기·유해가스 노출\n- traffic: 교통사고\n- noise_vibration: 소음·진동\n- heat_cold: 고열·한랭 노출\n- entrapment: 냉장·냉동실 갇힘\n3. confidence: 이 관찰이 사진에서 분명히 보이는 정도를 0에서 1 사이 숫자로 쓴다.\n4. 사고로 이어질 상태가 보이지 않으면 {\"observations\":[]}만 쓴다.\n5. 같은 상태를 두 번 쓰지 않는다.\n\n출력은 아래 틀의 JSON 하나만 쓴다(빈 값을 규칙대로 채운다):\n{\"observations\":[{\"text\":\"\",\"hazard_state\":\"\",\"confidence\":0}]}"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case_id": "PC02",
+   "photo_id": "PC02-photo-1",
+   "image_file": "images/C03_kkubeurakko_process_3_1280.jpg",
+   "messages": [
+    {
+     "role": "system",
+     "content": "너는 음식점 주방 사진에서 안전과 관련된 '상태'만 관찰해 적는 보조 도구다. 사진에 실제로 보이는 것만 쓴다. 보이지 않는 것을 추측하지 않는다. 기기 이름을 쓰지 않는다. 출력은 JSON 하나만 쓴다."
+    },
+    {
+     "role": "user",
+     "content": [
+      {
+       "type": "image"
+      },
+      {
+       "type": "text",
+       "text": "사진 장소(사용자 입력): 주방 화구\n\n할 일: 이 사진에서 사고로 이어질 수 있는 상태를 최대 5개 관찰해 적는다.\n관찰 대상은 바닥·작업대·벽·통로의 상태, 물이나 기름, 불꽃이나 열, 쌓인 물건, 전선과 콘센트, 용기, 날카로운 도구의 놓인 상태 같은 것이다.\n\n규칙:\n1. text: 보이는 상태를 한국어 한 문장으로 쓴다. 위치(바닥, 위쪽 선반, 왼쪽 등)를 함께 쓴다. 기기나 제품의 이름은 쓰지 않는다.\n2. hazard_state: 아래 코드 중 하나만 쓴다.\n- slip: 미끄러짐·넘어짐\n- cut: 베임·절단·끼임\n- burn: 고온 접촉·화상\n- fire: 화재\n- gas: 가스 누출·폭발\n- electric: 감전·전기 위험\n- chemical: 세척제·화학물질\n- ergonomic: 중량물·근골격계 부담\n- falling: 낙하·충돌·추락\n- respiratory: 조리흄·환기·유해가스 노출\n- traffic: 교통사고\n- noise_vibration: 소음·진동\n- heat_cold: 고열·한랭 노출\n- entrapment: 냉장·냉동실 갇힘\n3. confidence: 이 관찰이 사진에서 분명히 보이는 정도를 0에서 1 사이 숫자로 쓴다.\n4. 사고로 이어질 상태가 보이지 않으면 {\"observations\":[]}만 쓴다.\n5. 같은 상태를 두 번 쓰지 않는다.\n\n출력은 아래 틀의 JSON 하나만 쓴다(빈 값을 규칙대로 채운다):\n{\"observations\":[{\"text\":\"\",\"hazard_state\":\"\",\"confidence\":0}]}"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case_id": "PC03",
+   "photo_id": "PC03-photo-1",
+   "image_file": "images/G02_goobne_fryer_1280.jpg",
+   "messages": [
+    {
+     "role": "system",
+     "content": "너는 음식점 주방 사진에서 안전과 관련된 '상태'만 관찰해 적는 보조 도구다. 사진에 실제로 보이는 것만 쓴다. 보이지 않는 것을 추측하지 않는다. 기기 이름을 쓰지 않는다. 출력은 JSON 하나만 쓴다."
+    },
+    {
+     "role": "user",
+     "content": [
+      {
+       "type": "image"
+      },
+      {
+       "type": "text",
+       "text": "사진 장소(사용자 입력): 주방\n\n할 일: 이 사진에서 사고로 이어질 수 있는 상태를 최대 5개 관찰해 적는다.\n관찰 대상은 바닥·작업대·벽·통로의 상태, 물이나 기름, 불꽃이나 열, 쌓인 물건, 전선과 콘센트, 용기, 날카로운 도구의 놓인 상태 같은 것이다.\n\n규칙:\n1. text: 보이는 상태를 한국어 한 문장으로 쓴다. 위치(바닥, 위쪽 선반, 왼쪽 등)를 함께 쓴다. 기기나 제품의 이름은 쓰지 않는다.\n2. hazard_state: 아래 코드 중 하나만 쓴다.\n- slip: 미끄러짐·넘어짐\n- cut: 베임·절단·끼임\n- burn: 고온 접촉·화상\n- fire: 화재\n- gas: 가스 누출·폭발\n- electric: 감전·전기 위험\n- chemical: 세척제·화학물질\n- ergonomic: 중량물·근골격계 부담\n- falling: 낙하·충돌·추락\n- respiratory: 조리흄·환기·유해가스 노출\n- traffic: 교통사고\n- noise_vibration: 소음·진동\n- heat_cold: 고열·한랭 노출\n- entrapment: 냉장·냉동실 갇힘\n3. confidence: 이 관찰이 사진에서 분명히 보이는 정도를 0에서 1 사이 숫자로 쓴다.\n4. 사고로 이어질 상태가 보이지 않으면 {\"observations\":[]}만 쓴다.\n5. 같은 상태를 두 번 쓰지 않는다.\n\n출력은 아래 틀의 JSON 하나만 쓴다(빈 값을 규칙대로 채운다):\n{\"observations\":[{\"text\":\"\",\"hazard_state\":\"\",\"confidence\":0}]}"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case_id": "PC04",
+   "photo_id": "PC04-photo-1",
+   "image_file": "images/brave_ZcRVMActFC_1280.jpg",
+   "messages": [
+    {
+     "role": "system",
+     "content": "너는 음식점 주방 사진에서 안전과 관련된 '상태'만 관찰해 적는 보조 도구다. 사진에 실제로 보이는 것만 쓴다. 보이지 않는 것을 추측하지 않는다. 기기 이름을 쓰지 않는다. 출력은 JSON 하나만 쓴다."
+    },
+    {
+     "role": "user",
+     "content": [
+      {
+       "type": "image"
+      },
+      {
+       "type": "text",
+       "text": "사진 장소(사용자 입력): 주방 세척대 주변\n\n할 일: 이 사진에서 사고로 이어질 수 있는 상태를 최대 5개 관찰해 적는다.\n관찰 대상은 바닥·작업대·벽·통로의 상태, 물이나 기름, 불꽃이나 열, 쌓인 물건, 전선과 콘센트, 용기, 날카로운 도구의 놓인 상태 같은 것이다.\n\n규칙:\n1. text: 보이는 상태를 한국어 한 문장으로 쓴다. 위치(바닥, 위쪽 선반, 왼쪽 등)를 함께 쓴다. 기기나 제품의 이름은 쓰지 않는다.\n2. hazard_state: 아래 코드 중 하나만 쓴다.\n- slip: 미끄러짐·넘어짐\n- cut: 베임·절단·끼임\n- burn: 고온 접촉·화상\n- fire: 화재\n- gas: 가스 누출·폭발\n- electric: 감전·전기 위험\n- chemical: 세척제·화학물질\n- ergonomic: 중량물·근골격계 부담\n- falling: 낙하·충돌·추락\n- respiratory: 조리흄·환기·유해가스 노출\n- traffic: 교통사고\n- noise_vibration: 소음·진동\n- heat_cold: 고열·한랭 노출\n- entrapment: 냉장·냉동실 갇힘\n3. confidence: 이 관찰이 사진에서 분명히 보이는 정도를 0에서 1 사이 숫자로 쓴다.\n4. 사고로 이어질 상태가 보이지 않으면 {\"observations\":[]}만 쓴다.\n5. 같은 상태를 두 번 쓰지 않는다.\n\n출력은 아래 틀의 JSON 하나만 쓴다(빈 값을 규칙대로 채운다):\n{\"observations\":[{\"text\":\"\",\"hazard_state\":\"\",\"confidence\":0}]}"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case_id": "PC05",
+   "photo_id": "PC05-photo-1",
+   "image_file": "images/seongdong_kyochon_1_1280.jpg",
+   "messages": [
+    {
+     "role": "system",
+     "content": "너는 음식점 주방 사진에서 안전과 관련된 '상태'만 관찰해 적는 보조 도구다. 사진에 실제로 보이는 것만 쓴다. 보이지 않는 것을 추측하지 않는다. 기기 이름을 쓰지 않는다. 출력은 JSON 하나만 쓴다."
+    },
+    {
+     "role": "user",
+     "content": [
+      {
+       "type": "image"
+      },
+      {
+       "type": "text",
+       "text": "사진 장소(사용자 입력): 주방 튀김 구역\n\n할 일: 이 사진에서 사고로 이어질 수 있는 상태를 최대 5개 관찰해 적는다.\n관찰 대상은 바닥·작업대·벽·통로의 상태, 물이나 기름, 불꽃이나 열, 쌓인 물건, 전선과 콘센트, 용기, 날카로운 도구의 놓인 상태 같은 것이다.\n\n규칙:\n1. text: 보이는 상태를 한국어 한 문장으로 쓴다. 위치(바닥, 위쪽 선반, 왼쪽 등)를 함께 쓴다. 기기나 제품의 이름은 쓰지 않는다.\n2. hazard_state: 아래 코드 중 하나만 쓴다.\n- slip: 미끄러짐·넘어짐\n- cut: 베임·절단·끼임\n- burn: 고온 접촉·화상\n- fire: 화재\n- gas: 가스 누출·폭발\n- electric: 감전·전기 위험\n- chemical: 세척제·화학물질\n- ergonomic: 중량물·근골격계 부담\n- falling: 낙하·충돌·추락\n- respiratory: 조리흄·환기·유해가스 노출\n- traffic: 교통사고\n- noise_vibration: 소음·진동\n- heat_cold: 고열·한랭 노출\n- entrapment: 냉장·냉동실 갇힘\n3. confidence: 이 관찰이 사진에서 분명히 보이는 정도를 0에서 1 사이 숫자로 쓴다.\n4. 사고로 이어질 상태가 보이지 않으면 {\"observations\":[]}만 쓴다.\n5. 같은 상태를 두 번 쓰지 않는다.\n\n출력은 아래 틀의 JSON 하나만 쓴다(빈 값을 규칙대로 채운다):\n{\"observations\":[{\"text\":\"\",\"hazard_state\":\"\",\"confidence\":0}]}"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case_id": "PC06",
+   "photo_id": "PC06-photo-1",
+   "image_file": "images/seongdong_nene_geumho_1_1280.jpg",
+   "messages": [
+    {
+     "role": "system",
+     "content": "너는 음식점 주방 사진에서 안전과 관련된 '상태'만 관찰해 적는 보조 도구다. 사진에 실제로 보이는 것만 쓴다. 보이지 않는 것을 추측하지 않는다. 기기 이름을 쓰지 않는다. 출력은 JSON 하나만 쓴다."
+    },
+    {
+     "role": "user",
+     "content": [
+      {
+       "type": "image"
+      },
+      {
+       "type": "text",
+       "text": "사진 장소(사용자 입력): 주방 냉장고 위 벽면\n\n할 일: 이 사진에서 사고로 이어질 수 있는 상태를 최대 5개 관찰해 적는다.\n관찰 대상은 바닥·작업대·벽·통로의 상태, 물이나 기름, 불꽃이나 열, 쌓인 물건, 전선과 콘센트, 용기, 날카로운 도구의 놓인 상태 같은 것이다.\n\n규칙:\n1. text: 보이는 상태를 한국어 한 문장으로 쓴다. 위치(바닥, 위쪽 선반, 왼쪽 등)를 함께 쓴다. 기기나 제품의 이름은 쓰지 않는다.\n2. hazard_state: 아래 코드 중 하나만 쓴다.\n- slip: 미끄러짐·넘어짐\n- cut: 베임·절단·끼임\n- burn: 고온 접촉·화상\n- fire: 화재\n- gas: 가스 누출·폭발\n- electric: 감전·전기 위험\n- chemical: 세척제·화학물질\n- ergonomic: 중량물·근골격계 부담\n- falling: 낙하·충돌·추락\n- respiratory: 조리흄·환기·유해가스 노출\n- traffic: 교통사고\n- noise_vibration: 소음·진동\n- heat_cold: 고열·한랭 노출\n- entrapment: 냉장·냉동실 갇힘\n3. confidence: 이 관찰이 사진에서 분명히 보이는 정도를 0에서 1 사이 숫자로 쓴다.\n4. 사고로 이어질 상태가 보이지 않으면 {\"observations\":[]}만 쓴다.\n5. 같은 상태를 두 번 쓰지 않는다.\n\n출력은 아래 틀의 JSON 하나만 쓴다(빈 값을 규칙대로 채운다):\n{\"observations\":[{\"text\":\"\",\"hazard_state\":\"\",\"confidence\":0}]}"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case_id": "PC07",
+   "photo_id": "PC07-photo-1",
+   "image_file": "images/seongdong_nene_seongsu_3_1280.jpg",
+   "messages": [
+    {
+     "role": "system",
+     "content": "너는 음식점 주방 사진에서 안전과 관련된 '상태'만 관찰해 적는 보조 도구다. 사진에 실제로 보이는 것만 쓴다. 보이지 않는 것을 추측하지 않는다. 기기 이름을 쓰지 않는다. 출력은 JSON 하나만 쓴다."
+    },
+    {
+     "role": "user",
+     "content": [
+      {
+       "type": "image"
+      },
+      {
+       "type": "text",
+       "text": "사진 장소(사용자 입력): 주방 세척대·화구 구역\n\n할 일: 이 사진에서 사고로 이어질 수 있는 상태를 최대 5개 관찰해 적는다.\n관찰 대상은 바닥·작업대·벽·통로의 상태, 물이나 기름, 불꽃이나 열, 쌓인 물건, 전선과 콘센트, 용기, 날카로운 도구의 놓인 상태 같은 것이다.\n\n규칙:\n1. text: 보이는 상태를 한국어 한 문장으로 쓴다. 위치(바닥, 위쪽 선반, 왼쪽 등)를 함께 쓴다. 기기나 제품의 이름은 쓰지 않는다.\n2. hazard_state: 아래 코드 중 하나만 쓴다.\n- slip: 미끄러짐·넘어짐\n- cut: 베임·절단·끼임\n- burn: 고온 접촉·화상\n- fire: 화재\n- gas: 가스 누출·폭발\n- electric: 감전·전기 위험\n- chemical: 세척제·화학물질\n- ergonomic: 중량물·근골격계 부담\n- falling: 낙하·충돌·추락\n- respiratory: 조리흄·환기·유해가스 노출\n- traffic: 교통사고\n- noise_vibration: 소음·진동\n- heat_cold: 고열·한랭 노출\n- entrapment: 냉장·냉동실 갇힘\n3. confidence: 이 관찰이 사진에서 분명히 보이는 정도를 0에서 1 사이 숫자로 쓴다.\n4. 사고로 이어질 상태가 보이지 않으면 {\"observations\":[]}만 쓴다.\n5. 같은 상태를 두 번 쓰지 않는다.\n\n출력은 아래 틀의 JSON 하나만 쓴다(빈 값을 규칙대로 채운다):\n{\"observations\":[{\"text\":\"\",\"hazard_state\":\"\",\"confidence\":0}]}"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "case_id": "PC08",
+   "photo_id": "PC08-photo-1",
+   "image_file": "images/seongdong_bbq_haengdang_4_1280.jpg",
+   "messages": [
+    {
+     "role": "system",
+     "content": "너는 음식점 주방 사진에서 안전과 관련된 '상태'만 관찰해 적는 보조 도구다. 사진에 실제로 보이는 것만 쓴다. 보이지 않는 것을 추측하지 않는다. 기기 이름을 쓰지 않는다. 출력은 JSON 하나만 쓴다."
+    },
+    {
+     "role": "user",
+     "content": [
+      {
+       "type": "image"
+      },
+      {
+       "type": "text",
+       "text": "사진 장소(사용자 입력): 주방 작업대\n\n할 일: 이 사진에서 사고로 이어질 수 있는 상태를 최대 5개 관찰해 적는다.\n관찰 대상은 바닥·작업대·벽·통로의 상태, 물이나 기름, 불꽃이나 열, 쌓인 물건, 전선과 콘센트, 용기, 날카로운 도구의 놓인 상태 같은 것이다.\n\n규칙:\n1. text: 보이는 상태를 한국어 한 문장으로 쓴다. 위치(바닥, 위쪽 선반, 왼쪽 등)를 함께 쓴다. 기기나 제품의 이름은 쓰지 않는다.\n2. hazard_state: 아래 코드 중 하나만 쓴다.\n- slip: 미끄러짐·넘어짐\n- cut: 베임·절단·끼임\n- burn: 고온 접촉·화상\n- fire: 화재\n- gas: 가스 누출·폭발\n- electric: 감전·전기 위험\n- chemical: 세척제·화학물질\n- ergonomic: 중량물·근골격계 부담\n- falling: 낙하·충돌·추락\n- respiratory: 조리흄·환기·유해가스 노출\n- traffic: 교통사고\n- noise_vibration: 소음·진동\n- heat_cold: 고열·한랭 노출\n- entrapment: 냉장·냉동실 갇힘\n3. confidence: 이 관찰이 사진에서 분명히 보이는 정도를 0에서 1 사이 숫자로 쓴다.\n4. 사고로 이어질 상태가 보이지 않으면 {\"observations\":[]}만 쓴다.\n5. 같은 상태를 두 번 쓰지 않는다.\n\n출력은 아래 틀의 JSON 하나만 쓴다(빈 값을 규칙대로 채운다):\n{\"observations\":[{\"text\":\"\",\"hazard_state\":\"\",\"confidence\":0}]}"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
