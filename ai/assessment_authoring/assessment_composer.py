@@ -19,6 +19,7 @@ def compose_assessment(context, retrieval_bundle, analysis_bundle, catalog_snaps
                           grade=MATRIX[scenario["severity"]][band], status="estimated_from_input"))
     unmatched = list(dict.fromkeys(retrieval_bundle["unmatched"] + analysis["unmatched_risks"]))
     result = dict(contract_version="assessment-authoring-1", assessment_mode="input_based",
+                  base_policy_version=catalog_snapshot["policy_version"],
                   decision_policy_version="CATALOG-MVP-1.1-AUTO-1.0", items=items, unmatched_risks=unmatched,
                   result_status=("partial" if unmatched else "complete") if items else "no_supported_result")
     schema("assessment", result)

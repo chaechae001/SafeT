@@ -9,7 +9,11 @@ def run_pipeline(raw_request, *, build_context, extract_analysis, catalog_snapsh
     retrieval, trace = retrieve_with_evidence(context, catalog_snapshot, rag_provider=rag_provider,
                                               rag_links=rag_links, legal_registry=legal_registry)
     analysis = dict(contract_version="assessment-authoring-1", candidates=[], unmatched_risks=[])
-    for batch in candidate_batches(retrieval):
+    has_work_input = any(m["kind"] in ("text", "voice_transcript") for m in context["media"])
+    batches = candidate_batches(retrieval) if has_work_input else []
+    if not has_work_input:
+        trace["work_review_candidates"] = [c["scenario_id"] for c in retrieval["candidates"]]
+    for batch in batches:
         part = extract_analysis(copy.deepcopy(context), copy.deepcopy(batch), copy.deepcopy(catalog_snapshot))
         # 각 배치 소속을 먼저 검사하여 다른 배치 ID를 끼워넣지 못하게 한다.
         from .analysis_validator import validate_analysis

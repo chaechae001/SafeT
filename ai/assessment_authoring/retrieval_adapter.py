@@ -8,14 +8,22 @@ from .contracts import schema, require
 
 MAPPINGS = json.loads((Path(__file__).parent/"mappings/catalog_links.json").read_text(encoding="utf-8"))
 
-def _positive(text, term):
-    # 명시적 부재/미사용의 최소 반례. 복잡한 부정·상충 의미는 추출 단계에서 처리한다.
-    for sentence in re.split(r"[.!?\n]", text):
-        if term in sentence:
-            tail = sentence[sentence.index(term)+len(term):]
-            if not re.search(r"^.{0,12}(없|미사용|사용하지 않|쓰지 않)", tail):
-                return True
-    return False
+# Exclude only an explicitly absent device or unused task immediately after the term.
+_UNUSED = re.compile(r"^(?:기|\s*작업)?(?:은|는|이|가|을|를)?\s*"
+                     r"(?:없(?:다|습니다|어요|음|고|으며)|미사용|사용하지\s*않|하지\s*않|쓰지\s*않|안\s*(?:함|합니다|해요|한다|사용))")
+
+
+def text_candidates(media, diagnostics):
+    hits = set()
+    for sid, terms in MAPPINGS["terms"].items():
+        for term in terms:
+            for match in re.finditer(re.escape(term), media["text"]):
+                if _UNUSED.match(media["text"][match.end():]):
+                    diagnostics.append(f"명시적 부정: {media['id']} {sid} {term}")
+                else:
+                    hits.add(sid)
+    return hits
+
 
 def retrieve_with_evidence(context, catalog_snapshot, *, rag_provider=None, rag_links=None, legal_registry=None):
     schema("input", context)
@@ -23,26 +31,25 @@ def retrieve_with_evidence(context, catalog_snapshot, *, rag_provider=None, rag_
     require(len(set(context["equipment_ids"])) == len(context["equipment_ids"]), "duplicate equipment")
     catalog = catalog_index(catalog_snapshot)
     selected = set()
-    unmatched = []
-    trace = {"retrieval_mode": "catalog", "rag_response": None}
+    diagnostics = []
+    trace = {"retrieval_mode": "catalog", "rag_response": None, "diagnostics": diagnostics}
     for eq in context["equipment_ids"]:
         links = MAPPINGS["equipment"].get(eq, [])
         selected.update(links)
         if not links:
-            unmatched.append("기기 매핑 없음: " + eq)
+            diagnostics.append("기기 매핑 없음: " + eq)
     for media in context["media"]:
         if media["kind"] not in ("text", "voice_transcript"):
             continue
-        hits = {sid for sid, terms in MAPPINGS["terms"].items()
-                if any(_positive(media["text"], term) for term in terms)}
+        hits = text_candidates(media, diagnostics)
         selected.update(hits)
         if not hits:
-            unmatched.append("검색어 매핑 없음: " + media["id"])
+            diagnostics.append("검색어 매핑 없음: " + media["id"])
     if rag_provider is not None and context["equipment_ids"]:
         # 기존 services.rag_retrieval.candidates를 주입할 수 있다. 오류를 정상 0건으로 은폐하지 않는다.
         response = rag_provider(context["equipment_ids"], k=None)
         require(isinstance(response, dict) and isinstance(response.get("candidates"), list), "invalid RAG response")
-        trace = {"retrieval_mode": "catalog+rag", "rag_response": copy.deepcopy(response)}
+        trace.update(retrieval_mode="catalog+rag", rag_response=copy.deepcopy(response))
         for candidate in response["candidates"]:
             require(isinstance(candidate.get("equipment_ids"), list)
                     and isinstance(candidate.get("hazard_code"), str), "invalid RAG candidate")
@@ -52,7 +59,7 @@ def retrieve_with_evidence(context, catalog_snapshot, *, rag_provider=None, rag_
                 links = (rag_links or {}).get(key, [])
                 selected.update(links)
                 if not links:
-                    unmatched.append("RAG 시나리오 매핑 없음: " + key)
+                    diagnostics.append("RAG 시나리오 매핑 없음: " + key)
     require(selected <= catalog.keys(), "mapping scenario outside catalog")
     candidates = []
     for sid in sorted(selected):
@@ -62,7 +69,7 @@ def retrieve_with_evidence(context, catalog_snapshot, *, rag_provider=None, rag_
         candidates.append(dict(scenario_id=sid, source_refs=refs, legal_refs=laws,
                                retrieval_status="matched" if refs or laws else "no_evidence"))
     bundle = dict(contract_version="assessment-authoring-1", candidates=candidates,
-                  unmatched=list(dict.fromkeys(unmatched)))
+                  unmatched=[])
     schema("retrieval", bundle)
     return bundle, trace
 
