@@ -44,4 +44,3 @@ def attach_document_evidence(rendered, evidence):
         from .explanations import document_summaries
         row['document_summaries'] = document_summaries(row['document_evidence'])
     return out
-

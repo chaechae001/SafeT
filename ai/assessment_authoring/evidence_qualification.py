@@ -25,4 +25,3 @@ def qualify_direct_evidence(response, link_rows):
         # 원래 대책 집계는 문장과 1:1 연결되지 않으므로 여기서 현장 대책 근거로 전달하지 않는다.
         candidate["measures"] = []
     return qualified, exclusions
-

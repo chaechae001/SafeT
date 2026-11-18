@@ -59,6 +59,8 @@ def detail(db,email,no):
     if m['generation_source'] == authoring_rag.SOURCE and result['items']:
         snapshot = result['items'][0]['authoring']
         result.update(assessment_mode='input_based', result_status=snapshot['result_status'],
+                      review_candidates=snapshot.get('review_candidates', []),
+                      base_policy_version=snapshot.get('base_policy_version'),
                       unmatched_risks=snapshot['unmatched_risks'])
     return result
 
@@ -133,6 +135,19 @@ def save(db,email,no,body,confirm=False):
             orig=originals[edit.id]
             if m['generation_source'] == authoring_rag.SOURCE:
                 authoring_rag.protect_current(orig, edit)
+                if confirm and not edit.work_reviewed:
+                    raise AuthError(422, 'WORK_REVIEW_REQUIRED', '각 작업과 입력 근거를 확인해 주세요.')
+                pending = {candidate['scenario_id'] for candidate in orig['authoring'].get('review_candidates', [])}
+                exclusions = set(body.excluded_review_candidates)
+                if not exclusions <= pending or (confirm and exclusions != pending):
+                    raise AuthError(422, 'CANDIDATE_REVIEW_REQUIRED', '검토 후보의 실제 작업 여부를 확인해 주세요.')
+                if edit.work_reviewed:
+                    review = dict(reviewer=email, revision=body.revision+1, reviewed_at=str(now()),
+                                  excluded_candidates=sorted(exclusions))
+                    execute(db, "UPDATE eval_dtl SET catalog_state=JSON_SET(catalog_state,'$.work_review',JSON_EXTRACT(:r,'$')) WHERE eval_dtl_no=:n",
+                            r=json.dumps(review,ensure_ascii=False), n=edit.id)
+                else:
+                    execute(db, "UPDATE eval_dtl SET catalog_state=JSON_REMOVE(catalog_state,'$.work_review') WHERE eval_dtl_no=:n", n=edit.id)
             # 기준 후보 문구·출처는 서버에서 관리하며 직접 추가 항목만 자유 입력을 허용한다.
             for kind,edits in (('C',edit.curr),('P',edit.plans)):
                 original=orig['curr' if kind=='C' else 'plans']; byid={a['id']:a for a in original}

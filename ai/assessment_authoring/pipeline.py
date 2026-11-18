@@ -9,7 +9,9 @@ def run_pipeline(raw_request, *, build_context, extract_analysis, catalog_snapsh
     retrieval, trace = retrieve_with_evidence(context, catalog_snapshot, rag_provider=rag_provider,
                                               rag_links=rag_links, legal_registry=legal_registry)
     analysis = dict(contract_version="assessment-authoring-1", candidates=[], unmatched_risks=[])
-    for batch in candidate_batches(retrieval, size=batch_size):
+    has_work_input = any(m["kind"] in ("text", "voice_transcript") for m in context["media"])
+    batches = candidate_batches(retrieval, size=batch_size) if has_work_input else []
+    for batch in batches:
         if extract_with_evidence is None:
             part = extract_analysis(copy.deepcopy(context), copy.deepcopy(batch), copy.deepcopy(catalog_snapshot))
         else:
@@ -22,8 +24,17 @@ def run_pipeline(raw_request, *, build_context, extract_analysis, catalog_snapsh
         part = validate_analysis(context, batch, part, catalog_snapshot, legal_registry)
         analysis["candidates"].extend(part["candidates"])
         analysis["unmatched_risks"].extend(part["unmatched_risks"])
-    rendered = render_assessment(context, retrieval, analysis, catalog_snapshot, legal_registry=legal_registry,
-                                 document_evidence=trace['scenario_evidence'])
+    denied = set(trace["not_applicable_candidates"])
+    assessed = {candidate["scenario_id"] for candidate in analysis["candidates"]}
+    pending = set(trace["equipment_candidates"]) - assessed - denied
+    review_candidates = [
+        {"scenario_id": sid, "reason": "input_denies_work" if sid in denied else "work_unconfirmed"}
+        for sid in sorted(pending | denied)
+    ]
+    trace["work_review_candidates"] = sorted(pending)
+    rendered = render_assessment(context, retrieval, analysis, catalog_snapshot,
+                                 legal_registry=legal_registry, review_candidates=review_candidates,
+                                 document_evidence=trace["scenario_evidence"])
     from .document_evidence import attach_document_evidence
     rendered = attach_document_evidence(rendered, trace["scenario_evidence"])
     return dict(input=context, retrieval=retrieval, analysis=analysis, assessment=rendered, retrieval_trace=trace)

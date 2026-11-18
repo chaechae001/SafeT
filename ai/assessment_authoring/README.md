@@ -1,20 +1,18 @@
-# 검색·근거·검증·계산 구현
+# 위험성평가표 작성: 검색·추출·검증·계산 구현
 
-판단 이유는 `explanations.py`에서 검증된 입력·문헌·핵심 조치 상태·실제 등급을 연결해 작성한다.
-문헌 요약은 원문 위험 문장의 중복을 제거한 발췌형 요약이며 새 원인·대책을 생성하지 않는다.
-`document_summaries`는 같은 파일의 출처를 묶고 원문 연결 행·쪽을 보존한다. 원본 `document_evidence`는 변경하지 않는다.
-설명 전체는 JSON 스냅샷에 저장하고, 기존 500자 DB 열에는 호환용 앞부분을 저장한다. API와 화면은 JSON의 전체 설명을 사용한다.
-기존 확정본의 판단 이유는 자동 재작성하지 않는다. 변경된 판단 이유는 새 평가표에서 확인한다.
-
-공통 기준: 4521794dfa097a73519f8c327ada44bdcdaa4787 / 계약 PR #31.
+공통 기준: 5a882f6148d614d341cbdbe9643967da2f915457 / 계약 PR #31.
 이 모듈은 input_based 경로를 독립 실행한다. 기존 배포 7514acd의 질문·사용자 조치 확인·저장 API는 유지한다.
+
+- 검색·근거·검증·계산(검색·통합 담당): 아래 "함수와 연결"부터 "검토와 표시"까지.
+- LLM 추출(추출 담당): 아래 "추출 어댑터" 절.
 
 ## 실행
 
 저장소 루트, Python 3.11 이상. 추가 패키지·GPU·배포·API 키 없이 실행한다.
+모든 모듈과 테스트는 저장소 루트 기준 패키지 import(`ai.assessment_authoring`, `contracts.assessment_authoring.v1`)를 사용한다. sys.path를 바꾸지 않는다.
 
 ```bash
-python -m unittest discover -s ai/assessment_authoring/tests -v
+python -m unittest discover -s ai/assessment_authoring/tests -v   # 검색·계산 + 추출 테스트 함께 실행
 python contracts/assessment_authoring/v1/validate.py
 python -X utf8 -m ai.assessment_authoring.demo --case unknown
 python -X utf8 -m ai.assessment_authoring.demo --case critical_supported
@@ -26,15 +24,6 @@ unknown 사례는 FRY / S2 / C3 / 상, critical_supported는 C2 / 중, all_suppo
 예상 위험도·사용자 확인 상태를 만들어 현재 등급을 덮어쓰지 않는다.
 
 ## 함수와 연결
-
-실제 클라우드 합성 텍스트 검수는 아래 명령으로 실행한다. 기존 비공개 환경설정을 읽으며 키를 출력하지 않는다.
-
-```bash
-python -X utf8 -m ai.assessment_authoring.live_text_check --env-file "<기존 backend/.env 경로>" --output "<로컬 결과 JSON 경로>"
-```
-
-검수 도구의 입력·근거 프롬프트는 현재 조치 정의와 개선대책을 분리한다. 실제 모델 응답은 동일 계약 검증을 거친다.
-표시용 rationale은 서버 문구로 조립하고 모델의 자유 설명은 원본 AnalysisBundle에 보존한다.
 
 | 파일 | 입력 → 출력 |
 | --- | --- |
@@ -63,8 +52,8 @@ bundle, trace = retrieve_with_evidence(
 
 rag_links는 {"기기ID:실제위험코드": ["시나리오ID"]} 형태의 검수된 연결표다.
 위험코드를 시나리오 ID로 추정하거나 임의 출처를 카탈로그 문서 쪽으로 바꾸지 않는다.
-실제 위험코드와 출처 응답은 trace.rag_response에 보존하고, 미연결 항목은 unmatched에 남긴다.
-live_rag_check는 실제 응답을 확인한 튀김기 burn→FRY, slip→ENV 연결만 사용한다. gas·respiratory는 미매칭으로 남긴다.
+실제 위험코드와 출처 응답은 trace.rag_response에 보존하고, 미연결 매핑은 trace.diagnostics에 남긴다.
+현재 저장소에 비공개 인덱스가 없으므로 실제 코드별 연결표를 만들어냈다고 주장하지 않는다.
 합성 응답 주입 테스트는 API 연결 형태와 이력 보존을 확인한다.
 
 기본 검색의 source_refs는 기존 카탈로그의 등록 문헌 위치다. matched는 참조 연결을 뜻하며 원문 실시간 조회나 현장 사실 검증을 뜻하지 않는다.
@@ -84,13 +73,88 @@ RAG 공급자가 설정되지 않으면 카탈로그 검색만 실행하고 trac
 
 ## 검사 결과
 
-독립 unittest 36개 통과: 공통 예제 5종, 등급표 9조합, ID·근거·질문·중복 거절,
+검색·계산 unittest 27개와 추출 unittest 22개(합계 49개)를 함께 실행한다. 검색·계산 쪽 범위: 공통 예제 5종, 등급표 9조합, ID·근거·질문·중복 거절,
 누락 조치, 법령 등록, 배치 보존, 기기 오매핑 반례, RAG 실패/미매핑/이력,
 추천과 현재 등급 분리, 고정 함수 연결, 모델 호출 생략.
 공통 계약 33개와 저장소 지정 CPU self-test 3개도 실행한다.
-합성 텍스트 한 건의 실제 EXAONE 검수를 수행했다. 동일 입력 생성 3회 중 앞선 두 응답은 검증에서 차단했고 프롬프트 보완 후 통과했다.
-별도 튀김기 검수에서는 SSH로 읽은 비공개 RAG 검색 결과를 실제 모델 입력과 로컬 평가표까지 연결했다.
-DB 저장·배포 화면·PDF 출력·QR·사진 검사는 포함하지 않는다. 기존 검수 배포와 병행 가능하다.
+실제 클라우드·DB·PDF·QR·실모델 검사는 포함하지 않는다. 기존 검수 배포와 병행 가능하다.
+
+
+## 검토와 표시
+
+출력은 담당자가 실제 작업과 근거를 검토할 초안이다. 기기에서 찾았지만 작업이 미확인인 후보와 입력에서 작업을 부정한 후보는 공통 결과인 core.review_candidates에 각각 work_unconfirmed와 input_denies_work로 담는다. 담당자가 실제 작업 확인 또는 비적용 결정을 내리기 전까지 검토 대상으로 남는다. 검색 진단은 retrieval_trace에 기록하며 실제 미매칭 위험만 평가표에 표시한다.
+source_refs는 등록된 카탈로그 순서의 처음 두 건이다. 검색 관련도 순위를 뜻하지 않는다.
+계약·원문 근거 검사는 #31과 같은 함수를 사용한다. 서비스 저장·확정 연결 시 권한, revision, 검토 이력, 명시적 확정을 서버에서 확인한다.
+
+## 추출 어댑터
+
+`extraction_adapter.py`는 입력·검색 후보·카탈로그 조치 정의를 기존 EXAONE 연결에 전달하고 `analysis.schema.json`을 만족하는 AnalysisBundle을 반환한다.
+작업 지시: [tasks/03-extraction.md](../../contracts/assessment_authoring/v1/tasks/03-extraction.md).
+
+### 호출
+
+```python
+from ai.assessment_authoring.extraction_adapter import extract_analysis, run_extraction, ExtractionError
+
+analysis = extract_analysis(context, retrieval_bundle, catalog_snapshot)          # AnalysisBundle (run_pipeline에 그대로 주입)
+result = run_extraction(context, retrieval_bundle, catalog_snapshot, call_model)  # .analysis, .runs, .work_review_candidates
+```
+
+- `call_model(messages) -> {"content", "finish_reason", "usage", "model", "max_tokens"}`. 생략하면 `exaone_chat`.
+- 후보를 3개씩 나누어 배치당 호출 1회. 후보가 없거나 텍스트·전사 media가 없으면(사진·기기 목록만) 모델을 호출하지 않는다.
+- `unmatched_risks` = `retrieval.unmatched` + 모델 미매칭(중복 제거).
+- `runs`: 배치별 scenario_ids·모델·max_tokens·finish_reason·usage·prompt_version·prompt_sha256.
+- `work_review_candidates`: 보조 진단. 이 호출의 검색 후보 중 analysis에서 빠진 scenario_id이며 사유를 구분하지 않는다. 담당자 검토 대상의 공식 결과는 `run_pipeline`이 만드는 `core.review_candidates`(`work_unconfirmed` / `input_denies_work`)다.
+- 인용은 공통 `validate.py`의 `whole_sentence`로 검사한다. 원문 한 문장(문장부호까지)과 같아야 하므로 부정문 일부("보호구를 착용")는 조치 근거가 되지 않는다.
+- 실패는 `ExtractionError(code, detail)`로 던진다. detail에 모델 원문·안내 문구·설정값을 넣지 않는다.
+
+| code | 상황 |
+| --- | --- |
+| INPUT_INVALID | 입력·검색 Bundle 스키마 위반, 카탈로그 밖 후보, 정책 버전 불일치 |
+| INPUT_TOO_LONG | backend `AI_INPUT_TOO_LONG`: 입력이 4096 토큰 예산을 넘음 |
+| MODEL_UNCONFIGURED | backend `AI_UNCONFIGURED` 등 설정 오류, backend 모델 연결 import 실패 |
+| MODEL_TOKENIZE_FAILED | backend `AI_TOKENIZE_FAILED`: 토큰 계수 경로 실패 |
+| MODEL_REQUEST_FAILED | HTTP·응답 본문 오류 |
+| MODEL_OUTPUT_TRUNCATED | finish_reason=length (응답 중단) |
+| MODEL_OUTPUT_INCOMPLETE | stop 이외의 종료 사유 |
+| MODEL_OUTPUT_INVALID_JSON | 빈 응답, JSON 파싱 실패, 객체가 아님, JSON 뒤 추가 문장 |
+| MODEL_OUTPUT_SCHEMA | grade/severity 등 추가 필드, questions≠[], 잘못된 state |
+| MODEL_OUTPUT_REFERENCE | 배치 밖·중복 scenario, 미등록·중복 control, 없는 media, 위조·문장 일부 인용, 텍스트·전사 문장 없는 작업 근거, 탐지·보유 참조의 조치 판정 |
+
+### 모델 설정
+
+`exaone_chat`은 `backend/services/catalog_ai.py`의 설정·인증·토큰 계수를 그대로 사용한다. backend 프로세스(작업 디렉터리 `backend/`, 저장소 루트도 import 경로에 포함)에서 호출한다.
+
+| 항목 | 값 |
+| --- | --- |
+| 모델 | `SAFET_AI_MODEL` (현재 팀 설정: EXAONE 3.5) |
+| 주소 | `SAFET_AI_BASE_URL` 또는 `SAFET_AI_GATEWAY_URL` |
+| 출력 한도 | `SAFET_AI_MAX_TOKENS`(256~2048, 기본 1024), 토큰 계수 후 입력+출력 4096 이내 |
+| 생성 | temperature 0, `response_format: json_object` |
+| 프롬프트 | `system_prompt.md` (`assessment-extraction-2`) = 공통 `prompts/generation_system.txt`(계약 `5a882f6`) 12개 규칙 + 조치 근거 규칙 |
+
+모델에는 시나리오 설명·조치 ID·핵심 여부·현재 조치 문구·문헌 참조만 보낸다. severity·initial_grade·plan_text는 보내지 않는다.
+언급 없는 조치는 응답에서 생략하게 하여 출력 길이를 줄인다. 누락 조치는 validate_analysis가 unknown으로 정규화한다.
+
+### 고정 사례
+
+`fixtures/extraction/<사례>/`에 `input.json`, `retrieval.json`, `model_response.json`(mock 응답), `analysis.json`(어댑터 출력)이 있다. 모두 **합성 자료**이며 실제 모델 응답이나 현장 자료가 아니다.
+
+| 사례 | 확인 내용 |
+| --- | --- |
+| normal | 원문 문장 인용이 있는 조치만 supported |
+| unknown | 작업만 언급 → control_evidence 없음, assumptions 기록 |
+| detection_only | 사진 탐지·기기 목록만 → 모델 호출 없음, 분석 행 없음. run_pipeline에서 FRY는 core.review_candidates(work_unconfirmed) |
+| negation | 고장·미보유 진술 → not_effective |
+| conflict | TEXT·VOICE 진술 상충 → unknown, 두 근거 보존 |
+| composite_partial | 보안경/내열 보호구 중 일부만 확인 → unknown |
+| no_match | 검색 후보 없음 → 모델 호출 없이 unmatched_risks 보존 |
+
+### 추출 검사 범위
+
+mock 응답으로 파싱·계약·오류 처리를 검사하고, `run_pipeline`에 이 어댑터를 넣어 검색→추출→계산 연결을 확인한다.
+backend 설정·계수 오류의 ExtractionError 전달은 가짜 backend 모듈로 검사한다(네트워크 없음).
+실제 EXAONE 호출 검사는 저장소의 호출 대기 조건이 해제된 뒤 별도로 실행·기록한다.
 
 ## RAG 문헌 전달
 
@@ -112,4 +176,3 @@ links-file은 `{ "rows": [...] }` 형식이다. 검색 응답과 연결 행 파�
 evidence_qualification은 A등급의 기기 직접 언급 문장만 전달한다. 섹션명만으로 묶인 다른 기기 문장과 1:1 대응이 없는 대책 집계는 제외한다.
 현재 검수 도구는 배치당 1개 시나리오로 기존 관문의 4,096 토큰 한도를 검사한다. 프롬프트·응답·문헌이 포함된 결과 파일은 비공개로 보관한다.
 이 검수는 문헌 전달·계약·계산 연결을 확인하며, 원문 PDF 육안 검증이나 전체 기기 정확도 평가를 대신하지 않는다.
-

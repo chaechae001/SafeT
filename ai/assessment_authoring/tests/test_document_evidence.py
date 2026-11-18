@@ -53,7 +53,8 @@ class DocumentEvidenceTests(unittest.TestCase):
         self.links={}
         out=self.run_case(lambda *args:copy.deepcopy(self.a))
         self.assertEqual(out["assessment"]["rows"][0]["document_evidence"],[])
-        self.assertEqual(out["assessment"]["core"]["result_status"],"partial")
+        self.assertEqual(out["assessment"]["core"]["result_status"],"complete")
+        self.assertTrue(any("RAG 시나리오 매핑 없음" in d for d in out["retrieval_trace"]["diagnostics"]))
 
     def test_evaluation_case_source_rejected(self):
         self.response["candidates"][0]["source_ids"]=["CASE-TEST"]
@@ -67,4 +68,3 @@ class DocumentEvidenceTests(unittest.TestCase):
         self.assertNotIn("FAKE",str(out["assessment"]["rows"][0]["document_evidence"]))
 
 if __name__=="__main__":unittest.main()
-

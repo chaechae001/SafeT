@@ -60,9 +60,9 @@
     if(dirty)saveDraft('v-list').done(run);else run();
   }
   function payload() {
-    return {revision:evaluation.revision,items:items.map(function(it){
+    return {revision:evaluation.revision,excluded_review_candidates:$('#rag-status-panel .candidate-exclusion:checked').map(function(){return this.value;}).get(),items:items.map(function(it){
       function action(a){return {id:typeof a.id==='number'?a.id:null,text:a.text,checked:a.checked};}
-      return {id:it.id,curr:it.curr.map(action),plans:it.plans.map(action),none:it.none,controls_reviewed:!!it.controls_reviewed,keep:it.keep,owner:it.owner,due:it.due?it.due.replace(/\./g,'-'):null};
+      return {id:it.id,work_reviewed:!!it.work_reviewed,curr:it.curr.map(action),plans:it.plans.map(action),none:it.none,controls_reviewed:!!it.controls_reviewed,keep:it.keep,owner:it.owner,due:it.due?it.due.replace(/\./g,'-'):null};
     })};
   }
   function itQuestions(){return items.some(function(it){return it.catalog && it.catalog.ai_analysis && it.catalog.ai_analysis.questions.length;});}
@@ -285,6 +285,12 @@
     if(it.catalog)$('#d-judge-box p').text('실시 중인 조치 또는 조치 없음을 선택하고, 목록 전체 확인 후 저장해 주세요.');
 
     if(SafeT.catalogAI)SafeT.catalogAI.detail(it);
+    if(it.authoring){
+      var reviewLabel=$('<label>').appendTo('#ai-evidence');
+      $('<input type="checkbox" class="work-review">').prop('checked',!!it.work_reviewed).appendTo(reviewLabel)
+        .on('change',function(){it.work_reviewed=this.checked;dirty=true;});
+      reviewLabel.append(' 실제 작업과 입력 근거를 확인했습니다.');
+    }
     renderChecks($('#d-curr-list'), it.curr, 'curr', it);
     $('[data-add="curr"]').prop('hidden',it.assessment_mode==='input_based');
 

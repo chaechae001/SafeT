@@ -59,4 +59,3 @@ def main():
     print(json.dumps({k:v for k,v in report.items() if k not in ("pipeline","batches")},ensure_ascii=False))
     if report["status"]!="passed":raise SystemExit(1)
 if __name__=="__main__":main()
-

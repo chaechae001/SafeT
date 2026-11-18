@@ -39,4 +39,3 @@ class QualificationTests(unittest.TestCase):
             evidence_by_scenario(cleaned,{"EQ_FRYER:burn":["FRY"]},["FRY"],["EQ_FRYER"])
 
 if __name__=="__main__":unittest.main()
-

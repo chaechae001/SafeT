@@ -46,6 +46,9 @@ def test_document_evidence_roundtrip_and_input_grade_survive_save(client,rag_flo
     assert client.get(f'/evals/{no}').status_code==401
     confirm=edits(fresh)
     confirm['items'][0].update(owner={'type':'R','name':'근로자'},due='2026-12-01')
+    blocked=client.post(f'/evals/{no}/confirm',headers=h,json=confirm)
+    assert blocked.status_code==422 and blocked.json()['detail']['code']=='WORK_REVIEW_REQUIRED'
+    confirm['items'][0]['work_reviewed']=True
     done=client.post(f'/evals/{no}/confirm',headers=h,json=confirm)
     assert done.status_code==200,done.text
     final=client.get(f'/evals/{no}',headers=h).json()

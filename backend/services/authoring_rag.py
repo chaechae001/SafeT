@@ -72,13 +72,23 @@ def extract(context, retrieval, snapshot, evidence):
         raise AuthError(503, 'AI_UNCONFIGURED', '입력 기반 평가의 AI 관문을 설정해 주세요.')
     messages = build_messages(context, retrieval, snapshot, evidence)
     key = os.getenv('SAFET_AI_API_KEY', '')
+    from ai.assessment_authoring.extraction_adapter import check_batch_output, ExtractionError
     try:
         count = request_json(base, key, '/tokenize', dict(model=model, messages=messages, add_generation_prompt=True))['count']
         budget = output_budget(count)
         response = request_json(base, key, '/v1/chat/completions', dict(model=model, messages=messages,
             temperature=0, max_tokens=budget, response_format=model_response_format(context, retrieval, snapshot)))
-        return parse_completion(response, context)
-    except (OSError, RuntimeError, ValueError, KeyError, TypeError, IndexError):
+        decoded = parse_completion(response, context)
+        checked = check_batch_output(decoded, context, [r['scenario_id'] for r in retrieval['candidates']],
+                                  {s['id']: s for s in snapshot['scenarios']})
+        # A fryer document can suggest a passage hazard, but only the user's work can establish exposure.
+        from ai.assessment_authoring.retrieval_adapter import text_candidates
+        checked['candidates'] = [candidate for candidate in checked['candidates']
+            if candidate['scenario_id'] != 'ENV' or not evidence.get('ENV')
+            or any('ENV' in text_candidates({'id': quote['media_id'], 'text': quote['statement']}, [])[0]
+                   for quote in candidate['evidence'])]
+        return checked
+    except (OSError, RuntimeError, ValueError, KeyError, TypeError, IndexError, ExtractionError):
         raise AuthError(502, 'AUTHORING_MODEL_FAILED', '모델 응답을 완료하지 못했어요. 입력을 유지하고 다시 시도해 주세요.') from None
 
 
@@ -100,6 +110,8 @@ def generate(scenarios, context):
     rag = trace['rag_response'] or {}
     stamp = dict(model=os.getenv('SAFET_AI_MODEL'), generated_at=datetime.now(timezone.utc).isoformat(),
         assessment_mode='input_based', result_status=out['assessment']['core']['result_status'],
+        base_policy_version=out['assessment']['core']['base_policy_version'],
+        review_candidates=out['assessment']['core']['review_candidates'],
         unmatched_risks=out['assessment']['core']['unmatched_risks'],
         decision_policy_version=out['assessment']['core']['decision_policy_version'],
         retrieval_mode=trace['retrieval_mode'], data_version=rag.get('data_version'),
@@ -132,6 +144,8 @@ def enrich(item, state):
     from ai.assessment_authoring.explanations import document_summaries
     snapshot['row'].setdefault('document_summaries', document_summaries(snapshot['row']['document_evidence']))
     item.pop('catalog', None)
+    item['work_review'] = state.get('work_review')
+    item['work_reviewed'] = bool(item['work_review'])
     item['assessment_mode'] = 'input_based'
     item['authoring'] = snapshot
     item['reason'] = snapshot['row']['rationale']

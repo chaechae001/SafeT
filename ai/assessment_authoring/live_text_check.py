@@ -87,7 +87,7 @@ def model_response_format(context, retrieval, catalog):
                   input_ref=choices(["NONE", *input_segments(context)]))
     candidate = obj(scenario_id=choices(scenario_ids), work_ref=refs, controls=dict(type="array", items=control))
     return {"type": "json_schema", "json_schema": {"name": "safe_t_input_classification", "strict": True,
-            "schema": obj(candidates=dict(type="array", items=candidate))}}
+            "schema": obj(candidates=dict(type="array", items=candidate, maxItems=len(scenario_ids)))}}
 
 
 # 검수한 세 시나리오에서 인용문이 조치의 대상을 언급하는지 확인한다.
@@ -95,7 +95,7 @@ def model_response_format(context, retrieval, catalog):
 CONTROL_TOPICS = {
     "ENV-C1": (r"오염|바닥|배수|덮개", r"제거|청소|닦|배수|덮개|막힘"),
     "ENV-C2": (r"미끄럼\s*방지|미끄러짐\s*방지|매트|논슬립",),
-    "ENV-C3": (r"계단|통로|손잡이|난간",),
+    "ENV-C3": (r"계단|통로|손잡이|난간", r"점검|확인|설치|보수|파손|고장|미설치|확보|정리"),
     "ENV-C4": (r"동선|운반\s*경로", r"분리|구분|겹치"),
     "ENV-C5": (r"조명|전등|밝기|조도",),
     "ENV-C6": (r"표지|표시|출입\s*(?:통제|제한|금지)",),
@@ -203,4 +203,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

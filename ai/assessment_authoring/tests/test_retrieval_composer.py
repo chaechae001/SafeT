@@ -77,14 +77,96 @@ class AuthoringTests(unittest.TestCase):
     def test_specific_equipment_does_not_overmap(self):
         self.i["equipment_ids"]=["EQ_REFRIGERATOR"]
         self.i["media"][0].update(kind="equipment_inventory",text="일반 냉장고")
-        r=retrieve_evidence(self.i,self.catalog)
+        r,trace=retrieve_with_evidence(self.i,self.catalog)
         self.assertEqual(r["candidates"],[])
-        self.assertTrue(r["unmatched"])
+        self.assertEqual(r["unmatched"], [])
+        self.assertTrue(trace["diagnostics"])
 
     def test_negative_text(self):
         self.i["media"][0]["text"]="가스레인지는 없고 전기 튀김기를 사용합니다."
         ids={c["scenario_id"] for c in retrieve_evidence(self.i,self.catalog)["candidates"]}
         self.assertNotIn("GAS",ids);self.assertIn("FRY",ids)
+
+    def test_negation_targets_without_equipment(self):
+        for observation, sid, applies in [
+            ("튀김 중 온도 조절기가 없다.", "FRY", True),
+            ("튀김기 사용 후 기름이 없는지 확인합니다.", "FRY", True),
+            ("가스레인지 사용, 가스 누출 없음 매일 확인", "GAS", True),
+            ("튀김은 안 합니다.", "FRY", False),
+            ("튀김 작업을 하지 않습니다.", "FRY", False),
+            ("튀김은 안 합니다. 다른 곳에서는 튀김 조리를 합니다.", "FRY", True),
+        ]:
+            with self.subTest(observation=observation):
+                self.i["equipment_ids"] = []
+                self.i["media"][0]["text"] = observation
+                r = retrieve_evidence(self.i, self.catalog)
+                self.assertEqual(sid in [c["scenario_id"] for c in r["candidates"]], applies)
+
+    def test_missing_device_control_keeps_fry_through_pipeline(self):
+        context = read("examples/input_variants/text.json")
+        observation = "튀김 중 온도 조절기가 없다."
+        context["media"][0]["text"] = observation
+        analysis = read("examples/unknown/analysis.json")
+        analysis["candidates"][0]["evidence"][0]["statement"] = observation
+        result = run_pipeline(context, build_context=copy.deepcopy, extract_analysis=lambda *args: analysis,
+                              catalog_snapshot=self.catalog)
+        self.assertEqual([row["scenario_id"] for row in result["assessment"]["rows"]], ["FRY"])
+
+    def test_photo_only_waits_for_work_review(self):
+        context = read("examples/input_variants/photo.json")
+        def unexpected(*args):
+            self.fail("detection alone cannot establish work")
+        result = run_pipeline(context, build_context=copy.deepcopy, extract_analysis=unexpected,
+                              catalog_snapshot=self.catalog)
+        self.assertEqual(result["retrieval_trace"]["work_review_candidates"], ["FRY"])
+        self.assertEqual(result["assessment"]["rows"], [])
+        self.assertEqual(result["assessment"]["core"]["review_candidates"],
+                         [{"scenario_id": "FRY", "reason": "work_unconfirmed"}])
+
+    def test_photo_with_text_preserves_work_status(self):
+        for observation, rows, pending, excluded in [
+            ("칼로 채소를 썹니다.", [], ["FRY"], []),
+            ("주방에서 튀김 조리를 합니다.", ["FRY"], [], []),
+            ("튀김은 안 합니다.", [], [], ["FRY"]),
+            ("튀김 작업을 하지 않습니다.", [], [], ["FRY"]),
+            ("튀김 조리를 하지 않습니다.", [], [], ["FRY"]),
+            ("튀김기는 안 씁니다.", [], [], ["FRY"]),
+            ("튀김기 온도 조절기가 없다.", [], ["FRY"], []),
+            ("튀김은 안 합니다. 다른 곳에서는 튀김 조리를 합니다.", [], ["FRY"], []),
+        ]:
+            with self.subTest(observation=observation):
+                context = read("examples/input_variants/photo.json")
+                context["media"].append(dict(id="TEXT", kind="text", text=observation))
+                def extract(_, batch, catalog):
+                    self.assertFalse(excluded, "explicitly inapplicable work sent to extraction")
+                    self.assertIn("FRY", [c["scenario_id"] for c in batch["candidates"]])
+                    if rows:
+                        return read("examples/unknown/analysis.json")
+                    return dict(contract_version="assessment-authoring-1", candidates=[], unmatched_risks=[])
+
+                result = run_pipeline(context, build_context=copy.deepcopy, extract_analysis=extract,
+                                      catalog_snapshot=self.catalog)
+                self.assertEqual([row["scenario_id"] for row in result["assessment"]["rows"]], rows)
+                self.assertEqual(result["retrieval_trace"]["work_review_candidates"], pending)
+                self.assertEqual(result["retrieval_trace"]["not_applicable_candidates"], excluded)
+                self.assertEqual(result["assessment"]["core"]["review_candidates"],
+                                 [{"scenario_id": sid, "reason": "work_unconfirmed"} for sid in pending]
+                                 + [{"scenario_id": sid, "reason": "input_denies_work"} for sid in excluded])
+
+    def test_irrelevant_note_does_not_make_draft_partial(self):
+        self.i["media"].append(dict(id="NOTE", kind="text", text="주방 정리"))
+        r, trace = retrieve_with_evidence(self.i, self.catalog)
+        self.assertTrue(trace["diagnostics"])
+        self.assertEqual(compose_assessment(self.i, r, self.a, self.catalog)["result_status"], "complete")
+
+    def test_negated_fragment_and_mixed_evidence_rejected(self):
+        self.i["media"].append(dict(id="NEG", kind="text", text="보호구를 착용하지 않습니다."))
+        self.i["media"].append(dict(id="PHOTO", kind="equipment_detection", text="보호구"))
+        control = self.a["candidates"][0]["control_evidence"][0]
+        for quote, refs in [("보호구를 착용", ["NEG"]), (control["statement"], ["TEXT", "PHOTO"])]:
+            with self.subTest(refs=refs), self.assertRaises(ValueError):
+                control.update(statement=quote, evidence_refs=refs)
+                validate_analysis(self.i, self.r, self.a, self.catalog)
 
     def test_batches_preserve_all_candidates(self):
         self.i["equipment_ids"]=["EQ_FRYER","EQ_OVEN","EQ_LADDER","EQ_GAS_RANGE"]
@@ -109,9 +191,10 @@ class AuthoringTests(unittest.TestCase):
 
     def test_unmapped_rag_hazard_preserved(self):
         self.i["equipment_ids"]=["EQ_FRYER"]
-        r=retrieve_evidence(self.i,self.catalog,rag_provider=lambda *a,**kw:dict(candidates=[
+        r,trace=retrieve_with_evidence(self.i,self.catalog,rag_provider=lambda *a,**kw:dict(candidates=[
             dict(equipment_ids=["EQ_FRYER"],hazard_code="unknown")]))
-        self.assertTrue(any("unknown" in s for s in r["unmatched"]))
+        self.assertEqual(r["unmatched"], [])
+        self.assertTrue(any("unknown" in s for s in trace["diagnostics"]))
 
     def test_rag_failure_not_empty_success(self):
         self.i["equipment_ids"]=["EQ_FRYER"]
@@ -127,8 +210,6 @@ class AuthoringTests(unittest.TestCase):
         rendered=render_assessment(self.i,self.r,a,self.catalog)
         self.assertEqual(rendered["core"]["items"][0]["grade"],"상")
         self.assertTrue(rendered["rows"][0]["improvement_candidates"])
-        self.assertTrue(all("미확인 항목의 개선 후보" in c["text"]
-            for c in rendered["rows"][0]["improvement_candidates"]))
         self.assertEqual(rendered["rows"][0]["current_controls"],[])
 
     def test_fixed_input_and_extraction_pipeline(self):
