@@ -4,11 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>초안 확인 · Safe-T</title>
-  <link rel="stylesheet" href="../css/common.css?v=20261117">
-  <link rel="stylesheet" href="../css/assessment.css?v=20261117">
-  <link rel="stylesheet" href="../css/draft.css?v=20261117">
-  <link rel="stylesheet" href="../css/risk.css?v=20261117">
-  <link rel="stylesheet" href="../css/bulk-assign.css?v=20261117">
+  <link rel="stylesheet" href="../css/common.css?v=20261117-integrated">
+  <link rel="stylesheet" href="../css/assessment.css?v=20261117-integrated">
+  <link rel="stylesheet" href="../css/draft.css?v=20261117-integrated">
+  <link rel="stylesheet" href="../css/risk.css?v=20261117-integrated">
+  <link rel="stylesheet" href="../css/bulk-assign.css?v=20261117-integrated">
 </head>
 <body data-auth-required data-assessment>
   <!-- draft.html · 화면설계서 v3.19 통합본
@@ -216,7 +216,7 @@
               <p class="notice notice--muted small" id="d-plan-wait" hidden>신호 판단이 끝나면 추천 대책이 나와요.</p>
 
               <div class="stack" id="d-plan-body">
-                <p class="hint">AI가 실행하기 쉬운 대책 3개를 추천했어요. 할 대책을 선택해 주세요.</p>
+                <p class="hint">위험요인에 맞는 대책 후보입니다. 현장에 적용할 대책을 선택해 주세요.</p>
                 <div class="check-list" id="d-plan-list"></div>
                 <button class="add-row" type="button" data-add="plan">+ 개선대책 직접 추가</button>
 
@@ -227,10 +227,11 @@
                   </div>
                   <button class="btn btn--sm" id="d-owner-btn" type="button">일괄 지정에서 지정</button>
                 </div>
-                <p class="hint">대책을 고르면 평가표를 저장할 때 AI가 개선 후 예상 신호를 한 번에 판단해요.</p>
+                <p class="hint">대책을 고르고 저장하면 공통 기준으로 예상 위험도를 계산해요. 선택한 대책이 모두 이행되어 효과가 있다고 가정한 값이에요.</p>
               </div>
             </fieldset>
-            <!-- '평가표 전체 저장' 안내는 저장 버튼을 누를 때 확인 창으로 표시 (draft.js #d-save) -->
+
+            <!-- 전체 저장 안내는 저장 확인 창에서 표시 -->
           </form>
         </div>
         <div class="bottom-bar">
@@ -384,10 +385,10 @@
     <p class="disclaimer">화면·입력 예시이며 실제 현장 판정이 아닙니다.</p>
   </div>
 
-  <script src="../js/vendor/jquery-3.7.1.min.js?v=20261117"></script>
-  <script src="../js/common.js?v=20261117"></script>
-  <script src="../js/api.js?v=20261117"></script>
-  <script src="../js/risk-assessment.js?v=20261117"></script>
-  <script src="../js/draft.js?v=20261117"></script>
+  <script src="../js/vendor/jquery-3.7.1.min.js?v=20261117-integrated"></script>
+  <script src="../js/common.js?v=20261117-integrated"></script>
+  <script src="../js/api.js?v=20261117-integrated"></script>
+  <script src="../js/catalog-ai.js?v=20261117-integrated"></script>
+  <script src="../js/draft.js?v=20261117-integrated"></script>
 </body>
 </html>

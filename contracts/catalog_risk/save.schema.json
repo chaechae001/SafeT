@@ -57,6 +57,11 @@
           "title": "Plans",
           "type": "array"
         },
+        "controls_reviewed": {
+          "default": false,
+          "title": "Controls Reviewed",
+          "type": "boolean"
+        },
         "none": {
           "default": false,
           "title": "None",

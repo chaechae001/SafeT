@@ -25,6 +25,7 @@ def edits(doc,complete=False):
     items=[]
     for it in doc['items']:
         out={k:copy.deepcopy(it[k]) for k in ('id','none','keep','owner','due','curr','plans')}
+        out['controls_reviewed']=it.get('controls_reviewed',False)
         out['due']=out['due'] or None
         for key in ('curr','plans'):
             out[key]=[{k:a[k] for k in ('id','text','checked')} for a in out[key]]

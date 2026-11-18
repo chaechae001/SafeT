@@ -246,7 +246,7 @@
       contentType: body ? 'application/json' : undefined,
       data: body ? JSON.stringify(body) : undefined,
       dataType: 'json',
-      timeout: method === 'POST' && (path === '/evals' || /^\/evals\/\d+\/(risk-answers|items)$/.test(path)) ? 150000 : 15000
+      timeout: method === 'POST' && (path === '/evals' || /^\/evals\/\d+\/(risk-answers|items)$/.test(path)) ? 600000 : 15000
     }).done(function (res) {
       d.resolve(res);
     }).fail(function (xhr, textStatus) {

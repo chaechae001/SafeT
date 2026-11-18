@@ -7,7 +7,7 @@
 """
 from datetime import timedelta
 
-from services.assessment import execute, owned, rows
+from services.assessment import execute, owned, rows, locked_rows
 from services.auth import AuthError, now
 
 KEEP_DAYS = 30
@@ -29,7 +29,7 @@ def delete(db, email, no):
 
 
 def _trashed(db, email, no, lock=False):
-    r = rows(db, "SELECT * FROM eval_mst WHERE eval_no = :n AND email = :e AND del_yn = 'Y' AND eval_status = 'W'"
+    r = (locked_rows if lock else rows)(db, "SELECT * FROM eval_mst WHERE eval_no = :n AND email = :e AND del_yn = 'Y' AND eval_status = 'W'"
                  + (" FOR UPDATE" if lock else ""), n=no, e=email)
     if not r:
         raise AuthError(404, 'TRASH_NOT_FOUND', '휴지통에서 평가표를 찾을 수 없어요.')
@@ -58,7 +58,7 @@ def _purge_expired(db, email, t):
     # 여기가 먼저 잠갔을 땐 복원이 기다렸다가 404. '복원 성공 → 삭제'가 겹치지 않게 함.
     # 잠그지 않고 고르면 복원이 끼어든 뒤 그 평가표를 지우거나(snapshot isolation OFF),
     # 1020 오류로 목록이 실패함(MariaDB 11.6.2+ 기본 ON).
-    old = rows(db, "SELECT eval_no FROM eval_mst WHERE email = :e AND del_yn = 'Y' AND eval_status = 'W' "
+    old = locked_rows(db, "SELECT eval_no FROM eval_mst WHERE email = :e AND del_yn = 'Y' AND eval_status = 'W' "
                    "AND (del_dt IS NULL OR del_dt <= :limit) FOR UPDATE", e=email, limit=t - timedelta(days=KEEP_DAYS))
     for r in old:
         _purge_rows(db, r['eval_no'])

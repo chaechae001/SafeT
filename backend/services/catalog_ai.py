@@ -1,241 +1,233 @@
-"""사진·텍스트·전사문을 DB ID와 근거로 연결한다. 위험도는 공통 정책에서만 계산한다."""
+"""기존 PR #11의 멀티모달 HTTP 연결을 공통 카탈로그 후보 분석에 맞춰 통합한다.
+
+SAM 사진 탐지 결과·전사문 전달, 제한된 응답 크기, 오류 시 원문 비노출을 유지한다.
+판정 엔진은 가져오지 않는다. 모든 등급 계산은 domain.risk_policy가 담당한다.
+"""
+import base64
+import hashlib
+import uuid
 import json
 import os
-from copy import deepcopy
 from datetime import datetime, timezone
 from pathlib import Path
 from urllib.parse import urlparse
-
 import httpx
 from pydantic import ValidationError
-from sqlalchemy import text
-from schemas.risk_analysis import Extraction, CONTRACT_VERSION
+from schemas.catalog_ai import Analysis, SamResponse
 from services.auth import AuthError
-from services import catalog_risk as catalog
 from domain.risk_policy import POLICY
 
 SOURCE = 'catalog_ai_v1'
-PROMPT = Path(__file__).resolve().parents[2] / 'ai/catalog_risk/system_prompt.md'
+ROOT = Path(__file__).resolve().parents[2]
 
-def enabled():
-    return os.getenv('SAFET_ASSESSMENT_MODE') == SOURCE
+
+def gateway_url():
+    """관문 설정 시 모든 모델 요청을 같은 주소로 보낸다."""
+    base = os.getenv('SAFET_AI_GATEWAY_URL', '').strip().rstrip('/')
+    if not base:
+        return ''
+    uri = urlparse(base)
+    if uri.scheme not in ('http', 'https') or not uri.netloc or uri.username or uri.password or uri.query or uri.fragment:
+        raise AuthError(503, 'AI_UNCONFIGURED', 'AI 관문 주소를 확인해 주세요.')
+    return base
+
+
+def model_headers(detector=False):
+    name = 'SAFET_DETECTOR_API_KEY' if detector and not gateway_url() else 'SAFET_AI_API_KEY'
+    key = os.getenv(name, '').strip()
+    if gateway_url() and not key:
+        raise AuthError(503, 'AI_UNCONFIGURED', 'AI 관문 인증 키가 필요해요. 입력은 유지됩니다.')
+    return {'Authorization': 'Bearer ' + key} if key else {}
+
 
 def configuration():
-    base = os.getenv('SAFET_AI_BASE_URL', '').rstrip('/')
-    model = os.getenv('SAFET_AI_MODEL', '')
+    base = gateway_url() + '/v1' if gateway_url() else os.getenv('SAFET_AI_BASE_URL', '').rstrip('/')
+    model = os.getenv('SAFET_AI_MODEL', '').strip()
+    uri = urlparse(base)
     try:
-        parsed = urlparse(base)
+        tokens = int(os.getenv('SAFET_AI_MAX_TOKENS', '1024'))
+        valid = 256 <= tokens <= 2048
+        uri.port
     except ValueError:
-        raise AuthError(503,'RISK_MODEL_UNCONFIGURED','AI 연결 주소를 확인해 주세요.') from None
-    if not model or parsed.scheme not in ('http', 'https') or not parsed.netloc or parsed.username or parsed.password or parsed.query or parsed.fragment:
-        raise AuthError(503, 'RISK_MODEL_UNCONFIGURED', 'AI 연결 설정이 필요해요. 입력은 유지됩니다.')
-    # 서버 설정만 연결 주소를 정한다. 사용자 입력으로 외부 주소를 지정하지 않는다.
+        valid = False
+    if not valid or not model or uri.scheme not in ('http', 'https') or not uri.netloc or uri.username or uri.password or uri.query or uri.fragment:
+        raise AuthError(503, 'AI_UNCONFIGURED', 'AI API 기본 주소·모델명·출력 길이 설정을 확인해 주세요.')
+    return base, model, tokens
+
+
+def detect_equipment(photos):
+    endpoint=gateway_url() + '/v1/detect' if gateway_url() else os.getenv('SAFET_DETECTOR_URL','').strip()
+    uri=urlparse(endpoint)
+    if uri.scheme not in ('http','https') or not uri.netloc or uri.username or uri.password or uri.query or uri.fragment:
+        raise AuthError(503,'DETECTOR_UNCONFIGURED','사진 기기 탐지 서버 설정이 필요해요. 사진은 유지됩니다.')
+    if not 1 <= len(photos) <= 8:
+        raise AuthError(422,'AI_IMAGE_INVALID','사진은 1~8장까지 전달할 수 있어요.')
     try:
-        limit=int(os.getenv('SAFET_AI_MAX_TOKENS','12000'))
-        if not 1 <= limit <= 32000: raise ValueError()
-    except ValueError:
-        raise AuthError(503,'RISK_MODEL_UNCONFIGURED','AI 응답 길이 설정을 확인해 주세요.') from None
-    return base, model
-
-
-def media(mid, modality, content='', uri=None, location=None):
-    return dict(id=mid, modality=modality, content=content, media_uri=uri,
-                captured_at=None, location=location, asr_uncertainties=[], transcript_segments=[])
-
-
-def make_input(context):
-    data = dict(assessment_id=str(context['request_key']), assessed_at=datetime.now(timezone.utc).isoformat(),
-                scope='음식점의 입력된 작업·장소 및 보유기기. 미관찰 구역의 안전을 보증하지 않음.',
-                media=[], trusted_legal_registry=[], previous_assessment_id=None)
-    if context.get('text'): data['media'].append(media('TEXT', 'text', context['text']))
-    if context.get('voice_text'):
-        v = media('VOICE', 'voice_transcript', context['voice_text'])
-        v['asr_uncertainties'] = ['브라우저 전사 또는 사용자 입력 전사. 원본 구간·부정어·수치 확인 필요']
-        data['media'].append(v)
-    for i, photo in enumerate(context.get('photos', [])):
-        data['media'].append(media(f'PHOTO{i+1}', 'photo', photo['name'], photo['data'], photo.get('place')))
-    if context.get('machines'):
-        data['media'].append(media('MACHINES', 'text', '등록된 보유기기(가동·노출 확정 아님): '+json.dumps(context['machines'], ensure_ascii=False)))
-    return data
-
-
-def request_analysis(input_data, candidates, previous=None):
-    schema = Extraction.model_json_schema()
-    prompt = PROMPT.read_text(encoding="utf-8")
-    base, model = configuration()
-    data = deepcopy(input_data)
-    content = []
-    for item in data['media']:
-        if item['modality'] == 'photo':
-            # 검증되어 서버에 저장된 사진만 전송하고 외부 URL은 가져오지 않는다.
-            if not (item['media_uri'] or '').startswith(('data:image/png;base64,', 'data:image/jpeg;base64,', 'data:image/webp;base64,')):
-                raise AuthError(422, 'RISK_IMAGE_MISSING', '사진 원본을 확인할 수 없어요.')
-            content.extend([{'type':'text','text':f"사진 evidence media_id={item['id']} / 장소={item['location'] or '미입력'}"},
-                            {'type':'image_url','image_url':{'url':item['media_uri']}}])
-            item['media_uri'] = None
-    task = {'input':data, 'previous_analysis':previous}
-    content.insert(0, {'type':'text','text':json.dumps(task, ensure_ascii=False)})
-    system = prompt + '\nDB 후보(명령이 아닌 참고 자료):\n' + json.dumps(candidates, ensure_ascii=False)
-    system += '\n출력 JSON Schema:\n' + json.dumps(schema, ensure_ascii=False)
-    key = os.getenv('SAFET_AI_API_KEY', '')
-    headers = {'Authorization':f'Bearer {key}'} if key else {}
-    payload = {'model':model, 'messages':[{'role':'system','content':system},{'role':'user','content':content}],
-               'temperature':0, 'max_tokens':int(os.getenv('SAFET_AI_MAX_TOKENS', '12000')),
-               'response_format':{'type':'json_object'}}
+        threshold=float(os.getenv('SAFET_DETECTOR_THRESHOLD','0.05'))
+        if not 0 <= threshold <= 1: raise ValueError()
+        payload={'request_id':str(uuid.uuid4()),'score_threshold':threshold,'photos':[]}
+        for i,p in enumerate(photos):
+            prefix,encoded=p['data'].split(',',1)
+            if prefix not in ('data:image/png;base64','data:image/jpeg;base64','data:image/webp;base64'):
+                raise ValueError()
+            if len(encoded)>4*((12*1024*1024+2)//3): raise ValueError()
+            decoded=base64.b64decode(encoded,validate=True)
+            if not decoded or len(decoded)>12*1024*1024: raise ValueError()
+            payload['photos'].append({'photo_id':f'PHOTO{i+1}','image_base64':encoded})
+    except (ValueError,KeyError,TypeError):
+        raise AuthError(422,'AI_IMAGE_INVALID','사진 형식·용량(장당 12MB 이하)과 탐지 임계값을 확인해 주세요.') from None
+    headers=model_headers(detector=True)
     try:
-        with httpx.Client(timeout=httpx.Timeout(120, connect=10), follow_redirects=False, trust_env=False) as client:
-            with client.stream('POST', base+'/chat/completions', json=payload, headers=headers) as response:
-                response.raise_for_status()
-                raw = bytearray()
+        with httpx.Client(timeout=httpx.Timeout(180,connect=10),follow_redirects=False,trust_env=False) as client:
+            with client.stream('POST',endpoint,json=payload,headers=headers) as response:
+                response.raise_for_status();raw=bytearray()
                 for chunk in response.iter_bytes():
                     raw.extend(chunk)
-                    if len(raw)>2_000_000: raise ValueError('response too large')
-        message = json.loads(raw)['choices'][0]
-        if message.get('finish_reason') not in ('stop', None): raise ValueError('incomplete response')
-        return json.loads(message['message']['content'])
-    except (httpx.HTTPError, ValueError, KeyError, IndexError, TypeError):
-        # 자격증명과 사용자 입력이 포함될 수 있는 원격 응답 본문은 반환하지 않는다.
-        raise AuthError(503, 'RISK_MODEL_FAILED', 'AI 응답을 완료하지 못했어요. 기존 입력과 판정은 유지됩니다. 다시 시도해 주세요.') from None
+                    if len(raw)>1_000_000:raise ValueError('응답 크기 초과')
+        parsed=SamResponse.model_validate_json(raw).model_output
+        photo_ids={p['photo_id'] for p in payload['photos']}
+        if parsed.request_id!=payload['request_id'] or parsed.status!='ok' or parsed.error_code:
+            raise ValueError('요청 불일치 또는 일부 탐지 실패')
+        if {p.photo_id for p in parsed.photos}!=photo_ids or len(parsed.photos)!=len(photo_ids):
+            raise ValueError('사진 결과 누락')
+        if any(p.status!='analyzed' or p.error_code for p in parsed.photos): raise ValueError('사진 분석 실패')
+        if len({d.detection_id for d in parsed.detections})!=len(parsed.detections): raise ValueError('중복 탐지 ID')
+        if any(d.photo_id not in photo_ids or d.bbox[0]>=d.bbox[2] or d.bbox[1]>=d.bbox[3] for d in parsed.detections):
+            raise ValueError('잘못된 사진 ID 또는 박스')
+        return {'model':parsed.detector.model_name,'metadata':parsed.model_dump(exclude={'detections'}),
+                'detections':[dict(d.model_dump(),equipment=d.detector_class) for d in parsed.detections]}
+    except (httpx.HTTPError,ValueError,TypeError):
+        raise AuthError(503,'DETECTOR_FAILED','사진 기기 탐지를 완료하지 못했어요. 입력을 유지하고 다시 시도해 주세요.') from None
 
 
-def retrieve(db, context, previous=None):
-    """26개 DB 시나리오를 검색하고 사진 전용·어휘 불일치도 누락하지 않게 후보를 제공한다."""
-    scenarios = catalog.list_catalog(db)
-    ids = context.get('catalog_ids', [])
-    if len(ids) != len(set(ids)) or set(ids) - {s['id'] for s in scenarios}:
-        raise AuthError(422, 'INVALID_CATALOG', 'DB 위험요인 선택을 다시 확인해 주세요.')
-    query = ' '.join([context.get('text', ''), context.get('voice_text', ''),
-                      ' '.join(m['machine_nm'] for m in context.get('machines', []))]).lower()
-    previous_ids = {m['scenario_id'] for m in (previous or {}).get('matches', [])}
-    return sorted(scenarios, key=lambda s: (s['id'] not in set(ids) | previous_ids,
-                  -sum(k.lower() in query for k in s['keywords']), s['id']))
+def make_input(context, answers=None):
+    media = []
+    for key, mid in [('text','TEXT'),('voice_text','VOICE')]:
+        if context.get(key): media.append({'id':mid,'text':context[key]})
+    if context.get('machines'):
+        media.append({'id':'MACHINES','text':'보유기기이며 실제 가동·노출 확정 아님: '+json.dumps(context['machines'],ensure_ascii=False)})
+    images = []
+    if context.get('photos'):
+        # 서버가 보관한 동일 사진·임계값의 탐지만 재사용한다. 클라이언트 입력 계약에는 캐시 필드가 없다.
+        signature=json.dumps({'photos':[{'data':p['data'],'place':p.get('place','')} for p in context['photos']],
+                              'threshold':os.getenv('SAFET_DETECTOR_THRESHOLD','0.05')},sort_keys=True)
+        fingerprint=hashlib.sha256(signature.encode()).hexdigest()
+        cache=context.get('_photo_cache')
+        if not context.get('_refresh_photos') and cache and cache.get('version')==1 and cache.get('fingerprint')==fingerprint:
+            detected=cache['detection']
+        else:
+            detected=detect_equipment(context['photos'])
+        context['_photo_cache']={'version':1,'fingerprint':fingerprint,'detection':detected}
+        for i,p in enumerate(context['photos']):
+            mid=f'PHOTO{i+1}'
+            hits=[d for d in detected['detections'] if d['photo_id']==mid]
+            media.append({'id':mid,'place':p.get('place',''),'kind':'equipment_detection',
+                          'detector_model':detected['model'],'detections':hits,
+                          'notice':'기기 후보 탐지 결과이며 누출·정상 작동·현재 조치·노출을 확인한 것이 아님'})
+    for i,a in enumerate(answers or []):
+        media.append({'id':f'ANSWER{i+1}','text':json.dumps(a,ensure_ascii=False)})
+    return media, images
 
 
-def validate(raw, input_data, candidates, previous=None):
-    """모델이 등급·출처를 바꾸거나 알 수 없는 ID를 연결하지 못하게 검증한다."""
+def output_budget(base, model, messages, headers, requested):
+    """vLLM의 동일 채팅 템플릿으로 계수한다. 미지원·실패 시 추정값으로 호출하지 않는다."""
+    endpoint=(gateway_url() + '/tokenize') if gateway_url() else (os.getenv('SAFET_AI_TOKENIZE_URL','').strip() or (base[:-3] if base.endswith('/v1') else base)+'/tokenize')
+    # 계수 요청에도 동일 인증을 사용하므로 다른 호스트로 키가 전달되지 않게 제한한다.
+    if urlparse(endpoint).scheme!=urlparse(base).scheme or urlparse(endpoint).netloc!=urlparse(base).netloc:
+        raise AuthError(503,'AI_UNCONFIGURED','토큰 계수 주소는 모델 서버와 같은 호스트여야 해요.')
     try:
-        report = Extraction.model_validate(raw).model_dump()
-        scenarios = {s['id']: s for s in candidates}
-        media_by_id = {m['id']: m for m in input_data['media']}
-        evidence = {e['id']: e for e in report['evidence']}
-        if len(evidence) != len(report['evidence']): raise ValueError('duplicate evidence')
-        for e in evidence.values():
-            source = media_by_id[e['media_id']]
-            if source['id'] == 'MACHINES': raise ValueError('registration is not an observed fact')
-            if e['kind'] == 'observed' and source['modality'] != 'photo': raise ValueError('invalid observation')
-            if source['modality'] != 'photo' and e['statement'] not in source['content']:
-                raise ValueError('text evidence must quote input')
-        seen = set()
-        for match in report['matches']:
-            sid = match['scenario_id']
-            if sid in seen: raise ValueError('duplicate scenario')
-            seen.add(sid)
-            scenario = scenarios[sid]
-            expected = {c['id'] for c in scenario['controls']}
-            controls = {c['control_id']: c for c in match['controls']}
-            if len(controls) != len(match['controls']) or set(controls) != expected:
-                raise ValueError('all DB controls must be represented')
-            def refs(ids):
-                if not set(ids) <= set(evidence): raise ValueError('unknown evidence')
-            refs(match['evidence_ids'])
-            if match['applicability'] == 'confirmed' and not any(evidence[e]['time_scope']=='current' for e in match['evidence_ids']):
-                raise ValueError('confirmed scenario requires evidence')
-            for control in controls.values():
-                refs(control['evidence_ids'])
-                if control['state'] != 'unknown':
-                    if not control['evidence_ids'] or any(evidence[e]['time_scope']!='current' for e in control['evidence_ids']):
-                        raise ValueError('current control assertion requires current evidence')
-        if previous and not {m['scenario_id'] for m in previous['matches']} <= seen:
-            raise ValueError('previous scenario cannot disappear')
-        return report
-    except (ValidationError, ValueError, KeyError, TypeError):
-        raise AuthError(502, 'RISK_RESPONSE_INVALID', 'AI 응답의 DB ID·형식·근거를 확인하지 못했어요. 기존 입력은 유지됩니다.') from None
+        with httpx.Client(timeout=httpx.Timeout(180,connect=10),follow_redirects=False,trust_env=False) as client:
+            with client.stream('POST',endpoint,headers=headers,json={'model':model,'messages':messages,'add_generation_prompt':True}) as response:
+                response.raise_for_status();raw=bytearray()
+                for chunk in response.iter_bytes():
+                    raw.extend(chunk)
+                    if len(raw)>2_000_000: raise ValueError()
+        count=json.loads(raw)['count']
+        if type(count) is not int or count<1: raise ValueError()
+    except (httpx.HTTPError,ValueError,KeyError,TypeError):
+        raise AuthError(503,'AI_TOKENIZE_FAILED','모델 서버의 토큰 계수 연결을 확인해 주세요. 입력은 유지됩니다.') from None
+    # 배포 안내를 보수적으로 해석하여 입력+출력 전체를 4096 이내로 제한한다.
+    available=4096-count-64
+    if available<requested:
+        raise AuthError(422,'AI_INPUT_TOO_LONG','AI 입력과 답변 공간이 4,096토큰을 넘어요. 현장 설명·사진 수를 줄여 주세요. 입력은 유지됩니다.')
+    return requested
 
 
-def analyze(db, context, input_data=None, previous=None):
-    input_data = input_data or make_input(context)
-    candidates = retrieve(db, context, previous)
-    report = validate(request_analysis(input_data, candidates, previous), input_data, candidates, previous)
-    if not report['matches']:
-        raise AuthError(422, 'RISK_NO_MATCH', 'DB 시나리오에 연결하지 못했어요. 관찰 내용을 보완해 주세요. 입력은 화면에 유지됩니다.')
-    return input_data, report, {s['id']: s for s in candidates}
+def request_analysis(media, images, scenarios, previous=None):
+    base, model, tokens = configuration()
+    prompt=(ROOT/'ai/catalog_ai/system_prompt.md').read_text(encoding='utf-8-sig')
+    candidate_index=[{k:s[k] for k in ('id','title','task','scenario')} for s in scenarios]
+    prompt+='\n기준 후보 목록:\n'+json.dumps(candidate_index,ensure_ascii=False,separators=(',',':'))
+    prompt+='\n출력 형식:\n'+'{"candidates":[{"scenario_id":"기준 ID","rationale":"짧은 이유","evidence":[{"media_id":"입력 ID","statement":"근거"}],"questions":[{"id":"Q1","text":"질문"}]}],"unmatched_risks":[]}'
+    previous_context=[{k:p[k] for k in ('scenario_id','rationale','evidence','questions')} for p in (previous or [])]
+    task={'media':media,'previous':previous_context,'existing_scenario_ids':[p['scenario_id'] for p in (previous or [])]}
+    content=json.dumps(task,ensure_ascii=False)  # EXAONE에는 탐지 JSON과 텍스트만 전달한다.
+    headers=model_headers()
+    messages=[{'role':'system','content':prompt},{'role':'user','content':content}]
+    tokens=output_budget(base,model,messages,headers,tokens)
+    payload={'model':model,'messages':messages,
+             'temperature':0,'max_tokens':tokens,'response_format':{'type':'json_object'}}
+    try:
+        with httpx.Client(timeout=httpx.Timeout(180,connect=10),follow_redirects=False,trust_env=False) as client:
+            with client.stream('POST',base+'/chat/completions',json=payload,headers=headers) as response:
+                response.raise_for_status()
+                raw=bytearray()
+                for chunk in response.iter_bytes():
+                    raw.extend(chunk)
+                    if len(raw)>2_000_000:raise ValueError('응답 크기 초과')
+        choice=json.loads(raw)['choices'][0]
+        if choice.get('finish_reason') not in ('stop',None):raise ValueError('미완료 응답')
+        return json.loads(choice['message']['content'])
+    except (httpx.HTTPError,ValueError,KeyError,IndexError,TypeError):
+        raise AuthError(503,'AI_REQUEST_FAILED','AI 분석을 완료하지 못했어요. 입력을 유지하고 다시 시도해 주세요.') from None
 
 
-def to_items(report, scenarios):
-    items = []
-    evidence = {e['id']:e for e in report['evidence']}
-    for match in report['matches']:
-        s = scenarios[match['scenario_id']]
-        items.append(dict(job=s['task'][:100], title=s['title'][:200], type=s['event'][:50],
-             cause=s['scenario'][:500], signal='N', reason='입력 근거와 현재 조치를 확인해 주세요.',
-             curr=[c['current_text'] for c in s['controls']], plans=[c['plan_text'] for c in s['controls']],
-             catalog=s, ai=dict(contract_version=CONTRACT_VERSION, match=deepcopy(match), evidence=[evidence[i] for i in dict.fromkeys(
-                 match['evidence_ids'] + [e for c in match['controls'] for e in c['evidence_ids']])],
-                 unknown_ids=[c['control_id'] for c in match['controls'] if c['state']=='unknown'])))
-    return items
+def analyze(context, scenarios, answers=None, previous=None):
+    # 설정·스키마가 잘못됐을 때 다른 모드나 고정 등급으로 자동 대체하지 않는다.
+    _,model,_=configuration()
+    media,images=make_input(context,answers)
+    known={s['id']:s for s in scenarios}
+    if not known or any(s['policy_version']!=POLICY for s in scenarios):
+        raise AuthError(503,'AI_CATALOG_MISSING','현재 정책의 기준 DB를 준비해 주세요.')
+    raw=request_analysis(media,images,scenarios,previous)
+    try:
+        parsed=Analysis.model_validate(raw)
+        if sum(len(c.questions) for c in parsed.candidates)>100:raise ValueError('질문 한도 초과')
+        ids=[c.scenario_id for c in parsed.candidates]
+        if len(ids)!=len(set(ids)) or set(ids)-known.keys():raise ValueError('잘못된 기준 ID')
+        if previous and set(ids)!={c['scenario_id'] for c in previous}:raise ValueError('기존 후보 누락·변경')
+        if set(context.get('catalog_ids',[]))-set(ids):raise ValueError('사용자 선택 후보 누락')
+        media_ids={m['id'] for m in media}
+        for c in parsed.candidates:
+            if {e.media_id for e in c.evidence}-media_ids:raise ValueError('없는 근거 ID')
+            if len({q.id for q in c.questions})!=len(c.questions):raise ValueError('중복 질문 ID')
+    except (ValidationError,ValueError,TypeError):
+        raise AuthError(502,'AI_RESPONSE_INVALID','AI 후보 또는 근거 형식을 확인하지 못했어요. 임의 등급으로 대체하지 않습니다.') from None
+    if parsed.unmatched_risks:
+        raise AuthError(422,'AI_OUTSIDE_CATALOG','현재 기준으로 다룰 수 없는 위험이 포함돼 있어요. 입력과 기준 범위를 검토해 주세요.')
+    if context.get('photos'):
+        for candidate in parsed.candidates:
+            qid='EQUIPMENT_CONFIRM_'+candidate.scenario_id
+            if any(a.get('question_id')==qid for a in (answers or [])): continue
+            if any(q.id==qid for q in candidate.questions): continue
+            from schemas.catalog_ai import Question
+            candidate.questions.append(Question(id=qid,text='사진 탐지는 틀릴 수 있어요. 이 위험 후보와 관련된 기기가 실제로 있고 해당 작업을 하나요? 잘못 인식한 기기는 답변에 알려 주세요.'))
+    if any(len(c.questions)>11 for c in parsed.candidates) or sum(len(c.questions) for c in parsed.candidates)>100:
+        raise AuthError(422,'AI_QUESTION_LIMIT','확인 질문이 너무 많아요. 입력 범위를 나누어 주세요. 질문을 삭제하지 않았습니다.')
+    stamp={'model':model,'analyzed_at':datetime.now(timezone.utc).isoformat(),'policy_version':POLICY,'prompt_version':'catalog-ai-2'}
+    if context.get('_photo_cache'):stamp['photo_cache']=context['_photo_cache']
+    return [dict(c.model_dump(),input_evidence=[m for m in media if m['id'] in {e.media_id for e in c.evidence}],**stamp) for c in parsed.candidates]
 
 
-def attach(db, item_id, ai, *, preserve=False):
-    state = json.loads(db.execute(text('SELECT catalog_state FROM eval_dtl WHERE eval_dtl_no=:n'), {'n':item_id}).scalar_one())
-    state['ai'] = ai
-    match = ai['match']
-    if preserve:
-        actions = db.execute(text("SELECT action_no,check_yn FROM eval_action WHERE eval_dtl_no=:n AND action_type='C'"), {'n':item_id}).mappings().all()
-        selected = {state['links'][str(a['action_no'])] for a in actions if a['check_yn']=='Y' and str(a['action_no']) in state['links']}
-        none = db.execute(text('SELECT curr_none_yn FROM eval_dtl WHERE eval_dtl_no=:n'), {'n':item_id}).scalar_one()=='Y'
-        # 새 근거와 과거 선택이 다르면 선택은 보존하되 확인 전까지 계산에 쓰지 않는다.
-        ai['conflict_ids'] = [c['control_id'] for c in match['controls'] if (none or selected) and
-                              c['state']!='unknown' and (c['state']=='present')!=(c['control_id'] in selected)]
-    else:
-        present = {c['control_id'] for c in match['controls'] if c['state']=='present'}
-        for action_id, cid in state['links'].items():
-            db.execute(text("UPDATE eval_action SET check_yn=:v WHERE action_no=:id AND action_type='C'"),
-                       {'id':int(action_id), 'v':'Y' if cid in present else 'N'})
-        none = all(c['state']=='absent' for c in match['controls'])
-        db.execute(text('UPDATE eval_dtl SET curr_none_yn=:v WHERE eval_dtl_no=:n'), {'n':item_id,'v':'Y' if none else 'N'})
-    catalog.store(db,item_id,state)
-
-
-def state_for(input_data, report):
-    stored = deepcopy(input_data)
-    for m in stored['media']:
-        if m['modality']=='photo': m['media_uri']=None
-    return dict(policy_version=POLICY, contract_version=CONTRACT_VERSION, input=stored, report=report)
-
-
-def enrich_detail(doc, raw):
-    if not raw: return
-    state = json.loads(raw)
-    questions=[]
-    outdated = state.get('contract_version')!=CONTRACT_VERSION or any(
-        it.get('catalog',{}).get('ai',{}).get('contract_version')!=CONTRACT_VERSION for it in doc['items'])
-    needs_reanalysis = outdated and doc['eval_status']=='W'
-    if needs_reanalysis:
-        questions.append(dict(id='analysis:contract',question='이전 분석의 현재·계획 근거 시점을 다시 확인해 주세요.'))
-    for it in doc['items']:
-        cs=it.get('catalog', {}); ai=cs.get('ai')
-        if not ai: continue
-        if needs_reanalysis:
-            reason='이전 분석의 근거 시점 확인이 필요해요. 답변 또는 추가 관찰을 반영해 다시 확인해 주세요.'
-            it.update(signal='N',after='N',judged=False,reason=reason)
-            cs['current_result'].update(grade=None,signal='N',status='needs_information',control_band=None,reason=reason)
-            cs['projected_result']=None
-        sid=cs['scenario']['id']; match=ai['match']
-        if match['applicability']!='confirmed':
-            questions.append(dict(id=sid+':applicability', question=cs['scenario']['task']+' 작업이 실제로 진행되나요?'))
-        for c in cs['scenario']['controls']:
-            if c['id'] in ai.get('conflict_ids', []):
-                questions.append(dict(id=sid+':conflict:'+c['id'], question='기존 선택과 새 근거가 달라요. '+c['current_text']+' 현재 상태를 확인해 주세요.'))
-            elif c['id'] in ai['unknown_ids']:
-                questions.append(dict(id=sid+':'+c['id'], question=c['current_text']+' 상태를 확인해 주세요.'))
-        for i,value in enumerate(match['uncertainties']):
-            questions.append(dict(id=sid+':uncertainty:'+str(i), question=value))
-    for i,value in enumerate(state['report']['unmatched_observations']):
-        questions.append(dict(id='unmatched:'+str(i),question='추가 현장 검토가 필요한 관찰을 보완해 주세요: '+value))
-    doc['risk_assessment'] = dict(policy_version=state['policy_version'], contract_version=state.get('contract_version'), legacy_contract=outdated, needs_reanalysis=needs_reanalysis, report=state['report'], questions=questions)
-
-
-def pending_errors(doc):
-    if doc.get('risk_assessment', {}).get('questions'):
-        return [dict(index=0,field='signal',message='미확인 정보가 남아 있어요. 입력 근거를 확인하고 답변을 반영해 주세요.')]
-    return []
+def restore_input(doc):
+    context={'text':'','voice_text':'','photos':[],'machines':doc['machines']}
+    for f in doc['inputs']:
+        if f['file_type']=='P':context['photos'].append({'name':f['ori_file_nm'],'place':f['place_nm'],'data':f['file_text']})
+        elif f['file_type']=='T':context['text']+='\n'+f['file_text']
+        elif f['file_type']=='V':context['voice_text']+='\n'+f['file_text']
+    for item in doc['items']:
+        cache=(item.get('catalog') or {}).get('ai_analysis',{}).get('photo_cache')
+        if cache:
+            context['_photo_cache']=cache
+            break
+    return context

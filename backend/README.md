@@ -1,3 +1,5 @@
+> 최신 EXAONE/SAM 연결 규격과 4096토큰 제한: [Elice 연결 검토](../docs/implementation/elice-connection.md).
+
 # 백엔드
 
 목표 환경은 Python 3.11·FastAPI·MariaDB입니다. 현재는 폴더와 안내만 있으며 실행할 API 서버·DB 연결 코드는 없습니다.
@@ -330,25 +332,34 @@ backend\.venv\Scripts\python -m pytest backend/unit_tests/test_report.py -q
 
 `python backend/run_local.py --catalog --migrate`로 실행합니다. 현재 조치와 개선대책 선택을 같은 함수로 계산하며 개선 후 값은 예상 결과입니다.
 
+## AI 공통 기준 연결
 
-## AI 입력 해석과 DB 연결
+`python backend/run_local.py --ai --migrate` 실행 및 서버 설정·테스트는
+[AI 연결 통합](../docs/implementation/ai-integration.md)을 따른다.
 
-`python backend/run_local.py --risk --migrate`로 기존 개발 DB에 AI 연결 필드를 추가하고 실행한다. 기존 `.env`의 DB가 개인 개발용인지 먼저 확인한다. `--check`를 붙이면 설정만 검사한다.
-`SAFET_ASSESSMENT_MODE=catalog_ai_v1`, `SAFET_AI_BASE_URL`(`/chat/completions` 앞 주소), `SAFET_AI_MODEL`, `SAFET_AI_API_KEY`를 서버 환경에 설정한다. 실제 주소·멀티모달 모델은 팀 합의 후 지정한다. `SAFET_AI_MAX_TOKENS`의 기본은 12000이다.
-사진 콘텐츠·텍스트·브라우저 전사문으로 DB ID를 찾고, 등급은 기존 공통 함수로 계산한다. 별도 등급 엔진은 없다. 모델 오류·미확인·DB 미연결 관찰은 안전으로 처리하지 않는다.
 
-검사는 Python 3.11과 별도 `*_test` MariaDB·격리 환경변수를 준비한 뒤 실행한다. 운영 DB·기존 개발 DB를 테스트 DB로 덮어쓰지 않는다.
+### 실제 EXAONE 텍스트 초안 검사
 
-```bash
-python -m pytest backend/tests backend/unit_tests -q
-python backend/unit_tests/browser_catalog_ai_smoke.py
-python backend/unit_tests/browser_catalog_smoke.py
+`tests/live_text_ai_smoke.py`는 일반 자동 테스트에 포함되지 않으며, 명시 실행 시 실제 모델에 합성 텍스트와 서비스 프롬프트·카탈로그 후보를 전송합니다. 사진·SAM·SMTP는 사용하지 않습니다.
+서버 AI 설정 및 이름이 `_test`로 끝나는 격리 DB 환경변수를 준비한 뒤 저장소 루트에서 실행합니다. 운영 DB는 사용하지 않습니다.
+
+```powershell
+$env:SAFET_RUN_LIVE_TEXT_TEST = "1"
+python -m pytest backend/tests/live_text_ai_smoke.py -q
+Remove-Item Env:SAFET_RUN_LIVE_TEXT_TEST
 ```
 
-브라우저 검사는 Playwright와 Edge가 필요하며 시작 전에 `DB_NAME`을 전용 `*_test` 이름으로 명시한다. API 8020·정적 서버 8090이 비어 있어야 한다. AI 브라우저 검사는 합성 모델 응답이며 실제 Cloud를 호출하지 않는다.
-[입출력 계약](../contracts/catalog_ai/README.md) · [저장·화면 연결](../docs/implementation/catalog-ai.md).
+명확한 튀김 작업과 실제 사용 여부가 불분명한 사례를 검사합니다. 위험 후보·질문·조치 목록 저장, 답변 반영, 현재 위험도와 개선 후 예상 위험도 분리, 확정·재조회까지 검사하고 테스트 계정 자료를 정리합니다.
+외부 모델 응답에 따라 실패할 수 있으므로 일반 회귀 테스트와 구분합니다. API 키는 `.env` 또는 서버 환경변수에만 설정합니다.
 
-AI 연결 검사에는 새 근거가 과거 선택과 상충하는 경우, 계획/시점 미확인 근거 거부, 질문 문구 인용 거부, 이전 근거 계약 재확인, 100개 초과 질문 답변, 동시 재확인·확정 요청의 revision·확정 잠금 검사가 포함된다.
+실제 실행 결과와 미해결 사항: [사진 없는 실제 AI 검토](../docs/implementation/live-text-ai-review-20261118.md).
+
+
+### AI 실패 후 화면 복구 검사
+
+격리 `_test` DB 환경에서 `python backend/unit_tests/browser_catalog_smoke.py --ai-fixture`를 명시 실행합니다(Playwright·Edge 필요). 외부 AI 대신 모의 응답을 사용하지만 로컬 API·DB·공통 계산·브라우저는 실제 실행합니다. 모델 요청 실패, 토큰 계수 실패, 입력 한도 초과 뒤 답변과 문서 보존 및 재시도·확정까지 검사합니다.
+
+팀 영향 범위: [화면·문서 담당자 인계와 오프라인 검증](../docs/implementation/team-handoff-20261118.md).
 
 ## 평가표 삭제·휴지통 (H02 · C02 · 2026-11-17)
 
@@ -371,3 +382,15 @@ AI 연결 검사에는 새 근거가 과거 선택과 상충하는 경우, 계�
 전에는 잠그지 않고 골라서, 만료 경계에서 복원과 겹치면 복원 성공 응답이 나간 평가표가 지워지거나(innodb_snapshot_isolation OFF: 이전 MariaDB·MySQL) 목록이 1020 오류로 실패했습니다(ON: MariaDB 11.6.2+ 기본).
 지금은 복원이 먼저 커밋되면 만료 삭제에서 빠지고, 만료 삭제가 먼저 잠그면 복원은 기다렸다가 404를 받습니다.
 검사: `tests/test_trash.py`의 `test_만료_경계_*` (두 DB 연결, snapshot isolation ON·OFF 각각).
+
+
+## 8010 관문 연결
+
+`SAFET_AI_GATEWAY_URL`을 설정하면 텍스트·사진 모두 같은 관문과 `SAFET_AI_API_KEY`를 사용합니다. 현재 관문은 토큰 계수 경로가 없어 초안 생성이 차단됩니다. [확인 결과와 서버 보완 사항](../docs/implementation/gateway-integration-20261118.md)을 참고하세요.
+
+
+## 동시 저장·AI 잠금·사진 캐시 보완
+
+초안 생성·위험 추가·질문 답변은 DB 읽기 트랜잭션 종료 후 AI를 호출하고 저장 직전에 변경 여부를 다시 확인합니다. 사진 탐지 결과는 기존 상태 JSON에 보관하여 같은 사진을 반복 호출하지 않습니다. 관련 검사는 격리 `_test` DB에서 `python -m pytest backend/tests/test_ai_review_regressions.py backend/unit_tests/test_catalog_ai.py -q`로 실행합니다. 모의 AI를 사용하며 실제 서버를 호출하지 않습니다.
+
+[변경 범위와 검토 사항](../docs/implementation/review-fixes-20261118.md)

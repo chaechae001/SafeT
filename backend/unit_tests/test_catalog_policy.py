@@ -9,7 +9,7 @@ sys.path.insert(0,str(ROOT/'backend'))
 from domain.risk_policy import evaluate
 SCENARIOS={s['id']:s for s in json.loads((ROOT/'contracts/catalog_risk/catalog.json').read_text(encoding='utf-8'))['scenarios']}
 
-@pytest.mark.parametrize('severity,band,grade',[(1,1,'하'),(1,2,'중'),(1,3,'중'),(2,1,'중'),(2,2,'중'),(2,3,'상'),(3,1,'중'),(3,2,'상'),(3,3,'상')])
+@pytest.mark.parametrize('severity,band,grade',[(1,1,'하'),(1,2,'중'),(1,3,'중'),(2,1,'중'),(2,2,'중'),(2,3,'상'),(3,1,'상'),(3,2,'상'),(3,3,'상')])
 def test_matrix(severity,band,grade):
     s=deepcopy(SCENARIOS['KNIFE_STORAGE']);s['severity']=severity
     ids=[c['id'] for c in s['controls'] if band==1 or (band==2 and c['critical'])]

@@ -1,0 +1,199 @@
+{
+  "$defs": {
+    "SamDetection": {
+      "additionalProperties": true,
+      "properties": {
+        "detection_id": {
+          "maxLength": 80,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_:.-]+$",
+          "title": "Detection Id",
+          "type": "string"
+        },
+        "photo_id": {
+          "maxLength": 80,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_:.-]+$",
+          "title": "Photo Id",
+          "type": "string"
+        },
+        "equipment_id": {
+          "anyOf": [
+            {
+              "pattern": "^EQ_[A-Z0-9_]+$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Equipment Id"
+        },
+        "detector_class": {
+          "maxLength": 2000,
+          "minLength": 1,
+          "title": "Detector Class",
+          "type": "string"
+        },
+        "confidence": {
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Confidence",
+          "type": "number"
+        },
+        "bbox": {
+          "items": {
+            "maximum": 1,
+            "minimum": 0,
+            "type": "number"
+          },
+          "maxItems": 4,
+          "minItems": 4,
+          "title": "Bbox",
+          "type": "array"
+        }
+      },
+      "required": [
+        "detection_id",
+        "photo_id",
+        "equipment_id",
+        "detector_class",
+        "confidence",
+        "bbox"
+      ],
+      "title": "SamDetection",
+      "type": "object"
+    },
+    "SamDetector": {
+      "additionalProperties": true,
+      "properties": {
+        "model_name": {
+          "maxLength": 2000,
+          "minLength": 1,
+          "title": "Model Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "model_name"
+      ],
+      "title": "SamDetector",
+      "type": "object"
+    },
+    "SamOutput": {
+      "additionalProperties": true,
+      "properties": {
+        "request_id": {
+          "title": "Request Id",
+          "type": "string"
+        },
+        "status": {
+          "title": "Status",
+          "type": "string"
+        },
+        "error_code": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Error Code"
+        },
+        "detector": {
+          "$ref": "#/$defs/SamDetector"
+        },
+        "photos": {
+          "items": {
+            "$ref": "#/$defs/SamPhoto"
+          },
+          "maxItems": 8,
+          "title": "Photos",
+          "type": "array"
+        },
+        "detections": {
+          "items": {
+            "$ref": "#/$defs/SamDetection"
+          },
+          "maxItems": 1000,
+          "title": "Detections",
+          "type": "array"
+        }
+      },
+      "required": [
+        "request_id",
+        "status",
+        "detector",
+        "photos",
+        "detections"
+      ],
+      "title": "SamOutput",
+      "type": "object"
+    },
+    "SamPhoto": {
+      "additionalProperties": true,
+      "properties": {
+        "photo_id": {
+          "maxLength": 80,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_:.-]+$",
+          "title": "Photo Id",
+          "type": "string"
+        },
+        "status": {
+          "title": "Status",
+          "type": "string"
+        },
+        "error_code": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Error Code"
+        },
+        "width": {
+          "exclusiveMinimum": 0,
+          "title": "Width",
+          "type": "integer"
+        },
+        "height": {
+          "exclusiveMinimum": 0,
+          "title": "Height",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "photo_id",
+        "status",
+        "width",
+        "height"
+      ],
+      "title": "SamPhoto",
+      "type": "object"
+    }
+  },
+  "additionalProperties": true,
+  "properties": {
+    "model_output": {
+      "$ref": "#/$defs/SamOutput"
+    },
+    "service_meta": {
+      "additionalProperties": true,
+      "title": "Service Meta",
+      "type": "object"
+    }
+  },
+  "required": [
+    "model_output"
+  ],
+  "title": "SamResponse",
+  "type": "object"
+}
