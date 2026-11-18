@@ -31,6 +31,10 @@
     $view.find('.js-machine-error').prop('hidden', st !== 'failed');
     var block = st === 'loading' || (st === 'failed' && $view.attr('id') === 'v-edit');
     $view.find('.bottom-bar [type="submit"]').prop('disabled', block);
+    // 기존 정보가 늦게 도착해 사용자가 입력한 수정 내용을 덮어쓰지 않게 합니다.
+    if ($view.attr('id') === 'v-edit') {
+      $view.find('#edit-workplace, .js-machine-input, .js-machine-add').prop('disabled', st === 'loading');
+    }
   }
 
   function canSave($view) {
