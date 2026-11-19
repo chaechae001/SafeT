@@ -60,9 +60,10 @@ def build_context(raw_request, detection_result=None):
     if photos:
         if detection_result is None:
             detection_result, cache = resolve_detection(photos, request)
-        photo_media, detected_ids, unmapped = adapt_detections(photos, detection_result)
+        photo_media, equipment_by_photo, unmapped = adapt_detections(photos, detection_result)
         media.extend(photo_media)
-        equipment_ids.extend(detected_ids)
+        for detected_ids in equipment_by_photo.values():
+            equipment_ids.extend(detected_ids)
     elif detection_result is not None:
         raise AuthError(422, "AI_IMAGE_INVALID", "탐지 결과와 연결할 사진이 필요해요.")
 
@@ -77,5 +78,5 @@ def build_context(raw_request, detection_result=None):
     }
     check(bundle, INPUT_SCHEMA)
     if cache is not None:
-        request["_photo_cache"] = {**cache, "unmapped": unmapped}
+        request["_photo_cache"] = {**cache, "equipment_ids_by_photo": equipment_by_photo, "unmapped": unmapped}
     return bundle

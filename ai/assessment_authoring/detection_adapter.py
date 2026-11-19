@@ -123,7 +123,7 @@ def _validated_hits(result, expected_photo_ids):
 
 
 def adapt_detections(photos, result):
-    """사진 media, 표준 기기 ID, 미매핑 목록을 순서대로 반환한다."""
+    """사진 media, 사진별 표준 기기 ID, 미매핑 목록을 반환한다."""
     by_photo = {f"PHOTO{i}": [] for i in range(1, len(photos) + 1)}
     unmapped = {}
     try:
@@ -141,7 +141,7 @@ def adapt_detections(photos, result):
     except (KeyError, TypeError, ValueError, AttributeError):
         raise _detection_failed() from None
 
-    media, equipment_ids, audit = [], {}, []
+    media, equipment_by_photo, audit = [], {}, []
     for (photo_id, hits), photo in zip(by_photo.items(), photos):
         rows = catalog_ai.summarize_detections(hits)
         unknown = unmapped.get(photo_id, {})
@@ -158,9 +158,9 @@ def adapt_detections(photos, result):
         if photo["place"]:
             summary = f"입력 위치: {photo['place']}. {summary}"
         media.append({"id": photo_id, "kind": "equipment_detection", "text": summary})
-        equipment_ids.update(dict.fromkeys(hit["equipment_id"] for hit in hits))
+        equipment_by_photo[photo_id] = list(dict.fromkeys(hit["equipment_id"] for hit in hits))
         audit.extend(
             {"photo_id": photo_id, "detector_class": label, "equipment_id": reported_id}
             for label, reported_id in unknown
         )
-    return media, list(equipment_ids), audit
+    return media, equipment_by_photo, audit

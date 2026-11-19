@@ -129,6 +129,10 @@ class DetectionTests(unittest.TestCase):
         self.assertEqual(request["_photo_cache"]["detection"]["metadata"]["detector"]["model_version"], "fixture-1")
         self.assertEqual(request["_photo_cache"]["detection"]["detections"][1]["confidence"], 0.91)
         self.assertEqual(request["_photo_cache"]["unmapped"], fixture("unmapped.json"))
+        self.assertEqual(
+            request["_photo_cache"]["equipment_ids_by_photo"],
+            {"PHOTO1": ["EQ_FRYER"], "PHOTO2": ["EQ_SHELF", "EQ_FRYER"]},
+        )
 
     def test_invalid_refresh_leaves_previous_cache_untouched(self):
         request = {"photos": [PHOTO], "text": TEXT}
