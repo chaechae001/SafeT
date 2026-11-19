@@ -1,0 +1,12 @@
+{
+  "contract_version": "assessment-authoring-1",
+  "catalog_version": "CATALOG-MVP-1.1",
+  "media": [
+    {
+      "id": "TEXT",
+      "kind": "text",
+      "text": "  주방에서 180도 기름을 사용합니다.\n장갑을 착용하지 않습니다.  "
+    }
+  ],
+  "equipment_ids": []
+}

@@ -1,0 +1,20 @@
+{
+  "contract_version": "assessment-authoring-1",
+  "catalog_version": "CATALOG-MVP-1.1",
+  "media": [
+    {
+      "id": "PHOTO1",
+      "kind": "equipment_detection",
+      "text": "입력 위치: 주방. 탐지 기기 후보: 튀김기 0.91. 미등록 탐지 클래스 1종. 작동 상태와 안전조치 실행 여부는 확인되지 않았습니다."
+    },
+    {
+      "id": "PHOTO2",
+      "kind": "equipment_detection",
+      "text": "입력 위치: 창고. 탐지 기기 후보: 적재 선반 0.77, 튀김기 0.72. 미등록 탐지 클래스 1종. 작동 상태와 안전조치 실행 여부는 확인되지 않았습니다."
+    }
+  ],
+  "equipment_ids": [
+    "EQ_FRYER",
+    "EQ_SHELF"
+  ]
+}

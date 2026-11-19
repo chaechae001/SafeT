@@ -1,0 +1,29 @@
+{
+  "empty_input": {
+    "status": 422,
+    "body": {
+      "detail": {
+        "code": "AI_INPUT_EMPTY",
+        "message": "사진·전사문·글 또는 사업장 기기가 필요해요."
+      }
+    }
+  },
+  "invalid_photo": {
+    "status": 422,
+    "body": {
+      "detail": {
+        "code": "AI_IMAGE_INVALID",
+        "message": "사진 이름·위치와 파일 형식(PNG/JPEG/WebP)·용량(2MB 이하)을 확인해 주세요."
+      }
+    }
+  },
+  "detector_failure": {
+    "status": 503,
+    "body": {
+      "detail": {
+        "code": "DETECTOR_FAILED",
+        "message": "사진 기기 탐지를 완료하지 못했어요. 입력을 유지하고 다시 시도해 주세요."
+      }
+    }
+  }
+}

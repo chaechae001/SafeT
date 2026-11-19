@@ -1,0 +1,12 @@
+{
+  "contract_version": "assessment-authoring-1",
+  "catalog_version": "CATALOG-MVP-1.1",
+  "media": [
+    {
+      "id": "VOICE",
+      "kind": "voice_transcript",
+      "text": "  오늘은 튀김기를 사용하지 않습니다.\n횟수는 0회입니다.  "
+    }
+  ],
+  "equipment_ids": []
+}
