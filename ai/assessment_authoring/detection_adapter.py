@@ -51,11 +51,16 @@ def _detection_failed():
     return AuthError(503, "DETECTOR_FAILED", "사진 기기 탐지를 완료하지 못했어요. 입력을 유지하고 다시 시도해 주세요.")
 
 
-def resolve_detection(photos, request):
-    """make_input이 쓰는 사진 탐지·임계값·서버 캐시 경로를 재사용한다."""
+def photo_detector_source():
     gateway = catalog_ai.gateway_url()
     endpoint = gateway + "/v1/detect" if gateway else os.getenv("SAFET_DETECTOR_URL", "").strip()
-    detector_source = hashlib.sha256(endpoint.encode()).hexdigest()
+    revision = os.getenv("SAFET_DETECTOR_REVISION", "").strip()
+    return hashlib.sha256(f"{endpoint}\n{revision}".encode()).hexdigest()
+
+
+def resolve_detection(photos, request):
+    """make_input이 쓰는 사진 탐지·임계값·서버 캐시 경로를 재사용한다."""
+    detector_source = photo_detector_source()
     previous = request.get("_photo_cache")
     if not isinstance(previous, dict) or previous.get("detector_source") != detector_source:
         previous = None

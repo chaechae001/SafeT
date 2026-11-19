@@ -1,12 +1,23 @@
 """격리 MariaDB에서 생성·근거 저장·재조회·변조 거절·확정 잠금을 검사한다."""
 import copy
+import io
+from uuid import uuid4
 import pytest
+from pypdf import PdfReader
 from sqlalchemy import text
 from test_assessment import flow, create, edits
 from conftest import engine
 from services import authoring_rag
 from services.catalog_risk import seed
 from services.auth import AuthError
+
+
+PHOTO = {
+    'name': 'synthetic-fryer.png',
+    'place': '주방',
+    'data': ('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8'
+             '/x8AAwMCAO+aCuoAAAAASUVORK5CYII='),
+}
 
 
 @pytest.fixture
@@ -146,3 +157,107 @@ def test_mixed_draft_exclusions_survive_and_unresolved_candidates_block_confirm(
     final = client.get(path, headers=headers).json()
     assert final['eval_status'] == 'C'
     assert final['items'][0]['work_review']['excluded_candidates'] == ['FRY']
+
+
+def test_same_photo_three_inputs_and_confirmed_pdf(client, rag_flow, monkeypatch, tmp_path):
+    headers, payload = rag_flow
+    calls = []
+    observed = []
+    monkeypatch.setenv('SAFET_DETECTOR_REVISION', 'mock-v1')
+
+    def detect(photos):
+        calls.append(photos)
+        return dict(model='sam3-mock', detections=[
+            dict(photo_id='PHOTO1', equipment='deep fryer', bbox=[0, 0, 1, 1], confidence=0.91),
+        ])
+
+    def extract(context, retrieval, snapshot, evidence):
+        observed.append(context)
+        work = context['media'][0]['text']
+        scenario_id = retrieval['candidates'][0]['scenario_id']
+        controls = []
+        statement = work.split('. ', 1)[0].removesuffix('.') + '.'
+        if scenario_id == 'FRY' and statement == '튀김기로 조리합니다.':
+            controls = [
+                dict(control_id='FRY-C2', state='supported', evidence_refs=['TEXT'],
+                     statement='기름은 식힌 뒤 배유합니다.'),
+                dict(control_id='FRY-C1', state='not_effective', evidence_refs=['TEXT'],
+                     statement='온도 제어 장치는 고장 났습니다.'),
+            ]
+        supported = controls or (scenario_id == 'KNIFE' and statement == '칼로 채소를 썹니다.')
+        candidates = [dict(scenario_id=scenario_id, rationale='합성 모델 응답',
+                           evidence=[dict(media_id='TEXT', statement=statement)],
+                           control_evidence=controls, assumptions=[], questions=[])] if supported else []
+        return dict(contract_version='assessment-authoring-1', candidates=candidates, unmatched_risks=[])
+
+    monkeypatch.setattr(authoring_rag.catalog_ai, 'detect_equipment', detect)
+    monkeypatch.setattr(authoring_rag, 'extract', extract)
+    payload['photos'] = [PHOTO]
+    for work, review, expected_rows in [
+        ('칼로 채소를 썹니다.', 'work_unconfirmed', ['KNIFE']),
+        ('튀김은 하지 않습니다.', 'input_denies_work', []),
+    ]:
+        payload.update(request_key=str(uuid4()), text=work)
+        doc = create(client, rag_flow)
+        assert [item['authoring']['analysis']['scenario_id'] for item in doc['items']] == expected_rows
+        assert {'scenario_id': 'FRY', 'reason': review} in doc['review_candidates']
+        assert doc['inputs'][-1]['ori_file_nm'] == PHOTO['name']
+    payload.update(request_key=str(uuid4()),
+                   text='튀김기로 조리합니다. 기름은 식힌 뒤 배유합니다. 온도 제어 장치는 고장 났습니다.')
+    doc = create(client, rag_flow)
+    assert len(calls) == 1
+    assert observed[-1]['equipment_ids'] == ['EQ_FRYER']
+    assert any(m['id'] == 'PHOTO1' and '튀김기' in m['text'] for m in observed[-1]['media'])
+    item, = doc['items']
+    evidence = item['authoring']['analysis']['control_evidence']
+    assert {(e['statement'], e['state']) for e in evidence if e['state'] != 'unknown'} == {
+        ('기름은 식힌 뒤 배유합니다.', 'supported'),
+        ('온도 제어 장치는 고장 났습니다.', 'not_effective'),
+    }
+    assert 'photo_cache' not in item['authoring']
+    with engine.connect() as db:
+        assert authoring_rag.cached_photos(db, 'other@test.invalid', payload['work_no'], [PHOTO]) is None
+    path = f"/evals/{doc['eval_no']}"
+    saved = client.put(path, headers=headers, json=edits(doc))
+    assert saved.status_code == 200, saved.text
+    draft = client.get(path, headers=headers).json()
+    assert draft['items'][0]['authoring'] == item['authoring']
+    finish = edits(draft)
+    finish['items'][0].update(work_reviewed=True, owner={'type': 'R', 'name': '근로자'}, due='2026-12-01')
+    finish['items'][0]['plans'][0]['checked'] = True
+    confirmed = client.post(path + '/confirm', headers=headers, json=finish)
+    assert confirmed.status_code == 200, confirmed.text
+    final = client.get(path, headers=headers).json()
+    assert final['eval_status'] == 'C' and final['items'][0]['authoring'] == item['authoring']
+    pdf = client.get(path + '/report', headers=headers)
+    assert pdf.status_code == 200 and pdf.headers['content-type'] == 'application/pdf'
+    (tmp_path / 'confirmed-fryer.pdf').write_bytes(pdf.content)
+    pdf_text = ''.join(page.extract_text() for page in PdfReader(io.BytesIO(pdf.content)).pages)
+    assert '튀김기' in pdf_text and '근로자' in pdf_text
+
+
+def test_zero_detection_cache_refresh_and_failure(client, rag_flow, monkeypatch):
+    headers, payload = rag_flow
+    payload['photos'] = [PHOTO]
+    calls = []
+
+    def detect(photos):
+        calls.append(photos)
+        if len(calls) > 1:
+            raise AuthError(503, 'DETECTOR_FAILED', '모의 탐지 실패')
+        return dict(model='sam3-mock', detections=[])
+
+    monkeypatch.setattr(authoring_rag.catalog_ai, 'detect_equipment', detect)
+    monkeypatch.setenv('SAFET_DETECTOR_REVISION', 'mock-v1')
+    for _ in range(2):
+        payload['request_key'] = str(uuid4())
+        assert create(client, rag_flow)['items']
+    assert len(calls) == 1
+    monkeypatch.setenv('SAFET_DETECTOR_REVISION', 'mock-v2')
+    payload['request_key'] = str(uuid4())
+    failure = client.post('/evals', headers=headers, json=payload)
+    assert failure.status_code == 503 and failure.json()['detail']['code'] == 'DETECTOR_FAILED'
+    assert len(calls) == 2
+    with engine.connect() as db:
+        assert db.execute(text('SELECT COUNT(*) FROM eval_mst WHERE request_key=:key'),
+                          {'key': payload['request_key']}).scalar() == 0

@@ -4,7 +4,7 @@
 
 ```mermaid
 flowchart LR
- A[POST /evals 작업 설명] --> B[기기·위험 검색 및 manifest 대조]
+ A[POST /evals 글·전사문·사진] --> B[사진 기기 후보 정리·위험 검색 및 manifest 대조]
  B --> C[문헌을 포함한 모델 입력]
  C --> D[계약 검증·등급 계산]
  D --> E[eval_dtl.catalog_state 저장]
@@ -19,12 +19,15 @@ flowchart LR
 | 위치 | 내용 |
 |---|---|
 | `eval_mst.generation_source` | `authoring_rag_v1` |
+| `eval_mst.authoring_snapshot.photo_cache` | 서버용 사진별 탐지 원본과 표준 기기 ID. 같은 사용자·사업장에서 재사용 |
 | `eval_dtl.curr_risk_grade` | 입력 기반 상/중/하에 대응하는 R/Y/G |
 | `eval_dtl.catalog_state.authoring` | 정책·모델·생성시각, 부분 결과 상태, 미매칭 후보, 분석·표시 행 |
 | `authoring.row.document_evidence` | 문장, 출처·연결 행 ID, 문서명, PDF 쪽, 데이터 버전·인덱스 해시 |
 | `eval_action`의 P 행 | 사용자 개선계획 선택 |
 
-GET 응답은 항목의 `assessment_mode`, `authoring`, `document_evidence`를 반환한다. 근거는 생성 당시 스냅샷으로 저장하므로 파일 갱신·서버 재시작 후에도 과거 평가표의 출처가 바뀌지 않는다. 기존 `catalog_state`를 활용하며 추가 migration은 없다.
+GET 응답은 항목의 `assessment_mode`, `authoring`, `document_evidence`를 반환한다. 근거는 생성 당시 스냅샷으로 저장하므로 파일 갱신·서버 재시작 후에도 과거 평가표의 출처가 바뀌지 않는다. `20261119_authoring_snapshot.sql`을 적용한다. 사진 캐시는 API 응답에 포함하지 않는다.
+
+같은 사용자가 같은 사업장에서 사진·순서·위치·탐지 설정을 유지해 새 평가표를 만들면 기존 탐지를 재사용한다. 탐지 0건도 저장한다. 같은 주소의 모델 또는 설정이 바뀌면 `SAFET_DETECTOR_REVISION`을 갱신한다. 사진은 검색 후보를 찾는 데 사용한다. 모델의 작업·조치 근거는 글과 전사문에서 가져온다.
 
 저장 요청은 기존 revision·조치·담당·예정일만 받는다. 문헌·등급·분석 필드는 클라이언트 수정 대상이 아니다. 입력 기반 현재 조치도 임의로 덮어쓸 수 없다. 개선계획 선택은 현재 위험도를 바꾸지 않으며 실제 이행 완료로 처리하지 않는다. 확정 시 계획·담당·예정일 검증은 유지하고 현재 조치의 추가 확인은 요구하지 않는다.
 
@@ -53,6 +56,7 @@ python backend/run_local.py --authoring-rag --migrate
 3. 개선계획을 선택하고 저장·새로고침한다. 문장·출처·PDF 쪽·현재 등급이 같아야 한다.
 4. 계획 담당자·예정일 지정 후 확정한다. 확정 결과 화면에서도 같은 근거가 보여야 한다.
 5. 로컬 API를 재시작하고 평가표를 다시 조회한다.
+6. 동일 튀김기 사진으로 채소 손질, 튀김 조리, 튀김 미사용을 각각 입력한다. 작업 미확인 후보, 평가 행, 미사용 후보를 확인한다. 튀김 조리 건의 확정 PDF에서 평가 내용과 담당자를 대조한다.
 
 ## 파일과 검사
 

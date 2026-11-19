@@ -88,6 +88,8 @@ def create(db,email,body):
     use_catalog=catalog.enabled()
     use_authoring=authoring_rag.enabled()
     snapshot=catalog.list_catalog(db) if use_catalog or use_authoring else []
+    if use_authoring and body.photos:
+        context['_photo_cache'] = authoring_rag.cached_photos(db, email, body.work_no, context['photos'])
     # 외부 호출 전에 읽기 트랜잭션도 종료한다.
     db.rollback()
     if use_authoring:
@@ -103,7 +105,9 @@ def create(db,email,body):
             raise AuthError(409,'WORKPLACE_CHANGED','분석 중 사업장 정보가 변경됐어요. 다시 확인해 주세요.')
         r=execute(db,"INSERT INTO eval_mst (work_no,email,eval_nm,eval_writer,eval_dt,eval_status,del_yn,request_key,revision,generation_source,ins_dt,ins_nm,upt_dt,upt_nm) VALUES (:w,:e,:nm,:writer,:dt,'W','N',:key,1,:src,:t,:e,:t,:e)",w=body.work_no,e=email,nm=f"{body.eval_dt} {w['workplace']} 위험성평가",writer=body.eval_writer,dt=body.eval_dt,key=key,src=source,t=now())
         no=r.lastrowid
-        if use_authoring and not items:
+        if use_authoring and (not items or context.get('_photo_cache')):
+            if context.get('_photo_cache'):
+                authoring_snapshot['photo_cache'] = context['_photo_cache']
             execute(db, 'UPDATE eval_mst SET authoring_snapshot=:s WHERE eval_no=:n',
                     s=json.dumps(authoring_snapshot, ensure_ascii=False), n=no)
         for i,name in enumerate(body.members): execute(db,'INSERT INTO eval_member (eval_no,member_nm,sort) VALUES (:n,:name,:i)',n=no,name=name,i=i)

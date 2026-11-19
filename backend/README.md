@@ -2,7 +2,7 @@
 
 # 백엔드
 
-입력 기반 평가의 검색 근거를 화면·DB까지 연결하는 실행 방법과 계약은
+입력 기반 평가의 사진 입력과 검색 근거를 화면·DB까지 연결하는 실행 방법과 계약은
 [검색 근거의 화면·DB 연결](../docs/implementation/authoring-rag-local-integration.md)을 참고한다.
 
 목표 환경은 Python 3.11·FastAPI·MariaDB입니다. 현재는 폴더와 안내만 있으며 실행할 API 서버·DB 연결 코드는 없습니다.

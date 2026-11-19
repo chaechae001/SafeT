@@ -40,6 +40,8 @@ def request_json(base, key, path, payload=None):
 def input_segments(context):
     segments = {}
     for media in context["media"]:
+        if media["kind"] not in ("text", "voice_transcript"):
+            continue
         for part in re.split(r"(?<=[.!?。！？])\s+|\n+", media["text"]):
             if part.strip():
                 segments[f"S{len(segments) + 1}"] = (media["id"], part.strip())

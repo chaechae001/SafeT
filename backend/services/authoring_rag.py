@@ -6,6 +6,7 @@ import os
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
+from sqlalchemy import text
 
 from services.auth import AuthError
 from services import catalog_ai, rag_retrieval
@@ -14,6 +15,8 @@ ROOT = Path(__file__).resolve().parents[2]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 from ai.assessment_authoring.pipeline import run_pipeline
+from ai.assessment_authoring.detection_adapter import photo_detector_source
+from ai.assessment_authoring.input_adapter import build_context as adapt_input
 from ai.assessment_authoring.contracts import load_catalog
 from ai.assessment_authoring.evidence_qualification import qualify_direct_evidence
 from ai.assessment_authoring.live_text_check import build_messages, request_json, output_budget, parse_completion, model_response_format
@@ -51,17 +54,30 @@ def qualified_candidates(ids, k=None):
 
 
 def build_context(context):
-    # 이번 연결 범위는 텍스트·전사문이다. 사진을 조용히 무시하지 않는다.
-    if context.get('photos') or context.get('catalog_ids'):
-        raise AuthError(422, 'AUTHORING_INPUT_UNSUPPORTED', '현재 연결에서는 작업 설명 또는 음성 전사문을 사용해 주세요.')
-    media = [dict(id=mid, kind=kind, text=context[field])
-             for field, mid, kind in [('text','TEXT','text'), ('voice_text','VOICE','voice_transcript')]
-             if context.get(field)]
-    # 보유 기기를 실제 작업으로 추정하지 않고 입력의 명시적 기기 언급만 사용한다.
-    text = '\n'.join(m['text'] for m in media)
-    ids = ['EQ_FRYER'] if _positive(text, '튀김기') else []
-    return dict(contract_version='assessment-authoring-1', catalog_version='CATALOG-MVP-1.1',
-                media=media, equipment_ids=ids)
+    if context.get('catalog_ids'):
+        raise AuthError(422, 'AUTHORING_INPUT_UNSUPPORTED', '작업 설명, 음성 전사문 또는 사진을 사용해 주세요.')
+    # 등록 기기 전체를 검색 후보로 추가하면 기존 텍스트 평가의 범위가 달라진다.
+    observed_context = {**context, 'machines': []}
+    bundle = adapt_input(observed_context)
+    if '_photo_cache' in observed_context:
+        context['_photo_cache'] = observed_context['_photo_cache']
+    work = '\n'.join(m['text'] for m in bundle['media'] if m['kind'] in ('text', 'voice_transcript'))
+    if _positive(work, '튀김기') and 'EQ_FRYER' not in bundle['equipment_ids']:
+        bundle['equipment_ids'].append('EQ_FRYER')
+    return bundle
+
+
+def cached_photos(db, email, work_no, photos):
+    cache = db.execute(text("""
+        SELECT JSON_EXTRACT(authoring_snapshot, '$.photo_cache')
+        FROM eval_mst
+        WHERE email=:email AND work_no=:work AND del_yn='N' AND generation_source=:source
+          AND JSON_VALUE(authoring_snapshot, '$.photo_cache.fingerprint')=:fingerprint
+          AND JSON_VALUE(authoring_snapshot, '$.photo_cache.detector_source')=:detector
+        ORDER BY eval_no DESC LIMIT 1
+    """), dict(email=email, work=work_no, source=SOURCE,
+               fingerprint=catalog_ai.photo_fingerprint(photos), detector=photo_detector_source())).scalar()
+    return json.loads(cache) if cache else None
 
 
 def extract(context, retrieval, snapshot, evidence):
@@ -98,7 +114,8 @@ def generate(scenarios, context):
     if byid != {s['id']:s for s in snapshot['scenarios']}:
         raise AuthError(503, 'AUTHORING_CATALOG_MISMATCH', 'DB 기준과 파이프라인 기준 버전이 일치하지 않습니다.')
     try:
-        out = run_pipeline(context, build_context=build_context, extract_analysis=None,
+        bundle = build_context(context)
+        out = run_pipeline(bundle, build_context=lambda prepared: prepared, extract_analysis=None,
             catalog_snapshot=snapshot, rag_provider=qualified_candidates, rag_links=RAG_LINKS,
             extract_with_evidence=extract, batch_size=1)
     except ValueError:
@@ -131,7 +148,6 @@ def generate(scenarios, context):
 
 
 def initialize(db, item_id, snapshot):
-    from sqlalchemy import text
     db.execute(text('UPDATE eval_dtl SET catalog_state=:s WHERE eval_dtl_no=:n'),
         {'s':json.dumps({'authoring':snapshot}, ensure_ascii=False), 'n':item_id})
     db.execute(text("UPDATE eval_action SET check_yn='Y' WHERE eval_dtl_no=:n AND action_type='C'"), {'n':item_id})

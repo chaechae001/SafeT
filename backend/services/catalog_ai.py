@@ -125,6 +125,14 @@ def detect_equipment(photos):
         raise AuthError(503,'DETECTOR_FAILED','사진 기기 탐지를 완료하지 못했어요. 입력을 유지하고 다시 시도해 주세요.') from None
 
 
+def photo_fingerprint(photos):
+    signature = json.dumps({
+        'photos': [{'data': p['data'], 'place': p.get('place', '')} for p in photos],
+        'threshold': detector_threshold(),
+    }, sort_keys=True)
+    return hashlib.sha256(signature.encode()).hexdigest()
+
+
 def make_input(context, answers=None):
     media = []
     for key, mid in [('text','TEXT'),('voice_text','VOICE')]:
@@ -134,9 +142,7 @@ def make_input(context, answers=None):
     images = []
     if context.get('photos'):
         # 서버가 보관한 동일 사진·임계값의 탐지만 재사용한다. 클라이언트 입력 계약에는 캐시 필드가 없다.
-        signature=json.dumps({'photos':[{'data':p['data'],'place':p.get('place','')} for p in context['photos']],
-                              'threshold':detector_threshold()},sort_keys=True)
-        fingerprint=hashlib.sha256(signature.encode()).hexdigest()
+        fingerprint=photo_fingerprint(context['photos'])
         cache=context.get('_photo_cache')
         if not context.get('_refresh_photos') and cache and cache.get('version')==1 and cache.get('fingerprint')==fingerprint:
             detected=cache['detection']
