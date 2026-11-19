@@ -1,0 +1,712 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "contract_version": {
+          "const": "safet-evidence/1.0.0"
+        },
+        "tag_version": {
+          "const": "restaurant-tags/1.0.0"
+        },
+        "request_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "unit_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "as_of": {
+          "type": "string",
+          "format": "date"
+        },
+        "work_text": {
+          "type": "string",
+          "minLength": 1
+        },
+        "work_status": {
+          "enum": [
+            "supported",
+            "unconfirmed",
+            "denied"
+          ]
+        },
+        "scenario_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "equipment_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "process_tag": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "move",
+              "store",
+              "carry",
+              "hand_prep",
+              "machine_prep",
+              "cook",
+              "oil_change",
+              "serve",
+              "wash",
+              "clean",
+              "maintain",
+              "deliver",
+              "customer",
+              "manage"
+            ]
+          },
+          "uniqueItems": true
+        },
+        "hazard_tag": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "slip",
+              "fall",
+              "burn",
+              "cut",
+              "caught",
+              "struck",
+              "trapped",
+              "msd",
+              "poison",
+              "asphyxia",
+              "chemical_burn",
+              "shock",
+              "fire",
+              "explosion",
+              "heat_stress",
+              "cold_stress",
+              "radiation",
+              "traffic",
+              "psychosocial"
+            ]
+          },
+          "uniqueItems": true
+        },
+        "facts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "text": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "id",
+              "text"
+            ]
+          }
+        }
+      },
+      "required": [
+        "contract_version",
+        "tag_version",
+        "request_id",
+        "unit_id",
+        "as_of",
+        "work_text",
+        "work_status",
+        "scenario_id",
+        "equipment_ids",
+        "process_tag",
+        "hazard_tag",
+        "facts"
+      ]
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "contract_version": {
+          "const": "safet-evidence/1.0.0"
+        },
+        "tag_version": {
+          "const": "restaurant-tags/1.0.0"
+        },
+        "request_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "unit_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "module": {
+          "const": "law"
+        },
+        "corpus_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "route": {
+          "enum": [
+            "vector",
+            "skipped"
+          ]
+        },
+        "status": {
+          "enum": [
+            "ok",
+            "no_evidence",
+            "skipped",
+            "error"
+          ]
+        },
+        "error_code": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "evidence_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "source_version": {
+                "type": "string",
+                "minLength": 1
+              },
+              "process_tag": {
+                "type": "array",
+                "items": {
+                  "enum": [
+                    "move",
+                    "store",
+                    "carry",
+                    "hand_prep",
+                    "machine_prep",
+                    "cook",
+                    "oil_change",
+                    "serve",
+                    "wash",
+                    "clean",
+                    "maintain",
+                    "deliver",
+                    "customer",
+                    "manage"
+                  ]
+                },
+                "uniqueItems": true
+              },
+              "hazard_tag": {
+                "type": "array",
+                "items": {
+                  "enum": [
+                    "slip",
+                    "fall",
+                    "burn",
+                    "cut",
+                    "caught",
+                    "struck",
+                    "trapped",
+                    "msd",
+                    "poison",
+                    "asphyxia",
+                    "chemical_burn",
+                    "shock",
+                    "fire",
+                    "explosion",
+                    "heat_stress",
+                    "cold_stress",
+                    "radiation",
+                    "traffic",
+                    "psychosocial"
+                  ]
+                },
+                "uniqueItems": true
+              },
+              "quote": {
+                "type": "string",
+                "minLength": 1
+              },
+              "law_name": {
+                "type": "string",
+                "minLength": 1
+              },
+              "locator": {
+                "type": "string",
+                "minLength": 1
+              },
+              "url": {
+                "type": "string",
+                "format": "uri",
+                "pattern": "^https://(www\\.)?law\\.go\\.kr/"
+              },
+              "effective_from": {
+                "type": "string",
+                "format": "date"
+              },
+              "applicability": {
+                "enum": [
+                  "supported",
+                  "conditional"
+                ]
+              },
+              "reason": {
+                "type": "string",
+                "minLength": 1
+              },
+              "missing_conditions": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            },
+            "required": [
+              "evidence_id",
+              "source_version",
+              "process_tag",
+              "hazard_tag",
+              "quote",
+              "law_name",
+              "locator",
+              "url",
+              "effective_from",
+              "applicability",
+              "reason",
+              "missing_conditions"
+            ],
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "applicability": {
+                      "const": "conditional"
+                    }
+                  }
+                },
+                "then": {
+                  "properties": {
+                    "missing_conditions": {
+                      "minItems": 1
+                    }
+                  }
+                },
+                "else": {
+                  "properties": {
+                    "missing_conditions": {
+                      "maxItems": 0
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "required": [
+        "contract_version",
+        "tag_version",
+        "request_id",
+        "unit_id",
+        "module",
+        "corpus_version",
+        "route",
+        "status",
+        "error_code",
+        "items"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "ok"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "items": {
+                "minItems": 1
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "items": {
+                "maxItems": 0
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "error"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "error_code": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "error_code": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "skipped"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "route": {
+                "const": "skipped"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "route": {
+                "not": {
+                  "const": "skipped"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "contract_version": {
+          "const": "safet-evidence/1.0.0"
+        },
+        "tag_version": {
+          "const": "restaurant-tags/1.0.0"
+        },
+        "request_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "unit_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "module": {
+          "const": "kras"
+        },
+        "corpus_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "route": {
+          "enum": [
+            "json",
+            "vector_fallback",
+            "skipped"
+          ]
+        },
+        "status": {
+          "enum": [
+            "ok",
+            "no_evidence",
+            "skipped",
+            "error"
+          ]
+        },
+        "error_code": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "evidence_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "source_version": {
+                "type": "string",
+                "minLength": 1
+              },
+              "process_tag": {
+                "type": "array",
+                "items": {
+                  "enum": [
+                    "move",
+                    "store",
+                    "carry",
+                    "hand_prep",
+                    "machine_prep",
+                    "cook",
+                    "oil_change",
+                    "serve",
+                    "wash",
+                    "clean",
+                    "maintain",
+                    "deliver",
+                    "customer",
+                    "manage"
+                  ]
+                },
+                "uniqueItems": true
+              },
+              "hazard_tag": {
+                "type": "array",
+                "items": {
+                  "enum": [
+                    "slip",
+                    "fall",
+                    "burn",
+                    "cut",
+                    "caught",
+                    "struck",
+                    "trapped",
+                    "msd",
+                    "poison",
+                    "asphyxia",
+                    "chemical_burn",
+                    "shock",
+                    "fire",
+                    "explosion",
+                    "heat_stress",
+                    "cold_stress",
+                    "radiation",
+                    "traffic",
+                    "psychosocial"
+                  ]
+                },
+                "uniqueItems": true
+              },
+              "quote": {
+                "type": "string",
+                "minLength": 1
+              },
+              "kind": {
+                "enum": [
+                  "checklist",
+                  "case"
+                ]
+              },
+              "document_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "document_title": {
+                "type": "string",
+                "minLength": 1
+              },
+              "locator": {
+                "type": "string",
+                "minLength": 1
+              },
+              "hazard_description": {
+                "type": "string",
+                "minLength": 1
+              },
+              "check_item": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "measure_candidates": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            },
+            "required": [
+              "evidence_id",
+              "source_version",
+              "process_tag",
+              "hazard_tag",
+              "quote",
+              "kind",
+              "document_id",
+              "document_title",
+              "locator",
+              "hazard_description",
+              "check_item",
+              "measure_candidates"
+            ],
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "kind": {
+                      "const": "case"
+                    }
+                  }
+                },
+                "then": {
+                  "properties": {
+                    "check_item": {
+                      "type": "null"
+                    }
+                  }
+                },
+                "else": {
+                  "properties": {
+                    "check_item": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "required": [
+        "contract_version",
+        "tag_version",
+        "request_id",
+        "unit_id",
+        "module",
+        "corpus_version",
+        "route",
+        "status",
+        "error_code",
+        "items"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "ok"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "items": {
+                "minItems": 1
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "items": {
+                "maxItems": 0
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "error"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "error_code": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "error_code": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "skipped"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "route": {
+                "const": "skipped"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "route": {
+                "not": {
+                  "const": "skipped"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
