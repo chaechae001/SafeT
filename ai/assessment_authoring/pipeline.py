@@ -4,10 +4,11 @@ from .retrieval_adapter import retrieve_with_evidence, candidate_batches
 from .assessment_composer import render_assessment
 
 def run_pipeline(raw_request, *, build_context, extract_analysis, catalog_snapshot,
-                 rag_provider=None, rag_links=None, legal_registry=None):
+                 rag_provider=None, rag_links=None, legal_registry=None, equipment_evidence_provider=None):
     context = build_context(copy.deepcopy(raw_request))
     retrieval, trace = retrieve_with_evidence(context, catalog_snapshot, rag_provider=rag_provider,
-                                              rag_links=rag_links, legal_registry=legal_registry)
+                                              rag_links=rag_links, legal_registry=legal_registry,
+                                              equipment_evidence_provider=equipment_evidence_provider)
     analysis = dict(contract_version="assessment-authoring-1", candidates=[], unmatched_risks=[])
     has_work_input = any(m["kind"] in ("text", "voice_transcript") for m in context["media"])
     batches = candidate_batches(retrieval) if has_work_input else []

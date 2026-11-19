@@ -39,7 +39,8 @@ def text_candidates(media, diagnostics):
     return hits, bool(denied_spans)
 
 
-def retrieve_with_evidence(context, catalog_snapshot, *, rag_provider=None, rag_links=None, legal_registry=None):
+def retrieve_with_evidence(context, catalog_snapshot, *, rag_provider=None, rag_links=None, legal_registry=None,
+                           equipment_evidence_provider=None):
     schema("input", context)
     require(len({m["id"] for m in context["media"]}) == len(context["media"]), "duplicate media")
     require(len(set(context["equipment_ids"])) == len(context["equipment_ids"]), "duplicate equipment")
@@ -78,6 +79,23 @@ def retrieve_with_evidence(context, catalog_snapshot, *, rag_provider=None, rag_
                 equipment_candidates.update(links)
                 if not links:
                     diagnostics.append("RAG 시나리오 매핑 없음: " + key)
+    if equipment_evidence_provider is not None and context["equipment_ids"]:
+        rows = equipment_evidence_provider(context["equipment_ids"])
+        require(isinstance(rows, list), "invalid equipment evidence response")
+        evidence = []
+        for row in rows:
+            require(isinstance(row, dict) and row.get("equipment_id") in context["equipment_ids"]
+                    and isinstance(row.get("candidate_id"), str) and isinstance(row.get("evidence_id"), str)
+                    and "scenario_id" in row, "invalid equipment evidence row")
+            sid = row["scenario_id"]
+            require(sid is None or (sid == row["candidate_id"] and sid in catalog),
+                    "equipment evidence scenario outside catalog")
+            if row["equipment_id"] == "EQ_FRYER" and "FRY" in denied_work and "FRY" not in text_matches:
+                continue
+            evidence.append(copy.deepcopy(row))
+            if sid is not None:
+                equipment_candidates.add(sid)
+        trace["equipment_evidence"] = evidence
     selected = equipment_candidates | text_matches
     # When input contains both positive and negative indications, retain the candidate for review.
     not_applicable = (denied_work - text_matches) & selected

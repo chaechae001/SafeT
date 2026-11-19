@@ -123,6 +123,64 @@ class AuthoringTests(unittest.TestCase):
         self.assertEqual(result["assessment"]["core"]["review_candidates"],
                          [{"scenario_id": "FRY", "reason": "work_unconfirmed"}])
 
+    def test_fryer_equipment_evidence_keeps_distinct_paths(self):
+        context = read("examples/input_variants/photo.json")
+        rows = [
+            dict(equipment_id="EQ_FRYER", candidate_id="FRY", scenario_id="FRY",
+                 hazard_tag="burn", evidence_id="oil"),
+            dict(equipment_id="EQ_FRYER", candidate_id="FRY_CONTACT", scenario_id=None,
+                 hazard_tag="burn", evidence_id="contact"),
+            dict(equipment_id="EQ_FRYER", candidate_id="FIRE", scenario_id="FIRE",
+                 hazard_tag="fire", evidence_id="guide"),
+            dict(equipment_id="EQ_FRYER", candidate_id="FIRE", scenario_id="FIRE",
+                 hazard_tag="fire", evidence_id="card"),
+        ]
+
+        def evidence(equipment_ids):
+            self.assertEqual(equipment_ids, ["EQ_FRYER"])
+            return rows
+
+        def unexpected(*args):
+            self.fail("detection alone cannot establish work")
+
+        result = run_pipeline(context, build_context=copy.deepcopy, extract_analysis=unexpected,
+                              catalog_snapshot=self.catalog, equipment_evidence_provider=evidence)
+        self.assertEqual([c["scenario_id"] for c in result["retrieval"]["candidates"]], ["FIRE", "FRY"])
+        self.assertEqual(result["retrieval_trace"]["equipment_evidence"], rows)
+        self.assertEqual(result["retrieval_trace"]["work_review_candidates"], ["FIRE", "FRY"])
+        self.assertEqual(result["assessment"]["rows"], [])
+
+        observation = "튀김기에서 기름이 튀었고 식용유에 불이 붙었습니다."
+        context["media"].append(dict(id="TEXT", kind="text", text=observation))
+
+        def extract(_, batch, __):
+            self.assertEqual([c["scenario_id"] for c in batch["candidates"]], ["FIRE", "FRY"])
+            analysis = read("examples/unknown/analysis.json")
+            analysis["candidates"] = [
+                dict(analysis["candidates"][0], scenario_id=sid, rationale=observation,
+                     evidence=[dict(media_id="TEXT", statement=observation)])
+                for sid in ("FRY", "FIRE")
+            ]
+            return analysis
+
+        result = run_pipeline(context, build_context=copy.deepcopy, extract_analysis=extract,
+                              catalog_snapshot=self.catalog, equipment_evidence_provider=evidence)
+        self.assertEqual([row["scenario_id"] for row in result["assessment"]["rows"]], ["FRY", "FIRE"])
+
+        context["media"][-1]["text"] = "튀김기는 안 씁니다. 다른 구역에서 용접을 합니다."
+        bundle, trace = retrieve_with_evidence(context, self.catalog, equipment_evidence_provider=evidence)
+        self.assertIn("FIRE", [c["scenario_id"] for c in bundle["candidates"]])
+        self.assertNotIn("FRY", [c["scenario_id"] for c in bundle["candidates"]])
+        self.assertEqual(trace["equipment_evidence"], [])
+
+    def test_equipment_evidence_rejects_unknown_catalog_scenario(self):
+        context = read("examples/input_variants/photo.json")
+        def evidence(_):
+            return [dict(equipment_id="EQ_FRYER", candidate_id="FRY_CONTACT",
+                         scenario_id="FRY_CONTACT", evidence_id="contact")]
+        with self.assertRaisesRegex(ValueError, "scenario outside catalog"):
+            retrieve_evidence(context, self.catalog, equipment_evidence_provider=evidence)
+
     def test_photo_with_text_preserves_work_status(self):
         for observation, rows, pending, excluded in [
             ("칼로 채소를 썹니다.", [], ["FRY"], []),

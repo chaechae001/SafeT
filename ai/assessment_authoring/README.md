@@ -57,6 +57,20 @@ RAG 공급자가 설정되지 않으면 카탈로그 검색만 실행하고 trac
 명시적으로 공급자를 전달했는데 실패하면 예외를 전달한다. 장애를 정상 0건으로 처리하지 않는다.
 검색 원문 이력에는 비공개 자료가 포함될 수 있으므로 공개 로그·PR·클라이언트에 그대로 노출하지 않는다.
 
+## 튀김기 근거 DB 연결
+
+로컬 검수 DB에서 [튀김기 근거 마이그레이션](../../backend/migrations/20261119_fryer_equipment_evidence.sql)을 적용한다.
+기존 SQLAlchemy 연결을 사용해 `run_pipeline`에 `equipment_evidence_provider=partial(for_equipment, db)`를 전달한다.
+`partial`은 `functools`에서, `for_equipment`는 [백엔드 근거 조회](../../backend/services/catalog_evidence.py)에서 가져온다.
+
+- `EQ_FRYER`의 기존 카탈로그 후보는 `FRY`와 `FIRE`다. 기기만 확인하면 두 후보 모두 담당자 검토 대상으로 남는다.
+- 고온 표면 접촉 후보 `FRY_CONTACT`는 기름 비산 후보 `FRY`와 `burn` 태그를 공유한다. 별도 ID로 근거 이력에 남는다. 피해 수준과 조치 기준을 검수할 때까지 `scenario_id`는 비워 둔다.
+- 근거는 `retrieval_trace.equipment_evidence`에서 카드 ID, 문서 ID, PDF 쪽, 문헌 위치를 확인한다. 카탈로그의 기존 `source_refs`와 법령 등록 검증은 기존 계약을 따른다.
+- N02는 KOSHA GUIDE G-68-2011의 PDF 12쪽이다. D5는 서비스업 재해사례 중심 위험성평가 방법 안내서의 PDF 64쪽(인쇄 56쪽)이다. 두 자료의 사고 경로를 2026-11-19에 원문으로 대조했다. 안전지침·사례의 문헌 근거다.
+- 새 연결은 마이그레이션과 공급자를 명시한 입력 기반 실행에 적용된다. 팀원 자료에서는 원문이 일치한 `FOOD-04-C1` 카드만 적재했다.
+
+검사는 `python -m unittest discover -s ai/assessment_authoring/tests -v`로 실행한다.
+
 ## 범위와 남은 검수
 
 - 기기 매핑은 보수적인 시작 집합이다. 미등록 관계는 unmatched로 남긴다. 일반 냉장고를 냉동실 내부 작업으로 연결하지 않는다.
