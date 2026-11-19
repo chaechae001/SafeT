@@ -1,0 +1,12 @@
+{
+  "contract_version": "assessment-authoring-1",
+  "catalog_version": "CATALOG-MVP-1.1",
+  "media": [
+    {
+      "id": "PHOTO1",
+      "kind": "equipment_detection",
+      "text": "탐지된 기기 없음."
+    }
+  ],
+  "equipment_ids": []
+}
