@@ -103,7 +103,7 @@ def generate(scenarios, context):
             extract_with_evidence=extract, batch_size=1)
     except ValueError:
         raise AuthError(502, 'AUTHORING_RESPONSE_INVALID', '분석 근거 검증에 실패했어요. 평가표는 생성하지 않았습니다.') from None
-    if not out['assessment']['rows']:
+    if not out['assessment']['rows'] and not out['assessment']['core']['review_candidates']:
         raise AuthError(422, 'AUTHORING_NO_RESULT', '현재 기준으로 연결할 수 있는 위험 항목이 없습니다.')
     reports = {a['scenario_id']:a for a in out['analysis']['candidates']}
     trace = out['retrieval_trace']
@@ -127,7 +127,7 @@ def generate(scenarios, context):
             cause=row['risk'][:500], signal=SIGNALS[row['grade']], reason=row['rationale'][:500], curr=current,
             plans=[c['text'] for c in row['improvement_candidates']],
             authoring=dict(**stamp, row=copy.deepcopy(row), analysis=reports[row['scenario_id']])))
-    return SOURCE, items
+    return SOURCE, items, stamp
 
 
 def initialize(db, item_id, snapshot):

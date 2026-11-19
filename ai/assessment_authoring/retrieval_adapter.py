@@ -10,7 +10,7 @@ MAPPINGS = json.loads((Path(__file__).parent/"mappings/catalog_links.json").read
 
 # Exclude only an explicitly absent device or unused task immediately after the term.
 _UNUSED = re.compile(r"^(?:기|\s*작업)?(?:은|는|이|가|을|를)?\s*"
-                     r"(?:없(?:다|습니다|어요|음|고|으며)|미사용|사용하지\s*않|하지\s*않|쓰지\s*않|안\s*(?:함|합니다|해요|한다|사용))")
+                     r"(?:없(?:다|습니다|어요|음|고|으며)|미사용|사용하지\s*않|하지\s*않|쓰지\s*않|안\s*(?:함|합니다|해요|한다|사용|씁니다|써요|쓴다|씀))")
 
 
 # Only a direct denial of frying work (or use of the fryer) establishes non-applicability.
@@ -85,7 +85,7 @@ def retrieve_with_evidence(context, catalog_snapshot, *, rag_provider=None, rag_
                     diagnostics.append("RAG 시나리오 매핑 없음: " + key)
     selected = equipment_candidates | text_matches
     # When input contains both positive and negative indications, retain the candidate for review.
-    not_applicable = (denied_work - text_matches) & selected
+    not_applicable = denied_work - text_matches
     trace["equipment_candidates"] = sorted(equipment_candidates)
     trace["not_applicable_candidates"] = sorted(not_applicable)
     selected -= not_applicable

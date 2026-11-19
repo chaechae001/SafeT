@@ -148,7 +148,7 @@
       $st.append(document.createTextNode(' ' + stateText(it)));
       $('<li>').append($a).appendTo($ol);
     });
-    if (!$ol.children().length) {
+    if (items.length && !$ol.children().length) {
       $('<li class="empty">후속업무 항목이 없어요.</li>').appendTo($ol);
     }
     renderCounts();
@@ -171,7 +171,8 @@
     $('#need-row-b').prop('hidden', !b);
     $('#btn-bulk').prop('hidden', !b);
     $('#need-box').prop('hidden', !a && !b);
-    $('#done-box').prop('hidden', !!(a || b));
+    $('#done-box').prop('hidden', !items.length || !!(a || b));
+    $('#btn-confirm').prop('hidden', !items.length);
     $('#btn-confirm').toggleClass('btn--emphasis', !a && !b);
   }
 
@@ -551,6 +552,8 @@
       saveDraft('v-list');
     });
 
+    $('#v-list').on('change', '.candidate-exclusion', markDirty);
+
     $('#btn-confirm').on('click', function (e) {
       e.preventDefault();
       if(!evaluation || !items.length || busy)return;
@@ -560,6 +563,11 @@
     // 확인 창이 열릴 때 필수값 검사 (주소로 열어도 동일). 빠진 값이 있으면 창 대신 해당 필드로
     $('#confirm').on('safet:open', function () {
       if(!evaluation || !items.length || busy){SafeT.closeModal(true);return;}
+      if($('#rag-status-panel .candidate-exclusion:not(:checked)').length){
+        SafeT.closeModal(true);
+        SafeT.toast('실제 작업이거나 아직 확인하지 않은 후보가 있어 확정을 보류합니다.');
+        return;
+      }
       for (var i = 0; i < items.length; i += 1) {
         var m = missing(items[i]);
         if (m.length) {

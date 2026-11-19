@@ -82,3 +82,67 @@ def test_idempotency_and_unsupported_operations(client,rag_flow):
     r=client.post(f'/evals/{no}/items',headers=h,json={'revision':1,'keyword':'새 작업'})
     assert r.status_code==409 and r.json()['detail']['code']=='AUTHORING_ADD_UNSUPPORTED'
     assert client.post(f'/evals/{no}/risk-answers',headers=h,json={'revision':1,'answers':[]}).status_code in (409,422)
+
+@pytest.mark.parametrize('description,reason', [
+    ('튀김기는 안 씁니다.', 'input_denies_work'),
+    ('튀김기는 사용하지 않습니다.', 'input_denies_work'),
+    ('튀김기가 있습니다.', 'work_unconfirmed'),
+])
+def test_candidate_only_draft(client, rag_flow, monkeypatch, description, reason):
+    headers, payload = rag_flow
+    payload['text'] = description
+    monkeypatch.setattr(authoring_rag, 'extract', lambda *args: dict(
+        contract_version='assessment-authoring-1', candidates=[], unmatched_risks=[]))
+    doc = create(client, rag_flow)
+    path = f"/evals/{doc['eval_no']}"
+    assert doc['items'] == []
+    assert doc['result_status'] == 'no_supported_result'
+    assert {'scenario_id': 'FRY', 'reason': reason} in doc['review_candidates']
+    if reason == 'input_denies_work':
+        assert doc['review_candidates'] == [{'scenario_id':'FRY', 'reason':reason}]
+    assert create(client, rag_flow)['eval_no'] == doc['eval_no']
+    saved = client.put(path, headers=headers, json=edits(doc))
+    assert saved.status_code == 200, saved.text
+    current = client.get(path, headers=headers).json()
+    assert current['review_candidates'] == doc['review_candidates']
+    assert current['revision'] == 2
+    denied = client.post(path+'/confirm', headers=headers, json=edits(current))
+    assert denied.status_code == 422 and denied.json()['detail']['code'] == 'NO_ASSESSED_ROWS'
+    assert client.get(path, headers=headers).json() == current
+
+def test_mixed_draft_exclusions_survive_and_unresolved_candidates_block_confirm(client, rag_flow, monkeypatch):
+    headers, payload = rag_flow
+    payload['text'] = '튀김기는 안 씁니다. 통로 이동을 합니다.'
+    monkeypatch.setattr(authoring_rag, 'extract', lambda *args: dict(
+        contract_version='assessment-authoring-1', candidates=[dict(
+            scenario_id='ENV', rationale='합성 모델 응답',
+            evidence=[dict(media_id='TEXT', statement='통로 이동을 합니다.')],
+            control_evidence=[], assumptions=[], questions=[])], unmatched_risks=[]))
+    doc = create(client, rag_flow)
+    path = f"/evals/{doc['eval_no']}"
+    assert len(doc['items']) == 1
+    assert doc['review_candidates'] == [{'scenario_id': 'FRY', 'reason': 'input_denies_work'}]
+    assert doc['excluded_review_candidates'] == []
+    change = edits(doc)
+    change['excluded_review_candidates'] = ['FRY']
+    saved = client.put(path, headers=headers, json=change)
+    assert saved.status_code == 200, saved.text
+
+    fresh = client.get(path, headers=headers).json()
+    assert fresh['excluded_review_candidates'] == ['FRY']
+    saved_again = client.put(path, headers=headers, json=edits(fresh))
+    assert saved_again.status_code == 200, saved_again.text
+    assert saved_again.json()['excluded_review_candidates'] == ['FRY']
+
+    finish = edits(saved_again.json())
+    finish['items'][0].update(work_reviewed=True, owner={'type':'R','name':'근로자'}, due='2026-12-01')
+    finish['items'][0]['plans'][0]['checked'] = True
+    blocked = client.post(path+'/confirm', headers=headers, json=dict(finish, excluded_review_candidates=[]))
+    assert blocked.status_code == 422
+    assert blocked.json()['detail']['code'] == 'CANDIDATE_REVIEW_REQUIRED'
+    assert client.get(path, headers=headers).json() == saved_again.json()
+    confirmed = client.post(path+'/confirm', headers=headers, json=finish)
+    assert confirmed.status_code == 200, confirmed.text
+    final = client.get(path, headers=headers).json()
+    assert final['eval_status'] == 'C'
+    assert final['items'][0]['work_review']['excluded_candidates'] == ['FRY']

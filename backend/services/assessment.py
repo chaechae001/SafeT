@@ -56,9 +56,15 @@ def detail(db,email,no):
         catalog.enrich(it, r.get('catalog_state'))
         authoring_rag.enrich(it, it.get('catalog'))
         result['items'].append(it)
-    if m['generation_source'] == authoring_rag.SOURCE and result['items']:
-        snapshot = result['items'][0]['authoring']
-        result.update(assessment_mode='input_based', result_status=snapshot['result_status'],
+    if m['generation_source'] == authoring_rag.SOURCE:
+        saved = json.loads(m.get('authoring_snapshot') or '{}')
+        snapshot = (result['items'][0]['authoring'] if result['items']
+                    else saved)
+        latest_review = max((it['work_review'] for it in result['items'] if it.get('work_review')),
+                            key=lambda review: review['revision'], default={})
+        result.update(excluded_review_candidates=saved.get('excluded_review_candidates',
+                                                           latest_review.get('excluded_candidates', [])),
+                      assessment_mode='input_based', result_status=snapshot['result_status'],
                       review_candidates=snapshot.get('review_candidates', []),
                       base_policy_version=snapshot.get('base_policy_version'),
                       unmatched_risks=snapshot['unmatched_risks'])
@@ -84,8 +90,10 @@ def create(db,email,body):
     snapshot=catalog.list_catalog(db) if use_catalog or use_authoring else []
     # 외부 호출 전에 읽기 트랜잭션도 종료한다.
     db.rollback()
-    source,items=(authoring_rag.generate(snapshot,context) if use_authoring else
-                  catalog.generate_snapshot(snapshot,context) if use_catalog else provider.generate(context))
+    if use_authoring:
+        source, items, authoring_snapshot = authoring_rag.generate(snapshot, context)
+    else:
+        source, items = catalog.generate_snapshot(snapshot, context) if use_catalog else provider.generate(context)
     try:
         locked_rows(db,'SELECT work_no FROM workplaces WHERE work_no=:n FOR UPDATE',n=body.work_no)
         old=rows(db,'SELECT eval_no FROM eval_mst WHERE email=:e AND request_key=:k',e=email,k=key)
@@ -95,6 +103,9 @@ def create(db,email,body):
             raise AuthError(409,'WORKPLACE_CHANGED','분석 중 사업장 정보가 변경됐어요. 다시 확인해 주세요.')
         r=execute(db,"INSERT INTO eval_mst (work_no,email,eval_nm,eval_writer,eval_dt,eval_status,del_yn,request_key,revision,generation_source,ins_dt,ins_nm,upt_dt,upt_nm) VALUES (:w,:e,:nm,:writer,:dt,'W','N',:key,1,:src,:t,:e,:t,:e)",w=body.work_no,e=email,nm=f"{body.eval_dt} {w['workplace']} 위험성평가",writer=body.eval_writer,dt=body.eval_dt,key=key,src=source,t=now())
         no=r.lastrowid
+        if use_authoring and not items:
+            execute(db, 'UPDATE eval_mst SET authoring_snapshot=:s WHERE eval_no=:n',
+                    s=json.dumps(authoring_snapshot, ensure_ascii=False), n=no)
         for i,name in enumerate(body.members): execute(db,'INSERT INTO eval_member (eval_no,member_nm,sort) VALUES (:n,:name,:i)',n=no,name=name,i=i)
         for machine in w['machines']: execute(db,"INSERT INTO eval_machine (eval_no,machine_code,machine_nm,ai_yn,check_yn) VALUES (:n,:c,:name,'N','Y')",n=no,c=machine['machine_code'],name=machine['machine_nm'])
         for kind,content in (('T',body.text),('V',body.voice_text)):
@@ -131,16 +142,28 @@ def save(db,email,no,body,confirm=False):
         old=detail(db,email,no); originals={it['id']:it for it in old['items']}
         ids=[it.id for it in body.items]
         if len(ids)!=len(set(ids)) or set(ids)!=set(originals): raise AuthError(400,'INVALID_ITEMS','평가표 항목이 일치하지 않아요. 다시 불러와 주세요.')
+        if old.get('review_candidates') and not originals:
+            if confirm:
+                raise AuthError(422, 'NO_ASSESSED_ROWS', '평가 항목이 없어 확정할 수 없습니다.')
+            if body.excluded_review_candidates:
+                raise AuthError(422, 'NO_ASSESSED_ROWS', '평가 항목이 없는 초안은 검토 후보로 보관합니다.')
+        if m['generation_source'] == authoring_rag.SOURCE:
+            pending = {candidate['scenario_id'] for candidate in old['review_candidates']}
+            exclusions = set(old['excluded_review_candidates'] if body.excluded_review_candidates is None
+                             else body.excluded_review_candidates)
+            if not exclusions <= pending or (confirm and exclusions != pending):
+                raise AuthError(422, 'CANDIDATE_REVIEW_REQUIRED',
+                                '실제 작업이거나 아직 확인하지 않은 후보가 있어 확정을 보류합니다.')
+            if body.excluded_review_candidates is not None and pending:
+                execute(db, "UPDATE eval_mst SET authoring_snapshot=JSON_SET(COALESCE(authoring_snapshot,'{}'),"
+                            "'$.excluded_review_candidates',JSON_EXTRACT(:x,'$')) WHERE eval_no=:n",
+                        x=json.dumps(sorted(exclusions)), n=no)
         for edit in body.items:
             orig=originals[edit.id]
             if m['generation_source'] == authoring_rag.SOURCE:
                 authoring_rag.protect_current(orig, edit)
                 if confirm and not edit.work_reviewed:
                     raise AuthError(422, 'WORK_REVIEW_REQUIRED', '각 작업과 입력 근거를 확인해 주세요.')
-                pending = {candidate['scenario_id'] for candidate in orig['authoring'].get('review_candidates', [])}
-                exclusions = set(body.excluded_review_candidates)
-                if not exclusions <= pending or (confirm and exclusions != pending):
-                    raise AuthError(422, 'CANDIDATE_REVIEW_REQUIRED', '검토 후보의 실제 작업 여부를 확인해 주세요.')
                 if edit.work_reviewed:
                     review = dict(reviewer=email, revision=body.revision+1, reviewed_at=str(now()),
                                   excluded_candidates=sorted(exclusions))

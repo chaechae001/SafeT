@@ -23,12 +23,16 @@ def check_db(migrate):
         sql = (ROOT / 'backend/migrations/20261116_assessment_authoring.sql').read_text(encoding='utf-8')
         if os.getenv('SAFET_ASSESSMENT_MODE') in ('catalog_v1','catalog_ai_v1','authoring_rag_v1'):
             sql += '\n' + (ROOT / 'backend/migrations/20261117_catalog_risk.sql').read_text(encoding='utf-8')
+        if os.getenv('SAFET_ASSESSMENT_MODE') == 'authoring_rag_v1':
+            sql += '\n' + (ROOT / 'backend/migrations/20261119_authoring_snapshot.sql').read_text(encoding='utf-8')
         with engine.begin() as conn:
             for stmt in sql.split(';'):
                 if stmt.strip():
                     conn.execute(text(stmt))
     inspector = inspect(engine)
     columns = {c['name'] for c in inspector.get_columns('eval_mst')}
+    if os.getenv('SAFET_ASSESSMENT_MODE') == 'authoring_rag_v1' and 'authoring_snapshot' not in columns:
+        raise RuntimeError('검토 후보 저장 필드가 필요합니다. --migrate로 실행하세요.')
     indexes = {i['name'] for i in inspector.get_indexes('eval_mst')}
     if not {'request_key', 'revision', 'generation_source'} <= columns or 'uq_eval_request' not in indexes:
         raise RuntimeError('평가표 추가 필드가 필요합니다. 개인 개발 DB를 확인한 뒤 --migrate로 실행하세요.')
