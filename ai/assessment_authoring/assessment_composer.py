@@ -36,9 +36,10 @@ def render_assessment(context, retrieval_bundle, analysis_bundle, catalog_snapsh
     for candidate, result in zip(analysis["candidates"], core["items"]):
         scenario = catalog[candidate["scenario_id"]]
         states = {e["control_id"]: e["state"] for e in candidate["control_evidence"]}
-        from .explanations import rationale as explain
+        from .explanations import rationale as explain, control_details
         rationale = explain(candidate, scenario, result, (document_evidence or {}).get(scenario['id'], []))
         rows.append(dict(result, risk=scenario["scenario"], rationale=rationale,
+            control_details=control_details(candidate, scenario),
             current_controls=[e for e in candidate["control_evidence"] if e["state"] == "supported"],
             improvement_candidates=[{"control_id": c["id"], "text":
                 (c["current_text"] + " — 미확인 항목의 개선 후보") if states[c["id"]] == "unknown" else c["plan_text"]}

@@ -37,26 +37,35 @@ def document_summaries(documents):
     return list(groups.values())
 
 
+def control_details(candidate, scenario):
+    """기준 조치마다 상태와 입력 원문을 연결한다. 미확인은 원문을 붙이지 않는다."""
+    evidence = {e['control_id']: e for e in candidate['control_evidence']}
+    details = []
+    for control in scenario['controls']:
+        e = evidence.get(control['id'], {})
+        state = e.get('state', 'unknown')
+        details.append(dict(control_id=control['id'], text=control['current_text'], critical=control['critical'],
+                            state=state, statement=e.get('statement', '') if state != 'unknown' else '',
+                            evidence_refs=list(e.get('evidence_refs', [])) if state != 'unknown' else []))
+    return details
+
+
 def rationale(candidate, scenario, result, documents):
+    """입력에서 확인한 작업·조치와 등급 계산 이유만 쓴다. 문헌 내용은 문헌 근거 영역에서 표시한다."""
     quotes = unique_texts(e['statement'] for e in candidate['evidence'])
-    intro = '입력의 ' + ' · '.join('“'+t+'”' for t in quotes) + ' 내용을 바탕으로 '
-    texts = unique_texts(t for doc in documents for t in doc.get('hazard_texts', []))
-    if texts:
-        intro += '문헌에 제시된 ' + ' / '.join('“'+t+'”' for t in texts) + ' 위험을 후보에 포함했습니다. '
-    else:
-        intro += '카탈로그의 “'+scenario['title']+'” 위험을 후보에 포함했습니다. 직접 연결된 검색 문헌은 없습니다. '
-    states = {e['control_id']:e['state'] for e in candidate['control_evidence']}
-    critical = [c for c in scenario['controls'] if c['critical']]
-    unknown = [c['current_text'] for c in critical if states[c['id']]=='unknown']
-    ineffective = [c['current_text'] for c in critical if states[c['id']]=='not_effective']
-    reasons = []
-    if unknown: reasons.append('핵심 조치 중 '+', '.join(unknown)+'의 실시 여부가 입력에서 확인되지 않았습니다.')
-    if ineffective: reasons.append('입력에서 '+', '.join(ineffective)+'의 미실시 또는 효과 부족이 확인됐습니다.')
+    parts = ['입력의 ' + ' · '.join('“'+t+'”' for t in quotes) + ' 내용에서 “' + scenario['task'] + '” 작업을 확인했습니다.']
+    states = {e['control_id']: e['state'] for e in candidate['control_evidence']}
+    supported = [c['current_text'] for c in scenario['controls'] if states.get(c['id']) == 'supported']
+    ineffective = [c['current_text'] for c in scenario['controls'] if states.get(c['id']) == 'not_effective']
+    unknown = [c['current_text'] for c in scenario['controls'] if c['critical'] and states.get(c['id'], 'unknown') == 'unknown']
+    if supported: parts.append('입력에서 실시가 확인된 조치는 ' + ', '.join(supported) + '입니다.')
+    if ineffective: parts.append('입력에서 ' + ', '.join(ineffective) + '의 고장·미실시 또는 효과 부족이 확인됐습니다.')
+    if unknown: parts.append('핵심 조치 중 ' + ', '.join(unknown) + '의 실시 여부는 입력에서 확인되지 않았습니다.')
     if result['control_band'] == 1:
-        reasons.append('모든 기준 조치의 실시 근거가 확인됐습니다.')
+        parts.append('모든 기준 조치의 실시 근거가 확인됐습니다.')
     elif result['control_band'] == 2:
-        reasons.append('핵심 조치는 확인됐으나 나머지 기준 조치 중 확인되지 않거나 효과가 부족한 항목이 있습니다.')
-    reasons.append('시나리오의 피해 수준과 확인된 조치 상태에 기존 기준을 적용한 결과는 ‘'+result['grade']+'’입니다.')
-    if 'unknown' in states.values():
-        reasons.append('미확인은 계산에만 미충족으로 반영하며 실제 미실시로 단정하지 않습니다.')
-    return intro + ' '.join(reasons)
+        parts.append('핵심 조치는 모두 확인됐으나 나머지 기준 조치 중 확인되지 않거나 효과가 부족한 항목이 있습니다.')
+    parts.append('시나리오의 피해 수준과 확인된 조치 상태에 공통 기준을 적용한 현재 위험도는 ‘' + result['grade'] + '’입니다.')
+    if 'unknown' in states.values() or unknown:
+        parts.append('미확인은 계산에만 미충족으로 반영하며 실제 미실시로 단정하지 않습니다.')
+    return ' '.join(parts)

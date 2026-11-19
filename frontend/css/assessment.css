@@ -11,3 +11,14 @@ body[data-assessment] .view { scroll-margin-top: 76px; }
 .rag-originals { margin-top: 12px; font-size: .85rem; }
 .rag-originals summary { cursor: pointer; color: #12675e; }
 .rag-originals blockquote { margin-top: 12px; font-weight: 400; }
+/* 입력 원문은 사용자 진술이다. 문헌(초록 테두리)과 다른 회색 테두리로 구분한다. */
+.input-quote, .control-evidence__quote { margin: 6px 0 10px; padding: 8px 12px; border-left: 3px solid #8a948f; background: #f6f7f6; border-radius: 4px; overflow-wrap: anywhere; }
+.control-evidence { list-style: none; margin: 0; padding: 0; }
+.control-evidence__item { padding: 10px 0; border-bottom: 1px solid #e3e7e5; }
+.control-evidence__item:last-child { border-bottom: 0; }
+.control-evidence__head { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin: 0; }
+.control-evidence__name { font-weight: 600; }
+.control-evidence__state { margin-left: auto; font-size: .85rem; padding: 2px 8px; border-radius: 999px; background: #eef0ef; color: #45504b; }
+.control-evidence__item[data-state="supported"] .control-evidence__state { background: #e4f2ea; color: #1d6b3a; }
+.control-evidence__item[data-state="not_effective"] .control-evidence__state { background: #fbe9e7; color: #a12a1c; }
+.control-evidence__item .hint { margin: 4px 0 0; }

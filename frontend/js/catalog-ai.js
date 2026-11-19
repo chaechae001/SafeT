@@ -28,12 +28,26 @@
     });
     $('<p class="hint">').text('문헌 버전: '+(state.data_version || '연결 없음')+(state.context_version ? ' + '+state.context_version : '')).appendTo(box);
   }
+  var CONTROL_STATES={supported:'실시 확인',not_effective:'고장·미실시 또는 효과 부족',unknown:'미확인'};
+  /* 기준 조치마다 상태와 판단에 쓴 입력 원문을 붙인다. 미확인은 원문 없이 미실시와 구분해 표시한다. */
+  function controls(parent,it){
+    var rows=(it.authoring && it.authoring.row.control_details) || [];
+    if(!rows.length){$('<p class="hint">').text('기준 조치 정보 없음').appendTo(parent);return;}
+    var list=$('<ul class="control-evidence">').appendTo(parent);
+    rows.forEach(function(c){
+      var li=$('<li class="control-evidence__item">').attr('data-state',c.state).appendTo(list);
+      var head=$('<p class="control-evidence__head">').appendTo(li);
+      $('<span class="control-evidence__name">').text(c.text).appendTo(head);
+      if(c.critical)$('<span class="tag">').text('핵심').appendTo(head);
+      $('<span class="control-evidence__state">').text(CONTROL_STATES[c.state] || CONTROL_STATES.unknown).appendTo(head);
+      if(c.state!=='unknown' && c.statement)$('<blockquote class="control-evidence__quote">').text('“'+c.statement+'”').appendTo(li);
+      else $('<p class="hint">').text('입력에서 확인되지 않음 · 미실시로 단정하지 않습니다.').appendTo(li);
+    });
+  }
   function evidence(parent,it){
     if(it.authoring){
-      $('<h3>').text('입력에서 확인한 내용').appendTo(parent);
-      it.authoring.row.evidence.forEach(function(e){$('<p>').text(e.statement).appendTo(parent);});
-      var unknown=it.authoring.row.control_evidence.filter(function(e){return e.state==='unknown';}).length;
-      $('<p class="hint">').text('현재 안전조치 '+unknown+'개 미확인 · 미실시로 단정하지 않습니다.').appendTo(parent);
+      $('<h3>').text('입력에서 확인한 작업').appendTo(parent);
+      it.authoring.row.evidence.forEach(function(e){$('<blockquote class="input-quote">').text('“'+e.statement+'”').appendTo(parent);});
       documents(parent,it);
       return;
     }
@@ -79,5 +93,5 @@
     }).appendTo(parent);
   }
   S.catalogAI={summary:summary,detail:function(it){if(!$('#ai-evidence').length)$('<section id="ai-evidence" class="section">').insertAfter('#d-reason-box');evidence($('#ai-evidence').empty(),it);},
-    readonly:evidence,clear:function(){drafts={};},snapshot:function(){return drafts;},restore:function(x){drafts=x || {};},hasDraft:function(){return Object.keys(drafts).some(function(k){return !!drafts[k];});}};
+    readonly:evidence,controls:controls,clear:function(){drafts={};},snapshot:function(){return drafts;},restore:function(x){drafts=x || {};},hasDraft:function(){return Object.keys(drafts).some(function(k){return !!drafts[k];});}};
 })(jQuery,window.SafeT);

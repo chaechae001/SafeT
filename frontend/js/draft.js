@@ -189,6 +189,11 @@
   function renderChecks($list, arr, kind, it) {
     $list.empty();
     if(kind==='curr' && it.assessment_mode==='input_based'){
+      // 입력 기반 항목은 조치별 상태와 판단에 쓴 입력 원문을 읽기 전용으로 표시한다(catalog-ai.js).
+      if(SafeT.catalogAI && it.authoring && it.authoring.row.control_details){
+        $list.closest('fieldset').find('legend .hint').text('입력 문장에서 확인한 조치 상태입니다. 이 화면에서 바꿀 수 없습니다.');
+        SafeT.catalogAI.controls($list,it);return;
+      }
       if(!arr.length)$('<p class="hint">').text('입력에서 실시가 확인된 안전조치가 없습니다. 조치가 없다고 판단한 것은 아닙니다.').appendTo($list);
       arr.forEach(function(a){$('<p>').text(a.text).appendTo($list);});
       return;

@@ -5,6 +5,7 @@ import json
 import os
 import sys
 from datetime import datetime, timezone
+from functools import lru_cache
 from pathlib import Path
 
 from services.auth import AuthError
@@ -137,14 +138,28 @@ def initialize(db, item_id, snapshot):
     db.execute(text("UPDATE eval_action SET check_yn='Y' WHERE eval_dtl_no=:n AND action_type='C'"), {'n':item_id})
 
 
+@lru_cache(maxsize=1)
+def _scenarios():
+    return {s['id']: s for s in load_catalog()['scenarios']}
+
+
 def enrich(item, state):
     if not state or 'authoring' not in state:
         return
     snapshot = copy.deepcopy(state['authoring'])
-    from ai.assessment_authoring.explanations import document_summaries
+    from ai.assessment_authoring.explanations import document_summaries, control_details
     snapshot['row'].setdefault('document_summaries', document_summaries(snapshot['row']['document_evidence']))
+    # 조치별 원문 연결 이전에 저장된 평가표는 저장된 조치 상태와 기준 문구로 표시용 목록을 만든다.
+    scenario = _scenarios().get(snapshot['row']['scenario_id'])
+    if scenario and 'control_details' not in snapshot['row']:
+        snapshot['row']['control_details'] = control_details(snapshot['row'], scenario)
     item.pop('catalog', None)
-    item['work_review'] = state.get('work_review')
+    review = copy.deepcopy(state.get('work_review'))
+    if review:
+        reasons = {c['scenario_id']: c.get('reason') for c in snapshot.get('review_candidates', [])}
+        review['excluded_details'] = [dict(scenario_id=sid, task=(_scenarios().get(sid) or {}).get('task', sid),
+                                           reason=reasons.get(sid)) for sid in review.get('excluded_candidates', [])]
+    item['work_review'] = review
     item['work_reviewed'] = bool(item['work_review'])
     item['assessment_mode'] = 'input_based'
     item['authoring'] = snapshot

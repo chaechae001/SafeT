@@ -77,3 +77,10 @@ python -m pytest backend/tests/test_authoring_rag.py backend/unit_tests/test_aut
 - 가스·호흡기 후보는 미매칭으로 보존하고 결과를 `partial`로 표시한다. A등급 직접 언급 문장만 사용하며 섹션만으로 연결된 다른 기기 문장은 제외한다.
 - 새 모드의 위험 추가·질문 답변 API는 사용하지 않는다. 새 작업은 새 평가표로 작성한다.
 - PDF·공유 문서의 근거 표시, 사진 인식, 전체 기기 매핑 확대는 이번 연결 범위에 포함하지 않는다.
+
+## 근거 표시 보강
+
+- 판단 이유(`explanations.rationale`)에는 입력에서 확인한 작업·조치 상태와 현재 위험도 계산 이유만 쓴다. 문헌 위험 설명·예방대책은 검색 문헌 근거 영역에서 요약·출처 쪽수와 함께 표시한다.
+- `authoring.row.control_details`: 기준 조치마다 상태(실시 확인 / 고장·미실시 또는 효과 부족 / 미확인)와 판단에 쓴 입력 원문을 담는다. 미확인 조치는 원문 없이 표시한다. 이 필드가 없는 이전 저장본은 조회 시 저장된 조치 상태와 기준 문구로 만든다.
+- 확정 화면은 `work_review.excluded_candidates`를 "검토 후 제외한 작업"으로 한 번만 표시한다(예: 튀김 조리 · 현장 비적용). 제외 기록이 없으면 영역을 숨긴다.
+- 검사: `python -m unittest discover -s ai/assessment_authoring/tests`, 격리 `_test` DB에서 `python -m pytest backend/tests/test_authoring_rag.py -q`.
