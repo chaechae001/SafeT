@@ -1,0 +1,40 @@
+{
+  "tag_version": "restaurant-tags/1.0.0",
+  "process_tag": {
+    "move": "통로 이동",
+    "store": "입고·보관·인출",
+    "carry": "운반·적재",
+    "hand_prep": "수작업 손질·칼질",
+    "machine_prep": "기계 가공·혼합",
+    "cook": "가열·조리",
+    "oil_change": "기름 교환·배유",
+    "serve": "배식·서빙",
+    "wash": "설거지·세척",
+    "clean": "청소·소독",
+    "maintain": "점검·정비",
+    "deliver": "배달 운전",
+    "customer": "고객 응대",
+    "manage": "평가·교육·관리"
+  },
+  "hazard_tag": {
+    "slip": "미끄러짐·같은 높이 넘어짐",
+    "fall": "높이에서 떨어짐",
+    "burn": "고온 접촉·열탕 화상",
+    "cut": "베임·절단",
+    "caught": "끼임·말림",
+    "struck": "낙하물·물체에 맞음",
+    "trapped": "갇힘",
+    "msd": "근골격계 부담",
+    "poison": "흡입·중독",
+    "asphyxia": "산소결핍·질식",
+    "chemical_burn": "화학 화상",
+    "shock": "감전",
+    "fire": "화재",
+    "explosion": "폭발",
+    "heat_stress": "온열질환",
+    "cold_stress": "한랭장해",
+    "radiation": "자외선 등 광선 노출",
+    "traffic": "교통 충돌",
+    "psychosocial": "정신적 부담·폭언"
+  }
+}
