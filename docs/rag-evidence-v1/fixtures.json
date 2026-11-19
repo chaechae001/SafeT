@@ -1,0 +1,91 @@
+{
+  "query": {
+    "contract_version": "safet-evidence/1.0.0",
+    "tag_version": "restaurant-tags/1.0.0",
+    "request_id": "demo-01",
+    "unit_id": "passage-01",
+    "as_of": "2026-11-19",
+    "work_text": "튀김기 옆 기름 묻은 통로로 식재료를 나릅니다.",
+    "work_status": "supported",
+    "scenario_id": "ENV",
+    "equipment_ids": [
+      "EQ_FRYER"
+    ],
+    "process_tag": [
+      "move"
+    ],
+    "hazard_tag": [
+      "slip"
+    ],
+    "facts": [
+      {
+        "id": "TEXT:1",
+        "text": "튀김기 옆 기름 묻은 통로로 식재료를 나릅니다."
+      }
+    ]
+  },
+  "kras": {
+    "contract_version": "safet-evidence/1.0.0",
+    "tag_version": "restaurant-tags/1.0.0",
+    "request_id": "demo-01",
+    "unit_id": "passage-01",
+    "module": "kras",
+    "corpus_version": "fixture-k1",
+    "route": "json",
+    "status": "ok",
+    "error_code": null,
+    "items": [
+      {
+        "process_tag": [
+          "move"
+        ],
+        "hazard_tag": [
+          "slip"
+        ],
+        "evidence_id": "kras:fixture-k1:check:1",
+        "source_version": "fixture-k1",
+        "quote": "통로 바닥의 기름을 제거했는지 점검한다.",
+        "kind": "checklist",
+        "document_id": "DEMO-K",
+        "document_title": "연결 시험용 합성 점검표",
+        "locator": "점검표 1행",
+        "hazard_description": "기름 묻은 통로 이동 중 미끄러짐",
+        "check_item": "통로 바닥의 기름을 제거했는가?",
+        "measure_candidates": [
+          "통로 바닥의 기름을 제거한다."
+        ]
+      }
+    ]
+  },
+  "law": {
+    "contract_version": "safet-evidence/1.0.0",
+    "tag_version": "restaurant-tags/1.0.0",
+    "request_id": "demo-01",
+    "unit_id": "passage-01",
+    "module": "law",
+    "corpus_version": "fixture-l1",
+    "route": "vector",
+    "status": "ok",
+    "error_code": null,
+    "items": [
+      {
+        "process_tag": [
+          "move"
+        ],
+        "hazard_tag": [
+          "slip"
+        ],
+        "evidence_id": "law:fixture-l1:rules:3:1",
+        "source_version": "고용노동부령 제450호",
+        "quote": "작업장 바닥 등을 안전하고 청결한 상태로 유지하여야 한다.",
+        "law_name": "산업안전보건기준에 관한 규칙",
+        "locator": "제3조제1항",
+        "url": "https://www.law.go.kr/법령/산업안전보건기준에관한규칙/제3조",
+        "effective_from": "2026-03-02",
+        "applicability": "supported",
+        "reason": "입력의 기름 묻은 통로와 조문의 작업장 바닥 미끄러짐 방지 기준이 연결된다.",
+        "missing_conditions": []
+      }
+    ]
+  }
+}
