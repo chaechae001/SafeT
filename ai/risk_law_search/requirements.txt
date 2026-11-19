@@ -1,0 +1,17 @@
+# 위험·법령 조회 혼합(e5 임베딩) 방식 패키지. Python 3.11에서 확인.
+# 키워드 방식(--mode keyword)은 이 패키지 없이 표준 라이브러리만으로 실행된다.
+#
+# 설치(저장소 루트에서, CPU 전용 torch 먼저):
+#   python -m venv ai/risk_law_search/.venv
+#   ai/risk_law_search/.venv/Scripts/python -m pip install torch==2.15.0 --index-url https://download.pytorch.org/whl/cpu
+#   ai/risk_law_search/.venv/Scripts/python -m pip install -r ai/risk_law_search/requirements.txt
+# (Linux는 .venv/bin/python)
+
+sentence-transformers==6.3.0
+transformers==5.23.0
+chromadb==1.5.9
+langchain-core==1.8.3
+langchain-chroma==1.1.0
+numpy==2.4.6
+# 한국어 형태소 분석(키워드 점수). 없으면 글자 조각 방식으로 자동 전환된다.
+kiwipiepy==0.24.1

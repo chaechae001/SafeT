@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>위험·법령 분석</title>
+<style>
+:root{
+  --bg:#f6f7f9; --panel:#fff; --ink:#1d2330; --muted:#5d6676; --line:#dfe3ea; --accent:#1f5fbf; --accent-ink:#fff;
+  --warn-bg:#fff6dd; --warn-ink:#6b4b00; --note-bg:#eef3fb; --note-ink:#24406b; --chip:#eef0f4;
+  --quote:#f3f5f8; --tag:#e8ecf3; --low:#fde8e8; --low-ink:#8a1f1f; --law:#f0f6ff;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#12151b; --panel:#1b2029; --ink:#e7eaf0; --muted:#9aa4b5; --line:#2c3340; --accent:#6ea1ff; --accent-ink:#0d1420;
+    --warn-bg:#3a2f12; --warn-ink:#f1d48a; --note-bg:#1d2a40; --note-ink:#bcd0f2; --chip:#252c38;
+    --quote:#222833; --tag:#283041; --low:#3a1f22; --low-ink:#f3b3b3; --law:#1c2738;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#12151b; --panel:#1b2029; --ink:#e7eaf0; --muted:#9aa4b5; --line:#2c3340; --accent:#6ea1ff; --accent-ink:#0d1420;
+  --warn-bg:#3a2f12; --warn-ink:#f1d48a; --note-bg:#1d2a40; --note-ink:#bcd0f2; --chip:#252c38;
+  --quote:#222833; --tag:#283041; --low:#3a1f22; --low-ink:#f3b3b3; --law:#1c2738;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 "Pretendard","Malgun Gothic","Apple SD Gothic Neo",system-ui,sans-serif}
+header{background:var(--panel);border-bottom:1px solid var(--line);padding:16px 0}
+.wrap{max-width:1100px;margin:0 auto;padding:0 16px}
+h1{font-size:19px;margin:0 0 4px}
+.sub{color:var(--muted);font-size:13px;margin:0}
+form{display:grid;gap:10px;margin-top:12px}
+label{font-size:13px;font-weight:600;display:block;margin-bottom:4px}
+.hint{font-weight:400;color:var(--muted)}
+textarea,input[type=text]{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit}
+textarea{min-height:84px;resize:vertical}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+button{font:inherit;border:0;border-radius:8px;padding:10px 16px;background:var(--accent);color:var(--accent-ink);cursor:pointer}
+button.ghost{background:var(--chip);color:var(--ink)}
+button:disabled{opacity:.5;cursor:default}
+main{padding:16px 0 40px}
+.banner{border-radius:8px;padding:10px 12px;font-size:13px;margin:0 0 10px}
+.notice{background:var(--note-bg);color:var(--note-ink)}
+.warn{background:var(--warn-bg);color:var(--warn-ink)}
+.meta{color:var(--muted);font-size:13px;margin:0 0 12px}
+.unit{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px;margin:0 0 14px}
+.unit-head{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap;margin:0 0 4px}
+.unit-text{font-weight:600;font-size:15.5px}
+.tag{font-size:11.5px;padding:1px 7px;border-radius:5px;background:var(--tag);color:var(--muted);white-space:nowrap}
+.tag.low{background:var(--low);color:var(--low-ink)}
+.tag.neg{background:var(--warn-bg);color:var(--warn-ink)}
+.small{font-size:12.5px;color:var(--muted)}
+.id{font:12px ui-monospace,Consolas,monospace;color:var(--muted);word-break:break-all}
+ol.risks{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:10px}
+.risk{border:1px solid var(--line);border-radius:8px;padding:10px 12px}
+.risk-top{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.rank{font-weight:700;color:var(--accent)}
+.risk-title{font-weight:600}
+.score{margin-left:auto;font-size:12px;color:var(--muted);white-space:nowrap}
+.law{background:var(--law);border-radius:6px;padding:8px 10px;margin-top:8px;font-size:13.5px}
+.law-head{font-weight:600}
+.nolaw{color:var(--muted);font-size:13px;margin-top:8px}
+details{margin-top:6px}
+summary{cursor:pointer;color:var(--accent);font-size:13px}
+.quote{white-space:pre-wrap;background:var(--quote);border-radius:6px;padding:8px 10px;font-size:13px;margin:6px 0 0}
+.sub-h{font-size:12.5px;font-weight:600;margin:8px 0 4px;color:var(--muted)}
+ul.plain{margin:0;padding-left:18px;font-size:13.5px}
+.empty{color:var(--muted);font-size:13.5px;padding:6px 0}
+.opts{margin-top:8px;border-top:1px dashed var(--line);padding-top:6px}
+.opts-h{display:flex;gap:8px;align-items:baseline;font-size:13px;font-weight:600;margin:6px 0 2px}
+.opts-h .small{font-weight:400}
+.opt{display:flex;gap:8px;align-items:flex-start;font-size:13.5px;padding:3px 0;cursor:pointer}
+.opt input{margin-top:3px;flex:none;width:16px;height:16px}
+.opt .from{color:var(--muted);font-size:12px}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <h1>위험·법령 분석</h1>
+    <p class="sub">새 평가표 만들기와 같은 입력을 넣으면 문장·기기마다 위험요인 1~3개와 위험요인마다 법령 1개를 찾습니다. 확인용 화면이며 평가표에 저장되지 않습니다.</p>
+    <form id="f">
+      <div><label for="text">작업 설명</label><textarea id="text" maxlength="10000" placeholder="예: 주방에서 튀김기로 닭을 튀깁니다. 바닥에 기름이 묻어 미끄럽습니다."></textarea></div>
+      <div><label for="voice">음성 전사문 <span class="hint">(선택)</span></label><textarea id="voice" maxlength="10000" placeholder="예: 오토바이로 배달도 나가요."></textarea></div>
+      <div><label for="machines">등록 기기 <span class="hint">(선택, 쉼표로 구분 · 사업장에 등록된 기기)</span></label><input id="machines" type="text" placeholder="예: 튀김기, 배달 오토바이, 덤웨이터"></div>
+      <div class="row"><button id="go" type="submit">분석</button><button id="sample" class="ghost" type="button">예시 넣기</button><button id="clear" class="ghost" type="button">지우기</button></div>
+    </form>
+  </div>
+</header>
+<main class="wrap">
+  <div id="status" class="meta">입력 후 분석을 눌러 주세요.</div>
+  <div id="banners"></div>
+  <div id="units"></div>
+</main>
+<script>
+(function(){
+  "use strict";
+  var $=function(id){return document.getElementById(id)};
+  function el(tag,cls,text){var n=document.createElement(tag);if(cls)n.className=cls;if(text!=null)n.textContent=text;return n}
+  function add(p){for(var i=1;i<arguments.length;i++){if(arguments[i])p.appendChild(arguments[i])}return p}
+  function list(items){var u=el("ul","plain");items.forEach(function(t){add(u,el("li",null,t))});return u}
+  function detail(d){return d?"의미 "+(d.semantic==null?"-":d.semantic)+" · 키워드 "+d.keyword:""}
+  function lawBox(r){
+    if(!r.law)return el("div","nolaw","법령: "+r.law_basis);
+    var l=r.law,b=el("div","law");
+    add(b,el("div","law-head","법령: "+l.law_name+" "+l.locator+(l.article_title?" ("+l.article_title+")":"")));
+    add(b,el("div","small",r.law_basis+(l.effective_from?" · 시행 "+l.effective_from:"")));
+    add(b,el("div","id",l.id+(l.score!=null?" · 관련도 "+l.score:"")));
+    var d=el("details");add(d,el("summary",null,"조문 원문"),el("div","quote",l.quote));add(b,d);
+    return b;
+  }
+  function optionGroup(title,hint,items){
+    var box=el("div","opts"),h=el("div","opts-h"),count=el("span","small");
+    function refresh(){count.textContent="선택 "+box.querySelectorAll("input:checked").length+"/"+items.length}
+    add(h,el("span",null,title),el("span","small","("+hint+")"),count);add(box,h);
+    if(!items.length){add(box,el("div","empty","카드에 기록된 항목이 없습니다."));refresh();return box}
+    items.forEach(function(o){
+      var lab=el("label","opt"),cb=el("input");cb.type="checkbox";cb.value=o.id;cb.checked=!!o.selected;
+      if(o.original)lab.title="카드 원문: "+o.original;
+      cb.addEventListener("change",refresh);
+      var txt=el("span",null,o.text);
+      if(o.origin)add(txt,el("span","from"," — "+o.origin+(o.origin_card&&o.origin!=="이 카드 직접 대책"?" ("+o.origin_card+")":"")));
+      add(lab,cb,txt);add(box,lab);
+    });
+    var changed=items.filter(function(o){return o.original&&o.original!==o.text});
+    if(changed.length){
+      var d=el("details");add(d,el("summary",null,"카드 원문 보기"));
+      add(d,list(changed.map(function(o){return o.text+" ← "+o.original})));add(box,d);
+    }
+    refresh();return box;
+  }
+  function riskItem(r,n){
+    var li=el("li","risk"),top=el("div","risk-top");
+    var sc=el("span","score","관련도 "+r.score);sc.title=detail(r.score_detail);
+    add(top,el("span","rank",n+"."),el("span","risk-title",r.title),el("span","tag",r.kind==="case"?"사례":"점검"),
+        r.risk_type?el("span","tag",r.risk_type):null,r.low_confidence?el("span","tag low","기준 미달 · 확인 필요"):null,sc);
+    add(li,top,el("div","id",r.card_id+(r.section?" · "+r.section:"")));
+    add(li,lawBox(r));
+    add(li,optionGroup("현재 조치 사항","현장에서 하고 있는 것만 선택",r.current_options));
+    add(li,optionGroup("개선 조치 사항","적용할 것만 선택",r.improvement_options));
+    var d=el("details");add(d,el("summary",null,"위험 설명·출처"));
+    if(r.text)add(d,el("div","quote",r.text));
+    var s=r.source||{};add(d,el("div","sub-h","출처"),el("div","small",[s.doc,s.year,s.page!=null?s.page+"쪽(쪽 종류 미확인)":null].filter(Boolean).join(" · ")));
+    if(!r.laws_recorded)add(d,el("div","small","카드에 적힌 법령: 미수록 (관련 법령이 없다는 뜻이 아닙니다)"));
+    add(li,d);
+    return li;
+  }
+  function render(r){
+    var s=r.summary;
+    $("status").textContent="분석 단위 "+s.units+"개 · 위험요인 "+s.risks+"개(카드 "+s.unique_cards+"종) · 기준 미달 단위 "+s.low_confidence_units+"개 · 법령 없는 위험요인 "+s.risks_without_law+"개 · 평가일 "+r.as_of;
+    var b=$("banners");b.textContent="";add(b,el("p","banner notice",r.notice));
+    r.warnings.forEach(function(w){add(b,el("p","banner warn",w))});
+    var box=$("units");box.textContent="";
+    r.units.forEach(function(u){
+      var sec=el("section","unit"),h=el("div","unit-head");
+      add(h,el("span","tag",u.source_label),el("span","unit-text",u.text),u.negation.found?el("span","tag neg","부정 표현 · 직접 확인"):null);
+      add(sec,h,el("div","id",u.unit_id+(u.expanded_terms.length?" · 함께 찾은 말: "+u.expanded_terms.join(", "):"")));
+      if(u.note)add(sec,el("div","small",u.note));
+      var ol=el("ol","risks");
+      if(!u.risks.length)add(sec,el("div","empty","관련 위험요인을 찾지 못했습니다. 안전하다는 뜻이 아니라 확인이 필요하다는 뜻입니다."));
+      u.risks.forEach(function(r,i){add(ol,riskItem(r,i+1))});
+      add(sec,ol);add(box,sec);
+    });
+  }
+  $("f").addEventListener("submit",function(e){
+    e.preventDefault();
+    var body={text:$("text").value.trim(),voice_text:$("voice").value.trim(),
+      machines:$("machines").value.split(/[,\n]/).map(function(x){return x.trim()}).filter(Boolean).map(function(n){return {machine_nm:n}})};
+    if(!body.text&&!body.voice_text&&!body.machines.length){$("status").textContent="작업 설명, 음성 전사문, 등록 기기 중 하나 이상을 입력해 주세요.";return}
+    var btn=$("go");btn.disabled=true;$("status").textContent="분석 중…";
+    fetch("api/analyze",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)})
+      .then(function(res){return res.json().then(function(j){if(!res.ok)throw new Error(j.message||"분석 실패");return j})})
+      .then(render).catch(function(err){$("status").textContent=err.message||"분석 중 오류가 발생했습니다."})
+      .finally(function(){btn.disabled=false});
+  });
+  $("sample").addEventListener("click",function(){
+    $("text").value="주방에서 튀김기로 닭을 튀깁니다. 바닥에 기름이 묻어 미끄럽습니다.\n야채를 썰어요. 사다리를 놓고 후드를 청소합니다.";
+    $("voice").value="오토바이로 배달도 나가요. 냉동고 안에 들어가서 재료를 꺼냅니다.";
+    $("machines").value="튀김기, 덤웨이터";
+  });
+  $("clear").addEventListener("click",function(){$("text").value="";$("voice").value="";$("machines").value="";$("units").textContent="";$("banners").textContent="";$("status").textContent="입력 후 분석을 눌러 주세요."});
+  fetch("api/health").then(function(r){return r.json()}).then(function(h){
+    $("status").textContent="준비됨 · "+(h.model?"의미+키워드 ("+h.model.model+", Chroma, "+h.tokenizer+")":"키워드 ("+h.tokenizer+")")+" · 카드 "+h.cards.cards+"건 · 법령 "+h.laws.length+"개 · 평가일 "+h.as_of;
+  }).catch(function(){});
+})();
+</script>
+</body>
+</html>
