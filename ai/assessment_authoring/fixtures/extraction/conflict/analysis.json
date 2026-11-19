@@ -1,0 +1,29 @@
+{
+  "contract_version": "assessment-authoring-1",
+  "candidates": [
+    {
+      "scenario_id": "FRY",
+      "rationale": "튀김 조리 중 고온 기름이 튀어 화상을 입을 수 있음",
+      "evidence": [
+        {
+          "media_id": "TEXT",
+          "statement": "튀김 작업 때 항상 보안경과 내열 장갑을 착용합니다."
+        }
+      ],
+      "control_evidence": [
+        {
+          "control_id": "FRY-C7",
+          "state": "unknown",
+          "evidence_refs": [
+            "TEXT",
+            "VOICE"
+          ],
+          "statement": "TEXT는 항상 착용, VOICE는 바쁠 때 보안경 미착용으로 진술이 상충함"
+        }
+      ],
+      "assumptions": [],
+      "questions": []
+    }
+  ],
+  "unmatched_risks": []
+}

@@ -55,6 +55,7 @@ class Owner(StrictModel):
     name: Name
 
 class ItemEdit(StrictModel):
+    work_reviewed: bool = False
     id: int = Field(gt=0)
     curr: list[ActionEdit] = Field(max_length=50)
     plans: list[ActionEdit] = Field(max_length=50)
@@ -70,6 +71,7 @@ class ItemEdit(StrictModel):
         return self
 
 class SaveAssessment(StrictModel):
+    excluded_review_candidates: list[str] | None = Field(default=None, max_length=100)
     revision: int = Field(ge=1)
     items: list[ItemEdit] = Field(max_length=100)
 

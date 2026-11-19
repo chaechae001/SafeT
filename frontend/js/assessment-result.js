@@ -20,7 +20,8 @@
     para(box,'위험요인',it.title);para(box,'원인',it.cause);para(box,'판단 이유',it.reason);
     if(S.catalogAI)S.catalogAI.readonly(page,it);
     if(it.law){para(box,'법령',it.law.name);para(box,'요지',it.law.summary);}
-    if(it.none)para(page,'현재 조치','현재 조치 없음');else checkedList(page,'현재 안전조치',it.curr);
+    if(it.assessment_mode==='input_based' && !it.curr.length)para(page,'현재 안전조치','입력에서 확인되지 않음');
+    else if(it.none)para(page,'현재 조치','현재 조치 없음');else checkedList(page,'현재 안전조치',it.curr);
     if(it.keep==='Y')para(page,'개선대책','현재 상태 유지');else checkedList(page,'개선대책 계획',it.plans);
     if(it.owner)para(page,'담당·예정',it.owner.name+' · '+it.due);
     para(page,'개선 후 예상 신호',it.judged?labels[it.after]+' (계획 단계의 예상, 실제 결과 아님)':'판단 필요 · 예상 신호 미산정');
@@ -45,11 +46,13 @@
         $('<dt>').text(pair[0]).appendTo(meta);$('<dd>').text(pair[1]).appendTo(meta);
       });
       $('<p class="hint">확정된 평가표 · 읽기 전용 · 수정할 수 없어요.</p>').appendTo(page);
+      if(r.assessment_mode==='input_based' && r.result_status==='partial')
+        $('<p class="notice">').text('일부 검색 후보는 기준에 연결되지 않아 제외했습니다. 표시된 항목은 연결 가능한 위험만 포함합니다.').appendTo(page);
       var list=$('<ol class="card-list">').appendTo(page);
       r.items.forEach(function(it,i){
         var card=$('<a class="card result-item" href="#v-detail">').on('click',function(){index=i;detail();});
         card.append($('<span class="card__head">').append($('<span class="card__title">').text((i+1)+' '+it.job),signal(it.signal)));
-        para(card,'위험요인',it.title);para(card,'현재 조치',it.none?'현재 조치 없음':selected(it.curr));
+        para(card,'위험요인',it.title);para(card,'현재 조치',it.none?'현재 조치 없음':it.assessment_mode==='input_based' && !it.curr.length?'입력에서 확인되지 않음':selected(it.curr));
         para(card,'개선대책',it.keep==='Y'?'현재 상태 유지':selected(it.plans));
         if(it.owner)para(card,'담당·예정',it.owner.name+' · '+it.due);
         $('<li>').append(card).appendTo(list);

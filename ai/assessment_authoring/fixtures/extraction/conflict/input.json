@@ -1,0 +1,17 @@
+{
+  "contract_version": "assessment-authoring-1",
+  "catalog_version": "CATALOG-MVP-1.1",
+  "media": [
+    {
+      "id": "TEXT",
+      "kind": "text",
+      "text": "튀김 작업 때 항상 보안경과 내열 장갑을 착용합니다."
+    },
+    {
+      "id": "VOICE",
+      "kind": "voice_transcript",
+      "text": "바쁠 때는 보안경을 자주 안 써요."
+    }
+  ],
+  "equipment_ids": []
+}

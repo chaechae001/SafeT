@@ -10,7 +10,7 @@ MAPPINGS = json.loads((Path(__file__).parent/"mappings/catalog_links.json").read
 
 # Exclude only an explicitly absent device or unused task immediately after the term.
 _UNUSED = re.compile(r"^(?:기|\s*작업)?(?:은|는|이|가|을|를)?\s*"
-                     r"(?:없(?:다|습니다|어요|음|고|으며)|미사용|사용하지\s*않|하지\s*않|쓰지\s*않|안\s*(?:함|합니다|해요|한다|사용))")
+                     r"(?:없(?:다|습니다|어요|음|고|으며)|미사용|사용하지\s*않|하지\s*않|쓰지\s*않|안\s*(?:함|합니다|해요|한다|사용|씁니다|써요|쓴다|씀))")
 
 
 # Only a direct denial of frying work (or use of the fryer) establishes non-applicability.
@@ -37,6 +37,10 @@ def text_candidates(media, diagnostics):
                 else:
                     hits.add(sid)
     return hits, bool(denied_spans)
+
+
+def _positive(text, term):
+    return any(not _UNUSED.match(text[m.end():]) for m in re.finditer(re.escape(term), text))
 
 
 def retrieve_with_evidence(context, catalog_snapshot, *, rag_provider=None, rag_links=None, legal_registry=None):
@@ -67,6 +71,7 @@ def retrieve_with_evidence(context, catalog_snapshot, *, rag_provider=None, rag_
         # 기존 services.rag_retrieval.candidates를 주입할 수 있다. 오류를 정상 0건으로 은폐하지 않는다.
         response = rag_provider(context["equipment_ids"], k=None)
         require(isinstance(response, dict) and isinstance(response.get("candidates"), list), "invalid RAG response")
+        require(response.get("enabled") is not False, "RAG is disabled; not an empty search result")
         trace.update(retrieval_mode="catalog+rag", rag_response=copy.deepcopy(response))
         for candidate in response["candidates"]:
             require(isinstance(candidate.get("equipment_ids"), list)
@@ -80,7 +85,7 @@ def retrieve_with_evidence(context, catalog_snapshot, *, rag_provider=None, rag_
                     diagnostics.append("RAG 시나리오 매핑 없음: " + key)
     selected = equipment_candidates | text_matches
     # When input contains both positive and negative indications, retain the candidate for review.
-    not_applicable = (denied_work - text_matches) & selected
+    not_applicable = denied_work - text_matches
     trace["equipment_candidates"] = sorted(equipment_candidates)
     trace["not_applicable_candidates"] = sorted(not_applicable)
     selected -= not_applicable
@@ -95,6 +100,9 @@ def retrieve_with_evidence(context, catalog_snapshot, *, rag_provider=None, rag_
     bundle = dict(contract_version="assessment-authoring-1", candidates=candidates,
                   unmatched=[])
     schema("retrieval", bundle)
+    from .document_evidence import evidence_by_scenario
+    trace["scenario_evidence"] = evidence_by_scenario(
+        trace["rag_response"] or {}, {k:[sid for sid in v if sid not in not_applicable] for k,v in (rag_links or {}).items()}, selected, context["equipment_ids"])
     return bundle, trace
 
 def retrieve_evidence(context, catalog_snapshot, **kwargs):
