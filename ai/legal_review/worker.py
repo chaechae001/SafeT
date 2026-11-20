@@ -1,7 +1,6 @@
-"""평가 항목별로 검수한 L01 인덱스를 읽고 서버 측 근거만 반환한다."""
+"""평가 항목별로 9개 법령 전문 인덱스를 읽고 서버 측 근거만 반환한다."""
 import json
 import os
-import re
 import sys
 import urllib.request
 from pathlib import Path
@@ -13,7 +12,7 @@ from rules import review
 from observability import QueryTrace
 from evaluator import legal_groundedness_v1
 
-COLLECTION = "baseline-kure-6258660a191f"
+from full_index import COLLECTION, ORDER
 PROMPT = Path(__file__).with_name("prompt.txt").read_text(encoding="utf-8-sig")
 
 
@@ -21,17 +20,29 @@ def candidates(collection, tokenizer, encoder, question):
     with torch.inference_mode():
         tokens = tokenizer(question, truncation=True, max_length=512, return_tensors="pt")
         vector = torch.nn.functional.normalize(encoder(**tokens).last_hidden_state[:, 0])
-    hits = collection.query(query_embeddings=vector.tolist(), n_results=267)
+    ranked = []
+    for priority in range(1, len(ORDER) + 1):
+        hits = collection.query(query_embeddings=vector.tolist(), n_results=8,
+                                where={"$and": [{"priority": priority}, {"deleted": False}]},
+                                include=["documents", "metadatas", "distances"])
+        for distance, meta, text in zip(hits["distances"][0], hits["metadatas"][0], hits["documents"][0]):
+            # 최대 0.016의 가산점으로 유사도가 근접한 문서에 순서를 반영한다.
+            score = 1 - distance + 0.002 * (len(ORDER) - priority)
+            ranked.append((score, priority, meta["chunk_id"], meta, text))
     rows = []
     seen = set()
-    for meta, text in zip(hits["metadatas"][0], hits["documents"][0]):
+    for score, priority, chunk_id, meta, text in sorted(ranked, key=lambda x: (-x[0], x[1], x[2])):
         section = meta["section"]
-        article = re.match(r"제\d+조(?:의\d+)?", section)
-        key = (meta["law"], article.group() if article else section)
+        if meta["part"] != "본문":
+            section = meta["part"] + " " + section
+        key = (meta["law"], section)
         if key in seen:
             continue
         seen.add(key)
-        rows.append(dict(chunk_id=meta["chunk_id"], law=meta["law"], locator=section, text=text))
+        raw_excerpt = text.partition("\n")[2] or text
+        rows.append(dict(chunk_id=chunk_id, law=meta["law"], locator=section, text=raw_excerpt,
+                         part=meta["part"], source_file=meta["source_file"],
+                         source_sha256=meta["source_sha256"], priority=priority))
         if len(rows) == 6:
             break
     return rows
@@ -133,15 +144,29 @@ def attach_feedback(recorder, evaluation):
                 json.dumps({"error_type": type(exc).__name__}), encoding="utf8")
 
 
+def open_index(folder):
+    manifest = json.loads((folder / "manifest.json").read_text(encoding="utf8"))
+    if [row["priority"] for row in manifest] != list(range(1, len(ORDER) + 1)):
+        raise ValueError("9개 문서의 적재 완료 기록이 필요합니다.")
+    db = chromadb.PersistentClient(path=str(folder)).get_collection(COLLECTION)
+    if db.count() != sum(row["chunks"] for row in manifest):
+        raise ValueError("전체 법령 인덱스와 적재 기록이 일치하지 않습니다.")
+    with (folder / "chunks.jsonl").open(encoding="utf8") as file:
+        catalog = [json.loads(line) for line in file]
+    stored = db.get(include=["metadatas"])
+    expected = {row["chunk_id"]: row for row in catalog}
+    if len(expected) != db.count() or dict(zip(stored["ids"], stored["metadatas"])) != expected:
+        raise ValueError("청크 ID 또는 원문 메타데이터가 적재 목록과 일치하지 않습니다.")
+    return db
+
+
 def main():
     questions = json.load(sys.stdin)
     torch.set_num_threads(4)
     weights = os.environ["SAFET_LEGAL_WEIGHTS"]
     tokenizer = AutoTokenizer.from_pretrained(weights, local_files_only=True)
     encoder = AutoModel.from_pretrained(weights, local_files_only=True).eval()
-    collection = chromadb.PersistentClient(path=os.environ["SAFET_LEGAL_CHROMA"]).get_collection(COLLECTION)
-    if collection.count() != 267:
-        raise ValueError("L01 인덱스 건수가 다릅니다.")
+    collection = open_index(Path(os.environ["SAFET_LEGAL_CHROMA"]))
     results = [evaluate(collection, tokenizer, encoder, q) for q in questions]
     json.dump(results, sys.stdout, ensure_ascii=True)
 
