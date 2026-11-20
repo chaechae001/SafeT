@@ -107,6 +107,72 @@ class EngineTest(unittest.TestCase):
         self.assertNotIn("추락의 방지", [l["article_title"] for l in r["laws"]])
         self.assertIn("추락", engine().search("높은 곳에서 떨어짐")["expanded_terms"])
 
+    def test_keyword_list_is_split_into_one_unit_per_word(self):
+        e = engine()
+        if not hasattr(e.tokenizer, "bare_noun"):
+            self.skipTest("형태소 분석기(kiwipiepy) 없음")
+        a = e.analyze("칼 튀김기 선반 바닥")
+        self.assertEqual([u["text"] for u in a["units"]], ["칼", "튀김기", "선반", "바닥"])
+        self.assertTrue(all(u["keyword"] and u["from_text"] == "칼 튀김기 선반 바닥" for u in a["units"]))
+        cards = {u["text"]: [r["card_id"] for r in u["risks"]] for u in a["units"]}
+        self.assertIn("FOOD-11-H3", cards["선반"])  # 선반 등으로 운반 시 불안전한 작업
+        self.assertIn("FOOD-05-H2", cards["바닥"])  # 바닥에 물이 고이는 구조
+        ids = [c for v in cards.values() for c in v]
+        self.assertEqual(len(ids), len(set(ids)))  # 낱말 단위끼리 같은 카드를 겹쳐 내지 않는다
+        # 조사·어미가 있는 문장은 나누지 않는다.
+        self.assertEqual(len(e.split_units("바닥에 물기가 있어요")), 1)
+        self.assertEqual([u["text"] for u in e.split_units("칼, 바닥")], ["칼", "바닥"])
+
+    def test_listed_clauses_are_split_into_units(self):
+        e = engine()
+        if not hasattr(e.tokenizer, "clause_cuts"):
+            self.skipTest("형태소 분석기(kiwipiepy) 없음")
+        t = "칼로 재료를 손질하고 튀김기로 튀기고 선반에서 물건을 꺼내는데 바닥이 미끄러워요"
+        a = e.analyze(t)
+        self.assertEqual([u["text"] for u in a["units"]],
+                         ["칼로 재료를 손질하고", "튀김기로 튀기고", "선반에서 물건을 꺼내는데", "바닥이 미끄러워요"])
+        self.assertTrue(all(u["clause"] and u["from_text"] == t for u in a["units"]))
+        cards = [r["card_id"] for u in a["units"] for r in u["risks"]]
+        self.assertTrue({"FOOD-11-H3", "FOOD-05-H2"} <= set(cards))  # 선반·바닥 위험이 빠지지 않는다
+        # 원인·순서로 이어진 한 사건('~다가')과 보조 용언('닦고 있어요')은 나누지 않는다.
+        self.assertEqual(len(e.split_units("칼로 자르다가 칼이 미끄러졌어요")), 1)
+        self.assertEqual([u["text"] for u in e.split_units("칼을 쓰며 바닥을 닦고 있어요")], ["칼을 쓰며", "바닥을 닦고 있어요"])
+
+    def test_alt_law_path_is_added_without_changing_default(self):
+        e = engine()
+        before = e.analyze("식칼이 떨어짐")
+        self.assertTrue(all("law_alt" not in r for u in before["units"] for r in u["risks"]))
+
+        class Stub:  # B 경로 자리만 확인한다(KURE 모델 없이).
+            def find(self, text, card):
+                return dict(method="stub", text=text, card=card["id"], candidates=[])
+
+            def info(self):
+                return dict(method="stub")
+
+        e.alt_law = Stub()
+        try:
+            after = e.analyze("식칼이 떨어짐")
+            self.assertEqual(e.health()["alt_law"], {"method": "stub"})
+        finally:
+            e.alt_law = None
+        for u0, u1 in zip(before["units"], after["units"]):
+            for r0, r1 in zip(u0["risks"], u1["risks"]):
+                self.assertEqual(r1["law_alt"], dict(method="stub", text=u1["text"], card=r1["card_id"], candidates=[]))
+                self.assertEqual(r1["law_alt_topic"]["candidates"], [])
+                self.assertIn("담당자 확인 필요", r1["law_alt_topic"]["note"])
+                self.assertEqual({k: v for k, v in r1.items() if k not in ("law_alt", "law_alt_topic")}, r0)  # A 결과는 그대로
+
+    def test_alt_topic_keeps_only_candidates_matching_risk_type(self):
+        e = engine()
+        card = e.card_by_id["OPS-04-H2"]  # [베임] 식칼
+        view = lambda title: e.law_view(next(u["id"] for i, u in enumerate(e.units)
+                                             if u["article_title"] == title and i in e.law_allowed))
+        alt = dict(method="kure45", candidates=[view("와이어로프의 절단방법 등"), view("추락의 방지"), view("보호구의 지급 등")])
+        r = e._alt_topic(alt, card)
+        self.assertEqual([x["article_title"] for x in r["candidates"]], ["보호구의 지급 등"])
+        self.assertEqual(r["dropped"], 2)
+
     def test_negation_is_flagged_not_hidden(self):
         r = engine().search("바닥에 물기가 없습니다")
         self.assertTrue(r["negation"]["found"])

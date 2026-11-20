@@ -16,7 +16,7 @@
 - 카드–법령 연결: 카드 고유 내용(기기·사고 유형·제목·본문)과 가장 가까운 관련 조문 상위 LINK_K개.
   단, 카드 위험유형과 주제가 맞는 조문만 쓴다(risk_topics.json). 맞는 조문이 없으면 연결하지 않는다.
   카드 laws의 법령은 'card_cited'로 따로.
-- 플랫폼 입력 분석(analyze): 글·음성은 문장, 등록 기기는 기기마다 한 단위. 단위마다 위험요인 1~3개,
+- 플랫폼 입력 분석(analyze): 글·음성은 문장(낱말 나열은 낱말, 나열형 연결 어미는 절), 등록 기기는 기기마다 한 단위. 단위마다 위험요인 1~3개,
   위험요인마다 법령 1개(가장 가까운 조문 1순위 → 카드 기재 법령 → 없음).
 """
 import datetime
@@ -38,6 +38,10 @@ SIMILAR_K = 15  # 조치 항목을 채울 때 볼 비슷한 카드 수
 MAX_UNITS = 60  # 한 번에 분석하는 단위 수 상한
 # 문장 경계: 마침표·물음표·느낌표(소수점 제외), 줄바꿈, 세미콜론
 SENTENCE = re.compile(r"(?<=[.!?。？！])(?!\d)\s*|[\r\n;]+")
+# 낱말 나열 구분: 띄어쓰기·쉼표·가운뎃점·빗금
+KEYWORD_SEP = re.compile(r"[\s,，、·/]+")
+# 문장을 나눌 나열형 연결 어미. '다가·어서·아서'(원인·순서로 한 사건)는 나누지 않는다.
+CLAUSE_ENDINGS = {"고", "며", "으며", "는데", "은데", "ㄴ데", "지만", "거나"}
 CONTEXT_W = 0.3  # 구역 공통 문구(구역명·대상 작업·예시 작업)의 키워드 비중
 PENALTY_TITLES = ("벌칙", "과태료", "양벌규정")
 PENALTY = 0.7
@@ -88,6 +92,7 @@ class Engine:
         # 주제어는 조문 제목·장절 제목에서만 찾는다. 법령명까지 넣으면 법령 전체가 통과한다.
         self.unit_topic_text = [f"{u['article_title']} {u['heading']}" for u in self.units]
         self.unit_by_id = {u["id"]: u for u in self.units}
+        self.unit_pos = {u["id"]: i for i, u in enumerate(self.units)}
         self.card_by_id = {c["id"]: c for c in self.cards}
         # 평가일 기준 시행 중인 조각만 검색한다(시행 예정 판은 보존만).
         self.law_pos = [i for i, u in enumerate(self.units)
@@ -100,6 +105,7 @@ class Engine:
         self.card_index = TextIndex([card_search_text(c) for c in self.search_cards], self.tokenizer)
         self.card_context_index = TextIndex([card_context_text(c) for c in self.search_cards], self.tokenizer)
         self.model_info = None
+        self.alt_law = None  # 비교용 B 경로(law_kure.KureLawFinder). 서버 옵션으로만 켠다.
         if mode == "hybrid":
             self._load_semantic(model, index_dir or HERE / ".index", log)
         self.links = self._link_all()
@@ -225,6 +231,16 @@ class Engine:
         text, law = self.unit_topic_text[i], self.units[i]["law_name"]
         return any(any(t in text for t in self.topics[k]["terms"]) or law in self.topics[k].get("laws", ())
                    for k in known)
+
+    def _alt_topic(self, alt, card):
+        """비교용 B+주제: B 후보 중 카드 위험유형과 주제가 맞는 것만 순서대로 남긴다(없으면 확인 필요)."""
+        ok = [x for x in alt["candidates"] if self.topic_ok(card, self.unit_pos[x["id"]])]
+        known, _ = self.card_topics(card)
+        return dict(method=f"{alt['method']}+topic", label="B+주제 확인(B 후보 중 위험유형과 주제가 맞는 것)",
+                    candidates=ok, dropped=len(alt["candidates"]) - len(ok),
+                    note=("주제가 맞는 후보가 없습니다 · 담당자 확인 필요" if not ok else
+                          "검색 후보입니다. 적용 여부는 담당자가 확인합니다.")
+                    + ("" if known else " · 위험유형이 주제 사전에 없음"))
 
     def _link_all(self):
         # 카드 고유 내용으로 연결한다. 대책 문장을 넣으면 '용기·장갑' 같은 낱말이 엉뚱한 조문과 겹쳤다(README 참고).
@@ -384,17 +400,58 @@ class Engine:
                     law_trail=trail, law_next_start=hit_docs[-1] if more else None)
 
     # ---------- 플랫폼 입력 분석(새 평가표 만들기 형식) ----------
+    def keyword_list(self, part):
+        """'칼 튀김기 선반 바닥'·'칼, 바닥'처럼 낱말만 나열한 문장이면 낱말 목록, 아니면 None.
+        형태소 분석이 있으면 모든 낱말이 맨 명사일 때, 없으면 쉼표로 나열했을 때만 나눈다."""
+        if hasattr(self.tokenizer, "bare_noun"):
+            words = [w for w in KEYWORD_SEP.split(part) if w]
+            ok = len(words) >= 2 and all(self.tokenizer.bare_noun(w) for w in words)
+        else:
+            words = [w.strip() for w in re.split(r"[,，、]+", part) if w.strip()]
+            ok = len(words) >= 2 and all(len(w.split()) == 1 for w in words)
+        return words if ok and len(words) <= MAX_UNITS else None
+
+    def clauses(self, part):
+        """'~하고 ~하는데 ~해요'처럼 나열형 연결 어미로 이어진 문장이면 절 목록, 아니면 None(형태소 분석 필요)."""
+        if not hasattr(self.tokenizer, "clause_cuts"):
+            return None
+        cuts = self.tokenizer.clause_cuts(part.lower(), CLAUSE_ENDINGS)
+        pieces, start = [], 0
+        for c in cuts + [len(part)]:
+            piece = part[start:c].strip(" ,，")
+            if piece:
+                pieces.append(piece)
+            start = c
+        # 낱말 하나뿐인 조각(예: '그리고')은 앞 조각에 붙인다.
+        merged = []
+        for p in pieces:
+            if merged and len(p.split()) < 2:
+                merged[-1] += " " + p
+            else:
+                merged.append(p)
+        return merged if len(merged) >= 2 else None
+
     def split_units(self, text="", voice_text="", machines=()):
-        """글·음성 전사문은 문장 단위, 등록 기기는 기기마다 한 단위로 나눈다. 같은 문장은 한 번만."""
+        """글·음성 전사문은 문장 단위, 등록 기기는 기기마다 한 단위로 나눈다. 같은 문장은 한 번만.
+        낱말만 나열한 문장은 낱말마다(keyword=True), 나열형 연결 어미로 이어진 문장은 절마다(clause=True) 나눈다."""
         units, seen = [], set()
         for source, label, content in (("TEXT", "작업 설명", text), ("VOICE", "음성 전사문", voice_text)):
             parts = [p.strip(" \t·-•") for p in SENTENCE.split(content or "")]
-            for n, p in enumerate([p for p in parts if len(p) >= 2], 1):
-                key = re.sub(r"\s+", " ", p)
-                if key in seen:
-                    continue
-                seen.add(key)
-                units.append(dict(unit_id=f"{source}:{n}", source=source, source_label=label, text=p))
+            n = 0
+            for p in [p for p in parts if len(p) >= 2]:
+                words = self.keyword_list(p)
+                pieces = [(w, "keyword") for w in words] if words else \
+                    [(c, "clause") for c in (self.clauses(p) or [])] or [(p, None)]
+                for piece, kind in pieces:
+                    key = re.sub(r"\s+", " ", piece)
+                    if key in seen:
+                        continue
+                    seen.add(key)
+                    n += 1
+                    unit = dict(unit_id=f"{source}:{n}", source=source, source_label=label, text=piece)
+                    if kind:
+                        unit.update({kind: True, "from_text": p})
+                    units.append(unit)
         for n, m in enumerate(machines or (), 1):
             name = (m.get("machine_nm") if isinstance(m, dict) else str(m) if m is not None else "") or ""
             name = name.strip()
@@ -438,7 +495,12 @@ class Engine:
         out, seen_cards = [], set()
         for u, (q, added), qv in zip(units, queries, qvecs):
             rows = self._card_rank(q, qv)
-            chosen = [r for r in rows if self._card_ok(r)][:MAX_RISKS]
+            passed = [r for r in rows if self._card_ok(r)]
+            if u.get("from_text"):
+                # 낱말·절 단위는 앞 단위에서 고른 카드를 피한다. 모두 이미 나왔으면 1순위 하나만 둔다.
+                fresh = [r for r in passed if self.search_cards[r[0]]["id"] not in seen_cards]
+                passed = fresh or passed[:1]
+            chosen = passed[:MAX_RISKS]
             low = not chosen and bool(rows)
             if low:
                 chosen = rows[:1]  # 위험요인은 최소 1개. 기준 미달이면 확인 필요로 표시한다.
@@ -456,6 +518,10 @@ class Engine:
                     score=round(s, 3), score_detail=self._detail(sem, kw),
                     low_confidence=low, status="기준 미달 · 확인 필요" if low else "위험 후보 · 현장 적용 확인 필요",
                     law=law, law_basis=basis))
+                if self.alt_law:
+                    alt = self.alt_law.find(u["text"], c)
+                    risks[-1]["law_alt"] = alt
+                    risks[-1]["law_alt_topic"] = self._alt_topic(alt, c)
             neg = NEGATION.search(u["text"])
             out.append(dict(u, expanded_terms=added, risks=risks,
                             status="ok" if risks and not low else ("low_confidence" if low else "no_evidence"),
@@ -474,6 +540,7 @@ class Engine:
 
     def health(self):
         return dict(status="ok", mode=self.mode, model=self.model_info, tokenizer=self.tokenizer.name, as_of=self.as_of,
+                    alt_law=self.alt_law.info() if self.alt_law else None,
                     measure_actions=dict(version=self.actions_version, count=len(self.actions)),
                     build_seconds=self.build_seconds, cards=self.card_meta, searchable_cards=len(self.search_cards),
                     laws=[{k: d[k] for k in ("doc_id", "law_name", "effective_from", "file", "sha256", "articles")}

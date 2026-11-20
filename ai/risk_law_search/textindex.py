@@ -51,6 +51,17 @@ class KiwiTokenizer:
             self.cache[text] = out
         return out
 
+    def clause_cuts(self, text, endings):
+        """나열형 연결 어미(endings) 바로 뒤의 글자 위치들. 뒤가 보조 용언('닦고 있어요')이면 자르지 않는다."""
+        toks = self.kiwi.tokenize(text)
+        return [t.start + t.len for t, nxt in zip(toks, toks[1:])
+                if t.tag == "EC" and t.form in endings and nxt.tag != "VX"]
+
+    def bare_noun(self, word):
+        """조사·어미·동사 없이 명사(복합명사·접미사 포함)만으로 된 낱말인가. 예: '튀김기' 예, '바닥에' 아니오."""
+        toks = self.kiwi.tokenize(word)
+        return bool(toks) and all(t.tag in NOUN or t.tag in ("NNB", "XSN", "SN") for t in toks)
+
 
 def make_tokenizer(prefer="kiwi"):
     """kiwi를 쓸 수 있으면 kiwi, 아니면 정규식 토큰화."""

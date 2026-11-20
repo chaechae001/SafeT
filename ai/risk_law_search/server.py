@@ -124,9 +124,19 @@ def main():
     cli.add_argument("--index-dir", default=os.getenv("RISK_LAW_INDEX_DIR"), help="Chroma 저장 폴더(기본 ai/risk_law_search/.index)")
     cli.add_argument("--build-index", action="store_true", help="임베딩 색인만 만들고 종료(배포 시 미리 실행)")
     cli.add_argument("--export-links", metavar="PATH", help="카드–법령 연결 전체를 JSON으로 저장하고 종료(새 파일만)")
+    cli.add_argument("--law-alt", choices=("kure45",), default=os.getenv("RISK_LAW_ALT") or None,
+                     help="비교용 B 경로를 함께 켠다(kure45: #45 방식 KURE-v1 검색). 화면에 A·B 법령을 나란히 표시")
+    cli.add_argument("--build-alt-index", action="store_true", help="B 경로(kure45) 인덱스만 만들고 종료(CPU 수십 분)")
     args = cli.parse_args()
     engine = Engine(args.data, card_file=args.cards, as_of=args.as_of, mode=args.mode,
                     model=args.model, index_dir=args.index_dir, log=lambda m: print(m, flush=True))
+    if args.build_alt_index:
+        from .law_kure import build
+        build(engine, log=lambda m: print(m, flush=True))
+        return
+    if args.law_alt:
+        from .law_kure import KureLawFinder
+        engine.alt_law = KureLawFinder(engine)
     if args.build_index:
         print(json.dumps(engine.health()["model"], ensure_ascii=False))
         return
@@ -138,7 +148,8 @@ def main():
     h = engine.health()
     print(f"방식 {h['mode']}" + (f" · 모델 {h['model']['model']}" if h["model"] else "") + " · "
           f"색인 완료 {h['build_seconds']}초 · 카드 {h['cards']['cards']}건(검색 {h['searchable_cards']}) · "
-          f"법령 {len(h['laws'])}개 · 조각 {h['law_units']}개(시행 중 {h['law_units_in_force']}) · 평가일 {h['as_of']}", flush=True)
+          f"법령 {len(h['laws'])}개 · 조각 {h['law_units']}개(시행 중 {h['law_units_in_force']}) · 평가일 {h['as_of']}"
+          + (f" · 비교 B: {h['alt_law']['label']}" if h["alt_law"] else ""), flush=True)
     print(f"http://{args.host}:{args.port}/", flush=True)
     ThreadingHTTPServer((args.host, args.port), make_handler(engine)).serve_forever()
 

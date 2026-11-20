@@ -71,6 +71,11 @@ ul.plain{margin:0;padding-left:18px;font-size:13.5px}
 .opt{display:flex;gap:8px;align-items:flex-start;font-size:13.5px;padding:3px 0;cursor:pointer}
 .opt input{margin-top:3px;flex:none;width:16px;height:16px}
 .opt .from{color:var(--muted);font-size:12px}
+.lawpair{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+@media (max-width:900px){.lawpair{grid-template-columns:1fr}}
+.lawpair>*{min-width:0}
+.pair-h{font-size:12px;font-weight:700;color:var(--accent);margin-top:8px}
+ol.cands{margin:4px 0 0;padding-left:18px;font-size:13px}
 </style>
 </head>
 <body>
@@ -98,7 +103,26 @@ ul.plain{margin:0;padding-left:18px;font-size:13.5px}
   function el(tag,cls,text){var n=document.createElement(tag);if(cls)n.className=cls;if(text!=null)n.textContent=text;return n}
   function add(p){for(var i=1;i<arguments.length;i++){if(arguments[i])p.appendChild(arguments[i])}return p}
   function list(items){var u=el("ul","plain");items.forEach(function(t){add(u,el("li",null,t))});return u}
-  function detail(d){return d?"의미 "+(d.semantic==null?"-":d.semantic)+" · 키워드 "+d.keyword:""}
+  function detail(d){return d?"의미 "+(d.semantic==null?"-":d.semantic)+" · 키워드 "+(d.keyword==null?"-":d.keyword):""}
+  function lawLine(l){return l.law_name+" "+l.locator+(l.article_title?" ("+l.article_title+")":"")}
+  function altBox(a,tag){
+    var w=el("div");add(w,el("div","pair-h",tag+". "+a.label));
+    if(!a.candidates.length){add(w,el("div","nolaw","법령: "+(a.note||"후보 없음")));return w}
+    var l=a.candidates[0],b=el("div","law");
+    add(b,el("div","law-head","법령: "+lawLine(l)));
+    add(b,el("div","small","1순위 검색 후보 · 유사도 "+l.score+(l.effective_from?" · 시행 "+l.effective_from:"")));
+    add(b,el("div","id",l.id));
+    var d=el("details");add(d,el("summary",null,"조문 원문"),el("div","quote",l.quote));add(b,d);
+    if(a.candidates.length>1){
+      var d2=el("details"),ol=el("ol","cands");ol.start=2;
+      a.candidates.slice(1).forEach(function(c){add(ol,el("li",null,lawLine(c)+" · "+c.score))});
+      add(d2,el("summary",null,"후보 2~"+a.candidates.length+"위"+(tag==="B"?" (#45는 AI가 이 중 근거를 고름)":"")),ol);add(b,d2);
+    }
+    if(a.question){var d3=el("details");add(d3,el("summary",null,"검색 질문"),el("div","quote",a.question));add(b,d3)}
+    if(a.dropped)add(b,el("div","small","주제가 다른 B 후보 "+a.dropped+"개 제외"));
+    add(b,el("div","small",a.note));add(w,b);
+    return w;
+  }
   function lawBox(r){
     if(!r.law)return el("div","nolaw","법령: "+r.law_basis);
     var l=r.law,b=el("div","law");
@@ -134,7 +158,11 @@ ul.plain{margin:0;padding-left:18px;font-size:13.5px}
     add(top,el("span","rank",n+"."),el("span","risk-title",r.title),el("span","tag",r.kind==="case"?"사례":"점검"),
         r.risk_type?el("span","tag",r.risk_type):null,r.low_confidence?el("span","tag low","기준 미달 · 확인 필요"):null,sc);
     add(li,top,el("div","id",r.card_id+(r.section?" · "+r.section:"")));
-    add(li,lawBox(r));
+    if(r.law_alt){
+      var pair=el("div","lawpair"),a=el("div");
+      add(a,el("div","pair-h","A. 카드 연결(현재)"),lawBox(r));
+      add(pair,a,altBox(r.law_alt,"B"));if(r.law_alt_topic)add(pair,altBox(r.law_alt_topic,"C"));add(li,pair);
+    }else add(li,lawBox(r));
     add(li,optionGroup("현재 조치 사항","현장에서 하고 있는 것만 선택",r.current_options));
     add(li,optionGroup("개선 조치 사항","적용할 것만 선택",r.improvement_options));
     var d=el("details");add(d,el("summary",null,"위험 설명·출처"));
@@ -179,7 +207,7 @@ ul.plain{margin:0;padding-left:18px;font-size:13.5px}
   });
   $("clear").addEventListener("click",function(){$("text").value="";$("voice").value="";$("machines").value="";$("units").textContent="";$("banners").textContent="";$("status").textContent="입력 후 분석을 눌러 주세요."});
   fetch("api/health").then(function(r){return r.json()}).then(function(h){
-    $("status").textContent="준비됨 · "+(h.model?"의미+키워드 ("+h.model.model+", Chroma, "+h.tokenizer+")":"키워드 ("+h.tokenizer+")")+" · 카드 "+h.cards.cards+"건 · 법령 "+h.laws.length+"개 · 평가일 "+h.as_of;
+    $("status").textContent="준비됨 · "+(h.model?"의미+키워드 ("+h.model.model+", Chroma, "+h.tokenizer+")":"키워드 ("+h.tokenizer+")")+" · 카드 "+h.cards.cards+"건 · 법령 "+h.laws.length+"개 · 평가일 "+h.as_of+(h.alt_law?" · 비교 B: "+h.alt_law.label:"");
   }).catch(function(){});
 })();
 </script>
