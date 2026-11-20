@@ -1,0 +1,937 @@
+{
+ "config": "K0",
+ "label": "키워드만(참고)",
+ "mode": "keyword",
+ "model": null,
+ "reranker": null,
+ "device": "cpu",
+ "torch": "2.15.0+cpu",
+ "threads": 6,
+ "max_len": 512,
+ "rerank_n": null,
+ "as_of": "2026-11-20",
+ "gold": "gold-v0",
+ "tokenizer": "kiwi",
+ "law_units": 3406,
+ "build_s": 18.1,
+ "engine_s": 18.1,
+ "rerank_links_s": 0.0,
+ "peak_mb": 772,
+ "summary": {
+  "n_pos": 30,
+  "n_neg": 3,
+  "n_law": 25,
+  "card_top1": 0.8,
+  "card_top3": 0.867,
+  "card_mrr": 0.867,
+  "chosen_hit": 0.867,
+  "chosen_precision": 0.633,
+  "pos_low_confidence": 0.0,
+  "neg_false_pass": 0.0,
+  "neg_false_law": 0.667,
+  "risk_law_hit": 0.4,
+  "search_law_hit": 0.64,
+  "law_top1": 0.52,
+  "law_top3": 0.64,
+  "ms_mean": 2.7,
+  "ms_p50": 2.7,
+  "ms_p95": 4.3,
+  "ms_max": 4.9
+ },
+ "items": [
+  {
+   "id": "Q01",
+   "text": "주방 바닥에 물이 고여 있어서 지나다니다 미끄러질 뻔했어요",
+   "negative": false,
+   "ms": 2.9,
+   "top3": [
+    "FOOD-05-H2",
+    "FOOD-05-C1",
+    "OPS-09-C1"
+   ],
+   "chosen": [
+    "FOOD-05-H2",
+    "FOOD-05-C1",
+    "OPS-09-C1"
+   ],
+   "low": false,
+   "risk_law": "02:제3조",
+   "search_law": "02:제3조",
+   "law_top3": true,
+   "card_top1": true,
+   "card_top3": true,
+   "card_rr": 1.0,
+   "chosen_hit": true,
+   "chosen_precision": 1.0,
+   "risk_law_hit": true,
+   "search_law_hit": true,
+   "law_top1": true
+  },
+  {
+   "id": "Q02",
+   "text": "통로에 박스를 쌓아 둬서 자주 걸려 넘어질 것 같아요",
+   "negative": false,
+   "ms": 2.6,
+   "top3": [
+    "FOOD-05-C2",
+    "FOOD-03-H2",
+    "EDU-C1"
+   ],
+   "chosen": [
+    "FOOD-05-C2",
+    "FOOD-03-H2",
+    "EDU-C1"
+   ],
+   "low": false,
+   "risk_law": "02:제22조",
+   "search_law": "02:제3조",
+   "law_top3": true,
+   "card_top1": true,
+   "card_top3": true,
+   "card_rr": 1.0,
+   "chosen_hit": true,
+   "chosen_precision": 0.6666666666666666,
+   "risk_law_hit": true,
+   "search_law_hit": true,
+   "law_top1": true
+  },
+  {
+   "id": "Q03",
+   "text": "튀김 기름 온도가 너무 올라가서 불이 붙은 적이 있어요",
+   "negative": false,
+   "ms": 2.6,
+   "top3": [
+    "OPS-19-C1",
+    "FOOD-04-C1",
+    "EDU-H07"
+   ],
+   "chosen": [
+    "OPS-19-C1",
+    "FOOD-04-C1",
+    "EDU-H07"
+   ],
+   "low": false,
+   "risk_law": "02:제254조",
+   "search_law": "02:제284조",
+   "law_top3": false,
+   "card_top1": true,
+   "card_top3": true,
+   "card_rr": 1.0,
+   "chosen_hit": true,
+   "chosen_precision": 1.0,
+   "risk_law_hit": false,
+   "search_law_hit": false,
+   "law_top1": false
+  },
+  {
+   "id": "Q04",
+   "text": "가스 냄새가 나는데 배관 밸브가 오래됐어요",
+   "negative": false,
+   "ms": 3.6,
+   "top3": [
+    "OPS-16-C1",
+    "OPS-05-H2",
+    "FOOD-10-H5"
+   ],
+   "chosen": [
+    "OPS-16-C1",
+    "OPS-05-H2",
+    "FOOD-10-H5"
+   ],
+   "low": false,
+   "risk_law": "02:제258조",
+   "search_law": "07:제49조의7",
+   "law_top3": true,
+   "card_top1": true,
+   "card_top3": true,
+   "card_rr": 1.0,
+   "chosen_hit": true,
+   "chosen_precision": 1.0,
+   "risk_law_hit": false,
+   "search_law_hit": true,
+   "law_top1": true
+  },
+  {
+   "id": "Q05",
+   "text": "오토바이로 배달 나가는데 헬멧을 안 쓰는 직원이 있어요",
+   "negative": false,
+   "ms": 3.5,
+   "top3": [
+    "FOOD-01-H1",
+    "EDU-C4",
+    "FOOD-01-C1"
+   ],
+   "chosen": [
+    "FOOD-01-H1",
+    "EDU-C4",
+    "FOOD-01-C1"
+   ],
+   "low": false,
+   "risk_law": "03:제78조",
+   "search_law": "02:제673조",
+   "law_top3": true,
+   "card_top1": false,
+   "card_top3": false,
+   "card_rr": 0.25,
+   "chosen_hit": false,
+   "chosen_precision": 0.0,
+   "risk_law_hit": false,
+   "search_law_hit": true,
+   "law_top1": true
+  },
+  {
+   "id": "Q06",
+   "text": "비 오는 날에도 오토바이로 배달을 갑니다",
+   "negative": false,
+   "ms": 4.3,
+   "top3": [
+    "FOOD-01-H1",
+    "EDU-C4",
+    "FOOD-01-C1"
+   ],
+   "chosen": [
+    "FOOD-01-H1",
+    "EDU-C4",
+    "FOOD-01-C1"
+   ],
+   "low": false,
+   "risk_law": "03:제78조",
+   "search_law": "02:제673조",
+   "law_top3": true,
+   "card_top1": false,
+   "card_top3": false,
+   "card_rr": 0.25,
+   "chosen_hit": false,
+   "chosen_precision": 0.0,
+   "risk_law_hit": false,
+   "search_law_hit": true,
+   "law_top1": true
+  },
+  {
+   "id": "Q07",
+   "text": "배달 직원이 면허 없이 스쿠터를 몰아요",
+   "negative": false,
+   "ms": 3.6,
+   "top3": [
+    "FOOD-01-H1",
+    "FOOD-01-C1",
+    "FOOD-01-H2"
+   ],
+   "chosen": [
+    "FOOD-01-H1",
+    "FOOD-01-C1",
+    "FOOD-01-H2"
+   ],
+   "low": false,
+   "risk_law": "03:제78조",
+   "search_law": "02:제673조",
+   "law_top3": true,
+   "card_top1": true,
+   "card_top3": true,
+   "card_rr": 1.0,
+   "chosen_hit": true,
+   "chosen_precision": 0.3333333333333333,
+   "risk_law_hit": false,
+   "search_law_hit": true,
+   "law_top1": true
+  },
+  {
+   "id": "Q08",
+   "text": "배달 중에 신호를 위반한 차량과 부딪혔어요",
+   "negative": false,
+   "ms": 3.1,
+   "top3": [
+    "FOOD-02-H1",
+    "FOOD-02-C1",
+    "FOOD-01-C3"
+   ],
+   "chosen": [
+    "FOOD-02-H1",
+    "FOOD-02-C1",
+    "FOOD-01-C3"
+   ],
+   "low": false,
+   "risk_law": "02:제673조",
+   "search_law": "02:제673조",
+   "law_top3": true,
+   "card_top1": false,
+   "card_top3": true,
+   "card_rr": 0.5,
+   "chosen_hit": true,
+   "chosen_precision": 0.6666666666666666,
+   "risk_law_hit": true,
+   "search_law_hit": true,
+   "law_top1": true
+  },
+  {
+   "id": "Q09",
+   "text": "칼로 양파를 썰다가 손가락을 베었어요",
+   "negative": false,
+   "ms": 2.4,
+   "top3": [
+    "OPS-11-C1",
+    "OPS-04-H2",
+    "FOOD-09-C1"
+   ],
+   "chosen": [
+    "OPS-11-C1",
+    "OPS-04-H2",
+    "FOOD-09-C1"
+   ],
+   "low": false,
+   "risk_law": "02:제632조",
+   "search_law": "02:제545조",
+   "law_top3": [
+    "02:제545조",
+    "02:제547조",
+    "02:제405조"
+   ],
+   "card_top1": true,
+   "card_top3": true,
+   "card_rr": 1.0,
+   "chosen_hit": true,
+   "chosen_precision": 1.0
+  },
+  {
+   "id": "Q10",
+   "text": "냉동 생선을 칼로 자르다가 칼이 미끄러졌어요",
+   "negative": false,
+   "ms": 2.8,
+   "top3": [
+    "OPS-11-C1",
+    "OPS-04-H2",
+    "FOOD-09-C1"
+   ],
+   "chosen": [
+    "OPS-11-C1",
+    "OPS-04-H2",
+    "FOOD-09-C1"
+   ],
+   "low": false,
+   "risk_law": "02:제632조",
+   "search_law": "02:제632조",
+   "law_top3": [
+    "02:제632조",
+    "02:제87조",
+    "02:제632조"
+   ],
+   "card_top1": true,
+   "card_top3": true,
+   "card_rr": 1.0,
+   "chosen_hit": true,
+   "chosen_precision": 1.0
+  },
+  {
+   "id": "Q11",
+   "text": "육절기 청소하다가 스위치가 켜져서 다칠 뻔했어요",
+   "negative": false,
+   "ms": 2.7,
+   "top3": [
+    "OPS-14-C1",
+    "FOOD-09-C1",
+    "EDU-H10"
+   ],
+   "chosen": [
+    "OPS-14-C1",
+    "FOOD-09-C1",
+    "EDU-H10"
+   ],
+   "low": false,
+   "risk_law": "02:제632조",
+   "search_law": "02:제103조",
+   "law_top3": false,
+   "card_top1": true,
+   "card_top3": true,
+   "card_rr": 1.0,
+   "chosen_hit": true,
+   "chosen_precision": 0.6666666666666666,
+   "risk_law_hit": false,
+   "search_law_hit": false,
+   "law_top1": false
+  },
+  {
+   "id": "Q12",
+   "text": "반죽기가 돌아가는 중에 손을 넣어서 반죽을 정리해요",
+   "negative": false,
+   "ms": 2.2,
+   "top3": [
+    "OPS-04-H1",
+    "FOOD-08-H1",
+    "OPS-04-H3"
+   ],
+   "chosen": [
+    "OPS-04-H1",
+    "FOOD-08-H1",
+    "OPS-04-H3"
+   ],
+   "low": false,
+   "risk_law": "02:제165조",
+   "search_law": "02:제130조",
+   "law_top3": true,
+   "card_top1": true,
+   "card_top3": true,
+   "card_rr": 1.0,
+   "chosen_hit": true,
+   "chosen_precision": 0.6666666666666666,
+   "risk_law_hit": false,
+   "search_law_hit": true,
+   "law_top1": false
+  },
+  {
+   "id": "Q13",
+   "text": "제면기 롤러에 손가락이 말려 들어갈 뻔했어요",
+   "negative": false,
+   "ms": 2.4,
+   "top3": [
+    "OPS-04-H3",
+    "FOOD-08-H4",
+    "FOOD-08-H6"
+   ],
+   "chosen": [
+    "OPS-04-H3",
+    "FOOD-08-H4",
+    "FOOD-08-H6"
+   ],
+   "low": false,
+   "risk_law": "02:제114조",
+   "search_law": "02:제108조",
+   "law_top3": true,
+   "card_top1": true,
+   "card_top3": true,
+   "card_rr": 1.0,
+   "chosen_hit": true,
+   "chosen_precision": 0.3333333333333333,
+   "risk_law_hit": false,
+   "search_law_hit": false,
+   "law_top1": false
+  },
+  {
+   "id": "Q14",
+   "text": "믹서기 청소할 때 전원을 끄지 않고 닦아요",
+   "negative": false,
+   "ms": 3.0,
+   "top3": [
+    "FOOD-08-H2",
+    "EDU-H09",
+    "OPS-07-H4"
+   ],
+   "chosen": [
+    "FOOD-08-H2",
+    "EDU-H09",
+    "OPS-07-H4"
+   ],
+   "low": false,
+   "risk_law": "02:제308조",
+   "search_law": "02:제308조",
+   "law_top3": false,
+   "card_top1": true,
+   "card_top3": true,
+   "card_rr": 1.0,
+   "chosen_hit": true,
+   "chosen_precision": 0.6666666666666666,
+   "risk_law_hit": false,
+   "search_law_hit": false,
+   "law_top1": false
+  },
+  {
+   "id": "Q15",
+   "text": "덤웨이터 문을 열고 몸을 넣어서 음식을 꺼내요",
+   "negative": false,
+   "ms": 2.7,
+   "top3": [
+    "OPS-22-C1",
+    "FOOD-07-C2",
+    "FOOD-07-C1"
+   ],
+   "chosen": [
+    "OPS-22-C1",
+    "FOOD-07-C2",
+    "FOOD-07-C1"
+   ],
+   "low": false,
+   "risk_law": "02:제86조",
+   "search_law": "02:제86조",
+   "law_top3": true,
+   "card_top1": true,
+   "card_top3": true,
+   "card_rr": 1.0,
+   "chosen_hit": true,
+   "chosen_precision": 1.0,
+   "risk_law_hit": true,
+   "search_law_hit": true,
+   "law_top1": true
+  },
+  {
+   "id": "Q16",
+   "text": "음식 운반용 승강기에 짐을 너무 많이 실어요",
+   "negative": false,
+   "ms": 2.4,
+   "top3": [
+    "OPS-22-C1",
+    "FOOD-07-C2",
+    "FOOD-07-C1"
+   ],
+   "chosen": [
+    "OPS-22-C1",
+    "FOOD-07-C2",
+    "FOOD-07-C1"
+   ],
+   "low": false,
+   "risk_law": "02:제86조",
+   "search_law": "02:제86조",
+   "law_top3": true,
+   "card_top1": false,
+   "card_top3": false,
+   "card_rr": 0.25,
+   "chosen_hit": false,
+   "chosen_precision": 0.0,
+   "risk_law_hit": true,
+   "search_law_hit": true,
+   "law_top1": true
+  },
+  {
+   "id": "Q17",
+   "text": "사다리에 올라가서 높은 선반 위 물건을 꺼내요",
+   "negative": false,
+   "ms": 2.8,
+   "top3": [
+    "FOOD-06-C1",
+    "FOOD-06-H2",
+    "FOOD-06-H4"
+   ],
+   "chosen": [
+    "FOOD-06-C1",
+    "FOOD-06-H2",
+    "FOOD-06-H4"
+   ],
+   "low": false,
+   "risk_law": "02:제42조",
+   "search_law": "02:제42조",
+   "law_top3": true,
+   "card_top1": true,
+   "card_top3": true,
+   "card_rr": 1.0,
+   "chosen_hit": true,
+   "chosen_precision": 0.3333333333333333,
+   "risk_law_hit": true,
+   "search_law_hit": true,
+   "law_top1": true
+  },
+  {
+   "id": "Q18",
+   "text": "배기후드 청소할 때 조리대 위에 올라가서 닦아요",
+   "negative": false,
+   "ms": 4.3,
+   "top3": [
+    "OPS-18-C1",
+    "FOOD-10-H1",
+    "OPS-07-H2"
+   ],
+   "chosen": [
+    "OPS-18-C1",
+    "FOOD-10-H1",
+    "OPS-07-H2"
+   ],
+   "low": false,
+   "risk_law": "02:제78조",
+   "search_law": "02:제429조",
+   "law_top3": false,
+   "card_top1": true,
+   "card_top3": true,
+   "card_rr": 1.0,
+   "chosen_hit": true,
+   "chosen_precision": 1.0,
+   "risk_law_hit": false,
+   "search_law_hit": false,
+   "law_top1": false
+  },
+  {
+   "id": "Q19",
+   "text": "후드가 고장 나서 연기가 잘 안 빠져요",
+   "negative": false,
+   "ms": 3.4,
+   "top3": [
+    "OPS-18-C1",
+    "FOOD-10-H2",
+    "FOOD-10-H1"
+   ],
+   "chosen": [
+    "OPS-18-C1",
+    "FOOD-10-H2",
+    "FOOD-10-H1"
+   ],
+   "low": false,
+   "risk_law": "02:제78조",
+   "search_law": "02:제429조",
+   "law_top3": false,
+   "card_top1": true,
+   "card_top3": true,
+   "card_rr": 1.0,
+   "chosen_hit": true,
+   "chosen_precision": 0.6666666666666666,
+   "risk_law_hit": true,
+   "search_law_hit": false,
+   "law_top1": false
+  },
+  {
+   "id": "Q20",
+   "text": "락스를 물에 타서 분무기로 뿌려 소독해요",
+   "negative": false,
+   "ms": 3.6,
+   "top3": [
+    "OPS-24-C1",
+    "FOOD-10-H3",
+    "FOOD-10-H4"
+   ],
+   "chosen": [
+    "OPS-24-C1",
+    "FOOD-10-H3",
+    "FOOD-10-H4"
+   ],
+   "low": false,
+   "risk_law": "03:제109조",
+   "search_law": "02:제5조",
+   "law_top3": [
+    "03:제108조",
+    "03:제108조",
+    "03:제109조"
+   ],
+   "card_top1": true,
+   "card_top3": true,
+   "card_rr": 1.0,
+   "chosen_hit": true,
+   "chosen_precision": 0.6666666666666666
+  },
+  {
+   "id": "Q21",
+   "text": "고무장갑을 오래 끼고 설거지해서 손에 습진이 생겼어요",
+   "negative": false,
+   "ms": 2.6,
+   "top3": [
+    "OPS-07-H1",
+    "OPS-07-H3",
+    "OPS-07-H2"
+   ],
+   "chosen": [
+    "OPS-07-H1",
+    "OPS-07-H3",
+    "OPS-07-H2"
+   ],
+   "low": false,
+   "risk_law": "02:제431조",
+   "search_law": "02:제95조",
+   "law_top3": [
+    "02:제95조",
+    "02:제130조",
+    "05:제44조"
+   ],
+   "card_top1": false,
+   "card_top3": true,
+   "card_rr": 0.5,
+   "chosen_hit": true,
+   "chosen_precision": 0.3333333333333333
+  },
+  {
+   "id": "Q22",
+   "text": "식기세척기 컨베이어에 손이 낄 뻔했어요",
+   "negative": false,
+   "ms": 2.6,
+   "top3": [
+    "OPS-23-C1",
+    "OPS-07-H4",
+    "OPS-07-H2"
+   ],
+   "chosen": [
+    "OPS-23-C1",
+    "OPS-07-H4",
+    "OPS-07-H2"
+   ],
+   "low": false,
+   "risk_law": "02:제193조",
+   "search_law": "02:제193조",
+   "law_top3": false,
+   "card_top1": true,
+   "card_top3": true,
+   "card_rr": 1.0,
+   "chosen_hit": true,
+   "chosen_precision": 0.3333333333333333,
+   "risk_law_hit": false,
+   "search_law_hit": false,
+   "law_top1": false
+  },
+  {
+   "id": "Q23",
+   "text": "물청소하다가 세척기 전선 때문에 감전될까 걱정돼요",
+   "negative": false,
+   "ms": 3.4,
+   "top3": [
+    "OPS-07-H4",
+    "OPS-04-H4",
+    "OPS-05-H3"
+   ],
+   "chosen": [
+    "OPS-07-H4",
+    "OPS-04-H4",
+    "OPS-05-H3"
+   ],
+   "low": false,
+   "risk_law": "02:제304조",
+   "search_law": "02:제304조",
+   "law_top3": true,
+   "card_top1": true,
+   "card_top3": true,
+   "card_rr": 1.0,
+   "chosen_hit": true,
+   "chosen_precision": 1.0,
+   "risk_law_hit": true,
+   "search_law_hit": true,
+   "law_top1": true
+  },
+  {
+   "id": "Q24",
+   "text": "끓는 국솥에서 국을 퍼다가 뜨거운 국물이 튀었어요",
+   "negative": false,
+   "ms": 2.8,
+   "top3": [
+    "OPS-17-C1",
+    "OPS-05-H1",
+    "OPS-06-H1"
+   ],
+   "chosen": [
+    "OPS-17-C1",
+    "OPS-05-H1",
+    "OPS-06-H1"
+   ],
+   "low": false,
+   "risk_law": "02:제87조",
+   "search_law": "02:제254조",
+   "law_top3": true,
+   "card_top1": true,
+   "card_top3": true,
+   "card_rr": 1.0,
+   "chosen_hit": true,
+   "chosen_precision": 1.0,
+   "risk_law_hit": false,
+   "search_law_hit": true,
+   "law_top1": true
+  },
+  {
+   "id": "Q25",
+   "text": "50인분 밥솥을 혼자 들어서 옮겨요",
+   "negative": false,
+   "ms": 1.8,
+   "top3": [
+    "OPS-15-C1",
+    "OPS-03-H4",
+    "OPS-06-H2"
+   ],
+   "chosen": [
+    "OPS-15-C1",
+    "OPS-03-H4"
+   ],
+   "low": false,
+   "risk_law": "02:제663조",
+   "search_law": "02:제666조",
+   "law_top3": false,
+   "card_top1": true,
+   "card_top3": true,
+   "card_rr": 1.0,
+   "chosen_hit": true,
+   "chosen_precision": 1.0,
+   "risk_law_hit": true,
+   "search_law_hit": true,
+   "law_top1": false
+  },
+  {
+   "id": "Q26",
+   "text": "쌀 포대를 들고 계단으로 내려가요",
+   "negative": false,
+   "ms": 2.4,
+   "top3": [
+    "FOOD-03-C1",
+    "OPS-06-H2",
+    "FOOD-03-H1"
+   ],
+   "chosen": [
+    "FOOD-03-C1",
+    "OPS-06-H2",
+    "FOOD-03-H1"
+   ],
+   "low": false,
+   "risk_law": "02:제27조",
+   "search_law": "02:제27조",
+   "law_top3": false,
+   "card_top1": true,
+   "card_top3": true,
+   "card_rr": 1.0,
+   "chosen_hit": true,
+   "chosen_precision": 1.0,
+   "risk_law_hit": false,
+   "search_law_hit": false,
+   "law_top1": false
+  },
+  {
+   "id": "Q27",
+   "text": "계단 조명이 어두워서 발밑이 잘 안 보여요",
+   "negative": false,
+   "ms": 2.3,
+   "top3": [
+    "FOOD-03-H2",
+    "FOOD-03-C1",
+    "FOOD-03-H1"
+   ],
+   "chosen": [
+    "FOOD-03-H2",
+    "FOOD-03-C1",
+    "FOOD-03-H1"
+   ],
+   "low": false,
+   "risk_law": "02:제27조",
+   "search_law": "02:제49조",
+   "law_top3": false,
+   "card_top1": true,
+   "card_top3": true,
+   "card_rr": 1.0,
+   "chosen_hit": true,
+   "chosen_precision": 0.6666666666666666,
+   "risk_law_hit": false,
+   "search_law_hit": false,
+   "law_top1": false
+  },
+  {
+   "id": "Q28",
+   "text": "냉동창고 안에서 일하다가 문이 닫혀서 갇힐 뻔했어요",
+   "negative": false,
+   "ms": 3.0,
+   "top3": [
+    "FOOD-11-H5",
+    "OPS-11-C1",
+    "FOOD-09-H1"
+   ],
+   "chosen": [
+    "FOOD-11-H5",
+    "OPS-11-C1",
+    "FOOD-09-H1"
+   ],
+   "low": false,
+   "risk_law": "02:제632조",
+   "search_law": "02:제632조",
+   "law_top3": true,
+   "card_top1": true,
+   "card_top3": true,
+   "card_rr": 1.0,
+   "chosen_hit": true,
+   "chosen_precision": 0.3333333333333333,
+   "risk_law_hit": true,
+   "search_law_hit": true,
+   "law_top1": true
+  },
+  {
+   "id": "Q29",
+   "text": "대차에 식자재를 높이 쌓아서 밀고 다녀요",
+   "negative": false,
+   "ms": 2.7,
+   "top3": [
+    "FOOD-11-H1",
+    "EDU-C2",
+    "FOOD-09-H1"
+   ],
+   "chosen": [
+    "FOOD-11-H1",
+    "EDU-C2",
+    "FOOD-09-H1"
+   ],
+   "low": false,
+   "risk_law": "02:제3조",
+   "search_law": "02:제392조",
+   "law_top3": [
+    "02:제392조",
+    "02:제402조",
+    "02:제411조"
+   ],
+   "card_top1": false,
+   "card_top3": false,
+   "card_rr": 0.25,
+   "chosen_hit": false,
+   "chosen_precision": 0.0
+  },
+  {
+   "id": "Q30",
+   "text": "주방에 K급 소화기가 없어요",
+   "negative": false,
+   "ms": 4.9,
+   "top3": [
+    "FOOD-04-H1",
+    "EDU-H07",
+    "FOOD-04-H3"
+   ],
+   "chosen": [
+    "FOOD-04-H1",
+    "EDU-H07",
+    "FOOD-04-H3"
+   ],
+   "low": false,
+   "risk_law": "06-02:제11조",
+   "search_law": "02:제243조",
+   "law_top3": true,
+   "card_top1": true,
+   "card_top3": true,
+   "card_rr": 1.0,
+   "chosen_hit": true,
+   "chosen_precision": 0.6666666666666666,
+   "risk_law_hit": false,
+   "search_law_hit": true,
+   "law_top1": false
+  },
+  {
+   "id": "N01",
+   "text": "오늘 오후에 매장 회의를 합니다",
+   "negative": true,
+   "ms": 0.1,
+   "top3": [],
+   "chosen": [],
+   "low": false,
+   "risk_law": null,
+   "search_law": "01:제17조",
+   "law_top3": [
+    "03:제24조",
+    "03:제75조",
+    "03:제132조"
+   ],
+   "false_pass": false,
+   "false_law": true
+  },
+  {
+   "id": "N02",
+   "text": "메뉴판 디자인을 새로 바꿨어요",
+   "negative": true,
+   "ms": 0.1,
+   "top3": [],
+   "chosen": [],
+   "low": false,
+   "risk_law": null,
+   "search_law": "08:제80조",
+   "law_top3": [
+    "08:제80조",
+    "08:제102조",
+    "08:제38조"
+   ],
+   "false_pass": false,
+   "false_law": true
+  },
+  {
+   "id": "N03",
+   "text": "ㅁㄴㅇㄹ",
+   "negative": true,
+   "ms": 0.0,
+   "top3": [],
+   "chosen": [],
+   "low": false,
+   "risk_law": null,
+   "search_law": null,
+   "law_top3": [],
+   "false_pass": false,
+   "false_law": false
+  }
+ ]
+}

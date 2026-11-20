@@ -86,6 +86,27 @@ class EngineTest(unittest.TestCase):
         rules = [x for x in e.links["FOOD-01-H1"]["card_cited"] if "시행규칙" in x["text"]]
         self.assertTrue(rules and all(x["status"] == "보유 법령 원문에 없음" for x in rules))
 
+    def test_card_links_need_matching_risk_topic(self):
+        e = engine()
+        locs = lambda cid: [(e.unit_by_id[x["unit_id"]]["article_title"]) for x in e.links[cid]["nearest"]]
+        # 식칼이 떨어짐(베임)은 사람의 추락이 아니다. 주제가 맞는 조문이 없으면 연결하지 않고 확인 필요로 둔다.
+        self.assertNotIn("추락의 방지", locs("OPS-04-H2"))
+        law, basis = e._one_law("OPS-04-H2")
+        self.assertIsNone(law)
+        self.assertIn("담당자 확인 필요", basis)
+        # 칼 작업이 냉장실 등의 작업에 붙지 않는다.
+        self.assertNotIn("냉장실 등의 작업", locs("OPS-11-C1"))
+        # 사람이 떨어지는 카드는 그대로 추락의 방지에 연결된다.
+        self.assertEqual(locs("FOOD-06-C1")[0], "추락의 방지")
+        self.assertTrue(all(e.topic_ok(e.card_by_id[cid], e.units.index(e.unit_by_id[x["unit_id"]]))
+                            for cid, v in e.links.items() for x in v["nearest"]))
+
+    def test_falling_object_query_is_not_expanded_to_fall_from_height(self):
+        r = engine().search("식칼이 떨어짐")
+        self.assertNotIn("추락", r["expanded_terms"])
+        self.assertNotIn("추락의 방지", [l["article_title"] for l in r["laws"]])
+        self.assertIn("추락", engine().search("높은 곳에서 떨어짐")["expanded_terms"])
+
     def test_negation_is_flagged_not_hidden(self):
         r = engine().search("바닥에 물기가 없습니다")
         self.assertTrue(r["negation"]["found"])

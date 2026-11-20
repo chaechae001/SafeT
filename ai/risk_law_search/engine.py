@@ -14,6 +14,7 @@
 - 법령 검색: 파일명 앞 번호 순서(01 → … → 08)로 문서를 보고, 관련 조문이 있는 첫 문서에서 멈춘다.
   관련 조문 = 혼합 점수가 기준 이상이고 키워드도 일부 겹치는 조문(모델만으로 고른 조문은 인정하지 않음).
 - 카드–법령 연결: 카드 고유 내용(기기·사고 유형·제목·본문)과 가장 가까운 관련 조문 상위 LINK_K개.
+  단, 카드 위험유형과 주제가 맞는 조문만 쓴다(risk_topics.json). 맞는 조문이 없으면 연결하지 않는다.
   카드 laws의 법령은 'card_cited'로 따로.
 - 플랫폼 입력 분석(analyze): 글·음성은 문장, 등록 기기는 기기마다 한 단위. 단위마다 위험요인 1~3개,
   위험요인마다 법령 1개(가장 가까운 조문 1순위 → 카드 기재 법령 → 없음).
@@ -69,7 +70,7 @@ def _relative(values):
 
 class Engine:
     def __init__(self, data_dir, card_file=None, as_of=None, synonyms=None, mode="hybrid",
-                 model=None, index_dir=None, log=print, tokenizer="kiwi"):
+                 model=None, index_dir=None, log=print, tokenizer="kiwi", topics=None):
         t0 = time.time()
         if mode not in RULES:
             raise ValueError(f"mode는 {', '.join(RULES)} 중 하나입니다.")
@@ -83,6 +84,9 @@ class Engine:
         actions = json.loads((HERE / "measure_actions.json").read_text(encoding="utf-8"))
         self.actions_version = actions["version"]
         self.actions = {v["original"]: v["action"] for v in actions["items"].values()}
+        self.topics = json.loads(Path(topics or HERE / "risk_topics.json").read_text(encoding="utf-8"))["topics"]
+        # 주제어는 조문 제목·장절 제목에서만 찾는다. 법령명까지 넣으면 법령 전체가 통과한다.
+        self.unit_topic_text = [f"{u['article_title']} {u['heading']}" for u in self.units]
         self.unit_by_id = {u["id"]: u for u in self.units}
         self.card_by_id = {c["id"]: c for c in self.cards}
         # 평가일 기준 시행 중인 조각만 검색한다(시행 예정 판은 보존만).
@@ -210,6 +214,18 @@ class Engine:
                             status="조문 연결" if ids else ("조문 번호 없음" if not m else "조문을 찾지 못함")))
         return out
 
+    def card_topics(self, card):
+        """카드 위험유형('·'로 나눔) 중 주제 사전에 있는 것과 없는 것."""
+        parts = [p.strip() for p in (card["risk_type"] or "").split("·") if p.strip()]
+        return [p for p in parts if p in self.topics], [p for p in parts if p not in self.topics]
+
+    def topic_ok(self, card, i):
+        """조문 조각 i가 카드 위험유형 중 하나의 주제와 맞는가(조문 제목·장절 제목의 주제어 또는 법령명)."""
+        known, _ = self.card_topics(card)
+        text, law = self.unit_topic_text[i], self.units[i]["law_name"]
+        return any(any(t in text for t in self.topics[k]["terms"]) or law in self.topics[k].get("laws", ())
+                   for k in known)
+
     def _link_all(self):
         # 카드 고유 내용으로 연결한다. 대책 문장을 넣으면 '용기·장갑' 같은 낱말이 엉뚱한 조문과 겹쳤다(README 참고).
         texts = [self.expand(card_search_text(c))[0] for c in self.cards]
@@ -221,10 +237,14 @@ class Engine:
                 ok = {i: v for i, v in scores.items() if v[0] >= self.rule["link_min"]}
             else:
                 ok = {i: v for i, v in scores.items() if v[0] >= self.rule["link_min"] and v[2] >= self.rule["law_kw_min"]}
-            top = sorted(ok.items(), key=lambda x: (-x[1][0], x[0]))[:LINK_K]
+            on_topic = {i: v for i, v in ok.items() if self.topic_ok(c, i)}
+            top = sorted(on_topic.items(), key=lambda x: (-x[1][0], x[0]))[:LINK_K]
+            known, unknown = self.card_topics(c)
             links[c["id"]] = dict(nearest=[dict(unit_id=self.units[i]["id"], score=round(v[0], 3),
                                                 semantic=None if v[1] is None else round(v[1], 3), keyword=round(v[2], 3))
                                            for i, v in top],
+                                  topic=dict(risk_types=known, unknown_types=unknown,
+                                             passed_score=len(ok), off_topic=len(ok) - len(on_topic)),
                                   card_cited=self._cited(c))
         return links
 
@@ -396,7 +416,14 @@ class Engine:
         for cited in link["card_cited"]:
             if cited["unit_ids"]:
                 return self.law_view(cited["unit_ids"][0]), "카드에 적힌 법령(원문 대조 전)"
-        return None, "기준 이상 조문 없음" + (" · 카드 기재 법령은 보유 원문에 없음" if link["card_cited"] else "")
+        topic = link["topic"]
+        if not topic["risk_types"]:
+            reason = "위험유형이 주제 사전에 없어 자동 연결하지 않음"
+        elif topic["off_topic"]:
+            reason = "점수 기준을 넘은 조문은 있으나 위험유형과 주제가 맞지 않음"
+        else:
+            reason = "기준 이상 조문 없음"
+        return None, reason + (" · 카드 기재 법령은 보유 원문에 없음" if link["card_cited"] else "") + " · 담당자 확인 필요"
 
     def analyze(self, text="", voice_text="", machines=(), photos=0):
         if not ((text or "").strip() or (voice_text or "").strip() or machines):
@@ -459,4 +486,4 @@ class Engine:
                     rule=dict(k=LINK_K, **self.rule), cards=self.card_meta,
                     links={cid: dict(nearest=[dict(x, locator=self.unit_by_id[x["unit_id"]]["locator"],
                                                    law_name=self.unit_by_id[x["unit_id"]]["law_name"]) for x in v["nearest"]],
-                                     card_cited=v["card_cited"]) for cid, v in self.links.items()})
+                                     topic=v["topic"], card_cited=v["card_cited"]) for cid, v in self.links.items()})
