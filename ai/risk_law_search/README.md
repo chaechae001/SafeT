@@ -118,6 +118,20 @@ POST /api/analyze
 
 각 결과의 `score`는 관련도(0~1), `score_detail`은 의미 점수(`semantic`)와 키워드 원점수(`keyword`)다.
 
+위험도 시험 API(`/api/risk-grade`·`/api/risk-draft`·`/api/risk-scenarios`·`/risk-test`)는 `--risk-test`(로컬 주소)일 때만 열린다. `/api/analyze`는 위험도를 기록하지 않는다.
+
+### 사용자 평가표 연결 (2026-11-20)
+
+백엔드 생성 모드 `catalog_rls_v1`이 `POST /api/analyze`를 부른다([연결 기록](service-connect-20261120.md), `backend/README.md`).
+위험요인별 `current_options`·`improvement_options`의 `control`은 서비스 위험도 계산용 기준 조치 연결이다.
+
+```
+python -m ai.risk_law_search.control_map            # measure_control_map.json 생성(새 파일만)
+python -m ai.risk_law_search.control_map --update   # 자동 후보만 다시 계산(검토 팀원 confirmed 보존)
+```
+
+기본값은 검토 완료(`confirmed`)만 `control_id`로 내보낸다. 시험용으로 자동 후보까지 쓰려면 서버에 `--count-auto-controls`를 붙인다.
+
 ## 처리 규칙
 
 **법령 원문(HWPX)**

@@ -65,7 +65,7 @@ def make_handler(engine, *, risk_test=False):
                     return self._send(200, (PAGE.parent / "risk-test.html").read_bytes(), "text/html; charset=utf-8")
                 if risk_test and url.path == "/api/risk-test/metrics":
                     return self._send(200, metrics)
-                if url.path == "/api/risk-scenarios":
+                if risk_test and url.path == "/api/risk-scenarios":
                     return self._send(200, list(engine.scenarios.by_id.values()) if engine.scenarios else [])
                 if url.path == "/api/health":
                     return self._send(200, engine.health())
@@ -94,7 +94,9 @@ def make_handler(engine, *, risk_test=False):
         def do_POST(self):
             url = urlparse(self.path)
             testing = risk_test and url.path == "/api/risk-test/evaluate"
-            if not testing and url.path not in ("/api/analyze", "/api/risk-grade", "/api/risk-draft"):
+            # 위험도 계산·기록 API는 로컬 시험(--risk-test)에서만 연다. 서비스 위험도는 백엔드가 계산·저장한다.
+            recording = risk_test and url.path in ("/api/risk-grade", "/api/risk-draft")
+            if not testing and not recording and url.path != "/api/analyze":
                 return self._send(404, dict(error="NOT_FOUND"))
             try:
                 length = int(self.headers.get("Content-Length") or 0)
@@ -108,7 +110,7 @@ def make_handler(engine, *, risk_test=False):
                     draft, basis = assess_selection(engine.scenarios, body, draft=True)
                     expected, audit = assess_selection(engine.scenarios, body)
                     return self._send(200, dict(draft=basis, expected=audit))
-                if url.path in ("/api/risk-grade", "/api/risk-draft"):
+                if recording:
                     return self._send(200, record_selection(engine.scenarios, body, draft=url.path == "/api/risk-draft"))
                 machines = body.get("machines") or []
                 photos = body.get("photos") or []
@@ -150,6 +152,8 @@ def main():
                           "c에 필요한 인덱스·패키지가 없으면 a로 대체하고 화면에 경고한다")
     cli.add_argument("--build-alt-index", action="store_true", help="C 법령용 KURE 인덱스만 만들고 종료(CPU 수십 분, 처음 한 번)")
     cli.add_argument("--risk-test", action="store_true", help="로컬 위험도 검증 화면 제공")
+    cli.add_argument("--count-auto-controls", action="store_true",
+                     help="시험용: 검토 전 자동 대책–기준 조치 연결도 위험도 계산용 ID로 내보낸다(기본은 검토 완료만)")
     args = cli.parse_args()
     if args.risk_test:
         import ipaddress
@@ -175,6 +179,11 @@ def main():
         engine.scenarios = ScenarioLinker()
     except (OSError, ValueError, KeyError) as e:
         print(f"경고: 위험도 시나리오 연결을 불러오지 못했습니다({type(e).__name__}: {e})", flush=True)
+    try:
+        from .control_map import ControlMapper
+        engine.controls = ControlMapper(count_auto=args.count_auto_controls)
+    except (OSError, ValueError, KeyError) as e:
+        print(f"경고: 대책–기준 조치 연결을 불러오지 못했습니다({type(e).__name__}: {e})", flush=True)
     if args.build_index:
         print(json.dumps(engine.health()["model"], ensure_ascii=False))
         return
@@ -188,7 +197,9 @@ def main():
           f"색인 완료 {h['build_seconds']}초 · 카드 {h['cards']['cards']}건(검색 {h['searchable_cards']}) · "
           f"법령 {len(h['laws'])}개 · 조각 {h['law_units']}개(시행 중 {h['law_units_in_force']}) · 평가일 {h['as_of']}"
           + f" · 법령 {'C(KURE+주제)' if h['law_policy'] == 'topic_kure' else 'A(카드 연결)'}"
-          + (f" · 시나리오 연결 카드 {h['scenarios']['mapped_cards']}(확정 {h['scenarios']['confirmed_cards']})" if h["scenarios"] else ""),
+          + (f" · 시나리오 연결 카드 {h['scenarios']['mapped_cards']}(확정 {h['scenarios']['confirmed_cards']})" if h["scenarios"] else "")
+          + (f" · 대책 연결 {h['controls']['linked']}(확정 {h['controls']['confirmed']}"
+             f"{', 자동 포함' if h['controls']['count_auto'] else ''})" if h.get("controls") else ""),
           flush=True)
     print(f"http://{args.host}:{args.port}/", flush=True)
     ThreadingHTTPServer((args.host, args.port), make_handler(engine, risk_test=args.risk_test)).serve_forever()

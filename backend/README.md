@@ -335,6 +335,26 @@ backend\.venv\Scripts\python -m pytest backend/unit_tests/test_report.py -q
 
 `python backend/run_local.py --catalog --migrate`로 실행합니다. 현재 조치와 개선대책 선택을 같은 함수로 계산하며 개선 후 값은 예상 결과입니다.
 
+## 위험요인·법령 검색 모듈 연결 (catalog_rls_v1 · 2026-11-20)
+
+DB 기준 평가(`catalog_v1`)의 시나리오 찾기를 위험요인·법령 검색 모듈(`ai/risk_law_search`)로 바꾼 생성 모드입니다.
+입력 글·음성 전사문 → 위험 카드 → 카드에 연결된 시나리오 → 평가표 행. 위험도 계산·저장·확정은 DB 기준 평가와 같은 코드를 씁니다.
+
+```powershell
+# 1) 검색 모듈 서버(저장소 루트, 별도 창)
+python -m ai.risk_law_search.server --mode keyword
+# 2) API·화면
+python backend/run_local.py --risk-law --migrate
+```
+
+- 검색 서버 주소는 `SAFET_RISK_LAW_URL`(기본 `http://127.0.0.1:8020`), 응답 대기 시간은 `SAFET_RISK_LAW_TIMEOUT`(초, 기본 60)입니다.
+- 행마다 현재 대책·개선 대책을 3개씩 **AI 추천**으로 넣습니다. 처음에는 체크 0개 기준으로 현재·예상 위험도를 계산하고(같은 값), 저장할 때마다 다시 계산합니다.
+- 체크한 추천 대책은 기준 조치에 연결된 것만 계산에 반영합니다. 연결은 `ai/risk_law_search/measure_control_map.json`이며 기본값은 검토 완료(`confirmed`)만 반영합니다. 직접 추가 대책은 저장하되 계산에서 제외합니다.
+- 위험 카드·입력 문장·법령 후보는 행의 참고 정보(`catalog_state.risk_law`)로 저장해 화면에 '작성자 확인'으로 보여 줍니다. 정식 법령 칸과 PDF에는 넣지 않습니다.
+- 사업장 등록 기기(`workplace_machine`)도 검색어로 보냅니다. 기기에서만 나온 행은 '등록 기기 기준 · 실제 작업 확인'으로 표시합니다. 사진 탐지 결과는 아직 보내지 않습니다.
+- 검사: `python -m pytest backend/unit_tests/test_risk_law.py -q`(DB 없음), `backend/tests/test_risk_law_flow.py`(테스트 DB 필요).
+- 설계·확인 필요 사항: [연결 기록](../ai/risk_law_search/service-connect-20261120.md)
+
 ## 공동 위험 카드 DB
 
 카드 원본 JSONL과 기기·위험요인 ID 대조표를 함께 적재합니다. 표의 기기 ID와 시나리오 ID는 기존 주 계약의 값을 사용합니다.

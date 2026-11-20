@@ -76,7 +76,7 @@ def insert_items(db,no,items,email,offset=0):
         for kind,values in (('C',it['curr']),('P',it['plans'])):
             for k,value in enumerate(values):
                 execute(db,"INSERT INTO eval_action (eval_dtl_no,action_type,action_text,check_yn,ai_yn,sort) VALUES (:d,:k,:t,'N','Y',:s)",d=result.lastrowid,k=kind,t=value,s=k)
-        if it.get('catalog'): catalog.initialize(db,result.lastrowid,it['catalog'],it.get('ai_analysis'))
+        if it.get('catalog'): catalog.initialize(db,result.lastrowid,it['catalog'],it.get('ai_analysis'),it.get('risk_law'))
         if it.get('authoring'): authoring_rag.initialize(db,result.lastrowid,it['authoring'])
 
 def create(db,email,body):

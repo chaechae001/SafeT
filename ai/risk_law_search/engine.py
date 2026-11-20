@@ -26,7 +26,6 @@ import statistics
 import time
 from pathlib import Path
 
-from .grading import record_selection
 from .cards import card_context_text, card_law_text, card_search_text, load_cards
 from .laws import load_laws
 from .textindex import TextIndex, make_tokenizer
@@ -114,6 +113,7 @@ class Engine:
         self.law_policy = "card"
         self.law_note = None  # 정책을 쓰지 못해 대체했을 때 이유(화면 경고)
         self.scenarios = None  # 위험도 시나리오 연결(scenario_map.ScenarioLinker). 등급 계산은 하지 않는다.
+        self.controls = None  # 대책 → 기준 조치 연결(control_map.ControlMapper). 서비스 위험도 계산용 ID를 붙인다.
         if mode == "hybrid":
             self._load_semantic(model, index_dir or HERE / ".index", log)
         self.links = self._link_all()
@@ -555,8 +555,13 @@ class Engine:
                                                     if topic["candidates"] else topic["note"]))
                 if self.scenarios:
                     risks[-1]["scenario"] = self.scenarios.for_card(c["id"])
-                sid = (risks[-1].get("scenario") or {}).get("scenario_id")
-                risks[-1]["grades"] = record_selection(self.scenarios, dict(card_id=c["id"], scenario_id=sid), draft=True)
+                    sid = risks[-1]["scenario"].get("scenario_id")
+                    # 시험 화면용 초안 등급. 계산만 하고 기록하지 않는다(기록은 명시적인 API에서만).
+                    from .grading import grade_selection
+                    risks[-1]["grades"] = grade_selection(self.scenarios, dict(card_id=c["id"], scenario_id=sid), draft=True)
+                    if self.controls and sid:
+                        for o in current + improve:
+                            o["control"] = self.controls.link(sid, o["original"])
             neg = NEGATION.search(u["text"])
             out.append(dict(u, expanded_terms=added, risks=risks,
                             status="ok" if risks and not low else ("low_confidence" if low else "no_evidence"),
@@ -579,6 +584,7 @@ class Engine:
                     alt_law=self.alt_law.info() if self.alt_law else None,
                     law_policy=self.law_policy, law_note=self.law_note,
                     scenarios=self.scenarios.info() if self.scenarios else None,
+                    controls=self.controls.info() if self.controls else None,
                     measure_actions=dict(version=self.actions_version, count=len(self.actions)),
                     build_seconds=self.build_seconds, cards=self.card_meta, searchable_cards=len(self.search_cards),
                     laws=[{k: d[k] for k in ("doc_id", "law_name", "effective_from", "file", "sha256", "articles")}

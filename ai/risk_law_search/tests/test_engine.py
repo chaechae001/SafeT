@@ -234,6 +234,40 @@ class EngineTest(unittest.TestCase):
         self.assertEqual(policy.evaluate(s, [], answered=False)["signal"], "N")  # 확인 전은 판단 필요
         self.assertEqual(policy.evaluate(s, critical, answered=True)["status"], "calculated")
 
+    def test_options_carry_control_links_and_analyze_writes_nothing(self):
+        """서비스 연결: 추천 대책마다 기준 조치 연결을 붙이고, 분석은 위험도 기록 DB에 쓰지 않는다."""
+        import os
+        import tempfile
+        from ai.risk_law_search.control_map import MAP as CMAP, ControlMapper
+        from ai.risk_law_search.scenario_map import MAP, ScenarioLinker
+        if not (MAP.exists() and CMAP.exists()):
+            self.skipTest("연결표 없음")
+        e = engine()
+        e.scenarios, e.controls = ScenarioLinker(), ControlMapper()
+        db = Path(tempfile.mkdtemp()) / "audit.sqlite3"
+        old = os.environ.get("SAFET_RISK_AUDIT_DB")
+        os.environ["SAFET_RISK_AUDIT_DB"] = str(db)
+        try:
+            r = e.analyze("튀김기에서 기름이 튀어요")["units"][0]["risks"][0]
+        finally:
+            e.scenarios = e.controls = None
+            if old is None:
+                os.environ.pop("SAFET_RISK_AUDIT_DB", None)
+            else:
+                os.environ["SAFET_RISK_AUDIT_DB"] = old
+        self.assertFalse(db.exists())
+        links = [o["control"] for o in r["current_options"] + r["improvement_options"]]
+        self.assertEqual(len(links), 6)
+        # 기본값: 검토 전 자동 연결은 위험도 계산용 ID를 내보내지 않는다.
+        for c in links:
+            if c["status"] != "confirmed":
+                self.assertIsNone(c["control_id"])
+        auto = ControlMapper(count_auto=True)
+        k, v = next((k, v) for k, v in auto.links.items() if v.get("control_id"))
+        sid, text = k.split("|", 1)
+        self.assertEqual(auto.link(sid, text)["control_id"], v["control_id"])
+        self.assertIsNone(ControlMapper().link(sid, text)["control_id"])
+
     def test_negation_is_flagged_not_hidden(self):
         r = engine().search("바닥에 물기가 없습니다")
         self.assertTrue(r["negation"]["found"])
