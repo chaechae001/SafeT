@@ -1,0 +1,266 @@
+{
+  "EQ_BEER_DISPENSER": {
+    "name": "생맥주 디스펜서",
+    "detector_classes": [
+      "beer tap dispenser"
+    ]
+  },
+  "EQ_CART": {
+    "name": "운반대차",
+    "detector_classes": [
+      "utility cart trolley"
+    ]
+  },
+  "EQ_COFFEE_GRINDER": {
+    "name": "커피 그라인더",
+    "detector_classes": [
+      "coffee grinder"
+    ]
+  },
+  "EQ_COFFEE_MACHINE": {
+    "name": "커피머신",
+    "detector_classes": [
+      "espresso machine"
+    ]
+  },
+  "EQ_COOKING_ROBOT": {
+    "name": "조리 로봇",
+    "detector_classes": [
+      "robotic arm"
+    ]
+  },
+  "EQ_DISHWASHER": {
+    "name": "식기세척기",
+    "detector_classes": [
+      "commercial dishwasher"
+    ]
+  },
+  "EQ_DISPLAY_COOLER": {
+    "name": "쇼케이스 냉장고",
+    "detector_classes": [
+      "beverage display cooler"
+    ]
+  },
+  "EQ_DOUGH_MIXER": {
+    "name": "반죽기",
+    "detector_classes": [
+      "dough mixer"
+    ]
+  },
+  "EQ_DUMBWAITER": {
+    "name": "덤웨이터(간이리프트)",
+    "detector_classes": [
+      "dumbwaiter"
+    ]
+  },
+  "EQ_ELECTRIC_PANEL": {
+    "name": "전기설비(분전반·콘센트·멀티탭)",
+    "detector_classes": [
+      "electrical panel",
+      "power strip"
+    ]
+  },
+  "EQ_EXHAUST_HOOD": {
+    "name": "배기후드",
+    "detector_classes": [
+      "kitchen exhaust hood"
+    ]
+  },
+  "EQ_FRYER": {
+    "name": "튀김기",
+    "detector_classes": [
+      "commercial deep fryer",
+      "deep fryer"
+    ]
+  },
+  "EQ_GAS_CYLINDER": {
+    "name": "가스용기(LPG·부탄)",
+    "detector_classes": [
+      "butane gas can",
+      "lpg gas cylinder"
+    ]
+  },
+  "EQ_GAS_RANGE": {
+    "name": "가스레인지",
+    "detector_classes": [
+      "gas stove burner"
+    ]
+  },
+  "EQ_GRIDDLE": {
+    "name": "철판(그리들)",
+    "detector_classes": [
+      "flat top griddle"
+    ]
+  },
+  "EQ_GRILL": {
+    "name": "그릴",
+    "detector_classes": [
+      "salamander broiler"
+    ]
+  },
+  "EQ_ICE_CRUSHER": {
+    "name": "쇄빙기·빙수기",
+    "detector_classes": [
+      "ice shaver machine"
+    ]
+  },
+  "EQ_ICE_MAKER": {
+    "name": "제빙기",
+    "detector_classes": [
+      "ice machine"
+    ]
+  },
+  "EQ_KNIFE_BOARD": {
+    "name": "칼·도마",
+    "detector_classes": [
+      "cutting board",
+      "kitchen knife"
+    ]
+  },
+  "EQ_LADDER": {
+    "name": "사다리·작업발판",
+    "detector_classes": [
+      "step ladder"
+    ]
+  },
+  "EQ_MARINATOR": {
+    "name": "염지기",
+    "detector_classes": [
+      "vacuum tumbler marinator"
+    ]
+  },
+  "EQ_MEAT_SLICER": {
+    "name": "육절기",
+    "detector_classes": [
+      "meat slicer"
+    ]
+  },
+  "EQ_MICROWAVE": {
+    "name": "전자레인지",
+    "detector_classes": [
+      "microwave",
+      "microwave oven"
+    ]
+  },
+  "EQ_MIXER": {
+    "name": "혼합기·믹서기",
+    "detector_classes": [
+      "blender",
+      "food mixer"
+    ]
+  },
+  "EQ_MOTORCYCLE": {
+    "name": "배달 이륜차",
+    "detector_classes": [
+      "motorcycle"
+    ]
+  },
+  "EQ_NOODLE_MACHINE": {
+    "name": "제면기",
+    "detector_classes": [
+      "noodle making machine"
+    ]
+  },
+  "EQ_ODEN_WARMER": {
+    "name": "어묵 보온기",
+    "detector_classes": [
+      "fish cake warmer pot"
+    ]
+  },
+  "EQ_OVEN": {
+    "name": "오븐",
+    "detector_classes": [
+      "commercial oven",
+      "oven"
+    ]
+  },
+  "EQ_PORTABLE_BURNER": {
+    "name": "휴대용 가스버너",
+    "detector_classes": [
+      "portable gas stove"
+    ]
+  },
+  "EQ_REFRIGERATOR": {
+    "name": "업소용 냉장·냉동고",
+    "detector_classes": [
+      "chest freezer",
+      "commercial refrigerator",
+      "refrigerator"
+    ]
+  },
+  "EQ_RICE_COOKER": {
+    "name": "취반기·밥솥",
+    "detector_classes": [
+      "rice cooker"
+    ]
+  },
+  "EQ_RICE_WASHER": {
+    "name": "세미기",
+    "detector_classes": [
+      "rice washing machine"
+    ]
+  },
+  "EQ_SCISSORS": {
+    "name": "주방가위",
+    "detector_classes": [
+      "scissors"
+    ]
+  },
+  "EQ_SHELF": {
+    "name": "적재 선반",
+    "detector_classes": [
+      "metal shelf",
+      "shelf"
+    ]
+  },
+  "EQ_SINK": {
+    "name": "세척대(싱크대)",
+    "detector_classes": [
+      "kitchen sink",
+      "sink"
+    ]
+  },
+  "EQ_SOUP_KETTLE": {
+    "name": "국솥",
+    "detector_classes": [
+      "large stock pot kettle"
+    ]
+  },
+  "EQ_STEAMER": {
+    "name": "찜기",
+    "detector_classes": [
+      "food steamer"
+    ]
+  },
+  "EQ_STERILIZER": {
+    "name": "식기소독기",
+    "detector_classes": [
+      "dish sterilizer cabinet"
+    ]
+  },
+  "EQ_VEG_CUTTER": {
+    "name": "채소절단기",
+    "detector_classes": [
+      "mandoline slicer",
+      "vegetable cutter machine"
+    ]
+  },
+  "EQ_WALKIN_COOLER": {
+    "name": "냉장·냉동창고",
+    "detector_classes": [
+      "walk-in cooler door"
+    ]
+  },
+  "EQ_WASTE_OIL_CONTAINER": {
+    "name": "폐유통",
+    "detector_classes": [
+      "oil drain container"
+    ]
+  },
+  "EQ_WATER_HEATER": {
+    "name": "온수기",
+    "detector_classes": [
+      "hot water dispenser"
+    ]
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "contract_version": "assessment-authoring-1",
+  "catalog_version": "CATALOG-MVP-1.1",
+  "media": [
+    {
+      "id": "TEXT",
+      "kind": "text",
+      "text": "주방에서 매일 튀김 조리를 합니다. 튀김기 온도조절기와 과열 차단 장치가 작동하고 매일 점검합니다. 기름은 완전히 식힌 뒤 배유합니다. 튀김 작업자는 내열 장갑과 보안경을 착용합니다."
+    }
+  ],
+  "equipment_ids": []
+}

@@ -1,0 +1,19 @@
+{
+  "contract_version": "assessment-authoring-1",
+  "catalog_version": "CATALOG-MVP-1.1",
+  "media": [
+    {
+      "id": "PHOTO1",
+      "kind": "equipment_detection",
+      "text": "튀김기 후보가 탐지되었습니다. 작동 상태는 알 수 없습니다."
+    },
+    {
+      "id": "MACHINES",
+      "kind": "equipment_inventory",
+      "text": "등록 기기: 튀김기."
+    }
+  ],
+  "equipment_ids": [
+    "EQ_FRYER"
+  ]
+}

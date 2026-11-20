@@ -1,0 +1,108 @@
+{
+  "model_output": {
+    "request_id": "synthetic-input-fixture",
+    "status": "ok",
+    "error_code": null,
+    "detector": {
+      "model_name": "sam3-mock",
+      "model_version": "fixture-1",
+      "score_threshold_applied": 0.35
+    },
+    "photos": [
+      {
+        "photo_id": "PHOTO1",
+        "status": "analyzed",
+        "error_code": null,
+        "width": 1,
+        "height": 1
+      },
+      {
+        "photo_id": "PHOTO2",
+        "status": "analyzed",
+        "error_code": null,
+        "width": 1,
+        "height": 1
+      }
+    ],
+    "detections": [
+      {
+        "detection_id": "d1",
+        "photo_id": "PHOTO1",
+        "equipment_id": "EQ_FRYER",
+        "detector_class": "commercial deep fryer",
+        "confidence": 0.62,
+        "bbox": [
+          0.1,
+          0.1,
+          0.4,
+          0.5
+        ]
+      },
+      {
+        "detection_id": "d2",
+        "photo_id": "PHOTO1",
+        "equipment_id": null,
+        "detector_class": "deep fryer",
+        "confidence": 0.91,
+        "bbox": [
+          0.1,
+          0.1,
+          0.4,
+          0.5
+        ]
+      },
+      {
+        "detection_id": "d3",
+        "photo_id": "PHOTO1",
+        "equipment_id": null,
+        "detector_class": "tongs",
+        "confidence": 0.85,
+        "bbox": [
+          0.1,
+          0.1,
+          0.4,
+          0.5
+        ]
+      },
+      {
+        "detection_id": "d4",
+        "photo_id": "PHOTO2",
+        "equipment_id": "EQ_SHELF",
+        "detector_class": "shelf",
+        "confidence": 0.77,
+        "bbox": [
+          0.1,
+          0.1,
+          0.4,
+          0.5
+        ]
+      },
+      {
+        "detection_id": "d5",
+        "photo_id": "PHOTO2",
+        "equipment_id": "EQ_FRYER",
+        "detector_class": "commercial deep fryer",
+        "confidence": 0.72,
+        "bbox": [
+          0.1,
+          0.1,
+          0.4,
+          0.5
+        ]
+      },
+      {
+        "detection_id": "d6",
+        "photo_id": "PHOTO2",
+        "equipment_id": "EQ_UNREGISTERED",
+        "detector_class": "deep fryer",
+        "confidence": 0.75,
+        "bbox": [
+          0.1,
+          0.1,
+          0.4,
+          0.5
+        ]
+      }
+    ]
+  }
+}

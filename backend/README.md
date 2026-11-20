@@ -2,6 +2,9 @@
 
 # 백엔드
 
+입력 기반 평가의 사진 입력과 검색 근거를 화면·DB까지 연결하는 실행 방법과 계약은
+[검색 근거의 화면·DB 연결](../docs/implementation/authoring-rag-local-integration.md)을 참고한다.
+
 목표 환경은 Python 3.11·FastAPI·MariaDB입니다. 현재는 폴더와 안내만 있으며 실행할 API 서버·DB 연결 코드는 없습니다.
 
 | 경로 | 역할 |
@@ -332,6 +335,32 @@ backend\.venv\Scripts\python -m pytest backend/unit_tests/test_report.py -q
 
 `python backend/run_local.py --catalog --migrate`로 실행합니다. 현재 조치와 개선대책 선택을 같은 함수로 계산하며 개선 후 값은 예상 결과입니다.
 
+## 공동 위험 카드 DB
+
+카드 원본 JSONL과 기기·위험요인 ID 대조표를 함께 적재합니다. 표의 기기 ID와 시나리오 ID는 기존 주 계약의 값을 사용합니다.
+
+| 테이블 | 한 행의 단위 | 주요 열 |
+| --- | --- | --- |
+| `risk_card` | 근거 카드 한 건 | `evidence_id` 기본 키, 원본 `card_id`, 종류, 제목, 출처 코드·쪽, 검토 상태, 원본 JSON, 위험 태그, 미확정 시나리오 참조 |
+| `risk_card_equipment` | 기기와 카드 한 쌍 | `equipment_id` + `evidence_id` 기본 키 |
+| `risk_card_scenario` | 기존 시나리오와 카드 한 쌍 | `scenario_id` + `evidence_id` 기본 키 |
+
+카드의 작업 정보, 설명, 대책, 대책 출처, 법령명은 `card_data`에 원본 구조로 보존합니다.
+신규 카드는 `pending`으로 적재합니다. `NEW:`, `HOLD:`, `REF` 값은 미확정 참조에 담습니다. 법령명은 원본의 참고 값입니다.
+카드와 연결은 근거 탐색용이며 기존 평가 카탈로그, 법령 레지스트리, 모델 입력에는 자동 반영하지 않습니다.
+
+기존 `backend/.env`의 MariaDB 설정을 사용합니다. 저장소 루트에서 승인된 원본 경로를 지정합니다.
+적재 명령이 [마이그레이션](migrations/20261119_risk_cards.sql)을 적용한 뒤 카드와 연결을 한 트랜잭션으로 저장합니다.
+같은 자료를 다시 실행하면 신규 행이 생기지 않습니다. 같은 근거 ID의 원본이나 연결이 다르면 해당 적재를 중단합니다.
+
+```powershell
+python backend/import_risk_cards.py --cards "risk_card_data.md" --id-table "261119_기기_위험요인_ID표_v1_DR.md"
+```
+
+카드 열람 권한이 있는 팀 환경에서 `SAFET_RISK_CARDS_ENABLED=1`을 설정합니다. 로그인 후 `GET /rag/risk-cards?equipment_id=EQ_FRYER` 또는 `GET /rag/risk-cards?scenario_id=FRY`로 확인합니다. 두 조건을 함께 주면 둘 다 일치하는 카드를 반환합니다. 카드는 준비된 원본에서 적재하며 저장소에는 스키마와 코드만 둡니다.
+
+가져오기 검사는 `python -m pytest backend/unit_tests/test_risk_card_import.py -q`로 실행합니다.
+
 ## AI 공통 기준 연결
 
 `python backend/run_local.py --ai --migrate` 실행 및 서버 설정·테스트는
@@ -394,3 +423,5 @@ Remove-Item Env:SAFET_RUN_LIVE_TEXT_TEST
 초안 생성·위험 추가·질문 답변은 DB 읽기 트랜잭션 종료 후 AI를 호출하고 저장 직전에 변경 여부를 다시 확인합니다. 사진 탐지 결과는 기존 상태 JSON에 보관하여 같은 사진을 반복 호출하지 않습니다. 관련 검사는 격리 `_test` DB에서 `python -m pytest backend/tests/test_ai_review_regressions.py backend/unit_tests/test_catalog_ai.py -q`로 실행합니다. 모의 AI를 사용하며 실제 서버를 호출하지 않습니다.
 
 [변경 범위와 검토 사항](../docs/implementation/review-fixes-20261118.md)
+
+N02·N08 문맥 확장 설정·검수: [설명](../docs/implementation/n02-n08-context-expansion.md). 환경변수 SAFET_RAG_CONTEXT_DIR을 지정하면 별도 검수 문맥을 추가하고, 미설정 시 기존 검색을 유지합니다.

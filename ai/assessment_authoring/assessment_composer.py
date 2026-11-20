@@ -26,7 +26,7 @@ def compose_assessment(context, retrieval_bundle, analysis_bundle, catalog_snaps
     validate_assessment(result, catalog)
     return result
 
-def render_assessment(context, retrieval_bundle, analysis_bundle, catalog_snapshot, *, legal_registry=None, review_candidates=()):
+def render_assessment(context, retrieval_bundle, analysis_bundle, catalog_snapshot, *, legal_registry=None, review_candidates=(), document_evidence=None):
     analysis = validate_analysis(context, retrieval_bundle, analysis_bundle, catalog_snapshot, legal_registry)
     core = compose_assessment(context, retrieval_bundle, analysis, catalog_snapshot,
                               legal_registry=legal_registry, review_candidates=review_candidates)
@@ -36,9 +36,12 @@ def render_assessment(context, retrieval_bundle, analysis_bundle, catalog_snapsh
     for candidate, result in zip(analysis["candidates"], core["items"]):
         scenario = catalog[candidate["scenario_id"]]
         states = {e["control_id"]: e["state"] for e in candidate["control_evidence"]}
-        rows.append(dict(result, risk=scenario["scenario"], rationale=candidate["rationale"],
+        from .explanations import rationale as explain
+        rationale = explain(candidate, scenario, result, (document_evidence or {}).get(scenario['id'], []))
+        rows.append(dict(result, risk=scenario["scenario"], rationale=rationale,
             current_controls=[e for e in candidate["control_evidence"] if e["state"] == "supported"],
-            improvement_candidates=[{"control_id": c["id"], "text": c["plan_text"]}
+            improvement_candidates=[{"control_id": c["id"], "text":
+                (c["current_text"] + " — 미확인 항목의 개선 후보") if states[c["id"]] == "unknown" else c["plan_text"]}
                 for c in scenario["controls"] if states[c["id"]] != "supported"],
             control_evidence=candidate["control_evidence"], evidence=candidate["evidence"],
             assumptions=candidate["assumptions"], source_refs=retrieved[scenario["id"]]["source_refs"],
