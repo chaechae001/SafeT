@@ -341,11 +341,14 @@ DB 기준 평가(`catalog_v1`)의 시나리오 찾기를 위험요인·법령 �
 입력 글·음성 전사문 → 위험 카드 → 카드에 연결된 시나리오 → 평가표 행. 위험도 계산·저장·확정은 DB 기준 평가와 같은 코드를 씁니다.
 
 ```powershell
-# 1) 검색 모듈 서버(저장소 루트, 별도 창)
-python -m ai.risk_law_search.server --mode keyword
-# 2) API·화면
-python backend/run_local.py --risk-law --migrate
+# 화면(8000)·API(8001)·검색 모듈(8020)을 한 번에 실행. 처음 한 번은 --migrate
+backend\.venv\Scripts\python backend/run_local.py --risk-law --migrate
+# 시험용: 검토 전 자동 대책–기준 조치 연결도 위험도 계산에 반영
+backend\.venv\Scripts\python backend/run_local.py --risk-law --auto-controls
 ```
+
+- 검색 서버가 이미 8020에서 실행 중이면 그 서버를 그대로 쓰고, 없으면 함께 실행합니다(Ctrl+C로 같이 종료).
+- 검색 모듈은 백엔드와 다른 패키지를 씁니다(`ai/risk_law_search/requirements.txt`). 그 패키지가 설치된 python을 `SAFET_RISK_LAW_PYTHON`으로 지정할 수 있고, 없으면 PATH의 `python`을 씁니다.
 
 - 검색 서버 주소는 `SAFET_RISK_LAW_URL`(기본 `http://127.0.0.1:8020`), 응답 대기 시간은 `SAFET_RISK_LAW_TIMEOUT`(초, 기본 60)입니다.
 - 행마다 현재 대책·개선 대책을 3개씩 **AI 추천**으로 넣습니다. 처음에는 체크 0개 기준으로 현재·예상 위험도를 계산하고(같은 값), 저장할 때마다 다시 계산합니다.

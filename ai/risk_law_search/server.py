@@ -201,8 +201,13 @@ def main():
           + (f" · 대책 연결 {h['controls']['linked']}(확정 {h['controls']['confirmed']}"
              f"{', 자동 포함' if h['controls']['count_auto'] else ''})" if h.get("controls") else ""),
           flush=True)
+    ThreadingHTTPServer.allow_reuse_address = os.name != "nt"  # Windows에서는 같은 포트에 두 번째 서버가 조용히 뜨는 것을 막는다
+    try:
+        httpd = ThreadingHTTPServer((args.host, args.port), make_handler(engine, risk_test=args.risk_test))
+    except OSError:
+        raise SystemExit(f"{args.host}:{args.port} 포트를 이미 사용 중입니다. 기존 검색 서버를 종료한 뒤 다시 실행하세요.") from None
     print(f"http://{args.host}:{args.port}/", flush=True)
-    ThreadingHTTPServer((args.host, args.port), make_handler(engine, risk_test=args.risk_test)).serve_forever()
+    httpd.serve_forever()
 
 
 if __name__ == "__main__":
