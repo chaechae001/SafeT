@@ -55,7 +55,9 @@ ol.risks{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:10px}
 .risk-top{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
 .rank{font-weight:700;color:var(--accent)}
 .risk-title{font-weight:600}
-.score{margin-left:auto;font-size:12px;color:var(--muted);white-space:nowrap}
+.risk-test-link{color:var(--accent);font:inherit;font-size:13px;text-underline-offset:3px;padding:3px 0}
+.risk-reading{margin-left:auto;display:inline-flex;align-items:center;gap:8px;white-space:nowrap}
+.score{font-size:12px;color:var(--muted);white-space:nowrap}
 .law{background:var(--law);border-radius:6px;padding:8px 10px;margin-top:8px;font-size:13.5px}
 .law-head{font-weight:600}
 .nolaw{color:var(--muted);font-size:13px;margin-top:8px}
@@ -136,17 +138,6 @@ ol.cands{margin:4px 0 0;padding-left:18px;font-size:13px}
     var d=el("details");add(d,el("summary",null,"조문 원문"),el("div","quote",l.quote));add(b,d);
     return b;
   }
-  function scenarioBox(s){
-    var b=el("div","scen");
-    if(!s.scenario_id){add(b,el("div","scen-head","위험도 시나리오: 없음"),el("div","small",s.message));return b}
-    add(b,el("div","scen-head","위험도 시나리오: "+s.scenario_id+" · "+s.title+" · 피해 수준 S"+s.severity));
-    add(b,el("div","small",s.message+" · 정책 "+s.policy_version+" · 핵심 조치 "+s.controls.filter(function(c){return c.critical}).length+"개 / 전체 "+s.controls.length+"개"));
-    var d=el("details");add(d,el("summary",null,"조치 기준·다른 후보"));
-    add(d,list(s.controls.map(function(c){return (c.critical?"[핵심] ":"[보완] ")+c.current_text+" ("+c.id+")"})));
-    if(s.candidates&&s.candidates.length>1)add(d,el("div","small","다른 후보: "+s.candidates.slice(1).map(function(c){return c.scenario_id+" "+c.score}).join(", ")));
-    add(d,el("div","small","위험도 등급은 이 화면에서 계산하지 않습니다(공통 계산 모듈 · 담당자 확인 후)."));
-    add(b,d);return b;
-  }
   function optionGroup(title,hint,items){
     var box=el("div","opts"),h=el("div","opts-h"),count=el("span","small");
     function refresh(){count.textContent="선택 "+box.querySelectorAll("input:checked").length+"/"+items.length}
@@ -170,8 +161,20 @@ ol.cands{margin:4px 0 0;padding-left:18px;font-size:13px}
   function riskItem(r,n){
     var li=el("li","risk"),top=el("div","risk-top");
     var sc=el("span","score","관련도 "+r.score);sc.title=detail(r.score_detail);
+    var grade=r.grades.current_risk;
+    var light=el("span",null,{"상":"🔴","중":"🟡","하":"🟢"}[grade]);
+    light.setAttribute("role","img");
+    light.setAttribute("aria-label","위험도 "+grade);
+    var reading=add(el("span","risk-reading"),light);
+    if(document.documentElement.hasAttribute("data-risk-test")){
+      var link=el("a","risk-test-link","(테스트)");
+      link.href="/risk-test?"+new URLSearchParams({card:r.card_id,scenario:r.grades.scenario_id||""});
+      link.target="_blank";link.rel="noopener";link.setAttribute("aria-label",r.title+" 위험도 테스트 (새 탭)");
+      add(reading,link);
+    }
+    add(reading,sc);
     add(top,el("span","rank",n+"."),el("span","risk-title",r.title),el("span","tag",r.kind==="case"?"사례":"점검"),
-        r.risk_type?el("span","tag",r.risk_type):null,r.low_confidence?el("span","tag low","기준 미달 · 확인 필요"):null,sc);
+        r.risk_type?el("span","tag",r.risk_type):null,r.low_confidence?el("span","tag low","기준 미달 · 확인 필요"):null,reading);
     add(li,top,el("div","id",r.card_id+(r.section?" · "+r.section:"")));
     add(li,lawBox(r));
     var ex=r.law_alt_topic&&r.law_alt_topic.excluded;
@@ -182,7 +185,6 @@ ol.cands{margin:4px 0 0;padding-left:18px;font-size:13px}
       add(a,el("div","pair-h","A. 카드 연결"),lawBox({law:r.law_card,law_basis:r.law_card_basis}));
       add(pair,a,altBox(r.law_alt,"B"));add(cmp,pair);add(li,cmp);
     }
-    if(r.scenario)add(li,scenarioBox(r.scenario));
     add(li,optionGroup("현재 조치 사항","현장에서 하고 있는 것만 선택",r.current_options));
     add(li,optionGroup("개선 조치 사항","적용할 것만 선택",r.improvement_options));
     var d=el("details");add(d,el("summary",null,"위험 설명·출처"));

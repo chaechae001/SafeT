@@ -26,6 +26,7 @@ import statistics
 import time
 from pathlib import Path
 
+from .grading import record_selection
 from .cards import card_context_text, card_law_text, card_search_text, load_cards
 from .laws import load_laws
 from .textindex import TextIndex, make_tokenizer
@@ -554,6 +555,8 @@ class Engine:
                                                     if topic["candidates"] else topic["note"]))
                 if self.scenarios:
                     risks[-1]["scenario"] = self.scenarios.for_card(c["id"])
+                sid = (risks[-1].get("scenario") or {}).get("scenario_id")
+                risks[-1]["grades"] = record_selection(self.scenarios, dict(card_id=c["id"], scenario_id=sid), draft=True)
             neg = NEGATION.search(u["text"])
             out.append(dict(u, expanded_terms=added, risks=risks,
                             status="ok" if risks and not low else ("low_confidence" if low else "no_evidence"),

@@ -19,6 +19,7 @@ from pathlib import Path
 from urllib.parse import parse_qs, urlparse
 
 from .engine import Engine
+from .grading import assess_selection, record_selection
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
@@ -33,7 +34,11 @@ def _int(params, key, default, low, high):
         return default
 
 
-def make_handler(engine):
+def make_handler(engine, *, risk_test=False):
+    if risk_test:
+        from .risk_test_metrics import measure
+        metrics = measure(engine.scenarios)
+
     class Handler(BaseHTTPRequestHandler):
         server_version = "SafeTRiskLaw/1"
 
@@ -52,7 +57,16 @@ def make_handler(engine):
             params = parse_qs(url.query)
             try:
                 if url.path in ("/", "/index.html"):
-                    return self._send(200, PAGE.read_bytes(), "text/html; charset=utf-8")
+                    page = PAGE.read_bytes()
+                    if risk_test:
+                        page = page.replace(b'<html lang="ko">', b'<html lang="ko" data-risk-test>', 1)
+                    return self._send(200, page, "text/html; charset=utf-8")
+                if risk_test and url.path == "/risk-test":
+                    return self._send(200, (PAGE.parent / "risk-test.html").read_bytes(), "text/html; charset=utf-8")
+                if risk_test and url.path == "/api/risk-test/metrics":
+                    return self._send(200, metrics)
+                if url.path == "/api/risk-scenarios":
+                    return self._send(200, list(engine.scenarios.by_id.values()) if engine.scenarios else [])
                 if url.path == "/api/health":
                     return self._send(200, engine.health())
                 if url.path == "/api/search":
@@ -79,7 +93,8 @@ def make_handler(engine):
 
         def do_POST(self):
             url = urlparse(self.path)
-            if url.path != "/api/analyze":
+            testing = risk_test and url.path == "/api/risk-test/evaluate"
+            if not testing and url.path not in ("/api/analyze", "/api/risk-grade", "/api/risk-draft"):
                 return self._send(404, dict(error="NOT_FOUND"))
             try:
                 length = int(self.headers.get("Content-Length") or 0)
@@ -89,6 +104,12 @@ def make_handler(engine):
                 body = json.loads(self.rfile.read(length).decode("utf-8"))
                 if not isinstance(body, dict):
                     raise ValueError("JSON 객체로 보내 주세요.")
+                if testing:
+                    draft, basis = assess_selection(engine.scenarios, body, draft=True)
+                    expected, audit = assess_selection(engine.scenarios, body)
+                    return self._send(200, dict(draft=basis, expected=audit))
+                if url.path in ("/api/risk-grade", "/api/risk-draft"):
+                    return self._send(200, record_selection(engine.scenarios, body, draft=url.path == "/api/risk-draft"))
                 machines = body.get("machines") or []
                 photos = body.get("photos") or []
                 if not isinstance(machines, list) or not isinstance(photos, list):
@@ -128,7 +149,12 @@ def main():
                      help="위험요인 법령: c(기본, KURE 검색 후보 + 위험유형 주제 확인) | a(카드 연결, 모델 없음). "
                           "c에 필요한 인덱스·패키지가 없으면 a로 대체하고 화면에 경고한다")
     cli.add_argument("--build-alt-index", action="store_true", help="C 법령용 KURE 인덱스만 만들고 종료(CPU 수십 분, 처음 한 번)")
+    cli.add_argument("--risk-test", action="store_true", help="로컬 위험도 검증 화면 제공")
     args = cli.parse_args()
+    if args.risk_test:
+        import ipaddress
+        if args.host != "localhost" and not ipaddress.ip_address(args.host).is_loopback:
+            cli.error("--risk-test는 로컬 주소에서 실행해 주세요.")
     engine = Engine(args.data, card_file=args.cards, as_of=args.as_of, mode=args.mode,
                     model=args.model, index_dir=args.index_dir, log=lambda m: print(m, flush=True))
     if args.build_alt_index:
@@ -165,7 +191,7 @@ def main():
           + (f" · 시나리오 연결 카드 {h['scenarios']['mapped_cards']}(확정 {h['scenarios']['confirmed_cards']})" if h["scenarios"] else ""),
           flush=True)
     print(f"http://{args.host}:{args.port}/", flush=True)
-    ThreadingHTTPServer((args.host, args.port), make_handler(engine)).serve_forever()
+    ThreadingHTTPServer((args.host, args.port), make_handler(engine, risk_test=args.risk_test)).serve_forever()
 
 
 if __name__ == "__main__":

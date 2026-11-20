@@ -196,3 +196,5 @@ ai/risk_law_search/.venv/Scripts/python -m unittest discover -s ai/risk_law_sear
 - 순서 멈춤 규칙상 대부분 02(안전보건규칙)에서 멈춘다. 다른 법령은 이어 찾기로 확인한다.
 - 법령 원문은 보유 HWPX 기준이다. 시행령·시행규칙·고시 별표는 없다.
 - 가중치·기준점은 예시 키워드 13개로 정한 값이다. 정답셋으로 측정하지 않았다.
+
+[위험도 판정 기준과 로컬 테스트 방법](risk-grade-review.md)

@@ -14,6 +14,8 @@ import argparse
 import json
 from pathlib import Path
 
+from backend.domain.risk_policy import RESTAURANT_POLICY, evaluate
+
 from .cards import card_search_text
 from .textindex import TextIndex
 
@@ -29,7 +31,16 @@ def scenario_text(s):
 
 
 def load_catalog(path=CATALOG):
-    return json.loads(Path(path).read_text(encoding="utf-8"))
+    catalog = json.loads(Path(path).read_text(encoding="utf-8"))
+    catalog["policy_version"] = RESTAURANT_POLICY
+    for scenario in catalog["scenarios"]:
+        scenario["policy_version"] = RESTAURANT_POLICY
+        if scenario["id"] == "FRY":
+            # 기름 튐과 직접 연결된 예방·보호 항목. 화재 대응은 FIRE에서 평가한다.
+            direct = {"FRY-C1", "FRY-C2", "FRY-C3", "FRY-C7"}
+            scenario["controls"] = [c for c in scenario["controls"] if c["id"] in direct]
+        scenario["initial_grade"] = evaluate(scenario, [], answered=True)["grade"]
+    return catalog
 
 
 def candidates(engine, catalog):
