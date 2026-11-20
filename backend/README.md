@@ -427,7 +427,7 @@ Remove-Item Env:SAFET_RUN_LIVE_TEXT_TEST
 N02·N08 문맥 확장 설정·검수: [설명](../docs/implementation/n02-n08-context-expansion.md). 환경변수 SAFET_RAG_CONTEXT_DIR을 지정하면 별도 검수 문맥을 추가하고, 미설정 시 기존 검색을 유지합니다.
 ## 법령 근거를 포함한 검수 초안
 
-로컬 검수 DB에 `migrations/20261120_legal_review.sql`을 적용한다. API 환경에 SAFET_LEGAL_PYTHON(ChromaDB, PyTorch, Transformers를 설치한 Python 실행 파일), SAFET_LEGAL_WEIGHTS(KURE-v1 로컬 모델 폴더), SAFET_LEGAL_CHROMA(전문 인덱스 저장 폴더)를 설정한다. 기존 8010 관문 주소·모델·인증 설정을 사용한다. SAFET_LEGAL_PYTHON을 설정하면 생성·항목 추가 시 법령 검증을 수행한다.
+로컬 검수 DB에 `migrations/20261120_legal_review.sql`을 적용한다. API 환경에 SAFET_LEGAL_PYTHON(ChromaDB, PyTorch, Transformers를 설치한 Python 실행 파일), SAFET_LEGAL_WEIGHTS(KURE-v1 로컬 모델 폴더), SAFET_LEGAL_CHROMA(L01 저장 폴더)를 설정한다. 기존 8010 관문 주소·모델·인증 설정을 사용한다. SAFET_LEGAL_PYTHON을 설정하면 생성·항목 추가 시 법령 검증을 수행한다.
 
 초안 조회의 항목별 legal_review에 status, limitation, evidence, review_candidates가 저장된다. manual_review는 검토할 원문만 보관하고 자동 인용을 비운다. 기존 평가표는 저장 당시 값을 조회한다. 검수 시 초안 생성 후 상세 화면에서 원문을 확인하고 저장한 다음 다시 열어 같은 상태와 출처가 표시되는지 대조한다.
 

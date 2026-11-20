@@ -50,14 +50,6 @@ def matches(patterns, text):
 def review(question, candidates, model_result):
     topic = next((name for name, patterns in TOPICS if matches(patterns, question)), "unsupported")
     selected = {item["chunk"] for item in (model_result["selection"] or {}).get("citations", [])}
-    # 기존 자동 인용 규칙 밖에서도 실제 검색·선택된 조항은 검토할 수 있다.
-    if topic == "unsupported":
-        proposals = [row for row in candidates if row["chunk_id"] in selected]
-        if proposals:
-            return dict(topic=topic, status="manual_review", status_label="수동 검토 필요",
-                        limitation="검색된 조항의 적용 조건을 확인해 주세요.", evidence=[],
-                        review_candidates=proposals, removed_model_citations=sorted(selected))
-    candidates = [row for row in candidates if row.get("part", "본문") == "본문"]
     if topic in MANUAL_RULES:
         patterns, limitation = MANUAL_RULES[topic]
         candidate = next((row for row in candidates if row["law"] == SAFETY
@@ -66,7 +58,7 @@ def review(question, candidates, model_result):
             return {
                 "topic": topic, "status": "manual_review", "status_label": "수동 검토 필요",
                 "limitation": limitation, "evidence": [],
-                "review_candidates": [candidate],
+                "review_candidates": [{k: candidate[k] for k in ("chunk_id", "law", "locator", "text")}],
                 "removed_model_citations": sorted(selected),
             }
     evidence = []
@@ -83,7 +75,6 @@ def review(question, candidates, model_result):
             chunk = candidate["chunk_id"]
             evidence.append({
                 "chunk": chunk, "law": law, "locator": candidate["locator"], "quotation": quotation,
-                **{k: candidate[k] for k in ("source_file", "source_sha256", "priority") if k in candidate},
                 "origin": "retained_citation" if chunk in selected else "recovered_from_candidate",
             })
             break
