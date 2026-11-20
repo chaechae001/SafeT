@@ -274,7 +274,10 @@
     // 입력 필요 모드: 판단 이유·법령 대신 원인
     $('#d-cause').text(it.cause || '');
     $('#d-cause-box').prop('hidden', !need || !it.cause);
-    $('#d-reason').text(it.reason || '');
+    var preview=SafeT.reasonPreview(it.reason);
+    $('#d-reason').text(preview);
+    $('#d-reason-full').prop('open',false).prop('hidden',!preview || preview===it.reason);
+    $('#d-reason-original').text(it.reason || '');
     $('#d-reason-box').prop('hidden', need || !it.reason);
     if (it.law) {
       $('#d-law-name').text(it.law.name);
@@ -650,7 +653,7 @@
       if(it.catalog){
         if(kind==='curr' || kind==='none'){it.controls_reviewed=false;$('#d-curr-list input[data-kind=reviewed]').prop('checked',false);}
         it.judged=false;$('#d-projection').text('변경됨 · 저장 후 위험도를 다시 계산합니다.');
-        if(kind!=='plan')$('#d-reason').text('현재 조치 변경 · 저장 후 재계산 필요');
+        if(kind!=='plan'){ $('#d-reason').text('현재 조치 변경 · 저장 후 재계산 필요'); $('#d-reason-full').prop('hidden',true); }
       }
       $(this).closest('.section').removeClass('is-invalid').find('.js-error').remove();
       renderCounts();

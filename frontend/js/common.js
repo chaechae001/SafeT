@@ -524,5 +524,23 @@
     });
   });
 
+  // 입력 인용과 문헌 목록 다음에 오는 조치 상태와 등급을 우선 표시한다.
+  SafeT.reasonPreview = function (reason) {
+    if (!reason || reason.length < 90) return reason || '';
+    var body = reason.replace(/^입력의 [\s\S]+? 위험을 후보에 포함했습니다\. (?:직접 연결된 검색 문헌은 없습니다\. )?/, '');
+    var compact = body
+      .replace(/시나리오의 피해 수준과 확인된 조치 상태에 기존 기준을 적용한 결과는 ‘([^’]+)’입니다\./g, '피해 수준과 조치 상태에 따른 위험도는 ‘$1’입니다.')
+      .replace(/의 실시 여부가 입력에서 확인되지 않았습니다\./g, '의 실시 여부는 미확인입니다.')
+      .replace(/미확인은 계산에만 미충족으로 반영하며 실제 미실시로 단정하지 않습니다\./g, '미확인 조치는 계산에서만 미충족으로 봅니다.');
+    if (compact !== reason && compact.trim()) return compact.trim();
+    // 이전 양식은 문장이 끝나는 지점에서 접어 수치나 부정 표현을 보존한다.
+    var endings = Array.from(reason.matchAll(/[.!?](?=\s|$)/g), function (m) { return m.index + 1; })
+      .filter(function (end) { return end < reason.trimEnd().length; });
+    if (!endings.length) return reason;
+    var half = reason.length / 2;
+    var end = endings.reduce(function (a, b) { return Math.abs(a-half) <= Math.abs(b-half) ? a : b; });
+    return reason.slice(0, end);
+  };
+
   SafeT.reduceMotion = reduceMotion;
 })(jQuery, window, document);

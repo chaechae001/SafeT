@@ -17,7 +17,13 @@
     $('<h1 class="page-title">').text(it.job).appendTo(page);
     var box=$('<section class="risk-box">').appendTo(page);$('<div class="risk-box__head">').append(signal(it.signal),$('<span>').text(labels[it.signal])).appendTo(box);
     if(it.type)$('<span class="tag">').text(it.type).appendTo(box);
-    para(box,'위험요인',it.title);para(box,'원인',it.cause);para(box,'판단 이유',it.reason);
+    para(box,'위험요인',it.title);para(box,'원인',it.cause);var preview=S.reasonPreview(it.reason);
+    para(box,'판단 이유',preview);
+    if(preview && preview!==it.reason){
+      var full=$('<details class="disclosure">').appendTo(box);
+      $('<summary>').text('판단 이유 원문 보기').appendTo(full);
+      $('<p>').text(it.reason).appendTo(full);
+    }
     if(S.catalogAI)S.catalogAI.readonly(page,it);
     if(it.law){para(box,'법령',it.law.name);para(box,'요지',it.law.summary);}
     if(it.assessment_mode==='input_based' && !it.curr.length)para(page,'현재 안전조치','입력에서 확인되지 않음');
