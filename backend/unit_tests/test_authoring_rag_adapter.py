@@ -15,9 +15,19 @@ def test_owned_equipment_is_not_observed_work():
     assert adapter.build_context({'text':'튀김기는 사용하지 않습니다.'})['equipment_ids']==[]
 
 
-def test_photo_is_not_silently_ignored():
+def test_invalid_photo_is_rejected():
     with pytest.raises(AuthError) as error: adapter.build_context({'text':'튀김기','photos':[{}]})
-    assert error.value.code=='AUTHORING_INPUT_UNSUPPORTED'
+    assert error.value.code=='AI_IMAGE_INVALID'
+
+
+def test_photo_description_is_not_offered_as_model_evidence():
+    from ai.assessment_authoring.live_text_check import input_segments
+
+    bundle = {'media': [
+        {'id': 'TEXT', 'kind': 'text', 'text': '튀김은 하지 않습니다.'},
+        {'id': 'PHOTO1', 'kind': 'equipment_detection', 'text': '튀김기 후보 0.91.'},
+    ]}
+    assert input_segments(bundle) == {'S1': ('TEXT', '튀김은 하지 않습니다.')}
 
 
 @pytest.mark.parametrize('bad',['hash','evaluation_only'])

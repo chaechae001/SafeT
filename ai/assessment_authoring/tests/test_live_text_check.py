@@ -35,7 +35,7 @@ class LiveTransportTests(unittest.TestCase):
 
     def test_citations_resolve_to_original_input_and_reject_document_ids(self):
         from ai.assessment_authoring.live_text_check import resolve_input_citations
-        context = {"media": [{"id": "TEXT", "text": "튀김 작업을 합니다. 기름은 식힌 후 뺍니다."}]}
+        context = {"media": [{"id": "TEXT", "kind": "text", "text": "튀김 작업을 합니다. 기름은 식힌 후 뺍니다."}]}
         control = dict(control_id="FRY-C2", state="supported", input_ref="S2")
         candidate = dict(scenario_id="FRY", work_ref="S1", controls=[control, dict(control, control_id="FRY-C1")])
         resolved = resolve_input_citations({"candidates": [candidate]}, context)["candidates"][0]

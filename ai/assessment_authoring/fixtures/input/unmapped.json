@@ -1,0 +1,12 @@
+[
+  {
+    "photo_id": "PHOTO1",
+    "detector_class": "tongs",
+    "equipment_id": null
+  },
+  {
+    "photo_id": "PHOTO2",
+    "detector_class": "deep fryer",
+    "equipment_id": "EQ_UNREGISTERED"
+  }
+]
