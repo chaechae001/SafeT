@@ -29,6 +29,19 @@
     $('<p class="hint">').text('문헌 버전: '+(state.data_version || '연결 없음')+(state.context_version ? ' + '+state.context_version : '')).appendTo(box);
   }
   function evidence(parent,it){
+    var review=it.legal_review;
+    if(review){
+      var labels={answered:'근거 확인',conditional:'확인 필요',manual_review:'수동 검토 필요',insufficient:'근거 부족'};
+      var panel=$('<section>').attr('data-legal-status',review.status).appendTo(parent);
+      $('<h3>').text('법령 근거 · '+labels[review.status]).appendTo(panel);
+      $('<p>').text(review.limitation || review.message || '').appendTo(panel);
+      if(review.status==='answered' || review.status==='conditional'){
+        (review.evidence || []).forEach(function(e){
+          $('<blockquote>').text(e.quotation).appendTo(panel);
+          $('<small>').text(e.law+' '+e.locator).appendTo(panel);
+        });
+      }
+    }
     if(it.authoring){
       $('<h3>').text('입력에서 확인한 내용').appendTo(parent);
       it.authoring.row.evidence.forEach(function(e){$('<p>').text(e.statement).appendTo(parent);});

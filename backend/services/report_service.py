@@ -13,6 +13,7 @@
 (Noto CJK .otf 는 reportlab 이 읽지 못함)
 """
 import io
+import json
 import os
 from datetime import datetime
 from pathlib import Path
@@ -47,6 +48,25 @@ def _d(v, fmt="%Y.%m.%d"):
     if isinstance(v, str):
         v = datetime.fromisoformat(v)
     return v.strftime(fmt)
+
+
+def legal_columns(row):
+    review = row.get("legal_review")
+    if not review:
+        return row["law"], row["law_summary"]
+    if isinstance(review, str):
+        review = json.loads(review)
+    status = review["status"]
+    labels = {"answered": "근거 확인", "conditional": "확인 필요",
+              "manual_review": "수동 검토 필요", "insufficient": "근거 부족"}
+    lines = []
+    if status in ("answered", "conditional"):
+        for source in review.get("evidence", []):
+            lines.append(f"{source['law']} {source['locator']} · {source['quotation']}")
+    message = review.get("limitation") or review.get("message")
+    if message:
+        lines.append(message)
+    return labels.get(status, "확인 필요"), " ".join(lines)
 
 
 def build_context(eval_no: int, fetch, share: bool = False) -> dict:
@@ -84,6 +104,7 @@ def build_context(eval_no: int, fetch, share: bool = False) -> dict:
 
     items, plans_total, after_down, dues = [], 0, 0, []
     for d in dtls:
+        law, law_summary = legal_columns(d)
         mine = [a for a in acts if a["eval_dtl_no"] == d["eval_dtl_no"]]
         curr = [a["action_text"] for a in mine if a["action_type"] == "C"]
         plans = [{"text": a["action_text"], "ai": a["ai_yn"] != "N"} for a in mine if a["action_type"] == "P"]
@@ -103,7 +124,7 @@ def build_context(eval_no: int, fetch, share: bool = False) -> dict:
             "grade": grade, "plans": plans, "keep": keep, "after": after,
             "manager": None if keep else d["manager_nm"],
             "due_dt": None if keep else _d(d["due_dt"]),
-            "law": d["law"], "law_summary": d["law_summary"],
+            "law": law, "law_summary": law_summary,
         })
 
     signed = {s["member_no"]: s for s in fetch(

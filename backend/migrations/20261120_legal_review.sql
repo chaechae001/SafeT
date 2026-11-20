@@ -1,0 +1,1 @@
+ALTER TABLE eval_dtl ADD COLUMN IF NOT EXISTS legal_review JSON NULL;

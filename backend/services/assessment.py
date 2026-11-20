@@ -5,7 +5,7 @@ from sqlalchemy.exc import IntegrityError, OperationalError
 from services.auth import AuthError, now
 from services import workplaces, assessment_provider as provider
 from services import catalog_risk as catalog
-from services import authoring_rag
+from services import authoring_rag, legal_review
 
 
 def rows(db, sql, **p): return [dict(r) for r in db.execute(text(sql),p).mappings()]
@@ -55,6 +55,10 @@ def detail(db,email,no):
             it['curr' if a['action_type']=='C' else 'plans'].append(dict(id=a['action_no'],text=a['action_text'],checked=a['check_yn']=='Y',ai=a['ai_yn']=='Y'))
         catalog.enrich(it, r.get('catalog_state'))
         authoring_rag.enrich(it, it.get('catalog'))
+        if r.get('legal_review'):
+            review = json.loads(r['legal_review'])
+            it['law'] = None
+            it['legal_review'] = review
         result['items'].append(it)
     if m['generation_source'] == authoring_rag.SOURCE:
         saved = json.loads(m.get('authoring_snapshot') or '{}')
@@ -73,6 +77,9 @@ def detail(db,email,no):
 def insert_items(db,no,items,email,offset=0):
     for i,it in enumerate(items):
         result=execute(db,"INSERT INTO eval_dtl (eval_no,job,risk_factor,risk_type,reason,curr_risk_grade,risk_reason,curr_none_yn,keep_yn,after_risk_grade,after_judge_yn,sort,ins_dt,ins_nm) VALUES (:n,:j,:f,:ty,:c,:s,:r,'N',NULL,'N','N',:o,:t,:e)",n=no,j=it['job'],f=it['title'],ty=it['type'],c=it['cause'],s=it['signal'],r=it['reason'],o=offset+i,t=now(),e=email)
+        if it.get('legal_review'):
+            execute(db, 'UPDATE eval_dtl SET legal_review=:review WHERE eval_dtl_no=:id',
+                    review=json.dumps(it['legal_review'], ensure_ascii=False), id=result.lastrowid)
         for kind,values in (('C',it['curr']),('P',it['plans'])):
             for k,value in enumerate(values):
                 execute(db,"INSERT INTO eval_action (eval_dtl_no,action_type,action_text,check_yn,ai_yn,sort) VALUES (:d,:k,:t,'N','Y',:s)",d=result.lastrowid,k=kind,t=value,s=k)
@@ -96,6 +103,7 @@ def create(db,email,body):
         source, items, authoring_snapshot = authoring_rag.generate(snapshot, context)
     else:
         source, items = catalog.generate_snapshot(snapshot, context) if use_catalog else provider.generate(context)
+    legal_review.attach(items)
     try:
         locked_rows(db,'SELECT work_no FROM workplaces WHERE work_no=:n FOR UPDATE',n=body.work_no)
         old=rows(db,'SELECT eval_no FROM eval_mst WHERE email=:e AND request_key=:k',e=email,k=key)
@@ -229,6 +237,7 @@ def add_risk(db,email,no,body):
         else:
             db.rollback()
             source,items=provider.generate(data,body.keyword)
+        legal_review.attach(items)
         if source!=m['generation_source']: raise AuthError(409,'PROVIDER_CHANGED','생성 모드가 바뀌었어요. 기존 평가표의 출처를 유지해야 합니다.')
         current=owned(db,email,no,True);writable(current,body.revision)
         if current['generation_source']!=m['generation_source']:

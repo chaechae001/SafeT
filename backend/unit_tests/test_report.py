@@ -92,3 +92,13 @@ def test_PDF_생성():
         pytest.skip('한글 폰트 없음 (REPORT_FONT_REGULAR 지정 필요)')
     pdf = rs.render_pdf(rs.build_context(1, fetch))
     assert pdf.startswith(b'%PDF') and len(pdf) > 10000
+
+
+def test_수동_검토_원문과_이전_법령은_출력하지_않는다():
+    row = dict(law='이전 인용', law_summary='이전 요지', legal_review={
+        'status': 'manual_review', 'limitation': '적용 조건을 확인해 주세요.',
+        'review_candidates': [{'locator': '제130조제1항'}],
+        'evidence': [{'law': '검수', 'locator': '제304조제1항', 'quotation': '잘못 남은 인용'}],
+    })
+    assert rs.legal_columns(row) == ('수동 검토 필요', '적용 조건을 확인해 주세요.')
+    assert rs.legal_columns(dict(law='기존 법령', law_summary='기존 요지')) == ('기존 법령', '기존 요지')
