@@ -173,6 +173,67 @@ class EngineTest(unittest.TestCase):
         self.assertEqual([x["article_title"] for x in r["candidates"]], ["보호구의 지급 등"])
         self.assertEqual(r["dropped"], 2)
 
+    def test_c_skips_generic_and_other_cause_articles(self):
+        e = engine()
+        card = e.card_by_id["FOOD-04-C1"]  # [화재] 조리 작업 중 식용유에 착화되어 화재 발생
+        view = lambda title: e.law_view(next(u["id"] for i, u in enumerate(e.units)
+                                             if u["article_title"] == title and i in e.law_allowed))
+        alt = dict(method="kure45", candidates=[view("정전기로 인한 화재 폭발 등 방지"),
+                                                view("국가와 지방자치단체 등의 책무"),
+                                                view("화재 위험이 있는 작업의 장소 등")])
+        r = e._alt_topic(alt, card, "조리 중 식용유에 불이 붙었어요")
+        self.assertEqual([x["article_title"] for x in r["candidates"]], ["화재 위험이 있는 작업의 장소 등"])
+        self.assertEqual([x["reason"] for x in r["excluded"]], ["원인 불일치(정전기)", "일반 조항"])
+        # 입력에 원인 낱말이 있으면 특정 원인 조문도 쓴다.
+        r2 = e._alt_topic(alt, card, "정전기 불꽃으로 식용유에 불이 붙었어요")
+        self.assertEqual(r2["candidates"][0]["article_title"], "정전기로 인한 화재 폭발 등 방지")
+
+    def test_topic_policy_uses_c_and_keeps_a_for_comparison(self):
+        e = engine()
+        view = lambda title: e.law_view(next(u["id"] for i, u in enumerate(e.units)
+                                             if u["article_title"] == title and i in e.law_allowed))
+
+        class Stub:
+            def find(self, text, card):
+                return dict(method="stub", candidates=[view("와이어로프의 절단방법 등"), view("보호구의 지급 등")])
+
+            def info(self):
+                return dict(method="stub")
+
+        before = e.analyze("식칼이 떨어짐")["units"][0]["risks"][0]
+        e.alt_law, e.law_policy = Stub(), "topic_kure"
+        try:
+            r = e.analyze("식칼이 떨어짐")["units"][0]["risks"][0]
+        finally:
+            e.alt_law, e.law_policy = None, "card"
+        self.assertEqual(r["card_id"], "OPS-04-H2")
+        self.assertEqual(r["law"]["article_title"], "보호구의 지급 등")  # 베임 주제가 아닌 '와이어로프 절단'은 건너뜀
+        self.assertEqual((r["law_card"], r["law_card_basis"]), (before["law"], before["law_basis"]))
+
+    def test_risks_carry_scenario_for_risk_grading(self):
+        from ai.risk_law_search.scenario_map import MAP, ScenarioLinker
+        if not MAP.exists():
+            self.skipTest("card_scenario_map.json 없음")
+        e = engine()
+        e.scenarios = ScenarioLinker()
+        try:
+            r = e.analyze("식칼이 떨어짐")["units"][0]["risks"][0]
+        finally:
+            e.scenarios = None
+        s = r["scenario"]
+        self.assertEqual((s["scenario_id"], s["status"], s["policy_version"]), ("KNIFE", "auto", "CATALOG-MVP-1.1"))
+        self.assertIn("검토 전", s["message"])
+        self.assertTrue(any(c["critical"] for c in s["controls"]))
+        # 공통 계산 모듈이 이 형식을 그대로 받는다(등급 계산은 여기서 하지 않음).
+        import importlib.util
+        path = Path(__file__).resolve().parents[3] / "backend" / "domain" / "risk_policy.py"
+        spec = importlib.util.spec_from_file_location("risk_policy", path)
+        policy = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(policy)
+        critical = [c["id"] for c in s["controls"] if c["critical"]]
+        self.assertEqual(policy.evaluate(s, [], answered=False)["signal"], "N")  # 확인 전은 판단 필요
+        self.assertEqual(policy.evaluate(s, critical, answered=True)["status"], "calculated")
+
     def test_negation_is_flagged_not_hidden(self):
         r = engine().search("바닥에 물기가 없습니다")
         self.assertTrue(r["negation"]["found"])

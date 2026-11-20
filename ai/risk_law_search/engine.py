@@ -88,7 +88,9 @@ class Engine:
         actions = json.loads((HERE / "measure_actions.json").read_text(encoding="utf-8"))
         self.actions_version = actions["version"]
         self.actions = {v["original"]: v["action"] for v in actions["items"].values()}
-        self.topics = json.loads(Path(topics or HERE / "risk_topics.json").read_text(encoding="utf-8"))["topics"]
+        topic_doc = json.loads(Path(topics or HERE / "risk_topics.json").read_text(encoding="utf-8"))
+        self.topics = topic_doc["topics"]
+        self.topic_exclude = topic_doc.get("exclude", {})  # C에서 쓰지 않는 일반·특정 원인 조문
         # 주제어는 조문 제목·장절 제목에서만 찾는다. 법령명까지 넣으면 법령 전체가 통과한다.
         self.unit_topic_text = [f"{u['article_title']} {u['heading']}" for u in self.units]
         self.unit_by_id = {u["id"]: u for u in self.units}
@@ -105,7 +107,12 @@ class Engine:
         self.card_index = TextIndex([card_search_text(c) for c in self.search_cards], self.tokenizer)
         self.card_context_index = TextIndex([card_context_text(c) for c in self.search_cards], self.tokenizer)
         self.model_info = None
-        self.alt_law = None  # 비교용 B 경로(law_kure.KureLawFinder). 서버 옵션으로만 켠다.
+        self.alt_law = None  # B 경로(law_kure.KureLawFinder). 서버가 붙인다.
+        # 위험요인 법령(law) 정책: "card"(A, 카드 연결) | "topic_kure"(C, B 후보 + 위험유형 주제 확인).
+        # topic_kure는 alt_law가 있어야 한다. 서버 기본값은 topic_kure(2026-11-20 비교 결과로 선택).
+        self.law_policy = "card"
+        self.law_note = None  # 정책을 쓰지 못해 대체했을 때 이유(화면 경고)
+        self.scenarios = None  # 위험도 시나리오 연결(scenario_map.ScenarioLinker). 등급 계산은 하지 않는다.
         if mode == "hybrid":
             self._load_semantic(model, index_dir or HERE / ".index", log)
         self.links = self._link_all()
@@ -232,12 +239,29 @@ class Engine:
         return any(any(t in text for t in self.topics[k]["terms"]) or law in self.topics[k].get("laws", ())
                    for k in known)
 
-    def _alt_topic(self, alt, card):
-        """비교용 B+주제: B 후보 중 카드 위험유형과 주제가 맞는 것만 순서대로 남긴다(없으면 확인 필요)."""
-        ok = [x for x in alt["candidates"] if self.topic_ok(card, self.unit_pos[x["id"]])]
+    def law_excluded(self, title, context):
+        """C에서 쓰지 않는 조문인가: 일반·제재 조항, 또는 입력·카드에 없는 특정 원인 조문(risk_topics.json exclude)."""
+        ex = self.topic_exclude
+        if any(g in title for g in ex.get("generic_titles", ())):
+            return "일반 조항"
+        cause = next((w for w in ex.get("cause_terms", ()) if w in title and w not in context), None)
+        return f"원인 불일치({cause})" if cause else None
+
+    def _alt_topic(self, alt, card, text=""):
+        """C: B 후보 중 카드 위험유형과 주제가 맞고, 일반 조항·원인 불일치 조문이 아닌 것만 순서대로 남긴다(없으면 확인 필요)."""
+        context = f"{text} {card_search_text(card)}"
+        ok, excluded = [], []
+        for x in alt["candidates"]:
+            if not self.topic_ok(card, self.unit_pos[x["id"]]):
+                continue
+            why = self.law_excluded(x["article_title"] or "", context)
+            if why:
+                excluded.append(dict(id=x["id"], article_title=x["article_title"], reason=why))
+            else:
+                ok.append(x)
         known, _ = self.card_topics(card)
         return dict(method=f"{alt['method']}+topic", label="B+주제 확인(B 후보 중 위험유형과 주제가 맞는 것)",
-                    candidates=ok, dropped=len(alt["candidates"]) - len(ok),
+                    candidates=ok, dropped=len(alt["candidates"]) - len(ok), excluded=excluded,
                     note=("주제가 맞는 후보가 없습니다 · 담당자 확인 필요" if not ok else
                           "검색 후보입니다. 적용 여부는 담당자가 확인합니다.")
                     + ("" if known else " · 위험유형이 주제 사전에 없음"))
@@ -520,19 +544,28 @@ class Engine:
                     law=law, law_basis=basis))
                 if self.alt_law:
                     alt = self.alt_law.find(u["text"], c)
-                    risks[-1]["law_alt"] = alt
-                    risks[-1]["law_alt_topic"] = self._alt_topic(alt, c)
+                    topic = self._alt_topic(alt, c, u["text"])
+                    risks[-1].update(law_alt=alt, law_alt_topic=topic)
+                    if self.law_policy == "topic_kure":
+                        # C를 위험요인 법령으로 쓴다. A(카드 연결)는 law_card로 남겨 비교한다.
+                        risks[-1].update(law_card=law, law_card_basis=basis,
+                                         law=topic["candidates"][0] if topic["candidates"] else None,
+                                         law_basis=("KURE 검색 후보 중 위험유형과 주제가 맞는 1순위(자동 연결 · 적용 미확인)"
+                                                    if topic["candidates"] else topic["note"]))
+                if self.scenarios:
+                    risks[-1]["scenario"] = self.scenarios.for_card(c["id"])
             neg = NEGATION.search(u["text"])
             out.append(dict(u, expanded_terms=added, risks=risks,
                             status="ok" if risks and not low else ("low_confidence" if low else "no_evidence"),
                             negation=dict(found=bool(neg), phrase=neg.group(0) if neg else None)))
-        warnings = []
+        warnings = [self.law_note] if self.law_note else []
         if photos:
             warnings.append(f"사진 {photos}장은 분석하지 않았습니다. 이 조회 모듈에는 사진 기기 탐지가 연결되어 있지 않습니다.")
         if any(x["negation"]["found"] for x in out):
             warnings.append("부정 표현(없다·하지 않는다 등)이 있는 문장이 있습니다. 해당 문장의 결과는 직접 확인해 주세요.")
         return dict(as_of=self.as_of, mode=self.mode, notice=NOTICE, warnings=warnings,
-                    rule=dict(risks_per_unit=f"1~{MAX_RISKS}", law_per_risk=1, card_min=self.rule["card_min"]),
+                    rule=dict(risks_per_unit=f"1~{MAX_RISKS}", law_per_risk=1, card_min=self.rule["card_min"],
+                              law_policy=self.law_policy),
                     summary=dict(units=len(out), risks=sum(len(x["risks"]) for x in out), unique_cards=len(seen_cards),
                                  low_confidence_units=sum(1 for x in out if x["status"] == "low_confidence"),
                                  risks_without_law=sum(1 for x in out for r in x["risks"] if not r["law"])),
@@ -541,6 +574,8 @@ class Engine:
     def health(self):
         return dict(status="ok", mode=self.mode, model=self.model_info, tokenizer=self.tokenizer.name, as_of=self.as_of,
                     alt_law=self.alt_law.info() if self.alt_law else None,
+                    law_policy=self.law_policy, law_note=self.law_note,
+                    scenarios=self.scenarios.info() if self.scenarios else None,
                     measure_actions=dict(version=self.actions_version, count=len(self.actions)),
                     build_seconds=self.build_seconds, cards=self.card_meta, searchable_cards=len(self.search_cards),
                     laws=[{k: d[k] for k in ("doc_id", "law_name", "effective_from", "file", "sha256", "articles")}

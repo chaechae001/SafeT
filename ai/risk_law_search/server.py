@@ -124,9 +124,10 @@ def main():
     cli.add_argument("--index-dir", default=os.getenv("RISK_LAW_INDEX_DIR"), help="Chroma 저장 폴더(기본 ai/risk_law_search/.index)")
     cli.add_argument("--build-index", action="store_true", help="임베딩 색인만 만들고 종료(배포 시 미리 실행)")
     cli.add_argument("--export-links", metavar="PATH", help="카드–법령 연결 전체를 JSON으로 저장하고 종료(새 파일만)")
-    cli.add_argument("--law-alt", choices=("kure45",), default=os.getenv("RISK_LAW_ALT") or None,
-                     help="비교용 B 경로를 함께 켠다(kure45: #45 방식 KURE-v1 검색). 화면에 A·B 법령을 나란히 표시")
-    cli.add_argument("--build-alt-index", action="store_true", help="B 경로(kure45) 인덱스만 만들고 종료(CPU 수십 분)")
+    cli.add_argument("--law", choices=("c", "a"), default=os.getenv("RISK_LAW_LAW", "c"),
+                     help="위험요인 법령: c(기본, KURE 검색 후보 + 위험유형 주제 확인) | a(카드 연결, 모델 없음). "
+                          "c에 필요한 인덱스·패키지가 없으면 a로 대체하고 화면에 경고한다")
+    cli.add_argument("--build-alt-index", action="store_true", help="C 법령용 KURE 인덱스만 만들고 종료(CPU 수십 분, 처음 한 번)")
     args = cli.parse_args()
     engine = Engine(args.data, card_file=args.cards, as_of=args.as_of, mode=args.mode,
                     model=args.model, index_dir=args.index_dir, log=lambda m: print(m, flush=True))
@@ -134,9 +135,20 @@ def main():
         from .law_kure import build
         build(engine, log=lambda m: print(m, flush=True))
         return
-    if args.law_alt:
-        from .law_kure import KureLawFinder
-        engine.alt_law = KureLawFinder(engine)
+    if args.law == "c":
+        try:
+            from .law_kure import KureLawFinder
+            engine.alt_law = KureLawFinder(engine)
+            engine.law_policy = "topic_kure"
+        except (ImportError, OSError, ValueError) as e:  # 인덱스·패키지·모델 없음 → A로 대체
+            engine.law_note = (f"법령은 A(카드 연결)로 표시합니다. C를 쓰려면 --build-alt-index로 인덱스를 먼저 만드세요. "
+                               f"(원인: {type(e).__name__}: {e})")
+            print("경고: " + engine.law_note, flush=True)
+    try:
+        from .scenario_map import ScenarioLinker
+        engine.scenarios = ScenarioLinker()
+    except (OSError, ValueError, KeyError) as e:
+        print(f"경고: 위험도 시나리오 연결을 불러오지 못했습니다({type(e).__name__}: {e})", flush=True)
     if args.build_index:
         print(json.dumps(engine.health()["model"], ensure_ascii=False))
         return
@@ -149,7 +161,9 @@ def main():
     print(f"방식 {h['mode']}" + (f" · 모델 {h['model']['model']}" if h["model"] else "") + " · "
           f"색인 완료 {h['build_seconds']}초 · 카드 {h['cards']['cards']}건(검색 {h['searchable_cards']}) · "
           f"법령 {len(h['laws'])}개 · 조각 {h['law_units']}개(시행 중 {h['law_units_in_force']}) · 평가일 {h['as_of']}"
-          + (f" · 비교 B: {h['alt_law']['label']}" if h["alt_law"] else ""), flush=True)
+          + f" · 법령 {'C(KURE+주제)' if h['law_policy'] == 'topic_kure' else 'A(카드 연결)'}"
+          + (f" · 시나리오 연결 카드 {h['scenarios']['mapped_cards']}(확정 {h['scenarios']['confirmed_cards']})" if h["scenarios"] else ""),
+          flush=True)
     print(f"http://{args.host}:{args.port}/", flush=True)
     ThreadingHTTPServer((args.host, args.port), make_handler(engine)).serve_forever()
 

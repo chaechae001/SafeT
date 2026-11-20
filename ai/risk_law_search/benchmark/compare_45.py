@@ -2,7 +2,7 @@
 
   python ai/risk_law_search/benchmark/compare_45.py --out <결과 폴더>
 
-- 위험요인은 A·B 모두 같은 analyze(keyword 모드) 결과다. 다른 것은 법령 찾기뿐이다. 화면(--law-alt kure45)과 같은 코드다.
+- 위험요인은 A·B 모두 같은 analyze(keyword 모드) 결과다. 다른 것은 법령 찾기뿐이다. 화면(서버 기본 --law c)과 같은 코드다.
 - B는 검색 단계만이다(AI 판정 없음). #45 최종 결과는 EXAONE이 상위 6개 중 근거를 고른 것이므로
   b_top6(후보 6개 안에 정답 포함)이 AI 판정의 상한이다.
 - 정답: gold_v0.json(AI 보조·검토 전). 법령 지표는 첫 위험요인 기준(bench.py와 같음).

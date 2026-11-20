@@ -1,0 +1,2417 @@
+{
+ "_note": "카드 → 위험도 시나리오 연결. candidates는 키워드 자동 후보(검토 전 초안). 담당자가 confirmed에 시나리오 ID 또는 'none'을 적는다. 비어 있으면 화면에 '자동 후보 · 검토 전'으로 표시된다.",
+ "catalog_policy": "CATALOG-MVP-1.1",
+ "weak_below": 0.2,
+ "cards": {
+  "FOOD-01-C1": {
+   "title": "배달 업무 중 좌회전 차량과 충돌",
+   "risk_type": "교통사고",
+   "candidates": [
+    {
+     "scenario_id": "DELIVERY",
+     "title": "도로 운행 중 충돌·전도",
+     "score": 0.716
+    },
+    {
+     "scenario_id": "TRANS",
+     "title": "대차 전도나 고온 운반물 유출로 충돌·화상",
+     "score": 0.101
+    },
+    {
+     "scenario_id": "PSYCH",
+     "title": "폭언·과도한 업무부담으로 정신건강 손상",
+     "score": 0.093
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "FOOD-01-C2": {
+   "title": "빗길에 미끄러져 반대편 차량과 충돌",
+   "risk_type": "교통사고",
+   "candidates": [
+    {
+     "scenario_id": "DELIVERY",
+     "title": "도로 운행 중 충돌·전도",
+     "score": 0.703
+    },
+    {
+     "scenario_id": "TRANS",
+     "title": "대차 전도나 고온 운반물 유출로 충돌·화상",
+     "score": 0.194
+    },
+    {
+     "scenario_id": "ENV",
+     "title": "젖거나 기름진 바닥에서 미끄러져 다침",
+     "score": 0.109
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "FOOD-01-C3": {
+   "title": "신호위반으로 회전 중 차량과 충돌",
+   "risk_type": "교통사고",
+   "candidates": [
+    {
+     "scenario_id": "DELIVERY",
+     "title": "도로 운행 중 충돌·전도",
+     "score": 0.588
+    },
+    {
+     "scenario_id": "KETTLE",
+     "title": "솥 전도·회전으로 고온 내용물에 광범위 노출",
+     "score": 0.225
+    },
+    {
+     "scenario_id": "TRANS",
+     "title": "대차 전도나 고온 운반물 유출로 충돌·화상",
+     "score": 0.115
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "FOOD-01-C4": {
+   "title": "신호를 무시하던 차량과 충돌 (타인에 의한 교통사고)",
+   "risk_type": "교통사고",
+   "candidates": [
+    {
+     "scenario_id": "DELIVERY",
+     "title": "도로 운행 중 충돌·전도",
+     "score": 0.68
+    },
+    {
+     "scenario_id": "TRANS",
+     "title": "대차 전도나 고온 운반물 유출로 충돌·화상",
+     "score": 0.108
+    },
+    {
+     "scenario_id": "STORAGE",
+     "title": "불안정한 적재물 낙하·선반 충돌",
+     "score": 0.099
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "FOOD-01-H1": {
+   "title": "배달종사자가 도로교통법상 적합한 운전 면허를 소지하지 않음",
+   "risk_type": "교통사고",
+   "candidates": [
+    {
+     "scenario_id": "DELIVERY",
+     "title": "도로 운행 중 충돌·전도",
+     "score": 0.688
+    },
+    {
+     "scenario_id": "ENV",
+     "title": "젖거나 기름진 바닥에서 미끄러져 다침",
+     "score": 0.035
+    },
+    {
+     "scenario_id": "VENT",
+     "title": "환기 부족으로 유해 조리흄·연소가스에 노출",
+     "score": 0.022
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "FOOD-01-H2": {
+   "title": "우천·폭설 등 기상조건이 나쁜 상태에서 배달 운행",
+   "risk_type": "교통사고",
+   "candidates": [
+    {
+     "scenario_id": "DELIVERY",
+     "title": "도로 운행 중 충돌·전도",
+     "score": 0.623
+    },
+    {
+     "scenario_id": "ENV",
+     "title": "젖거나 기름진 바닥에서 미끄러져 다침",
+     "score": 0.083
+    },
+    {
+     "scenario_id": "ELECT",
+     "title": "절연 손상·누전 상태에서 충전부 접촉",
+     "score": 0.076
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "FOOD-01-H3": {
+   "title": "교통안전수칙 미준수 (불법 주행·휴대폰 사용)",
+   "risk_type": "교통사고",
+   "candidates": [
+    {
+     "scenario_id": "DELIVERY",
+     "title": "도로 운행 중 충돌·전도",
+     "score": 0.488
+    },
+    {
+     "scenario_id": "WASH",
+     "title": "뜨거운 물·증기·세정제에 노출",
+     "score": 0.104
+    },
+    {
+     "scenario_id": "UV",
+     "title": "살균 광원에 눈·피부가 노출됨",
+     "score": 0.097
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "FOOD-01-H4": {
+   "title": "승차용 안전모 등 개인 보호구 미지급·미착용",
+   "risk_type": "교통사고",
+   "candidates": [
+    {
+     "scenario_id": "DELIVERY",
+     "title": "도로 운행 중 충돌·전도",
+     "score": 0.489
+    },
+    {
+     "scenario_id": "KNIFE_STORAGE",
+     "title": "소형 칼 보관부 주변의 경미한 접촉",
+     "score": 0.073
+    },
+    {
+     "scenario_id": "ENV",
+     "title": "젖거나 기름진 바닥에서 미끄러져 다침",
+     "score": 0.056
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "FOOD-02-C1": {
+   "title": "배달 작업 중 충돌 / 빗길 미끄러짐 사고",
+   "risk_type": "교통사고",
+   "candidates": [
+    {
+     "scenario_id": "DELIVERY",
+     "title": "도로 운행 중 충돌·전도",
+     "score": 0.621
+    },
+    {
+     "scenario_id": "TRANS",
+     "title": "대차 전도나 고온 운반물 유출로 충돌·화상",
+     "score": 0.095
+    },
+    {
+     "scenario_id": "STORAGE",
+     "title": "불안정한 적재물 낙하·선반 충돌",
+     "score": 0.087
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "FOOD-02-H1": {
+   "title": "안전하지 않은 배달 운전 (안전벨트 미착용·과속·스마트폰 사용)",
+   "risk_type": "교통사고",
+   "candidates": [
+    {
+     "scenario_id": "DELIVERY",
+     "title": "도로 운행 중 충돌·전도",
+     "score": 0.575
+    },
+    {
+     "scenario_id": "WASH",
+     "title": "뜨거운 물·증기·세정제에 노출",
+     "score": 0.082
+    },
+    {
+     "scenario_id": "UV",
+     "title": "살균 광원에 눈·피부가 노출됨",
+     "score": 0.077
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "FOOD-02-H2": {
+   "title": "우천·폭설 등에 대비한 안전운전 수칙 미숙지",
+   "risk_type": "교통사고",
+   "candidates": [
+    {
+     "scenario_id": "DELIVERY",
+     "title": "도로 운행 중 충돌·전도",
+     "score": 0.598
+    },
+    {
+     "scenario_id": "UV",
+     "title": "살균 광원에 눈·피부가 노출됨",
+     "score": 0.062
+    },
+    {
+     "scenario_id": "ENV",
+     "title": "젖거나 기름진 바닥에서 미끄러져 다침",
+     "score": 0.055
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "FOOD-03-C1": {
+   "title": "계단에서 중량물 이동 중 미끄러짐",
+   "risk_type": "넘어짐·떨어짐",
+   "candidates": [
+    {
+     "scenario_id": "ENV",
+     "title": "젖거나 기름진 바닥에서 미끄러져 다침",
+     "score": 0.3
+    },
+    {
+     "scenario_id": "MSD",
+     "title": "반복·불편 자세·과도한 힘으로 근골격계 부담",
+     "score": 0.253
+    },
+    {
+     "scenario_id": "TRANS",
+     "title": "대차 전도나 고온 운반물 유출로 충돌·화상",
+     "score": 0.168
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "FOOD-03-C2": {
+   "title": "1층으로 쓰레기 투기 중 중심을 잃고 떨어짐",
+   "risk_type": "떨어짐",
+   "candidates": [
+    {
+     "scenario_id": "LADDER",
+     "title": "사다리·의자에서 균형을 잃고 떨어짐",
+     "score": 0.211
+    },
+    {
+     "scenario_id": "ENV",
+     "title": "젖거나 기름진 바닥에서 미끄러져 다침",
+     "score": 0.062
+    },
+    {
+     "scenario_id": "DELIVERY",
+     "title": "도로 운행 중 충돌·전도",
+     "score": 0.06
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "FOOD-03-H1": {
+   "title": "계단에서 미끄러지거나 넘어짐 방지 관리 미흡",
+   "risk_type": "넘어짐",
+   "candidates": [
+    {
+     "scenario_id": "ENV",
+     "title": "젖거나 기름진 바닥에서 미끄러져 다침",
+     "score": 0.441
+    },
+    {
+     "scenario_id": "TRANS",
+     "title": "대차 전도나 고온 운반물 유출로 충돌·화상",
+     "score": 0.195
+    },
+    {
+     "scenario_id": "MSD",
+     "title": "반복·불편 자세·과도한 힘으로 근골격계 부담",
+     "score": 0.14
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "FOOD-03-H2": {
+   "title": "계단 통로 조명·채광 부족",
+   "risk_type": "넘어짐",
+   "candidates": [
+    {
+     "scenario_id": "ENV",
+     "title": "젖거나 기름진 바닥에서 미끄러져 다침",
+     "score": 0.468
+    },
+    {
+     "scenario_id": "DELIVERY",
+     "title": "도로 운행 중 충돌·전도",
+     "score": 0.091
+    },
+    {
+     "scenario_id": "CHEM",
+     "title": "혼합·비산·환기 부족으로 유해물질에 노출",
+     "score": 0.07
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "FOOD-04-C1": {
+   "title": "조리 작업 중 식용유에 착화되어 화재 발생",
+   "risk_type": "화재",
+   "candidates": [
+    {
+     "scenario_id": "FRY",
+     "title": "재료 투입·기름 취급 중 고온 기름이 튐",
+     "score": 0.325
+    },
+    {
+     "scenario_id": "GAS",
+     "title": "가스 누출·불완전 연소로 폭발·중독",
+     "score": 0.297
+    },
+    {
+     "scenario_id": "FIRE",
+     "title": "점화원과 가연물이 접촉해 화재",
+     "score": 0.276
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "FOOD-04-H1": {
+   "title": "작업 환경에 적합한 소화기(K급) 미비치",
+   "risk_type": "화재",
+   "candidates": [
+    {
+     "scenario_id": "FIRE",
+     "title": "점화원과 가연물이 접촉해 화재",
+     "score": 0.385
+    },
+    {
+     "scenario_id": "GAS",
+     "title": "가스 누출·불완전 연소로 폭발·중독",
+     "score": 0.279
+    },
+    {
+     "scenario_id": "FRY",
+     "title": "재료 투입·기름 취급 중 고온 기름이 튐",
+     "score": 0.211
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "FOOD-04-H2": {
+   "title": "가스 누출로 인한 화재·폭발 위험",
+   "risk_type": "화재·폭발",
+   "candidates": [
+    {
+     "scenario_id": "GAS",
+     "title": "가스 누출·불완전 연소로 폭발·중독",
+     "score": 0.66
+    },
+    {
+     "scenario_id": "FIRE",
+     "title": "점화원과 가연물이 접촉해 화재",
+     "score": 0.213
+    },
+    {
+     "scenario_id": "VENT",
+     "title": "환기 부족으로 유해 조리흄·연소가스에 노출",
+     "score": 0.13
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "FOOD-04-H3": {
+   "title": "화재 발생 시 대처법 미숙지",
+   "risk_type": "화재",
+   "candidates": [
+    {
+     "scenario_id": "FIRE",
+     "title": "점화원과 가연물이 접촉해 화재",
+     "score": 0.4
+    },
+    {
+     "scenario_id": "GAS",
+     "title": "가스 누출·불완전 연소로 폭발·중독",
+     "score": 0.372
+    },
+    {
+     "scenario_id": "VENT",
+     "title": "환기 부족으로 유해 조리흄·연소가스에 노출",
+     "score": 0.149
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "FOOD-05-C1": {
+   "title": "조리실 이동 중 바닥에 고여있는 물에 미끄러짐",
+   "risk_type": "넘어짐",
+   "candidates": [
+    {
+     "scenario_id": "ENV",
+     "title": "젖거나 기름진 바닥에서 미끄러져 다침",
+     "score": 0.528
+    },
+    {
+     "scenario_id": "GRIDDLE",
+     "title": "고온 철판·기름에 접촉해 화상",
+     "score": 0.183
+    },
+    {
+     "scenario_id": "SERVE",
+     "title": "고온 음식 용기 이동·접촉 중 화상",
+     "score": 0.15
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "FOOD-05-C2": {
+   "title": "통로에 정리되어 있지 않은 장애물에 걸려 넘어짐",
+   "risk_type": "넘어짐",
+   "candidates": [
+    {
+     "scenario_id": "ENV",
+     "title": "젖거나 기름진 바닥에서 미끄러져 다침",
+     "score": 0.474
+    },
+    {
+     "scenario_id": "KNIFE_STORAGE",
+     "title": "소형 칼 보관부 주변의 경미한 접촉",
+     "score": 0.06
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "FOOD-05-H1": {
+   "title": "바닥의 물기·기름기·이물질로 미끄러지거나 넘어짐",
+   "risk_type": "넘어짐",
+   "candidates": [
+    {
+     "scenario_id": "ENV",
+     "title": "젖거나 기름진 바닥에서 미끄러져 다침",
+     "score": 0.655
+    },
+    {
+     "scenario_id": "GRIDDLE",
+     "title": "고온 철판·기름에 접촉해 화상",
+     "score": 0.209
+    },
+    {
+     "scenario_id": "FRY",
+     "title": "재료 투입·기름 취급 중 고온 기름이 튐",
+     "score": 0.196
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "FOOD-05-H2": {
+   "title": "바닥에 물이 고이는 구조",
+   "risk_type": "넘어짐",
+   "candidates": [
+    {
+     "scenario_id": "ENV",
+     "title": "젖거나 기름진 바닥에서 미끄러져 다침",
+     "score": 0.489
+    },
+    {
+     "scenario_id": "TRANS",
+     "title": "대차 전도나 고온 운반물 유출로 충돌·화상",
+     "score": 0.078
+    },
+    {
+     "scenario_id": "ELECT",
+     "title": "절연 손상·누전 상태에서 충전부 접촉",
+     "score": 0.057
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "FOOD-05-H3": {
+   "title": "미끄러운 신발 착용 (개인보호구 미착용)",
+   "risk_type": "넘어짐",
+   "candidates": [
+    {
+     "scenario_id": "RICE",
+     "title": "증기·뜨거운 용기에 접촉해 화상",
+     "score": 0.141
+    },
+    {
+     "scenario_id": "COLD",
+     "title": "내부에서 출입문을 열지 못해 갇힘",
+     "score": 0.131
+    },
+    {
+     "scenario_id": "MSD",
+     "title": "반복·불편 자세·과도한 힘으로 근골격계 부담",
+     "score": 0.109
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "FOOD-06-C1": {
+   "title": "이동식 사다리 이용하여 경작업 중 떨어짐",
+   "risk_type": "떨어짐",
+   "candidates": [
+    {
+     "scenario_id": "LADDER",
+     "title": "사다리·의자에서 균형을 잃고 떨어짐",
+     "score": 0.412
+    },
+    {
+     "scenario_id": "KNIFE",
+     "title": "날에 손이 접촉해 베임",
+     "score": 0.116
+    },
+    {
+     "scenario_id": "RICE",
+     "title": "증기·뜨거운 용기에 접촉해 화상",
+     "score": 0.105
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "FOOD-06-H1": {
+   "title": "사다리를 작업발판 용도로 부적정하게 사용",
+   "risk_type": "떨어짐",
+   "candidates": [
+    {
+     "scenario_id": "LADDER",
+     "title": "사다리·의자에서 균형을 잃고 떨어짐",
+     "score": 0.489
+    },
+    {
+     "scenario_id": "RICE",
+     "title": "증기·뜨거운 용기에 접촉해 화상",
+     "score": 0.14
+    },
+    {
+     "scenario_id": "COLD",
+     "title": "내부에서 출입문을 열지 못해 갇힘",
+     "score": 0.13
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "FOOD-06-H2": {
+   "title": "사다리 변형·손상",
+   "risk_type": "떨어짐",
+   "candidates": [
+    {
+     "scenario_id": "LADDER",
+     "title": "사다리·의자에서 균형을 잃고 떨어짐",
+     "score": 0.448
+    },
+    {
+     "scenario_id": "ELECT",
+     "title": "절연 손상·누전 상태에서 충전부 접촉",
+     "score": 0.106
+    },
+    {
+     "scenario_id": "PSYCH",
+     "title": "폭언·과도한 업무부담으로 정신건강 손상",
+     "score": 0.096
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "FOOD-06-H3": {
+   "title": "사다리가 고정되지 않아 기울어지거나 중심을 잃음",
+   "risk_type": "떨어짐",
+   "candidates": [
+    {
+     "scenario_id": "LADDER",
+     "title": "사다리·의자에서 균형을 잃고 떨어짐",
+     "score": 0.437
+    },
+    {
+     "scenario_id": "ENV",
+     "title": "젖거나 기름진 바닥에서 미끄러져 다침",
+     "score": 0.155
+    },
+    {
+     "scenario_id": "MSD",
+     "title": "반복·불편 자세·과도한 힘으로 근골격계 부담",
+     "score": 0.111
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "FOOD-06-H4": {
+   "title": "사다리 작업 시 개인보호구 미착용",
+   "risk_type": "떨어짐",
+   "candidates": [
+    {
+     "scenario_id": "LADDER",
+     "title": "사다리·의자에서 균형을 잃고 떨어짐",
+     "score": 0.44
+    },
+    {
+     "scenario_id": "RICE",
+     "title": "증기·뜨거운 용기에 접촉해 화상",
+     "score": 0.117
+    },
+    {
+     "scenario_id": "COLD",
+     "title": "내부에서 출입문을 열지 못해 갇힘",
+     "score": 0.108
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "FOOD-07-C1": {
+   "title": "음식운반용 승강기에 탑승하여 상층으로 이동 중 목과 팔이 끼임",
+   "risk_type": "끼임",
+   "candidates": [
+    {
+     "scenario_id": "LIFT",
+     "title": "승강로 접근·탑승·방호 결함으로 추락·끼임",
+     "score": 0.453
+    },
+    {
+     "scenario_id": "SERVE",
+     "title": "고온 음식 용기 이동·접촉 중 화상",
+     "score": 0.255
+    },
+    {
+     "scenario_id": "ENV",
+     "title": "젖거나 기름진 바닥에서 미끄러져 다침",
+     "score": 0.219
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "FOOD-07-C2": {
+   "title": "음식운반용 승강기 작동 중 출입문을 개방하여 신체 끼임",
+   "risk_type": "끼임",
+   "candidates": [
+    {
+     "scenario_id": "LIFT",
+     "title": "승강로 접근·탑승·방호 결함으로 추락·끼임",
+     "score": 0.297
+    },
+    {
+     "scenario_id": "COLD",
+     "title": "내부에서 출입문을 열지 못해 갇힘",
+     "score": 0.21
+    },
+    {
+     "scenario_id": "SERVE",
+     "title": "고온 음식 용기 이동·접촉 중 화상",
+     "score": 0.12
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "FOOD-07-H1": {
+   "title": "운반구와 출입문 사이에 신체가 끼일 위험",
+   "risk_type": "끼임",
+   "candidates": [
+    {
+     "scenario_id": "LIFT",
+     "title": "승강로 접근·탑승·방호 결함으로 추락·끼임",
+     "score": 0.285
+    },
+    {
+     "scenario_id": "COLD",
+     "title": "내부에서 출입문을 열지 못해 갇힘",
+     "score": 0.205
+    },
+    {
+     "scenario_id": "TRANS",
+     "title": "대차 전도나 고온 운반물 유출로 충돌·화상",
+     "score": 0.157
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "FOOD-07-H2": {
+   "title": "적재하중 미준수",
+   "risk_type": "끼임·떨어짐",
+   "candidates": [
+    {
+     "scenario_id": "LIFT",
+     "title": "승강로 접근·탑승·방호 결함으로 추락·끼임",
+     "score": 0.359
+    },
+    {
+     "scenario_id": "STORAGE",
+     "title": "불안정한 적재물 낙하·선반 충돌",
+     "score": 0.262
+    },
+    {
+     "scenario_id": "TRANS",
+     "title": "대차 전도나 고온 운반물 유출로 충돌·화상",
+     "score": 0.145
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "FOOD-07-H3": {
+   "title": "운반구가 떨어질 위험",
+   "risk_type": "떨어짐",
+   "candidates": [
+    {
+     "scenario_id": "LIFT",
+     "title": "승강로 접근·탑승·방호 결함으로 추락·끼임",
+     "score": 0.311
+    },
+    {
+     "scenario_id": "TRANS",
+     "title": "대차 전도나 고온 운반물 유출로 충돌·화상",
+     "score": 0.199
+    },
+    {
+     "scenario_id": "STORAGE",
+     "title": "불안정한 적재물 낙하·선반 충돌",
+     "score": 0.19
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "FOOD-08-C1": {
+   "title": "혼합기 재료 배합 중 끼임",
+   "risk_type": "끼임",
+   "candidates": [
+    {
+     "scenario_id": "MIX",
+     "title": "작동 중 회전체 접근으로 말림·끼임",
+     "score": 0.445
+    },
+    {
+     "scenario_id": "CUT",
+     "title": "작동 중 날·회전체에 손이 닿아 절단·끼임",
+     "score": 0.22
+    },
+    {
+     "scenario_id": "CHEM",
+     "title": "혼합·비산·환기 부족으로 유해물질에 노출",
+     "score": 0.164
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "FOOD-08-C2": {
+   "title": "혼합기 내부 청소 중 끼임",
+   "risk_type": "끼임",
+   "candidates": [
+    {
+     "scenario_id": "MIX",
+     "title": "작동 중 회전체 접근으로 말림·끼임",
+     "score": 0.44
+    },
+    {
+     "scenario_id": "COLD",
+     "title": "내부에서 출입문을 열지 못해 갇힘",
+     "score": 0.213
+    },
+    {
+     "scenario_id": "CHEM",
+     "title": "혼합·비산·환기 부족으로 유해물질에 노출",
+     "score": 0.162
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "FOOD-08-H1": {
+   "title": "원료 투입구 덮개를 연 상태에서 작업",
+   "risk_type": "끼임",
+   "candidates": [
+    {
+     "scenario_id": "MIX",
+     "title": "작동 중 회전체 접근으로 말림·끼임",
+     "score": 0.574
+    },
+    {
+     "scenario_id": "CUT",
+     "title": "작동 중 날·회전체에 손이 닿아 절단·끼임",
+     "score": 0.166
+    },
+    {
+     "scenario_id": "CHEM",
+     "title": "혼합·비산·환기 부족으로 유해물질에 노출",
+     "score": 0.119
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "FOOD-08-H2": {
+   "title": "청소 작업 시 기계 미정지·전원 미차단",
+   "risk_type": "끼임",
+   "candidates": [
+    {
+     "scenario_id": "MIX",
+     "title": "작동 중 회전체 접근으로 말림·끼임",
+     "score": 0.413
+    },
+    {
+     "scenario_id": "CUT",
+     "title": "작동 중 날·회전체에 손이 닿아 절단·끼임",
+     "score": 0.165
+    },
+    {
+     "scenario_id": "LADDER",
+     "title": "사다리·의자에서 균형을 잃고 떨어짐",
+     "score": 0.152
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "FOOD-08-H3": {
+   "title": "자율안전확인 신고 기계 미사용",
+   "risk_type": "끼임",
+   "candidates": [
+    {
+     "scenario_id": "MIX",
+     "title": "작동 중 회전체 접근으로 말림·끼임",
+     "score": 0.398
+    },
+    {
+     "scenario_id": "CUT",
+     "title": "작동 중 날·회전체에 손이 닿아 절단·끼임",
+     "score": 0.239
+    },
+    {
+     "scenario_id": "LIFT",
+     "title": "승강로 접근·탑승·방호 결함으로 추락·끼임",
+     "score": 0.176
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "FOOD-08-H4": {
+   "title": "작업에 맞는 개인보호구 미착용",
+   "risk_type": "끼임",
+   "candidates": [
+    {
+     "scenario_id": "MIX",
+     "title": "작동 중 회전체 접근으로 말림·끼임",
+     "score": 0.417
+    },
+    {
+     "scenario_id": "COLD",
+     "title": "내부에서 출입문을 열지 못해 갇힘",
+     "score": 0.153
+    },
+    {
+     "scenario_id": "CUT",
+     "title": "작동 중 날·회전체에 손이 닿아 절단·끼임",
+     "score": 0.146
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "FOOD-08-H5": {
+   "title": "동력전달부·속도조절부·가공부 등에 안전가드 미설치",
+   "risk_type": "끼임",
+   "candidates": [
+    {
+     "scenario_id": "MIX",
+     "title": "작동 중 회전체 접근으로 말림·끼임",
+     "score": 0.375
+    },
+    {
+     "scenario_id": "CUT",
+     "title": "작동 중 날·회전체에 손이 닿아 절단·끼임",
+     "score": 0.282
+    },
+    {
+     "scenario_id": "KETTLE",
+     "title": "솥 전도·회전으로 고온 내용물에 광범위 노출",
+     "score": 0.112
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "FOOD-08-H6": {
+   "title": "비상정지장치 미설치·작동 불량",
+   "risk_type": "끼임",
+   "candidates": [
+    {
+     "scenario_id": "MIX",
+     "title": "작동 중 회전체 접근으로 말림·끼임",
+     "score": 0.57
+    },
+    {
+     "scenario_id": "CUT",
+     "title": "작동 중 날·회전체에 손이 닿아 절단·끼임",
+     "score": 0.271
+    },
+    {
+     "scenario_id": "CHEM",
+     "title": "혼합·비산·환기 부족으로 유해물질에 노출",
+     "score": 0.112
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "FOOD-09-C1": {
+   "title": "절단 작업 중 베임 / 육절기 작업 중 베임",
+   "risk_type": "베임",
+   "candidates": [
+    {
+     "scenario_id": "KNIFE",
+     "title": "날에 손이 접촉해 베임",
+     "score": 0.373
+    },
+    {
+     "scenario_id": "KNIFE_STORAGE",
+     "title": "소형 칼 보관부 주변의 경미한 접촉",
+     "score": 0.188
+    },
+    {
+     "scenario_id": "RICE",
+     "title": "증기·뜨거운 용기에 접촉해 화상",
+     "score": 0.144
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "FOOD-09-H1": {
+   "title": "절단용 수공구(칼) 사용 시 불안전한 작업",
+   "risk_type": "베임",
+   "candidates": [
+    {
+     "scenario_id": "KNIFE",
+     "title": "날에 손이 접촉해 베임",
+     "score": 0.325
+    },
+    {
+     "scenario_id": "COLD",
+     "title": "내부에서 출입문을 열지 못해 갇힘",
+     "score": 0.259
+    },
+    {
+     "scenario_id": "KNIFE_STORAGE",
+     "title": "소형 칼 보관부 주변의 경미한 접촉",
+     "score": 0.149
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "FOOD-09-H2": {
+   "title": "칼을 안전한 장소에 보관하지 않음",
+   "risk_type": "베임",
+   "candidates": [
+    {
+     "scenario_id": "KNIFE_STORAGE",
+     "title": "소형 칼 보관부 주변의 경미한 접촉",
+     "score": 0.371
+    },
+    {
+     "scenario_id": "KNIFE",
+     "title": "날에 손이 접촉해 베임",
+     "score": 0.333
+    },
+    {
+     "scenario_id": "LADDER",
+     "title": "사다리·의자에서 균형을 잃고 떨어짐",
+     "score": 0.092
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "FOOD-10-H1": {
+   "title": "배기후드 점검·청소를 안전하지 않게 함",
+   "risk_type": "화재·떨어짐·끼임",
+   "candidates": [
+    {
+     "scenario_id": "VENT",
+     "title": "환기 부족으로 유해 조리흄·연소가스에 노출",
+     "score": 0.29
+    },
+    {
+     "scenario_id": "LADDER",
+     "title": "사다리·의자에서 균형을 잃고 떨어짐",
+     "score": 0.247
+    },
+    {
+     "scenario_id": "FIRE",
+     "title": "점화원과 가연물이 접촉해 화재",
+     "score": 0.187
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "FOOD-10-H2": {
+   "title": "배기후드가 정상적으로 작동하지 않음",
+   "risk_type": "환기 불량",
+   "candidates": [
+    {
+     "scenario_id": "VENT",
+     "title": "환기 부족으로 유해 조리흄·연소가스에 노출",
+     "score": 0.481
+    },
+    {
+     "scenario_id": "GAS",
+     "title": "가스 누출·불완전 연소로 폭발·중독",
+     "score": 0.232
+    },
+    {
+     "scenario_id": "CHEM",
+     "title": "혼합·비산·환기 부족으로 유해물질에 노출",
+     "score": 0.151
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "FOOD-10-H3": {
+   "title": "유해화학물질(세제 등)을 안전하지 않게 취급·사용",
+   "risk_type": "화학물질",
+   "candidates": [
+    {
+     "scenario_id": "CHEM",
+     "title": "혼합·비산·환기 부족으로 유해물질에 노출",
+     "score": 0.49
+    },
+    {
+     "scenario_id": "VENT",
+     "title": "환기 부족으로 유해 조리흄·연소가스에 노출",
+     "score": 0.2
+    },
+    {
+     "scenario_id": "UV",
+     "title": "살균 광원에 눈·피부가 노출됨",
+     "score": 0.196
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "FOOD-10-H4": {
+   "title": "화학물질 화재 예방조치 미흡",
+   "risk_type": "화재",
+   "candidates": [
+    {
+     "scenario_id": "CHEM",
+     "title": "혼합·비산·환기 부족으로 유해물질에 노출",
+     "score": 0.399
+    },
+    {
+     "scenario_id": "FIRE",
+     "title": "점화원과 가연물이 접촉해 화재",
+     "score": 0.324
+    },
+    {
+     "scenario_id": "VENT",
+     "title": "환기 부족으로 유해 조리흄·연소가스에 노출",
+     "score": 0.139
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "FOOD-10-H5": {
+   "title": "가스 누출 대비 조치 미흡",
+   "risk_type": "화재·폭발·중독",
+   "candidates": [
+    {
+     "scenario_id": "GAS",
+     "title": "가스 누출·불완전 연소로 폭발·중독",
+     "score": 0.578
+    },
+    {
+     "scenario_id": "FIRE",
+     "title": "점화원과 가연물이 접촉해 화재",
+     "score": 0.198
+    },
+    {
+     "scenario_id": "VENT",
+     "title": "환기 부족으로 유해 조리흄·연소가스에 노출",
+     "score": 0.191
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "FOOD-10-H6": {
+   "title": "환기설비(후드·덕트·송풍기·급기) 구조·성능 부적정",
+   "risk_type": "환기 불량",
+   "candidates": [
+    {
+     "scenario_id": "VENT",
+     "title": "환기 부족으로 유해 조리흄·연소가스에 노출",
+     "score": 0.671
+    },
+    {
+     "scenario_id": "CHEM",
+     "title": "혼합·비산·환기 부족으로 유해물질에 노출",
+     "score": 0.278
+    },
+    {
+     "scenario_id": "GAS",
+     "title": "가스 누출·불완전 연소로 폭발·중독",
+     "score": 0.2
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "FOOD-11-H1": {
+   "title": "식자재 등 중량물 운반 작업을 안전하지 않게 함",
+   "risk_type": "근골격계·넘어짐",
+   "candidates": [
+    {
+     "scenario_id": "MSD",
+     "title": "반복·불편 자세·과도한 힘으로 근골격계 부담",
+     "score": 0.312
+    },
+    {
+     "scenario_id": "STORAGE",
+     "title": "불안정한 적재물 낙하·선반 충돌",
+     "score": 0.311
+    },
+    {
+     "scenario_id": "ENV",
+     "title": "젖거나 기름진 바닥에서 미끄러져 다침",
+     "score": 0.279
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "FOOD-11-H2": {
+   "title": "운반대차 등 운반용 기구를 안전하지 않게 사용",
+   "risk_type": "부딪힘·넘어짐",
+   "candidates": [
+    {
+     "scenario_id": "TRANS",
+     "title": "대차 전도나 고온 운반물 유출로 충돌·화상",
+     "score": 0.174
+    },
+    {
+     "scenario_id": "COLD",
+     "title": "내부에서 출입문을 열지 못해 갇힘",
+     "score": 0.17
+    },
+    {
+     "scenario_id": "ENV",
+     "title": "젖거나 기름진 바닥에서 미끄러져 다침",
+     "score": 0.132
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "FOOD-11-H3": {
+   "title": "선반 등으로 운반 시 불안전한 작업",
+   "risk_type": "베임·떨어짐",
+   "candidates": [
+    {
+     "scenario_id": "LADDER",
+     "title": "사다리·의자에서 균형을 잃고 떨어짐",
+     "score": 0.255
+    },
+    {
+     "scenario_id": "COLD",
+     "title": "내부에서 출입문을 열지 못해 갇힘",
+     "score": 0.226
+    },
+    {
+     "scenario_id": "STORAGE",
+     "title": "불안정한 적재물 낙하·선반 충돌",
+     "score": 0.226
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "FOOD-11-H4": {
+   "title": "냉장·냉동고를 안전하지 않게 사용",
+   "risk_type": "저온",
+   "candidates": [
+    {
+     "scenario_id": "COLD",
+     "title": "내부에서 출입문을 열지 못해 갇힘",
+     "score": 0.45
+    },
+    {
+     "scenario_id": "STORAGE",
+     "title": "불안정한 적재물 낙하·선반 충돌",
+     "score": 0.129
+    },
+    {
+     "scenario_id": "RICE",
+     "title": "증기·뜨거운 용기에 접촉해 화상",
+     "score": 0.09
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "FOOD-11-H5": {
+   "title": "냉장·냉동고 내부에서 안전하지 않게 작업",
+   "risk_type": "갇힘·저온",
+   "candidates": [
+    {
+     "scenario_id": "COLD",
+     "title": "내부에서 출입문을 열지 못해 갇힘",
+     "score": 0.64
+    },
+    {
+     "scenario_id": "RICE",
+     "title": "증기·뜨거운 용기에 접촉해 화상",
+     "score": 0.111
+    },
+    {
+     "scenario_id": "STORAGE",
+     "title": "불안정한 적재물 낙하·선반 충돌",
+     "score": 0.093
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "OPS-03-H1": {
+   "title": "식재료 확인 중 물기·기름기에 미끄러짐",
+   "risk_type": "넘어짐",
+   "candidates": [
+    {
+     "scenario_id": "ENV",
+     "title": "젖거나 기름진 바닥에서 미끄러져 다침",
+     "score": 0.352
+    },
+    {
+     "scenario_id": "KNIFE",
+     "title": "날에 손이 접촉해 베임",
+     "score": 0.185
+    },
+    {
+     "scenario_id": "FRY",
+     "title": "재료 투입·기름 취급 중 고온 기름이 튐",
+     "score": 0.182
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "OPS-03-H2": {
+   "title": "식재료 적재 중 부적절한 발판에서 떨어짐",
+   "risk_type": "떨어짐",
+   "candidates": [
+    {
+     "scenario_id": "STORAGE",
+     "title": "불안정한 적재물 낙하·선반 충돌",
+     "score": 0.293
+    },
+    {
+     "scenario_id": "KNIFE",
+     "title": "날에 손이 접촉해 베임",
+     "score": 0.283
+    },
+    {
+     "scenario_id": "LADDER",
+     "title": "사다리·의자에서 균형을 잃고 떨어짐",
+     "score": 0.239
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "OPS-03-H3": {
+   "title": "식재료 운반 중 부딪힘, 과적재·편하중으로 운반물 떨어짐",
+   "risk_type": "부딪힘·맞음",
+   "candidates": [
+    {
+     "scenario_id": "STORAGE",
+     "title": "불안정한 적재물 낙하·선반 충돌",
+     "score": 0.282
+    },
+    {
+     "scenario_id": "KNIFE",
+     "title": "날에 손이 접촉해 베임",
+     "score": 0.211
+    },
+    {
+     "scenario_id": "TRANS",
+     "title": "대차 전도나 고온 운반물 유출로 충돌·화상",
+     "score": 0.204
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "OPS-03-H4": {
+   "title": "중량물 취급 중 부적절한 작업자세로 근골격계 질환",
+   "risk_type": "근골격계",
+   "candidates": [
+    {
+     "scenario_id": "MSD",
+     "title": "반복·불편 자세·과도한 힘으로 근골격계 부담",
+     "score": 0.643
+    },
+    {
+     "scenario_id": "KNIFE",
+     "title": "날에 손이 접촉해 베임",
+     "score": 0.18
+    },
+    {
+     "scenario_id": "COLD",
+     "title": "내부에서 출입문을 열지 못해 갇힘",
+     "score": 0.147
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "OPS-04-H1": {
+   "title": "반죽기·절단기 등 전처리 기계 사용 중 절단(끼임)",
+   "risk_type": "끼임·절단",
+   "candidates": [
+    {
+     "scenario_id": "CUT",
+     "title": "작동 중 날·회전체에 손이 닿아 절단·끼임",
+     "score": 0.35
+    },
+    {
+     "scenario_id": "MIX",
+     "title": "작동 중 회전체 접근으로 말림·끼임",
+     "score": 0.268
+    },
+    {
+     "scenario_id": "KNIFE",
+     "title": "날에 손이 접촉해 베임",
+     "score": 0.249
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "OPS-04-H2": {
+   "title": "칼에 의한 베임·절단, 사용 중인 식칼이 떨어짐",
+   "risk_type": "베임",
+   "candidates": [
+    {
+     "scenario_id": "KNIFE",
+     "title": "날에 손이 접촉해 베임",
+     "score": 0.442
+    },
+    {
+     "scenario_id": "KNIFE_STORAGE",
+     "title": "소형 칼 보관부 주변의 경미한 접촉",
+     "score": 0.142
+    },
+    {
+     "scenario_id": "LADDER",
+     "title": "사다리·의자에서 균형을 잃고 떨어짐",
+     "score": 0.106
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "OPS-04-H3": {
+   "title": "반죽 제면기 롤에 손가락 말림",
+   "risk_type": "끼임",
+   "candidates": [
+    {
+     "scenario_id": "MIX",
+     "title": "작동 중 회전체 접근으로 말림·끼임",
+     "score": 0.548
+    },
+    {
+     "scenario_id": "MSD",
+     "title": "반복·불편 자세·과도한 힘으로 근골격계 부담",
+     "score": 0.056
+    },
+    {
+     "scenario_id": "COLD",
+     "title": "내부에서 출입문을 열지 못해 갇힘",
+     "score": 0.025
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "OPS-04-H4": {
+   "title": "가공기계 전기 누전",
+   "risk_type": "감전",
+   "candidates": [
+    {
+     "scenario_id": "CUT",
+     "title": "작동 중 날·회전체에 손이 닿아 절단·끼임",
+     "score": 0.309
+    },
+    {
+     "scenario_id": "ELECT",
+     "title": "절연 손상·누전 상태에서 충전부 접촉",
+     "score": 0.274
+    },
+    {
+     "scenario_id": "MIX",
+     "title": "작동 중 회전체 접근으로 말림·끼임",
+     "score": 0.265
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "OPS-04-H5": {
+   "title": "반복·부자연스런 자세, 중량물 운반, 반죽 반복 작업으로 근골격계 질환(수근관증후군)",
+   "risk_type": "근골격계",
+   "candidates": [
+    {
+     "scenario_id": "MSD",
+     "title": "반복·불편 자세·과도한 힘으로 근골격계 부담",
+     "score": 0.776
+    },
+    {
+     "scenario_id": "TRANS",
+     "title": "대차 전도나 고온 운반물 유출로 충돌·화상",
+     "score": 0.187
+    },
+    {
+     "scenario_id": "RICE",
+     "title": "증기·뜨거운 용기에 접촉해 화상",
+     "score": 0.118
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "OPS-05-H1": {
+   "title": "끓는 물과 기름, 증기, 가열된 용기와 조리기구에 의한 화상",
+   "risk_type": "화상",
+   "candidates": [
+    {
+     "scenario_id": "FRY",
+     "title": "재료 투입·기름 취급 중 고온 기름이 튐",
+     "score": 0.464
+    },
+    {
+     "scenario_id": "OVEN",
+     "title": "문 개방·트레이 인출 중 증기·열에 노출",
+     "score": 0.329
+    },
+    {
+     "scenario_id": "KETTLE",
+     "title": "솥 전도·회전으로 고온 내용물에 광범위 노출",
+     "score": 0.305
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "OPS-05-H2": {
+   "title": "과열, 가스누출로 인한 화재 및 폭발",
+   "risk_type": "화재·폭발",
+   "candidates": [
+    {
+     "scenario_id": "GAS",
+     "title": "가스 누출·불완전 연소로 폭발·중독",
+     "score": 0.549
+    },
+    {
+     "scenario_id": "FIRE",
+     "title": "점화원과 가연물이 접촉해 화재",
+     "score": 0.211
+    },
+    {
+     "scenario_id": "OVEN",
+     "title": "문 개방·트레이 인출 중 증기·열에 노출",
+     "score": 0.21
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "OPS-05-H3": {
+   "title": "전기 조리기구 누전",
+   "risk_type": "감전",
+   "candidates": [
+    {
+     "scenario_id": "ELECT",
+     "title": "절연 손상·누전 상태에서 충전부 접촉",
+     "score": 0.319
+    },
+    {
+     "scenario_id": "FRY",
+     "title": "재료 투입·기름 취급 중 고온 기름이 튐",
+     "score": 0.317
+    },
+    {
+     "scenario_id": "OVEN",
+     "title": "문 개방·트레이 인출 중 증기·열에 노출",
+     "score": 0.31
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "OPS-05-H4": {
+   "title": "무거운 후라이팬 등 중량물 취급 및 반복동작으로 근골격계 질환",
+   "risk_type": "근골격계",
+   "candidates": [
+    {
+     "scenario_id": "MSD",
+     "title": "반복·불편 자세·과도한 힘으로 근골격계 부담",
+     "score": 0.604
+    },
+    {
+     "scenario_id": "OVEN",
+     "title": "문 개방·트레이 인출 중 증기·열에 노출",
+     "score": 0.19
+    },
+    {
+     "scenario_id": "KETTLE",
+     "title": "솥 전도·회전으로 고온 내용물에 광범위 노출",
+     "score": 0.183
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "OPS-06-H1": {
+   "title": "뜨거운 국물·물체 운반 중 화상, 떨어진 음식물·식판에 의한 화상·외상",
+   "risk_type": "화상",
+   "candidates": [
+    {
+     "scenario_id": "SERVE",
+     "title": "고온 음식 용기 이동·접촉 중 화상",
+     "score": 0.296
+    },
+    {
+     "scenario_id": "TRANS",
+     "title": "대차 전도나 고온 운반물 유출로 충돌·화상",
+     "score": 0.273
+    },
+    {
+     "scenario_id": "RICE",
+     "title": "증기·뜨거운 용기에 접촉해 화상",
+     "score": 0.161
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "OPS-06-H2": {
+   "title": "음식물 인력운반 중 문턱, 계단에서 넘어짐",
+   "risk_type": "넘어짐",
+   "candidates": [
+    {
+     "scenario_id": "ENV",
+     "title": "젖거나 기름진 바닥에서 미끄러져 다침",
+     "score": 0.291
+    },
+    {
+     "scenario_id": "SERVE",
+     "title": "고온 음식 용기 이동·접촉 중 화상",
+     "score": 0.137
+    },
+    {
+     "scenario_id": "DELIVERY",
+     "title": "도로 운행 중 충돌·전도",
+     "score": 0.128
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "OPS-06-H3": {
+   "title": "배식 중 깨진 그릇에 찔림·베임",
+   "risk_type": "베임",
+   "candidates": [
+    {
+     "scenario_id": "WASH",
+     "title": "뜨거운 물·증기·세정제에 노출",
+     "score": 0.302
+    },
+    {
+     "scenario_id": "SERVE",
+     "title": "고온 음식 용기 이동·접촉 중 화상",
+     "score": 0.173
+    },
+    {
+     "scenario_id": "KNIFE",
+     "title": "날에 손이 접촉해 베임",
+     "score": 0.14
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "OPS-06-H4": {
+   "title": "덤웨이터 사용 중 끼임·떨어짐·부딪힘",
+   "risk_type": "끼임·떨어짐",
+   "candidates": [
+    {
+     "scenario_id": "LIFT",
+     "title": "승강로 접근·탑승·방호 결함으로 추락·끼임",
+     "score": 0.431
+    },
+    {
+     "scenario_id": "SERVE",
+     "title": "고온 음식 용기 이동·접촉 중 화상",
+     "score": 0.149
+    },
+    {
+     "scenario_id": "TRANS",
+     "title": "대차 전도나 고온 운반물 유출로 충돌·화상",
+     "score": 0.138
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "OPS-07-H1": {
+   "title": "미끄러운 바닥·계단, 물기·호스·떨어진 음식에 의한 넘어짐",
+   "risk_type": "넘어짐",
+   "candidates": [
+    {
+     "scenario_id": "ENV",
+     "title": "젖거나 기름진 바닥에서 미끄러져 다침",
+     "score": 0.411
+    },
+    {
+     "scenario_id": "WASH",
+     "title": "뜨거운 물·증기·세정제에 노출",
+     "score": 0.259
+    },
+    {
+     "scenario_id": "CHEM",
+     "title": "혼합·비산·환기 부족으로 유해물질에 노출",
+     "score": 0.134
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "OPS-07-H2": {
+   "title": "부적절한 발판 사용, 배기후드 청소·높은 곳 물건 적재 중 떨어짐",
+   "risk_type": "떨어짐",
+   "candidates": [
+    {
+     "scenario_id": "LADDER",
+     "title": "사다리·의자에서 균형을 잃고 떨어짐",
+     "score": 0.397
+    },
+    {
+     "scenario_id": "WASH",
+     "title": "뜨거운 물·증기·세정제에 노출",
+     "score": 0.307
+    },
+    {
+     "scenario_id": "VENT",
+     "title": "환기 부족으로 유해 조리흄·연소가스에 노출",
+     "score": 0.287
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "OPS-07-H3": {
+   "title": "세척·소독제 사용, 장시간 고무장갑 착용에 따른 습진",
+   "risk_type": "화학물질 접촉",
+   "candidates": [
+    {
+     "scenario_id": "CHEM",
+     "title": "혼합·비산·환기 부족으로 유해물질에 노출",
+     "score": 0.348
+    },
+    {
+     "scenario_id": "WASH",
+     "title": "뜨거운 물·증기·세정제에 노출",
+     "score": 0.342
+    },
+    {
+     "scenario_id": "UV",
+     "title": "살균 광원에 눈·피부가 노출됨",
+     "score": 0.189
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "OPS-07-H4": {
+   "title": "세척기계·물청소 중 전기 누전에 의한 감전",
+   "risk_type": "감전",
+   "candidates": [
+    {
+     "scenario_id": "WASH",
+     "title": "뜨거운 물·증기·세정제에 노출",
+     "score": 0.403
+    },
+    {
+     "scenario_id": "ELECT",
+     "title": "절연 손상·누전 상태에서 충전부 접촉",
+     "score": 0.377
+    },
+    {
+     "scenario_id": "VENT",
+     "title": "환기 부족으로 유해 조리흄·연소가스에 노출",
+     "score": 0.19
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "OPS-09-C1": {
+   "title": "물기 있는 바닥에서 미끄러져 골절 / 통로에 방치된 물품에 걸려 넘어짐",
+   "risk_type": "넘어짐",
+   "candidates": [
+    {
+     "scenario_id": "ENV",
+     "title": "젖거나 기름진 바닥에서 미끄러져 다침",
+     "score": 0.63
+    },
+    {
+     "scenario_id": "CHEM",
+     "title": "혼합·비산·환기 부족으로 유해물질에 노출",
+     "score": 0.166
+    },
+    {
+     "scenario_id": "TRANS",
+     "title": "대차 전도나 고온 운반물 유출로 충돌·화상",
+     "score": 0.091
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "OPS-10-C1": {
+   "title": "개수대 위에 올려둔 도마가 발등 위로 떨어짐",
+   "risk_type": "맞음",
+   "candidates": [
+    {
+     "scenario_id": "ENV",
+     "title": "젖거나 기름진 바닥에서 미끄러져 다침",
+     "score": 0.307
+    },
+    {
+     "scenario_id": "STORAGE",
+     "title": "불안정한 적재물 낙하·선반 충돌",
+     "score": 0.21
+    },
+    {
+     "scenario_id": "TRANS",
+     "title": "대차 전도나 고온 운반물 유출로 충돌·화상",
+     "score": 0.154
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "OPS-11-C1": {
+   "title": "냉동생선을 칼로 분리하던 중 칼이 미끄러지면서 손가락 절단",
+   "risk_type": "베임·절단",
+   "candidates": [
+    {
+     "scenario_id": "KNIFE",
+     "title": "날에 손이 접촉해 베임",
+     "score": 0.371
+    },
+    {
+     "scenario_id": "COLD",
+     "title": "내부에서 출입문을 열지 못해 갇힘",
+     "score": 0.232
+    },
+    {
+     "scenario_id": "KNIFE_STORAGE",
+     "title": "소형 칼 보관부 주변의 경미한 접촉",
+     "score": 0.182
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "OPS-14-C1": {
+   "title": "냉장 육절기 청소 중 스위치를 혼동해 기계를 작동시켜 회전 원형 칼날에 손목 절단",
+   "risk_type": "절단·끼임",
+   "candidates": [
+    {
+     "scenario_id": "CUT",
+     "title": "작동 중 날·회전체에 손이 닿아 절단·끼임",
+     "score": 0.276
+    },
+    {
+     "scenario_id": "COLD",
+     "title": "내부에서 출입문을 열지 못해 갇힘",
+     "score": 0.27
+    },
+    {
+     "scenario_id": "KNIFE",
+     "title": "날에 손이 접촉해 베임",
+     "score": 0.233
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "OPS-15-C1": {
+   "title": "취반기에서 50인분 밥이 든 밥솥을 혼자 옮기다 어깨와 허리 부상",
+   "risk_type": "근골격계·화상",
+   "candidates": [
+    {
+     "scenario_id": "RICE",
+     "title": "증기·뜨거운 용기에 접촉해 화상",
+     "score": 0.478
+    },
+    {
+     "scenario_id": "TRANS",
+     "title": "대차 전도나 고온 운반물 유출로 충돌·화상",
+     "score": 0.297
+    },
+    {
+     "scenario_id": "MSD",
+     "title": "반복·불편 자세·과도한 힘으로 근골격계 부담",
+     "score": 0.214
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "OPS-16-C1": {
+   "title": "가스배관 및 밸브 노후로 가스가 누출되어 폭발",
+   "risk_type": "화재·폭발",
+   "candidates": [
+    {
+     "scenario_id": "GAS",
+     "title": "가스 누출·불완전 연소로 폭발·중독",
+     "score": 0.621
+    },
+    {
+     "scenario_id": "VENT",
+     "title": "환기 부족으로 유해 조리흄·연소가스에 노출",
+     "score": 0.19
+    },
+    {
+     "scenario_id": "FIRE",
+     "title": "점화원과 가연물이 접촉해 화재",
+     "score": 0.168
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "OPS-17-C1": {
+   "title": "회전식 국솥의 기어를 안전핀으로 고정하지 않고 국을 퍼내다가 국이 쏟아지면서 화상",
+   "risk_type": "화상",
+   "candidates": [
+    {
+     "scenario_id": "KETTLE",
+     "title": "솥 전도·회전으로 고온 내용물에 광범위 노출",
+     "score": 0.539
+    },
+    {
+     "scenario_id": "OVEN",
+     "title": "문 개방·트레이 인출 중 증기·열에 노출",
+     "score": 0.177
+    },
+    {
+     "scenario_id": "GRIDDLE",
+     "title": "고온 철판·기름에 접촉해 화상",
+     "score": 0.151
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "OPS-18-C1": {
+   "title": "조리기구를 딛고 배기후드를 청소하던 중 떨어짐 / 급식실 조리원이 조리흄 노출로 폐암 사망",
+   "risk_type": "떨어짐·조리흄",
+   "candidates": [
+    {
+     "scenario_id": "VENT",
+     "title": "환기 부족으로 유해 조리흄·연소가스에 노출",
+     "score": 0.551
+    },
+    {
+     "scenario_id": "FRY",
+     "title": "재료 투입·기름 취급 중 고온 기름이 튐",
+     "score": 0.209
+    },
+    {
+     "scenario_id": "LADDER",
+     "title": "사다리·의자에서 균형을 잃고 떨어짐",
+     "score": 0.189
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "OPS-19-C1": {
+   "title": "음식점에서 튀김기가 폭발하여 종업원이 화상을 입음",
+   "risk_type": "화상·화재",
+   "candidates": [
+    {
+     "scenario_id": "FRY",
+     "title": "재료 투입·기름 취급 중 고온 기름이 튐",
+     "score": 0.643
+    },
+    {
+     "scenario_id": "FIRE",
+     "title": "점화원과 가연물이 접촉해 화재",
+     "score": 0.281
+    },
+    {
+     "scenario_id": "GRIDDLE",
+     "title": "고온 철판·기름에 접촉해 화상",
+     "score": 0.28
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "OPS-20-H1": {
+   "title": "오븐 설치 위치 부적정, 가스 누출·미연소 가스",
+   "risk_type": "화재·폭발·화상",
+   "candidates": [
+    {
+     "scenario_id": "GAS",
+     "title": "가스 누출·불완전 연소로 폭발·중독",
+     "score": 0.494
+    },
+    {
+     "scenario_id": "OVEN",
+     "title": "문 개방·트레이 인출 중 증기·열에 노출",
+     "score": 0.354
+    },
+    {
+     "scenario_id": "FIRE",
+     "title": "점화원과 가연물이 접촉해 화재",
+     "score": 0.203
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "OPS-21-C1": {
+   "title": "배식대에 음식물 보관 용기를 내려놓던 중 손 끼임",
+   "risk_type": "끼임·감전",
+   "candidates": [
+    {
+     "scenario_id": "SERVE",
+     "title": "고온 음식 용기 이동·접촉 중 화상",
+     "score": 0.458
+    },
+    {
+     "scenario_id": "KNIFE_STORAGE",
+     "title": "소형 칼 보관부 주변의 경미한 접촉",
+     "score": 0.203
+    },
+    {
+     "scenario_id": "RICE",
+     "title": "증기·뜨거운 용기에 접촉해 화상",
+     "score": 0.158
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "OPS-22-C1": {
+   "title": "운반구 문을 올리지 않고 몸을 승강기 안으로 넣어 작업하던 중 운반구가 상승하여 몸이 협착됨",
+   "risk_type": "끼임",
+   "candidates": [
+    {
+     "scenario_id": "LIFT",
+     "title": "승강로 접근·탑승·방호 결함으로 추락·끼임",
+     "score": 0.586
+    },
+    {
+     "scenario_id": "TRANS",
+     "title": "대차 전도나 고온 운반물 유출로 충돌·화상",
+     "score": 0.165
+    },
+    {
+     "scenario_id": "RICE",
+     "title": "증기·뜨거운 용기에 접촉해 화상",
+     "score": 0.113
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "OPS-23-C1": {
+   "title": "식기세척기 컨베이어벨트에 손 끼임",
+   "risk_type": "끼임",
+   "candidates": [
+    {
+     "scenario_id": "WASH",
+     "title": "뜨거운 물·증기·세정제에 노출",
+     "score": 0.721
+    },
+    {
+     "scenario_id": "KETTLE",
+     "title": "솥 전도·회전으로 고온 내용물에 광범위 노출",
+     "score": 0.08
+    },
+    {
+     "scenario_id": "CUT",
+     "title": "작동 중 날·회전체에 손이 닿아 절단·끼임",
+     "score": 0.07
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "OPS-24-C1": {
+   "title": "락스 희석액을 분무기로 소독한 근로자의 기도손상",
+   "risk_type": "화학물질 접촉",
+   "candidates": [
+    {
+     "scenario_id": "CHEM",
+     "title": "혼합·비산·환기 부족으로 유해물질에 노출",
+     "score": 0.459
+    },
+    {
+     "scenario_id": "UV",
+     "title": "살균 광원에 눈·피부가 노출됨",
+     "score": 0.151
+    },
+    {
+     "scenario_id": "VENT",
+     "title": "환기 부족으로 유해 조리흄·연소가스에 노출",
+     "score": 0.149
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "EDU-C1": {
+   "title": "조리실 이동 중 걸려 넘어지거나 미끄러져 넘어짐",
+   "risk_type": "넘어짐",
+   "candidates": [
+    {
+     "scenario_id": "ENV",
+     "title": "젖거나 기름진 바닥에서 미끄러져 다침",
+     "score": 0.605
+    },
+    {
+     "scenario_id": "SERVE",
+     "title": "고온 음식 용기 이동·접촉 중 화상",
+     "score": 0.135
+    },
+    {
+     "scenario_id": "GRIDDLE",
+     "title": "고온 철판·기름에 접촉해 화상",
+     "score": 0.111
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "EDU-C2": {
+   "title": "식자재 손질 중 절단 및 베임",
+   "risk_type": "베임",
+   "candidates": [
+    {
+     "scenario_id": "KNIFE",
+     "title": "날에 손이 접촉해 베임",
+     "score": 0.21
+    },
+    {
+     "scenario_id": "STORAGE",
+     "title": "불안정한 적재물 낙하·선반 충돌",
+     "score": 0.193
+    },
+    {
+     "scenario_id": "KNIFE_STORAGE",
+     "title": "소형 칼 보관부 주변의 경미한 접촉",
+     "score": 0.182
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "EDU-C3": {
+   "title": "뜨거운 용기를 만지다 손을 데임",
+   "risk_type": "화상",
+   "candidates": [
+    {
+     "scenario_id": "FRY",
+     "title": "재료 투입·기름 취급 중 고온 기름이 튐",
+     "score": 0.296
+    },
+    {
+     "scenario_id": "RICE",
+     "title": "증기·뜨거운 용기에 접촉해 화상",
+     "score": 0.288
+    },
+    {
+     "scenario_id": "SERVE",
+     "title": "고온 음식 용기 이동·접촉 중 화상",
+     "score": 0.245
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "EDU-C4": {
+   "title": "오토바이 배달 중 차량과 부딪힘",
+   "risk_type": "교통사고",
+   "candidates": [
+    {
+     "scenario_id": "DELIVERY",
+     "title": "도로 운행 중 충돌·전도",
+     "score": 0.606
+    },
+    {
+     "scenario_id": "ELECT",
+     "title": "절연 손상·누전 상태에서 충전부 접촉",
+     "score": 0.083
+    },
+    {
+     "scenario_id": "KNIFE_STORAGE",
+     "title": "소형 칼 보관부 주변의 경미한 접촉",
+     "score": 0.061
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "EDU-H01": {
+   "title": "보행 전 장해물 확인",
+   "risk_type": "넘어짐",
+   "candidates": [
+    {
+     "scenario_id": "ENV",
+     "title": "젖거나 기름진 바닥에서 미끄러져 다침",
+     "score": 0.204
+    },
+    {
+     "scenario_id": "GAS",
+     "title": "가스 누출·불완전 연소로 폭발·중독",
+     "score": 0.174
+    },
+    {
+     "scenario_id": "ELECT",
+     "title": "절연 손상·누전 상태에서 충전부 접촉",
+     "score": 0.14
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "EDU-H02": {
+   "title": "조리실 바닥 물기 및 기름기 제거",
+   "risk_type": "넘어짐",
+   "candidates": [
+    {
+     "scenario_id": "ENV",
+     "title": "젖거나 기름진 바닥에서 미끄러져 다침",
+     "score": 0.309
+    },
+    {
+     "scenario_id": "FRY",
+     "title": "재료 투입·기름 취급 중 고온 기름이 튐",
+     "score": 0.257
+    },
+    {
+     "scenario_id": "GRIDDLE",
+     "title": "고온 철판·기름에 접촉해 화상",
+     "score": 0.247
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "EDU-H03": {
+   "title": "미끄럼방지 장화 또는 안전화 착용",
+   "risk_type": "넘어짐",
+   "candidates": [
+    {
+     "scenario_id": "ENV",
+     "title": "젖거나 기름진 바닥에서 미끄러져 다침",
+     "score": 0.45
+    },
+    {
+     "scenario_id": "GRIDDLE",
+     "title": "고온 철판·기름에 접촉해 화상",
+     "score": 0.136
+    },
+    {
+     "scenario_id": "FRY",
+     "title": "재료 투입·기름 취급 중 고온 기름이 튐",
+     "score": 0.119
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "EDU-H04": {
+   "title": "계단 이동 시 뛰지 않고 난간 잡고 이동",
+   "risk_type": "넘어짐",
+   "candidates": [
+    {
+     "scenario_id": "ENV",
+     "title": "젖거나 기름진 바닥에서 미끄러져 다침",
+     "score": 0.376
+    },
+    {
+     "scenario_id": "SERVE",
+     "title": "고온 음식 용기 이동·접촉 중 화상",
+     "score": 0.217
+    },
+    {
+     "scenario_id": "TRANS",
+     "title": "대차 전도나 고온 운반물 유출로 충돌·화상",
+     "score": 0.098
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "EDU-H05": {
+   "title": "오토바이 배달 시 안전모 착용, 교통신호 준수",
+   "risk_type": "교통사고",
+   "candidates": [
+    {
+     "scenario_id": "DELIVERY",
+     "title": "도로 운행 중 충돌·전도",
+     "score": 0.441
+    },
+    {
+     "scenario_id": "ENV",
+     "title": "젖거나 기름진 바닥에서 미끄러져 다침",
+     "score": 0.103
+    },
+    {
+     "scenario_id": "LADDER",
+     "title": "사다리·의자에서 균형을 잃고 떨어짐",
+     "score": 0.083
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "EDU-H06": {
+   "title": "뜨거운 국물·용기 취급 시 잡담금지 및 집중",
+   "risk_type": "화상",
+   "candidates": [
+    {
+     "scenario_id": "SERVE",
+     "title": "고온 음식 용기 이동·접촉 중 화상",
+     "score": 0.401
+    },
+    {
+     "scenario_id": "RICE",
+     "title": "증기·뜨거운 용기에 접촉해 화상",
+     "score": 0.3
+    },
+    {
+     "scenario_id": "ENV",
+     "title": "젖거나 기름진 바닥에서 미끄러져 다침",
+     "score": 0.13
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "EDU-H07": {
+   "title": "화기사용·튀김작업 시 소화기 비치",
+   "risk_type": "화재",
+   "candidates": [
+    {
+     "scenario_id": "GAS",
+     "title": "가스 누출·불완전 연소로 폭발·중독",
+     "score": 0.402
+    },
+    {
+     "scenario_id": "FIRE",
+     "title": "점화원과 가연물이 접촉해 화재",
+     "score": 0.353
+    },
+    {
+     "scenario_id": "FRY",
+     "title": "재료 투입·기름 취급 중 고온 기름이 튐",
+     "score": 0.255
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "EDU-H08": {
+   "title": "날카로운 조리기구 사용 시 안전수칙 준수",
+   "risk_type": "베임",
+   "candidates": [
+    {
+     "scenario_id": "KNIFE",
+     "title": "날에 손이 접촉해 베임",
+     "score": 0.266
+    },
+    {
+     "scenario_id": "GRIDDLE",
+     "title": "고온 철판·기름에 접촉해 화상",
+     "score": 0.193
+    },
+    {
+     "scenario_id": "KNIFE_STORAGE",
+     "title": "소형 칼 보관부 주변의 경미한 접촉",
+     "score": 0.193
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "EDU-H09": {
+   "title": "조리기구 청소 시 기계 가동 정지",
+   "risk_type": "끼임·베임",
+   "candidates": [
+    {
+     "scenario_id": "CUT",
+     "title": "작동 중 날·회전체에 손이 닿아 절단·끼임",
+     "score": 0.255
+    },
+    {
+     "scenario_id": "KNIFE",
+     "title": "날에 손이 접촉해 베임",
+     "score": 0.217
+    },
+    {
+     "scenario_id": "ELECT",
+     "title": "절연 손상·누전 상태에서 충전부 접촉",
+     "score": 0.203
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  },
+  "EDU-H10": {
+   "title": "식자재 가공기계 회전체에 덮개 설치",
+   "risk_type": "끼임",
+   "candidates": [
+    {
+     "scenario_id": "CUT",
+     "title": "작동 중 날·회전체에 손이 닿아 절단·끼임",
+     "score": 0.307
+    },
+    {
+     "scenario_id": "MIX",
+     "title": "작동 중 회전체 접근으로 말림·끼임",
+     "score": 0.306
+    },
+    {
+     "scenario_id": "KETTLE",
+     "title": "솥 전도·회전으로 고온 내용물에 광범위 노출",
+     "score": 0.17
+    }
+   ],
+   "confirmed": null,
+   "note": ""
+  }
+ }
+}

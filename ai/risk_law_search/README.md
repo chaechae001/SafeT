@@ -25,10 +25,18 @@ Linux는 `Scripts/python` 대신 `bin/python`. 모델(`intfloat/multilingual-e5-
 # 1) 색인 만들기(처음 한 번, CPU 약 3분). 원본이나 모델이 바뀌면 다시 만든다.
 ai/risk_law_search/.venv/Scripts/python -m ai.risk_law_search.server --build-index
 
-# 2) 서버 실행(약 20초 후 준비). http://127.0.0.1:8020
+# 2) 위험요인 법령(C)용 KURE 인덱스 만들기(처음 한 번, CPU 약 26분). 원문·평가일이 바뀌면 다시 만든다.
+ai/risk_law_search/.venv/Scripts/python -m ai.risk_law_search.server --build-alt-index
+
+# 3) 서버 실행. http://127.0.0.1:8020
 ai/risk_law_search/.venv/Scripts/python -m ai.risk_law_search.server
 ai/risk_law_search/.venv/Scripts/python -m ai.risk_law_search.server --host 0.0.0.0 --port 8020
 ```
+
+- 위험요인 법령은 기본으로 **C(KURE 검색 후보 + 위험유형 주제 확인)**다. 2026-11-20 비교에서 가장 나았다([비교 통계](abc-stats-20261120.md)).
+- C에 필요한 인덱스나 패키지(torch·transformers)가 없으면 서버는 멈추지 않고 A(카드 연결)로 표시하며, 화면 상단과 시작 로그에 경고를 띄운다.
+- 화면의 '다른 방식과 비교'를 펼치면 A(카드 연결)와 B(KURE 1순위)를 함께 볼 수 있다.
+- 위험요인마다 위험도 시나리오 후보(피해 수준·조치 기준)를 붙인다. 등급은 계산하지 않는다([위험도 인계](risk-grade-handoff.md)).
 
 모델 없이 키워드만 쓰려면 `--mode keyword`. 이때는 표준 라이브러리만 필요하다(어떤 Python 3.9+로도 실행).
 
@@ -41,6 +49,8 @@ ai/risk_law_search/.venv/Scripts/python -m ai.risk_law_search.server --host 0.0.
 | `--cards` | `RISK_LAW_CARD_FILE` | 데이터 폴더의 `risk_card_data.md` |
 | `--as-of` | `RISK_LAW_AS_OF` | 오늘. 이 날짜 이후 시행 예정인 조문은 검색에서 뺀다 |
 | `--host`, `--port` | `RISK_LAW_HOST`, `RISK_LAW_PORT` | `127.0.0.1`, `8020` |
+| `--law` | `RISK_LAW_LAW` | `c` (KURE 후보 + 주제 확인). `a`는 카드 연결(모델 없음) |
+| `--build-alt-index` | | C용 KURE 인덱스만 만들고 종료(`.index/l01_kure/`, git 제외) |
 
 인터넷이 없는 서버에서는 모델 캐시를 미리 복사하고 `HF_HUB_OFFLINE=1`로 실행한다.
 
@@ -155,15 +165,16 @@ POST /api/analyze
 - 두 연결 모두 자동 연결이다. 적용 여부와 항·호 단위의 정확성은 담당자가 확인한다.
 
 **비교용 B 경로: #45 방식 법령 찾기 (`law_kure.py`)**
-- 기존 카드–법령 연결(A)은 그대로 두고, `--law-alt kure45`로 켜면 위험요인마다 B 결과(`law_alt`)와 C 결과(`law_alt_topic`)를 함께 붙인다. 화면에는 A·B·C 법령이 나란히 보인다. 끄면 응답·화면이 기존과 같다.
+- 서버 기본(`--law c`)에서 위험요인 `law`는 C 결과다. A는 `law_card`, B는 `law_alt`, C 후보 전체는 `law_alt_topic`으로 함께 응답한다. `--law a`이면 `law`는 A이고 B·C는 붙지 않는다.
 - C(B+주제 확인): B 후보 6개 중 카드 위험유형과 주제가 맞는 것만 남긴다(`risk_topics.json`, A와 같은 규칙). 없으면 '확인 필요'.
+- C 제외 규칙(`risk_topics.json` → `exclude`): 일반·제재 조항(목적·정의·책무·벌칙 등)과, 입력·카드에 없는 원인 낱말(정전기·용접 등)이 제목에 있는 조문은 쓰지 않는다. 제외한 후보와 이유는 `excluded`로 응답한다([보강 기록](c-rule-fix-20261120.md)).
 - B는 #45(`ai/legal_review`)의 검색 규칙을 우리 법령 원문으로 재현했다: 질문 = 입력 단위 문장 + 카드 제목 + 카드 본문, KURE-v1 첫 토큰 벡터, 임베딩 점수만, (법령, 제N조) 중복 제거 후 상위 6개.
 - #45와 다른 점: 원문이 L01(청크 267개, 미공개) 대신 우리 시행 중 조각 3,406개다. #45의 EXAONE 근거 판정은 하지 않는다(실제 모델 호출 중단 상태). B 결과는 검색 후보다.
-- 인덱스는 처음 한 번 만든다(CPU 수십 분, `.index/l01_kure/`, Git 제외). 법령 원문·평가일이 바뀌면 서버가 시작을 거부하므로 다시 만든다.
+- 인덱스는 처음 한 번 만든다(CPU 수십 분, `.index/l01_kure/`, Git 제외). 법령 원문·평가일이 바뀌면 인덱스와 조각이 맞지 않아 A로 대체되므로 다시 만든다.
 
 ```
-python -m ai.risk_law_search.server --build-alt-index            # B 인덱스 만들기
-python -m ai.risk_law_search.server --mode keyword --law-alt kure45
+python -m ai.risk_law_search.server --build-alt-index            # KURE 인덱스 만들기
+python -m ai.risk_law_search.server --mode keyword                # 기본 --law c
 python ai/risk_law_search/benchmark/compare_45.py --out <결과 폴더>  # 정답 세트로 A·B 비교
 ```
 - 필요 패키지: torch, transformers(KURE-v1은 Hugging Face에서 처음 한 번 내려받는다).
@@ -175,7 +186,7 @@ ai/risk_law_search/.venv/Scripts/python -m unittest discover -s ai/risk_law_sear
 ```
 
 - 플랫폼 입력 분석: 단위 나누기, 단위당 위험요인 1~3개·위험요인당 법령 1개, `POST /api/analyze` 정상·오류, 의미 없는 입력의 기준 미달 표시.
-- `test_engine.py`(키워드 방식 20개): 문서 순서, 조각 ID·시행일, 시행 예정 조문 제외, 카드 대책 구분, 순서 멈춤, 이어 찾기, 카드–법령 연결, 위험유형 주제 확인(식칼 떨어짐 ≠ 추락), 낱말 나열·나열형 절의 단위 분리, B 경로가 A 결과를 바꾸지 않음, C의 주제 거르기, 부정 표현, 서버 응답.
+- `test_engine.py`(키워드 방식 23개): 문서 순서, 조각 ID·시행일, 시행 예정 조문 제외, 카드 대책 구분, 순서 멈춤, 이어 찾기, 카드–법령 연결, 위험유형 주제 확인(식칼 떨어짐 ≠ 추락), 낱말 나열·나열형 절의 단위 분리, B 경로가 A 결과를 바꾸지 않음, C의 주제 거르기·일반·원인 조문 제외, C 정책에서 A 보존, 위험도 시나리오와 공통 계산 모듈 연결, 부정 표현, 서버 응답.
 - `test_hybrid.py`(혼합 방식 10개): 모델·저장소 표시, 다른 표현의 카드 찾기, 대표 키워드의 1순위 조문, 모델 단독 조문 차단, 순서 멈춤, 연결의 키워드 겹침, 형태소 활용형 일치, 구역 공통 문구가 카드 고유 위험을 앞서지 않음. 임베딩·형태소 패키지가 없으면 건너뛴다.
 
 ## 한계
