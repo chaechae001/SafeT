@@ -25,6 +25,9 @@
     if(it.keep==='Y')para(page,'개선대책','현재 상태 유지');else checkedList(page,'개선대책 계획',it.plans);
     if(it.owner)para(page,'담당·예정',it.owner.name+' · '+it.due);
     para(page,'개선 후 예상 신호',it.judged?labels[it.after]+' (계획 단계의 예상, 실제 결과 아님)':'판단 필요 · 예상 신호 미산정');
+    var pr=it.catalog&&it.catalog.projected_result;
+    if(it.judged&&pr&&pr.reason)para(page,'예상 판정 근거',pr.reason);
+    if(it.policy_version)para(page,'위험도 정책',it.policy_version);
     $('#result-prev').prop('disabled',index===0);$('#result-next').prop('disabled',index===doc.items.length-1);
   }
   $(function(){

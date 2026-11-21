@@ -23,7 +23,7 @@ def check_db(migrate):
         sql = (ROOT / 'backend/migrations/20261116_assessment_authoring.sql').read_text(encoding='utf-8')
         if os.getenv('SAFET_ASSESSMENT_MODE') in ('catalog_v1','catalog_ai_v1','catalog_rls_v1','authoring_rag_v1'):
             sql += '\n' + (ROOT / 'backend/migrations/20261117_catalog_risk.sql').read_text(encoding='utf-8')
-        if os.getenv('SAFET_ASSESSMENT_MODE') == 'authoring_rag_v1':
+        if os.getenv('SAFET_ASSESSMENT_MODE') in ('authoring_rag_v1', 'catalog_rls_v1'):  # catalog_rls_v1: 확인 대기 위험 보관
             sql += '\n' + (ROOT / 'backend/migrations/20261119_authoring_snapshot.sql').read_text(encoding='utf-8')
         with engine.begin() as conn:
             for stmt in sql.split(';'):
@@ -31,7 +31,7 @@ def check_db(migrate):
                     conn.execute(text(stmt))
     inspector = inspect(engine)
     columns = {c['name'] for c in inspector.get_columns('eval_mst')}
-    if os.getenv('SAFET_ASSESSMENT_MODE') == 'authoring_rag_v1' and 'authoring_snapshot' not in columns:
+    if os.getenv('SAFET_ASSESSMENT_MODE') in ('authoring_rag_v1', 'catalog_rls_v1') and 'authoring_snapshot' not in columns:
         raise RuntimeError('검토 후보 저장 필드가 필요합니다. --migrate로 실행하세요.')
     indexes = {i['name'] for i in inspector.get_indexes('eval_mst')}
     if not {'request_key', 'revision', 'generation_source'} <= columns or 'uq_eval_request' not in indexes:
@@ -39,9 +39,9 @@ def check_db(migrate):
     if os.getenv('SAFET_ASSESSMENT_MODE') in ('catalog_v1','catalog_ai_v1','catalog_rls_v1','authoring_rag_v1'):
         from services.catalog_risk import seed
         with engine.begin() as conn:
-            from domain.risk_policy import POLICY
-            count = seed(conn) if migrate else conn.execute(text('SELECT COUNT(*) FROM risk_catalog WHERE version=:v'),{'v':POLICY}).scalar()
-            if not count: raise RuntimeError('DB 기준 데이터가 없습니다. --migrate를 실행하세요.')
+            from domain.risk_policy import ACTIVE_POLICY
+            count = seed(conn) if migrate else conn.execute(text('SELECT COUNT(*) FROM risk_catalog WHERE version=:v'),{'v':ACTIVE_POLICY}).scalar()
+            if not count: raise RuntimeError('신규 평가표 기준(FOOD-3LEVEL-1.2) 카탈로그가 DB에 없습니다. --migrate를 실행하세요(기존 1.1 카탈로그는 보존).')
     engine.dispose()
 
 

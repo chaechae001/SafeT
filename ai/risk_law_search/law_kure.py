@@ -12,6 +12,7 @@ A(기본)는 카드–법령 자동 연결(engine.py)이다. B는 서버 옵션 
   - #45의 EXAONE 근거 판정은 없다(실제 모델 호출 중단 상태). 결과는 검색 후보다.
 - 인덱스: ai/risk_law_search/.index/l01_kure/ (Git 제외). 만들기: python -m ai.risk_law_search.server --build-alt-index
 """
+import hashlib
 import json
 import re
 import time
@@ -26,6 +27,23 @@ LABEL = "#45 방식(KURE-v1 검색 · AI 판정 없음)"
 
 def chunk_text(u):
     return f"{u['law_name']} {u['locator']} {u['article_title']}\n{u['quote']}"
+
+
+def current_rows(engine):
+    units = [engine.units[i] for i in engine.law_pos]
+    return [dict(chunk_id=u["id"], law=u["law_name"], doc_no=u["doc_no"], article=u["article"], section=u["locator"],
+                 text=chunk_text(u)) for u in units]
+
+
+def content_hash(rows):
+    """조각 ID와 임베딩한 본문 전체의 해시. 조문 번호·시행일이 같아도 본문이 바뀌면 달라진다."""
+    h = hashlib.sha256(MODEL.encode("utf-8") + b"\0")
+    for r in rows:
+        h.update(r["chunk_id"].encode("utf-8") + b"\0" + r["text"].encode("utf-8") + b"\0")
+    return h.hexdigest()
+
+
+REBUILD = "python -m ai.risk_law_search.server --build-alt-index로 인덱스를 다시 만드세요."
 
 
 class Encoder:
@@ -57,9 +75,7 @@ class Encoder:
 def build(engine, index_dir=INDEX_DIR, log=print):
     """엔진의 시행 중 법령 조각으로 인덱스를 만든다."""
     import numpy as np
-    units = [engine.units[i] for i in engine.law_pos]
-    rows = [dict(chunk_id=u["id"], law=u["law_name"], doc_no=u["doc_no"], article=u["article"], section=u["locator"],
-                 text=chunk_text(u)) for u in units]
+    rows = current_rows(engine)
     t0 = time.time()
     mat = Encoder()([r["text"] for r in rows], log=log)
     index_dir = Path(index_dir)
@@ -67,7 +83,7 @@ def build(engine, index_dir=INDEX_DIR, log=print):
     np.save(index_dir / "vectors.npy", mat)
     (index_dir / "chunks.json").write_text(json.dumps(rows, ensure_ascii=False), encoding="utf-8")
     (index_dir / "meta.json").write_text(json.dumps(dict(model=MODEL, chunks=len(rows), as_of=engine.as_of,
-                                                         seconds=round(time.time() - t0, 1)), ensure_ascii=False),
+                                                         content_sha256=content_hash(rows), seconds=round(time.time() - t0, 1)), ensure_ascii=False),
                                          encoding="utf-8")
     log(f"저장: {index_dir} ({len(rows)}개, {time.time() - t0:.0f}초)")
 
@@ -84,9 +100,15 @@ class KureLawFinder:
         rows = json.loads((index_dir / "chunks.json").read_text(encoding="utf-8"))
         if meta.get("model") != MODEL:
             raise ValueError(f"인덱스 모델이 {MODEL}가 아닙니다.")
-        # 법령 원문·평가일이 바뀌면 조각이 달라진다. 섞어 쓰지 않도록 조각 ID 순서까지 확인한다.
-        if [r["chunk_id"] for r in rows] != [engine.units[i]["id"] for i in engine.law_pos]:
-            raise ValueError("법령 조각이 인덱스와 다릅니다(원문·평가일 변경). --build-alt-index로 다시 만드세요.")
+        # 법령 원문·평가일이 바뀌면 조각이 달라진다. 섞어 쓰지 않도록 조각 ID 순서와 본문 해시를 확인한다.
+        # 조문 번호·시행일(조각 ID)이 같아도 본문이 바뀌면 이전 벡터를 쓰지 않는다.
+        # chunks.json에는 임베딩한 본문이 그대로 있어 해시가 없는 이전 형식도 본문으로 비교한다.
+        now = current_rows(engine)
+        if [r["chunk_id"] for r in rows] != [r["chunk_id"] for r in now]:
+            raise ValueError("법령 조각이 인덱스와 다릅니다(원문·평가일 변경). 이전 인덱스를 쓰지 않습니다. " + REBUILD)
+        if ([r.get("text") for r in rows] != [r["text"] for r in now]
+                or meta.get("content_sha256", content_hash(now)) != content_hash(now)):
+            raise ValueError("법령 본문이 인덱스를 만든 때와 다릅니다(조문 번호·시행일은 같음). 이전 인덱스를 쓰지 않습니다. " + REBUILD)
         self.np, self.engine, self.rows, self.meta = np, engine, rows, meta
         self.mat = np.load(index_dir / "vectors.npy")
         self.encoder = encoder or Encoder(threads=4)

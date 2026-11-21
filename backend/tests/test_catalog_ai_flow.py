@@ -36,7 +36,7 @@ def test_ai_questions_common_grades_preserved_inputs(client,ai_flow):
     assert client.post(url+'/risk-answers',headers=h,json=answer).status_code==409
     body=edits(doc);body['items'][0]['controls_reviewed']=True
     r=client.put(url,headers=h,json=body);assert r.status_code==200,r.text
-    doc=r.json();assert doc['items'][0]['signal']=='R' and doc['items'][0]['after']=='Y'
+    doc=r.json();assert doc['items'][0]['signal']=='Y' and doc['items'][0]['after']=='G'  # 1.2 · FRY S2
     r=client.post(url+'/confirm',headers=h,json=edits(doc));assert r.status_code==200,r.text
     assert client.post(url+'/risk-answers',headers=h,json={'revision':r.json()['revision'],'answers':answer['answers']}).status_code==409
     assert client.get(url,headers=h).json()['items'][0]['catalog']['ai_analysis']['model']=='synthetic-test'

@@ -36,7 +36,7 @@ ai/risk_law_search/.venv/Scripts/python -m ai.risk_law_search.server --host 0.0.
 - 위험요인 법령은 기본으로 **C(KURE 검색 후보 + 위험유형 주제 확인)**다. 2026-11-20 비교에서 가장 나았다([비교 통계](abc-stats-20261120.md)).
 - C에 필요한 인덱스나 패키지(torch·transformers)가 없으면 서버는 멈추지 않고 A(카드 연결)로 표시하며, 화면 상단과 시작 로그에 경고를 띄운다.
 - 화면의 '다른 방식과 비교'를 펼치면 A(카드 연결)와 B(KURE 1순위)를 함께 볼 수 있다.
-- 위험요인마다 위험도 시나리오 후보(피해 수준·조치 기준)를 붙인다. 등급은 계산하지 않는다([위험도 인계](risk-grade-handoff.md)).
+- 위험요인마다 위험도 시나리오 후보(피해 수준·조치 기준)를 붙인다. 이 모듈은 저장용 등급을 정하지 않는다. 등급은 백엔드 공통 판정 함수(FOOD-3LEVEL-1.2)가 계산한다([위험도 합의](../../docs/implementation/risk-development-agreement.md), [인계](risk-grade-handoff.md)).
 
 모델 없이 키워드만 쓰려면 `--mode keyword`. 이때는 표준 라이브러리만 필요하다(어떤 Python 3.9+로도 실행).
 
@@ -118,7 +118,7 @@ POST /api/analyze
 
 각 결과의 `score`는 관련도(0~1), `score_detail`은 의미 점수(`semantic`)와 키워드 원점수(`keyword`)다.
 
-위험도 시험 API(`/api/risk-grade`·`/api/risk-draft`·`/api/risk-scenarios`·`/risk-test`)는 `--risk-test`(로컬 주소)일 때만 열린다. `/api/analyze`는 위험도를 기록하지 않는다.
+내부 검토 화면 API(`/api/risk-grade`·`/api/risk-draft`·`/api/risk-scenarios`·`/risk-test`)는 `--risk-test`(로컬 주소)일 때만 열린다. 실제 평가표와 같은 판정 함수(`backend/domain/risk_policy.py`)와 같은 1.2 카탈로그(`contracts/catalog_risk/catalog-food-3level-1.2.json`)를 쓴다. `/api/analyze`는 위험도를 기록하지 않는다.
 
 ### 사용자 평가표 연결 (2026-11-20)
 
@@ -184,7 +184,7 @@ python -m ai.risk_law_search.control_map --update   # 자동 후보만 다시 �
 - C 제외 규칙(`risk_topics.json` → `exclude`): 일반·제재 조항(목적·정의·책무·벌칙 등)과, 입력·카드에 없는 원인 낱말(정전기·용접 등)이 제목에 있는 조문은 쓰지 않는다. 제외한 후보와 이유는 `excluded`로 응답한다([보강 기록](c-rule-fix-20261120.md)).
 - B는 #45(`ai/legal_review`)의 검색 규칙을 우리 법령 원문으로 재현했다: 질문 = 입력 단위 문장 + 카드 제목 + 카드 본문, KURE-v1 첫 토큰 벡터, 임베딩 점수만, (법령, 제N조) 중복 제거 후 상위 6개.
 - #45와 다른 점: 원문이 L01(청크 267개, 미공개) 대신 우리 시행 중 조각 3,406개다. #45의 EXAONE 근거 판정은 하지 않는다(실제 모델 호출 중단 상태). B 결과는 검색 후보다.
-- 인덱스는 처음 한 번 만든다(CPU 수십 분, `.index/l01_kure/`, Git 제외). 법령 원문·평가일이 바뀌면 인덱스와 조각이 맞지 않아 A로 대체되므로 다시 만든다.
+- 인덱스는 처음 한 번 만든다(CPU 수십 분, `.index/l01_kure/`, Git 제외). 법령 원문·평가일이 바뀌거나, 조문 번호·시행일이 같아도 본문이 바뀌면 이전 인덱스를 쓰지 않고 A로 대체하며 시작 로그·화면 상단(평가표 화면의 AI 검색 근거에도)에 다시 만들라는 안내를 띄운다. 인덱스 `meta.json`의 `content_sha256`과 `chunks.json` 본문을 현재 원문과 비교한다.
 
 ```
 python -m ai.risk_law_search.server --build-alt-index            # KURE 인덱스 만들기
@@ -211,4 +211,4 @@ ai/risk_law_search/.venv/Scripts/python -m unittest discover -s ai/risk_law_sear
 - 법령 원문은 보유 HWPX 기준이다. 시행령·시행규칙·고시 별표는 없다.
 - 가중치·기준점은 예시 키워드 13개로 정한 값이다. 정답셋으로 측정하지 않았다.
 
-[위험도 판정 기준과 로컬 테스트 방법](risk-grade-review.md)
+[위험도 판정 기준(FOOD-3LEVEL-1.2)과 내부 검토 화면 사용법](risk-grade-review.md)

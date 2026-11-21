@@ -21,19 +21,22 @@ def test_current_and_projection_use_existing_input_contract(client,catalog_flow)
     assert d['items'][0]['signal']=='N'
     p=edits(d);p['items'][0]['none']=True;p['items'][0]['controls_reviewed']=True
     r=client.put(url,headers=h,json=p);assert r.status_code==200,r.text
-    d=r.json();assert d['items'][0]['signal']=='R' and d['items'][0]['after']=='N'
+    # FOOD-3LEVEL-1.2 · FRY S2: 현재 조치 없음 → 중, 계획 전체 이행 가정 → 하
+    d=r.json();assert d['items'][0]['signal']=='Y' and d['items'][0]['after']=='N'
+    assert d['items'][0]['catalog']['current_result']['policy_version']=='FOOD-3LEVEL-1.2'
     p=edits(d)
     for a in p['items'][0]['plans']:a['checked']=True
     r=client.put(url,headers=h,json=p);assert r.status_code==200,r.text
-    d=r.json();assert d['items'][0]['signal']=='R' and d['items'][0]['after']=='Y'
-    assert d['items'][0]['catalog']['projected_result']['grade']=='중'
+    d=r.json();assert d['items'][0]['signal']=='Y' and d['items'][0]['after']=='G'
+    assert d['items'][0]['catalog']['projected_result']['grade']=='하'
+    critical={a['id'] for a in d['items'][0]['curr'] if a['control'].get('critical')}
     p=edits(d);p['items'][0]['none']=False;p['items'][0]['controls_reviewed']=True
-    for a in p['items'][0]['curr']:a['checked']=True
+    for a in p['items'][0]['curr']:a['checked']=a['id'] in critical  # 핵심만 현재 시행 → 중
     p['items'][0]['owner']={'type':'R','name':'근로자'};p['items'][0]['due']='2026-12-01'
     r=client.post(url+'/confirm',headers=h,json=p);assert r.status_code==200,r.text
     assert r.json()['items'][0]['signal']=='Y'
     assert client.put(url,headers=h,json=p).status_code==409
-    assert client.get(url,headers=h).json()['items'][0]['after']=='Y'
+    assert client.get(url,headers=h).json()['items'][0]['after']=='G'
 
 def test_unanswered_and_free_text_do_not_get_low_grade(client,catalog_flow):
     h,_=catalog_flow;d=create(client,catalog_flow);url=f"/evals/{d['eval_no']}";p=edits(d)
@@ -71,7 +74,7 @@ def test_candidate_search_and_legacy_snapshot(client,catalog_flow):
 
 def test_review_required_and_projection_does_not_change_current(client,catalog_flow):
     h,p=catalog_flow
-    # 치료 필요(S2) 작업: 현재 핵심 조치 없음은 상, 모든 계획 이행 가정은 중.
+    # FOOD-3LEVEL-1.2 · 휴업 부상(S2) 작업: 현재 핵심 조치 없음은 중, 모든 계획 이행 가정은 하.
     with engine.connect() as c:
         scenario=next(s for s in catalog_risk.list_catalog(c) if s['severity']==2)
     p['catalog_ids']=[scenario['id']]
@@ -82,14 +85,14 @@ def test_review_required_and_projection_does_not_change_current(client,catalog_f
     d=r.json();assert d['items'][0]['signal']=='N' and d['items'][0]['after']=='N'
     body=edits(d);body['items'][0]['controls_reviewed']=True
     r=client.put(url,headers=h,json=body);assert r.status_code==200,r.text
-    d=r.json();assert d['items'][0]['signal']=='R' and d['items'][0]['after']=='Y'
+    d=r.json();assert d['items'][0]['signal']=='Y' and d['items'][0]['after']=='G'
     assert d['items'][0]['catalog']['projected_result']['kind']=='projected'
-    assert client.get(url,headers=h).json()['items'][0]['after']=='Y'
+    assert client.get(url,headers=h).json()['items'][0]['after']=='G'
     body=edits(d)
     for a in body['items'][0]['plans']:a['checked']=False
     body['items'][0]['plans'].append({'text':'직접 추가한 미검토 대책','checked':True})
     r=client.put(url,headers=h,json=body);assert r.status_code==200,r.text
-    assert r.json()['items'][0]['after']=='R'
+    assert r.json()['items'][0]['after']=='Y'  # 직접 추가는 계산 제외 → 현재와 같은 중
     # 목록 확인 해제 시 기존 계산 결과를 확정 신호로 유지하지 않는다.
     body=edits(r.json());body['items'][0]['controls_reviewed']=False
     r=client.put(url,headers=h,json=body);assert r.status_code==200,r.text
@@ -108,10 +111,10 @@ def test_final_policy_to_signed_shared_pdf(client,catalog_flow):
     for a in it['plans']:a['checked']=True
     res=client.post(url+'/confirm',headers=h,json=body)
     assert res.status_code==200,res.text
-    assert (res.json()['items'][0]['signal'],res.json()['items'][0]['after'])==('R','Y')
+    assert (res.json()['items'][0]['signal'],res.json()['items'][0]['after'])==('Y','G')  # 1.2 · FRY S2
     with engine.connect() as c:
         ctx=build_context(d['eval_no'],lambda sql,p:list(c.execute(text(sql),p).mappings()))
-    assert (ctx['rows'][0]['grade'],ctx['rows'][0]['after'])==('R','Y')
+    assert (ctx['rows'][0]['grade'],ctx['rows'][0]['after'])==('Y','G')
     assert client.get(url+'/report',headers=h).content.startswith(b'%PDF')
     assert client.post(url+'/share',headers=h).status_code==409
     image=io.BytesIO();Image.new('RGB',(100,50),'white').save(image,format='PNG')

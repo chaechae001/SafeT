@@ -107,9 +107,11 @@ def make_handler(engine, *, risk_test=False):
                 if not isinstance(body, dict):
                     raise ValueError("JSON 객체로 보내 주세요.")
                 if testing:
-                    draft, basis = assess_selection(engine.scenarios, body, draft=True)
+                    # 실제 평가표와 같은 방식: 현재 = 현재 조치 ID, 예상 = 현재 ∪ 계획 ID(같은 판정 함수·카탈로그)
+                    _, current = assess_selection(engine.scenarios, dict(body, plan_ids=[]))
                     expected, audit = assess_selection(engine.scenarios, body)
-                    return self._send(200, dict(draft=basis, expected=audit))
+                    return self._send(200, dict(draft=dict(current, current_risk=current["expected_risk"], stage="current"),
+                                                expected=audit))
                 if recording:
                     return self._send(200, record_selection(engine.scenarios, body, draft=url.path == "/api/risk-draft"))
                 machines = body.get("machines") or []

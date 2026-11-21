@@ -221,7 +221,7 @@ class EngineTest(unittest.TestCase):
         finally:
             e.scenarios = None
         s = r["scenario"]
-        self.assertEqual((s["scenario_id"], s["status"], s["policy_version"]), ("KNIFE", "auto", "CATALOG-MVP-1.1"))
+        self.assertEqual((s["scenario_id"], s["status"], s["policy_version"]), ("KNIFE", "auto", "FOOD-3LEVEL-1.2"))
         self.assertIn("검토 전", s["message"])
         self.assertTrue(any(c["critical"] for c in s["controls"]))
         # 공통 계산 모듈이 이 형식을 그대로 받는다(등급 계산은 여기서 하지 않음).

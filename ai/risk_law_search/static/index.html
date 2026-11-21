@@ -162,9 +162,9 @@ ol.cands{margin:4px 0 0;padding-left:18px;font-size:13px}
     var li=el("li","risk"),top=el("div","risk-top");
     var sc=el("span","score","관련도 "+r.score);sc.title=detail(r.score_detail);
     var grade=r.grades.current_risk;
-    var light=el("span",null,{"상":"🔴","중":"🟡","하":"🟢"}[grade]);
+    var light=el("span",null,{"상":"🔴","중":"🟡","하":"🟢"}[grade]||"⚪");
     light.setAttribute("role","img");
-    light.setAttribute("aria-label","위험도 "+grade);
+    light.setAttribute("aria-label",grade?"위험도 "+grade:"위험도 판단 필요");
     var reading=add(el("span","risk-reading"),light);
     if(document.documentElement.hasAttribute("data-risk-test")){
       var link=el("a","risk-test-link","(테스트)");

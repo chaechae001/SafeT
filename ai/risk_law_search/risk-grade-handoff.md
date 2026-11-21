@@ -1,5 +1,7 @@
 # 위험도 작업 인계 (2026-11-20)
 
+> **2026-11-21 갱신**: 이 인계 이후 서비스에 연결됐다. 신규 평가표는 FOOD-3LEVEL-1.2를 쓰고, 체크 항목은 시나리오 기준 조치로 직접 구성한다(아래 3-2의 권장안). 현재 기준은 [위험도 합의 문서](../../docs/implementation/risk-development-agreement.md)를 따른다. 아래는 당시 기록이다.
+
 > 대상: 위험도(현재·예상 등급) 작업을 이어받는 담당. 이 모듈은 확인용 독립 모듈이며 서비스(평가표 저장·확정)와 아직 연결되지 않았다.
 > 기준 문서: [위험도 개발 기준 — 최종 합의](../../docs/implementation/risk-development-agreement.md), [공통 계약](../../contracts/assessment_authoring/v1/INTERFACES.md), 공통 계산 [`backend/domain/risk_policy.py`](../../backend/domain/risk_policy.py)(CATALOG-MVP-1.1).
 

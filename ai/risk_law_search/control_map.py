@@ -5,7 +5,8 @@
 
 - 서비스 위험도(backend/domain/risk_policy.py, CATALOG-MVP-1.1)는 시나리오 기준 조치 ID의 충족 여부로 계산한다.
   화면의 추천 대책은 카드 대책 문장이라, 체크했을 때 어느 기준 조치를 충족한 것인지 이 표로 정한다.
-- 기준 조치는 서비스 DB와 같은 원본(contracts/catalog_risk/catalog.json)을 그대로 쓴다. 모듈 시험용 정책 변경을 반영하지 않는다.
+- 기준 조치는 서비스 DB와 같은 신규 평가표 카탈로그(contracts/catalog_risk/catalog-food-3level-1.2.json)를 쓴다.
+  1.2에 없는 조치 ID(예: FRY-C4)로 연결된 항목은 '비슷한 기준 조치 없음'으로 계산에서 제외된다.
 - 후보: 카드 대책 문장과 그 시나리오의 기준 조치 문구의 키워드 점수 1순위. LINK 미만이면 연결하지 않는다.
   연결되지 않은 대책은 저장되지만 위험도 하향 계산에는 쓰지 않는다(직접 추가 대책과 같음).
 - 자동 후보는 검토 전 초안이다. confirmed: null(미검토) | "<조치 ID>" | "none"(맞는 기준 조치 없음)
@@ -19,7 +20,7 @@ from pathlib import Path
 from .textindex import TextIndex
 
 HERE = Path(__file__).resolve().parent
-CATALOG = HERE.parents[1] / "contracts" / "catalog_risk" / "catalog.json"
+CATALOG = HERE.parents[1] / "contracts" / "catalog_risk" / "catalog-food-3level-1.2.json"
 MAP = HERE / "measure_control_map.json"
 LINK = 0.45  # 이 점수 미만은 후보도 두지 않는다. 0.45 이상에서도 오연결이 있어(예: 스마트폰 사용 금지 → 운전 전 점검)
 #              자동 후보는 기본적으로 위험도 계산에 쓰지 않는다(ControlMapper.count_auto).

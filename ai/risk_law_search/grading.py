@@ -1,4 +1,5 @@
-"""초안 생성과 체크리스트 재산출에서 동일한 3단계 정책을 사용한다."""
+"""내부 검토 화면(--risk-test)의 판정. 실제 평가표와 같은 판정 함수(backend.domain.risk_policy.evaluate)와
+같은 시나리오 카탈로그(FOOD-3LEVEL-1.2, scenario_map.load_catalog)를 쓴다. 판정 근거 문구도 evaluate 결과 그대로다."""
 import json
 import os
 import sqlite3
@@ -31,10 +32,10 @@ def assess_selection(linker, body, *, draft=False):
     credited = current | plans
     policy = evaluate(scenario, credited, answered=True) if scenario else None
     field = "current_risk" if draft else "expected_risk"
-    result = {"card_id": card, "scenario_id": sid, field: policy["grade"] if policy else "상",
+    result = {"card_id": card, "scenario_id": sid, field: policy["grade"] if policy else None,
               "status": ("draft" if draft else "recalculated") if policy else "unmapped"}
     result["assessment_policy"] = policy["policy_version"] if policy else None
-    result["reduction_required"] = result[field] != "하"
+    result["reduction_required"] = result[field] != "하"  # 미연결(None)도 검토 대상
     critical = {c["id"] for c in controls if c["critical"]}
     missing = sorted(critical - credited)
     audit = {
@@ -44,11 +45,9 @@ def assess_selection(linker, body, *, draft=False):
         "current_ids": sorted(current), "plan_ids": sorted(plans),
         "critical_ids": sorted(critical), "missing_critical_ids": missing,
         "source_refs": scenario.get("source_refs", []) if scenario else [],
-        "reason": (
-            f"피해 S{policy['severity']} · 조치 C{policy['control_band']} · "
-            f"핵심 {len(critical - set(missing))}/{len(critical)} 충족 → {result[field]}"
-            if policy else "시나리오 미연결 · 검토용 임시 상"
-        ),
+        "applied_control_ids": policy["applied_control_ids"] if policy else [],
+        "missing_supplementary_ids": policy["missing_supplementary_ids"] if policy else [],
+        "reason": policy["reason"] if policy else "시나리오 미연결 · 판단 필요(담당자 검토)",
     }
     return result, audit
 

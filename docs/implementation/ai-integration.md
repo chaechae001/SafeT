@@ -9,7 +9,7 @@
 ## 이번 변경
 
 AI 후보 → 공통 DB 시나리오 → 사용자 확인 → 현재·예상 위험도 계산을 연결한다.
-등급은 CATALOG-MVP-1.1의 `backend/domain/risk_policy.py`만 계산한다.
+등급은 `backend/domain/risk_policy.py`만 계산한다. 신규 평가표는 FOOD-3LEVEL-1.2, 기존 평가표는 저장 당시 CATALOG-MVP-1.1([위험도 합의](risk-development-agreement.md)).
 현재 main의 AI 연결을 최종 합의 계약으로 통합한다. 등급 계산은 공통 정책에 둔다.
 
 | 구간 | 구현 |

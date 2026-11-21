@@ -1,12 +1,13 @@
-"""위험사례 카드 → 위험도 시나리오(contracts/catalog_risk/catalog.json) 후보 연결.
+"""위험사례 카드 → 위험도 시나리오(contracts/catalog_risk/catalog-food-3level-1.2.json) 후보 연결.
 
   python -m ai.risk_law_search.scenario_map            # card_scenario_map.json 생성(새 파일만)
   python -m ai.risk_law_search.scenario_map --update   # 후보만 다시 계산, 담당자 확정(confirmed)은 보존
 
-- 위험도 계산(backend/domain/risk_policy.py, CATALOG-MVP-1.1)은 시나리오의 피해 수준(severity)과
+- 위험도 계산(backend/domain/risk_policy.py, 신규 평가표 FOOD-3LEVEL-1.2)은 시나리오의 피해 수준(severity)과
   핵심·보완 조치(controls)를 쓴다. 우리 모듈은 카드 단위라 카드마다 시나리오가 필요하다.
 - 후보: 카드 고유 문구와 시나리오 문구(제목·작업·사고 유형·시나리오·키워드)의 키워드 점수 상위 3개.
   사고 유형 가산점은 쓰지 않는다(카탈로그 사고 유형 이름이 카드와 달라 일부가 나빠졌다).
+- 시나리오는 서비스 DB 적재 원본과 같은 1.2 카탈로그 파일을 그대로 쓴다(실제 평가표·내부 검토 화면 공통).
 - 자동 후보는 검토 전 초안이다. 피해 수준이 그대로 위험도에 들어가므로 담당자가 confirmed를 채운다.
   confirmed: null(미검토) | "<시나리오 ID>" | "none"(맞는 시나리오 없음)
 """
@@ -14,13 +15,13 @@ import argparse
 import json
 from pathlib import Path
 
-from backend.domain.risk_policy import RESTAURANT_POLICY, evaluate
+from backend.domain.risk_policy import ACTIVE_POLICY
 
 from .cards import card_search_text
 from .textindex import TextIndex
 
 HERE = Path(__file__).resolve().parent
-CATALOG = HERE.parents[1] / "contracts" / "catalog_risk" / "catalog.json"
+CATALOG = HERE.parents[1] / "contracts" / "catalog_risk" / "catalog-food-3level-1.2.json"
 MAP = HERE / "card_scenario_map.json"
 TOP = 3
 WEAK = 0.2  # 1순위 점수가 이보다 낮으면 '약한 후보'로 표시(예시 카드에서 오연결이 0.14~0.17)
@@ -31,15 +32,10 @@ def scenario_text(s):
 
 
 def load_catalog(path=CATALOG):
+    """서비스 DB에 적재하는 신규 평가표 카탈로그(FOOD-3LEVEL-1.2) 그대로. 별도 수정하지 않는다."""
     catalog = json.loads(Path(path).read_text(encoding="utf-8"))
-    catalog["policy_version"] = RESTAURANT_POLICY
-    for scenario in catalog["scenarios"]:
-        scenario["policy_version"] = RESTAURANT_POLICY
-        if scenario["id"] == "FRY":
-            # 기름 튐과 직접 연결된 예방·보호 항목. 화재 대응은 FIRE에서 평가한다.
-            direct = {"FRY-C1", "FRY-C2", "FRY-C3", "FRY-C7"}
-            scenario["controls"] = [c for c in scenario["controls"] if c["id"] in direct]
-        scenario["initial_grade"] = evaluate(scenario, [], answered=True)["grade"]
+    if catalog["policy_version"] != ACTIVE_POLICY:
+        raise ValueError(f"카탈로그 정책 버전이 {ACTIVE_POLICY}가 아닙니다: {catalog['policy_version']}")
     return catalog
 
 

@@ -25,7 +25,7 @@ async function evaluate(){const seq=++sequence;const s=scenario();byId('grade').
  const ids=k=>Array.from(document.querySelectorAll('input:checked')).filter(i=>i.dataset.kind===k).map(i=>i.value);
  try{const {draft,expected:a}=await json('/api/risk-test/evaluate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({card_id:query.get('card')||'test',scenario_id:s?.id||null,current_ids:ids('current'),plan_ids:ids('plan')})});if(seq!==sequence)return;
  const all=a.critical_ids.length, met=all-a.missing_critical_ids.length;
- byId('grade').textContent='위험도 '+draft.current_risk+' → 예상 위험도 '+a.expected_risk;
+ byId('grade').textContent='현재 위험도 '+(draft.current_risk||'판단 필요')+' → 예상 위험도 '+(a.expected_risk||'판단 필요');
  if(!s){byId('basis').textContent=a.reason;return}
  const lines=[
    ['예상 피해',severity[a.severity]],

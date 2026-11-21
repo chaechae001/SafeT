@@ -2,8 +2,9 @@
 
 SAFET_ASSESSMENT_MODE=catalog_rls_v1 이고 SAFET_RISK_LAW_URL(예: http://127.0.0.1:8020)이 있을 때 쓴다.
 - 입력 글·음성 전사문 → 모듈 /api/analyze → 위험 카드 → 카드에 연결된 카탈로그 시나리오 → 평가표 행.
-- 행의 현재·개선 대책은 모듈이 고른 추천 3개씩(AI 추천). 대책 → 기준 조치 연결은 모듈 연결표(검토 완료만 기본 반영)를 따른다.
-- 위험도는 기존 공통 정책(domain.risk_policy, DB 카탈로그 버전)으로 계산한다. 모듈의 시험용 정책은 쓰지 않는다.
+- 행의 현재 안전조치·개선대책은 시나리오 카탈로그(신규: FOOD-3LEVEL-1.2)의 기준 조치로 직접 구성한다(control_id 보유).
+  모듈 추천 문구는 검토 완료(confirmed) 연결이면 해당 기준 조치를 앞에 두고, 미확정·미연결이면 저장만 하고 계산에서 제외한다.
+- 위험도는 공통 판정 함수(domain.risk_policy.evaluate)와 DB 카탈로그 시나리오로 계산한다.
 - 카드·입력 문장·법령 후보는 참고 정보(reference)다. 법령은 자동 검색 후보이며 정식 법령 칸·PDF에 넣지 않는다.
 - 사업장 등록 기기(workplace_machine)도 검색어로 보낸다. 사업장이 쓰는 기기를 미리 입력한 것이다(사진 탐지 부담을 줄이는 용도).
   기기에서만 나온 행은 '등록 기기 기준'으로 구분하고 실제 작업 여부를 작성자가 확인한다. 입력 글에서 나온 행을 먼저 둔다.
@@ -62,6 +63,33 @@ def _options(options):
             for o in options]
 
 
+def control_options(scenario, kind, recs):
+    """기준 조치(핵심 → 보완 순, 검토 완료 추천은 맨 앞) + 계산 제외 추천. kind: current | plans."""
+    key = 'current_text' if kind == 'current' else 'plan_text'
+    known = {c['id'] for c in scenario['controls']}
+    recommended, extras = [], []
+    for o in _options(recs):
+        cid = o['control'].get('control_id')
+        if cid in known:
+            if cid not in recommended:
+                recommended.append(cid)
+        else:  # 미확정·미연결·다른 시나리오 ID: 저장하고 계산에서 제외
+            control = dict(o['control'], control_id=None)
+            if control.get('status') in ('confirmed', 'auto'):
+                control.update(status='unmapped', message='이 시나리오의 기준 조치에 연결되지 않음 · 위험도 계산 제외')
+            extras.append(dict(o, control=control))
+    ordered = ([c for cid in recommended for c in scenario['controls'] if c['id'] == cid]
+               + [c for c in scenario['controls'] if c['critical'] and c['id'] not in recommended]
+               + [c for c in scenario['controls'] if not c['critical'] and c['id'] not in recommended])
+    out = [dict(text=c[key][:500], original=c[key][:1000], origin='기준 조치' + (' · AI 추천' if c['id'] in recommended else ''),
+                origin_card=None, control=dict(control_id=c['id'], status='catalog', critical=c['critical'],
+                                               recommended=c['id'] in recommended,
+                                               message=('핵심' if c['critical'] else '보완') + ' 기준 조치 · 위험도 계산 반영'))
+           for c in ordered]
+    texts = {o['text'] for o in out}
+    return out + [o for o in extras if o['text'] not in texts]
+
+
 def rows(result, catalog):
     """모듈 응답 → (행 목록, 행을 만들지 못한 위험). 같은 시나리오는 한 행으로 합친다(공통 계약 MVP)."""
     byid = {s['id']: s for s in catalog}
@@ -82,9 +110,9 @@ def rows(result, catalog):
                 seen[sid]['risk_law']['other_cards'].append(card)
                 continue
             s = byid[sid]
-            reference = dict(card=card, scenario_link=dict(status=link['status'], message=link.get('message')),
-                             law=_law(risk), current=_options(risk.get('current_options', [])),
-                             plans=_options(risk.get('improvement_options', [])), other_cards=[],
+            reference = dict(policy_version=s['policy_version'],card=card, scenario_link=dict(status=link['status'], message=link.get('message')),
+                             law=_law(risk), current=control_options(s, 'current', risk.get('current_options', [])),
+                             plans=control_options(s, 'plans', risk.get('improvement_options', [])), other_cards=[],
                              notice=('등록 기기 기준 AI 검색 결과 · 실제로 하는 작업인지 작성자 확인' if from_machine
                                      else 'AI 검색 결과 · 작성자 확인 후 사용'))
             item = dict(job=s['task'][:100], title=risk['title'][:200], type=(risk.get('risk_type') or s['event'])[:50],
@@ -107,3 +135,20 @@ def links(reference):
             if cid:
                 out[(kind, pos)] = cid
     return out
+
+
+def split_pending(items):
+    """(평가표 행, 확인 대기). 등록 기기에서만 나온 위험은 실제 작업 근거가 아니므로 행으로 만들지 않고
+    '확인 대기'에 둔다. 담당자가 실제로 하는 작업인지 확인해 추가하면 그때 행이 된다(공통 계약: 보유 정보는 작업 근거가 아님)."""
+    rows_, pending = [], []
+    for it in items:
+        (pending if it['risk_law']['card'].get('from_machine') else rows_).append(it)
+    return rows_, pending
+
+
+def pending_view(it):
+    """화면 표시용 요약. 저장된 확인 대기 항목 전체(기준 조치·추천)는 서버에만 둔다."""
+    card = it['risk_law']['card']
+    return dict(scenario_id=it['catalog']['id'], job=it['job'], title=it['title'], type=it['type'],
+                machine=card.get('input_text', ''), card_title=card.get('title', ''),
+                notice='등록 기기 기준 AI 검색 결과 · 실제로 하는 작업인지 확인한 뒤 평가표에 추가해 주세요.')
