@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ko" data-status="">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>안내 · Safe-T</title>
+  <!-- 오류 페이지 · UX-001 L (2026-11-21)
+       어느 주소·하위 경로(예: /proxy/8022/)에서 열려도 보이도록 <base> 기준 상대 경로를 씁니다.
+       화면 서버가 요청 주소 깊이에 맞춰 <base href> 를 바꿔 보냅니다(기본값 ../ = pages/error.html 기준).
+       상태 코드: 화면 서버가 data-status 에 넣어 줌(backend/dev_static_server.py). 직접 열 때는 ?code=404 처럼 지정.
+       운영 서버는 배포 방식이 정해진 뒤 같은 페이지를 오류 페이지로 연결합니다. -->
+  <base href="../">
+  <link rel="stylesheet" href="css/common.css">
+  <style>
+    .err { gap: 16px; padding-top: 48px; text-align: center; align-items: center; }
+    .err__code { display: inline-block; padding: 4px 14px; border-radius: 999px; background: var(--c-surface-muted); color: var(--c-text-sub); font-size: 15px; font-weight: 700; }
+    .err__title { font-size: 24px; line-height: 1.35; }
+    .err__desc { font-size: 16px; color: var(--c-text-sub); line-height: 1.6; max-width: 22em; }
+    .err__actions { display: flex; flex-direction: column; gap: 10px; width: 100%; margin-top: 8px; }
+    .err__actions .btn { min-height: 52px; font-size: 17px; }
+    .err .link { display: inline-flex; align-items: center; min-height: 44px; font-size: 15px; }
+    .err ~ .disclaimer, .disclaimer { font-size: 13px; color: var(--c-text-sub); }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <a class="logo" href="pages/home.html" style="text-decoration:none;display:inline-flex;align-items:center;min-height:44px">Safe-T</a>
+    </header>
+    <main class="views">
+      <section class="view is-active" aria-labelledby="err-title">
+        <div class="page err">
+          <span class="err__code" id="err-code">안내</span>
+          <h1 class="err__title" id="err-title">화면을 열지 못했어요</h1>
+          <p class="err__desc" id="err-desc">아래 버튼으로 이동해 주세요.</p>
+          <div class="err__actions">
+            <a class="btn btn--primary btn--block" href="pages/home.html">내 평가표로 가기</a>
+            <a class="btn btn--block" href="pages/login.html#v-login">로그인 화면으로</a>
+            <button class="btn btn--block" type="button" id="err-retry" hidden>다시 시도</button>
+          </div>
+          <button class="link" type="button" id="err-back" hidden>이전 화면으로 돌아가기</button>
+        </div>
+      </section>
+    </main>
+    <p class="disclaimer">내 평가표는 로그인해야 열려요. 로그인이 필요하면 로그인 화면으로 이동해요.</p>
+  </div>
+  <script>
+    (function () {
+      var m = /[?&]code=(\d{3})/.exec(location.search);
+      var code = parseInt(document.documentElement.getAttribute('data-status') || (m && m[1]) || '0', 10);
+      var T = {
+        404: ['페이지를 찾을 수 없어요', '주소가 바뀌었거나 없는 화면이에요. 아래 버튼으로 이동해 주세요.'],
+        405: ['이 방법으로는 열 수 없는 화면이에요', '화면의 버튼이나 메뉴로 다시 들어와 주세요.'],
+        403: ['이 화면을 볼 수 있는 권한이 없어요', '내 계정으로 로그인했는지 확인해 주세요.'],
+        5:   ['일시적인 오류가 생겼어요', '잠시 뒤 다시 시도해 주세요. 계속되면 관리자에게 알려 주세요.']
+      };
+      if (code === 501) code = 405;      // 화면 서버가 지원하지 않는 요청 방식
+      var t = T[code] || (code >= 500 ? T[5] : null);
+      if (code) document.getElementById('err-code').textContent = '오류 ' + code;
+      if (t) {
+        document.getElementById('err-title').textContent = t[0];
+        document.getElementById('err-desc').textContent = t[1];
+        document.title = t[0] + ' · Safe-T';
+      }
+      if (code >= 500) {
+        var r = document.getElementById('err-retry');
+        r.hidden = false;
+        r.onclick = function () { location.reload(); };
+      }
+      if (history.length > 1 && document.referrer && document.referrer.indexOf(location.host) > -1) {
+        var b = document.getElementById('err-back');
+        b.hidden = false;
+        b.onclick = function () { history.back(); };
+      }
+    })();
+  </script>
+</body>
+</html>

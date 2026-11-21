@@ -1,0 +1,78 @@
+/* 입력 안내 마이크로인터랙션 (UX-003 · 2026-11-21) · body[data-ux-guide] 페이지에서만 */
+
+/* 다음에 채울 칸: 테두리 + 은은하게 번지는 빛 (색만이 아니라 테두리 굵기로도 구분) */
+[data-ux-guide] .input.ux-next,
+[data-ux-guide] .select.ux-next,
+[data-ux-guide] .textarea.ux-next {
+  border-color: var(--c-primary);
+  border-width: 2px;
+  animation: ux-glow 1.8s ease-in-out infinite;
+}
+[data-ux-guide] [data-ux-required].ux-next {
+  border-radius: var(--radius-sm);
+  outline: 2px dashed var(--c-primary-line);
+  outline-offset: 6px;
+  animation: ux-glow 1.8s ease-in-out infinite;
+}
+@keyframes ux-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(31, 90, 71, 0); }
+  50% { box-shadow: 0 0 0 5px rgba(31, 90, 71, .16); }
+}
+
+/* 포커스 칸: 두꺼운 테두리 + 연한 배경, 라벨 강조 */
+[data-ux-guide] .input:focus,
+[data-ux-guide] .select:focus,
+[data-ux-guide] .textarea:focus {
+  border-color: var(--c-primary);
+  box-shadow: 0 0 0 3px var(--c-primary-line);
+  background: #fbfdfb;
+  animation: none;
+}
+[data-ux-guide] .field:focus-within > .label,
+[data-ux-guide] .field:focus-within > legend { color: var(--c-primary); }
+
+/* 채운 필수 항목: 라벨 옆 ✓ */
+[data-ux-guide] .label.ux-done::after,
+[data-ux-guide] legend.ux-done::after {
+  content: '✓';
+  margin-left: 6px;
+  color: var(--c-primary);
+  font-weight: 800;
+}
+
+/* 오류 칸 */
+[data-ux-guide] .input[aria-invalid="true"] { border-width: 2px; background: var(--c-danger-bg); }
+
+/* 필수를 다 채우면 주요 버튼 강조 */
+[data-ux-guide] .btn--primary.ux-ready { box-shadow: 0 0 0 3px var(--c-primary-line); animation: ux-ready-in .35s ease-out; }
+@keyframes ux-ready-in { from { transform: scale(.97); } to { transform: scale(1); } }
+
+/* 누름 반응 */
+[data-ux-guide] .btn:active,
+[data-ux-guide] .check:active { transform: scale(.98); }
+[data-ux-guide] .check:has(input:checked) { transition: background-color .15s, border-color .15s; }
+
+/* UX-004 달력: 연·월 제목 버튼, 연도·월 선택 격자, 누름 영역 44px */
+[data-ux-guide] .mini-cal { width: 312px; }
+[data-ux-guide] .mini-cal__head button { width: 44px; height: 44px; }
+[data-ux-guide] .mini-cal__head .mini-cal__title {
+  width: auto; height: 44px; padding: 0 12px; border-radius: 999px;
+  font-size: 16px; font-weight: 800; color: var(--c-primary); background: var(--c-primary-soft);
+}
+[data-ux-guide] .mini-cal__grid { font-size: 14px; }
+[data-ux-guide] .mini-cal__grid button { min-height: 40px; font-size: 15px; }
+[data-ux-guide] .mini-cal__pick { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; padding: 6px 0; }
+[data-ux-guide] .mini-cal__pick button {
+  min-height: 48px; border: 1px solid var(--c-line); border-radius: var(--radius-sm);
+  background: var(--c-surface); font-size: 16px; font-weight: 600; cursor: pointer;
+}
+[data-ux-guide] .mini-cal__pick button[aria-pressed="true"] { background: var(--c-primary); border-color: var(--c-primary); color: #fff; }
+[data-ux-guide] .mini-cal__pick button:disabled { color: var(--c-text-faint); background: var(--c-surface-muted); cursor: not-allowed; }
+[data-ux-guide] .mini-cal__foot .link { min-height: 44px; display: inline-flex; align-items: center; font-size: 15px; }
+
+@media (prefers-reduced-motion: reduce) {
+  [data-ux-guide] .ux-next,
+  [data-ux-guide] .btn--primary.ux-ready { animation: none !important; }
+  [data-ux-guide] .btn:active,
+  [data-ux-guide] .check:active { transform: none; }
+}

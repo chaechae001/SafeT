@@ -9,7 +9,7 @@ import jwt
 
 from conftest import db_exec
 
-PW = "password123"
+PW = "Password123!"
 
 
 def make_user(email, pw=PW, name="김하늘"):

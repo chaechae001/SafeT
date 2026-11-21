@@ -449,3 +449,21 @@ Remove-Item Env:SAFET_RUN_LIVE_TEXT_TEST
 [변경 범위와 검토 사항](../docs/implementation/review-fixes-20261118.md)
 
 N02·N08 문맥 확장 설정·검수: [설명](../docs/implementation/n02-n08-context-expansion.md). 환경변수 SAFET_RAG_CONTEXT_DIR을 지정하면 별도 검수 문맥을 추가하고, 미설정 시 기존 검색을 유지합니다.
+
+## 로그인 화면 보완 · 게스트 로그인 · 개발용 메일 보관함 (UX-002 · 2026-11-21)
+
+| 항목 | 내용 |
+|---|---|
+| 비밀번호 규칙 | 회원가입·재설정 새 비밀번호는 영문 대문자·소문자·숫자·특수문자를 모두 넣어 8자 이상(`schemas/auth.py` `check_password`). 아니면 422. 로그인은 규칙을 검사하지 않아 기존 계정은 그대로 로그인합니다. |
+| 게스트 로그인 | `POST /auth/guest` `{key}`. `.env`의 `SAFET_GUEST_KEY`(24자 이상)와 같으면 `SAFET_GUEST_EMAIL`(기본 `guest@safe-t.invalid`) 계정으로 토큰 발급. 계정이 없으면 임의 비밀번호 해시로 만들어 비밀번호 로그인은 불가. 키가 없으면 404 `GUEST_DISABLED`, 틀리면 401 `GUEST_KEY_INVALID`. 게스트 데이터는 시연자가 함께 씁니다. |
+| 게스트 QR | 화면 주소 `login.html#g=<키>`(키는 # 뒤라 서버·프록시 기록에 남지 않고, 화면이 읽자마자 주소에서 지움). QR 그림: `backend\.venv\Scripts\python backend/make_guest_qr.py --base <login.html 주소>` → `backend/.venv/guest-qr.png`. 키를 바꾸면 이전 QR은 무효. |
+| 개발용 메일 보관함 | SMTP가 비어 있고 `SAFET_DEV_MAIL_OUTBOX`(폴더)가 있으면 인증 메일을 보내지 않고 그 폴더에 저장합니다. `http://localhost:8001/dev/outbox`(이 PC 요청만, 5초 자동 새로 고침)에서 코드를 확인합니다. 운영·공용 서버에서는 비워 둡니다. |
+| 개발용 화면 서버 | `dev_static_server.py`: 4xx·5xx에 `frontend/pages/error.html`(같은 상태 코드, 요청 깊이에 맞춘 `<base>`), POST 등 405, 폴더 목록 대신 404, `/` → `pages/login.html`(상대 주소). |
+
+검사(_test DB): `DB_NAME=<이름>_test`로 `python -m pytest tests -q` → 163개 통과(새 `tests/test_ux001_auth.py` 포함, 2026-11-21). `unit_tests` 102개 통과.
+배포 서버(nginx 뒤 `/proxy/8022/`)는 저장소 밖 설정이라 오류 페이지·루트 이동은 배포 담당이 같은 방식으로 연결해야 합니다.
+
+## 위험 항목 1개 삭제 · 결과서 표시 정리 (UX-005·007 · 2026-11-21)
+
+- `POST /evals/{eval_no}/items/{eval_dtl_no}/delete` `{revision}` · 로그인 필요 · 작성 중(W) 평가표만, revision 일치, 이 평가표의 항목만. 입력 기반(input_based) 평가표는 409. 항목의 조치·항목 첨부를 함께 지우고 revision을 올린 뒤 평가표 상세를 돌려줍니다(휴지통 없음). 테스트: `tests/test_ux005_remove_item.py`.
+- 결과서 PDF(`templates/report.html`): 1쪽 상태 도장과 평가 개요의 '판정 방식' 줄을 뺐습니다(화면수정요청 30·31). 미확정본 경고는 그대로입니다.

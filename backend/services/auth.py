@@ -229,7 +229,11 @@ def login(db: Session, email: str, password: str) -> dict:
         ok = False
     if not row or not stored or not ok:
         raise AuthError(401, "LOGIN_FAILED", LOGIN_FAILED)
+    return _issue(db, row)
 
+
+def _issue(db: Session, row) -> dict:
+    """로그인 응답(토큰 발급). 일반 로그인·게스트 로그인 공통"""
     ttl = _token_ttl()
     issued = datetime.now(timezone.utc)
     token = jwt.encode(
@@ -244,6 +248,47 @@ def login(db: Session, email: str, password: str) -> dict:
         "token_type": "bearer",
         "expires_in": int(ttl.total_seconds()),
     }
+
+
+GUEST_NAME = "게스트(시연)"
+GUEST_EMAIL_DEFAULT = "guest@safe-t.invalid"
+GUEST_KEY_MIN = 24
+
+
+def guest_enabled() -> bool:
+    return len(os.getenv("SAFET_GUEST_KEY", "")) >= GUEST_KEY_MIN
+
+
+def guest_email() -> str:
+    return (os.getenv("SAFET_GUEST_EMAIL") or GUEST_EMAIL_DEFAULT).strip().lower()
+
+
+def guest_login(db: Session, key: str) -> dict:
+    """UX-001 시연용 게스트 로그인: QR 주소의 key 가 서버 SAFET_GUEST_KEY 와 같으면 게스트 계정으로 토큰 발급.
+    - SAFET_GUEST_KEY 가 없거나 24자 미만이면 기능 꺼짐(404)
+    - 게스트 계정이 없으면 만듦. 비밀번호는 임의 해시라 비밀번호로는 로그인할 수 없음
+    - 게스트 데이터는 모든 시연자가 함께 씀(초기화는 운영 담당이 별도로)"""
+    expected = os.getenv("SAFET_GUEST_KEY", "")
+    if len(expected) < GUEST_KEY_MIN:
+        raise AuthError(404, "GUEST_DISABLED", "게스트 로그인을 쓸 수 없어요. 이메일로 로그인해 주세요.")
+    if not hmac.compare_digest((key or "").encode("utf-8"), expected.encode("utf-8")):
+        raise AuthError(401, "GUEST_KEY_INVALID", "게스트 로그인 링크가 올바르지 않아요. 새 QR 코드를 받아 주세요.")
+    email = guest_email()
+    row = db.execute(text("SELECT email, pw, name, upt_dt FROM `user` WHERE email = :e"), {"e": email}).mappings().first()
+    if not row:
+        t = now()
+        unusable = bcrypt.hashpw(secrets.token_bytes(32), bcrypt.gensalt()).decode("ascii")
+        try:
+            db.execute(
+                text("INSERT INTO `user` (email, pw, name, auth_dt, ins_dt, ins_nm, upt_dt, upt_nm) "
+                     "VALUES (:e, :p, :n, :t, :t, 'guest', :t, 'guest')"),
+                {"e": email, "p": unusable, "n": GUEST_NAME, "t": t},
+            )
+            db.commit()
+        except IntegrityError:                 # 동시에 두 번 만들 때
+            db.rollback()
+        row = db.execute(text("SELECT email, pw, name, upt_dt FROM `user` WHERE email = :e"), {"e": email}).mappings().first()
+    return {**_issue(db, row), "guest": True}
 
 
 def user_from_token(db: Session, token: str | None) -> dict:

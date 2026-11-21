@@ -9,7 +9,7 @@ from sqlalchemy.orm import Session
 
 from database import get_db
 from routers.auth import current_user
-from schemas.sign import SaveSign
+from schemas.sign import AddSigner, SaveSign
 from services import sign as service
 
 router = APIRouter(tags=["참여자 서명"])
@@ -18,6 +18,12 @@ router = APIRouter(tags=["참여자 서명"])
 @router.get("/evals/{eval_no}/signs", summary="참여자 서명 현황")
 def signs(eval_no: int, user: dict = Depends(current_user), db: Session = Depends(get_db)):
     return service.summary(db, user["email"], eval_no)
+
+
+@router.post("/evals/{eval_no}/signs/members", status_code=201, summary="서명할 사람 추가 (UX-016)")
+def add_signer(eval_no: int, body: AddSigner, user: dict = Depends(current_user), db: Session = Depends(get_db)):
+    """참여자가 없거나 빠졌을 때 서명 화면에서 이름 추가. 409 SIGN_CLOSED / MEMBER_EXISTS / MEMBER_LIMIT"""
+    return service.add_member(db, user["email"], eval_no, body)
 
 
 @router.post("/evals/{eval_no}/signs", status_code=201, summary="참여자 서명 저장 (정정 불가)")

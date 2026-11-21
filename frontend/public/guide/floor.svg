@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 300" role="img" aria-label="주방 바닥과 통로: 싱크대 앞 물기, 턱 있는 출입구, 통로의 박스">
+  <!-- UX-011 가상 일러스트(직접 제작) · 빨간 점선 = 찍을 곳 -->
+  <rect width="480" height="300" fill="#f3f6f4"/>
+  <rect y="180" width="480" height="120" fill="#d5ddd8"/>
+  <!-- 싱크대 -->
+  <rect x="20" y="90" width="170" height="90" rx="4" fill="#b8c4bd"/><rect x="20" y="80" width="170" height="14" rx="3" fill="#9fb0a6"/>
+  <rect x="40" y="70" width="70" height="14" rx="4" fill="#dfe6e2"/><path d="M75 70 v-26 h18" stroke="#8a968f" stroke-width="5" fill="none"/>
+  <!-- 출입구와 턱 -->
+  <rect x="300" y="40" width="110" height="140" fill="#e9efe9" stroke="#b9c4bd" stroke-width="4"/>
+  <rect x="292" y="176" width="126" height="14" rx="3" fill="#8b968f"/>
+  <!-- 통로의 박스 -->
+  <rect x="215" y="200" width="64" height="44" fill="#c79a5b"/><rect x="225" y="166" width="48" height="36" fill="#d4aa6e"/>
+  <!-- 물기 -->
+  <ellipse cx="110" cy="225" rx="82" ry="20" fill="#8fbbe0" opacity=".85"/>
+  <path d="M85 221 q12 -8 24 0 M125 228 q10 -7 20 0" stroke="#fff" stroke-width="3" fill="none"/>
+  <g fill="none" stroke="#e5484d" stroke-width="4" stroke-dasharray="10 7">
+    <ellipse cx="110" cy="225" rx="98" ry="32"/>
+    <rect x="282" y="164" width="146" height="38" rx="10"/>
+    <rect x="205" y="156" width="84" height="98" rx="10"/>
+  </g>
+</svg>

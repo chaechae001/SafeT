@@ -75,6 +75,10 @@ class SaveAssessment(StrictModel):
     revision: int = Field(ge=1)
     items: list[ItemEdit] = Field(max_length=100)
 
+class RemoveRisk(StrictModel):
+    """위험 항목 1개 삭제 (UX-005 · 화면수정요청 15). 작성 중 평가표만, revision 확인"""
+    revision: int = Field(ge=1)
+
 class AddRisk(StrictModel):
     revision: int = Field(ge=1)
     keyword: str = Field(min_length=1, max_length=200)

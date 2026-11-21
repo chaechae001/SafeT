@@ -12,17 +12,19 @@
 
   var KEY = 'safet.home';
   var STATUS = { W: '작성 중', C: '확정', S: '서명 완료', A: '조치 완료' };
-  var state = { tab: 'C', from: '', to: '', work: '', page: 1, scroll: 0 };
+  var state = { tab: 'ALL', from: '', to: '', work: '', page: 1, scroll: 0 };   // UX-004: 처음 탭 = 전체
   var loadSeq = 0;
 
   function save() {
+    state.day = SafeT.formatDate(SafeT.today());   // 같은 날에만 복원
     try { window.sessionStorage.setItem(KEY, JSON.stringify(state)); } catch (err) { /* 저장 불가 환경 */ }
   }
 
   function load() {
     try {
       var s = JSON.parse(window.sessionStorage.getItem(KEY) || 'null');
-      if (s) $.extend(state, s);
+      // UX-014 보완: 저장한 날과 오늘이 다르면 복원하지 않음(어제 종료일이 남아 오늘 평가표가 안 보이던 문제)
+      if (s && s.day === SafeT.formatDate(SafeT.today())) $.extend(state, s);
     } catch (err) { /* 무시 */ }
   }
 
@@ -45,6 +47,27 @@
     return 'C';
   }
 
+  /** UX-004 카드 제목 줄이기: 맨 앞 날짜(바로 아래 줄에 다시 나옴)와 모든 카드에 공통인 끝의 '위험성평가'를 뺌.
+      화면 표시만 바꾸고 저장된 평가표 이름은 그대로(전체 이름은 title·읽기 프로그램용 이름에 둠) */
+  function shortTitle(name) {
+    var s = $.trim(name || '');
+    var t = s.replace(/^\d{4}[-.]\d{1,2}[-.]\d{1,2}\s*/, '').replace(/\s*위험성\s*평가$/, '');
+    return $.trim(t) || s;
+  }
+
+  function scroller() { return document.getElementById('home-scroll'); }
+  function ico(n) { return SafeT.icon ? SafeT.icon(n) : ''; }
+
+  /** UX-015: 기간 한 칸 표시 'YYYY.MM.DD ~ YYYY.MM.DD' */
+  function periodText() {
+    $('#period-text').text(($('#from_dt').val() || '처음') + ' ~ ' + ($('#to_dt').val() || '오늘'));
+  }
+  function togglePeriod(open) {
+    $('#period-panel').prop('hidden', !open);
+    $('#period-view').attr('aria-expanded', open ? 'true' : 'false');
+    if (open) $('#from_dt').trigger('focus');
+  }
+
   function card(e) {
     var b = badge(e);
     // 평가표 번호는 주소에 넣지 않고, 누를 때 이 탭에 저장 (SafeT.current · api.js)
@@ -53,29 +76,36 @@
       .attr('href', e.eval_status === 'W' ? 'draft.html' : 'result.html')
       .appendTo($li);
     var $head = $('<span class="card__head">').appendTo($a);
-    $('<span class="card__title">').text(e.eval_nm || '(이름 없는 평가표)').appendTo($head);
-    $('<span class="tag status">').attr('data-status', b).text(STATUS[b]).appendTo($head);
-    $('<span class="card__meta">')
-      .text([e.workplace || '(사업장 없음)', dot(e.eval_dt), e.eval_writer || ''].filter(Boolean).join(' · '))
-      .appendTo($a);
+    $('<span class="card__title">').text(e.eval_nm ? shortTitle(e.eval_nm) : '(이름 없는 평가표)').attr('title', e.eval_nm || '').appendTo($head);
+    $a.attr('aria-label', (e.eval_nm || '이름 없는 평가표') + ', ' + STATUS[b]);
+    $('<span class="tag status">').attr('data-status', b).html(b === 'S' ? ico('check') + STATUS[b] : STATUS[b]).appendTo($head);
+    // UX-015: 사업장은 제목과 겹쳐 빼고 '날짜 · 작성자 OOO (· 서명일 MM.DD)'
+    var meta = [dot(e.eval_dt), e.eval_writer ? '작성자 ' + e.eval_writer : ''];
+    if (b === 'S' && e.sign_end_dt) meta.push('서명일 ' + dot(e.sign_end_dt).slice(5));
+    $('<span class="card__meta">').text(meta.filter(Boolean).join(' · ')).attr('title', e.workplace || '').appendTo($a);
+    $li.attr('data-card', b);
 
-    // 왼쪽 버튼: 작성 중 = 서명하기·확정 후(비활성) / 확정 = 서명하기 n/m / 전원 서명 = 결과 공유
+    // UX-015 상태별 버튼
+    //  작성 중 = [이어서 작성하기] 전체 너비 아웃라인
+    //  확정    = [서명하기 n/m] 딥그린 + [문서 다운로드] 흰색 아웃라인
+    //  서명 완료 = [문서 다운로드] 하나 (결과 공유는 오른쪽 위 작은 링크로 유지 — 08 공유 화면 입구)
     var $row = $('<div class="btn-row">').appendTo($li);
-    if (e.eval_status === 'W') {
-      $('<span class="btn" aria-disabled="true">서명하기 · 확정 후</span>').appendTo($row);
-    } else if (e.sign_end_dt) {
-      $('<a class="btn">결과 공유</a>').attr('href', 'share.html').appendTo($row);
-    } else {
-      $('<a class="btn">').attr('href', 'sign.html')
-        .text(e.member_count ? '서명하기 ' + e.signed_count + '/' + e.member_count : '서명하기')
-        .appendTo($row);
+    function dl() {
+      return $('<button class="btn" type="button">').html(ico('download') + '문서 다운로드')
+        .attr('data-report', e.eval_no)
+        .attr('aria-label', (e.eval_nm || '평가표') + (e.eval_status === 'W' ? ' 미확정 문서 다운로드' : ' 문서 다운로드'));
     }
-    // 오른쪽: 늘 문서 다운로드 (작성 중이면 '미확정' 표시와 함께 · 33쪽)
-    // 결과서 PDF 내려받기 (api.js [data-report]). 작성 중이면 '미확정본'으로 만들어짐
-    $('<button class="btn" type="button">문서 다운로드</button>')
-      .attr('data-report', e.eval_no)
-      .attr('aria-label', (e.eval_nm || '평가표') + (e.eval_status === 'W' ? ' 미확정 문서 다운로드' : ' 문서 다운로드'))
-      .appendTo($row);
+    if (e.eval_status === 'W') {
+      $('<a class="btn btn--block eval-card__continue" href="draft.html">').html(ico('pencil') + '이어서 작성하기').appendTo($row);
+    } else if (b === 'S' || e.sign_end_dt) {
+      dl().addClass('btn--block').appendTo($row);
+      $('<a class="eval-card__share" href="share.html">결과 공유 ›</a>').appendTo($li);   // 카드 링크(a) 밖에 둠
+    } else {
+      $('<a class="btn btn--primary">').attr('href', 'sign.html')
+        .html(ico('sign') + (e.member_count ? '서명하기 ' + e.signed_count + '/' + e.member_count : '서명하기'))
+        .appendTo($row);
+      dl().appendTo($row);
+    }
     return $li;
   }
 
@@ -155,7 +185,7 @@
     state.to = SafeT.formatDate(today);
     load();
     // 저장해 둔 탭이 화면에 없으면(예: 주석 처리한 '조치 완료') 기본 탭으로
-    if (!$('.tabs [data-tab="' + state.tab + '"]').length) state.tab = 'C';
+    if (!$('.tabs [data-tab="' + state.tab + '"]').length) state.tab = 'ALL';
     $('#from_dt').val(state.from);
     $('#to_dt').val(state.to);
 
@@ -168,7 +198,7 @@
     var restoreScroll = state.scroll;
     $.when(loadWorkplaces()).always(function () {
       reload().always(function () {
-        if (restoreScroll) window.scrollTo(0, restoreScroll);
+        if (restoreScroll && scroller()) scroller().scrollTop = restoreScroll;   // UX-004: 목록 영역 스크롤 복원
       });
     });
 
@@ -176,12 +206,22 @@
       e.preventDefault();
       state.tab = $(this).data('tab');
       state.page = 1;
+      if (scroller()) scroller().scrollTop = 0;
       reload();
     });
 
     $('#from_dt, #to_dt, #work_no').on('change', function () {
       if (readFilter()) reload();
+      periodText();
     });
+    periodText();
+    $('#period-view').on('click', function () { togglePeriod($('#period-panel').prop('hidden')); });
+    $('#period-close').on('click', function () { togglePeriod(false); $('#period-view').trigger('focus'); });
+    $(document).on('click', function (e) {
+      if ($('#period-panel').prop('hidden') || !document.contains(e.target)) return;   // 달력이 다시 그려져 떨어진 요소는 무시
+      if (!$(e.target).closest('.period').length && !$(e.target).closest('.mini-cal').length) togglePeriod(false);
+    });
+    $('#period-panel').on('keydown', function (e) { if (e.key === 'Escape' && !$('.mini-cal').length) { togglePeriod(false); $('#period-view').trigger('focus'); } });
     $('#home-filter').on('safet:submit', function (e) {
       e.preventDefault();
       if (readFilter()) reload();
@@ -190,7 +230,7 @@
     $('#pager').on('click', '[data-page]', function () {
       state.page += +$(this).data('page');
       reload();
-      window.scrollTo(0, 0);
+      if (scroller()) scroller().scrollTop = 0;
     });
 
     $('#eval-retry').on('click', reload);
@@ -202,7 +242,7 @@
 
     // 다른 화면으로 갈 때 스크롤 위치 저장
     $(window).on('pagehide', function () {
-      state.scroll = window.scrollY;
+      state.scroll = scroller() ? scroller().scrollTop : 0;
       save();
     });
   });

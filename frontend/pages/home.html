@@ -6,8 +6,9 @@
   <title>내 평가표 · Safe-T</title>
   <link rel="stylesheet" href="../css/common.css?v=20261117">
   <link rel="stylesheet" href="../css/home.css?v=20261117">
+  <link rel="stylesheet" href="../css/ux-guide.css">
 </head>
-<body data-auth-required>
+<body class="page-home" data-auth-required data-ux-guide>
   <!-- home.html · 화면설계서 v3.19 통합본
        화면(view) 목록 (처음 화면 = .is-active)
        - #v-home : H01 내 평가표
@@ -30,7 +31,8 @@
       <section class="view home is-active" id="v-home" aria-label="H01 내 평가표">
         <!-- H01 내 평가표 · 화면설계서 10쪽
              테이블: eval_mst(eval_nm, eval_status, eval_dt, eval_writer, del_yn='N') · workplaces
-             - 탭: 전체(ALL) / 작성 중(W) / 확정(C) / 서명 완료(S) / 조치 완료(A)
+             - 탭: 전체(ALL) / 작성 중(W) / 확정(C) / 서명 완료(S) / 조치 완료(A) · 처음 값 = 전체 (UX-004)
+             - 검색 조건·하단 버튼은 고정, 평가표 목록(.home__scroll)만 스크롤 (UX-004)
              - 기간 처음 값: 이번 달 1일 ~ 오늘(한국 날짜), 사업장 처음 값: -전체-
              - 카드 왼쪽 버튼: 작성 중 = 서명하기·확정 후(비활성) / 확정 = 서명하기 n/m / 전원 서명 = 결과 공유
              - 목록 10개씩 -->
@@ -38,9 +40,9 @@
           <h1 class="page-title">내 평가표</h1>
 
           <nav class="tabs" aria-label="평가표 상태">
-            <a href="#v-home" data-tab="ALL">전체</a>
+            <a href="#v-home" data-tab="ALL" aria-current="page">전체</a>
             <a href="#v-home" data-tab="W">작성 중</a>
-            <a href="#v-home" data-tab="C" aria-current="page">확정</a>
+            <a href="#v-home" data-tab="C">확정</a>
             <a href="#v-home" data-tab="S">서명 완료</a>
             <!-- 조치 완료 탭: 후속업무(조치 기록)가 '협의 중'이라 숨김 (2026-11-16). 되살리려면 주석을 풀면 됩니다.
             <a href="#v-home" data-tab="A">조치 완료</a>
@@ -48,8 +50,13 @@
           </nav>
 
           <form class="home__filter" id="home-filter" method="get" action="#v-home">
-            <div class="field">
+            <!-- UX-015: 기간을 'YYYY.MM.DD ~ YYYY.MM.DD' 한 칸(오른쪽 달력 아이콘)으로. 누르면 시작·종료 칸이 펼쳐짐(기존 입력·달력 그대로) -->
+            <div class="field period">
               <span class="label" id="period-label">기간</span>
+              <button class="input period__view" id="period-view" type="button" aria-expanded="false" aria-controls="period-panel" aria-describedby="period-label">
+                <span id="period-text"></span><i data-ico="calendar"></i>
+              </button>
+              <div class="period__panel" id="period-panel" hidden>
               <div class="date-range" role="group" aria-labelledby="period-label">
                 <div class="date-input">
                   <label class="sr-only" for="from_dt">시작일</label>
@@ -63,6 +70,8 @@
                   <button class="date-input__icon" type="button" aria-label="종료일 달력 열기">📅</button>
                 </div>
               </div>
+              <button class="btn btn--sm period__close" id="period-close" type="button">닫기</button>
+              </div>
             </div>
 
             <div class="field">
@@ -74,7 +83,8 @@
             </div>
           </form>
 
-          <!-- 평가표 목록: GET /evals (home.js 가 채움) -->
+          <!-- 평가표 목록: GET /evals (home.js 가 채움) · 이 영역만 스크롤 (UX-004) -->
+          <div class="home__scroll" id="home-scroll" tabindex="-1" aria-label="평가표 목록">
           <p class="notice notice--danger" id="eval-error" hidden>
             <span class="js-msg">평가표 목록을 불러오지 못했어요.</span>
             <button class="btn btn--sm" id="eval-retry" type="button">다시 불러오기</button>
@@ -86,9 +96,10 @@
           <div class="empty" id="eval-empty" hidden>
             <p>이 기간에 작성한 평가표가 없어요.</p>
           </div>
+          </div>
         </div>
         <div class="bottom-bar">
-          <a class="btn btn--primary" href="write.html">새 평가표</a>
+          <a class="btn btn--primary" href="write.html"><i data-ico="plus"></i>새 평가표</a>
         </div>
       </section>
     </main>
@@ -98,7 +109,9 @@
 
   <script src="../js/vendor/jquery-3.7.1.min.js?v=20261117"></script>
   <script src="../js/common.js?v=20261117"></script>
+  <script src="../js/ui-icons.js"></script>
   <script src="../js/api.js?v=20261117"></script>
   <script src="../js/home.js?v=20261117"></script>
+  <script src="../js/ux-guide.js"></script>
 </body>
 </html>

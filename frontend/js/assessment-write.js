@@ -12,12 +12,45 @@
     $('#v-equipment .tag-list,#v-equipment .check-list').empty();
     $('#v-equipment fieldset .hint').text('등록된 기기는 위험 후보 탐색에 참고합니다. 실제 작업·조치 상태는 초안에서 확인해 주세요.');
     $('.disclaimer').text('저장된 입력으로 평가표를 작성합니다. 위험 판단 결과는 현장 검토가 필요합니다.');
+    /* UX-016: 등록 기기는 ✓ 칩(모두 포함). 새로 찾은 기기는 칩(체크박스) — 없으면 점선 안내 카드.
+       아래 '총 N개' = 등록 기기 + 선택한 새 기기. 서버로 보내는 값은 그대로(등록 기기는 서버가 사업장 기준으로 넣음). */
+    var ico=function(n){return S.icon?S.icon(n):'';};
+    function regCount(){var w=works.find(function(x){return String(x.work_no)===$('#work_no').val();});return w?w.machines.length:0;}
+    function updateSummary(){
+      var n=regCount()+$('#v-equipment .eq-found input[name="ai_machine_nm"]:checked').length;
+      $('#eq-summary').text('총 '+n+'개의 기기로 평가표 초안을 생성합니다.');
+    }
     function showMachines() {
       var w=works.find(function(x){return String(x.work_no)===$('#work_no').val();});
       var list=$('#v-equipment .tag-list').empty();
-      if(w) w.machines.forEach(function(m){$('<li class="tag tag--primary">').text(m.machine_nm).appendTo(list);});
+      if(w) w.machines.forEach(function(m){$('<li class="eq-chip eq-chip--on">').html(ico('check')).append($('<span>').text(m.machine_nm)).appendTo(list);});
       if(!w || !w.machines.length) $('<li class="hint">등록된 기기가 없습니다.</li>').appendTo(list);
+      updateSummary();
     }
+    function setDetected(names){
+      var box=$('#v-equipment .eq-found .check-list').empty();
+      (names || []).forEach(function(nm){
+        var l=$('<label class="eq-chip eq-chip--ai">').appendTo(box);
+        $('<input type="checkbox" class="sr-only" name="ai_machine_nm" checked>').val(nm).appendTo(l);
+        l.append(ico('check').replace('class="ico"','class="ico eq-chip__on"')).append(ico('plus').replace('class="ico"','class="ico eq-chip__off"'));
+        $('<span>').text(nm).appendTo(l);
+        $('<span class="eq-chip__state">').text(' (추가됨)').appendTo(l);
+      });
+      var n=(names || []).length;
+      $('#v-equipment .js-eq-found-n').text(n);
+      $('#v-equipment .eq-found').prop('hidden',!n); $('#v-equipment .eq-empty').prop('hidden',!!n);
+      updateSummary();
+    }
+    $('#v-equipment').on('change','input[name="ai_machine_nm"]',updateSummary);
+    S.equipment={setDetected:setDetected};   // 사진 기기 인식 결과를 그릴 때 사용(현재 서버 응답에는 없음)
+    /* 기기 추가·변경은 사업장 관리에서. 입력이 있으면 사라진다고 먼저 묻는다. */
+    $('#v-equipment').on('click','.js-eq-manage',function(e){
+      e.preventDefault();
+      var go=function(){S.hasUnsaved=function(){return false;};window.location.href='workplace.html';};
+      if(!S.hasUnsaved()){go();return;}
+      S.confirm({title:'사업장 관리로 이동할까요?',message:'기기는 사업장 관리에서 추가하거나 바꿀 수 있어요. 지금 이동하면 입력한 사진·음성·글이 사라져요.',ok:'이동',cancel:'계속 작성',danger:true})
+        .then(function(yes){if(yes===true)go();});
+    });
     S.api.get('/workplaces').done(function(data){
       works=data; var sel=$('#work_no').empty().append('<option value="">사업장 선택</option>');
       data.forEach(function(w){$('<option>').val(w.work_no).text(w.workplace+' · '+w.biz_nm).appendTo(sel);});
@@ -30,19 +63,30 @@
     $('#v-equipment').on('safet:show',showMachines);
     function renderPhotos(){
       var grid=$('.photo-grid').empty();
+      /* UX-015: 한 줄 = 썸네일(X) · 파일명(용량) · 삭제, 설명 칸은 파일명 아래 */
+      function remove(i){photos.splice(i,1);renderPhotos();}
+      function size(b){if(!b)return '';return b>=1048576?(b/1048576).toFixed(1)+'MB':Math.max(1,Math.round(b/1024))+'KB';}
       photos.forEach(function(p,i){
         var li=$('<li class="photo">').appendTo(grid);
-        $('<img class="photo__img" alt="첨부한 현장 사진">').attr('src',p.data).appendTo(li);
-        $('<button type="button" class="photo__remove">×</button>').attr('aria-label','사진 '+(i+1)+' 삭제').on('click',function(){photos.splice(i,1);renderPhotos();}).appendTo(li);
-        $('<label class="sr-only">').attr('for','photo-place-'+i).text('사진 '+(i+1)+' 장소').appendTo(li);
-        $('<input class="input" maxlength="100" placeholder="장소 입력">').attr('id','photo-place-'+i).val(p.place).on('input',function(){p.place=this.value;}).appendTo(li);
+        var th=$('<span class="photo__thumb">').appendTo(li);
+        $('<img class="photo__img" alt="첨부한 현장 사진">').attr('src',p.data).appendTo(th);
+        $('<button type="button" class="photo__remove">×</button>').attr('aria-label','사진 '+(i+1)+' 삭제').on('click',function(){remove(i);}).appendTo(th);
+        var info=$('<span class="photo__info">').appendTo(li);
+        $('<span class="photo__name">').text(p.name || ('사진 '+(i+1))).attr('title',p.name || '').appendTo(info);
+        if(p.size)$('<span class="photo__size">').text('('+size(p.size)+')').appendTo(info);
+        $('<label class="sr-only">').attr('for','photo-place-'+i).text('사진 '+(i+1)+' 설명').appendTo(info);
+        $('<input class="input photo__place" maxlength="100" placeholder="설명 입력(선택)">')   /* UX-011: 장소 → 설명 (저장 칸은 그대로 place_nm) */.attr('id','photo-place-'+i).val(p.place).on('input',function(){p.place=this.value;}).appendTo(info);
+        $('<button type="button" class="photo__del">').html((S.icon?S.icon('trash'):'')+'<span>삭제</span>').attr('aria-label','사진 '+(i+1)+' 삭제').on('click',function(){remove(i);}).appendTo(li);
       });
     }
-    $('#photo-input').off('change').on('change',function(){
+    // UX-009: '사진 찍기'(#photo-camera)와 '사진 불러오기'(#photo-input) 같은 처리. 화면에 장수 제한은 표시하지 않고,
+    // AI 분석이 받는 6장을 넘을 때만 안내(서버·AI 분석 규칙은 그대로)
+    $('#photo-input, #photo-camera').off('change').on('change',function(){
       Array.from(this.files || []).forEach(function(file){
-        if(photos.length+reading>=6 || file.size>2*1024*1024 || !/^image\/(jpeg|png|webp)$/.test(file.type)){S.toast('사진은 PNG/JPEG/WebP, 장당 2MB 이하, 최대 6장입니다.');return;}
+        if(photos.length+reading>=6){S.toast('사진은 한 평가표에 6장까지 분석할 수 있어요. 필요 없는 사진을 지운 뒤 추가해 주세요.');return;}
+        if(file.size>2*1024*1024 || !/^image\/(jpeg|png|webp)$/.test(file.type)){S.toast('사진은 PNG/JPEG/WebP, 장당 2MB 이하만 올릴 수 있어요.');return;}
         reading++;var reader=new FileReader();
-        reader.onload=function(){photos.push({name:file.name.slice(0,100),place:'',data:reader.result});renderPhotos();};
+        reader.onload=function(){photos.push({name:file.name.slice(0,100),place:'',data:reader.result,size:file.size});renderPhotos();};
         reader.onerror=function(){S.toast('사진을 읽지 못했어요. 다시 선택해 주세요.');};
         reader.onloadend=function(){reading--;};reader.readAsDataURL(file);
       });this.value='';
@@ -77,7 +121,7 @@
       if(busy)return;
       var d=S.parseDate($('#eval_dt').val());
       if(!d || !$('#work_no').val() || !$('#eval_writer').val().trim()){S.go('v-basic');S.toast('기본정보를 확인해 주세요.');return;}
-      var body={work_no:Number($('#work_no').val()),eval_dt:S.formatDate(d).replace(/\./g,'-'),eval_writer:$('#eval_writer').val().trim(),members:$('[name="member_nm"]').map(function(){return this.value;}).get(),text:$('#file_text').val().trim(),voice_text:($('#voice_text').val() || '').trim(),photos:photos};
+      var body={work_no:Number($('#work_no').val()),eval_dt:S.formatDate(d).replace(/\./g,'-'),eval_writer:$('#eval_writer').val().trim(),members:$('[name="member_nm"]').map(function(){return this.value;}).get(),text:$('#file_text').val().trim(),voice_text:($('#voice_text').val() || '').trim(),photos:photos.map(function(p){return {name:p.name,place:p.place,data:p.data};})};   /* UX-015: 화면용 size 는 보내지 않음(서버 extra 금지) */
       var serial=JSON.stringify(body);if(serial!==lastBody){requestKey=crypto.randomUUID();lastBody=serial;}body.request_key=requestKey;
       busy=true;$('#v-generating .bottom-bar a').attr('aria-disabled','true').hide();
       $('#v-generating .page-title').text('입력을 저장하고 초안을 준비하고 있어요');

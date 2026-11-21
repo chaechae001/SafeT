@@ -24,9 +24,32 @@ SUBJECTS = {
 }
 
 
+def dev_outbox() -> str:
+    """개발용 메일 보관함 폴더(SAFET_DEV_MAIL_OUTBOX). SMTP 가 없을 때만 쓰며, 운영 서버에서는 비워 둡니다."""
+    return os.getenv("SAFET_DEV_MAIL_OUTBOX", "").strip()
+
+
+def _save_to_outbox(to: str, code: str, ttl: timedelta, purpose: str) -> None:
+    """UX-001: SMTP 없이 인증 흐름을 시험할 수 있게 메일을 파일로 보관 (GET /dev/outbox 로 확인)"""
+    import json
+    from datetime import datetime
+    folder = dev_outbox()
+    os.makedirs(folder, exist_ok=True)
+    now = datetime.now()
+    item = {"to": to, "purpose": purpose, "code": code, "sent_at": now.isoformat(timespec="seconds"),
+            "expires_min": int(ttl.total_seconds() // 60)}
+    name = now.strftime("%Y%m%d-%H%M%S-%f") + f"-{purpose}.json"
+    with open(os.path.join(folder, name), "w", encoding="utf-8") as f:
+        json.dump(item, f, ensure_ascii=False)
+
+
 def send_code(to: str, code: str, ttl: timedelta, purpose: str = "signup") -> None:
-    """인증 코드 메일 발송 (purpose: signup | reset). 실패하면 예외를 그대로 올립니다."""
+    """인증 코드 메일 발송 (purpose: signup | reset). 실패하면 예외를 그대로 올립니다.
+    SMTP 설정이 없고 SAFET_DEV_MAIL_OUTBOX 가 있으면 메일 대신 개발용 보관함에 저장합니다."""
     if not configured():
+        if dev_outbox():
+            _save_to_outbox(to, code, ttl, purpose)
+            return
         raise MailConfigError("SMTP 설정이 없습니다.")
 
     host = os.getenv("SMTP_HOST")

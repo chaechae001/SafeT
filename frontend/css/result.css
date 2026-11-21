@@ -7,3 +7,59 @@
   font-size: 14px;
 }
 .result .result-item__row b { color: var(--c-text-sub); font-weight: 600; }
+
+/* =========================================================
+   UX-015 (2026-11-22) · 배지 줄, 연회색 요약 상자 2열, 라벨 열 정렬, 담당·예정 구분선
+   ========================================================= */
+.ico { flex: none; display: inline-block; vertical-align: middle; }
+.result .result-head { display: flex; flex-direction: column; gap: 8px; }
+.result .result-head .page-title { margin: 0; }
+.result .result-badges { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.result .result-badges .tag.status { min-height: 28px; padding: 0 12px; border-radius: 999px; font-weight: 700; }
+.result .lock-pill { display: inline-flex; align-items: center; gap: 5px; min-height: 28px; padding: 0 12px; border-radius: 999px; background: #F1F3F5; color: #5B645F; font-size: 13px; font-weight: 600; }
+.result .lock-pill .ico { width: 14px; height: 14px; }
+.result .result-summary { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: repeat(3, auto); grid-auto-flow: column; gap: 8px 14px; margin: 0; padding: 14px; border-radius: 12px; background: #F4F5F7; }
+.result .result-summary > div { display: flex; gap: 8px; min-width: 0; font-size: 14px; }
+.result .result-summary dt { flex: none; width: 52px; color: #6B7280; }
+.result .result-summary dt::before { content: '•'; margin-right: 5px; color: #B5BBC2; }
+.result .result-summary dd { margin: 0; min-width: 0; font-weight: 600; overflow-wrap: anywhere; }
+@media (max-width: 380px) { .result .result-summary { grid-template-columns: 1fr; grid-template-rows: none; grid-auto-flow: row; } }
+.result .result-item { gap: 10px; padding: 16px; border-radius: 14px; }
+.result .result-item .card__title { font-size: 17px; font-weight: 800; }
+.result .result-rows { display: flex; flex-direction: column; gap: 6px; margin: 0; }
+.result .result-rows > div { display: grid; grid-template-columns: 64px 1fr; gap: 10px; font-size: 14px; line-height: 1.5; }
+.result .result-rows dt { color: #8A9099; font-size: 13px; padding-top: 1px; }
+.result .result-rows dd { margin: 0; color: var(--c-text); min-width: 0; overflow-wrap: anywhere; }
+.result .result-rows--owner { padding-top: 10px; border-top: 1px solid #ECEEF0; }
+/* 라벨이 두 줄로 깨지지 않게 */
+.result .result-summary > div { display: grid; grid-template-columns: auto 1fr; gap: 8px; align-items: baseline; }
+.result .result-summary dt { width: auto; white-space: nowrap; }
+
+/* =========================================================
+   UX-016 (2026-11-22) · 06 남은 개선: 위 '‹ 내 평가표', 하단 [문서 다운로드][서명하기], 상세 예상 위험도 카드
+   ========================================================= */
+.result .result-back { align-self: flex-start; min-height: 40px; padding: 0 12px; gap: 4px; font-weight: 700; }
+.result .result-back span { font-size: 20px; line-height: 1; }
+#v-list .bottom-bar .btn { gap: 6px; }
+#v-list .bottom-bar .btn .ico { width: 17px; height: 17px; }
+.proj-card { display: flex; flex-direction: column; gap: 10px; padding: 14px 16px; border: 1px solid #E4E7EA; border-radius: 14px; background: #fff; }
+.proj-card__head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.proj-card__title { margin: 0; font-size: 16px; font-weight: 800; }
+.proj-card__title::before { content: ''; display: inline-block; width: 4px; height: 15px; margin-right: 8px; border-radius: 2px; background: var(--c-primary); vertical-align: -2px; }
+.proj-card__info { position: relative; display: grid; place-items: center; width: 32px; height: 32px; margin: -6px -6px -6px 0; border: 0; border-radius: 50%; background: none; color: var(--c-text-sub); cursor: pointer; }
+.proj-card__info::before { content: ''; position: absolute; inset: -6px; }
+.proj-card__row { display: flex; align-items: center; flex-wrap: nowrap; gap: 8px; }
+.proj-card__side { display: inline-flex; align-items: center; gap: 5px; white-space: nowrap; }
+.proj-card__label { font-size: 13px; color: var(--c-text-sub); }
+.proj-card .signal { padding: 4px 6px; gap: 4px; }
+.proj-card .signal i { width: 8px; height: 8px; }
+.proj-card__grade { font-size: 15px; }
+.proj-card__grade[data-signal="R"] { color: #B4282D; }
+.proj-card__grade[data-signal="Y"] { color: #9A6B00; }
+.proj-card__grade[data-signal="G"] { color: #1D7A4E; }
+.proj-card__arrow { color: var(--c-text-faint); font-weight: 700; }
+.proj-card__tip { display: flex; align-items: flex-start; gap: 6px; margin: 0; padding: 9px 12px; border-radius: 10px; background: #EAF5EE; color: #1F5A47; font-size: 14px; font-weight: 700; line-height: 1.45; }
+.proj-card__tip .ico { width: 17px; height: 17px; margin-top: 1px; color: #2F8F5B; }
+.proj-card__notes { margin: 0; padding-left: 18px; font-size: 13px; color: var(--c-text-sub); line-height: 1.6; }
+.proj-card__muted { margin: 0; font-size: 14px; color: var(--c-text-sub); }
+.proj-card__detail { margin: 0; padding: 10px 12px; border-radius: 10px; background: #F8F9FA; font-size: 14px; color: var(--c-text-sub); line-height: 1.6; }

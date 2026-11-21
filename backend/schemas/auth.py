@@ -14,12 +14,26 @@ PASSWORD_MIN = 8        # 화면설계서: 8자 이상
 PASSWORD_MAX_BYTES = 72  # bcrypt 가 쓰는 최대 길이
 
 
+PASSWORD_RULE_MSG = "비밀번호는 대문자·소문자·숫자·특수문자를 모두 넣어 8자 이상으로 만들어 주세요."
+
+
+def password_rule_ok(v: str) -> bool:
+    """UX-001(2026-11-21): 영문 대문자·소문자·숫자·특수문자 모두 포함 + 8자 이상.
+    화면(frontend/js/login.js pwRules)과 같은 규칙. 특수문자 = 영문·숫자·공백이 아닌 문자"""
+    v = v or ""
+    return (len(v) >= PASSWORD_MIN and re.search(r"[A-Z]", v) is not None and re.search(r"[a-z]", v) is not None
+            and re.search(r"[0-9]", v) is not None and re.search(r"[^A-Za-z0-9\s]", v) is not None)
+
+
 def check_password(v: str) -> str:
-    """새 비밀번호 규칙: 8자 이상, bcrypt 최대 72바이트 (회원가입·재설정 공통)"""
+    """새 비밀번호 규칙 (회원가입·재설정 공통): 대·소문자·숫자·특수문자 포함 8자 이상, bcrypt 최대 72바이트.
+    로그인은 이 규칙을 검사하지 않아 기존 계정은 그대로 로그인할 수 있습니다."""
     if len(v or "") < PASSWORD_MIN:
         raise ValueError(f"비밀번호는 {PASSWORD_MIN}자 이상 입력해 주세요.")
     if len(v.encode("utf-8")) > PASSWORD_MAX_BYTES:
         raise ValueError("비밀번호가 너무 길어요.")
+    if not password_rule_ok(v):
+        raise ValueError(PASSWORD_RULE_MSG)
     return v
 
 
@@ -124,6 +138,11 @@ class LoginRequest(BaseModel):
         if not v:
             raise ValueError("비밀번호를 입력해 주세요.")
         return v
+
+
+class GuestLoginRequest(BaseModel):
+    """게스트 로그인 (UX-001 · 시연용 QR). key = 서버 .env 의 SAFET_GUEST_KEY"""
+    key: str
 
 
 class UserInfo(BaseModel):

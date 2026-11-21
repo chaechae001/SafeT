@@ -257,6 +257,25 @@ def add_risk(db,email,no,body):
         db.rollback(); raise
 
 
+def remove_risk(db,email,no,dtl_no,body):
+    """위험 항목 1개 삭제 (UX-005 · 화면수정요청 15).
+    작성 중(W)·revision 일치·이 평가표의 항목일 때만. 입력 기반(input_based) 평가표는 분석 결과를 유지하므로 막는다.
+    항목의 조치(eval_action)·항목 첨부(eval_file.eval_dtl_no)를 함께 지우고 revision 을 올린다. 휴지통 보관 없음."""
+    try:
+        m=owned(db,email,no,True); writable(m,body.revision)
+        if m['generation_source']==authoring_rag.SOURCE:
+            raise AuthError(409,'AUTHORING_REMOVE_UNSUPPORTED','이 평가표의 위험 항목은 저장된 입력 분석 결과로 유지합니다.')
+        hit=rows(db,'SELECT eval_dtl_no FROM eval_dtl WHERE eval_dtl_no=:d AND eval_no=:n',d=dtl_no,n=no)
+        if not hit: raise AuthError(404,'ITEM_NOT_FOUND','위험 항목을 찾을 수 없어요. 새로 불러와 주세요.')
+        execute(db,'DELETE FROM eval_action WHERE eval_dtl_no=:d',d=dtl_no)
+        execute(db,'DELETE FROM eval_file WHERE eval_dtl_no=:d',d=dtl_no)
+        execute(db,'DELETE FROM eval_dtl WHERE eval_dtl_no=:d',d=dtl_no)
+        execute(db,'UPDATE eval_mst SET revision=revision+1,upt_dt=:t,upt_nm=:e WHERE eval_no=:n',t=now(),e=email,n=no)
+        db.commit(); return detail(db,email,no)
+    except Exception:
+        db.rollback(); raise
+
+
 def review_pending(db,email,no,body):
     """확인 대기(등록 기기 기준) 위험을 담당자 확인에 따라 평가표 행으로 추가하거나 제외한다."""
     try:

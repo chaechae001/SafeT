@@ -38,6 +38,29 @@ def summary(db, email, no):
                 members=members, member_count=len(members), signed_count=sum(x['signed'] for x in members))
 
 
+def add_member(db, email, no, body):
+    """UX-016: 확정된 평가표에 서명할 사람 추가 (참여자 0명이면 서명할 수 없던 문제).
+    - 기존 eval_member 테이블에 한 줄 추가(구조 변경 없음)
+    - 전원 서명이 끝난 평가표(sign_end_dt 있음)에는 추가하지 않음: 409 SIGN_CLOSED
+    - 같은 이름이 이미 있으면 409 MEMBER_EXISTS"""
+    try:
+        m = _confirmed(db, email, no, lock=True)
+        if m['sign_end_dt'] is not None:
+            raise AuthError(409, 'SIGN_CLOSED', '모두 서명을 마친 평가표에는 사람을 추가할 수 없어요.')
+        names = [r['member_nm'] for r in _members(db, no)]
+        if body.member_nm in names:
+            raise AuthError(409, 'MEMBER_EXISTS', '이미 있는 이름이에요.')
+        if len(names) >= 30:
+            raise AuthError(409, 'MEMBER_LIMIT', '참여자는 30명까지 추가할 수 있어요.')
+        execute(db, 'INSERT INTO eval_member (eval_no, member_nm, sort) VALUES (:n, :nm, :s)',
+                n=no, nm=body.member_nm, s=len(names))
+        db.commit()
+    except Exception:
+        db.rollback()
+        raise
+    return summary(db, email, no)
+
+
 def save(db, email, no, body):
     try:
         _confirmed(db, email, no, lock=True)          # 같은 평가표 동시 서명 직렬화

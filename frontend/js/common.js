@@ -363,7 +363,13 @@
 
     var $head = $('<div class="mini-cal__head">').appendTo($cal);
     $('<button type="button" data-cal="prev" aria-label="이전 달">‹</button>').appendTo($head);
-    $('<span class="strong">').text(y + '년 ' + (m + 1) + '월').appendTo($head);
+    if (yearPickerOn()) {
+      // UX-004: 제목(연·월)을 누르면 연도 → 월 선택 (검토를 마친 페이지 body[data-ux-guide] 에서만)
+      $('<button type="button" class="mini-cal__title" data-cal="years">').text(y + '년 ' + (m + 1) + '월 ▾')
+        .attr('aria-label', y + '년 ' + (m + 1) + '월, 눌러서 연도 선택').appendTo($head);
+    } else {
+      $('<span class="strong">').text(y + '년 ' + (m + 1) + '월').appendTo($head);
+    }
     $('<button type="button" data-cal="next" aria-label="다음 달">›</button>').appendTo($head);
 
     var $grid = $('<div class="mini-cal__grid">').appendTo($cal);
@@ -391,6 +397,54 @@
     if (rect.bottom > window.innerHeight && $wrap.get(0).getBoundingClientRect().top > rect.height) {
       $cal.addClass('mini-cal--up');
     }
+  }
+
+  /* UX-004 연도·월 선택 (body[data-ux-guide] 페이지만) */
+  function yearPickerOn() { return !!(document.body && document.body.hasAttribute('data-ux-guide')); }
+
+  function pickerShell($wrap, title, prevLabel, nextLabel) {
+    var $cal = $wrap.find('.mini-cal').empty();
+    var $head = $('<div class="mini-cal__head">').appendTo($cal);
+    $('<button type="button" data-cal="pick-prev">‹</button>').attr('aria-label', prevLabel).appendTo($head);
+    $('<span class="strong">').text(title).appendTo($head);
+    $('<button type="button" data-cal="pick-next">›</button>').attr('aria-label', nextLabel).appendTo($head);
+    var $grid = $('<div class="mini-cal__pick">').appendTo($cal);
+    var $foot = $('<div class="mini-cal__foot">').appendTo($cal);
+    $('<button type="button" class="link small" data-cal="back">날짜로 돌아가기</button>').appendTo($foot);
+    $('<button type="button" class="link small" data-cal="close">닫기</button>').appendTo($foot);
+    return $grid;
+  }
+
+  function renderYears($wrap, start) {
+    var $cal = $wrap.find('.mini-cal');
+    var base = $cal.data('base');
+    $cal.data('mode', 'years').data('yearStart', start);
+    var $grid = pickerShell($wrap, start + ' – ' + (start + 11) + '년', '이전 12년', '다음 12년');
+    var maxYear = $wrap.find('input').first().data('max') === 'today' ? SafeT.today().getFullYear() : null;
+    for (var y = start; y < start + 12; y++) {
+      var $b = $('<button type="button" data-cal="pick-year">').text(y + '년').data('year', y).attr('aria-label', y + '년');
+      if (y === base.getFullYear()) $b.attr('aria-pressed', 'true');
+      if (maxYear && y > maxYear) $b.prop('disabled', true);
+      $b.appendTo($grid);
+    }
+    $grid.find('[aria-pressed="true"]').first().trigger('focus');
+  }
+
+  function renderMonths($wrap, year) {
+    var $cal = $wrap.find('.mini-cal');
+    var base = $cal.data('base');
+    $cal.data('mode', 'months').data('pickYear', year);
+    var $grid = pickerShell($wrap, year + '년', '이전 해', '다음 해');
+    var today = SafeT.today();
+    var limit = $wrap.find('input').first().data('max') === 'today';
+    for (var mm = 0; mm < 12; mm++) {
+      var $b = $('<button type="button" data-cal="pick-month">').text((mm + 1) + '월').data('month', mm)
+        .attr('aria-label', year + '년 ' + (mm + 1) + '월');
+      if (year === base.getFullYear() && mm === base.getMonth()) $b.attr('aria-pressed', 'true');
+      if (limit && new Date(year, mm, 1) > today) $b.prop('disabled', true);
+      $b.appendTo($grid);
+    }
+    ($grid.find('[aria-pressed="true"]').get(0) || $grid.find('button:not(:disabled)').get(0) || $grid.get(0)).focus();
   }
 
   function openCalendar($wrap) {
@@ -503,6 +557,23 @@
         case 'prev': renderCalendar($w, new Date(base.getFullYear(), base.getMonth() - 1, 1)); $w.find('[data-cal="prev"]').trigger('focus'); break;
         case 'next': renderCalendar($w, new Date(base.getFullYear(), base.getMonth() + 1, 1)); $w.find('[data-cal="next"]').trigger('focus'); break;
         case 'today': renderCalendar($w, SafeT.today()); break;
+        // UX-004 연도·월 선택
+        case 'years': renderYears($w, base.getFullYear() - 7); break;
+        case 'pick-prev':
+          if ($cal.data('mode') === 'years') renderYears($w, $cal.data('yearStart') - 12);
+          else renderMonths($w, $cal.data('pickYear') - 1);
+          break;
+        case 'pick-next':
+          if ($cal.data('mode') === 'years') renderYears($w, $cal.data('yearStart') + 12);
+          else renderMonths($w, $cal.data('pickYear') + 1);
+          break;
+        case 'pick-year': renderMonths($w, $b.data('year')); break;
+        case 'pick-month':
+          renderCalendar($w, new Date($cal.data('pickYear'), $b.data('month'), 1));
+          $cal.removeData('mode');
+          $w.find('[data-cal="years"]').trigger('focus');
+          break;
+        case 'back': $cal.removeData('mode'); renderCalendar($w, base); $w.find('[data-cal="years"]').trigger('focus'); break;
         case 'close': closeCalendars(); $input.trigger('focus'); break;
         case 'day':
           $input.val(SafeT.formatDate($b.data('date'))).trigger('change');

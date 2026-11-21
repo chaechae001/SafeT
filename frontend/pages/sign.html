@@ -47,8 +47,18 @@
               <legend class="page-desc">본인 이름을 선택해 주세요. 기본정보에 등록한 참여 근로자예요.</legend>
               <!-- 참여 근로자 목록은 sign.js 가 서버 값으로 채움 -->
             </fieldset>
-            <p class="empty small" id="signer-empty" hidden>등록된 참여 근로자가 없어요. 서명할 사람이 없습니다.</p>
+            <p class="empty small" id="signer-empty" hidden>등록된 참여자가 없어요. 아래에서 서명할 사람을 추가해 주세요.</p>
           </form>
+          <!-- UX-016: 참여자가 없거나 빠졌으면 여기서 서명할 사람 추가 (POST /evals/{번호}/signs/members) -->
+          <section class="signer-add" id="signer-add" aria-labelledby="signer-add-title" hidden>
+            <h2 class="section-title" id="signer-add-title">서명할 사람 추가</h2>
+            <button class="btn btn--sm signer-add__me" id="signer-add-me" type="button" hidden></button>
+            <form class="input-row" id="signer-add-form" novalidate>
+              <label class="sr-only" for="signer-add-name">이름</label>
+              <input class="input" id="signer-add-name" maxlength="50" placeholder="이름 입력" autocomplete="off">
+              <button class="btn" type="submit">+ 추가</button>
+            </form>
+          </section>
         </div>
         <div class="bottom-bar">
           <button class="btn btn--primary" id="pick-btn" type="submit" form="pick-form" disabled>본인 이름을 선택해 주세요</button>

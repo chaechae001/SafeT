@@ -9,8 +9,9 @@
   <link rel="stylesheet" href="../css/draft.css?v=20261117-integrated">
   <link rel="stylesheet" href="../css/risk.css?v=20261117-integrated">
   <link rel="stylesheet" href="../css/bulk-assign.css?v=20261117-integrated">
+  <link rel="stylesheet" href="../css/ux-guide.css">
 </head>
-<body data-auth-required data-assessment>
+<body class="page-draft" data-auth-required data-assessment data-ux-guide>
   <!-- draft.html · 화면설계서 v3.19 통합본
        화면(view) 목록 (처음 화면 = .is-active)
        - #v-list : S05 초안 확인 리스트 · S05-A 상단 입력 안내 (#confirm S05-E 확정 확인 창, #delete C02 삭제 확인 창)
@@ -45,57 +46,54 @@
            ===================================================== -->
       <section class="view draft is-active" id="v-list" aria-label="S05 초안 확인 리스트">
         <div class="page">
-          <div class="stack">
-            <p class="eyebrow">11월 주방 위험성평가 · 온기치킨 성수점 · <span class="tag status" data-status="W">작성 중</span></p>
-            <h1 class="page-title">위험과 대책을 확인해 주세요</h1>
+          <!-- UX-005 (화면수정요청 13·14·16·19·20): 고정 영역 = 제목·건수 요약·필터 줄 / 스크롤 영역 = 항목 카드·리스트 추가·평가표 삭제 -->
+          <div class="draft__fixed">
+            <div class="draft__title-row">
+              <h1 class="page-title">위험과 대책을 확인해 주세요</h1>
+              <span class="tag status" data-status="W">작성 중</span>
+            </div>
+
+            <!-- 건수 요약 (S05-A 자리). 건수는 확정 검사와 같은 함수로 계산 -->
+            <section id="need-box" class="draft-summary" aria-label="입력 현황" aria-live="polite">
+              <dl class="draft-summary__grid">
+                <div><dt>전체</dt><dd><strong id="need-total">0</strong>건</dd></div>
+                <div id="need-row-a"><dt>입력 필요</dt><dd><strong id="need-a">0</strong>/<span class="js-total">0</span></dd></div>
+                <div id="need-row-b"><dt>담당자 미지정</dt><dd><strong id="need-b">0</strong>/<span class="js-total">0</span></dd></div>
+              </dl>
+              <p class="draft-summary__done" id="done-box" hidden>모두 입력했어요. 평가표를 확정할 수 있어요.</p>
+              <!-- 기존 '입력 시작/이어서 입력'은 제거(14). 코드 호환용으로 숨김 유지 -->
+              <button class="btn" id="btn-input" type="button" hidden>이어서 입력</button>
+            </section>
+
+            <!-- 필터: 이름만(건수는 위 요약). UX-015: 오른쪽 끝 [편집] → 편집 중 [✓ 완료]. 일괄 지정은 편집 줄로 -->
+            <div class="draft__filters">
+              <div class="tabs" role="group" aria-label="목록 보기">
+                <a href="#v-list" data-filter="all" aria-current="page">전체</a>
+                <a href="#v-list" data-filter="need">입력 필요</a>
+                <a href="#v-list" data-filter="owner">담당자 미지정</a>
+                <a href="#v-list" data-filter="follow">후속업무</a>
+                <span hidden><span id="count-all">0</span><span id="count-follow">0</span></span>
+              </div>
+              <button class="btn btn--sm draft__edit" id="btn-edit" type="button" aria-pressed="false">편집</button>
+            </div>
+            <div class="draft__editbar" id="draft-editbar" hidden>
+              <span class="small muted">지울 항목의 휴지통을 누르세요</span>
+              <button class="btn btn--sm draft__bulk" id="btn-bulk" type="button">담당자 일괄 지정</button>
+            </div>
           </div>
 
-          <!-- S05-A 상단 입력 안내: 건수는 확정 검사와 같은 함수로 계산 -->
-          <section class="notice" id="need-box" aria-label="입력 안내" aria-live="polite">
-            <div class="notice__row" id="need-row-a">
-              <span>안전조치·대책 입력 필요</span>
-              <span class="notice__count"><strong id="need-a">3건</strong> / 전체 <span id="need-total">7</span>건</span>
-            </div>
-            <div class="notice__row" id="need-row-b">
-              <span>담당자·예정일 입력 필요</span>
-              <span class="notice__count"><strong id="need-b">2건</strong></span>
-            </div>
-            <div class="btn-row">
-              <button class="btn btn--primary" id="btn-input" type="button">이어서 입력</button>
-              <button class="btn" id="btn-bulk" type="button">담당자·예정일 일괄 지정</button>
-            </div>
-          </section>
+          <div class="draft__scroll" id="draft-scroll">
+            <ol class="card-list" id="risk-list"></ol>
 
-          <section class="notice notice--done" id="done-box" aria-label="입력 완료" hidden>
-            <p>안전조치·대책과 담당자·예정일 입력을 모두 마쳤습니다.<br>이제 평가표를 확정하실 수 있습니다.</p>
-          </section>
+            <a class="add-row" href="#v-add">+ 리스트 추가</a>
 
-          <!-- 한 줄 태그: 전체·후속업무 = 목록 거르기 버튼 / 입력 3/3 = 정보 배지(누를 수 없음) -->
-          <div class="tabs" role="group" aria-label="목록 보기">
-            <a href="#v-list" data-filter="all" aria-current="page">전체&nbsp;<span id="count-all">7</span>건</a>
-            <a href="#v-list" data-filter="follow">후속업무&nbsp;<span id="count-follow">5</span>건</a>
-            <span title="기본정보·현장·기기 단계 진행 정보">입력 3/3</span>
+            <a class="btn btn--danger btn--sm draft__delete" href="#delete">평가표 삭제</a>
           </div>
-
-          <ol class="card-list" id="risk-list">
-            <li>
-              <a class="card risk-card card--need" href="#v-risk">
-                <span class="card__head">
-                  <span class="card__title">01 튀김 조리</span>
-                  <span class="signal" data-signal="R" role="img" aria-label="위험 신호 즉시 개선"><i></i><i></i><i></i></span>
-                </span>
-                <span class="card__meta">기름 튐 · 화상</span>
-                <span class="risk-card__state"><span class="tag tag--warn">입력 필요</span> 현재 조치 확인 필요 · 대책 0개</span>
-              </a>
-            </li>
-          </ol>
-
-          <a class="add-row" href="#v-add">+ 위험 항목 추가</a>
-
-          <a class="btn btn--danger btn--sm draft__delete" href="#delete">이 평가표 삭제</a>
         </div>
         <div class="bottom-bar">
-          <a class="btn" id="btn-save" href="#v-saving">평가표 저장</a>
+          <!-- 17: 리스트 화면은 바뀌는 내용이 없어 저장 대신 '내 평가표' 이동(저장 안 된 입력이 있으면 확인 창) -->
+          <a class="btn" id="btn-home" href="home.html">내 평가표</a>
+          <a class="btn" id="btn-save" href="#v-saving" hidden>평가표 저장</a>
           <a class="btn btn--primary" id="btn-confirm" href="#confirm">평가표 확정</a>
         </div>
 
@@ -119,17 +117,17 @@
         <div class="modal" id="delete" role="alertdialog" aria-modal="true" aria-labelledby="delete-title">
           <div class="modal__box">
             <div class="modal__head">
-              <h2 class="modal__title" id="delete-title">이 평가표를 삭제할까요?</h2>
+              <h2 class="modal__title" id="delete-title">평가표 전체를 삭제할까요?</h2>
               <a class="modal__close" href="#v-list" data-close aria-label="닫기">X</a>
             </div>
             <div class="modal__body">
-              <p>휴지통으로 옮겨요. 30일 동안 복원할 수 있고, 그 뒤에는 자동으로 영구 삭제돼요.</p>
+              <p>위험 항목 <strong class="js-delete-count">0</strong>개를 포함한 평가표 전체가 휴지통으로 옮겨져요. 30일 동안 복원할 수 있고, 그 뒤에는 자동으로 영구 삭제돼요.</p>
               <p class="small muted">저장하지 않은 변경은 휴지통에 남지 않아요. 필요하면 먼저 평가표를 저장해 주세요.</p>
             </div>
             <div class="modal__foot">
               <a class="btn" href="#v-list" data-close>취소</a>
               <!-- draft.js 가 DELETE /evals/{번호} 후 내 평가표로 이동 (알림: 휴지통으로 옮김) -->
-              <a class="btn btn--danger" href="home.html">삭제</a>
+              <a class="btn btn--danger" href="home.html">평가표 삭제</a>
             </div>
           </div>
         </div>
@@ -148,52 +146,66 @@
            ===================================================== -->
       <section class="view risk" id="v-risk" aria-label="S06 위험 상세">
         <div class="page">
-          <div class="risk__nav-top">
-            <span class="eyebrow" id="d-pos">위험 1 / 7</span>
-            <a class="link small" id="d-mode-link" href="#v-list">목록</a>
+          <!-- UX-005 (25 A안): 상단 헤더(위험 n/N·목록·항목 제목)만 고정, 나머지 입력 영역만 스크롤 -->
+          <div class="risk__fixed">
+            <!-- UX-010: 목록으로 가는 버튼을 왼쪽 위에 크게 -->
+            <div class="risk__nav-top">
+              <a class="btn btn--sm risk__back" id="d-mode-link" href="#v-list"><span aria-hidden="true">‹</span> 목록</a>
+              <span class="eyebrow" id="d-pos">위험 1 / 7</span>
+            </div>
+
+            <h1 class="page-title" id="d-job">튀김 조리</h1>
           </div>
+          <div class="risk__scroll" id="risk-scroll">
 
-          <h1 class="page-title" id="d-job">튀김 조리</h1>
-
+          <!-- UX-012: 작업명(제목) → 위험요인 설명 + 위험도(한 줄) → 판단 이유(펼치기) → 관련 근거(법적 기준, 누르면 창) -->
           <section class="risk-box" aria-label="위험 내용">
-            <div class="risk-box__head">
+            <div class="risk-box__line">
+              <p class="risk-box__title" id="d-title">고온 기름 튐에 의한 화상</p>
+              <span id="d-risk-chip"></span>
+            </div>
+            <!-- 기존 요소(스크립트 연결용)는 숨김 -->
+            <div hidden>
               <span class="signal-with-label">
                 <span class="signal" id="d-signal" data-signal="R" aria-hidden="true"><i></i><i></i><i></i></span>
-                <span class="signal-label" id="d-signal-label" data-signal="R"><span class="sr-only">위험 신호 </span><span id="d-signal-text">즉시 개선</span></span>
+                <span class="signal-label" id="d-signal-label" data-signal="R"><span id="d-signal-text">즉시 개선</span></span>
               </span>
-              <span class="tag" id="d-type">화상</span>
+              <span class="tag" id="d-type"></span>
+              <p class="risk-box__desc" id="d-desc"></p>
+              <p class="risk-box__cause" id="d-cause-box"><b>원인</b><span id="d-cause"></span></p>
+              <details class="disclosure" id="d-law-box"><summary>관련 법령 보기</summary>
+                <div class="law"><span class="law__name" id="d-law-name"></span><span id="d-law-summary"></span><a id="d-law-link" href="https://www.law.go.kr/">원문</a></div></details>
+              <details class="disclosure" id="d-rls-box"><summary>AI 검색 근거</summary><div class="small" id="d-rls"></div></details>
             </div>
-            <p class="risk-box__title" id="d-title">고온 기름 튐에 의한 화상</p>
-            <p class="risk-box__desc" id="d-desc">뜨거운 기름이 튀어 손과 팔에 닿음</p>
-            <!-- 입력 필요 모드에서는 판단 이유·법령 대신 원인을 짧게 표시 -->
-            <p class="risk-box__cause" id="d-cause-box" hidden><b>원인</b><span id="d-cause"></span></p>
 
             <details class="disclosure" id="d-reason-box">
-              <summary>판단 이유 펼쳐보기</summary>
-              <p class="small"><span id="d-reason"></span> <span class="src src--ai">AI 판단</span></p>
-            </details>
-            <!-- 검증된 조항만 표시. 없으면 숨김 -->
-            <details class="disclosure" id="d-law-box">
-              <summary>관련 법령 보기</summary>
-              <div class="law">
-                <span class="law__name" id="d-law-name"></span>
-                <span id="d-law-summary"></span>
-                <a class="link small" id="d-law-link" href="https://www.law.go.kr/" target="_blank" rel="noopener">원문 보기<span class="sr-only"> (새 창)</span></a>
-              </div>
+              <summary>판단 이유</summary>
+              <p class="small" id="d-reason-wrap"><span id="d-reason"></span></p>
             </details>
 
-            <!-- 위험요인·법령 검색 모듈 연결 행: AI 검색 근거와 법령 후보. 확정 근거가 아니며 PDF에 넣지 않음 -->
-            <details class="disclosure" id="d-rls-box" hidden>
-              <summary>AI 검색 근거·법령 후보 보기 <span class="src src--ai">작성자 확인</span></summary>
-              <div class="small" id="d-rls"></div>
-            </details>
+            <button class="law-open" id="d-law-open" type="button">
+              <span class="law-open__label">관련 근거</span>
+              <span class="law-open__name" id="d-law-open-name">법적 기준 보기</span>
+              <span aria-hidden="true">›</span>
+            </button>
 
-            <!-- 판단 필요(모두 꺼짐): 저장은 가능, 확정은 막힘. 낮은 위험으로 처리하지 않음 -->
+            <!-- 판단 전: 저장은 가능, 확정은 막힘. 낮은 위험으로 처리하지 않음 -->
             <div class="notice notice--danger small" id="d-judge-box" hidden>
-              <p>AI가 이 위험의 신호를 판단하지 못했어요. 판단 필요 항목이 남아 있으면 평가표를 확정할 수 없어요.</p>
-              <button class="btn btn--sm" id="d-rejudge" type="button">다시 판단</button>
+              <p>현재 조치를 고르고 저장하면 위험도가 나와요.</p>
+              <button class="btn btn--sm" id="d-rejudge" type="button" hidden>다시 판단</button>
             </div>
           </section>
+
+          <!-- UX-012: 관련 근거(법적 기준) 창 -->
+          <div class="modal" id="law-modal" role="dialog" aria-modal="true" aria-labelledby="law-modal-title">
+            <div class="modal__box">
+              <div class="modal__head">
+                <h2 class="modal__title" id="law-modal-title">관련 법적 기준</h2>
+                <a class="modal__close" href="#v-risk" data-close aria-label="닫기">X</a>
+              </div>
+              <div class="modal__body" id="law-modal-body"></div>
+            </div>
+          </div>
 
           <form id="risk-form" class="stack" action="#v-list" novalidate>
             <fieldset class="section" id="d-current">
@@ -222,7 +234,6 @@
               <p class="notice notice--muted small" id="d-plan-wait" hidden>신호 판단이 끝나면 추천 대책이 나와요.</p>
 
               <div class="stack" id="d-plan-body">
-                <p class="hint">위험요인에 맞는 대책 후보입니다. 현장에 적용할 대책을 선택해 주세요.</p>
                 <div class="check-list" id="d-plan-list"></div>
                 <button class="add-row" type="button" data-add="plan">+ 개선대책 직접 추가</button>
 
@@ -231,18 +242,30 @@
                   <div class="owner-box__value" id="d-owner-value">
                     <span class="strong muted">담당자·예정일 미지정</span>
                   </div>
-                  <button class="btn btn--sm" id="d-owner-btn" type="button">일괄 지정에서 지정</button>
+                  <button class="btn btn--sm" id="d-owner-btn" type="button">담당자·예정일 지정</button>
                 </div>
-                <p class="hint">대책을 고르고 저장하면 공통 기준으로 예상 위험도를 계산해요. 선택한 대책이 모두 이행되어 효과가 있다고 가정한 값이에요.</p>
+                <!-- UX-015: 긴 안내 문장은 '예상 위험도 분석' 요약 카드(#d-projection)의 안내 2줄로 옮김 -->
+                <p class="hint" hidden>대책을 고르고 저장하면 공통 기준으로 예상 위험도를 계산해요. 선택한 대책이 모두 이행되어 효과가 있다고 가정한 값이에요.</p>
               </div>
             </fieldset>
 
-            <!-- 전체 저장 안내는 저장 확인 창에서 표시 -->
           </form>
+
+          <!-- 22·24: 마지막 항목 / 모두 입력했을 때 안내 (draft.js) -->
+          <section class="notice risk-finish" id="d-finish" aria-live="polite" hidden>
+            <p class="strong" id="d-finish-title"></p>
+            <p id="d-finish-text"></p>
+            <div class="btn-row">
+              <button class="btn" id="d-goto-need" type="button" hidden>남은 입력 필요 항목으로</button>
+              <button class="btn btn--primary" id="d-finish-save" type="button" hidden>입력 내역 저장</button>
+            </div>
+          </section>
+          </div>
         </div>
         <div class="bottom-bar">
           <button class="btn" id="d-prev" type="button">이전 항목</button>
-          <button class="btn btn--primary" id="d-save" type="button">평가표 저장</button>
+          <!-- 23: 이 항목의 입력만 저장 -->
+          <button class="btn btn--primary" id="d-save" type="button">입력 내역 저장</button>
           <button class="btn" id="d-next" type="button">다음 항목</button>
         </div>
       </section>
@@ -395,6 +418,10 @@
   <script src="../js/common.js?v=20261117-integrated"></script>
   <script src="../js/api.js?v=20261117-integrated"></script>
   <script src="../js/catalog-ai.js?v=20261117-integrated"></script>
+  <script src="../js/risk-text.js"></script>
+  <script src="../js/ui-icons.js"></script>
   <script src="../js/draft.js?v=20261117-integrated"></script>
+  <script src="../js/ux-guide.js"></script>
+  <script src="../js/draft-edit.js"></script>
 </body>
 </html>

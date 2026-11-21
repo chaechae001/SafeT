@@ -6,7 +6,7 @@ import bcrypt
 
 from conftest import db_exec, db_one
 
-OLD, NEW = "old-password1", "new-password2"
+OLD, NEW = "Old-password1", "New-password2"
 
 
 def make_user(email):
@@ -54,9 +54,9 @@ def test_다른사람이_인증완료를_가로채_재설정_못함(client, mail
     """주인이 재설정 코드를 확인한 뒤, 이메일만 아는 다른 사람이 자기 비밀번호로 재설정 시도 (계정 탈취 시도)"""
     make_user(email)
     token = verified_token(client, mailer, email)
-    r = reset(client, email, pw="attacker-pass", token="guessed-token")
+    r = reset(client, email, pw="Attacker-pass1", token="guessed-token")
     assert r.status_code == 400 and r.json()["detail"]["code"] == "INVALID_VERIFY_TOKEN"
-    assert login(client, email, "attacker-pass").status_code == 401
+    assert login(client, email, "Attacker-pass1").status_code == 401
     assert login(client, email, OLD).status_code == 200                  # 비밀번호 그대로
     assert reset(client, email, token=token).status_code == 200           # 주인은 그대로 진행
     assert login(client, email, NEW).status_code == 200
@@ -104,7 +104,7 @@ def test_재설정_토큰은_한번만(client, mailer, email):
     make_user(email)
     token = verified_token(client, mailer, email)
     assert reset(client, email, token=token).status_code == 200
-    r = reset(client, email, pw="another-pass3", token=token)
+    r = reset(client, email, pw="Another-pass3", token=token)
     assert r.status_code == 400 and r.json()["detail"]["code"] == "NOT_VERIFIED"
     assert login(client, email, NEW).status_code == 200
 

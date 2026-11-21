@@ -103,57 +103,60 @@
             <li>03 기기</li>
           </ol>
 
-          <h1 class="page-title">현장 상황을 알려주세요</h1>
+          <!-- UX-015: 제목 오른쪽 '가이드' 알약 버튼, 아래 안내 한 줄 -->
+          <div class="field-head">
+            <h1 class="page-title">현장 상황을 알려주세요</h1>
+            <a class="guide-pill" href="#help" aria-label="현장 기록 가이드 열기"><i data-ico="bulb"></i>가이드</a>
+          </div>
+          <p class="field-sub">사진, 음성, 텍스트 중 하나 이상 입력해 주세요</p>
 
           <form id="field-form" class="stack" action="#v-equipment" method="get" novalidate>
-            <div class="row row--between">
-              <span class="section-title">사진·음성·텍스트</span>
-              <a class="help-btn" href="#help" aria-label="입력 도움말 열기">?</a>
-            </div>
-
-            <!-- 사진: 한 줄에 2장, 사진마다 아래에 장소 입력칸 -->
-            <ul class="photo-grid" aria-label="현장 사진">
-              <li class="photo">
-                <div class="photo__img" role="img" aria-label="현장 사진 1 (예시 이미지)">사진 1</div>
-                <button class="photo__remove" type="button" aria-label="사진 1 삭제">×</button>
-                <label class="sr-only" for="place_nm_1">사진 1 장소</label>
-                <input class="input" id="place_nm_1" name="place_nm" maxlength="100" placeholder="장소 입력">
-              </li>
-              <li class="photo">
-                <div class="photo__img" role="img" aria-label="현장 사진 2 (예시 이미지)">사진 2</div>
-                <button class="photo__remove" type="button" aria-label="사진 2 삭제">×</button>
-                <label class="sr-only" for="place_nm_2">사진 2 장소</label>
-                <input class="input" id="place_nm_2" name="place_nm" maxlength="100" placeholder="장소 입력" value="주방 튀김기 앞">
-              </li>
-            </ul>
-
-            <!-- 음성 카드: X는 오디오와 전사문만 삭제 -->
-            <div class="voice-card">
-              <div class="row row--between">
-                <span class="strong">▶ 음성 녹음</span>
-                <span class="row">
-                  <span class="muted small">0:24</span>
-                  <button class="voice-card__remove" type="button" aria-label="음성 녹음 삭제">×</button>
-                </span>
+            <!-- UX-008: 사진·음성·텍스트를 각각의 입력 블록으로 나누고, 입력 버튼을 해당 블록 안에 둠.
+                 셋 중 하나 이상 입력하면 다음으로 (기존 규칙). UX-015: 컬러 이모지 → 라인 아이콘 -->
+            <section class="input-block" id="blk-photo" aria-labelledby="blk-photo-title">
+              <div class="input-block__head">
+                <i class="input-block__icon" data-ico="camera"></i>
+                <h2 class="input-block__title" id="blk-photo-title">사진</h2>
+                <span class="count-badge" id="photo-count" hidden></span>
               </div>
-              <label class="sr-only" for="voice_text">음성 전사문</label>
-              <textarea class="textarea voice-card__text" id="voice_text" name="voice_text" rows="2">튀김기 앞 바닥에 물기가 있어요.</textarea>
-              <p class="hint">전사문은 고칠 수 있어요.</p>
-            </div>
+              <ul class="photo-grid" aria-label="현장 사진"></ul>
+              <!-- UX-011: 휴대폰·컴퓨터 모두 '사진 촬영'·'사진 불러오기'. 컴퓨터의 촬영은 웹캠 창(field-blocks.js) -->
+              <div class="photo-actions">
+                <label class="btn photo-actions__btn" id="photo-camera-btn">
+                  <i data-ico="camera"></i><span class="photo-actions__plus" aria-hidden="true">+ </span>사진 촬영
+                  <input class="sr-only" id="photo-camera" type="file" accept="image/*" capture="environment">
+                </label>
+                <label class="btn photo-actions__btn">
+                  <i data-ico="image"></i>사진 불러오기
+                  <input class="sr-only" id="photo-input" type="file" name="photo" accept="image/*" multiple>
+                </label>
+              </div>
+            </section>
 
-            <div class="field">
-              <label class="label" for="file_text">현장 설명 <span class="muted">(선택)</span></label>
-              <textarea class="textarea" id="file_text" name="file_text" placeholder="예: 튀김할 때 기름이 튀어요."></textarea>
-            </div>
+            <section class="input-block" id="blk-voice" aria-labelledby="blk-voice-title">
+              <div class="input-block__head">
+                <i class="input-block__icon" data-ico="mic"></i>
+                <h2 class="input-block__title" id="blk-voice-title">음성</h2>
+                <!-- 녹음 상태(● 00:18 녹음 중 / ⏱ 00:24 녹음 완료)는 voice-recorder.js 가 여기에 표시 -->
+                <span class="rec-status" id="rec-status" hidden></span>
+              </div>
+              <!-- 녹음기(#recorder)·음성 전사문(#voice_text)은 voice-recorder.js 가 이 블록 안에 그림 -->
+              <div class="input-block__voice" id="voice-slot"></div>
+              <!-- 기존 '음성' 버튼(assessment-write.js 연결 대상)은 녹음기 버튼으로 대체되어 숨김 -->
+              <button class="btn" id="voice-btn" type="button" hidden>음성</button>
+            </section>
 
-            <div class="input-methods">
-              <label class="btn">
-                사진
-                <input class="sr-only" id="photo-input" type="file" name="photo" accept="image/*" multiple>
-              </label>
-              <button class="btn" id="voice-btn" type="button">음성</button>
-              <label class="btn" for="file_text">텍스트</label>
-            </div>
+            <section class="input-block" id="blk-text" aria-labelledby="blk-text-title">
+              <div class="input-block__head">
+                <i class="input-block__icon" data-ico="pencil"></i>
+                <h2 class="input-block__title" id="blk-text-title">텍스트</h2>
+              </div>
+              <div class="field">
+                <label class="sr-only" for="file_text">현장 설명</label>
+                <textarea class="textarea" id="file_text" name="file_text" maxlength="500" aria-describedby="file-text-count" placeholder="예: 튀김할 때 기름이 튀어요."></textarea>
+                <p class="char-count" id="file-text-count" aria-live="off"><span>0</span> / 500</p>
+              </div>
+            </section>
           </form>
         </div>
         <div class="bottom-bar">
@@ -161,40 +164,54 @@
           <button class="btn btn--primary" type="submit" form="field-form">다음</button>
         </div>
         <!-- S02-G 현장입력 도움말 + 음성 녹음 방법 (샘플은 입력값으로 저장하지 않음) -->
-        <div class="modal" id="help" role="dialog" aria-modal="true" aria-labelledby="help-title">
-          <div class="modal__box">
-            <div class="modal__head">
-              <h2 class="modal__title" id="help-title">이렇게 입력해 주세요</h2>
-              <a class="modal__close" href="#v-field" aria-label="도움말 닫기">X</a>
-            </div>
-            <div class="modal__body">
-              <div class="help-samples">
-                <figure>
-                  <div class="photo__img" role="img" aria-label="홀 이동 통로 샘플 사진">샘플</div>
-                  <figcaption>홀 · 이동 통로</figcaption>
-                </figure>
-                <figure>
-                  <div class="photo__img" role="img" aria-label="주방 작업 공간 샘플 사진">샘플</div>
-                  <figcaption>주방 · 작업 공간</figcaption>
-                </figure>
+        <!-- UX-015: 가운데 뜨는 둥근 흰색 창(뒤 어둡게), 사진 2×2 · 안전 경고 · 음성·텍스트 팁 · [확인했어요] -->
+        <div class="modal modal--center" id="help" role="dialog" aria-modal="true" aria-labelledby="help-title" aria-describedby="help-sub">
+          <div class="modal__box guide">
+            <div class="modal__head guide__head">
+              <div>
+                <h2 class="modal__title" id="help-title">현장 기록 가이드</h2>
+                <p class="guide__sub" id="help-sub">사진, 음성, 텍스트 중 편한 방법으로 현장을 기록하세요.</p>
               </div>
-              <ol class="help-steps">
-                <li>1. 공간 전체와 위험한 곳을 찍어요.</li>
-                <li>2. 사진 아래에 장소를 적어요.</li>
-                <li>3. 필요하면 말이나 글을 더해요.</li>
+              <a class="modal__close guide__close" href="#v-field" aria-label="가이드 닫기"><i data-ico="x"></i></a>
+            </div>
+            <div class="modal__body guide__body">
+              <h3 class="guide__title"><i data-ico="camera"></i>사진으로 찍어둘 곳</h3>
+              <ol class="shot-guide">
+                <li class="shot">
+                  <img class="shot__img" src="../public/guide/floor.svg" alt="주방 바닥·통로 촬영 예시 그림">
+                  <p class="shot__title">1. 주방 바닥·통로</p>
+                  <span class="shot__risk">넘어짐·미끄러짐</span>
+                  <p class="shot__where">물기·기름 바닥, 턱, 적재물</p>
+                </li>
+                <li class="shot">
+                  <img class="shot__img" src="../public/guide/fire.svg" alt="화기·튀김기 촬영 예시 그림">
+                  <p class="shot__title">2. 화기·튀김기</p>
+                  <span class="shot__risk">화상·화재</span>
+                  <p class="shot__where">튀김기, 후드, 소화기 비치</p>
+                </li>
+                <li class="shot">
+                  <img class="shot__img" src="../public/guide/blade.svg" alt="칼·전동 기기 촬영 예시 그림">
+                  <p class="shot__title">3. 칼·전동 기기</p>
+                  <span class="shot__risk">베임·끼임</span>
+                  <p class="shot__where">칼·가위, 육절기 안전덮개</p>
+                </li>
+                <li class="shot">
+                  <img class="shot__img" src="../public/guide/electric.svg" alt="전기·창고 촬영 예시 그림">
+                  <p class="shot__title">4. 전기·창고</p>
+                  <span class="shot__risk">감전·낙하</span>
+                  <p class="shot__where">멀티탭, 전선, 높은 선반</p>
+                </li>
               </ol>
-              <p class="notice notice--muted small">위험한 곳에 가까이 가거나 작업 중에 찍지 마세요.</p>
+              <p class="guide__warn" role="note"><i data-ico="warn"></i>가동 중인 기기나 위험 구역 가까이에서는 촬영하지 마세요.</p>
 
-              <hr class="divider">
-
-              <h3 class="section-title">음성 녹음 방법</h3>
-              <ul class="voice-states">
-                <li><span class="tag">대기</span> 마이크를 눌러 녹음 시작</li>
-                <li><span class="tag tag--danger">녹음 중 00:12</span> 종료 ■ (재생 비활성)</li>
-                <li><span class="tag tag--primary">녹음 후 ▶ 0:24</span> 재생·일시정지·다시 듣기 · X 삭제</li>
-                <li class="muted small">"튀김기 앞 바닥에 물기가 있어요." (전사 후 편집 가능)</li>
+              <h3 class="guide__title"><i data-ico="pencil"></i>음성·텍스트 활용 팁</h3>
+              <ul class="guide__tips">
+                <li><span class="guide__tip-ico"><i data-ico="mic"></i></span><span><b>음성 녹음</b>말씀하시면 텍스트로 자동 변환되며 수정할 수 있어요</span></li>
+                <li><span class="guide__tip-ico"><i data-ico="pencil"></i></span><span><b>직접 입력</b>위험한 상황이나 특이사항을 글로 남겨주세요</span></li>
               </ul>
-              <p class="hint">전사에 실패하면 다시 시도하거나 직접 입력할 수 있어요.</p>
+            </div>
+            <div class="modal__foot guide__foot">
+              <a class="btn btn--primary btn--block" href="#v-field">확인했어요</a>
             </div>
           </div>
         </div>
@@ -216,41 +233,41 @@
           <h1 class="page-title">보유기기를 확인해 주세요</h1>
 
           <form id="equip-form" class="stack" action="#v-generating" method="get" novalidate>
-            <section class="section" aria-labelledby="registered-title">
-              <h2 class="section-title" id="registered-title">사업장에 등록된 기기</h2>
-              <ul class="tag-list">
-                <li class="tag tag--primary">튀김기</li>
-                <li class="tag tag--primary">가스레인지</li>
-                <li class="tag tag--primary">업소용 냉장고</li>
-                <li class="tag tag--primary">칼·도마</li>
-                <li class="tag tag--primary">염지기</li>
+            <!-- UX-016: 등록 기기는 연회색 카드 + ✓ 칩(모두 포함), 오른쪽 위 '사업장 관리 >' 링크.
+                 새로 찾은 기기: 없으면 점선 안내 카드, 있으면 흰 카드 안 칩(누르면 선택/해제).
+                 직접 추가는 서버 요청에 기기 칸이 없어 사업장 관리(기기 추가)로 안내합니다. -->
+            <section class="eq-reg" aria-labelledby="registered-title">
+              <div class="eq-reg__head">
+                <h2 class="section-title eq-reg__title" id="registered-title">사업장에 등록된 기기</h2>
+                <a class="eq-reg__link js-eq-manage" href="workplace.html">사업장 관리<i data-ico="chevronRight"></i></a>
+              </div>
+              <ul class="tag-list eq-chips" aria-label="이번 평가에 포함되는 등록 기기">
+                <li class="eq-chip eq-chip--on"><i data-ico="check"></i><span>튀김기</span></li>
+                <li class="eq-chip eq-chip--on"><i data-ico="check"></i><span>가스레인지</span></li>
               </ul>
-              <p class="hint">사업장 관리에서 바꿀 수 있어요.</p>
             </section>
 
-            <hr class="divider">
-
-            <fieldset class="section">
+            <fieldset class="section eq-new">
               <legend class="section-title">사진에서 새로 찾은 기기</legend>
               <p class="hint">등록되지 않은 기기를 AI가 사진에서 찾았어요. 매장에 있는 것만 체크해 주세요.</p>
-              <div class="check-list">
-                <label class="check">
-                  <input type="checkbox" name="ai_machine_nm" value="식기세척기" checked>
-                  <span class="check__text">식기세척기</span>
-                  <span class="src src--ai">AI 인식</span>
-                </label>
-                <label class="check">
-                  <input type="checkbox" name="ai_machine_nm" value="소형 온수기">
-                  <span class="check__text">소형 온수기</span>
-                  <span class="src src--ai">AI 인식</span>
-                </label>
+              <!-- 찾은 기기가 있을 때 (assessment-write.js 의 setDetected 가 채움) -->
+              <div class="eq-found" hidden>
+                <p class="eq-found__title">AI가 사진에서 찾은 기기 (<span class="js-eq-found-n">0</span>개)</p>
+                <div class="check-list eq-chips"></div>
+                <button class="btn btn--sm eq-add js-eq-manage" type="button"><i data-ico="plus"></i>직접 기기 추가하기</button>
               </div>
-              <!-- 새로 찾은 기기가 없거나 인식 실패 시 -->
-              <p class="empty small" hidden>사진에서 새로 찾은 기기가 없어요.</p>
+              <!-- 새로 찾은 기기가 없거나 인식 실패 시 (성공으로 표시하지 않음) -->
+              <div class="eq-empty">
+                <span class="eq-empty__ico" aria-hidden="true"><i data-ico="machineSearch"></i></span>
+                <p class="eq-empty__title">사진에서 새로 발견된 기기가 없어요</p>
+                <p class="eq-empty__sub">AI가 놓친 기기가 있다면 직접 추가할 수 있어요.</p>
+                <button class="btn btn--sm eq-add js-eq-manage" type="button"><i data-ico="plus"></i>기기 직접 추가하기</button>
+              </div>
             </fieldset>
           </form>
         </div>
         <div class="bottom-bar">
+          <p class="eq-summary" id="eq-summary" aria-live="polite">총 2개의 기기로 평가표 초안을 생성합니다.</p>
           <a class="btn" href="#v-field">이전</a>
           <button class="btn btn--primary" type="submit" form="equip-form">평가표 초안 만들기</button>
         </div>
@@ -280,8 +297,11 @@
 
   <script src="../js/vendor/jquery-3.7.1.min.js"></script>
   <script src="../js/common.js"></script>
+  <script src="../js/ui-icons.js"></script>
   <script src="../js/api.js"></script>
   <script src="../js/write.js"></script>
   <script src="../js/assessment-write.js"></script>
+  <script src="../js/voice-recorder.js"></script>
+  <script src="../js/field-blocks.js"></script>
 </body>
 </html>
