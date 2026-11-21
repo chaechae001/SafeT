@@ -15,7 +15,7 @@ import httpx
 from pydantic import ValidationError
 from schemas.catalog_ai import Analysis, SamResponse
 from services.auth import AuthError
-from domain.risk_policy import POLICY
+from domain.risk_policy import SUPPORTED
 
 SOURCE = 'catalog_ai_v1'
 MIN_OUTPUT_TOKENS = 256
@@ -220,7 +220,8 @@ def analyze(context, scenarios, answers=None, previous=None):
     _,model,_=configuration()
     media,images=make_input(context,answers)
     known={s['id']:s for s in scenarios}
-    if not known or any(s['policy_version']!=POLICY for s in scenarios):
+    versions={s['policy_version'] for s in scenarios}
+    if not known or len(versions)!=1 or not versions<=set(SUPPORTED):
         raise AuthError(503,'AI_CATALOG_MISSING','현재 정책의 기준 DB를 준비해 주세요.')
     raw=request_analysis(media,images,scenarios,previous)
     try:
@@ -247,7 +248,7 @@ def analyze(context, scenarios, answers=None, previous=None):
             candidate.questions.append(Question(id=qid,text='사진 탐지는 틀릴 수 있어요. 이 위험 후보와 관련된 기기가 실제로 있고 해당 작업을 하나요? 잘못 인식한 기기는 답변에 알려 주세요.'))
     if any(len(c.questions)>11 for c in parsed.candidates) or sum(len(c.questions) for c in parsed.candidates)>100:
         raise AuthError(422,'AI_QUESTION_LIMIT','확인 질문이 너무 많아요. 입력 범위를 나누어 주세요. 질문을 삭제하지 않았습니다.')
-    stamp={'model':model,'analyzed_at':datetime.now(timezone.utc).isoformat(),'policy_version':POLICY,'prompt_version':'catalog-ai-2'}
+    stamp={'model':model,'analyzed_at':datetime.now(timezone.utc).isoformat(),'policy_version':next(iter(versions)),'prompt_version':'catalog-ai-2'}
     if context.get('_photo_cache'):stamp['photo_cache']=context['_photo_cache']
     return [dict(c.model_dump(),input_evidence=[m for m in media if m['id'] in {e.media_id for e in c.evidence}],**stamp) for c in parsed.candidates]
 

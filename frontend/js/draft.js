@@ -40,14 +40,43 @@
     $('#v-list h1').first().text(doc.eval_nm);
     $('#d-reason-box .src').text(doc.generation_source==='demo'?'시험용 고정 신호':'판단 대기');
     $('.disclaimer').text(doc.generation_source==='demo' ? '개발 시험용 합성 평가표 · 실제 현장 판정에 사용하지 마세요.' : '실제 위험 판단 모델 미연결 · 판단 필요 항목은 확정할 수 없습니다.');
-    if(['catalog_v1','catalog_ai_v1'].indexOf(doc.generation_source)!==-1){ $('.disclaimer').text('선택한 조치를 기준으로 계산한 위험도입니다.');$('#d-reason-box .src').text('DB 기준'); }
+    if(['catalog_v1','catalog_ai_v1','catalog_rls_v1'].indexOf(doc.generation_source)!==-1){ $('.disclaimer').text('체크한 기준 조치로 서버가 계산한 위험도입니다. 최종 안전 판단은 담당자가 합니다.');$('#d-reason-box .src').text('DB 기준'); }
     if(doc.assessment_mode==='input_based'){
       $('.disclaimer').text('입력 기반 위험성평가표 · 미확인 조치는 실제 미실시와 구분하여 표시합니다.');
       $('#d-reason-box .src').text('입력·문헌 기준');
     }
     $('a[href="#v-add"]').prop('hidden',doc.assessment_mode==='input_based');
     if(SafeT.catalogAI)SafeT.catalogAI.summary(doc,submitAnswers);
+    renderPending(doc);
     renderList();
+  }
+  /** 확인 대기: 등록 기기에서만 나온 위험(catalog_rls_v1). 담당자가 실제 작업인지 확인해 추가해야 평가표 행이 된다. */
+  function renderPending(doc){
+    if(!$('#rls-pending-panel').length)$('<section id="rls-pending-panel" class="section" aria-live="polite">').insertBefore('#need-box');
+    var list=doc.pending_rows||[], $p=$('#rls-pending-panel').empty().prop('hidden',!list.length);
+    if(!list.length)return;
+    $('<h2>').text('확인 대기 '+list.length+'건 · 등록 기기 기준').appendTo($p);
+    $('<p class="hint">').text('사업장 등록 기기에서만 찾은 위험입니다. 등록 기기는 실제 작업 근거가 아니므로 평가표 행에 넣지 않았습니다. 실제로 하는 작업이면 평가표에 추가하고, 하지 않는 작업이면 제외해 주세요. 모두 처리해야 확정할 수 있습니다.').appendTo($p);
+    var $ul=$('<ul class="card-list">').appendTo($p);
+    $.each(list,function(_,c){
+      var $li=$('<li class="card">').appendTo($ul);
+      $('<p class="card__title">').text(c.job+' · '+c.title).appendTo($li);
+      $('<p class="card__meta">').text('등록 기기 '+c.machine+' · 찾은 위험 카드 '+c.card_title).appendTo($li);
+      var $row=$('<div class="btn-row">').appendTo($li);
+      $('<button type="button" class="btn btn--sm btn--primary">').text('실제 작업 · 평가표에 추가').attr({'data-pending':c.scenario_id,'data-decision':'add'}).appendTo($row);
+      $('<button type="button" class="btn btn--sm">').text('하지 않는 작업 · 제외').attr({'data-pending':c.scenario_id,'data-decision':'dismiss'}).appendTo($row);
+    });
+  }
+  function reviewPending(sid,decision){
+    if(busy || !evaluation)return;
+    function run(){
+      busy=true;SafeT.loading(true);
+      SafeT.api.post('/evals/'+evalNo+'/pending-rows',{revision:evaluation.revision,scenario_id:sid,decision:decision})
+        .done(function(doc){applyDocument(doc);dirty=false;SafeT.go('v-list');
+          SafeT.toast(decision==='add'?'평가표에 추가했어요. 현재 조치를 확인해 주세요.':'확인 대기에서 제외했어요.');})
+        .fail(apiError).always(function(){busy=false;SafeT.loading(false);});
+    }
+    if(dirty)saveDraft('v-list').done(run);else run();
   }
   function submitAnswers(answers){
     if(busy || !evaluation)return;
@@ -83,7 +112,8 @@
   /** 빠진 값 목록 (확정 검사 순서): current · signal · plan · owner */
   function missing(it) {
     var m = [];
-    if (it.assessment_mode!=='input_based' && ((!it.none && !checkedCount(it.curr)) || (it.catalog && !it.controls_reviewed))) m.push('current');
+    // 일반 평가표(catalog_rls_v1)는 현재 조치 선택 또는 '현재 조치 없음'만 확인한다. 다른 DB 기준 유형은 목록 전체 확인도 필요.
+    if (it.assessment_mode!=='input_based' && ((!it.none && !checkedCount(it.curr)) || (it.catalog && !isRls(it) && !it.controls_reviewed))) m.push('current');
     if (it.signal === 'N') m.push('signal');
     if (it.signal === 'G' && !it.keep) m.push('plan');
     if (needsPlan(it) && !checkedCount(it.plans)) m.push('plan');
@@ -187,6 +217,31 @@
     SafeT.go('v-risk', { focus: focus || null });
   }
 
+  /** 위험요인·법령 검색 모듈 연결 행(catalog_rls_v1). 생성 시(체크 0개)와 저장할 때마다 서버가 FOOD-3LEVEL-1.2로 계산한다. */
+  function isRls(it) { return !!(it.catalog && it.catalog.risk_law); }
+  function renderRls(it) {
+    var $box = $('#d-rls').empty();
+    $('#d-rls-box').prop('hidden', !isRls(it));
+    if (!isRls(it)) return;
+    var ref = it.catalog.risk_law, card = ref.card || {}, law = ref.law || {};
+    $('<p>').text(ref.notice || 'AI 검색 결과 · 작성자 확인 후 사용').appendTo($box);
+    $.each(ref.warnings || [], function (_, w) { $('<p class="hint">').text('주의: ' + w).appendTo($box); });
+    $('<p>').append($('<b>').text(card.from_machine ? '등록 기기 ' : '입력 문장 '),
+      document.createTextNode(card.from_machine ? (card.input_text || '') + ' (사업장 등록 기기 · 실제 작업 확인 필요)' : '“' + (card.input_text || '') + '”')).appendTo($box);
+    $('<p>').append($('<b>').text('찾은 위험 카드 '), document.createTextNode((card.title || '') + ' (' + (card.card_id || '') + ')')).appendTo($box);
+    $('<p>').append($('<b>').text('위험도 기준 '), document.createTextNode(it.catalog.scenario.title + ' · ' + ((ref.scenario_link || {}).message || ''))).appendTo($box);
+    var $law = $('<p>').append($('<b>').text('관련 법령 후보 ')).appendTo($box);
+    if (law.candidate) {
+      $law.append(document.createTextNode(law.candidate.law_name + ' ' + (law.candidate.locator || '') + ' ' + (law.candidate.article_title || '')));
+      $('<br>').appendTo($law);
+    }
+    $('<span class="muted">').text((law.candidate ? '' : (law.basis || '후보 없음') + ' · ') + (law.status || '')).appendTo($law);
+    if ((ref.other_cards || []).length)
+      $('<p>').append($('<b>').text('같은 기준으로 합친 카드 '), document.createTextNode($.map(ref.other_cards, function (c) { return c.title; }).join(', '))).appendTo($box);
+    if ((ref.unmatched || []).length)
+      $('<p class="muted">').text('평가표 행으로 만들지 못한 후보 ' + ref.unmatched.length + '개: ' + $.map(ref.unmatched, function (c) { return c.title + '(' + c.reason + ')'; }).join(', ')).appendTo($box);
+  }
+
   function renderChecks($list, arr, kind, it) {
     $list.empty();
     if(kind==='curr' && it.assessment_mode==='input_based'){
@@ -194,6 +249,8 @@
       arr.forEach(function(a){$('<p>').text(a.text).appendTo($list);});
       return;
     }
+    // 기준 조치 목록: 각 3개를 먼저 보이고 나머지는 '남은 조치 보기'. 체크한 항목·직접 추가는 항상 보인다.
+    var $more = null, shown = 0;
     $.each(arr, function (_, a) {
       var id = 'chk-' + a.id;
       var $row = a.ai ? $('<label class="check">') : $('<div class="check">');
@@ -201,21 +258,35 @@
       var $txt = a.ai ? $('<span class="check__text">') : $('<label class="check__text">').attr('for', id);
       $txt.text(a.text + ' ').append(
         $('<span class="src">').addClass(a.ai ? 'src--ai' : 'src--manual')
-          .text(a.ai ? (evaluation && evaluation.generation_source==='demo' ? '시험 후보' : '추천 후보') : '직접 추가'));
+          .text(a.ai ? (evaluation && evaluation.generation_source==='demo' ? '시험 후보' : (isRls(it) ? 'AI 추천' : '추천 후보')) : '직접 추가'));
+      // 서버가 붙인 기준 조치 연결(a.control). 직접 추가 항목은 저장 전이라 없을 수 있다.
+      if (it.catalog) $('<span class="muted small">').text(a.control && a.control.control_id
+          ? ' · 위험도 반영 (' + (a.control.message || '기준 조치') + ' · ' + a.control.control_id + ')'
+          : ' · 위험도 계산 제외 (' + ((a.control && a.control.message) || '직접 입력 · 기준 조치 ID 없음') + ')').appendTo($txt);
       $row.append($in, $txt);
       if (!a.ai) {
         $('<button class="check__remove" type="button">×</button>')
           .attr({ 'data-remove': a.id, 'data-kind': kind, 'aria-label': a.text + ' 삭제' })
           .appendTo($row);
       }
-      $list.append($row);
+      if (it.catalog && a.ai && shown >= 3 && !a.checked) {
+        if (!$more) $more = $('<details class="disclosure more-controls">').append($('<summary>'));
+        $more.append($row);
+      } else {
+        if (a.ai) shown += 1;
+        $list.append($row);
+      }
     });
+    if ($more) {
+      $more.find('summary').text('남은 조치 보기 (' + ($more.children().length - 1) + '개)');
+      $list.append($more);
+    }
     if (kind === 'curr') {
       var $n = $('<label class="check">');
       $('<input type="checkbox" data-kind="none" name="curr_none_yn" value="Y">').prop('checked', it.none).appendTo($n);
       $('<span class="check__text">현재 조치 없음</span>').appendTo($n);
       $list.append($n);
-      if(it.catalog){
+      if(it.catalog && !isRls(it)){
         var review=$('<label class="check">').appendTo($list);
         $('<input type="checkbox" data-kind="reviewed">').prop('checked',!!it.controls_reviewed).appendTo(review);
         $('<span>').text('이 작업에 해당하며 현재 조치 목록 전체를 확인했습니다. 선택한 조치는 실제 적용·작동 중이고 미선택 조치는 실시하지 않습니다.').appendTo(review);
@@ -283,7 +354,8 @@
     }
     $('#d-law-box').prop('hidden', need || !it.law);
     $('#d-judge-box').prop('hidden', !isN);
-    if(it.catalog)$('#d-judge-box p').text('실시 중인 조치 또는 조치 없음을 선택하고, 목록 전체 확인 후 저장해 주세요.');
+    if(it.catalog)$('#d-judge-box p').text(isRls(it) ? '실시 중인 조치 또는 현재 조치 없음을 선택하고 저장해 주세요.' : '실시 중인 조치 또는 조치 없음을 선택하고, 목록 전체 확인 후 저장해 주세요.');
+    renderRls(it);
 
     if(SafeT.catalogAI)SafeT.catalogAI.detail(it);
     if(it.authoring){
@@ -312,6 +384,8 @@
 
     if(!$('#d-projection').length)$('<p id="d-projection" class="hint" aria-live="polite">').insertAfter('#d-plan-body');
     $('#d-projection').text(it.catalog ? (it.judged ? '개선대책 이행 시 예상 위험도: '+({R:'상',Y:'중',G:'하',N:'확인 필요'}[it.after])+' · 계획 이행과 효과를 가정한 값입니다.' : '예상 위험도: 저장 후 계산 · 실제 개선 결과와 구분합니다.') : '');
+    var pr = it.catalog && it.catalog.projected_result;
+    if(it.catalog && it.judged && pr && pr.grade)$('#d-projection').text('예상 위험도: '+pr.grade+' · '+pr.reason+(it.policy_version?' · 정책 '+it.policy_version:''));
     if(it.assessment_mode==='input_based')$('#d-projection').text('개선대책 선택은 계획으로 저장되며 입력 기반 현재 위험도를 변경하지 않습니다.');
     var pos = navPos();
     $('#d-prev').prop('disabled', pos.prev === null);
@@ -523,6 +597,9 @@
     // 리스트
     $('#v-list').on('safet:show', renderList);
 
+    $('#v-list').on('click', '#rls-pending-panel [data-pending]', function () {
+      reviewPending($(this).attr('data-pending'), $(this).attr('data-decision'));
+    });
     $('#risk-list').on('click', 'a[data-index]', function (e) {
       e.preventDefault();
       openDetail(+$(this).attr('data-index'), 'all');
@@ -563,6 +640,11 @@
     // 확인 창이 열릴 때 필수값 검사 (주소로 열어도 동일). 빠진 값이 있으면 창 대신 해당 필드로
     $('#confirm').on('safet:open', function () {
       if(!evaluation || !items.length || busy){SafeT.closeModal(true);return;}
+      if((evaluation.pending_rows||[]).length){
+        SafeT.closeModal(true);
+        SafeT.toast('등록 기기 기준 확인 대기 위험을 먼저 추가하거나 제외해 주세요.');
+        return;
+      }
       if($('#rag-status-panel .candidate-exclusion:not(:checked)').length){
         SafeT.closeModal(true);
         SafeT.toast('실제 작업이거나 아직 확인하지 않은 후보가 있어 확정을 보류합니다.');
@@ -622,7 +704,7 @@
         .then(function (yes) { if (yes) saveDraft('v-risk'); });
     });
 
-    $('#d-rejudge').on('click',function(){if(evaluation.generation_source==='catalog_ai_v1' && itQuestions()){SafeT.go('v-list');$('#ai-question-panel textarea').first().trigger('focus');return;}if(['catalog_v1','catalog_ai_v1'].indexOf(evaluation.generation_source)!==-1){saveDraft('v-risk');return;}SafeT.toast('실제 위험 판단 모델 연결 후 다시 판단할 수 있어요. 현재 입력은 저장할 수 있습니다.');});
+    $('#d-rejudge').on('click',function(){if(evaluation.generation_source==='catalog_ai_v1' && itQuestions()){SafeT.go('v-list');$('#ai-question-panel textarea').first().trigger('focus');return;}if(['catalog_v1','catalog_ai_v1','catalog_rls_v1'].indexOf(evaluation.generation_source)!==-1){saveDraft('v-risk');return;}SafeT.toast('실제 위험 판단 모델 연결 후 다시 판단할 수 있어요. 현재 입력은 저장할 수 있습니다.');});
 
     // 체크 변경 (현재 조치 · 현재 조치 없음 · 개선대책)
     $('#risk-form').on('change', 'input[data-kind]', function () {
@@ -650,6 +732,7 @@
       if(it.catalog){
         if(kind==='curr' || kind==='none'){it.controls_reviewed=false;$('#d-curr-list input[data-kind=reviewed]').prop('checked',false);}
         it.judged=false;$('#d-projection').text('변경됨 · 저장 후 위험도를 다시 계산합니다.');
+        $('#d-signal-text').text(SIGNAL_TEXT[it.signal]+' · 마지막 저장 기준(체크 변경 저장 전)');
         if(kind!=='plan')$('#d-reason').text('현재 조치 변경 · 저장 후 재계산 필요');
       }
       $(this).closest('.section').removeClass('is-invalid').find('.js-error').remove();

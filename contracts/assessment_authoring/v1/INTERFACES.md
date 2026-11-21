@@ -94,6 +94,25 @@ AssessmentCore는 통합 검사용 핵심 결과다. 서비스는 기존 catalog
 생성·저장·재조회·화면·PDF의 grade/정책/근거가 일치하면 통합 완료다.
 
 
+## 일반 평가표 위험도 계약 — FOOD-3LEVEL-1.2 (2026-11-21)
+
+정책 기준: [위험도 합의 문서](../../../docs/implementation/risk-development-agreement.md). 이 절은 input_based가 아닌 일반 평가표(`catalog_rls_v1`·`catalog_v1`·`catalog_ai_v1`)의 입출력이다.
+input_based(이 v1 묶음)는 `base_policy_version=CATALOG-MVP-1.1`을 유지한다(검사 코드가 1.1 MATRIX·카탈로그를 고정). 1.2 전환은 v2 계약에서 정한다.
+
+| 단계 | 입력 | 결과·저장 |
+| --- | --- | --- |
+| 생성 `POST /evals` | 작업 설명·전사문·등록 기기 | 행별 `catalog_state.scenario`(1.2 시나리오, `policy_version`), `links`(action_id → control_id), 체크 0개 기준 `current_result`·`projected_result` |
+| 조회 `GET /evals/{no}` | — | 행 `policy_version`, 행 `signal`(현재)·`after`(예상), 조치별 `control`(`control_id`·`critical`·`status`·`message`), `catalog.current_result`·`projected_result` |
+| 저장 `PUT /evals/{no}` | 조치 `id`(action_id)·`checked`·`text`, 직접 입력은 `id=null` | 서버가 저장된 `links`로 control_id를 찾아 재계산. 결과와 체크를 같은 트랜잭션에 저장, `risk_event(kind=calculation)` 기록 |
+| 확인 대기 `POST /evals/{no}/pending-rows` | `scenario_id`, `decision`=add/dismiss | add: 1.2 기준 행 생성(체크 0개 계산) |
+
+- 계산 대상: 체크했고, 그 행의 `links`에 있고, 행 시나리오의 기준 조치 ID인 것만. 다른 행·시나리오 ID, 미확정 추천(`control_id=null`), 직접 입력은 저장만 한다.
+- 현재 = `evaluate(scenario, 현재 ID)`, 예상 = `evaluate(scenario, 현재 ID ∪ 개선 ID)`. 같은 ID는 한 번만 센다. 예상은 계획 이행을 가정한 값이다.
+- `current_result`·`projected_result` 필드: `policy_version`, `grade`(상/중/하), `signal`(R/Y/G/N), `severity`, `control_band`(1 전체·2 핵심만·3 핵심 미충족), `applied_control_ids`, `missing_critical_ids`, `missing_supplementary_ids`, `reason`(반영 ID·남은 조치·등급 유지 이유).
+- 정책 버전: 평가표의 모든 행은 같은 `policy_version`을 쓴다. 저장된 1.1 행은 1.1로 재계산하고, 1.2로 바꾸지 않는다. 지원하지 않는 버전은 409.
+- 확정 `POST /evals/{no}/confirm`(catalog_rls_v1): 행마다 현재 조치 1개 이상 또는 `none=true`, 확인 대기 0건이어야 한다. `controls_reviewed`는 요구하지 않는다(422 `EVAL_INCOMPLETE`·`PENDING_ROWS_REVIEW_REQUIRED`).
+- 시나리오 미연결·근거 부족 카드는 행을 만들지 않고 `risk_law.unmatched`로 보존한다(판단 필요·검토 흐름).
+
 ## 담당자 확정 기준 (2026-11-19 팀 결정)
 
 `input_based`의 AI 출력과 계산 결과는 모두 초안이다. `complete`는 입력 처리 상태다.

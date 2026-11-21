@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>위험도 판정 테스트 · Safe-T</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f2f6f5;color:#192f32;font:16px/1.6 "Malgun Gothic",sans-serif;word-break:keep-all}main{max-width:900px;margin:auto;padding:24px 16px 48px}header{margin-bottom:18px}h1,h2,p{margin:0}h1{font-size:clamp(24px,4vw,34px)}h2{font-size:19px;margin-bottom:8px}section{background:white;border:1px solid #cedbd7;border-radius:12px;padding:clamp(14px,3vw,26px);margin:12px 0}select{width:100%;margin:6px 0 12px;padding:10px;font:inherit;color:inherit;background:white;border:1px solid #78958e;border-radius:6px}table{border-collapse:collapse;width:100%;font-size:15px}td,th{padding:9px 5px;text-align:center;border-bottom:1px solid #dbe6e1}td:first-child,th:first-child{text-align:left}th{background:#eff5f2}input{width:20px;height:20px;accent-color:#126653}#grade,#metrics{font-weight:700;color:#0b5c4b;font-size:clamp(17px,3vw,23px)}#basis,#sources,small{display:block;margin-top:8px;overflow-wrap:anywhere}#basis{display:grid;grid-template-columns:minmax(85px,auto) 1fr;gap:5px 14px}dt{font-weight:600}dd{margin:0}#card,small{color:#455d59}#error{color:#a62d24}#controls td:not(:first-child){width:18%}button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid #2869ab}a{color:#135a67}@media(max-width:450px){table{font-size:13px}main{padding:14px 8px}td,th{padding:8px 3px}}
+</style></head><body><main>
+<header><a href="/">일반 화면</a><h1>위험도 판정 테스트</h1><span id="card"></span></header>
+<section><h2>작업과 조치 선택</h2><label for="scenario">작업 시나리오</label><select id="scenario"></select><table><thead><tr><th>조치 항목</th><th>현재 이행</th><th>개선 계획</th></tr></thead><tbody id="controls"></tbody></table></section>
+<section aria-live="polite"><h2>판정 결과</h2><p id="grade"></p><dl id="basis"></dl><small id="sources"></small></section>
+<section><h2>판정 기준표</h2><table><thead><tr><th>예상 피해</th><th>핵심 미충족</th><th>핵심만 충족</th><th>전체 충족</th></tr></thead><tbody id="matrix"></tbody></table></section>
+<section><h2>판정기 검증</h2><p id="metrics"></p><small>각 조합에서 현재 조치만 적용한 결과와 나머지 조치까지 이행한 결과를 기준표와 대조합니다. 현장 전문가 등급과의 일치율은 미측정입니다.</small></section>
+<p role="alert" id="error"></p></main><script>
+const byId=id=>document.getElementById(id), sel=byId('scenario');
+const severity=['','경미·응급처치','휴업 부상·질병 가능','사망·중상 가능'];
+const query=new URLSearchParams(location.search);
+let scenarios=[], sequence=0;
+function cell(row,text){row.insertCell().textContent=text}
+async function json(url,options){const r=await fetch(url,options);if(!r.ok)throw Error('테스트 데이터를 불러오지 못했습니다.');return r.json()}
+function scenario(){return scenarios.find(s=>s.id===sel.value)}
+function controls(){const rows=byId('controls');rows.replaceChildren();for(const c of scenario()?.controls||[]){
+ const row=rows.insertRow();cell(row,(c.critical?'[핵심] ':'[보완] ')+c.current_text);
+ for(const kind of ['current','plan']){const input=document.createElement('input');input.type='checkbox';input.value=c.id;input.dataset.kind=kind;input.setAttribute('aria-label',c.current_text+' '+(kind==='plan'?'계획':'현재'));row.insertCell().append(input)}
+}}
+async function evaluate(){const seq=++sequence;const s=scenario();byId('grade').textContent='계산 중';byId('basis').textContent='';byId('sources').textContent='';byId('error').textContent='';
+ const ids=k=>Array.from(document.querySelectorAll('input:checked')).filter(i=>i.dataset.kind===k).map(i=>i.value);
+ try{const {draft,expected:a}=await json('/api/risk-test/evaluate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({card_id:query.get('card')||'test',scenario_id:s?.id||null,current_ids:ids('current'),plan_ids:ids('plan')})});if(seq!==sequence)return;
+ const all=a.critical_ids.length, met=all-a.missing_critical_ids.length;
+ byId('grade').textContent='현재 위험도 '+(draft.current_risk||'판단 필요')+' → 예상 위험도 '+(a.expected_risk||'판단 필요');
+ if(!s){byId('basis').textContent=a.reason;return}
+ const lines=[
+   ['예상 피해',severity[a.severity]],
+   ['핵심 조치 충족',met+' / '+all+'개 ('+Math.round(100*met/all)+'%)'],
+   ['미충족 핵심 조치',s.controls.filter(c=>a.missing_critical_ids.includes(c.id)).map(c=>c.current_text).join(', ')||'없음'],
+   ['판정 근거',a.reason+' · '+a.assessment_policy]
+ ];
+ for(const [label,value] of lines){
+   const dt=document.createElement('dt'),dd=document.createElement('dd');
+   dt.textContent=label;dd.textContent=value;byId('basis').append(dt,dd)
+ }
+ byId('sources').textContent='문헌 근거 '+(a.source_refs.map(r=>r.document_id+' 인쇄본 '+r.printed_page+'쪽').join(', ')||'없음')+' · '+s.severity_reason;
+ }catch(e){if(seq===sequence){byId('grade').textContent='';byId('error').textContent=e.message}}}
+async function init(){const [list,m]=await Promise.all([json('/api/risk-scenarios'),json('/api/risk-test/metrics')]);scenarios=list;
+ sel.add(new Option('시나리오 미연결',''));
+ for(const s of list)sel.add(new Option(s.title,s.id));
+ const requested=query.get('scenario')??'FRY';
+ sel.value=list.some(s=>s.id===requested)?requested:'';
+ byId('card').textContent=query.has('card')?'위험 카드 '+query.get('card'):'';
+ controls();
+ for(const [level,grades] of Object.entries(m.reference)){const row=byId('matrix').insertRow();cell(row,severity[level]);grades.forEach(g=>cell(row,g))}
+ byId('metrics').textContent='기준표 일치율 '+(100*m.matched/m.total).toFixed(1)+'% ('+m.matched.toLocaleString()+' / '+m.total.toLocaleString()+'개 조합, '+m.scenarios+'개 시나리오)';
+ sel.onchange=()=>{controls();evaluate()};byId('controls').onchange=evaluate;await evaluate()}
+init().catch(e=>byId('error').textContent=e.message);
+</script></body></html>

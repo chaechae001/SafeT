@@ -6,6 +6,7 @@ from services.auth import AuthError, now
 from services import workplaces, assessment_provider as provider
 from services import catalog_risk as catalog
 from services import authoring_rag
+from services import risk_law
 
 
 def rows(db, sql, **p): return [dict(r) for r in db.execute(text(sql),p).mappings()]
@@ -68,6 +69,10 @@ def detail(db,email,no):
                       review_candidates=snapshot.get('review_candidates', []),
                       base_policy_version=snapshot.get('base_policy_version'),
                       unmatched_risks=snapshot['unmatched_risks'])
+    if m['generation_source'] == catalog.RLS_SOURCE:
+        # 등록 기기에서만 나온 위험: 담당자가 실제 작업인지 확인하기 전에는 평가표 행이 아니다.
+        saved = json.loads(m.get('authoring_snapshot') or '{}')
+        result['pending_rows'] = [risk_law.pending_view(p) for p in saved.get('rls_pending', [])]
     return result
 
 def insert_items(db,no,items,email,offset=0):
@@ -76,7 +81,7 @@ def insert_items(db,no,items,email,offset=0):
         for kind,values in (('C',it['curr']),('P',it['plans'])):
             for k,value in enumerate(values):
                 execute(db,"INSERT INTO eval_action (eval_dtl_no,action_type,action_text,check_yn,ai_yn,sort) VALUES (:d,:k,:t,'N','Y',:s)",d=result.lastrowid,k=kind,t=value,s=k)
-        if it.get('catalog'): catalog.initialize(db,result.lastrowid,it['catalog'],it.get('ai_analysis'))
+        if it.get('catalog'): catalog.initialize(db,result.lastrowid,it['catalog'],it.get('ai_analysis'),it.get('risk_law'))
         if it.get('authoring'): authoring_rag.initialize(db,result.lastrowid,it['authoring'])
 
 def create(db,email,body):
@@ -87,7 +92,9 @@ def create(db,email,body):
     context=body.model_dump(); context['machines']=w['machines']
     use_catalog=catalog.enabled()
     use_authoring=authoring_rag.enabled()
-    snapshot=catalog.list_catalog(db) if use_catalog or use_authoring else []
+    # 신규 평가표는 ACTIVE_POLICY(FOOD-3LEVEL-1.2). input_based v1 계약은 CATALOG-MVP-1.1에 고정되어 있어 1.1 카탈로그를 쓴다.
+    snapshot=(catalog.list_catalog(db) if use_catalog else
+              catalog.list_catalog(db, catalog.POLICY) if use_authoring else [])
     if use_authoring and body.photos:
         context['_photo_cache'] = authoring_rag.cached_photos(db, email, body.work_no, context['photos'])
     # 외부 호출 전에 읽기 트랜잭션도 종료한다.
@@ -96,6 +103,9 @@ def create(db,email,body):
         source, items, authoring_snapshot = authoring_rag.generate(snapshot, context)
     else:
         source, items = catalog.generate_snapshot(snapshot, context) if use_catalog else provider.generate(context)
+    pending = []
+    if source == catalog.RLS_SOURCE:
+        items, pending = risk_law.split_pending(items)
     try:
         locked_rows(db,'SELECT work_no FROM workplaces WHERE work_no=:n FOR UPDATE',n=body.work_no)
         old=rows(db,'SELECT eval_no FROM eval_mst WHERE email=:e AND request_key=:k',e=email,k=key)
@@ -110,6 +120,9 @@ def create(db,email,body):
                 authoring_snapshot['photo_cache'] = context['_photo_cache']
             execute(db, 'UPDATE eval_mst SET authoring_snapshot=:s WHERE eval_no=:n',
                     s=json.dumps(authoring_snapshot, ensure_ascii=False), n=no)
+        if pending:
+            execute(db, 'UPDATE eval_mst SET authoring_snapshot=:s WHERE eval_no=:n',
+                    s=json.dumps(dict(rls_pending=pending), ensure_ascii=False), n=no)
         for i,name in enumerate(body.members): execute(db,'INSERT INTO eval_member (eval_no,member_nm,sort) VALUES (:n,:name,:i)',n=no,name=name,i=i)
         for machine in w['machines']: execute(db,"INSERT INTO eval_machine (eval_no,machine_code,machine_nm,ai_yn,check_yn) VALUES (:n,:c,:name,'N','Y')",n=no,c=machine['machine_code'],name=machine['machine_nm'])
         for kind,content in (('T',body.text),('V',body.voice_text)):
@@ -151,6 +164,9 @@ def save(db,email,no,body,confirm=False):
                 raise AuthError(422, 'NO_ASSESSED_ROWS', '평가 항목이 없어 확정할 수 없습니다.')
             if body.excluded_review_candidates:
                 raise AuthError(422, 'NO_ASSESSED_ROWS', '평가 항목이 없는 초안은 검토 후보로 보관합니다.')
+        if confirm and old.get('pending_rows'):
+            raise AuthError(422, 'PENDING_ROWS_REVIEW_REQUIRED',
+                            '등록 기기 기준 확인 대기 위험이 있어요. 실제 작업이면 평가표에 추가하고, 아니면 제외해 주세요.')
         if m['generation_source'] == authoring_rag.SOURCE:
             pending = {candidate['scenario_id'] for candidate in old['review_candidates']}
             exclusions = set(old['excluded_review_candidates'] if body.excluded_review_candidates is None
@@ -219,7 +235,8 @@ def add_risk(db,email,no,body):
         # 서버 모드가 바뀌어도 기존 평가표의 생성 출처를 변경하지 않는다.
         if m['generation_source'] in catalog.SOURCES:
             from services.catalog_ai import restore_input
-            snapshot=catalog.list_catalog(db)
+            # 기존 평가표는 저장된 정책으로 행을 더한다(1.1 평가표에 1.2 행을 섞지 않음).
+            snapshot=catalog.list_catalog(db, catalog.document_policy(data['items']))
             db.rollback()
             source,items=catalog.generate_snapshot(snapshot,restore_input(data),body.keyword,source=m['generation_source'])
             existing={it['catalog']['scenario']['id'] for it in data['items'] if it.get('catalog')}
@@ -240,6 +257,37 @@ def add_risk(db,email,no,body):
         db.rollback(); raise
 
 
+def review_pending(db,email,no,body):
+    """확인 대기(등록 기기 기준) 위험을 담당자 확인에 따라 평가표 행으로 추가하거나 제외한다."""
+    try:
+        m=owned(db,email,no,True); writable(m,body.revision)
+        if m['generation_source']!=catalog.RLS_SOURCE:
+            raise AuthError(409,'PENDING_UNSUPPORTED','이 평가표에는 확인 대기 위험이 없어요.')
+        saved=json.loads(m.get('authoring_snapshot') or '{}')
+        pending=saved.get('rls_pending',[])
+        hit=next((p for p in pending if p['catalog']['id']==body.scenario_id),None)
+        if hit is None: raise AuthError(404,'PENDING_NOT_FOUND','확인 대기 항목을 찾을 수 없어요. 새로 불러와 주세요.')
+        at=str(now())
+        if body.decision=='add':
+            data=detail(db,email,no)
+            if any(it.get('catalog') and it['catalog']['scenario']['id']==body.scenario_id for it in data['items']):
+                raise AuthError(409,'DUPLICATE_RISK','이미 평가표에 있는 위험요인입니다. 확인 대기에서 제외해 주세요.')
+            if len(data['items'])>=100: raise AuthError(400,'ITEM_LIMIT','최대 100개 항목까지 추가할 수 있어요.')
+            if hit['catalog']['policy_version']!=catalog.document_policy(data['items']):
+                raise AuthError(409,'POLICY_CHANGED','이전 기준 평가표입니다. 새 평가표를 작성해 주세요.')
+            hit['risk_law']['work_confirmed']=dict(actor=email,at=at)
+            hit['risk_law']['notice']='등록 기기 기준 AI 검색 결과 · 담당자가 실제 작업으로 확인해 추가함 · 현재 조치 확인 필요'
+            insert_items(db,no,[hit],email,len(data['items']))
+        saved['rls_pending']=[p for p in pending if p is not hit]
+        saved['rls_pending_log']=(saved.get('rls_pending_log',[])+[dict(scenario_id=body.scenario_id,decision=body.decision,
+                                  actor=email,at=at,revision=body.revision+1)])[-200:]
+        execute(db,'UPDATE eval_mst SET authoring_snapshot=:s,revision=revision+1,upt_dt=:t,upt_nm=:e WHERE eval_no=:n',
+                s=json.dumps(saved,ensure_ascii=False),t=now(),e=email,n=no)
+        db.commit(); return detail(db,email,no)
+    except Exception:
+        db.rollback(); raise
+
+
 def answer_risks(db,email,no,body):
     """현재 초안의 질문만 재분석한다. 기존 위험·선택·담당·계획은 보존한다."""
     from services import catalog_ai
@@ -254,7 +302,7 @@ def answer_risks(db,email,no,body):
         submitted={(a.item_id,a.question_id) for a in body.answers}
         if len(submitted)!=len(body.answers) or submitted-allowed.keys():
             raise AuthError(422,'INVALID_ANSWERS','현재 평가표의 질문과 답변을 다시 확인해 주세요.')
-        if any(it['catalog']['scenario']['policy_version']!=catalog.POLICY for it in doc['items']):
+        if any(it['catalog']['scenario']['policy_version'] not in catalog.SUPPORTED for it in doc['items']):
             raise AuthError(409,'POLICY_CHANGED','이전 기준 평가표입니다. 새 평가표를 작성해 주세요.')
         histories={it['id']:list(it['catalog'].get('answers',[])) for it in doc['items']}
         for a in body.answers:

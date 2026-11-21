@@ -655,6 +655,8 @@ html:not(.js) .modal:target,
   animation: spin 0.9s linear infinite;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
+/* 초안 생성 대기(수십 초 가능): 원형 진행 대신 회전 표시 */
+.spinner--lg { width: 96px; height: 96px; border-width: 8px; }
 @media (prefers-reduced-motion: reduce) {
   .spinner { animation: none; }
   * { scroll-behavior: auto !important; transition: none !important; }

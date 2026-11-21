@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from database import get_db
 from routers.auth import current_user
-from schemas.assessment import CreateAssessment, SaveAssessment, AddRisk
+from schemas.assessment import CreateAssessment, SaveAssessment, AddRisk, PendingReview
 from services import assessment as service
 from services import catalog_risk
 
@@ -27,6 +27,9 @@ def confirm(eval_no:int,body:SaveAssessment,user:dict=Depends(current_user),db:S
 @router.post('/evals/{eval_no}/items', summary='초안에 위험요인 후보 추가')
 def add(eval_no:int,body:AddRisk,user:dict=Depends(current_user),db:Session=Depends(get_db)):
     return service.add_risk(db,user['email'],eval_no,body)
+@router.post('/evals/{eval_no}/pending-rows', summary='확인 대기(등록 기기 기준) 위험을 평가표 행으로 추가하거나 제외')
+def pending_rows(eval_no:int,body:PendingReview,user:dict=Depends(current_user),db:Session=Depends(get_db)):
+    return service.review_pending(db,user['email'],eval_no,body)
 
 from schemas.catalog_ai import RiskAnswers
 

@@ -82,10 +82,19 @@
       busy=true;$('#v-generating .bottom-bar a').attr('aria-disabled','true').hide();
       $('#v-generating .page-title').text('입력을 저장하고 초안을 준비하고 있어요');
       $('#v-generating .ring').text('저장 중').attr('aria-label','저장 중').css('--value','0');
-      $('#v-generating progress').removeAttr('value');$('#v-generating .strong,#v-generating .steps-text').text('완료되면 자동으로 초안으로 이동합니다.');
+      $('#v-generating progress').attr('hidden',true);  // 실제 진행률을 알 수 없어 막대는 숨기고 회전 표시만 쓴다$('#v-generating .strong,#v-generating .steps-text').text('완료되면 자동으로 초안으로 이동합니다.');
+      // 검색·분석에 수십 초가 걸릴 수 있어 멈춘 화면처럼 보이지 않게 회전 표시와 경과 시간을 보여 준다.
+      var started=Date.now();
+      $('#v-generating .ring').attr('hidden',true);
+      $('#gen-spinner').remove();$('<div id="gen-spinner" class="spinner spinner--lg" role="img" aria-label="처리 중">').insertBefore('#v-generating .ring');
+      var tick=setInterval(function(){
+        var sec=Math.floor((Date.now()-started)/1000);
+        // 실제 처리 단계를 알 수 없으므로 단계·남은 시간은 표시하지 않고 경과 시간만 보여 준다(화면설계서 15쪽).
+        $('#v-generating .strong').text('위험요인과 대책을 찾고 있어요 · '+sec+'초 경과');
+      },1000);
       S.api.post('/evals',body).done(function(r){S.hasUnsaved=function(){return false;};if(S.current)S.current.setEval(r.eval_no);window.location.href=S.current?'draft.html':'draft.html?eval='+r.eval_no;})
       .fail(function(e){S.go('v-equipment');S.toast(e.message+' 입력은 그대로 유지돼요.');})
-      .always(function(){busy=false;$('#v-generating .bottom-bar a').removeAttr('aria-disabled').show();});
+      .always(function(){clearInterval(tick);$('#gen-spinner').remove();$('#v-generating .ring,#v-generating progress').removeAttr('hidden');busy=false;$('#v-generating .bottom-bar a').removeAttr('aria-disabled').show();});
     });
     window.addEventListener('beforeunload',function(e){if(S.hasUnsaved()){e.preventDefault();e.returnValue='';}});
   });

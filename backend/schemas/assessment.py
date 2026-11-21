@@ -78,3 +78,9 @@ class SaveAssessment(StrictModel):
 class AddRisk(StrictModel):
     revision: int = Field(ge=1)
     keyword: str = Field(min_length=1, max_length=200)
+
+class PendingReview(StrictModel):
+    """확인 대기(등록 기기 기준) 위험: add = 실제 작업으로 확인해 행 추가, dismiss = 하지 않는 작업이라 제외."""
+    revision: int = Field(ge=1)
+    scenario_id: str = Field(min_length=1, max_length=50)
+    decision: Literal['add','dismiss']

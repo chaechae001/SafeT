@@ -335,6 +335,30 @@ backend\.venv\Scripts\python -m pytest backend/unit_tests/test_report.py -q
 
 `python backend/run_local.py --catalog --migrate`로 실행합니다. 현재 조치와 개선대책 선택을 같은 함수로 계산하며 개선 후 값은 예상 결과입니다.
 
+## 위험요인·법령 검색 모듈 연결 (catalog_rls_v1 · 2026-11-20)
+
+DB 기준 평가(`catalog_v1`)의 시나리오 찾기를 위험요인·법령 검색 모듈(`ai/risk_law_search`)로 바꾼 생성 모드입니다.
+입력 글·음성 전사문 → 위험 카드 → 카드에 연결된 시나리오 → 평가표 행. 위험도 계산·저장·확정은 DB 기준 평가와 같은 코드를 씁니다.
+
+```powershell
+# 화면(8000)·API(8001)·검색 모듈(8020)을 한 번에 실행. 처음 한 번은 --migrate
+backend\.venv\Scripts\python backend/run_local.py --risk-law --migrate
+# 시험용: 검토 전 자동 대책–기준 조치 연결도 위험도 계산에 반영
+backend\.venv\Scripts\python backend/run_local.py --risk-law --auto-controls
+```
+
+- 검색 서버가 이미 8020에서 실행 중이면 그 서버를 그대로 쓰고, 없으면 함께 실행합니다(Ctrl+C로 같이 종료).
+- 검색 모듈은 백엔드와 다른 패키지를 씁니다(`ai/risk_law_search/requirements.txt`). 그 패키지가 설치된 python을 `SAFET_RISK_LAW_PYTHON`으로 지정할 수 있고, 없으면 PATH의 `python`을 씁니다.
+
+- 검색 서버 주소는 `SAFET_RISK_LAW_URL`(기본 `http://127.0.0.1:8020`), 응답 대기 시간은 `SAFET_RISK_LAW_TIMEOUT`(초, 기본 60)입니다.
+- 위험도 정책: 신규 평가표는 **FOOD-3LEVEL-1.2**([합의 문서](../docs/implementation/risk-development-agreement.md)). `--migrate`가 1.1 카탈로그를 보존한 채 1.2 카탈로그(`contracts/catalog_risk/catalog-food-3level-1.2.json`)를 추가 적재합니다. 기존 1.1 평가표는 저장 당시 정책으로 계산합니다.
+- 행의 현재 안전조치·개선대책은 시나리오 1.2 기준 조치로 구성합니다(각 3개 먼저 표시, 나머지는 '남은 조치 보기'). 생성 시 체크 0개 기준으로 계산하고, 저장할 때마다 서버가 체크한 기준 조치 ID로 다시 계산합니다. 확정에는 현재 조치 1개 이상 또는 '현재 조치 없음' 선택과 확인 대기 처리가 필요합니다('목록 전체 확인' 체크는 요구하지 않음).
+- 카드 추천 문장은 `ai/risk_law_search/measure_control_map.json`에서 검토 완료(`confirmed`)로 연결된 경우 해당 기준 조치를 앞에 둡니다. 미확정 추천·직접 추가 대책은 저장하되 계산에서 제외하고 화면에 사유를 표시합니다.
+- 위험 카드·입력 문장·법령 후보는 행의 참고 정보(`catalog_state.risk_law`)로 저장해 화면에 '작성자 확인'으로 보여 줍니다. 정식 법령 칸과 PDF에는 넣지 않습니다.
+- 사업장 등록 기기(`workplace_machine`)도 검색어로 보냅니다. 기기에서만 나온 위험은 평가표 행으로 만들지 않고 **확인 대기**(`eval_mst.authoring_snapshot.rls_pending`)에 둡니다. 담당자가 `POST /evals/{번호}/pending-rows`(`decision`: `add` 실제 작업·행 추가 | `dismiss` 하지 않는 작업·제외)로 처리하며, 확인 대기가 남으면 확정할 수 없습니다. 이 저장 칸 때문에 `--migrate`가 `20261119_authoring_snapshot.sql`을 함께 적용합니다. 사진 탐지 결과는 아직 보내지 않습니다.
+- 검사: `python -m pytest backend/unit_tests/test_risk_law.py backend/unit_tests/test_catalog_policy.py -q`(DB 없음), `backend/tests/test_risk_law_flow.py`(테스트 DB 필요). 실제 검색 서버 연동은 `backend/tests/live_risk_law_smoke.py`(명시 실행, 파일 안내 참고).
+- 설계·확인 필요 사항: [연결 기록](../ai/risk_law_search/service-connect-20261120.md)
+
 ## 공동 위험 카드 DB
 
 카드 원본 JSONL과 기기·위험요인 ID 대조표를 함께 적재합니다. 표의 기기 ID와 시나리오 ID는 기존 주 계약의 값을 사용합니다.
