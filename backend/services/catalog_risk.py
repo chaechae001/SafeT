@@ -146,11 +146,10 @@ def rls_results(scenario, current, planned, reviewed):
 
     현재 = 체크한 현재 안전조치의 기준 조치 ID. 예상 = 현재 ∪ 개선대책 ID(같은 조치는 한 번만).
     기준 조치 ID가 없는 추천·직접 입력은 저장하되 계산에서 제외한다. 체크하지 않은 조치는 계산에서만 미충족이다.
-    reviewed(현재 조치 목록 전체 확인)는 등급 계산을 막지 않고 근거 문구와 확정 조건에 쓴다.
+    목록 전체 확인 체크는 이 유형의 계산·확정 조건이 아니다(확정은 현재 조치 선택 또는 '현재 조치 없음'과 확인 대기 처리).
     """
     result = evaluate(scenario, current, answered=True)
-    result['reason'] = (('체크한 현재 안전조치 기준 계산입니다. ' if reviewed else
-                         '현재 조치 목록 확인 전 · 체크한 현재 안전조치(없으면 0개) 기준 계산입니다. ') + result['reason'])
+    result['reason'] = '체크한 현재 안전조치(없으면 0개) 기준 계산입니다. ' + result['reason']
     projected = evaluate(scenario, current | planned, answered=True)
     projected.update(kind='projected', assumption='선택한 기준 대책이 모두 이행되어 유효하게 작동한다고 가정')
     projected['reason'] = '계획 이행·효과를 가정한 예상이며 실제 조치 결과가 아닙니다. 기준에 연결되지 않은 대책은 하향 계산에서 제외합니다. ' + projected['reason']

@@ -192,3 +192,50 @@ def test_rls_machine_only_risk_waits_for_work_check(client, rls_flow, monkeypatc
     knife = row(d, 'KNIFE')
     assert knife['policy_version'] == 'FOOD-3LEVEL-1.2' and knife['signal'] == 'Y'  # S2 · 0개 → 중
     assert knife['catalog']['risk_law']['work_confirmed']
+
+
+def confirm_body(doc, none=False):
+    """목록 전체 확인(controls_reviewed) 없이 확정 요청을 만든다. 현재 조치는 비워 둔다."""
+    p = edits(doc)
+    for e in p['items']:
+        e.update(controls_reviewed=False, none=none, owner={'type': 'R', 'name': '근로자'}, due='2026-12-01')
+        e['plans'][0]['checked'] = True
+    return p
+
+
+def test_rls_confirm_without_list_review(client, rls_flow):
+    h, p = rls_flow
+    # 1) 현재 조치 1개 이상 선택 → 목록 확인 체크 없이 확정
+    d = create(client, rls_flow)
+    body = confirm_body(d)
+    for e in body['items']:
+        e['curr'][0]['checked'] = True
+    r = client.post(f"/evals/{d['eval_no']}/confirm", headers=h, json=body)
+    assert r.status_code == 200, r.text
+    assert r.json()['eval_status'] == 'C' and not any(it['controls_reviewed'] for it in r.json()['items'])
+    # 2) '현재 조치 없음' 선택 → 목록 확인 체크 없이 확정
+    import uuid
+    p['request_key'] = str(uuid.uuid4())
+    d = create(client, (h, p))
+    r = client.post(f"/evals/{d['eval_no']}/confirm", headers=h, json=confirm_body(d, none=True))
+    assert r.status_code == 200, r.text
+    # 3) 현재 조치·'현재 조치 없음' 둘 다 비움 → 차단
+    p['request_key'] = str(uuid.uuid4())
+    d = create(client, (h, p))
+    r = client.post(f"/evals/{d['eval_no']}/confirm", headers=h, json=confirm_body(d))
+    assert r.status_code == 422 and r.json()['detail']['code'] == 'EVAL_INCOMPLETE'
+    assert {e['field'] for e in r.json()['detail']['errors']} == {'current'}
+    assert client.get(f"/evals/{d['eval_no']}", headers=h).json()['eval_status'] == 'W'
+
+
+def test_rls_confirm_blocked_by_pending_even_when_current_set(client, rls_flow, monkeypatch):
+    h, _ = rls_flow
+    monkeypatch.setattr(risk_law, 'analyze', lambda t, v, m=(): MACHINE)
+    d = create(client, rls_flow)
+    r = client.post(f"/evals/{d['eval_no']}/confirm", headers=h, json=confirm_body(d, none=True))
+    assert r.status_code == 422 and r.json()['detail']['code'] == 'PENDING_ROWS_REVIEW_REQUIRED'
+    r = client.post(f"/evals/{d['eval_no']}/pending-rows", headers=h,
+                    json=dict(revision=d['revision'], scenario_id='KNIFE', decision='dismiss'))
+    assert r.status_code == 200, r.text
+    r = client.post(f"/evals/{d['eval_no']}/confirm", headers=h, json=confirm_body(r.json(), none=True))
+    assert r.status_code == 200, r.text  # 확인 대기 처리 후에는 목록 확인 없이 확정

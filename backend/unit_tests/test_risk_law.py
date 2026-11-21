@@ -155,7 +155,7 @@ def test_initial_grade_from_zero_controls():
     state, _, row = build('FRY')
     assert state['current_result']['policy_version'] == 'FOOD-3LEVEL-1.2'
     assert grades(state) == ('중', '중') and row['g'] == row['a'] == 'Y' and row['j'] == 'Y'  # S2 · 0개 → 중
-    assert '0개' in state['current_result']['reason']
+    assert '없으면 0개' in state['current_result']['reason']
     state, _, _ = build('FIRE')
     assert grades(state) == ('상', '상')  # S3 · 0개 → 상
 

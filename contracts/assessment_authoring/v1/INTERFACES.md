@@ -110,6 +110,7 @@ input_based(이 v1 묶음)는 `base_policy_version=CATALOG-MVP-1.1`을 유지한
 - 현재 = `evaluate(scenario, 현재 ID)`, 예상 = `evaluate(scenario, 현재 ID ∪ 개선 ID)`. 같은 ID는 한 번만 센다. 예상은 계획 이행을 가정한 값이다.
 - `current_result`·`projected_result` 필드: `policy_version`, `grade`(상/중/하), `signal`(R/Y/G/N), `severity`, `control_band`(1 전체·2 핵심만·3 핵심 미충족), `applied_control_ids`, `missing_critical_ids`, `missing_supplementary_ids`, `reason`(반영 ID·남은 조치·등급 유지 이유).
 - 정책 버전: 평가표의 모든 행은 같은 `policy_version`을 쓴다. 저장된 1.1 행은 1.1로 재계산하고, 1.2로 바꾸지 않는다. 지원하지 않는 버전은 409.
+- 확정 `POST /evals/{no}/confirm`(catalog_rls_v1): 행마다 현재 조치 1개 이상 또는 `none=true`, 확인 대기 0건이어야 한다. `controls_reviewed`는 요구하지 않는다(422 `EVAL_INCOMPLETE`·`PENDING_ROWS_REVIEW_REQUIRED`).
 - 시나리오 미연결·근거 부족 카드는 행을 만들지 않고 `risk_law.unmatched`로 보존한다(판단 필요·검토 흐름).
 
 ## 담당자 확정 기준 (2026-11-19 팀 결정)

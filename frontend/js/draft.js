@@ -112,7 +112,8 @@
   /** 빠진 값 목록 (확정 검사 순서): current · signal · plan · owner */
   function missing(it) {
     var m = [];
-    if (it.assessment_mode!=='input_based' && ((!it.none && !checkedCount(it.curr)) || (it.catalog && !it.controls_reviewed))) m.push('current');
+    // 일반 평가표(catalog_rls_v1)는 현재 조치 선택 또는 '현재 조치 없음'만 확인한다. 다른 DB 기준 유형은 목록 전체 확인도 필요.
+    if (it.assessment_mode!=='input_based' && ((!it.none && !checkedCount(it.curr)) || (it.catalog && !isRls(it) && !it.controls_reviewed))) m.push('current');
     if (it.signal === 'N') m.push('signal');
     if (it.signal === 'G' && !it.keep) m.push('plan');
     if (needsPlan(it) && !checkedCount(it.plans)) m.push('plan');
@@ -285,7 +286,7 @@
       $('<input type="checkbox" data-kind="none" name="curr_none_yn" value="Y">').prop('checked', it.none).appendTo($n);
       $('<span class="check__text">현재 조치 없음</span>').appendTo($n);
       $list.append($n);
-      if(it.catalog){
+      if(it.catalog && !isRls(it)){
         var review=$('<label class="check">').appendTo($list);
         $('<input type="checkbox" data-kind="reviewed">').prop('checked',!!it.controls_reviewed).appendTo(review);
         $('<span>').text('이 작업에 해당하며 현재 조치 목록 전체를 확인했습니다. 선택한 조치는 실제 적용·작동 중이고 미선택 조치는 실시하지 않습니다.').appendTo(review);
@@ -353,7 +354,7 @@
     }
     $('#d-law-box').prop('hidden', need || !it.law);
     $('#d-judge-box').prop('hidden', !isN);
-    if(it.catalog)$('#d-judge-box p').text('실시 중인 조치 또는 조치 없음을 선택하고, 목록 전체 확인 후 저장해 주세요.');
+    if(it.catalog)$('#d-judge-box p').text(isRls(it) ? '실시 중인 조치 또는 현재 조치 없음을 선택하고 저장해 주세요.' : '실시 중인 조치 또는 조치 없음을 선택하고, 목록 전체 확인 후 저장해 주세요.');
     renderRls(it);
 
     if(SafeT.catalogAI)SafeT.catalogAI.detail(it);
