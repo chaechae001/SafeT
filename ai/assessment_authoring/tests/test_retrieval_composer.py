@@ -172,6 +172,9 @@ class AuthoringTests(unittest.TestCase):
             ("주방에서 튀김 조리를 합니다.", ["FRY"], [], []),
             # "튀기 시작"은 소스가 튀는 것(튀다)이지 튀김 작업(튀기다)이 아니다.
             ("오븐에서 소스가 튀기 시작합니다.", [], ["FRY"], []),
+            # "튀기도·튀기만·튀기는"도 튀다 + 명사형 어미다(PR #51 재리뷰).
+            ("오븐에서 소스가 튀기도 합니다.", [], ["FRY"], []),
+            ("소스가 튀기만 해요.", [], ["FRY"], []),
             ("냉동 감자를 기름에 튀깁니다.", ["FRY"], [], []),
             # 미사용 절 뒤에 주어 없는 사용 절이 이어지면 제외하지 않고 확인 후보로 둔다.
             ("튀김기는 평일에는 안 쓰고 주말에만 돌려요.", [], ["FRY"], []),
@@ -265,6 +268,19 @@ class AuthoringTests(unittest.TestCase):
                 self.assertEqual(trace["not_applicable_candidates"], excluded)
                 self.assertEqual("FRY" in [c["scenario_id"] for c in bundle["candidates"]], bool(uncertain))
 
+    def test_fry_verb_terms_follow_morphemes(self):
+        # 튀김 동사 기준어는 형태소 분석이 튀기다(VV "튀기")라고 할 때만 인정한다.
+        # 형태소 결과를 고정한 모의 토큰으로 판정 경로가 글자 일치에 기대지 않는지 확인한다.
+        from unittest import mock
+        from ai.assessment_authoring import negation
+        splash = (("소스", "NNG", 0, 2), ("가", "JKS", 2, 3), ("튀", "VV", 4, 5), ("기", "ETN", 5, 6),
+                  ("도", "JX", 6, 7), ("하", "VX", 8, 9), ("ᆸ니다", "EF", 8, 11), (".", "SF", 11, 12))
+        fry = (("감자", "NNG", 0, 2), ("를", "JKO", 2, 3), ("튀기", "VV", 4, 6), ("도", "JX", 6, 7),
+               ("하", "VX", 8, 9), ("ᆸ니다", "EF", 8, 11), (".", "SF", 11, 12))
+        for text, tokens, expected in [("소스가 튀기도 합니다.", splash, False), ("감자를 튀기도 합니다.", fry, True)]:
+            with self.subTest(text=text), mock.patch.object(negation, "_tokens", lambda _t, tokens=tokens: tokens):
+                self.assertEqual("FRY" in text_candidates(dict(id="TEXT", text=text), [])[0], expected)
+
     def test_judge_marks_uncertain_unused_statements(self):
         # 문맥이 필요한 미사용 진술은 잠정 미사용·불확실로, 위험·조치 부정은 확실한 사용으로 둔다.
         from ai.assessment_authoring.negation import judge
@@ -276,6 +292,8 @@ class AuthoringTests(unittest.TestCase):
             ("튀김기 말고 그리들만 써요.", "unused", False),
             ("튀김기가 있긴 하지만 안 돌려요.", "unused", False),
             ("튀김기는 아침엔 안 쓰고 저녁에만 돌려요.", "used", False),
+            ("튀김기는 오전엔 안 쓰고 오후 장사 때만 켜요.", "used", False),
+            ("튀김은 안 합니다. 철판 조리만 합니다.", "unused", True),
             ("튀김기 기름을 안 갈아요.", "used", True),
             ("튀김기 스위치를 안 끄고 퇴근해요.", "used", True),
             ("튀김기 전원 코드가 낡았는데 수리를 안 했어요.", "used", True),
@@ -334,6 +352,9 @@ class AuthoringTests(unittest.TestCase):
             ("튀김기 옆 바닥에 기름이 떨어져 미끄럽습니다.", {"FRY", "ENV"}),
             ("칼로리 표시를 확인합니다.", set()),
             ("오븐에서 소스가 튀기 시작합니다.", {"OVEN"}),
+            ("오븐에서 소스가 튀기도 합니다.", {"OVEN"}),
+            ("소스가 튀기는 해요.", set()),
+            ("돈가스를 튀겨요.", {"FRY"}),
             ("감자를 튀기기 시작합니다.", {"FRY"}),
             ("돈가스를 튀기는 중입니다.", {"FRY"}),
             ("요즘은 튀기지 않습니다.", set()),

@@ -30,6 +30,9 @@ _SAME_TARGET_NOUNS = {"작업", "조리", "사용", "가동", "일", "때", "오
                       "평소", "이번", "주", "요새", "최근", "한동안",
                       "아침", "점심", "저녁", "밤", "낮", "오전", "오후", "평일", "주말", "매일"}
 
+# 시점 명사. 명사구의 끝이 이것이면 시간 부사어로 본다.
+_TIME_NOUNS = _SAME_TARGET_NOUNS - {"작업", "조리", "사용", "가동", "일"}
+
 
 @lru_cache(maxsize=1)
 def _kiwi():
@@ -166,9 +169,11 @@ def resumed_without_subject(text, start, end):
             continue
         if not any(_is_use(tokens, x) for x in range(lo, hi)):
             continue
-        # 끝 명사가 시점·작업 이름인 명사구("오후 장사 때만", "주말에만")는 다른 대상이 아니다.
+        # 시점 명사구("오후 장사 때만", "주말에만")와 작업 이름만인 명사구는 다른 대상이 아니다.
+        # "철판 조리만"처럼 다른 작업을 가리키는 명사구는 다른 대상이다.
         explicit = [a for a, b, p in _noun_phrases(tokens, lo, hi)
-                    if _is_argument(p) and tokens[b - 1][0] not in _SAME_TARGET_NOUNS]
+                    if _is_argument(p) and tokens[b - 1][0] not in _TIME_NOUNS
+                    and not {tokens[x][0] for x in range(a, b)} <= _SAME_TARGET_NOUNS]
         if not explicit:
             return True
     return False
@@ -256,3 +261,8 @@ def judge(text, start, end):
         if not explicit and any(_negation(tokens, x)[0] for x in range(lo2, hi2))                 and any(_is_use(tokens, x) or _negation(tokens, x)[1] for x in range(lo2, hi2)):
             return "unused", False, "대조 연결 뒤 부정"
     return "used", True, ""
+
+
+def verb_at(text, start, lemma):
+    """text의 start 위치에서 시작하는 형태소가 동사(VV) lemma인가."""
+    return any(form == lemma and tag == "VV" and s == start for form, tag, s, _ in _tokens(text))
