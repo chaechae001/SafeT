@@ -5,7 +5,7 @@ import re
 from pathlib import Path
 from .catalog import catalog_index
 from .contracts import schema, require
-from .negation import denied, resumed_without_subject
+from .negation import denied, judge
 
 MAPPINGS = json.loads((Path(__file__).parent/"mappings/catalog_links.json").read_text(encoding="utf-8"))
 
@@ -23,35 +23,43 @@ def _term_matches(term, text):
     return re.finditer(_TERM_PATTERNS.get(term, re.escape(term)), text)
 
 
+def _mentions(text, terms):
+    """기준어 출현마다 (기준어, 위치, 판정, 확실 여부, 사유)."""
+    return [(term, m.span(), *judge(text, *m.span())) for term in terms for m in _term_matches(term, text)]
+
+
 def _affirmed(sid, text, terms, diagnostics=None, media_id=""):
-    """True when a term appears at least once without being stated as unused or absent."""
+    """True when a term appears at least once as certainly used (not unused, absent or uncertain)."""
     found = False
-    for term in terms:
-        for match in _term_matches(term, text):
-            if denied(text, *match.span()):
-                if diagnostics is not None:
-                    diagnostics.append(f"명시적 부정: {media_id} {sid} {term}")
-            else:
-                found = True
+    for term, _, verdict, certain, reason in _mentions(text, terms):
+        if verdict == "used" and certain:
+            found = True
+        elif diagnostics is not None:
+            diagnostics.append(f"명시적 부정: {media_id} {sid} {term}" if certain
+                               else f"판정 불확실({reason}): {media_id} {sid} {term}")
     return found
 
 
-def _fry_work_statements(text):
-    """(미사용 진술, 불확실한 미사용 진술). 미사용 진술 뒤에 주어 없는 사용 절이 이어지면
-    ("점심에는 안 쓰고 저녁에만 써요") 미사용으로 단정하지 않고 불확실로 분류한다."""
-    denied_flag = uncertain = False
-    for term in _FRY_WORK_TERMS:
-        for m in _term_matches(term, text):
-            if denied(text, *m.span()):
-                if resumed_without_subject(text, *m.span()):
-                    uncertain = True
-                else:
-                    denied_flag = True
-    return denied_flag, uncertain
-
-
 def _fry_work_denied(text):
-    return _fry_work_statements(text)[0]
+    """튀김 작업 자체(튀김·튀기다)가 확실히 미사용으로 진술되었는가."""
+    return any(verdict == "unused" and certain for _, _, verdict, certain, _ in _mentions(text, _FRY_WORK_TERMS))
+
+
+def uncertain_mentions(text, skip=()):
+    """확실한 사용 진술이 없고 불확실한 진술이 있는 시나리오별 잠정 판정.
+
+    {sid: dict(tentative="used|unused", reasons=[...], fry_work=bool)}. 잠정 판정은 사용 쪽을 우선한다.
+    """
+    out = {}
+    for sid, terms in MAPPINGS["terms"].items():
+        if sid in skip:
+            continue
+        found = [m for m in _mentions(text, terms) if not m[3]]
+        if found:
+            out[sid] = dict(tentative="used" if any(m[2] == "used" for m in found) else "unused",
+                            reasons=sorted({m[4] for m in found}),
+                            fry_work=any(m[0] in _FRY_WORK_TERMS for m in found))
+    return out
 
 
 def text_candidates(media, diagnostics):
@@ -94,10 +102,41 @@ def work_supported(scenario, statement):
 
 
 def _positive(text, term):
-    return any(not denied(text, *m.span()) for m in _term_matches(term, text))
+    return any(judge(text, *m.span())[:2] == ("used", True) for m in _term_matches(term, text))
 
 
-def retrieve_with_evidence(context, catalog_snapshot, *, rag_provider=None, rag_links=None, legal_registry=None):
+def _resolve_uncertain(media, unsure, catalog, negation_judge, denied_work, text_matches, uncertain_work, records):
+    """불확실한 진술을 확인 후보로 두거나, 판정 함수가 있으면 모델 판정과 규칙 잠정 판정이 같을 때만 확정한다."""
+    from .negation_judge import validate
+    result, error = None, ""
+    if negation_judge is not None:
+        targets = {sid: catalog[sid]["task"] for sid in unsure}
+        try:
+            result = negation_judge(media["text"], targets)
+        except (OSError, RuntimeError, ValueError, KeyError, TypeError, IndexError) as exc:
+            error = f"판정 호출 실패: {type(exc).__name__}"
+    for sid, info in sorted(unsure.items()):
+        status, check = (None, error or "판정 함수 없음") if result is None else             validate(media["text"], sid, result, work_terms(catalog[sid]))
+        decision = "review"
+        if status is not None and status == info["tentative"]:
+            if status == "used":
+                decision = "used"
+                text_matches.add(sid)
+            elif sid != "FRY" or info["fry_work"]:
+                decision = "unused"
+                if sid == "FRY":
+                    denied_work.add(sid)
+        if decision == "review":
+            uncertain_work.add(sid)
+        records.append(dict(media_id=media["id"], scenario_id=sid, tentative=info["tentative"],
+                            reasons=info["reasons"], model_status=status,
+                            model_quote=(result or {}).get(sid, {}).get("quote") if isinstance(result, dict)
+                            and isinstance((result or {}).get(sid), dict) else None,
+                            check=check, decision=decision))
+
+
+def retrieve_with_evidence(context, catalog_snapshot, *, rag_provider=None, rag_links=None, legal_registry=None,
+                           negation_judge=None):
     schema("input", context)
     require(len({m["id"] for m in context["media"]}) == len(context["media"]), "duplicate media")
     require(len(set(context["equipment_ids"])) == len(context["equipment_ids"]), "duplicate equipment")
@@ -109,7 +148,9 @@ def retrieve_with_evidence(context, catalog_snapshot, *, rag_provider=None, rag_
     # 아니면 작업 미확인 후보로 남는다.
     uncertain_work = set()
     diagnostics = []
-    trace = {"retrieval_mode": "catalog", "rag_response": None, "diagnostics": diagnostics}
+    judgements = []
+    trace = {"retrieval_mode": "catalog", "rag_response": None, "diagnostics": diagnostics,
+             "negation_judgements": judgements}
     for eq in context["equipment_ids"]:
         links = MAPPINGS["equipment"].get(eq, [])
         equipment_candidates.update(links)
@@ -122,8 +163,10 @@ def retrieve_with_evidence(context, catalog_snapshot, *, rag_provider=None, rag_
         text_matches.update(hits)
         if fryer_denied:
             denied_work.add("FRY")
-        if _fry_work_statements(media["text"])[1] and "FRY" not in hits:
-            uncertain_work.add("FRY")
+        unsure = uncertain_mentions(media["text"], skip=hits)
+        if unsure:
+            _resolve_uncertain(media, unsure, catalog, negation_judge, denied_work, text_matches,
+                               uncertain_work, judgements)
         if not hits:
             diagnostics.append("검색어 매핑 없음: " + media["id"])
     if rag_provider is not None and context["equipment_ids"]:

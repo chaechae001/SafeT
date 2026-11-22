@@ -108,6 +108,21 @@ def extract(context, retrieval, snapshot, evidence):
         raise AuthError(502, 'AUTHORING_MODEL_FAILED', '모델 응답을 완료하지 못했어요. 입력을 유지하고 다시 시도해 주세요.') from None
 
 
+def negation_judge():
+    """SAFET_NEGATION_JUDGE=exaone일 때만 불확실한 미사용 진술을 관문 모델로 확인한다(기본 꺼짐).
+
+    모델 판정은 형태소 규칙의 잠정 판정과 같을 때만 확정하고, 호출 실패·불일치는 작업 미확인으로 둔다.
+    """
+    if os.getenv('SAFET_NEGATION_JUDGE', '').strip() != 'exaone':
+        return None
+    base = catalog_ai.gateway_url()
+    _, model, _ = catalog_ai.configuration()
+    if not base or not model:
+        return None
+    from ai.assessment_authoring.negation_judge import exaone_judge
+    return exaone_judge(base, os.getenv('SAFET_AI_API_KEY', ''), model)
+
+
 def generate(scenarios, context):
     snapshot = load_catalog()
     byid = {s['id']:s for s in scenarios}
@@ -117,7 +132,7 @@ def generate(scenarios, context):
         bundle = build_context(context)
         out = run_pipeline(bundle, build_context=lambda prepared: prepared, extract_analysis=None,
             catalog_snapshot=snapshot, rag_provider=qualified_candidates, rag_links=RAG_LINKS,
-            extract_with_evidence=extract, batch_size=1)
+            extract_with_evidence=extract, batch_size=1, negation_judge=negation_judge())
     except ValueError:
         raise AuthError(502, 'AUTHORING_RESPONSE_INVALID', '분석 근거 검증에 실패했어요. 평가표는 생성하지 않았습니다.') from None
     if not out['assessment']['rows'] and not out['assessment']['core']['review_candidates']:

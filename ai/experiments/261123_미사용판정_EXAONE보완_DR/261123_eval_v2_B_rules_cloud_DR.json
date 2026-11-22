@@ -1,0 +1,1805 @@
+{
+ "label": "B_rules_cloud",
+ "judge": "none",
+ "summary": {
+  "기대:unused": {
+   "review": 17,
+   "missed_unused": 21,
+   "correct": 12,
+   "total": 50
+  },
+  "기대:used": {
+   "correct": 60,
+   "review": 10,
+   "total": 70
+  },
+  "분류:미사용": {
+   "review": 13,
+   "missed_unused": 19,
+   "correct": 8,
+   "total": 40
+  },
+  "분류:사용": {
+   "correct": 28,
+   "review": 2,
+   "total": 30
+  },
+  "분류:연결": {
+   "review": 10,
+   "correct": 14,
+   "missed_unused": 2,
+   "total": 26
+  },
+  "분류:위험부정": {
+   "correct": 22,
+   "review": 2,
+   "total": 24
+  },
+  "입력:text": {
+   "correct": 36,
+   "review": 15,
+   "missed_unused": 9,
+   "total": 60
+  },
+  "입력:voice_transcript": {
+   "correct": 36,
+   "review": 12,
+   "missed_unused": 12,
+   "total": 60
+  },
+  "전체": {
+   "correct": 72,
+   "review": 27,
+   "missed_unused": 21,
+   "total": 120
+  }
+ },
+ "latency": {
+  "sentences": 120,
+  "judge_calls": 0,
+  "judge_seconds_mean": null,
+  "judge_seconds_max": null,
+  "total_seconds_mean": 0.019
+ },
+ "rows": [
+  {
+   "id": "V01",
+   "kind": "text",
+   "category": "사용",
+   "text": "오늘 점심 장사 때 튀김기로 오징어를 튀겼어요.",
+   "expected": "used",
+   "got": "used",
+   "outcome": "correct",
+   "seconds": 2.17,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V01",
+   "kind": "voice_transcript",
+   "category": "사용",
+   "text": "오늘 점심 장사 때 튀김기로 오징어를 튀겼어요.",
+   "expected": "used",
+   "got": "used",
+   "outcome": "correct",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V02",
+   "kind": "text",
+   "category": "사용",
+   "text": "튀김기 기름 온도를 170도로 맞추고 새우를 넣습니다.",
+   "expected": "used",
+   "got": "used",
+   "outcome": "correct",
+   "seconds": 0.002,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V02",
+   "kind": "voice_transcript",
+   "category": "사용",
+   "text": "튀김기 기름 온도를 170도로 맞추고 새우를 넣습니다.",
+   "expected": "used",
+   "got": "used",
+   "outcome": "correct",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V03",
+   "kind": "text",
+   "category": "사용",
+   "text": "아침마다 튀김기를 예열해 둡니다.",
+   "expected": "used",
+   "got": "used",
+   "outcome": "correct",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V03",
+   "kind": "voice_transcript",
+   "category": "사용",
+   "text": "아침마다 튀김기를 예열해 둡니다.",
+   "expected": "used",
+   "got": "used",
+   "outcome": "correct",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V04",
+   "kind": "text",
+   "category": "사용",
+   "text": "감자튀김은 주문 들어올 때마다 바로 튀겨 냅니다.",
+   "expected": "used",
+   "got": "used",
+   "outcome": "correct",
+   "seconds": 0.002,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V04",
+   "kind": "voice_transcript",
+   "category": "사용",
+   "text": "감자튀김은 주문 들어올 때마다 바로 튀겨냅니다.",
+   "expected": "used",
+   "got": "used",
+   "outcome": "correct",
+   "seconds": 0.002,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V05",
+   "kind": "text",
+   "category": "사용",
+   "text": "튀김기 바구니를 흔들어 기름을 털어요.",
+   "expected": "used",
+   "got": "used",
+   "outcome": "correct",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V05",
+   "kind": "voice_transcript",
+   "category": "사용",
+   "text": "튀김기 바구니를 흔들어 기름을 터려요.",
+   "expected": "used",
+   "got": "used",
+   "outcome": "correct",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V06",
+   "kind": "text",
+   "category": "사용",
+   "text": "저녁엔 튀김기 두 대를 다 돌립니다.",
+   "expected": "used",
+   "got": "used",
+   "outcome": "correct",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V06",
+   "kind": "voice_transcript",
+   "category": "사용",
+   "text": "저녁엔 튀김기 두 대를 다 돌립니다.",
+   "expected": "used",
+   "got": "used",
+   "outcome": "correct",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V07",
+   "kind": "text",
+   "category": "사용",
+   "text": "튀김기 옆에서 반죽을 묻혀서 바로 넣어요.",
+   "expected": "used",
+   "got": "used",
+   "outcome": "correct",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V07",
+   "kind": "voice_transcript",
+   "category": "사용",
+   "text": "튀김기 옆에서 반죽을 묻혀서 바로 넣어요.",
+   "expected": "used",
+   "got": "used",
+   "outcome": "correct",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V08",
+   "kind": "text",
+   "category": "사용",
+   "text": "튀김옷 입힌 닭을 기름에 넣고 오 분 튀깁니다.",
+   "expected": "used",
+   "got": "used",
+   "outcome": "correct",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V08",
+   "kind": "voice_transcript",
+   "category": "사용",
+   "text": "튀김옷 입힌 닭을 기름에 넣고 오픈 튀깁니다.",
+   "expected": "used",
+   "got": "used",
+   "outcome": "correct",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V09",
+   "kind": "text",
+   "category": "사용",
+   "text": "튀김기 필터 청소는 주말에 하고 평일엔 계속 씁니다.",
+   "expected": "used",
+   "got": "used",
+   "outcome": "correct",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V09",
+   "kind": "voice_transcript",
+   "category": "사용",
+   "text": "튀김기 필터 청소는 주말에 하고 평일엔 계속 씁니다.",
+   "expected": "used",
+   "got": "used",
+   "outcome": "correct",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V10",
+   "kind": "text",
+   "category": "사용",
+   "text": "탕수육 튀길 때 기름이 많이 튀어요.",
+   "expected": "used",
+   "got": "review",
+   "outcome": "review",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V10",
+   "kind": "voice_transcript",
+   "category": "사용",
+   "text": "탕수육 튀길 때 기름이 많이 튀어요.",
+   "expected": "used",
+   "got": "review",
+   "outcome": "review",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V11",
+   "kind": "text",
+   "category": "사용",
+   "text": "튀김기 쓰다가 손을 데인 적이 있어요.",
+   "expected": "used",
+   "got": "used",
+   "outcome": "correct",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V11",
+   "kind": "voice_transcript",
+   "category": "사용",
+   "text": "튀김기 쓰다가 손을 대인 적이 있어요.",
+   "expected": "used",
+   "got": "used",
+   "outcome": "correct",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V12",
+   "kind": "text",
+   "category": "사용",
+   "text": "바쁜 시간에는 튀김기를 쉬지 않고 돌려요.",
+   "expected": "used",
+   "got": "used",
+   "outcome": "correct",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V12",
+   "kind": "voice_transcript",
+   "category": "사용",
+   "text": "바쁜 시간에는 튀김기를 쉬지 않고 돌려요.",
+   "expected": "used",
+   "got": "used",
+   "outcome": "correct",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V13",
+   "kind": "text",
+   "category": "사용",
+   "text": "돈가스는 두 번 튀겨서 나갑니다.",
+   "expected": "used",
+   "got": "used",
+   "outcome": "correct",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V13",
+   "kind": "voice_transcript",
+   "category": "사용",
+   "text": "돈가스는 두 번 튀겨서 나갑니다.",
+   "expected": "used",
+   "got": "used",
+   "outcome": "correct",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V14",
+   "kind": "text",
+   "category": "사용",
+   "text": "튀김 담당이 하루 종일 튀김기 앞에 있어요.",
+   "expected": "used",
+   "got": "used",
+   "outcome": "correct",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V14",
+   "kind": "voice_transcript",
+   "category": "사용",
+   "text": "튀김 담당이 하루종일 튀김기 앞에 있어요.",
+   "expected": "used",
+   "got": "used",
+   "outcome": "correct",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V15",
+   "kind": "text",
+   "category": "사용",
+   "text": "고로케를 튀김기에 넣고 타이머를 맞춥니다.",
+   "expected": "used",
+   "got": "used",
+   "outcome": "correct",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V15",
+   "kind": "voice_transcript",
+   "category": "사용",
+   "text": "고로케를 튀김기에 넣고 타이머를 맞춥니다.",
+   "expected": "used",
+   "got": "used",
+   "outcome": "correct",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V16",
+   "kind": "text",
+   "category": "미사용",
+   "text": "저희는 튀김 메뉴를 작년에 없앴어요.",
+   "expected": "unused",
+   "got": "review",
+   "outcome": "review",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": [
+    {
+     "media_id": "WORK",
+     "scenario_id": "FRY",
+     "tentative": "unused",
+     "reasons": [
+      "메뉴·요리 부정"
+     ],
+     "model_status": null,
+     "model_quote": null,
+     "check": "판정 함수 없음",
+     "decision": "review"
+    }
+   ]
+  },
+  {
+   "id": "V16",
+   "kind": "voice_transcript",
+   "category": "미사용",
+   "text": "저희는 튀김 메뉴를 작년에 없앴어요.",
+   "expected": "unused",
+   "got": "review",
+   "outcome": "review",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": [
+    {
+     "media_id": "WORK",
+     "scenario_id": "FRY",
+     "tentative": "unused",
+     "reasons": [
+      "메뉴·요리 부정"
+     ],
+     "model_status": null,
+     "model_quote": null,
+     "check": "판정 함수 없음",
+     "decision": "review"
+    }
+   ]
+  },
+  {
+   "id": "V17",
+   "kind": "text",
+   "category": "미사용",
+   "text": "튀김기는 창고에 넣어 놨어요.",
+   "expected": "unused",
+   "got": "used",
+   "outcome": "missed_unused",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V17",
+   "kind": "voice_transcript",
+   "category": "미사용",
+   "text": "튀김기는 창고에 넣어놨어요.",
+   "expected": "unused",
+   "got": "used",
+   "outcome": "missed_unused",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V18",
+   "kind": "text",
+   "category": "미사용",
+   "text": "튀김기 코드를 뽑아 뒀습니다.",
+   "expected": "unused",
+   "got": "used",
+   "outcome": "missed_unused",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V18",
+   "kind": "voice_transcript",
+   "category": "미사용",
+   "text": "튀김기 코드를 뽑아두었습니다.",
+   "expected": "unused",
+   "got": "used",
+   "outcome": "missed_unused",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V19",
+   "kind": "text",
+   "category": "미사용",
+   "text": "튀김은 본사에서 완제품으로 받아서 데우기만 해요.",
+   "expected": "unused",
+   "got": "used",
+   "outcome": "missed_unused",
+   "seconds": 0.002,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V19",
+   "kind": "voice_transcript",
+   "category": "미사용",
+   "text": "튀김은 본사에서 완제품으로 받아서 데우기만 해요.",
+   "expected": "unused",
+   "got": "used",
+   "outcome": "missed_unused",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V20",
+   "kind": "text",
+   "category": "미사용",
+   "text": "튀김기를 아예 치웠습니다.",
+   "expected": "unused",
+   "got": "review",
+   "outcome": "review",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": [
+    {
+     "media_id": "WORK",
+     "scenario_id": "FRY",
+     "tentative": "unused",
+     "reasons": [
+      "끄기·치우기 동사"
+     ],
+     "model_status": null,
+     "model_quote": null,
+     "check": "판정 함수 없음",
+     "decision": "review"
+    }
+   ]
+  },
+  {
+   "id": "V20",
+   "kind": "voice_transcript",
+   "category": "미사용",
+   "text": "튀김기를 아예 지웠습니다.",
+   "expected": "unused",
+   "got": "used",
+   "outcome": "missed_unused",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V21",
+   "kind": "text",
+   "category": "미사용",
+   "text": "튀김 요리는 안 팔아요.",
+   "expected": "unused",
+   "got": "review",
+   "outcome": "review",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": [
+    {
+     "media_id": "WORK",
+     "scenario_id": "FRY",
+     "tentative": "unused",
+     "reasons": [
+      "메뉴·요리 부정"
+     ],
+     "model_status": null,
+     "model_quote": null,
+     "check": "판정 함수 없음",
+     "decision": "review"
+    }
+   ]
+  },
+  {
+   "id": "V21",
+   "kind": "voice_transcript",
+   "category": "미사용",
+   "text": "튀김 요리는 안 팔아요.",
+   "expected": "unused",
+   "got": "review",
+   "outcome": "review",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": [
+    {
+     "media_id": "WORK",
+     "scenario_id": "FRY",
+     "tentative": "unused",
+     "reasons": [
+      "메뉴·요리 부정"
+     ],
+     "model_status": null,
+     "model_quote": null,
+     "check": "판정 함수 없음",
+     "decision": "review"
+    }
+   ]
+  },
+  {
+   "id": "V22",
+   "kind": "text",
+   "category": "미사용",
+   "text": "튀김기는 이제 사용 안 합니다.",
+   "expected": "unused",
+   "got": "unused",
+   "outcome": "correct",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V22",
+   "kind": "voice_transcript",
+   "category": "미사용",
+   "text": "튀김기는 이제 사용 안합니다.",
+   "expected": "unused",
+   "got": "unused",
+   "outcome": "correct",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V23",
+   "kind": "text",
+   "category": "미사용",
+   "text": "튀김 작업은 하지 않고 볶음 위주로 해요.",
+   "expected": "unused",
+   "got": "review",
+   "outcome": "review",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": [
+    {
+     "media_id": "WORK",
+     "scenario_id": "FRY",
+     "tentative": "used",
+     "reasons": [
+      "생략 주어 사용 절"
+     ],
+     "model_status": null,
+     "model_quote": null,
+     "check": "판정 함수 없음",
+     "decision": "review"
+    }
+   ]
+  },
+  {
+   "id": "V23",
+   "kind": "voice_transcript",
+   "category": "미사용",
+   "text": "튀김 작업은 하지 않고 볶음 위주로 해요.",
+   "expected": "unused",
+   "got": "review",
+   "outcome": "review",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": [
+    {
+     "media_id": "WORK",
+     "scenario_id": "FRY",
+     "tentative": "used",
+     "reasons": [
+      "생략 주어 사용 절"
+     ],
+     "model_status": null,
+     "model_quote": null,
+     "check": "판정 함수 없음",
+     "decision": "review"
+    }
+   ]
+  },
+  {
+   "id": "V24",
+   "kind": "text",
+   "category": "미사용",
+   "text": "튀김기 가스 밸브를 잠가 두고 안 씁니다.",
+   "expected": "unused",
+   "got": "review",
+   "outcome": "review",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": [
+    {
+     "media_id": "WORK",
+     "scenario_id": "FRY",
+     "tentative": "unused",
+     "reasons": [
+      "끄기·치우기 동사"
+     ],
+     "model_status": null,
+     "model_quote": null,
+     "check": "판정 함수 없음",
+     "decision": "review"
+    }
+   ]
+  },
+  {
+   "id": "V24",
+   "kind": "voice_transcript",
+   "category": "미사용",
+   "text": "튀김기 가스 밸브를 잠가 두고 앉습니다.",
+   "expected": "unused",
+   "got": "review",
+   "outcome": "review",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": [
+    {
+     "media_id": "WORK",
+     "scenario_id": "FRY",
+     "tentative": "unused",
+     "reasons": [
+      "끄기·치우기 동사"
+     ],
+     "model_status": null,
+     "model_quote": null,
+     "check": "판정 함수 없음",
+     "decision": "review"
+    }
+   ]
+  },
+  {
+   "id": "V25",
+   "kind": "text",
+   "category": "미사용",
+   "text": "튀김기 그건 고장이라 그냥 둬요.",
+   "expected": "unused",
+   "got": "used",
+   "outcome": "missed_unused",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V25",
+   "kind": "voice_transcript",
+   "category": "미사용",
+   "text": "튀김기 그건 고장이라 그냥 둬요.",
+   "expected": "unused",
+   "got": "used",
+   "outcome": "missed_unused",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V26",
+   "kind": "text",
+   "category": "미사용",
+   "text": "기름에 튀기는 일은 저희 가게에선 안 해요.",
+   "expected": "unused",
+   "got": "unused",
+   "outcome": "correct",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V26",
+   "kind": "voice_transcript",
+   "category": "미사용",
+   "text": "기름에 튀기는 일은 저의 가게에선 안해요.",
+   "expected": "unused",
+   "got": "unused",
+   "outcome": "correct",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V27",
+   "kind": "text",
+   "category": "미사용",
+   "text": "튀김기가 하나 있는데 손님이 없어서 놀리고 있어요.",
+   "expected": "unused",
+   "got": "used",
+   "outcome": "missed_unused",
+   "seconds": 0.002,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V27",
+   "kind": "voice_transcript",
+   "category": "미사용",
+   "text": "튀김기가 하나 있는데 손님이 없어서 놀리고 있어요.",
+   "expected": "unused",
+   "got": "used",
+   "outcome": "missed_unused",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V28",
+   "kind": "text",
+   "category": "미사용",
+   "text": "튀김기는 전원을 꺼 놨어요.",
+   "expected": "unused",
+   "got": "review",
+   "outcome": "review",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": [
+    {
+     "media_id": "WORK",
+     "scenario_id": "FRY",
+     "tentative": "unused",
+     "reasons": [
+      "끄기·치우기 동사"
+     ],
+     "model_status": null,
+     "model_quote": null,
+     "check": "판정 함수 없음",
+     "decision": "review"
+    }
+   ]
+  },
+  {
+   "id": "V28",
+   "kind": "voice_transcript",
+   "category": "미사용",
+   "text": "튀김기는 전원을 꺼놨어요.",
+   "expected": "unused",
+   "got": "review",
+   "outcome": "review",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": [
+    {
+     "media_id": "WORK",
+     "scenario_id": "FRY",
+     "tentative": "unused",
+     "reasons": [
+      "끄기·치우기 동사"
+     ],
+     "model_status": null,
+     "model_quote": null,
+     "check": "판정 함수 없음",
+     "decision": "review"
+    }
+   ]
+  },
+  {
+   "id": "V29",
+   "kind": "text",
+   "category": "미사용",
+   "text": "튀김 메뉴는 이번 달부터 중단했어요.",
+   "expected": "unused",
+   "got": "review",
+   "outcome": "review",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": [
+    {
+     "media_id": "WORK",
+     "scenario_id": "FRY",
+     "tentative": "unused",
+     "reasons": [
+      "메뉴·요리 부정"
+     ],
+     "model_status": null,
+     "model_quote": null,
+     "check": "판정 함수 없음",
+     "decision": "review"
+    }
+   ]
+  },
+  {
+   "id": "V29",
+   "kind": "voice_transcript",
+   "category": "미사용",
+   "text": "튀김 메뉴는 이번 달부터 중단했어요.",
+   "expected": "unused",
+   "got": "review",
+   "outcome": "review",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": [
+    {
+     "media_id": "WORK",
+     "scenario_id": "FRY",
+     "tentative": "unused",
+     "reasons": [
+      "메뉴·요리 부정"
+     ],
+     "model_status": null,
+     "model_quote": null,
+     "check": "판정 함수 없음",
+     "decision": "review"
+    }
+   ]
+  },
+  {
+   "id": "V30",
+   "kind": "text",
+   "category": "미사용",
+   "text": "요즘은 튀김을 전혀 안 튀겨요.",
+   "expected": "unused",
+   "got": "unused",
+   "outcome": "correct",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V30",
+   "kind": "voice_transcript",
+   "category": "미사용",
+   "text": "요즘은 튀김을 전혀 안 튀겨요.",
+   "expected": "unused",
+   "got": "unused",
+   "outcome": "correct",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V31",
+   "kind": "text",
+   "category": "미사용",
+   "text": "튀김기는 철거해서 지금 없어요.",
+   "expected": "unused",
+   "got": "unused",
+   "outcome": "correct",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V31",
+   "kind": "voice_transcript",
+   "category": "미사용",
+   "text": "튀김기는 철거해서 지금 없어요.",
+   "expected": "unused",
+   "got": "unused",
+   "outcome": "correct",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V32",
+   "kind": "text",
+   "category": "미사용",
+   "text": "튀김은 배달 업체에서 받아 써요.",
+   "expected": "unused",
+   "got": "used",
+   "outcome": "missed_unused",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V32",
+   "kind": "voice_transcript",
+   "category": "미사용",
+   "text": "튀김은 배달 업체에서 받았어요.",
+   "expected": "unused",
+   "got": "used",
+   "outcome": "missed_unused",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V33",
+   "kind": "text",
+   "category": "미사용",
+   "text": "튀김기 쓸 사람이 없어서 못 쓰고 있어요.",
+   "expected": "unused",
+   "got": "used",
+   "outcome": "missed_unused",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V33",
+   "kind": "voice_transcript",
+   "category": "미사용",
+   "text": "튀김기 쓸 사람이 없어서 못 쓰고 있어요.",
+   "expected": "unused",
+   "got": "used",
+   "outcome": "missed_unused",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V34",
+   "kind": "text",
+   "category": "미사용",
+   "text": "튀김기에 기름을 안 채워 놨어요.",
+   "expected": "unused",
+   "got": "used",
+   "outcome": "missed_unused",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V34",
+   "kind": "voice_transcript",
+   "category": "미사용",
+   "text": "튀김기에 기름을 안 채워놨어요.",
+   "expected": "unused",
+   "got": "used",
+   "outcome": "missed_unused",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V35",
+   "kind": "text",
+   "category": "미사용",
+   "text": "튀김기는 덮개 씌워서 보관 중입니다.",
+   "expected": "unused",
+   "got": "used",
+   "outcome": "missed_unused",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V35",
+   "kind": "voice_transcript",
+   "category": "미사용",
+   "text": "튀김기는 덥게 씌워서 보관 중입니다.",
+   "expected": "unused",
+   "got": "used",
+   "outcome": "missed_unused",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V36",
+   "kind": "text",
+   "category": "위험부정",
+   "text": "튀김기 온도계가 고장 났는데 그냥 쓰고 있어요.",
+   "expected": "used",
+   "got": "used",
+   "outcome": "correct",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V36",
+   "kind": "voice_transcript",
+   "category": "위험부정",
+   "text": "튀김기 온도계가 고장 났는데 그냥 쓰고 있어요.",
+   "expected": "used",
+   "got": "used",
+   "outcome": "correct",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V37",
+   "kind": "text",
+   "category": "위험부정",
+   "text": "튀김기 근처에 소화기가 없어요.",
+   "expected": "used",
+   "got": "used",
+   "outcome": "correct",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V37",
+   "kind": "voice_transcript",
+   "category": "위험부정",
+   "text": "튀김기 근처에 소화기가 없어요.",
+   "expected": "used",
+   "got": "used",
+   "outcome": "correct",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V38",
+   "kind": "text",
+   "category": "위험부정",
+   "text": "튀김할 때 장갑을 안 껴요.",
+   "expected": "used",
+   "got": "used",
+   "outcome": "correct",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V38",
+   "kind": "voice_transcript",
+   "category": "위험부정",
+   "text": "튀김할 때 장갑을 안 껴요.",
+   "expected": "used",
+   "got": "used",
+   "outcome": "correct",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V39",
+   "kind": "text",
+   "category": "위험부정",
+   "text": "튀김기 기름을 식히지 않고 바로 버려요.",
+   "expected": "used",
+   "got": "used",
+   "outcome": "correct",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V39",
+   "kind": "voice_transcript",
+   "category": "위험부정",
+   "text": "튀김기 기름을 식히지 않고 바로 버려요.",
+   "expected": "used",
+   "got": "used",
+   "outcome": "correct",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V40",
+   "kind": "text",
+   "category": "위험부정",
+   "text": "튀김기 뚜껑을 안 덮고 씁니다.",
+   "expected": "used",
+   "got": "used",
+   "outcome": "correct",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V40",
+   "kind": "voice_transcript",
+   "category": "위험부정",
+   "text": "튀김기 뚜껑을 안 덮고 씁니다.",
+   "expected": "used",
+   "got": "used",
+   "outcome": "correct",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V41",
+   "kind": "text",
+   "category": "위험부정",
+   "text": "튀김기 바닥 기름때를 잘 안 닦아요.",
+   "expected": "used",
+   "got": "used",
+   "outcome": "correct",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V41",
+   "kind": "voice_transcript",
+   "category": "위험부정",
+   "text": "튀김기 바닥 기름때를 잘 안 닦아요.",
+   "expected": "used",
+   "got": "used",
+   "outcome": "correct",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V42",
+   "kind": "text",
+   "category": "위험부정",
+   "text": "튀김기 앞 매트가 없어서 미끄러워요.",
+   "expected": "used",
+   "got": "used",
+   "outcome": "correct",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V42",
+   "kind": "voice_transcript",
+   "category": "위험부정",
+   "text": "튀김기 앞 매트가 없어서 미끄러워요.",
+   "expected": "used",
+   "got": "used",
+   "outcome": "correct",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V43",
+   "kind": "text",
+   "category": "위험부정",
+   "text": "튀김기 전원 코드가 낡았는데 교체를 안 했어요.",
+   "expected": "used",
+   "got": "used",
+   "outcome": "correct",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V43",
+   "kind": "voice_transcript",
+   "category": "위험부정",
+   "text": "튀김기 전원 코드가 낡았는데 교체를 안 했어요.",
+   "expected": "used",
+   "got": "used",
+   "outcome": "correct",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V44",
+   "kind": "text",
+   "category": "위험부정",
+   "text": "튀길 때 앞치마를 안 입고 해요.",
+   "expected": "used",
+   "got": "review",
+   "outcome": "review",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V44",
+   "kind": "voice_transcript",
+   "category": "위험부정",
+   "text": "튀길 때 앞치마를 안 입고 해요.",
+   "expected": "used",
+   "got": "review",
+   "outcome": "review",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V45",
+   "kind": "text",
+   "category": "위험부정",
+   "text": "튀김기 타이머가 안 울려서 직접 봐요.",
+   "expected": "used",
+   "got": "used",
+   "outcome": "correct",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V45",
+   "kind": "voice_transcript",
+   "category": "위험부정",
+   "text": "튀김기 타이머가 안올려서 직접 봐요.",
+   "expected": "used",
+   "got": "used",
+   "outcome": "correct",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V46",
+   "kind": "text",
+   "category": "위험부정",
+   "text": "튀김기 쓰고 나서 전원을 안 끄고 퇴근할 때가 있어요.",
+   "expected": "used",
+   "got": "used",
+   "outcome": "correct",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V46",
+   "kind": "voice_transcript",
+   "category": "위험부정",
+   "text": "튀김기 쓰고 나서 전원을 안 끄고 퇴근할 때가 있어요.",
+   "expected": "used",
+   "got": "used",
+   "outcome": "correct",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V47",
+   "kind": "text",
+   "category": "위험부정",
+   "text": "튀김기 환풍기가 잘 안 돌아가요.",
+   "expected": "used",
+   "got": "used",
+   "outcome": "correct",
+   "seconds": 0.002,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V47",
+   "kind": "voice_transcript",
+   "category": "위험부정",
+   "text": "튀김기 환풍기가 잘 안 돌아가요.",
+   "expected": "used",
+   "got": "used",
+   "outcome": "correct",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V48",
+   "kind": "text",
+   "category": "연결",
+   "text": "튀김기는 오전엔 안 쓰고 오후 장사 때만 켜요.",
+   "expected": "used",
+   "got": "review",
+   "outcome": "review",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": [
+    {
+     "media_id": "WORK",
+     "scenario_id": "FRY",
+     "tentative": "used",
+     "reasons": [
+      "생략 주어 사용 절"
+     ],
+     "model_status": null,
+     "model_quote": null,
+     "check": "판정 함수 없음",
+     "decision": "review"
+    }
+   ]
+  },
+  {
+   "id": "V48",
+   "kind": "voice_transcript",
+   "category": "연결",
+   "text": "튀김기는 오전엔 안 쓰고 오후 장사 때만 켜요.",
+   "expected": "used",
+   "got": "review",
+   "outcome": "review",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": [
+    {
+     "media_id": "WORK",
+     "scenario_id": "FRY",
+     "tentative": "used",
+     "reasons": [
+      "생략 주어 사용 절"
+     ],
+     "model_status": null,
+     "model_quote": null,
+     "check": "판정 함수 없음",
+     "decision": "review"
+    }
+   ]
+  },
+  {
+   "id": "V49",
+   "kind": "text",
+   "category": "연결",
+   "text": "큰 튀김기는 안 쓰고 작은 튀김기만 써요.",
+   "expected": "used",
+   "got": "used",
+   "outcome": "correct",
+   "seconds": 0.002,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V49",
+   "kind": "voice_transcript",
+   "category": "연결",
+   "text": "큰 튀김기는 안 쓰고 작은 튀김기만 써요.",
+   "expected": "used",
+   "got": "used",
+   "outcome": "correct",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V50",
+   "kind": "text",
+   "category": "연결",
+   "text": "튀김은 평일엔 안 하고 주말에만 해요.",
+   "expected": "used",
+   "got": "review",
+   "outcome": "review",
+   "seconds": 0.002,
+   "judge_calls": 0,
+   "judgements": [
+    {
+     "media_id": "WORK",
+     "scenario_id": "FRY",
+     "tentative": "used",
+     "reasons": [
+      "생략 주어 사용 절"
+     ],
+     "model_status": null,
+     "model_quote": null,
+     "check": "판정 함수 없음",
+     "decision": "review"
+    }
+   ]
+  },
+  {
+   "id": "V50",
+   "kind": "voice_transcript",
+   "category": "연결",
+   "text": "튀김은 평일엔 안하고 주말에만 해요.",
+   "expected": "used",
+   "got": "review",
+   "outcome": "review",
+   "seconds": 0.002,
+   "judge_calls": 0,
+   "judgements": [
+    {
+     "media_id": "WORK",
+     "scenario_id": "FRY",
+     "tentative": "used",
+     "reasons": [
+      "생략 주어 사용 절"
+     ],
+     "model_status": null,
+     "model_quote": null,
+     "check": "판정 함수 없음",
+     "decision": "review"
+    }
+   ]
+  },
+  {
+   "id": "V51",
+   "kind": "text",
+   "category": "연결",
+   "text": "튀김기는 있지만 안 씁니다.",
+   "expected": "unused",
+   "got": "review",
+   "outcome": "review",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": [
+    {
+     "media_id": "WORK",
+     "scenario_id": "FRY",
+     "tentative": "unused",
+     "reasons": [
+      "대조 연결 뒤 부정"
+     ],
+     "model_status": null,
+     "model_quote": null,
+     "check": "판정 함수 없음",
+     "decision": "review"
+    }
+   ]
+  },
+  {
+   "id": "V51",
+   "kind": "voice_transcript",
+   "category": "연결",
+   "text": "튀김기는 있지만 않습니다.",
+   "expected": "unused",
+   "got": "used",
+   "outcome": "missed_unused",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V52",
+   "kind": "text",
+   "category": "연결",
+   "text": "반죽기는 안 쓰고 튀김기는 매일 써요.",
+   "expected": "used",
+   "got": "used",
+   "outcome": "correct",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V52",
+   "kind": "voice_transcript",
+   "category": "연결",
+   "text": "반죽기는 안 쓰고 튀김기는 매일 써요.",
+   "expected": "used",
+   "got": "used",
+   "outcome": "correct",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V53",
+   "kind": "text",
+   "category": "연결",
+   "text": "튀김기는 쓰긴 하는데 하루 한두 번이에요.",
+   "expected": "used",
+   "got": "used",
+   "outcome": "correct",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V53",
+   "kind": "voice_transcript",
+   "category": "연결",
+   "text": "튀김기는 쓰긴 하는데 하루 한두 번이에요.",
+   "expected": "used",
+   "got": "used",
+   "outcome": "correct",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V54",
+   "kind": "text",
+   "category": "연결",
+   "text": "그리들은 매일 쓰고 튀김기는 안 써요.",
+   "expected": "unused",
+   "got": "unused",
+   "outcome": "correct",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V54",
+   "kind": "voice_transcript",
+   "category": "연결",
+   "text": "그리들은 매일 쓰고 튀김기는 안 써요.",
+   "expected": "unused",
+   "got": "unused",
+   "outcome": "correct",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V55",
+   "kind": "text",
+   "category": "연결",
+   "text": "튀김기 안 쓴 지 한 달 됐어요.",
+   "expected": "unused",
+   "got": "unused",
+   "outcome": "correct",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V55",
+   "kind": "voice_transcript",
+   "category": "연결",
+   "text": "튀김기 안 쓴 지 한 달 됐어요.",
+   "expected": "unused",
+   "got": "unused",
+   "outcome": "correct",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V56",
+   "kind": "text",
+   "category": "연결",
+   "text": "튀김기는 쓰다 말다 해요.",
+   "expected": "used",
+   "got": "used",
+   "outcome": "correct",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V56",
+   "kind": "voice_transcript",
+   "category": "연결",
+   "text": "튀김기는 쓰다 말다 해요.",
+   "expected": "used",
+   "got": "used",
+   "outcome": "correct",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V57",
+   "kind": "text",
+   "category": "연결",
+   "text": "원래 튀김을 했는데 지금은 안 해요.",
+   "expected": "unused",
+   "got": "review",
+   "outcome": "review",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": [
+    {
+     "media_id": "WORK",
+     "scenario_id": "FRY",
+     "tentative": "unused",
+     "reasons": [
+      "대조 연결 뒤 부정"
+     ],
+     "model_status": null,
+     "model_quote": null,
+     "check": "판정 함수 없음",
+     "decision": "review"
+    }
+   ]
+  },
+  {
+   "id": "V57",
+   "kind": "voice_transcript",
+   "category": "연결",
+   "text": "원래 튀김을 했는데 지금은 안해요.",
+   "expected": "unused",
+   "got": "review",
+   "outcome": "review",
+   "seconds": 0.002,
+   "judge_calls": 0,
+   "judgements": [
+    {
+     "media_id": "WORK",
+     "scenario_id": "FRY",
+     "tentative": "unused",
+     "reasons": [
+      "대조 연결 뒤 부정"
+     ],
+     "model_status": null,
+     "model_quote": null,
+     "check": "판정 함수 없음",
+     "decision": "review"
+    }
+   ]
+  },
+  {
+   "id": "V58",
+   "kind": "text",
+   "category": "연결",
+   "text": "튀김기는 고장 나도 계속 써요.",
+   "expected": "used",
+   "got": "used",
+   "outcome": "correct",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V58",
+   "kind": "voice_transcript",
+   "category": "연결",
+   "text": "튀김기는 고장 나도 계속 써요.",
+   "expected": "used",
+   "got": "used",
+   "outcome": "correct",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V59",
+   "kind": "text",
+   "category": "연결",
+   "text": "튀김기 말고 오븐만 써요.",
+   "expected": "unused",
+   "got": "review",
+   "outcome": "review",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": [
+    {
+     "media_id": "WORK",
+     "scenario_id": "FRY",
+     "tentative": "unused",
+     "reasons": [
+      "말고 대체"
+     ],
+     "model_status": null,
+     "model_quote": null,
+     "check": "판정 함수 없음",
+     "decision": "review"
+    }
+   ]
+  },
+  {
+   "id": "V59",
+   "kind": "voice_transcript",
+   "category": "연결",
+   "text": "튀김기 말고 5분만 써요.",
+   "expected": "unused",
+   "got": "used",
+   "outcome": "missed_unused",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": []
+  },
+  {
+   "id": "V60",
+   "kind": "text",
+   "category": "연결",
+   "text": "튀김기는 손님 많을 때만 안 쓰고 평소엔 써요.",
+   "expected": "used",
+   "got": "review",
+   "outcome": "review",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": [
+    {
+     "media_id": "WORK",
+     "scenario_id": "FRY",
+     "tentative": "used",
+     "reasons": [
+      "생략 주어 사용 절"
+     ],
+     "model_status": null,
+     "model_quote": null,
+     "check": "판정 함수 없음",
+     "decision": "review"
+    }
+   ]
+  },
+  {
+   "id": "V60",
+   "kind": "voice_transcript",
+   "category": "연결",
+   "text": "튀김기는 손님 많을 때만 안 쓰고 평소엔 써요.",
+   "expected": "used",
+   "got": "review",
+   "outcome": "review",
+   "seconds": 0.001,
+   "judge_calls": 0,
+   "judgements": [
+    {
+     "media_id": "WORK",
+     "scenario_id": "FRY",
+     "tentative": "used",
+     "reasons": [
+      "생략 주어 사용 절"
+     ],
+     "model_status": null,
+     "model_quote": null,
+     "check": "판정 함수 없음",
+     "decision": "review"
+    }
+   ]
+  }
+ ]
+}

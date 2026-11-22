@@ -1,0 +1,384 @@
+{
+ "version": "negation-holdout-v2-stt",
+ "source_set": "261123_미사용판정_검증셋_v2_DR.json",
+ "note": "v2 문장을 Windows TTS(Microsoft Heami)로 읽어 Cloud 운영 관문 STT로 전사한 결과. 사람 음성이 아니다. 기대값은 원문 기대값을 따른다.",
+ "model": {
+  "model_id": "deepdml/faster-whisper-large-v3-turbo-ct2",
+  "revision": "4df90f75321148c3a29a9e2351b7ddf8f5b115a8",
+  "compute_type": "int8_float16",
+  "beam_size": 5,
+  "options": {
+   "vad_filter": true,
+   "condition_on_previous_text": false,
+   "word_timestamps": true,
+   "hallucination_silence_threshold": 2.0,
+   "no_speech_threshold": 0.6
+  }
+ },
+ "transcribed": [
+  "2026-11-23T01:21:57+09:00",
+  "2026-11-23T01:22:28+09:00"
+ ],
+ "items": [
+  {
+   "id": "V01",
+   "text": "오늘 점심 장사 때 튀김기로 오징어를 튀겼어요.",
+   "audio_s": 4.37,
+   "stt_seconds": 1.185
+  },
+  {
+   "id": "V02",
+   "text": "튀김기 기름 온도를 170도로 맞추고 새우를 넣습니다.",
+   "audio_s": 4.91,
+   "stt_seconds": 0.529
+  },
+  {
+   "id": "V03",
+   "text": "아침마다 튀김기를 예열해 둡니다.",
+   "audio_s": 3.19,
+   "stt_seconds": 0.593
+  },
+  {
+   "id": "V04",
+   "text": "감자튀김은 주문 들어올 때마다 바로 튀겨냅니다.",
+   "audio_s": 4.16,
+   "stt_seconds": 0.543
+  },
+  {
+   "id": "V05",
+   "text": "튀김기 바구니를 흔들어 기름을 터려요.",
+   "audio_s": 3.32,
+   "stt_seconds": 0.581
+  },
+  {
+   "id": "V06",
+   "text": "저녁엔 튀김기 두 대를 다 돌립니다.",
+   "audio_s": 3.41,
+   "stt_seconds": 0.501
+  },
+  {
+   "id": "V07",
+   "text": "튀김기 옆에서 반죽을 묻혀서 바로 넣어요.",
+   "audio_s": 3.82,
+   "stt_seconds": 0.52
+  },
+  {
+   "id": "V08",
+   "text": "튀김옷 입힌 닭을 기름에 넣고 오픈 튀깁니다.",
+   "audio_s": 4.15,
+   "stt_seconds": 0.557
+  },
+  {
+   "id": "V09",
+   "text": "튀김기 필터 청소는 주말에 하고 평일엔 계속 씁니다.",
+   "audio_s": 4.75,
+   "stt_seconds": 0.541
+  },
+  {
+   "id": "V10",
+   "text": "탕수육 튀길 때 기름이 많이 튀어요.",
+   "audio_s": 3.31,
+   "stt_seconds": 0.515
+  },
+  {
+   "id": "V11",
+   "text": "튀김기 쓰다가 손을 대인 적이 있어요.",
+   "audio_s": 3.38,
+   "stt_seconds": 0.497
+  },
+  {
+   "id": "V12",
+   "text": "바쁜 시간에는 튀김기를 쉬지 않고 돌려요.",
+   "audio_s": 3.92,
+   "stt_seconds": 0.504
+  },
+  {
+   "id": "V13",
+   "text": "돈가스는 두 번 튀겨서 나갑니다.",
+   "audio_s": 3.29,
+   "stt_seconds": 0.508
+  },
+  {
+   "id": "V14",
+   "text": "튀김 담당이 하루종일 튀김기 앞에 있어요.",
+   "audio_s": 3.92,
+   "stt_seconds": 0.504
+  },
+  {
+   "id": "V15",
+   "text": "고로케를 튀김기에 넣고 타이머를 맞춥니다.",
+   "audio_s": 3.9,
+   "stt_seconds": 0.521
+  },
+  {
+   "id": "V16",
+   "text": "저희는 튀김 메뉴를 작년에 없앴어요.",
+   "audio_s": 3.65,
+   "stt_seconds": 0.525
+  },
+  {
+   "id": "V17",
+   "text": "튀김기는 창고에 넣어놨어요.",
+   "audio_s": 2.96,
+   "stt_seconds": 0.496
+  },
+  {
+   "id": "V18",
+   "text": "튀김기 코드를 뽑아두었습니다.",
+   "audio_s": 2.9,
+   "stt_seconds": 0.542
+  },
+  {
+   "id": "V19",
+   "text": "튀김은 본사에서 완제품으로 받아서 데우기만 해요.",
+   "audio_s": 4.36,
+   "stt_seconds": 0.521
+  },
+  {
+   "id": "V20",
+   "text": "튀김기를 아예 지웠습니다.",
+   "audio_s": 2.67,
+   "stt_seconds": 0.496
+  },
+  {
+   "id": "V21",
+   "text": "튀김 요리는 안 팔아요.",
+   "audio_s": 2.35,
+   "stt_seconds": 0.492
+  },
+  {
+   "id": "V22",
+   "text": "튀김기는 이제 사용 안합니다.",
+   "audio_s": 2.96,
+   "stt_seconds": 0.481
+  },
+  {
+   "id": "V23",
+   "text": "튀김 작업은 하지 않고 볶음 위주로 해요.",
+   "audio_s": 3.65,
+   "stt_seconds": 0.503
+  },
+  {
+   "id": "V24",
+   "text": "튀김기 가스 밸브를 잠가 두고 앉습니다.",
+   "audio_s": 3.75,
+   "stt_seconds": 0.511
+  },
+  {
+   "id": "V25",
+   "text": "튀김기 그건 고장이라 그냥 둬요.",
+   "audio_s": 3.14,
+   "stt_seconds": 0.505
+  },
+  {
+   "id": "V26",
+   "text": "기름에 튀기는 일은 저의 가게에선 안해요.",
+   "audio_s": 3.64,
+   "stt_seconds": 0.511
+  },
+  {
+   "id": "V27",
+   "text": "튀김기가 하나 있는데 손님이 없어서 놀리고 있어요.",
+   "audio_s": 4.26,
+   "stt_seconds": 0.51
+  },
+  {
+   "id": "V28",
+   "text": "튀김기는 전원을 꺼놨어요.",
+   "audio_s": 2.77,
+   "stt_seconds": 0.492
+  },
+  {
+   "id": "V29",
+   "text": "튀김 메뉴는 이번 달부터 중단했어요.",
+   "audio_s": 3.71,
+   "stt_seconds": 0.5
+  },
+  {
+   "id": "V30",
+   "text": "요즘은 튀김을 전혀 안 튀겨요.",
+   "audio_s": 3.03,
+   "stt_seconds": 0.502
+  },
+  {
+   "id": "V31",
+   "text": "튀김기는 철거해서 지금 없어요.",
+   "audio_s": 3.17,
+   "stt_seconds": 0.502
+  },
+  {
+   "id": "V32",
+   "text": "튀김은 배달 업체에서 받았어요.",
+   "audio_s": 3.08,
+   "stt_seconds": 0.495
+  },
+  {
+   "id": "V33",
+   "text": "튀김기 쓸 사람이 없어서 못 쓰고 있어요.",
+   "audio_s": 3.77,
+   "stt_seconds": 0.506
+  },
+  {
+   "id": "V34",
+   "text": "튀김기에 기름을 안 채워놨어요.",
+   "audio_s": 3.02,
+   "stt_seconds": 0.537
+  },
+  {
+   "id": "V35",
+   "text": "튀김기는 덥게 씌워서 보관 중입니다.",
+   "audio_s": 3.56,
+   "stt_seconds": 0.503
+  },
+  {
+   "id": "V36",
+   "text": "튀김기 온도계가 고장 났는데 그냥 쓰고 있어요.",
+   "audio_s": 4.23,
+   "stt_seconds": 0.514
+  },
+  {
+   "id": "V37",
+   "text": "튀김기 근처에 소화기가 없어요.",
+   "audio_s": 3.06,
+   "stt_seconds": 0.496
+  },
+  {
+   "id": "V38",
+   "text": "튀김할 때 장갑을 안 껴요.",
+   "audio_s": 2.6,
+   "stt_seconds": 0.497
+  },
+  {
+   "id": "V39",
+   "text": "튀김기 기름을 식히지 않고 바로 버려요.",
+   "audio_s": 3.52,
+   "stt_seconds": 0.511
+  },
+  {
+   "id": "V40",
+   "text": "튀김기 뚜껑을 안 덮고 씁니다.",
+   "audio_s": 3.02,
+   "stt_seconds": 0.508
+  },
+  {
+   "id": "V41",
+   "text": "튀김기 바닥 기름때를 잘 안 닦아요.",
+   "audio_s": 3.35,
+   "stt_seconds": 0.507
+  },
+  {
+   "id": "V42",
+   "text": "튀김기 앞 매트가 없어서 미끄러워요.",
+   "audio_s": 3.4,
+   "stt_seconds": 0.506
+  },
+  {
+   "id": "V43",
+   "text": "튀김기 전원 코드가 낡았는데 교체를 안 했어요.",
+   "audio_s": 4.33,
+   "stt_seconds": 0.522
+  },
+  {
+   "id": "V44",
+   "text": "튀길 때 앞치마를 안 입고 해요.",
+   "audio_s": 2.84,
+   "stt_seconds": 0.497
+  },
+  {
+   "id": "V45",
+   "text": "튀김기 타이머가 안올려서 직접 봐요.",
+   "audio_s": 3.54,
+   "stt_seconds": 0.502
+  },
+  {
+   "id": "V46",
+   "text": "튀김기 쓰고 나서 전원을 안 끄고 퇴근할 때가 있어요.",
+   "audio_s": 4.5,
+   "stt_seconds": 0.539
+  },
+  {
+   "id": "V47",
+   "text": "튀김기 환풍기가 잘 안 돌아가요.",
+   "audio_s": 3.31,
+   "stt_seconds": 0.499
+  },
+  {
+   "id": "V48",
+   "text": "튀김기는 오전엔 안 쓰고 오후 장사 때만 켜요.",
+   "audio_s": 4.22,
+   "stt_seconds": 0.536
+  },
+  {
+   "id": "V49",
+   "text": "큰 튀김기는 안 쓰고 작은 튀김기만 써요.",
+   "audio_s": 4.08,
+   "stt_seconds": 0.507
+  },
+  {
+   "id": "V50",
+   "text": "튀김은 평일엔 안하고 주말에만 해요.",
+   "audio_s": 3.38,
+   "stt_seconds": 0.5
+  },
+  {
+   "id": "V51",
+   "text": "튀김기는 있지만 않습니다.",
+   "audio_s": 2.77,
+   "stt_seconds": 0.474
+  },
+  {
+   "id": "V52",
+   "text": "반죽기는 안 쓰고 튀김기는 매일 써요.",
+   "audio_s": 3.56,
+   "stt_seconds": 0.517
+  },
+  {
+   "id": "V53",
+   "text": "튀김기는 쓰긴 하는데 하루 한두 번이에요.",
+   "audio_s": 3.85,
+   "stt_seconds": 0.499
+  },
+  {
+   "id": "V54",
+   "text": "그리들은 매일 쓰고 튀김기는 안 써요.",
+   "audio_s": 3.33,
+   "stt_seconds": 0.496
+  },
+  {
+   "id": "V55",
+   "text": "튀김기 안 쓴 지 한 달 됐어요.",
+   "audio_s": 3.08,
+   "stt_seconds": 0.493
+  },
+  {
+   "id": "V56",
+   "text": "튀김기는 쓰다 말다 해요.",
+   "audio_s": 2.58,
+   "stt_seconds": 0.48
+  },
+  {
+   "id": "V57",
+   "text": "원래 튀김을 했는데 지금은 안해요.",
+   "audio_s": 3.25,
+   "stt_seconds": 0.48
+  },
+  {
+   "id": "V58",
+   "text": "튀김기는 고장 나도 계속 써요.",
+   "audio_s": 3.1,
+   "stt_seconds": 0.499
+  },
+  {
+   "id": "V59",
+   "text": "튀김기 말고 5분만 써요.",
+   "audio_s": 2.65,
+   "stt_seconds": 0.491
+  },
+  {
+   "id": "V60",
+   "text": "튀김기는 손님 많을 때만 안 쓰고 평소엔 써요.",
+   "audio_s": 4.3,
+   "stt_seconds": 0.52
+  }
+ ]
+}
