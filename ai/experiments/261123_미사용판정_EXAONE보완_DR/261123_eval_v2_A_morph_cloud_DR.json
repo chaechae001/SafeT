@@ -1,22 +1,23 @@
 {
- "label": "B_rules",
+ "label": "A_morph_cloud",
  "judge": "none",
  "summary": {
   "기대:unused": {
-   "review": 17,
-   "missed_unused": 21,
-   "correct": 12,
+   "missed_unused": 38,
+   "correct": 10,
+   "review": 2,
    "total": 50
   },
   "기대:used": {
    "correct": 60,
-   "review": 10,
+   "review": 8,
+   "danger": 2,
    "total": 70
   },
   "분류:미사용": {
-   "review": 13,
-   "missed_unused": 19,
-   "correct": 8,
+   "missed_unused": 32,
+   "correct": 6,
+   "review": 2,
    "total": 40
   },
   "분류:사용": {
@@ -25,9 +26,10 @@
    "total": 30
   },
   "분류:연결": {
-   "review": 10,
+   "danger": 2,
    "correct": 14,
-   "missed_unused": 2,
+   "review": 4,
+   "missed_unused": 6,
    "total": 26
   },
   "분류:위험부정": {
@@ -36,21 +38,24 @@
    "total": 24
   },
   "입력:text": {
-   "correct": 36,
-   "review": 15,
-   "missed_unused": 9,
+   "correct": 35,
+   "review": 5,
+   "missed_unused": 19,
+   "danger": 1,
    "total": 60
   },
   "입력:voice_transcript": {
-   "correct": 36,
-   "review": 12,
-   "missed_unused": 12,
+   "correct": 35,
+   "review": 5,
+   "missed_unused": 19,
+   "danger": 1,
    "total": 60
   },
   "전체": {
-   "correct": 72,
-   "review": 27,
-   "missed_unused": 21,
+   "correct": 70,
+   "review": 10,
+   "missed_unused": 38,
+   "danger": 2,
    "total": 120
   }
  },
@@ -59,7 +64,7 @@
   "judge_calls": 0,
   "judge_seconds_mean": null,
   "judge_seconds_max": null,
-  "total_seconds_mean": 0.026
+  "total_seconds_mean": 0.02
  },
  "rows": [
   {
@@ -70,7 +75,7 @@
    "expected": "used",
    "got": "used",
    "outcome": "correct",
-   "seconds": 2.989,
+   "seconds": 2.287,
    "judge_calls": 0,
    "judgements": []
   },
@@ -94,7 +99,7 @@
    "expected": "used",
    "got": "used",
    "outcome": "correct",
-   "seconds": 0.002,
+   "seconds": 0.001,
    "judge_calls": 0,
    "judgements": []
   },
@@ -118,7 +123,7 @@
    "expected": "used",
    "got": "used",
    "outcome": "correct",
-   "seconds": 0.002,
+   "seconds": 0.001,
    "judge_calls": 0,
    "judgements": []
   },
@@ -142,7 +147,7 @@
    "expected": "used",
    "got": "used",
    "outcome": "correct",
-   "seconds": 0.002,
+   "seconds": 0.001,
    "judge_calls": 0,
    "judgements": []
   },
@@ -154,7 +159,7 @@
    "expected": "used",
    "got": "used",
    "outcome": "correct",
-   "seconds": 0.002,
+   "seconds": 0.001,
    "judge_calls": 0,
    "judgements": []
   },
@@ -166,7 +171,7 @@
    "expected": "used",
    "got": "used",
    "outcome": "correct",
-   "seconds": 0.002,
+   "seconds": 0.001,
    "judge_calls": 0,
    "judgements": []
   },
@@ -178,7 +183,7 @@
    "expected": "used",
    "got": "used",
    "outcome": "correct",
-   "seconds": 0.002,
+   "seconds": 0.001,
    "judge_calls": 0,
    "judgements": []
   },
@@ -190,7 +195,7 @@
    "expected": "used",
    "got": "used",
    "outcome": "correct",
-   "seconds": 0.002,
+   "seconds": 0.001,
    "judge_calls": 0,
    "judgements": []
   },
@@ -214,7 +219,7 @@
    "expected": "used",
    "got": "used",
    "outcome": "correct",
-   "seconds": 0.002,
+   "seconds": 0.001,
    "judge_calls": 0,
    "judgements": []
   },
@@ -238,7 +243,7 @@
    "expected": "used",
    "got": "used",
    "outcome": "correct",
-   "seconds": 0.002,
+   "seconds": 0.001,
    "judge_calls": 0,
    "judgements": []
   },
@@ -250,7 +255,7 @@
    "expected": "used",
    "got": "used",
    "outcome": "correct",
-   "seconds": 0.002,
+   "seconds": 0.001,
    "judge_calls": 0,
    "judgements": []
   },
@@ -262,7 +267,7 @@
    "expected": "used",
    "got": "used",
    "outcome": "correct",
-   "seconds": 0.002,
+   "seconds": 0.001,
    "judge_calls": 0,
    "judgements": []
   },
@@ -286,7 +291,7 @@
    "expected": "used",
    "got": "review",
    "outcome": "review",
-   "seconds": 0.001,
+   "seconds": 0.0,
    "judge_calls": 0,
    "judgements": []
   },
@@ -298,7 +303,7 @@
    "expected": "used",
    "got": "review",
    "outcome": "review",
-   "seconds": 0.001,
+   "seconds": 0.0,
    "judge_calls": 0,
    "judgements": []
   },
@@ -310,7 +315,7 @@
    "expected": "used",
    "got": "used",
    "outcome": "correct",
-   "seconds": 0.002,
+   "seconds": 0.001,
    "judge_calls": 0,
    "judgements": []
   },
@@ -322,7 +327,7 @@
    "expected": "used",
    "got": "used",
    "outcome": "correct",
-   "seconds": 0.002,
+   "seconds": 0.001,
    "judge_calls": 0,
    "judgements": []
   },
@@ -334,7 +339,7 @@
    "expected": "used",
    "got": "used",
    "outcome": "correct",
-   "seconds": 0.002,
+   "seconds": 0.001,
    "judge_calls": 0,
    "judgements": []
   },
@@ -358,7 +363,7 @@
    "expected": "used",
    "got": "used",
    "outcome": "correct",
-   "seconds": 0.002,
+   "seconds": 0.001,
    "judge_calls": 0,
    "judgements": []
   },
@@ -382,7 +387,7 @@
    "expected": "used",
    "got": "used",
    "outcome": "correct",
-   "seconds": 0.002,
+   "seconds": 0.001,
    "judge_calls": 0,
    "judgements": []
   },
@@ -394,7 +399,7 @@
    "expected": "used",
    "got": "used",
    "outcome": "correct",
-   "seconds": 0.002,
+   "seconds": 0.001,
    "judge_calls": 0,
    "judgements": []
   },
@@ -406,7 +411,7 @@
    "expected": "used",
    "got": "used",
    "outcome": "correct",
-   "seconds": 0.002,
+   "seconds": 0.001,
    "judge_calls": 0,
    "judgements": []
   },
@@ -428,24 +433,11 @@
    "category": "미사용",
    "text": "저희는 튀김 메뉴를 작년에 없앴어요.",
    "expected": "unused",
-   "got": "review",
-   "outcome": "review",
-   "seconds": 0.003,
+   "got": "used",
+   "outcome": "missed_unused",
+   "seconds": 0.001,
    "judge_calls": 0,
-   "judgements": [
-    {
-     "media_id": "WORK",
-     "scenario_id": "FRY",
-     "tentative": "unused",
-     "reasons": [
-      "메뉴·요리 부정"
-     ],
-     "model_status": null,
-     "model_quote": null,
-     "check": "판정 함수 없음",
-     "decision": "review"
-    }
-   ]
+   "judgements": []
   },
   {
    "id": "V16",
@@ -453,24 +445,11 @@
    "category": "미사용",
    "text": "저희는 튀김 메뉴를 작년에 없앴어요.",
    "expected": "unused",
-   "got": "review",
-   "outcome": "review",
+   "got": "used",
+   "outcome": "missed_unused",
    "seconds": 0.001,
    "judge_calls": 0,
-   "judgements": [
-    {
-     "media_id": "WORK",
-     "scenario_id": "FRY",
-     "tentative": "unused",
-     "reasons": [
-      "메뉴·요리 부정"
-     ],
-     "model_status": null,
-     "model_quote": null,
-     "check": "판정 함수 없음",
-     "decision": "review"
-    }
-   ]
+   "judgements": []
   },
   {
    "id": "V17",
@@ -528,7 +507,7 @@
    "expected": "unused",
    "got": "used",
    "outcome": "missed_unused",
-   "seconds": 0.002,
+   "seconds": 0.001,
    "judge_calls": 0,
    "judgements": []
   },
@@ -550,24 +529,11 @@
    "category": "미사용",
    "text": "튀김기를 아예 치웠습니다.",
    "expected": "unused",
-   "got": "review",
-   "outcome": "review",
-   "seconds": 0.002,
+   "got": "used",
+   "outcome": "missed_unused",
+   "seconds": 0.001,
    "judge_calls": 0,
-   "judgements": [
-    {
-     "media_id": "WORK",
-     "scenario_id": "FRY",
-     "tentative": "unused",
-     "reasons": [
-      "끄기·치우기 동사"
-     ],
-     "model_status": null,
-     "model_quote": null,
-     "check": "판정 함수 없음",
-     "decision": "review"
-    }
-   ]
+   "judgements": []
   },
   {
    "id": "V20",
@@ -587,24 +553,11 @@
    "category": "미사용",
    "text": "튀김 요리는 안 팔아요.",
    "expected": "unused",
-   "got": "review",
-   "outcome": "review",
+   "got": "used",
+   "outcome": "missed_unused",
    "seconds": 0.001,
    "judge_calls": 0,
-   "judgements": [
-    {
-     "media_id": "WORK",
-     "scenario_id": "FRY",
-     "tentative": "unused",
-     "reasons": [
-      "메뉴·요리 부정"
-     ],
-     "model_status": null,
-     "model_quote": null,
-     "check": "판정 함수 없음",
-     "decision": "review"
-    }
-   ]
+   "judgements": []
   },
   {
    "id": "V21",
@@ -612,24 +565,11 @@
    "category": "미사용",
    "text": "튀김 요리는 안 팔아요.",
    "expected": "unused",
-   "got": "review",
-   "outcome": "review",
+   "got": "used",
+   "outcome": "missed_unused",
    "seconds": 0.001,
    "judge_calls": 0,
-   "judgements": [
-    {
-     "media_id": "WORK",
-     "scenario_id": "FRY",
-     "tentative": "unused",
-     "reasons": [
-      "메뉴·요리 부정"
-     ],
-     "model_status": null,
-     "model_quote": null,
-     "check": "판정 함수 없음",
-     "decision": "review"
-    }
-   ]
+   "judgements": []
   },
   {
    "id": "V22",
@@ -639,7 +579,7 @@
    "expected": "unused",
    "got": "unused",
    "outcome": "correct",
-   "seconds": 0.002,
+   "seconds": 0.001,
    "judge_calls": 0,
    "judgements": []
   },
@@ -651,7 +591,7 @@
    "expected": "unused",
    "got": "unused",
    "outcome": "correct",
-   "seconds": 0.002,
+   "seconds": 0.001,
    "judge_calls": 0,
    "judgements": []
   },
@@ -663,22 +603,9 @@
    "expected": "unused",
    "got": "review",
    "outcome": "review",
-   "seconds": 0.002,
+   "seconds": 0.001,
    "judge_calls": 0,
-   "judgements": [
-    {
-     "media_id": "WORK",
-     "scenario_id": "FRY",
-     "tentative": "used",
-     "reasons": [
-      "생략 주어 사용 절"
-     ],
-     "model_status": null,
-     "model_quote": null,
-     "check": "판정 함수 없음",
-     "decision": "review"
-    }
-   ]
+   "judgements": []
   },
   {
    "id": "V23",
@@ -690,20 +617,7 @@
    "outcome": "review",
    "seconds": 0.001,
    "judge_calls": 0,
-   "judgements": [
-    {
-     "media_id": "WORK",
-     "scenario_id": "FRY",
-     "tentative": "used",
-     "reasons": [
-      "생략 주어 사용 절"
-     ],
-     "model_status": null,
-     "model_quote": null,
-     "check": "판정 함수 없음",
-     "decision": "review"
-    }
-   ]
+   "judgements": []
   },
   {
    "id": "V24",
@@ -711,24 +625,11 @@
    "category": "미사용",
    "text": "튀김기 가스 밸브를 잠가 두고 안 씁니다.",
    "expected": "unused",
-   "got": "review",
-   "outcome": "review",
-   "seconds": 0.002,
+   "got": "used",
+   "outcome": "missed_unused",
+   "seconds": 0.001,
    "judge_calls": 0,
-   "judgements": [
-    {
-     "media_id": "WORK",
-     "scenario_id": "FRY",
-     "tentative": "unused",
-     "reasons": [
-      "끄기·치우기 동사"
-     ],
-     "model_status": null,
-     "model_quote": null,
-     "check": "판정 함수 없음",
-     "decision": "review"
-    }
-   ]
+   "judgements": []
   },
   {
    "id": "V24",
@@ -736,24 +637,11 @@
    "category": "미사용",
    "text": "튀김기 가스 밸브를 잠가 두고 앉습니다.",
    "expected": "unused",
-   "got": "review",
-   "outcome": "review",
-   "seconds": 0.002,
+   "got": "used",
+   "outcome": "missed_unused",
+   "seconds": 0.001,
    "judge_calls": 0,
-   "judgements": [
-    {
-     "media_id": "WORK",
-     "scenario_id": "FRY",
-     "tentative": "unused",
-     "reasons": [
-      "끄기·치우기 동사"
-     ],
-     "model_status": null,
-     "model_quote": null,
-     "check": "판정 함수 없음",
-     "decision": "review"
-    }
-   ]
+   "judgements": []
   },
   {
    "id": "V25",
@@ -763,7 +651,7 @@
    "expected": "unused",
    "got": "used",
    "outcome": "missed_unused",
-   "seconds": 0.002,
+   "seconds": 0.001,
    "judge_calls": 0,
    "judgements": []
   },
@@ -787,7 +675,7 @@
    "expected": "unused",
    "got": "unused",
    "outcome": "correct",
-   "seconds": 0.002,
+   "seconds": 0.001,
    "judge_calls": 0,
    "judgements": []
   },
@@ -799,7 +687,7 @@
    "expected": "unused",
    "got": "unused",
    "outcome": "correct",
-   "seconds": 0.002,
+   "seconds": 0.001,
    "judge_calls": 0,
    "judgements": []
   },
@@ -811,7 +699,7 @@
    "expected": "unused",
    "got": "used",
    "outcome": "missed_unused",
-   "seconds": 0.002,
+   "seconds": 0.001,
    "judge_calls": 0,
    "judgements": []
   },
@@ -833,24 +721,11 @@
    "category": "미사용",
    "text": "튀김기는 전원을 꺼 놨어요.",
    "expected": "unused",
-   "got": "review",
-   "outcome": "review",
-   "seconds": 0.002,
+   "got": "used",
+   "outcome": "missed_unused",
+   "seconds": 0.001,
    "judge_calls": 0,
-   "judgements": [
-    {
-     "media_id": "WORK",
-     "scenario_id": "FRY",
-     "tentative": "unused",
-     "reasons": [
-      "끄기·치우기 동사"
-     ],
-     "model_status": null,
-     "model_quote": null,
-     "check": "판정 함수 없음",
-     "decision": "review"
-    }
-   ]
+   "judgements": []
   },
   {
    "id": "V28",
@@ -858,24 +733,11 @@
    "category": "미사용",
    "text": "튀김기는 전원을 꺼놨어요.",
    "expected": "unused",
-   "got": "review",
-   "outcome": "review",
-   "seconds": 0.002,
+   "got": "used",
+   "outcome": "missed_unused",
+   "seconds": 0.001,
    "judge_calls": 0,
-   "judgements": [
-    {
-     "media_id": "WORK",
-     "scenario_id": "FRY",
-     "tentative": "unused",
-     "reasons": [
-      "끄기·치우기 동사"
-     ],
-     "model_status": null,
-     "model_quote": null,
-     "check": "판정 함수 없음",
-     "decision": "review"
-    }
-   ]
+   "judgements": []
   },
   {
    "id": "V29",
@@ -883,24 +745,11 @@
    "category": "미사용",
    "text": "튀김 메뉴는 이번 달부터 중단했어요.",
    "expected": "unused",
-   "got": "review",
-   "outcome": "review",
-   "seconds": 0.002,
+   "got": "used",
+   "outcome": "missed_unused",
+   "seconds": 0.001,
    "judge_calls": 0,
-   "judgements": [
-    {
-     "media_id": "WORK",
-     "scenario_id": "FRY",
-     "tentative": "unused",
-     "reasons": [
-      "메뉴·요리 부정"
-     ],
-     "model_status": null,
-     "model_quote": null,
-     "check": "판정 함수 없음",
-     "decision": "review"
-    }
-   ]
+   "judgements": []
   },
   {
    "id": "V29",
@@ -908,24 +757,11 @@
    "category": "미사용",
    "text": "튀김 메뉴는 이번 달부터 중단했어요.",
    "expected": "unused",
-   "got": "review",
-   "outcome": "review",
+   "got": "used",
+   "outcome": "missed_unused",
    "seconds": 0.001,
    "judge_calls": 0,
-   "judgements": [
-    {
-     "media_id": "WORK",
-     "scenario_id": "FRY",
-     "tentative": "unused",
-     "reasons": [
-      "메뉴·요리 부정"
-     ],
-     "model_status": null,
-     "model_quote": null,
-     "check": "판정 함수 없음",
-     "decision": "review"
-    }
-   ]
+   "judgements": []
   },
   {
    "id": "V30",
@@ -933,8 +769,8 @@
    "category": "미사용",
    "text": "요즘은 튀김을 전혀 안 튀겨요.",
    "expected": "unused",
-   "got": "unused",
-   "outcome": "correct",
+   "got": "used",
+   "outcome": "missed_unused",
    "seconds": 0.001,
    "judge_calls": 0,
    "judgements": []
@@ -945,8 +781,8 @@
    "category": "미사용",
    "text": "요즘은 튀김을 전혀 안 튀겨요.",
    "expected": "unused",
-   "got": "unused",
-   "outcome": "correct",
+   "got": "used",
+   "outcome": "missed_unused",
    "seconds": 0.001,
    "judge_calls": 0,
    "judgements": []
@@ -959,7 +795,7 @@
    "expected": "unused",
    "got": "unused",
    "outcome": "correct",
-   "seconds": 0.002,
+   "seconds": 0.001,
    "judge_calls": 0,
    "judgements": []
   },
@@ -983,7 +819,7 @@
    "expected": "unused",
    "got": "used",
    "outcome": "missed_unused",
-   "seconds": 0.002,
+   "seconds": 0.001,
    "judge_calls": 0,
    "judgements": []
   },
@@ -1007,7 +843,7 @@
    "expected": "unused",
    "got": "used",
    "outcome": "missed_unused",
-   "seconds": 0.002,
+   "seconds": 0.001,
    "judge_calls": 0,
    "judgements": []
   },
@@ -1031,7 +867,7 @@
    "expected": "unused",
    "got": "used",
    "outcome": "missed_unused",
-   "seconds": 0.002,
+   "seconds": 0.001,
    "judge_calls": 0,
    "judgements": []
   },
@@ -1043,7 +879,7 @@
    "expected": "unused",
    "got": "used",
    "outcome": "missed_unused",
-   "seconds": 0.002,
+   "seconds": 0.001,
    "judge_calls": 0,
    "judgements": []
   },
@@ -1055,7 +891,7 @@
    "expected": "unused",
    "got": "used",
    "outcome": "missed_unused",
-   "seconds": 0.002,
+   "seconds": 0.001,
    "judge_calls": 0,
    "judgements": []
   },
@@ -1067,7 +903,7 @@
    "expected": "unused",
    "got": "used",
    "outcome": "missed_unused",
-   "seconds": 0.002,
+   "seconds": 0.001,
    "judge_calls": 0,
    "judgements": []
   },
@@ -1079,7 +915,7 @@
    "expected": "used",
    "got": "used",
    "outcome": "correct",
-   "seconds": 0.002,
+   "seconds": 0.001,
    "judge_calls": 0,
    "judgements": []
   },
@@ -1223,7 +1059,7 @@
    "expected": "used",
    "got": "used",
    "outcome": "correct",
-   "seconds": 0.002,
+   "seconds": 0.001,
    "judge_calls": 0,
    "judgements": []
   },
@@ -1247,7 +1083,7 @@
    "expected": "used",
    "got": "used",
    "outcome": "correct",
-   "seconds": 0.002,
+   "seconds": 0.001,
    "judge_calls": 0,
    "judgements": []
   },
@@ -1271,7 +1107,7 @@
    "expected": "used",
    "got": "review",
    "outcome": "review",
-   "seconds": 0.001,
+   "seconds": 0.0,
    "judge_calls": 0,
    "judgements": []
   },
@@ -1283,7 +1119,7 @@
    "expected": "used",
    "got": "review",
    "outcome": "review",
-   "seconds": 0.001,
+   "seconds": 0.0,
    "judge_calls": 0,
    "judgements": []
   },
@@ -1295,7 +1131,7 @@
    "expected": "used",
    "got": "used",
    "outcome": "correct",
-   "seconds": 0.002,
+   "seconds": 0.001,
    "judge_calls": 0,
    "judgements": []
   },
@@ -1307,7 +1143,7 @@
    "expected": "used",
    "got": "used",
    "outcome": "correct",
-   "seconds": 0.002,
+   "seconds": 0.001,
    "judge_calls": 0,
    "judgements": []
   },
@@ -1319,7 +1155,7 @@
    "expected": "used",
    "got": "used",
    "outcome": "correct",
-   "seconds": 0.002,
+   "seconds": 0.001,
    "judge_calls": 0,
    "judgements": []
   },
@@ -1343,7 +1179,7 @@
    "expected": "used",
    "got": "used",
    "outcome": "correct",
-   "seconds": 0.002,
+   "seconds": 0.001,
    "judge_calls": 0,
    "judgements": []
   },
@@ -1365,24 +1201,11 @@
    "category": "연결",
    "text": "튀김기는 오전엔 안 쓰고 오후 장사 때만 켜요.",
    "expected": "used",
-   "got": "review",
-   "outcome": "review",
-   "seconds": 0.002,
+   "got": "unused",
+   "outcome": "danger",
+   "seconds": 0.001,
    "judge_calls": 0,
-   "judgements": [
-    {
-     "media_id": "WORK",
-     "scenario_id": "FRY",
-     "tentative": "used",
-     "reasons": [
-      "생략 주어 사용 절"
-     ],
-     "model_status": null,
-     "model_quote": null,
-     "check": "판정 함수 없음",
-     "decision": "review"
-    }
-   ]
+   "judgements": []
   },
   {
    "id": "V48",
@@ -1390,24 +1213,11 @@
    "category": "연결",
    "text": "튀김기는 오전엔 안 쓰고 오후 장사 때만 켜요.",
    "expected": "used",
-   "got": "review",
-   "outcome": "review",
+   "got": "unused",
+   "outcome": "danger",
    "seconds": 0.001,
    "judge_calls": 0,
-   "judgements": [
-    {
-     "media_id": "WORK",
-     "scenario_id": "FRY",
-     "tentative": "used",
-     "reasons": [
-      "생략 주어 사용 절"
-     ],
-     "model_status": null,
-     "model_quote": null,
-     "check": "판정 함수 없음",
-     "decision": "review"
-    }
-   ]
+   "judgements": []
   },
   {
    "id": "V49",
@@ -1417,7 +1227,7 @@
    "expected": "used",
    "got": "used",
    "outcome": "correct",
-   "seconds": 0.002,
+   "seconds": 0.001,
    "judge_calls": 0,
    "judgements": []
   },
@@ -1441,22 +1251,9 @@
    "expected": "used",
    "got": "review",
    "outcome": "review",
-   "seconds": 0.002,
+   "seconds": 0.001,
    "judge_calls": 0,
-   "judgements": [
-    {
-     "media_id": "WORK",
-     "scenario_id": "FRY",
-     "tentative": "used",
-     "reasons": [
-      "생략 주어 사용 절"
-     ],
-     "model_status": null,
-     "model_quote": null,
-     "check": "판정 함수 없음",
-     "decision": "review"
-    }
-   ]
+   "judgements": []
   },
   {
    "id": "V50",
@@ -1466,22 +1263,9 @@
    "expected": "used",
    "got": "review",
    "outcome": "review",
-   "seconds": 0.002,
+   "seconds": 0.001,
    "judge_calls": 0,
-   "judgements": [
-    {
-     "media_id": "WORK",
-     "scenario_id": "FRY",
-     "tentative": "used",
-     "reasons": [
-      "생략 주어 사용 절"
-     ],
-     "model_status": null,
-     "model_quote": null,
-     "check": "판정 함수 없음",
-     "decision": "review"
-    }
-   ]
+   "judgements": []
   },
   {
    "id": "V51",
@@ -1489,24 +1273,11 @@
    "category": "연결",
    "text": "튀김기는 있지만 안 씁니다.",
    "expected": "unused",
-   "got": "review",
-   "outcome": "review",
-   "seconds": 0.002,
+   "got": "used",
+   "outcome": "missed_unused",
+   "seconds": 0.001,
    "judge_calls": 0,
-   "judgements": [
-    {
-     "media_id": "WORK",
-     "scenario_id": "FRY",
-     "tentative": "unused",
-     "reasons": [
-      "대조 연결 뒤 부정"
-     ],
-     "model_status": null,
-     "model_quote": null,
-     "check": "판정 함수 없음",
-     "decision": "review"
-    }
-   ]
+   "judgements": []
   },
   {
    "id": "V51",
@@ -1528,7 +1299,7 @@
    "expected": "used",
    "got": "used",
    "outcome": "correct",
-   "seconds": 0.002,
+   "seconds": 0.001,
    "judge_calls": 0,
    "judgements": []
   },
@@ -1552,7 +1323,7 @@
    "expected": "used",
    "got": "used",
    "outcome": "correct",
-   "seconds": 0.002,
+   "seconds": 0.001,
    "judge_calls": 0,
    "judgements": []
   },
@@ -1576,7 +1347,7 @@
    "expected": "unused",
    "got": "unused",
    "outcome": "correct",
-   "seconds": 0.002,
+   "seconds": 0.001,
    "judge_calls": 0,
    "judgements": []
   },
@@ -1600,7 +1371,7 @@
    "expected": "unused",
    "got": "unused",
    "outcome": "correct",
-   "seconds": 0.002,
+   "seconds": 0.001,
    "judge_calls": 0,
    "judgements": []
   },
@@ -1624,7 +1395,7 @@
    "expected": "used",
    "got": "used",
    "outcome": "correct",
-   "seconds": 0.002,
+   "seconds": 0.001,
    "judge_calls": 0,
    "judgements": []
   },
@@ -1646,24 +1417,11 @@
    "category": "연결",
    "text": "원래 튀김을 했는데 지금은 안 해요.",
    "expected": "unused",
-   "got": "review",
-   "outcome": "review",
-   "seconds": 0.002,
+   "got": "used",
+   "outcome": "missed_unused",
+   "seconds": 0.001,
    "judge_calls": 0,
-   "judgements": [
-    {
-     "media_id": "WORK",
-     "scenario_id": "FRY",
-     "tentative": "unused",
-     "reasons": [
-      "대조 연결 뒤 부정"
-     ],
-     "model_status": null,
-     "model_quote": null,
-     "check": "판정 함수 없음",
-     "decision": "review"
-    }
-   ]
+   "judgements": []
   },
   {
    "id": "V57",
@@ -1671,24 +1429,11 @@
    "category": "연결",
    "text": "원래 튀김을 했는데 지금은 안해요.",
    "expected": "unused",
-   "got": "review",
-   "outcome": "review",
-   "seconds": 0.002,
+   "got": "used",
+   "outcome": "missed_unused",
+   "seconds": 0.001,
    "judge_calls": 0,
-   "judgements": [
-    {
-     "media_id": "WORK",
-     "scenario_id": "FRY",
-     "tentative": "unused",
-     "reasons": [
-      "대조 연결 뒤 부정"
-     ],
-     "model_status": null,
-     "model_quote": null,
-     "check": "판정 함수 없음",
-     "decision": "review"
-    }
-   ]
+   "judgements": []
   },
   {
    "id": "V58",
@@ -1698,7 +1443,7 @@
    "expected": "used",
    "got": "used",
    "outcome": "correct",
-   "seconds": 0.002,
+   "seconds": 0.001,
    "judge_calls": 0,
    "judgements": []
   },
@@ -1720,24 +1465,11 @@
    "category": "연결",
    "text": "튀김기 말고 오븐만 써요.",
    "expected": "unused",
-   "got": "review",
-   "outcome": "review",
-   "seconds": 0.002,
+   "got": "used",
+   "outcome": "missed_unused",
+   "seconds": 0.001,
    "judge_calls": 0,
-   "judgements": [
-    {
-     "media_id": "WORK",
-     "scenario_id": "FRY",
-     "tentative": "unused",
-     "reasons": [
-      "말고 대체"
-     ],
-     "model_status": null,
-     "model_quote": null,
-     "check": "판정 함수 없음",
-     "decision": "review"
-    }
-   ]
+   "judgements": []
   },
   {
    "id": "V59",
@@ -1747,7 +1479,7 @@
    "expected": "unused",
    "got": "used",
    "outcome": "missed_unused",
-   "seconds": 0.002,
+   "seconds": 0.001,
    "judge_calls": 0,
    "judgements": []
   },
@@ -1759,22 +1491,9 @@
    "expected": "used",
    "got": "review",
    "outcome": "review",
-   "seconds": 0.002,
+   "seconds": 0.001,
    "judge_calls": 0,
-   "judgements": [
-    {
-     "media_id": "WORK",
-     "scenario_id": "FRY",
-     "tentative": "used",
-     "reasons": [
-      "생략 주어 사용 절"
-     ],
-     "model_status": null,
-     "model_quote": null,
-     "check": "판정 함수 없음",
-     "decision": "review"
-    }
-   ]
+   "judgements": []
   },
   {
    "id": "V60",
@@ -1786,20 +1505,7 @@
    "outcome": "review",
    "seconds": 0.001,
    "judge_calls": 0,
-   "judgements": [
-    {
-     "media_id": "WORK",
-     "scenario_id": "FRY",
-     "tentative": "used",
-     "reasons": [
-      "생략 주어 사용 절"
-     ],
-     "model_status": null,
-     "model_quote": null,
-     "check": "판정 함수 없음",
-     "decision": "review"
-    }
-   ]
+   "judgements": []
   }
  ]
 }
