@@ -4,7 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>휴지통 · Safe-T</title>
-  <link rel="stylesheet" href="../css/common.css?v=20261117">
+  <!-- UX-019: Pretendard 실제 로드(가변·필요 글자만). 실패하면 시스템 한글 글꼴로 대체 -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+  <link rel="stylesheet" href="../css/common.css?v=20261123">
 </head>
 <body data-auth-required>
   <!-- trash.html · 화면설계서 v3.19 통합본
@@ -66,8 +69,9 @@
   </div>
 
   <script src="../js/vendor/jquery-3.7.1.min.js?v=20261117"></script>
-  <script src="../js/common.js?v=20261117"></script>
-  <script src="../js/api.js?v=20261117"></script>
-  <script src="../js/trash.js?v=20261117"></script>
+  <script src="../js/common.js?v=20261123"></script>
+  <script src="../js/config.js?v=20261123"></script>
+  <script src="../js/api.js?v=20261123"></script>
+  <script src="../js/trash.js?v=20261123"></script>
 </body>
 </html>

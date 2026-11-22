@@ -312,3 +312,15 @@ def test_confirm_blocked_while_pending(monkeypatch):
     with pytest.raises(AuthError) as e:
         assessment.save(DB(), 'tester@test.invalid', 1, SaveAssessment(revision=1, items=[]), confirm=True)
     assert e.value.code == 'PENDING_ROWS_REVIEW_REQUIRED'
+
+
+def test_law_fallback_when_no_topic_match():
+    """UX-023: 주제가 맞는 법령이 없으면 카드 연결 법령 → 검색 1순위를 참고 법령으로(상태 문구로 구분)."""
+    top = dict(id='L1', law_name='산업안전보건기준에 관한 규칙', locator='제3조', article_title='전도의 방지', quote='q')
+    got = risk_law._law(dict(law=None, law_basis='주제가 맞는 후보가 없습니다', law_alt=dict(candidates=[top])))
+    assert got['candidate']['law_name'] == top['law_name'] and got['fallback'] and '담당자 확인' in got['status']
+    card = dict(top, id='L2', locator='제5조')
+    assert risk_law._law(dict(law=None, law_card=card, law_alt=dict(candidates=[top])))['candidate']['locator'] == '제5조'
+    main = risk_law._law(dict(law=top))
+    assert not main['fallback'] and main['status'].startswith('자동 검색 후보')
+    assert risk_law._law(dict(law=None))['candidate'] is None

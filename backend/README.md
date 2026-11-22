@@ -481,3 +481,20 @@ N02·N08 문맥 확장 설정·검수: [설명](../docs/implementation/n02-n08-c
   - 등록 기기와 같거나 중복인 기기는 한 번만 넣습니다.
 - `GET /evals` 카드에 `item_count`(위험 항목 `eval_dtl` 수)를 추가했습니다. 읽기 전용이고 DB 구조 변경은 없습니다.
 - 테스트: `tests/test_ux017_machines.py`(4개). 전체 `tests`+`unit_tests` 275 passed(격리 `_test` DB, 2026-11-22).
+
+## 결과서 PDF 개편 (UX-020 · 2026-11-22)
+
+- `templates/report.html`: A5 세로(휴대폰 폭에서 읽기 쉽게), 위험 항목마다 카드(현재 안전조치 회색 · 개선대책 파랑 상자), Safe-T 색·로고(`templates/report-logo.png`).
+- 관련 법령: `eval_dtl.law`가 비면 일반 평가표의 검색 후보(`catalog_state.risk_law.law.candidate`)를 "자동 검색 후보 · 적용 여부는 작성자가 확인" 문구와 함께 표시.
+- UX-021(2026-11-23): 카드가 한 쪽씩 차지하던 문제 수정(항목 4건 6쪽 → 3쪽). 카드는 여백 없는 `page-break-inside: avoid` 묶음으로만 감싸고 카드 사이 간격은 별도 요소로 둠(묶음에 padding을 주면 xhtml2pdf가 카드마다 새 쪽으로 넘김). 현재 안전조치·개선대책 좌우 배치, 요약 한 줄·개요 2열.
+- 검사: `python -m pytest backend/unit_tests/test_report.py -q`(8개).
+
+
+## 내 평가표 확정 탭 (UX-022 · 2026-11-23)
+
+- 사용자 결정: 확정 탭에는 서명이 끝나지 않은 확정 평가표만(`eval_status='C' AND sign_end_dt IS NULL`). 서명 완료는 서명 완료 탭에만. `services/evaluations.py` `TAB_WHERE`, 테스트 `tests/test_evaluations.py`.
+
+## 관련 법령 참고 후보 (UX-023 · 2026-11-23)
+
+- `services/risk_law._law`: 검색 서버의 주제 일치 1순위(`law`)가 없으면 카드 연결 법령(`law_card`) → 검색 점수 1순위(`law_alt.candidates[0]`)를 후보로 넣고 `fallback=True`, 상태 문구 "우선순위 참고 법령 · 위험 주제와 맞는지 담당자 확인 필요". 새로 만드는 초안부터 적용. 검사 `unit_tests/test_risk_law.py`.
+- 화면 CSS·JS 주소 버전: 파일을 바꾸면 `frontend/pages/*.html`의 `?v=` 값을 새 날짜로 바꿔 휴대폰 캐시를 무효화한다(UX-023에서 `20261123`).

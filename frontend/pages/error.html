@@ -10,6 +10,9 @@
        상태 코드: 화면 서버가 data-status 에 넣어 줌(backend/dev_static_server.py). 직접 열 때는 ?code=404 처럼 지정.
        운영 서버는 배포 방식이 정해진 뒤 같은 페이지를 오류 페이지로 연결합니다. -->
   <base href="../">
+  <!-- UX-019: Pretendard 실제 로드(가변·필요 글자만). 실패하면 시스템 한글 글꼴로 대체 -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
   <link rel="stylesheet" href="css/common.css">
   <style>
     .err { gap: 16px; padding-top: 48px; text-align: center; align-items: center; }

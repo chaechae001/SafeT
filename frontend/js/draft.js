@@ -46,7 +46,7 @@
     $('#v-list h1').first().text(doc.eval_nm);
     $('#d-reason-box .src').text(doc.generation_source==='demo'?'시험용 고정 신호':'판단 대기');
     $('.disclaimer').text(doc.generation_source==='demo' ? '개발 시험용 합성 평가표 · 실제 현장 판정에 사용하지 마세요.' : '실제 위험 판단 모델 미연결 · 판단 필요 항목은 확정할 수 없습니다.');
-    if(['catalog_v1','catalog_ai_v1','catalog_rls_v1'].indexOf(doc.generation_source)!==-1){ $('.disclaimer').text('체크한 기준 조치로 서버가 계산한 위험도입니다. 최종 안전 판단은 담당자가 합니다.');$('#d-reason-box .src').text('DB 기준'); }
+    if(['catalog_v1','catalog_ai_v1','catalog_rls_v1'].indexOf(doc.generation_source)!==-1){ $('.disclaimer').text('체크한 조치로 계산한 위험도예요. 최종 판단은 담당자가 해요.');$('#d-reason-box .src').text('DB 기준'); }
     if(doc.assessment_mode==='input_based'){
       $('.disclaimer').text('입력 기반 위험성평가표 · 미확인 조치는 실제 미실시와 구분하여 표시합니다.');
       $('#d-reason-box .src').text('입력·문헌 기준');
@@ -84,8 +84,9 @@
           if(decision==='add'){
             // UX-016: 추가된 행의 상세를 바로 연다
             var idx=-1;$.each(items,function(i,it){if(idx<0 && it.catalog && it.catalog.scenario && it.catalog.scenario.id===sid)idx=i;});
-            if(idx>-1){openDetail(idx,'all');SafeT.toast('평가표에 추가했어요. 현재 조치를 선택해 주세요.');}
-            else{SafeT.go('v-list');SafeT.toast('평가표에 추가했어요. 현재 조치를 확인해 주세요.');}
+            // UX-022: '평가표에 추가했어요' 알림은 빼고 상세만 연다(카드를 누른 것 자체가 추가 동작이라 알림이 오류처럼 보였음)
+            if(idx>-1){openDetail(idx,'all');toTop();}
+            else{SafeT.go('v-list');}
           } else {SafeT.go('v-list');SafeT.toast('평가표에서 제외했어요.');}})
         .fail(apiError).always(function(){busy=false;SafeT.loading(false);});
     }
@@ -374,9 +375,13 @@
     }
     // UX-010: 후보는 3개만 보임(체크한 후보·직접 추가는 항상 보임). 위험도 계산용 내부 문구(기준 조치 ID 등)는 화면에 표시하지 않음
     var shown = 0;
+    // UX-021: 개선대책 후보 중 이미 현재 안전조치로 고른 것('현재 조치 중')은 3개에 세지 않고, 그만큼 다음 후보를 더 보여 줌
+    var inUse = {};
+    if (kind === 'plan') $.each(it.curr || [], function (_, c) { if (c.checked) inUse[baseText(c.text)] = true; });
     $.each(arr, function (_, a) {
-      if (a.ai && !a.checked && shown >= 3) return;
-      if (a.ai) shown += 1;
+      var dup = kind === 'plan' && a.ai && !a.checked && inUse[baseText(a.text)];
+      if (a.ai && !a.checked && !dup && shown >= 3) return;
+      if (a.ai && !dup) shown += 1;
       var id = 'chk-' + a.id;
       var $row = a.ai ? $('<label class="check">') : $('<div class="check">');
       var $in = $('<input type="checkbox">').attr({ id: id, 'data-kind': kind, 'data-id': a.id }).prop('checked', a.checked);
@@ -414,7 +419,9 @@
       var used = !!(plan && inUse[baseText(plan.text)]);
       var $row = $(this).closest('.check');
       $row.toggleClass('is-in-use', used).find('.in-use-badge').remove();
-      $(this).prop('disabled', used && !this.checked);
+      // UX-023: '현재 조치 중' 후보도 개선대책으로 고를 수 있게 둔다(저장 문구가 '… — 미실시·미흡 부분 개선'이라 개선대책이 맞고,
+      // 고르면 '개선대책 1개 이상' 조건에 들어감). 회색은 고르기 전에만
+      $(this).prop('disabled', false);
       if (used) $('<span class="in-use-badge">현재 조치 중</span>').appendTo($row);
     });
   }
@@ -467,17 +474,28 @@
     }
   }
 
+  /** UX-021: 다음 항목 = 지금 남은 일 기준(입력 필요 행 → 등록 기기 확인 대기 카드). 남은 일이 없을 때만 '검토 마치기'
+      - 입력 필요 모드: 지금 항목 뒤의 입력 필요 행(없으면 앞쪽으로 돌아감) → 확인 대기 카드('pending') → 'end'
+      - 전체 보기: 바로 다음 행. 마지막 행이면 남은 입력 필요 행 → 확인 대기 카드 → null */
+  function nextOpen() {
+    var left = $.grep(needIndexes(), function (i) { return i !== state.index; });
+    var after = $.grep(left, function (i) { return i > state.index; });
+    if (after.length) return after[0];
+    // UX-022: 목록 순서대로(평가표 행 → 그 뒤 확인 대기 카드). 앞쪽에 남은 행은 대기 카드 다음에
+    if (pendingRows().length) return 'pending';
+    return left.length ? left[0] : null;
+  }
   function navPos() {
     if (state.mode === 'need') {
-      var k = $.inArray(state.index, state.needList);
+      var k = $.inArray(state.index, state.needList), n = nextOpen();
       return {
         prev: k > 0 ? state.needList[k - 1] : null,
-        next: k < state.needList.length - 1 ? state.needList[k + 1] : 'end'   // 마지막에서 다음 → 리스트
+        next: n === null ? 'end' : n   // 남은 일이 없으면 리스트
       };
     }
     return {
       prev: state.index > 0 ? state.index - 1 : null,
-      next: state.index < items.length - 1 ? state.index + 1 : null
+      next: state.index < items.length - 1 ? state.index + 1 : nextOpen()
     };
   }
 
@@ -548,10 +566,7 @@
     renderProjection(it);   // UX-015: 긴 안내 문장 → 예상 위험도 요약 카드
     var pos = navPos();
     $('#d-prev').prop('disabled', pos.prev === null);
-    // UX-005 22: 마지막 항목에서는 '다음 항목' 대신 '검토 마치기'(목록으로, 저장 안 된 입력은 확인)
-    var last = pos.next === null || pos.next === 'end';
-    $('#d-next').prop('disabled', false).text(last ? '검토 마치기' : '다음 항목').toggleClass('btn--finish', last);
-    updateFinish();
+    updateFinish();   // UX-005 22·UX-021: '다음 항목' / '검토 마치기' 문구도 여기서(체크할 때마다 다시 계산)
 
     $('#risk-form .inline-add').remove();
     $('#risk-form .section').removeClass('is-invalid');
@@ -588,14 +603,21 @@
 
   /** UX-005 22·24: 마지막 항목·모두 입력했을 때 안내 */
   function needIndexes() { var r = []; $.each(items, function (i, it) { if (missing(it).length) r.push(i); }); return r; }
+  /** UX-021: 확정 전에 남은 일 = 입력 필요 행 + 등록 기기 확인 대기 카드 + 확인하지 않은 검색 후보.
+      예전에는 입력 필요 행만 세어, 대기 카드가 남아도 '모든 항목을 확인했어요'가 떴음 */
+  function unchecked() { return $('#rag-status-panel .candidate-exclusion:not(:checked)').length; }
   function updateFinish() {
     if (!cur()) return;
     var pos = navPos();
     var last = pos.next === null || pos.next === 'end';
-    var left = needIndexes();
-    var allDone = items.length && !left.length;
+    $('#d-next').prop('disabled', false).text(last ? '검토 마치기' : '다음 항목').toggleClass('btn--finish', last)
+      .attr('aria-label', pos.next === 'pending' ? '다음 항목: 등록 기기 확인 대기' : null);
+    var left = needIndexes(), others = $.grep(left, function (i) { return i !== state.index; });
+    var pend = pendingRows().length, rag = unchecked();
+    var allDone = items.length && !left.length && !pend && !rag;
+    var atEnd = last;   // UX-022: 다음에 열 카드(입력 필요 행·확인 대기 카드)가 있으면 안내 상자를 띄우지 않고 '다음 항목'으로
     var $f = $('#d-finish');
-    var show = last || (allDone && dirty);
+    var show = atEnd || allDone;
     $f.prop('hidden', !show).toggleClass('notice--done', !!(allDone && !dirty));
     if (!show) return;
     if (allDone && dirty) {
@@ -605,24 +627,40 @@
       $('#d-finish-title').text('모든 항목을 확인했어요');
       $('#d-finish-text').text("목록으로 돌아가 '평가표 확정'을 눌러 주세요.");
     } else {
-      $('#d-finish-title').text('마지막 항목이에요');
-      $('#d-finish-text').text('입력이 필요한 항목이 ' + left.length + '개 남았어요.' + (dirty ? ' 저장하지 않은 입력도 있어요.' : ''));
+      var parts = [];
+      if (left.length) parts.push('입력이 필요한 항목 ' + left.length + '개');
+      if (pend) parts.push('등록 기기 기준 확인 대기 ' + pend + '개');
+      if (rag) parts.push('확인하지 않은 후보 ' + rag + '개');
+      $('#d-finish-title').text('아직 확인할 항목이 남았어요');
+      $('#d-finish-text').text(parts.join(', ') + '가 남았어요.' + (dirty ? ' 저장하지 않은 입력도 있어요.' : ''));
     }
-    $('#d-goto-need').prop('hidden', !left.length || (left.length === 1 && left[0] === state.index));
+    $('#d-goto-need').prop('hidden', !others.length).text('남은 입력 필요 항목으로');
     $('#d-finish-save').prop('hidden', !dirty);
   }
 
   /** 목록으로 나갈 때 저장 안 된 입력이 있으면 묻기 (24) */
-  function leaveToList() {
-    if (!dirty) { SafeT.go('v-list'); return; }
+  function leaveToList(after) {
+    if (!dirty) { SafeT.go('v-list'); if (after) after(); return; }
     SafeT.confirm({
       title: '저장하지 않은 입력이 있어요',
       message: '입력 내역을 저장하고 목록으로 갈까요? 저장하지 않아도 이 화면을 닫기 전까지 입력은 남아 있어요.',
       ok: '저장하고 목록으로', alt: '저장 없이 목록으로', cancel: '계속 입력'
     }).then(function (a) {
-      if (a === true) saveDraft('v-list');
-      else if (a === 'alt') SafeT.go('v-list');
+      if (a === true) { var d = saveDraft('v-list'); if (after && d && d.done) d.done(after); }
+      else if (a === 'alt') { SafeT.go('v-list'); if (after) after(); }
     });
+  }
+  /** UX-023: 다음·이전 항목·대기 카드를 열면 화면 맨 위(위험요인 제목)부터 보이게. 그리는 중 생기는 스크롤까지 한 번 더 */
+  function toTop() {
+    var go = function () { $('#risk-scroll').scrollTop(0); window.scrollTo(0, 0); };
+    go(); requestAnimationFrame(go); setTimeout(go, 120);
+  }
+  /** UX-022: 다음 카드가 목록의 확인 대기 카드(등록 기기 기준)면 목록으로 돌아가지 않고 그 카드를 바로 연다.
+      목록에서 그 카드를 누른 것과 같은 동작(reviewPending 'add': 저장 안 된 입력은 먼저 저장). 실제 작업이 아니면 상세의 [삭제]로 뺀다 */
+  function toPending() {
+    var p = pendingRows()[0];
+    if (!p) { leaveToList(); return; }
+    reviewPending(p.scenario_id, 'add');
   }
 
   /** 23: 지금 항목의 입력만 저장. 다른 항목은 마지막 저장값으로 보내고, 그 항목들의 저장 안 된 입력은 화면에 그대로 둠 */
@@ -643,7 +681,7 @@
       // UX-014: 저장으로 위험도가 나오면 다음 칸(개선대책 등)으로 안내
       var $n = $('#v-risk .is-next').not('#d-save');
       if ($n.length) setTimeout(function () { $n[0].scrollIntoView({ block: 'start', behavior: SafeT.reduceMotion ? 'auto' : 'smooth' }); }, 150);
-      SafeT.toast('이 항목의 입력 내역을 저장했어요.');
+      SafeT.toast('저장했어요', 1300);   // UX-022: 짧게(다음 작업을 가리지 않게)
     }).fail(apiError).always(function () { busy = false; SafeT.loading(false); });
   }
 
@@ -983,8 +1021,7 @@
       for (var k = 0; k < items.length; k += 1) { if (missing(items[k]).length) { firstMissing = k; break; } }
       if(firstMissing < 0 && pendingRows().length){
         SafeT.closeModal(true);
-        gotoPending();
-        SafeT.toast('등록 기기 기준 항목이 남았어요. 실제 작업이면 눌러서 현재 조치를 선택하고, 아니면 편집에서 제외해 주세요.');
+        gotoPending();   // UX-022: 알림 없이 대기 카드로 이동·강조만
         return;
       }
       if($('#rag-status-panel .candidate-exclusion:not(:checked)').length){
@@ -1013,7 +1050,17 @@
     $('#v-risk').on('safet:show', function (e, o) {
       renderDetail();
       if (o && o.focus) focusMissing(o.focus);
+      // UX-023: 머뭇거리면 Safe-T 캐릭터가 다음에 채울 칸을 가리킴(js/mascot.js)
+      if (SafeT.mascot) SafeT.mascot.watch(function () {
+        var it = cur(); if (!it || !$('#v-risk').hasClass('is-active')) return null;
+        var t = nextTarget(it); if (!t) return null;
+        var green = it.signal === 'G' && !it.keep;
+        var text = { '#d-current': '지금 하고 있는 안전조치를 골라 주세요', '#d-plan': green ? '현재 상태 유지 또는 대책 추가를 골라 주세요' : '개선대책을 하나 이상 골라 주세요',
+          '#d-plan .owner-box': '담당자와 예정일을 정해 주세요', '#d-save': '다 골랐으면 저장해 주세요' }[t] || '여기를 채워 주세요';
+        var el = $(t)[0]; return el ? { el: el, text: text } : null;
+      }, { idle: 8000 });
     });
+    $('#v-risk').on('safet:hide', function () { if (SafeT.mascot) SafeT.mascot.stop(); });
 
     $('#d-mode-link').on('click', function (e) {
       e.preventDefault();
@@ -1030,15 +1077,24 @@
       if (p === null) return;
       state.index = p;
       renderDetail();
-      $('#risk-scroll').scrollTop(0);
+      toTop();
     });
 
     $('#d-next').on('click', function () {
+      // UX-022: 지금 항목에 빠진 필수 입력이 있으면 다음으로 넘어가지 않고 그 칸을 알려 줌
+      var m = missing(cur());
+      if (m.length) {
+        $('#v-risk .js-error').remove(); $('#risk-form .section').removeClass('is-invalid');
+        focusMissing(m[0]);
+        return;
+      }
       var n = navPos().next;
       if (n === 'end' || n === null) { leaveToList(); return; }   // UX-005 22: 마지막 항목 = 검토 마치기
+      if (n === 'pending') { toPending(); return; }                 // UX-021: 남은 일이 확인 대기 카드뿐
+      if (state.mode === 'need' && $.inArray(n, state.needList) < 0) state.needList.push(n);   // 위치 표시(입력 필요 k / n) 유지
       state.index = n;
       renderDetail();
-      $('#risk-scroll').scrollTop(0);
+      toTop();
     });
 
     // UX-005 23: '입력 내역 저장' = 지금 항목만 저장
@@ -1062,6 +1118,15 @@
 
     // 체크 변경 (현재 조치 · 현재 조치 없음 · 개선대책)
     $('#risk-form').on('change', 'input[data-kind]', function () {
+      // UX-023: 체크하면 위쪽 글(신호 설명·판단 이유)이 바뀌어 높이가 달라지고, 휴대폰 Safari 는 스크롤 위치를 보정하지 않아
+      // 화면이 살짝 밀렸음 → 누른 칸의 화면 위치를 기억했다가 바뀐 만큼 되돌림
+      var anchorEl = this, anchorTop = this.getBoundingClientRect().top;
+      var keepPlace = function () {
+        if (!document.body.contains(anchorEl)) return;
+        var d = Math.round(anchorEl.getBoundingClientRect().top - anchorTop), sc = document.getElementById('risk-scroll');
+        if (Math.abs(d) >= 1) { if (sc && sc.scrollHeight > sc.clientHeight) sc.scrollTop += d; else window.scrollBy(0, d); }
+      };
+      setTimeout(function () { keepPlace(); requestAnimationFrame(keepPlace); }, 0);
       var it = cur();
       var kind = $(this).data('kind');
       var on = this.checked;
@@ -1071,7 +1136,8 @@
         if (on) {                                    // '없음'과 다른 후보는 함께 선택 불가
           $.each(it.curr, function (_, a) { a.checked = false; });
           $('#d-curr-list input[data-kind="curr"]').prop('checked', false);
-          markPlansInUse(it);   // UX-015
+          if (!$('#d-plan-body').prop('hidden')) renderChecks($('#d-plan-list'), it.plans, 'plan', it);   // UX-021
+          else markPlansInUse(it);   // UX-015
         }
       } else {
         var list = kind === 'curr' ? it.curr : it.plans;
@@ -1081,10 +1147,12 @@
           it.none = false;
           $('#d-curr-list input[data-kind="none"]').prop('checked', false);
         }
-        markPlansInUse(it);   // UX-015: 현재 조치 중 표시·체크 해제 후 비활성
+        // UX-015: 현재 조치 중 표시·체크 해제 후 비활성. UX-021: 현재 조치가 바뀌면 개선대책 후보를 다시 그려 겹친 만큼 새 후보를 보임
+        if (kind === 'curr' && !$('#d-plan-body').prop('hidden')) renderChecks($('#d-plan-list'), it.plans, 'plan', it);
+        else markPlansInUse(it);
         if (kind === 'plan') it.judged = false;
         // UX-015: 대책을 처음 고르면 담당자(평가담당자)·예정일(작성일)을 기본값으로 바로 채움
-        if (kind === 'plan' && on && applyDefaultOwner(it)) { renderOwner(it); SafeT.toast('담당자·예정일을 기본값으로 넣었어요. 필요하면 변경하세요.'); }
+        if (kind === 'plan' && on && applyDefaultOwner(it)) renderOwner(it);   // UX-022: 기본값 알림은 뺌(화면의 담당자 칸에 바로 보임)
       }
       markDirty();
       if(it.catalog){
@@ -1095,7 +1163,8 @@
       }
       $(this).closest('.section').removeClass('is-invalid').find('.js-error').remove();
       renderCounts();
-      updatePulse(true);
+      // UX-021: 현재 조치·개선대책은 여러 개 고를 수 있어, 하나 체크했다고 다음 블록으로 스크롤하지 않음(강조 표시만 옮김)
+      updatePulse(false);
     });
 
     // 초록 항목: 현재 상태 유지 / 대책 추가

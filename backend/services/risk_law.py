@@ -46,14 +46,24 @@ def analyze(text, voice_text, machines=()):
         raise AuthError(503, 'RISK_LAW_FAILED', '위험요인 검색 서버가 응답하지 않습니다. 입력은 유지됩니다.') from None
 
 
+FALLBACK_STATUS = '우선순위 참고 법령 · 위험 주제와 맞는지 담당자 확인 필요'
+
+
 def _law(risk):
-    law = risk.get('law')
+    """관련 법령 후보. UX-023: 주제가 맞는 1순위(law)가 없으면 '찾지 못함' 대신 참고 법령을 보인다.
+    순서: 카드에 연결된 법령(law_card) → 검색 점수 1순위(law_alt.candidates[0], 주제 확인 전).
+    참고 법령은 fallback=True 와 다른 상태 문구로 구분하고, 적용 여부는 담당자가 확인한다."""
+    law, status, fallback = risk.get('law'), '자동 검색 후보 · 적용 여부는 작성자가 확인', False
+    if not law:
+        alt = ((risk.get('law_alt') or {}).get('candidates')) or []
+        law = risk.get('law_card') or (alt[0] if alt else None)
+        if law:
+            status, fallback = FALLBACK_STATUS, True
     view = None
     if law:
         view = {k: law.get(k) for k in ('id', 'law_name', 'locator', 'article_title', 'effective_from', 'quote')}
         view['quote'] = (view['quote'] or '')[:500]
-    return dict(candidate=view, basis=(risk.get('law_basis') or '')[:300],
-                status='자동 검색 후보 · 적용 여부는 작성자가 확인')
+    return dict(candidate=view, basis=(risk.get('law_basis') or '')[:300], status=status, fallback=fallback)
 
 
 def _options(options):

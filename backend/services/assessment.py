@@ -103,7 +103,7 @@ def create(db,email,body):
     if old: return detail(db,email,old[0]['eval_no'])
     w=workplaces.get_workplace(db,email,body.work_no)
     extra=added_machines(db,w,body)
-    context=body.model_dump(exclude={'add_machine_codes','add_custom_machines'}); context['machines']=w['machines']+extra
+    context=body.model_dump(exclude={'add_machine_codes','add_custom_machines','save_machines_to_workplace'}); context['machines']=w['machines']+extra
     use_catalog=catalog.enabled()
     use_authoring=authoring_rag.enabled()
     # 신규 평가표는 ACTIVE_POLICY(FOOD-3LEVEL-1.2). input_based v1 계약은 CATALOG-MVP-1.1에 고정되어 있어 1.1 카탈로그를 쓴다.
@@ -138,6 +138,8 @@ def create(db,email,body):
             execute(db, 'UPDATE eval_mst SET authoring_snapshot=:s WHERE eval_no=:n',
                     s=json.dumps(dict(rls_pending=pending), ensure_ascii=False), n=no)
         for i,name in enumerate(body.members): execute(db,'INSERT INTO eval_member (eval_no,member_nm,sort) VALUES (:n,:name,:i)',n=no,name=name,i=i)
+        if body.save_machines_to_workplace and extra:   # UX-018 사업장 보유 기기에도 추가(변경 확인 뒤, 같은 트랜잭션)
+            workplaces._insert_machines(db,body.work_no,[(m['machine_code'],m['machine_nm']) for m in extra],email)
         for machine in w['machines']+extra: execute(db,"INSERT INTO eval_machine (eval_no,machine_code,machine_nm,ai_yn,check_yn) VALUES (:n,:c,:name,'N','Y')",n=no,c=machine['machine_code'],name=machine['machine_nm'])
         for kind,content in (('T',body.text),('V',body.voice_text)):
             if content: execute(db,'INSERT INTO eval_file (eval_no,file_type,file_text) VALUES (:n,:k,:t)',n=no,k=kind,t=content)

@@ -1,0 +1,33 @@
+{
+ "home": {
+  "gap_chip_share_px": 15,
+  "share_h": 32,
+  "share_text": "결과 공유 ›"
+ },
+ "share": {
+  "kakao": true
+ },
+ "check_scroll": {
+  "before_check": 0,
+  "after_check": 549,
+  "moved_px": 549,
+  "plan_inputs_before": 3,
+  "plan_rows_after": [
+   "[현재 조치 중] 온도 제어/과열 방지 확인 현재 조치 중",
+   "충분한 냉각 후 배유",
+   "수분 유입 방지"
+  ]
+ },
+ "row1_next": "다음 항목",
+ "row2": {
+  "next": "검토 마치기",
+  "finish_title": "마지막 항목이에요",
+  "finish_text": "입력이 필요한 항목이 2개 남았어요. 저장하지 않은 입력도 있어요."
+ },
+ "toast": {
+  "toast_bottom": 756,
+  "bar_top": 717,
+  "overlap_px": 39
+ },
+ "errors": []
+}

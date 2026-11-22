@@ -4,12 +4,15 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>초안 확인 · Safe-T</title>
-  <link rel="stylesheet" href="../css/common.css?v=20261117-integrated">
-  <link rel="stylesheet" href="../css/assessment.css?v=20261117-integrated">
-  <link rel="stylesheet" href="../css/draft.css?v=20261117-integrated">
-  <link rel="stylesheet" href="../css/risk.css?v=20261117-integrated">
-  <link rel="stylesheet" href="../css/bulk-assign.css?v=20261117-integrated">
-  <link rel="stylesheet" href="../css/ux-guide.css">
+  <!-- UX-019: Pretendard 실제 로드(가변·필요 글자만). 실패하면 시스템 한글 글꼴로 대체 -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+  <link rel="stylesheet" href="../css/common.css?v=20261123">
+  <link rel="stylesheet" href="../css/assessment.css?v=20261123">
+  <link rel="stylesheet" href="../css/draft.css?v=20261123">
+  <link rel="stylesheet" href="../css/risk.css?v=20261123">
+  <link rel="stylesheet" href="../css/bulk-assign.css?v=20261123">
+  <link rel="stylesheet" href="../css/ux-guide.css?v=20261123">
 </head>
 <body class="page-draft" data-auth-required data-assessment data-ux-guide>
   <!-- draft.html · 화면설계서 v3.19 통합본
@@ -208,21 +211,22 @@
           </div>
 
           <form id="risk-form" class="stack" action="#v-list" novalidate>
-            <fieldset class="section" id="d-current">
-              <legend class="block-head">
-                <span class="section-title">현재 안전조치<span class="req" aria-hidden="true">*</span></span>
-                <span class="hint">매장에서 이미 하고 있는 조치만 선택해 주세요.</span>
-              </legend>
+            <!-- UX-022: 휴대폰 브라우저에서 legend 가 상자 테두리에 걸쳐 보여 제목을 일반 블록으로(이름은 aria-labelledby) -->
+            <fieldset class="section" id="d-current" aria-labelledby="d-current-title" aria-describedby="d-current-hint">
+              <div class="block-head">
+                <span class="section-title" id="d-current-title">현재 안전조치<span class="req" aria-hidden="true">*</span></span>
+                <span class="hint" id="d-current-hint">매장에서 이미 하고 있는 조치만 선택해 주세요.</span>
+              </div>
               <div class="check-list" id="d-curr-list"></div>
               <button class="add-row" type="button" data-add="curr">+ 안전조치 직접 추가</button>
             </fieldset>
 
             <hr class="divider">
 
-            <fieldset class="section" id="d-plan">
-              <legend class="block-head">
-                <span class="section-title">개선대책 계획<span class="req" id="d-plan-req" aria-hidden="true">*</span></span>
-              </legend>
+            <fieldset class="section" id="d-plan" aria-labelledby="d-plan-title">
+              <div class="block-head">
+                <span class="section-title" id="d-plan-title">개선대책 계획<span class="req" id="d-plan-req" aria-hidden="true">*</span></span>
+              </div>
 
               <!-- 초록 항목만: 현재 상태 유지 / 대책 추가 (둘 중 하나 필수 · 고르기 전엔 노란 안내와 강조) -->
               <p class="notice small" id="d-green-need" hidden>하 항목도 둘 중 하나를 골라야 확정할 수 있어요. 지금 조치로 충분하면 '현재 상태 유지', 대책을 더 하려면 '대책 추가'를 눌러 주세요.</p>
@@ -415,13 +419,15 @@
   </div>
 
   <script src="../js/vendor/jquery-3.7.1.min.js?v=20261117-integrated"></script>
-  <script src="../js/common.js?v=20261117-integrated"></script>
-  <script src="../js/api.js?v=20261117-integrated"></script>
-  <script src="../js/catalog-ai.js?v=20261117-integrated"></script>
-  <script src="../js/risk-text.js"></script>
-  <script src="../js/ui-icons.js"></script>
-  <script src="../js/draft.js?v=20261117-integrated"></script>
-  <script src="../js/ux-guide.js"></script>
-  <script src="../js/draft-edit.js"></script>
+  <script src="../js/common.js?v=20261123"></script>
+  <script src="../js/mascot.js?v=20261123"></script>
+  <script src="../js/config.js?v=20261123"></script>
+  <script src="../js/api.js?v=20261123"></script>
+  <script src="../js/catalog-ai.js?v=20261123"></script>
+  <script src="../js/risk-text.js?v=20261123"></script>
+  <script src="../js/ui-icons.js?v=20261123"></script>
+  <script src="../js/draft.js?v=20261123"></script>
+  <script src="../js/ux-guide.js?v=20261123"></script>
+  <script src="../js/draft-edit.js?v=20261123"></script>
 </body>
 </html>

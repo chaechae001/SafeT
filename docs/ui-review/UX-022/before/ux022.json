@@ -1,0 +1,54 @@
+{
+ "390x664 login_overflow_px": 48,
+ "390x664 home": {
+  "list_top": 380,
+  "list_visible_h": 209,
+  "list_ratio": 0.31,
+  "chip": {
+   "h": 26,
+   "bg": "rgb(25, 31, 40)",
+   "fs": "13px"
+  }
+ },
+ "390x664 tab_C_signed_cards": 9,
+ "390x664 draft_tabs": {
+  "tab_h": 40,
+  "tab_fs": "14px",
+  "tabs_row_w": 358,
+  "tabs_fit": false,
+  "topbar_h": 61
+ },
+ "390x664 current_box_changed": true,
+ "390x664 title_inside_box": true,
+ "390x664 toast": {
+  "top": 436,
+  "bottom": 525,
+  "covers_bottom_bar": false
+ },
+ "360x640 login_overflow_px": 72,
+ "360x640 home": {
+  "list_top": 380,
+  "list_visible_h": 185,
+  "list_ratio": 0.29,
+  "chip": {
+   "h": 26,
+   "bg": "rgb(25, 31, 40)",
+   "fs": "13px"
+  }
+ },
+ "360x640 tab_C_signed_cards": 9,
+ "360x640 draft_tabs": {
+  "tab_h": 40,
+  "tab_fs": "14px",
+  "tabs_row_w": 328,
+  "tabs_fit": false,
+  "topbar_h": 61
+ },
+ "360x640 current_box_changed": true,
+ "360x640 title_inside_box": true,
+ "360x640 toast": {
+  "top": 412,
+  "bottom": 501,
+  "covers_bottom_bar": false
+ }
+}
