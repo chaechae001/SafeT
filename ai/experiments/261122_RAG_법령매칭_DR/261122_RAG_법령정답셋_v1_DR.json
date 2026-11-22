@@ -9,15 +9,15 @@
    "sha256": "42138f7f0cb02507c7cbd1b1b772fcbc53967468943859675e657ef64dd4f0bd"
   },
   "law_verification": {
-   "file": "ai\\experiments\\261115_RAG_지식베이스_DR\\261115_RAG_법령검증목록_v1_DR.json",
-   "sha256": "1b1be1623ada3db62ef18ca53aef763b1c64bb4a89856ff563b07c3a77e2abe9",
+   "file": "ai/experiments/261115_RAG_지식베이스_DR/261115_RAG_법령검증목록_v1_DR.json",
+   "sha256": "45f8c3bd3cac22e6c9fa7de30b719406718cfa01be8d28d60836db5146b63068",
    "retrieved_date": "2026-11-15",
    "site": "국가법령정보센터 https://www.law.go.kr"
   },
   "catalog": {
-   "file": "contracts\\catalog_risk\\catalog.json",
+   "file": "contracts/catalog_risk/catalog.json",
    "policy": "CATALOG-MVP-1.1",
-   "sha256": "aa9120b0c0cde164a3cb3e210f592a0637f9651d9557b4222656bfbd22df9b0f"
+   "sha256": "51a8f6c4dd2f5ac022900d153c6bff71e1b1474fb84629a0a24ad0280b01b89d"
   },
   "laws": [
    {

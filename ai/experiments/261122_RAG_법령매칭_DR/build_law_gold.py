@@ -33,7 +33,11 @@ CATALOG_DOC_FOR_D5 = "B"
 
 
 def sha256(path):
-    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+    """파일 해시. JSON·텍스트는 줄바꿈을 LF로 맞춰 OS별 체크아웃(CRLF/LF)과 무관하게 같은 값을 낸다."""
+    data = Path(path).read_bytes()
+    if Path(path).suffix.lower() in {".json", ".jsonl", ".md", ".txt"}:
+        data = data.replace(b"\r\n", b"\n")
+    return hashlib.sha256(data).hexdigest()
 
 
 def split_of(sid):
@@ -109,9 +113,9 @@ def main():
         version="law-gold-v1", built_by="build_law_gold.py", retrieved_or_built="2026-11-22 (Asia/Seoul)",
         status="AI 보조 정답 · 담당자 검토 전. source_cited만 출처 문서가 직접 인용한 조문이다.",
         sources=dict(spec=dict(file=SPEC.name, sha256=sha256(SPEC)),
-                     law_verification=dict(file=str(VERIFIED.relative_to(ROOT)), sha256=sha256(VERIFIED),
+                     law_verification=dict(file=VERIFIED.relative_to(ROOT).as_posix(), sha256=sha256(VERIFIED),
                                            retrieved_date=verified["retrieved_date"], site=verified["source_site"]),
-                     catalog=dict(file=str(CATALOG.relative_to(ROOT)), policy=catalog["policy_version"], sha256=sha256(CATALOG)),
+                     catalog=dict(file=CATALOG.relative_to(ROOT).as_posix(), policy=catalog["policy_version"], sha256=sha256(CATALOG)),
                      laws=[dict(doc_no=d["doc_no"], law_name=d["law_name"], edition=d["edition"], file=d["file"], sha256=d["sha256"]) for d in docs]),
         rules=spec["_levels"], basis=spec["_basis"],
         counts=dict(scenarios=len(items), evaluated=len(evaluated), unverified=len(items) - len(evaluated),
