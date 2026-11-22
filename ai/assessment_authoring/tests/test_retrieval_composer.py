@@ -1,5 +1,6 @@
 import copy
 import unittest
+from itertools import product
 from ai.assessment_authoring.contracts import read, load_catalog
 from ai.assessment_authoring.analysis_validator import validate_analysis
 from ai.assessment_authoring.assessment_composer import compose_assessment, render_assessment
@@ -155,24 +156,34 @@ class AuthoringTests(unittest.TestCase):
 
     def test_photo_equipment_needs_work_statement(self):
         # 2026-11-22 실제 EXAONE이 무관한 작업 문장을 사진 기기(FRY)의 근거로 인용한 사례.
-        for observation, rows, pending, excluded in [
+        cases = [
             ("칼로 채소를 손질합니다.", [], ["FRY"], []),
             ("전자레인지로 음식을 가열합니다.", [], ["FRY"], []),
             ("오늘은 튀김기를 사용하지 않습니다.", [], [], ["FRY"]),
             ("지금은 튀김기를 가동하지 않습니다.", [], [], ["FRY"]),
             ("오늘은 주방에서 튀김기를 가동하지 않습니다.", [], [], ["FRY"]),
+            ("오늘은 1층 주방에서 튀김기를 가동하지 않습니다.", [], [], ["FRY"]),
+            ("오늘은 주방에서 전기 튀김기를 가동하지 않습니다.", [], [], ["FRY"]),
+            ("오늘은 1층 주방에서 전기튀김기를 가동하지 않습니다.", [], [], ["FRY"]),
+            ("오늘은 1층 주방에서 전기 튀김기를 가동합니다.", ["FRY"], [], []),
+            ("튀김기는 2층에서 가동하지만 1층 주방에서는 전기 튀김기를 가동하지 않습니다.", ["FRY"], [], []),
             ("주방에서 튀김 조리를 합니다.", ["FRY"], [], []),
-        ]:
-            with self.subTest(observation=observation):
+        ]
+        for kind, (observation, rows, pending, excluded) in product(("text", "voice_transcript"), cases):
+            with self.subTest(kind=kind, observation=observation):
                 context = read("examples/input_variants/photo.json")
-                context["media"].append(dict(id="TEXT", kind="text", text=observation))
+                context["media"].append(dict(id="WORK", kind=kind, text=observation))
+                extracted = []
                 def extract(_, batch, catalog):
+                    extracted.append(True)
                     analysis = read("examples/unknown/analysis.json")
-                    analysis["candidates"][0]["evidence"] = [dict(media_id="TEXT", statement=observation)]
+                    analysis["candidates"][0]["evidence"] = [dict(media_id="WORK", statement=observation)]
                     return analysis
                 result = run_pipeline(context, build_context=copy.deepcopy, extract_analysis=extract,
                                       catalog_snapshot=self.catalog)
                 self.assertEqual([row["scenario_id"] for row in result["assessment"]["rows"]], rows)
+                if excluded:
+                    self.assertFalse(extracted)
                 self.assertEqual(result["retrieval_trace"]["work_review_candidates"], pending)
                 self.assertEqual(result["retrieval_trace"]["not_applicable_candidates"], excluded)
                 self.assertEqual(result["assessment"]["core"]["review_candidates"],

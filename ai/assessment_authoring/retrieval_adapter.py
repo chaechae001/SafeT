@@ -17,10 +17,10 @@ _UNUSED = re.compile(r"^(?:기|\s*작업)?(?:은|는|이|가|을|를)?\s*"
 # Negated hazards and controls, such as a missing temperature controller, are not work denials.
 _FRY_WORK_DENIAL = re.compile(
     r"(?:^|[.!?。！？\n])\s*(?:(?:현재|오늘|지금|요즘|이번\s*주|평소)(?:은|는|에는)?\s+)?"
-    r"(?:[가-힣]+에서(?:는)?[ \t]+)?"
-    r"(?:튀김(?:\s*(?:작업|조리))?(?:은|는|을|를)?\s*"
+    r"(?:[0-9가-힣]+(?:[ \t]+[0-9가-힣]+)*에서(?:는)?[ \t]+)?"
+    r"(?P<work>튀김(?:\s*(?:작업|조리))?(?:은|는|을|를)?\s*"
     r"(?:안\s*(?:합니다|해요|한다|함)|하지\s*않(?:습니다|아요|는다|음))"
-    r"|튀김기(?:는|를|가)?\s*"
+    r"|(?:(?:전기|가스)[ \t]*)?튀김기(?:는|를|가)?\s*"
     r"(?:안\s*(?:씁니다|써요|쓴다|씀)|(?:쓰지|사용하지|가동하지)\s*않(?:습니다|아요|는다|음)))"
     r"\s*(?=[.!?。！？\n]|$)"
 )
@@ -28,7 +28,8 @@ _FRY_WORK_DENIAL = re.compile(
 
 def text_candidates(media, diagnostics):
     hits = set()
-    denied_spans = [m.span() for m in _FRY_WORK_DENIAL.finditer(media["text"])]
+    # 장소 표현 앞에 나오는 작업 언급은 부정 범위에서 제외한다.
+    denied_spans = [m.span("work") for m in _FRY_WORK_DENIAL.finditer(media["text"])]
     for sid, terms in MAPPINGS["terms"].items():
         for term in terms:
             for match in re.finditer(re.escape(term), media["text"]):
