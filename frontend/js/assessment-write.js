@@ -3,6 +3,7 @@
   'use strict';
   $(function () {
     var photos=[], works=[], busy=false, requestKey=null, lastBody='', reading=0;
+    var added=[], catalogs={}, shownWork=null;   // UX-017 이번 평가에만 추가한 기기 [{code|null, nm}] · 업종별 기기 목록 캐시
     var user=S.auth.user() || {};
     var restored=S.auth.takeRestore('assessment-write');
     if(restored && restored.email!==user.email)restored=null;
@@ -17,7 +18,7 @@
     var ico=function(n){return S.icon?S.icon(n):'';};
     function regCount(){var w=works.find(function(x){return String(x.work_no)===$('#work_no').val();});return w?w.machines.length:0;}
     function updateSummary(){
-      var n=regCount()+$('#v-equipment .eq-found input[name="ai_machine_nm"]:checked').length;
+      var n=regCount()+added.length+$('#v-equipment .eq-found input[name="ai_machine_nm"]:checked').length;
       $('#eq-summary').text('총 '+n+'개의 기기로 평가표 초안을 생성합니다.');
     }
     function showMachines() {
@@ -25,6 +26,10 @@
       var list=$('#v-equipment .tag-list').empty();
       if(w) w.machines.forEach(function(m){$('<li class="eq-chip eq-chip--on">').html(ico('check')).append($('<span>').text(m.machine_nm)).appendTo(list);});
       if(!w || !w.machines.length) $('<li class="hint">등록된 기기가 없습니다.</li>').appendTo(list);
+      // 사업장을 바꾸면 업종 기기가 달라질 수 있어 이번 평가에 추가한 기기를 비운다
+      var now=w?String(w.work_no):null;
+      if(shownWork!==null && now!==shownWork && added.length){added=[];S.toast('사업장이 바뀌어 직접 추가한 기기를 비웠어요.');}
+      shownWork=now;renderAdded();
       updateSummary();
     }
     function setDetected(names){
@@ -50,6 +55,66 @@
       if(!S.hasUnsaved()){go();return;}
       S.confirm({title:'사업장 관리로 이동할까요?',message:'기기는 사업장 관리에서 추가하거나 바꿀 수 있어요. 지금 이동하면 입력한 사진·음성·글이 사라져요.',ok:'이동',cancel:'계속 작성',danger:true})
         .then(function(yes){if(yes===true)go();});
+    });
+    /* UX-017 기기 직접 추가: 이번 평가에만 넣는다(사업장 등록 기기는 그대로). 서버가 업종 기기 코드를 검사하고
+       같은 이름은 업종 기기로 합친다. 추가한 기기는 위험요인 검색에 등록 기기와 함께 쓰인다. */
+    function key(nm){return String(nm||'').replace(/\s+/g,' ').trim().toLowerCase();}
+    function currentWork(){return works.find(function(x){return String(x.work_no)===$('#work_no').val();});}
+    function isRegistered(code,nm){var w=currentWork();return !!w && w.machines.some(function(m){return (code && m.machine_code===code) || key(m.machine_nm)===key(nm);});}
+    function addedIndex(code,nm){for(var i=0;i<added.length;i++){if((code && added[i].code===code) || key(added[i].nm)===key(nm))return i;}return -1;}
+    function renderAdded(){
+      var list=$('#eq-added-list').empty();
+      added.forEach(function(m,i){
+        var li=$('<li class="eq-chip eq-chip--added">').appendTo(list);
+        li.append(ico('check')).append($('<span>').text(m.nm));
+        $('<button type="button" class="eq-chip__x">').attr('aria-label',m.nm+' 빼기').html('<span aria-hidden="true">×</span>')
+          .on('click',function(){added.splice(i,1);renderAdded();renderCatalog();updateSummary();$('#eq-added-list .eq-chip__x').first().trigger('focus');}).appendTo(li);
+      });
+      $('#eq-added').prop('hidden',!added.length);
+      $('#eq-add-status').text(added.length?'이번 평가에 추가한 기기 '+added.length+'개':'');
+      updateSummary();
+    }
+    function renderCatalog(){
+      var w=currentWork(),box=$('#eq-catalog').empty();
+      if(!w){$('<p class="hint">').text('사업장을 먼저 골라 주세요.').appendTo(box);return;}
+      var list=catalogs[w.biz_code];
+      if(!list){$('<p class="hint">').text('기기 목록을 불러오고 있어요.').appendTo(box);return;}
+      var rest=list.filter(function(m){return !isRegistered(m.machine_code,m.machine_nm);});
+      if(!rest.length){$('<p class="hint">').text('이 업종 기기는 모두 등록돼 있어요. 아래에 이름을 적어 추가해 주세요.').appendTo(box);return;}
+      rest.forEach(function(m){
+        var on=addedIndex(m.machine_code,m.machine_nm)>=0;
+        $('<button type="button" class="eq-chip eq-chip--pick">').attr('aria-pressed',on?'true':'false')
+          .html(ico(on?'check':'plus')).append($('<span>').text(m.machine_nm))
+          .on('click',function(){
+            var i=addedIndex(m.machine_code,m.machine_nm);
+            if(i>=0)added.splice(i,1);else added.push({code:m.machine_code,nm:m.machine_nm});
+            renderAdded();renderCatalog();
+            $('#eq-catalog .eq-chip--pick').filter(function(){return $(this).text()===m.machine_nm;}).trigger('focus');
+          }).appendTo(box);
+      });
+    }
+    function loadCatalog(){
+      var w=currentWork();if(!w || catalogs[w.biz_code]){renderCatalog();return;}
+      S.api.get('/biz-categories/'+encodeURIComponent(w.biz_code)+'/machines')
+        .done(function(list){catalogs[w.biz_code]=list || [];renderCatalog();})
+        .fail(function(e){$('#eq-catalog').empty().append($('<p class="hint">').text('기기 목록을 불러오지 못했어요. 이름을 적어 추가할 수 있어요.'));});
+    }
+    $('#v-equipment').on('click','.js-eq-add',function(e){
+      e.preventDefault();
+      if(!currentWork()){S.toast('01 기본정보에서 사업장을 먼저 골라 주세요.');return;}
+      S.clearError($('#eq-custom'));$('#eq-custom').val('');
+      S.openModal('eq-add');loadCatalog();
+    });
+    $('#eq-custom-btn').on('click',function(){
+      var $in=$('#eq-custom'),nm=$in.val().replace(/\s+/g,' ').trim();
+      if(!nm){S.fieldError($in,'기기 이름을 입력해 주세요.');$in.trigger('focus');return;}
+      if(nm.length>50){S.fieldError($in,'기기 이름은 50자 이내로 입력해 주세요.');return;}
+      if(isRegistered(null,nm)){S.fieldError($in,'사업장에 이미 등록된 기기예요.');return;}
+      if(addedIndex(null,nm)>=0){S.fieldError($in,'이미 추가한 기기예요.');return;}
+      if(added.length>=30){S.fieldError($in,'직접 추가는 30개까지 할 수 있어요.');return;}
+      var w=currentWork(),hit=(catalogs[w.biz_code]||[]).find(function(m){return key(m.machine_nm)===key(nm);});
+      added.push(hit?{code:hit.machine_code,nm:hit.machine_nm}:{code:null,nm:nm});
+      $in.val('');renderAdded();renderCatalog();$('#eq-add-status').text(nm+' 추가 · 이번 평가에 추가한 기기 '+added.length+'개');$in.trigger('focus');
     });
     S.api.get('/workplaces').done(function(data){
       works=data; var sel=$('#work_no').empty().append('<option value="">사업장 선택</option>');
@@ -98,9 +163,10 @@
       photos=(restored.photos || []).filter(function(p){return /^data:image\/(png|jpeg|webp);base64,/.test(p.data);});renderPhotos();
       if(restored.voice_text)$('<div class="field"><label for="voice_text">음성 전사문</label><textarea id="voice_text" class="textarea"></textarea></div>').insertBefore($('#file_text').closest('.field')).find('textarea').val(restored.voice_text);
       requestKey=restored.requestKey;lastBody=restored.lastBody || '';
+      added=(restored.added || []).filter(function(m){return m && m.nm;});shownWork=restored.work_no?String(restored.work_no):null;renderAdded();
       S.toast('작성 중인 입력을 복구했어요.');
     }
-    S.auth.onExpire(function(){return {page:'assessment-write',data:{email:user.email,work_no:$('#work_no').val(),eval_dt:$('#eval_dt').val(),eval_writer:$('#eval_writer').val(),members:$('[name="member_nm"]').map(function(){return this.value;}).get(),text:$('#file_text').val(),voice_text:$('#voice_text').val(),photos:photos,requestKey:requestKey,lastBody:lastBody}};});
+    S.auth.onExpire(function(){return {page:'assessment-write',data:{email:user.email,work_no:$('#work_no').val(),eval_dt:$('#eval_dt').val(),eval_writer:$('#eval_writer').val(),members:$('[name="member_nm"]').map(function(){return this.value;}).get(),text:$('#file_text').val(),voice_text:$('#voice_text').val(),photos:photos,added:added,requestKey:requestKey,lastBody:lastBody}};});
     var recognition=null;
     $('#voice-btn').off('click').on('click',function(){
       if(!$('#voice_text').length){
@@ -121,7 +187,11 @@
       if(busy)return;
       var d=S.parseDate($('#eval_dt').val());
       if(!d || !$('#work_no').val() || !$('#eval_writer').val().trim()){S.go('v-basic');S.toast('기본정보를 확인해 주세요.');return;}
-      var body={work_no:Number($('#work_no').val()),eval_dt:S.formatDate(d).replace(/\./g,'-'),eval_writer:$('#eval_writer').val().trim(),members:$('[name="member_nm"]').map(function(){return this.value;}).get(),text:$('#file_text').val().trim(),voice_text:($('#voice_text').val() || '').trim(),photos:photos.map(function(p){return {name:p.name,place:p.place,data:p.data};})};   /* UX-015: 화면용 size 는 보내지 않음(서버 extra 금지) */
+      var body={work_no:Number($('#work_no').val()),eval_dt:S.formatDate(d).replace(/\./g,'-'),eval_writer:$('#eval_writer').val().trim(),members:$('[name="member_nm"]').map(function(){return this.value;}).get(),text:$('#file_text').val().trim(),voice_text:($('#voice_text').val() || '').trim(),photos:photos.map(function(p){return {name:p.name,place:p.place,data:p.data};}),
+        // UX-017 이번 평가에만 추가한 기기. 사진에서 찾아 체크한 기기도 이름으로 함께 보냄
+        add_machine_codes:added.filter(function(m){return m.code;}).map(function(m){return m.code;}),
+        add_custom_machines:added.filter(function(m){return !m.code;}).map(function(m){return m.nm;})
+          .concat($('#v-equipment .eq-found input[name="ai_machine_nm"]:checked').map(function(){return this.value;}).get())};   /* UX-015: 화면용 size 는 보내지 않음(서버 extra 금지) */
       var serial=JSON.stringify(body);if(serial!==lastBody){requestKey=crypto.randomUUID();lastBody=serial;}body.request_key=requestKey;
       busy=true;$('#v-generating .bottom-bar a').attr('aria-disabled','true').hide();
       $('#v-generating .page-title').text('입력을 저장하고 초안을 준비하고 있어요');

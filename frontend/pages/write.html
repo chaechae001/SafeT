@@ -221,7 +221,8 @@
              테이블: eval_machine(machine_code, machine_nm, ai_yn, check_yn)
              - 사업장 등록 기기(workplace_machine)는 태그로만 표시, 모두 이번 평가에 포함
              - AI가 사진에서 새로 찾은 기기만 체크박스(ai_yn='Y'), 처음엔 체크된 상태
-             - 직접 추가 입력칸 없음 (사업장 관리에서 추가)
+             - UX-017: '기기 직접 추가'는 이번 평가에만 추가(add_machine_codes·add_custom_machines → eval_machine).
+               사업장 등록 기기는 바꾸지 않음. 사업장에 영구 등록은 '사업장 관리 >'
              - 인식 실패 시 새로 찾은 기기 영역을 비우고, 성공으로 표시하지 않음 -->
         <div class="page">
           <ol class="stepper" aria-label="입력 단계">
@@ -235,7 +236,7 @@
           <form id="equip-form" class="stack" action="#v-generating" method="get" novalidate>
             <!-- UX-016: 등록 기기는 연회색 카드 + ✓ 칩(모두 포함), 오른쪽 위 '사업장 관리 >' 링크.
                  새로 찾은 기기: 없으면 점선 안내 카드, 있으면 흰 카드 안 칩(누르면 선택/해제).
-                 직접 추가는 서버 요청에 기기 칸이 없어 사업장 관리(기기 추가)로 안내합니다. -->
+                 UX-017: 직접 추가는 #eq-add 창에서 이번 평가에만 추가(위험요인 검색에 함께 사용). -->
             <section class="eq-reg" aria-labelledby="registered-title">
               <div class="eq-reg__head">
                 <h2 class="section-title eq-reg__title" id="registered-title">사업장에 등록된 기기</h2>
@@ -247,6 +248,12 @@
               </ul>
             </section>
 
+            <!-- UX-017 이번 평가에만 추가한 기기 (없으면 숨김). 칩의 × 로 빼기 -->
+            <section class="eq-added" id="eq-added" aria-labelledby="added-title" hidden>
+              <h2 class="section-title eq-added__title" id="added-title">이번 평가에 추가한 기기</h2>
+              <ul class="eq-chips" id="eq-added-list" aria-label="이번 평가에 추가한 기기"></ul>
+            </section>
+
             <fieldset class="section eq-new">
               <legend class="section-title">사진에서 새로 찾은 기기</legend>
               <p class="hint">등록되지 않은 기기를 AI가 사진에서 찾았어요. 매장에 있는 것만 체크해 주세요.</p>
@@ -254,14 +261,14 @@
               <div class="eq-found" hidden>
                 <p class="eq-found__title">AI가 사진에서 찾은 기기 (<span class="js-eq-found-n">0</span>개)</p>
                 <div class="check-list eq-chips"></div>
-                <button class="btn btn--sm eq-add js-eq-manage" type="button"><i data-ico="plus"></i>직접 기기 추가하기</button>
+                <button class="btn btn--sm eq-add js-eq-add" type="button" aria-haspopup="dialog"><i data-ico="plus"></i>직접 기기 추가하기</button>
               </div>
               <!-- 새로 찾은 기기가 없거나 인식 실패 시 (성공으로 표시하지 않음) -->
               <div class="eq-empty">
                 <span class="eq-empty__ico" aria-hidden="true"><i data-ico="machineSearch"></i></span>
                 <p class="eq-empty__title">사진에서 새로 발견된 기기가 없어요</p>
                 <p class="eq-empty__sub">AI가 놓친 기기가 있다면 직접 추가할 수 있어요.</p>
-                <button class="btn btn--sm eq-add js-eq-manage" type="button"><i data-ico="plus"></i>기기 직접 추가하기</button>
+                <button class="btn btn--sm eq-add js-eq-add" type="button" aria-haspopup="dialog"><i data-ico="plus"></i>기기 직접 추가하기</button>
               </div>
             </fieldset>
           </form>
@@ -270,6 +277,34 @@
           <p class="eq-summary" id="eq-summary" aria-live="polite">총 2개의 기기로 평가표 초안을 생성합니다.</p>
           <a class="btn" href="#v-field">이전</a>
           <button class="btn btn--primary" type="submit" form="equip-form">평가표 초안 만들기</button>
+        </div>
+
+        <!-- UX-017 기기 직접 추가 창: 업종 기기 목록에서 고르거나 이름을 적어 추가. 이번 평가에만 들어감 -->
+        <div class="modal" id="eq-add" role="dialog" aria-modal="true" aria-labelledby="eq-add-title">
+          <div class="modal__box">
+            <div class="modal__head">
+              <h2 class="modal__title" id="eq-add-title">기기 직접 추가</h2>
+            </div>
+            <div class="modal__body">
+              <p class="hint eq-add__desc">이번 평가표에만 들어가요. 사업장에 계속 남기려면 사업장 관리에서 추가해 주세요.</p>
+              <!-- 업종 기기 목록이 길어 이름 입력칸을 먼저 둔다(키보드가 올라와도 가리지 않게) -->
+              <div class="field">
+                <label class="eq-add__label" for="eq-custom">기기 이름으로 추가</label>
+                <div class="input-row">
+                  <input class="input" id="eq-custom" maxlength="50" placeholder="예: 반죽기" data-enter="#eq-custom-btn" autocomplete="off">
+                  <button class="btn" type="button" id="eq-custom-btn">추가</button>
+                </div>
+              </div>
+              <p class="eq-add__status" id="eq-add-status" role="status" aria-live="polite"></p>
+              <div class="eq-add__pick">
+                <p class="eq-add__label" id="eq-pick-title">업종 기기에서 고르기</p>
+                <div class="eq-chips eq-add__catalog" id="eq-catalog" role="group" aria-labelledby="eq-pick-title"></div>
+              </div>
+            </div>
+            <div class="modal__foot">
+              <button class="btn btn--primary" type="button" data-close>완료</button>
+            </div>
+          </div>
         </div>
       </section>
       <section class="view" id="v-generating" aria-label="S04 초안 생성">

@@ -56,7 +56,8 @@ def list_evals(db: Session, email: str, tab: str, start: date | None, end: date 
             "       m.confirm_dt, m.sign_end_dt, "
             "       (SELECT COUNT(*) FROM eval_member em WHERE em.eval_no = m.eval_no) AS member_count, "
             "       (SELECT COUNT(DISTINCT s.member_no) FROM eval_sign s "
-            "         WHERE s.eval_no = m.eval_no AND s.sign_yn = 'Y' AND s.signer_type = 'WO') AS signed_count "
+            "         WHERE s.eval_no = m.eval_no AND s.sign_yn = 'Y' AND s.signer_type = 'WO') AS signed_count, "
+            "       (SELECT COUNT(*) FROM eval_dtl d WHERE d.eval_no = m.eval_no) AS item_count "  # UX-017 카드 '위험 항목 N건'
             f"FROM eval_mst m LEFT JOIN workplaces w ON w.work_no = m.work_no WHERE {cond} "
             "ORDER BY m.eval_dt DESC, m.eval_no DESC LIMIT :lim OFFSET :off"
         ),

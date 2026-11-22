@@ -84,12 +84,26 @@ def insert_items(db,no,items,email,offset=0):
         if it.get('catalog'): catalog.initialize(db,result.lastrowid,it['catalog'],it.get('ai_analysis'),it.get('risk_law'))
         if it.get('authoring'): authoring_rag.initialize(db,result.lastrowid,it['authoring'])
 
+def added_machines(db,w,body):
+    """UX-017: 03 기기에서 이번 평가에만 추가한 기기. 업종 기기 코드는 검사하고, 같은 이름은 업종 기기로 합친다.
+    사업장에 이미 등록된 기기(코드 또는 이름이 같음)는 빼서 중복 검색·저장을 막는다. 사업장 정보는 바꾸지 않는다."""
+    if not (body.add_machine_codes or body.add_custom_machines): return []
+    have={m['machine_code'] for m in w['machines'] if m.get('machine_code')}
+    names={(m['machine_nm'] or '').strip().lower() for m in w['machines']}
+    out=[]
+    for code,name in workplaces._resolve_machines(db,w['biz_code'],body.add_machine_codes,body.add_custom_machines):
+        if (code and code in have) or name.strip().lower() in names: continue
+        have.add(code); names.add(name.strip().lower())
+        out.append({'machine_code':code,'machine_nm':name,'custom':code is None})
+    return out
+
 def create(db,email,body):
     key=str(body.request_key)
     old=rows(db,'SELECT eval_no FROM eval_mst WHERE email=:e AND request_key=:k',e=email,k=key)
     if old: return detail(db,email,old[0]['eval_no'])
     w=workplaces.get_workplace(db,email,body.work_no)
-    context=body.model_dump(); context['machines']=w['machines']
+    extra=added_machines(db,w,body)
+    context=body.model_dump(exclude={'add_machine_codes','add_custom_machines'}); context['machines']=w['machines']+extra
     use_catalog=catalog.enabled()
     use_authoring=authoring_rag.enabled()
     # 신규 평가표는 ACTIVE_POLICY(FOOD-3LEVEL-1.2). input_based v1 계약은 CATALOG-MVP-1.1에 고정되어 있어 1.1 카탈로그를 쓴다.
@@ -124,7 +138,7 @@ def create(db,email,body):
             execute(db, 'UPDATE eval_mst SET authoring_snapshot=:s WHERE eval_no=:n',
                     s=json.dumps(dict(rls_pending=pending), ensure_ascii=False), n=no)
         for i,name in enumerate(body.members): execute(db,'INSERT INTO eval_member (eval_no,member_nm,sort) VALUES (:n,:name,:i)',n=no,name=name,i=i)
-        for machine in w['machines']: execute(db,"INSERT INTO eval_machine (eval_no,machine_code,machine_nm,ai_yn,check_yn) VALUES (:n,:c,:name,'N','Y')",n=no,c=machine['machine_code'],name=machine['machine_nm'])
+        for machine in w['machines']+extra: execute(db,"INSERT INTO eval_machine (eval_no,machine_code,machine_nm,ai_yn,check_yn) VALUES (:n,:c,:name,'N','Y')",n=no,c=machine['machine_code'],name=machine['machine_nm'])
         for kind,content in (('T',body.text),('V',body.voice_text)):
             if content: execute(db,'INSERT INTO eval_file (eval_no,file_type,file_text) VALUES (:n,:k,:t)',n=no,k=kind,t=content)
         for photo in body.photos: execute(db,"INSERT INTO eval_file (eval_no,file_type,ori_file_nm,place_nm,file_text) VALUES (:n,'P',:name,:place,:data)",n=no,name=photo.name,place=photo.place,data=photo.data)

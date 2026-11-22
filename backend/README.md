@@ -467,3 +467,17 @@ N02·N08 문맥 확장 설정·검수: [설명](../docs/implementation/n02-n08-c
 
 - `POST /evals/{eval_no}/items/{eval_dtl_no}/delete` `{revision}` · 로그인 필요 · 작성 중(W) 평가표만, revision 일치, 이 평가표의 항목만. 입력 기반(input_based) 평가표는 409. 항목의 조치·항목 첨부를 함께 지우고 revision을 올린 뒤 평가표 상세를 돌려줍니다(휴지통 없음). 테스트: `tests/test_ux005_remove_item.py`.
 - 결과서 PDF(`templates/report.html`): 1쪽 상태 도장과 평가 개요의 '판정 방식' 줄을 뺐습니다(화면수정요청 30·31). 미확정본 경고는 그대로입니다.
+
+## 03 기기 직접 추가 · 목록 위험 항목 수 (UX-017 · 2026-11-22)
+
+- `POST /evals`에 선택 칸 2개 추가(없어도 예전처럼 동작):
+  - `add_machine_codes`: 사업장 업종 기기 코드, 최대 100개
+  - `add_custom_machines`: 직접 적은 기기 이름, 50자·최대 30개
+- 추가한 기기는 이번 평가표에만 들어갑니다(`eval_machine`). 사업장 기기(`workplace_machine`)는 바뀌지 않습니다.
+- 위험요인 검색(`catalog_rls_v1`의 `risk_law.analyze`)과 다른 생성 모드의 기기 문맥에 등록 기기와 함께 들어갑니다.
+- 처리 규칙:
+  - 업종에 없는 코드는 400 `INVALID_MACHINE`입니다.
+  - 업종 기기와 이름이 같으면 그 기기로 합칩니다.
+  - 등록 기기와 같거나 중복인 기기는 한 번만 넣습니다.
+- `GET /evals` 카드에 `item_count`(위험 항목 `eval_dtl` 수)를 추가했습니다. 읽기 전용이고 DB 구조 변경은 없습니다.
+- 테스트: `tests/test_ux017_machines.py`(4개). 전체 `tests`+`unit_tests` 275 passed(격리 `_test` DB, 2026-11-22).

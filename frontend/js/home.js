@@ -81,6 +81,8 @@
     $('<span class="tag status">').attr('data-status', b).html(b === 'S' ? ico('check') + STATUS[b] : STATUS[b]).appendTo($head);
     // UX-015: 사업장은 제목과 겹쳐 빼고 '날짜 · 작성자 OOO (· 서명일 MM.DD)'
     var meta = [dot(e.eval_dt), e.eval_writer ? '작성자 ' + e.eval_writer : ''];
+    // UX-017: 목록 API의 item_count(eval_dtl 행 수). 예전 서버라 값이 없으면 표시하지 않음
+    if (typeof e.item_count === 'number') meta.push('위험 항목 ' + e.item_count + '건');
     if (b === 'S' && e.sign_end_dt) meta.push('서명일 ' + dot(e.sign_end_dt).slice(5));
     $('<span class="card__meta">').text(meta.filter(Boolean).join(' · ')).attr('title', e.workplace || '').appendTo($a);
     $li.attr('data-card', b);

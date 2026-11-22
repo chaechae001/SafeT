@@ -38,11 +38,16 @@ class CreateAssessment(StrictModel):
     text: str = Field(default='', max_length=10000)
     voice_text: str = Field(default='', max_length=10000)
     photos: list[Photo] = Field(default_factory=list, max_length=6)
+    # UX-017 03 기기: 이번 평가에만 추가한 기기(사업장 등록 기기는 서버가 넣음). 사업장 정보는 바꾸지 않는다.
+    add_machine_codes: list[Annotated[str, Field(min_length=1, max_length=20)]] = Field(default_factory=list, max_length=100)
+    add_custom_machines: list[Name] = Field(default_factory=list, max_length=30)
 
     @model_validator(mode='after')
     def inputs(self):
         if not (self.text or self.voice_text or self.photos or self.catalog_ids): raise ValueError('사진·전사문·글 또는 DB 작업 선택이 필요합니다.')
         if len(self.members) != len(set(self.members)): raise ValueError('참여자 이름이 중복됩니다.')
+        self.add_custom_machines = list(dict.fromkeys(' '.join(n.split()) for n in self.add_custom_machines))
+        self.add_machine_codes = list(dict.fromkeys(self.add_machine_codes))
         return self
 
 class ActionEdit(StrictModel):

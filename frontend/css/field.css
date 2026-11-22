@@ -528,3 +528,25 @@
 #v-equipment .bottom-bar > .eq-summary { flex: 1 0 100%; margin: 0; font-size: 14px; color: var(--c-text); text-align: center; }
 #v-equipment .eq-chip--ai .eq-chip__state { flex: none; white-space: nowrap; }
 @media (max-width: 359px) { #v-equipment .eq-reg { padding: 12px 12px 14px; } #v-equipment .eq-reg__title { font-size: 15px; white-space: nowrap; } #v-equipment .eq-reg__link { font-size: 13px; } }
+
+/* UX-017 03 기기 직접 추가 (이번 평가에만) */
+#v-equipment .eq-added { display: flex; flex-direction: column; gap: 10px; padding: 14px 16px 16px; border: 1px solid var(--c-primary-line); border-radius: 12px; background: #fff; }
+#v-equipment .eq-added[hidden] { display: none; }
+#v-equipment .eq-added__title { margin: 0; }
+#v-equipment .eq-chip--added { padding-right: 2px; border-color: var(--c-primary); background: var(--c-primary-soft); color: var(--c-primary); }
+#v-equipment .eq-chip__x { display: inline-grid; place-items: center; width: 44px; height: 44px; margin: -6px -4px -6px -6px; border: 0; border-radius: 8px; background: none; color: inherit; font-size: 20px; line-height: 1; cursor: pointer; }
+#v-equipment .eq-chip__x:hover { background: rgba(0, 0, 0, .05); }
+#v-equipment .eq-chip__x:focus-visible { outline: 3px solid #3b82c4; outline-offset: -3px; }
+#eq-add .modal__body { gap: 16px; }
+#eq-add .eq-add__desc { margin: 0; }
+#eq-add .eq-add__label { margin: 0 0 8px; font-size: 15px; font-weight: 700; color: var(--c-text); }
+#eq-add .eq-add__catalog { max-height: none; }
+#eq-add .eq-add__catalog > .hint { margin: 0; }
+#v-equipment .eq-chip--pick { min-height: 44px; cursor: pointer; font: inherit; font-size: 14px; font-weight: 600; }
+#v-equipment .eq-chip--pick .ico { color: var(--c-text-sub); }
+#v-equipment .eq-chip--pick[aria-pressed="true"] { border-color: var(--c-primary); background: var(--c-primary-soft); color: var(--c-primary); }
+#v-equipment .eq-chip--pick[aria-pressed="true"] .ico { color: var(--c-primary); }
+#v-equipment .eq-chip--pick:focus-visible { outline: 3px solid #3b82c4; outline-offset: 2px; }
+#eq-add .input-row > .btn { flex: none; min-width: 72px; }
+#eq-add .eq-add__status { margin: -6px 0 0; min-height: 1.5em; font-size: 14px; font-weight: 600; color: var(--c-primary); }
+#eq-add .eq-add__status:empty { display: none; }
