@@ -111,6 +111,9 @@ def denied(text, start, end):
     if not term:
         return False
     first, last = term[0], term[-1]
+    # "안 튀겨요"처럼 기기·작업어가 사용 동사이고 바로 앞에 부정 부사가 오는 경우.
+    if any(_is_use(tokens, x) and x > 0 and tokens[x - 1][:2] in (("안", "MAG"), ("못", "MAG")) for x in term):
+        return True
     clauses = _clauses(tokens)
     c = next(n for n, (a, b) in enumerate(clauses) if a <= first < b)
     # 기기·작업어가 다른 명사를 꾸미면("튀김기 기름을", "튀김기의 온도") 부정 대상이 아니다.
@@ -163,8 +166,93 @@ def resumed_without_subject(text, start, end):
             continue
         if not any(_is_use(tokens, x) for x in range(lo, hi)):
             continue
+        # 끝 명사가 시점·작업 이름인 명사구("오후 장사 때만", "주말에만")는 다른 대상이 아니다.
         explicit = [a for a, b, p in _noun_phrases(tokens, lo, hi)
-                    if _is_argument(p) and not {tokens[x][0] for x in range(a, b)} <= _SAME_TARGET_NOUNS]
+                    if _is_argument(p) and tokens[b - 1][0] not in _SAME_TARGET_NOUNS]
         if not explicit:
             return True
     return False
+
+
+# ---------------------------------------------------------------------------
+# 확실·불확실 판정. 불확실한 판정은 규칙만으로 제외하지 않고 확인 후보로 두거나
+# 선택적으로 언어 모델(negation_judge)의 확인을 받는다.
+
+# 기기의 부품·연결부, 지시 대명사. 이것이 부정 대상이면 기기 미사용일 수 있으나 단정하지 않는다.
+_PART_NOUNS = {"전원", "코드", "플러그", "스위치", "불", "밸브", "가스", "전기", "버너", "그거", "그것", "그건",
+               "이거", "이것", "저거", "걔", "얘"}
+# 끄기·치우기·중단처럼 부정어 없이 미사용을 뜻할 수 있는 동사(또는 "명사+하다"의 명사).
+_OFF_VERBS = {"끄", "치우", "뽑", "잠그", "없애", "빼", "멈추", "놀리", "세우"}
+_OFF_NOUNS = {"철거", "중단", "보관", "폐기", "정지", "휴업"}
+_CONTRAST_EC = {"는데", "은데", "ᆫ데", "데", "지만"}
+_MENU_HEADS = {"메뉴", "요리"}
+
+
+def _is_off(tokens, i):
+    form, tag = tokens[i][:2]
+    if tag == "VV" and form in _OFF_VERBS:
+        return True
+    return tag in ("NNG", "NNP") and form in _OFF_NOUNS
+
+
+def _negated_before(tokens, i, lo):
+    """i번 동사가 "안 끄고"·"끄지 않고"처럼 부정되었는가."""
+    if i > lo and tokens[i - 1][:2] in (("안", "MAG"), ("못", "MAG")):
+        return True
+    j = i + 1
+    while j < len(tokens) and tokens[j][1] in ("XSV", "EC", "EP") and tokens[j][0] not in _CLAUSE_EC - {"지"}:
+        j += 1
+    return j < len(tokens) and _negation(tokens, j)[0] and not _negation(tokens, j)[1]
+
+
+def judge(text, start, end):
+    """text[start:end]의 기기·작업어 진술을 판정한다.
+
+    반환: (verdict, certain, reason). verdict는 "used" 또는 "unused".
+    certain=False인 판정은 규칙만으로 확정하지 않는다(확인 후보 또는 언어 모델 확인).
+    """
+    if denied(text, start, end):
+        if resumed_without_subject(text, start, end):
+            # "점심에는 안 쓰고 저녁에만 써요": 생략 주어가 앞 기기일 수 있다. 위험 쪽 오류를 막기 위해
+            # 잠정 판정을 사용으로 둬, 모델 확인으로도 제외되지 않게 한다.
+            return "used", False, "생략 주어 사용 절"
+        return "unused", True, ""
+    tokens = _tokens(text)
+    term = [i for i, t in enumerate(tokens) if t[2] < end and t[3] > start]
+    if not term:
+        return "used", True, ""
+    clauses = _clauses(tokens)
+    c = next(n for n, (a, b) in enumerate(clauses) if a <= term[0] < b)
+    lo, hi = clauses[c]
+    last = term[-1]
+    head = None
+    for a, b, particles in _noun_phrases(tokens, lo, hi):
+        if a <= term[0] < b:
+            last, head = max(last, b - 1), tokens[b - 1][0]
+    after = range(last + 1, hi)
+    others = [tokens[b - 1][0] for a, b, p in _noun_phrases(tokens, last + 1, hi)
+              if _is_argument(p) and tokens[b - 1][0] not in _SAME_TARGET_NOUNS]
+    negs = [x for x in after if _negation(tokens, x)[0]]
+    use = any(_is_use(tokens, x) for x in after)
+    # "튀김 요리는 안 팔아요", "튀김 메뉴를 없앴어요": 메뉴·요리의 부재·중단.
+    if head in _MENU_HEADS and (negs or any(_is_off(tokens, x) for x in after)):
+        return "unused", False, "메뉴·요리 부정"
+    # "튀김기 말고 오븐만 써요".
+    if last + 1 < hi and tokens[last + 1][:2] == ("말", "VV"):
+        return "unused", False, "말고 대체"
+    # "튀김기 그거 안 써요", "튀김기 전원을 안 켜요": 부정 대상이 대명사·부품.
+    # 부품·대명사 밖의 다른 대상("교체를 안 했어요")이 있으면 그 대상의 부정이다.
+    if (head in _PART_NOUNS or others) and set(others) <= _PART_NOUNS and negs and use:
+        return "unused", False, "부품·대명사 부정"
+    # "튀김기는 전원을 꺼 놨어요", "튀김기를 아예 치웠습니다": 부정어 없는 미사용 동사.
+    offs = [x for x in after if _is_off(tokens, x) and not _negated_before(tokens, x, last + 1)]
+    if offs and set(others) <= _PART_NOUNS:
+        return "unused", False, "끄기·치우기 동사"
+    # "튀김기가 있긴 한데 안 써요", "튀김기는 있지만 안 씁니다": 대조 연결 뒤 주어 없는 부정.
+    if tokens[hi - 1][1] == "EC" and tokens[hi - 1][0] in _CONTRAST_EC and c + 1 < len(clauses) and not negs:
+        lo2, hi2 = clauses[c + 1]
+        explicit = [a for a, b, p in _noun_phrases(tokens, lo2, hi2)
+                    if _is_argument(p) and tokens[b - 1][0] not in _SAME_TARGET_NOUNS]
+        if not explicit and any(_negation(tokens, x)[0] for x in range(lo2, hi2))                 and any(_is_use(tokens, x) or _negation(tokens, x)[1] for x in range(lo2, hi2)):
+            return "unused", False, "대조 연결 뒤 부정"
+    return "used", True, ""

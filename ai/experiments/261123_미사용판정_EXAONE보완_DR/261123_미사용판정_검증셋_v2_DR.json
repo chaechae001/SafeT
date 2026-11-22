@@ -1,0 +1,369 @@
+{
+ "version": "negation-holdout-v2",
+ "created": "2026-11-23 (Asia/Seoul)",
+ "note": "합성 문장. 규칙 확장·EXAONE 보완을 구현하기 전에 작성해 고정했다. 같은 문장을 Windows TTS로 읽고 Cloud STT로 전사한 결과를 voice_transcript로 함께 평가한다(사람 음성 아님).",
+ "expected_format": "사진에 튀김기가 있을 때 FRY 최종 상태. used=평가 행 대상, unused=미사용(제외 정당). 혼재 문장은 used.",
+ "count": 60,
+ "items": [
+  {
+   "id": "V01",
+   "category": "사용",
+   "text": "오늘 점심 장사 때 튀김기로 오징어를 튀겼어요.",
+   "expected_fry": "used"
+  },
+  {
+   "id": "V02",
+   "category": "사용",
+   "text": "튀김기 기름 온도를 170도로 맞추고 새우를 넣습니다.",
+   "expected_fry": "used"
+  },
+  {
+   "id": "V03",
+   "category": "사용",
+   "text": "아침마다 튀김기를 예열해 둡니다.",
+   "expected_fry": "used"
+  },
+  {
+   "id": "V04",
+   "category": "사용",
+   "text": "감자튀김은 주문 들어올 때마다 바로 튀겨 냅니다.",
+   "expected_fry": "used"
+  },
+  {
+   "id": "V05",
+   "category": "사용",
+   "text": "튀김기 바구니를 흔들어 기름을 털어요.",
+   "expected_fry": "used"
+  },
+  {
+   "id": "V06",
+   "category": "사용",
+   "text": "저녁엔 튀김기 두 대를 다 돌립니다.",
+   "expected_fry": "used"
+  },
+  {
+   "id": "V07",
+   "category": "사용",
+   "text": "튀김기 옆에서 반죽을 묻혀서 바로 넣어요.",
+   "expected_fry": "used"
+  },
+  {
+   "id": "V08",
+   "category": "사용",
+   "text": "튀김옷 입힌 닭을 기름에 넣고 오 분 튀깁니다.",
+   "expected_fry": "used"
+  },
+  {
+   "id": "V09",
+   "category": "사용",
+   "text": "튀김기 필터 청소는 주말에 하고 평일엔 계속 씁니다.",
+   "expected_fry": "used"
+  },
+  {
+   "id": "V10",
+   "category": "사용",
+   "text": "탕수육 튀길 때 기름이 많이 튀어요.",
+   "expected_fry": "used"
+  },
+  {
+   "id": "V11",
+   "category": "사용",
+   "text": "튀김기 쓰다가 손을 데인 적이 있어요.",
+   "expected_fry": "used"
+  },
+  {
+   "id": "V12",
+   "category": "사용",
+   "text": "바쁜 시간에는 튀김기를 쉬지 않고 돌려요.",
+   "expected_fry": "used"
+  },
+  {
+   "id": "V13",
+   "category": "사용",
+   "text": "돈가스는 두 번 튀겨서 나갑니다.",
+   "expected_fry": "used"
+  },
+  {
+   "id": "V14",
+   "category": "사용",
+   "text": "튀김 담당이 하루 종일 튀김기 앞에 있어요.",
+   "expected_fry": "used"
+  },
+  {
+   "id": "V15",
+   "category": "사용",
+   "text": "고로케를 튀김기에 넣고 타이머를 맞춥니다.",
+   "expected_fry": "used"
+  },
+  {
+   "id": "V16",
+   "category": "미사용",
+   "text": "저희는 튀김 메뉴를 작년에 없앴어요.",
+   "expected_fry": "unused"
+  },
+  {
+   "id": "V17",
+   "category": "미사용",
+   "text": "튀김기는 창고에 넣어 놨어요.",
+   "expected_fry": "unused"
+  },
+  {
+   "id": "V18",
+   "category": "미사용",
+   "text": "튀김기 코드를 뽑아 뒀습니다.",
+   "expected_fry": "unused"
+  },
+  {
+   "id": "V19",
+   "category": "미사용",
+   "text": "튀김은 본사에서 완제품으로 받아서 데우기만 해요.",
+   "expected_fry": "unused"
+  },
+  {
+   "id": "V20",
+   "category": "미사용",
+   "text": "튀김기를 아예 치웠습니다.",
+   "expected_fry": "unused"
+  },
+  {
+   "id": "V21",
+   "category": "미사용",
+   "text": "튀김 요리는 안 팔아요.",
+   "expected_fry": "unused"
+  },
+  {
+   "id": "V22",
+   "category": "미사용",
+   "text": "튀김기는 이제 사용 안 합니다.",
+   "expected_fry": "unused"
+  },
+  {
+   "id": "V23",
+   "category": "미사용",
+   "text": "튀김 작업은 하지 않고 볶음 위주로 해요.",
+   "expected_fry": "unused"
+  },
+  {
+   "id": "V24",
+   "category": "미사용",
+   "text": "튀김기 가스 밸브를 잠가 두고 안 씁니다.",
+   "expected_fry": "unused"
+  },
+  {
+   "id": "V25",
+   "category": "미사용",
+   "text": "튀김기 그건 고장이라 그냥 둬요.",
+   "expected_fry": "unused"
+  },
+  {
+   "id": "V26",
+   "category": "미사용",
+   "text": "기름에 튀기는 일은 저희 가게에선 안 해요.",
+   "expected_fry": "unused"
+  },
+  {
+   "id": "V27",
+   "category": "미사용",
+   "text": "튀김기가 하나 있는데 손님이 없어서 놀리고 있어요.",
+   "expected_fry": "unused"
+  },
+  {
+   "id": "V28",
+   "category": "미사용",
+   "text": "튀김기는 전원을 꺼 놨어요.",
+   "expected_fry": "unused"
+  },
+  {
+   "id": "V29",
+   "category": "미사용",
+   "text": "튀김 메뉴는 이번 달부터 중단했어요.",
+   "expected_fry": "unused"
+  },
+  {
+   "id": "V30",
+   "category": "미사용",
+   "text": "요즘은 튀김을 전혀 안 튀겨요.",
+   "expected_fry": "unused"
+  },
+  {
+   "id": "V31",
+   "category": "미사용",
+   "text": "튀김기는 철거해서 지금 없어요.",
+   "expected_fry": "unused"
+  },
+  {
+   "id": "V32",
+   "category": "미사용",
+   "text": "튀김은 배달 업체에서 받아 써요.",
+   "expected_fry": "unused"
+  },
+  {
+   "id": "V33",
+   "category": "미사용",
+   "text": "튀김기 쓸 사람이 없어서 못 쓰고 있어요.",
+   "expected_fry": "unused"
+  },
+  {
+   "id": "V34",
+   "category": "미사용",
+   "text": "튀김기에 기름을 안 채워 놨어요.",
+   "expected_fry": "unused"
+  },
+  {
+   "id": "V35",
+   "category": "미사용",
+   "text": "튀김기는 덮개 씌워서 보관 중입니다.",
+   "expected_fry": "unused"
+  },
+  {
+   "id": "V36",
+   "category": "위험부정",
+   "text": "튀김기 온도계가 고장 났는데 그냥 쓰고 있어요.",
+   "expected_fry": "used"
+  },
+  {
+   "id": "V37",
+   "category": "위험부정",
+   "text": "튀김기 근처에 소화기가 없어요.",
+   "expected_fry": "used"
+  },
+  {
+   "id": "V38",
+   "category": "위험부정",
+   "text": "튀김할 때 장갑을 안 껴요.",
+   "expected_fry": "used"
+  },
+  {
+   "id": "V39",
+   "category": "위험부정",
+   "text": "튀김기 기름을 식히지 않고 바로 버려요.",
+   "expected_fry": "used"
+  },
+  {
+   "id": "V40",
+   "category": "위험부정",
+   "text": "튀김기 뚜껑을 안 덮고 씁니다.",
+   "expected_fry": "used"
+  },
+  {
+   "id": "V41",
+   "category": "위험부정",
+   "text": "튀김기 바닥 기름때를 잘 안 닦아요.",
+   "expected_fry": "used"
+  },
+  {
+   "id": "V42",
+   "category": "위험부정",
+   "text": "튀김기 앞 매트가 없어서 미끄러워요.",
+   "expected_fry": "used"
+  },
+  {
+   "id": "V43",
+   "category": "위험부정",
+   "text": "튀김기 전원 코드가 낡았는데 교체를 안 했어요.",
+   "expected_fry": "used"
+  },
+  {
+   "id": "V44",
+   "category": "위험부정",
+   "text": "튀길 때 앞치마를 안 입고 해요.",
+   "expected_fry": "used"
+  },
+  {
+   "id": "V45",
+   "category": "위험부정",
+   "text": "튀김기 타이머가 안 울려서 직접 봐요.",
+   "expected_fry": "used"
+  },
+  {
+   "id": "V46",
+   "category": "위험부정",
+   "text": "튀김기 쓰고 나서 전원을 안 끄고 퇴근할 때가 있어요.",
+   "expected_fry": "used"
+  },
+  {
+   "id": "V47",
+   "category": "위험부정",
+   "text": "튀김기 환풍기가 잘 안 돌아가요.",
+   "expected_fry": "used"
+  },
+  {
+   "id": "V48",
+   "category": "연결",
+   "text": "튀김기는 오전엔 안 쓰고 오후 장사 때만 켜요.",
+   "expected_fry": "used"
+  },
+  {
+   "id": "V49",
+   "category": "연결",
+   "text": "큰 튀김기는 안 쓰고 작은 튀김기만 써요.",
+   "expected_fry": "used"
+  },
+  {
+   "id": "V50",
+   "category": "연결",
+   "text": "튀김은 평일엔 안 하고 주말에만 해요.",
+   "expected_fry": "used"
+  },
+  {
+   "id": "V51",
+   "category": "연결",
+   "text": "튀김기는 있지만 안 씁니다.",
+   "expected_fry": "unused"
+  },
+  {
+   "id": "V52",
+   "category": "연결",
+   "text": "반죽기는 안 쓰고 튀김기는 매일 써요.",
+   "expected_fry": "used"
+  },
+  {
+   "id": "V53",
+   "category": "연결",
+   "text": "튀김기는 쓰긴 하는데 하루 한두 번이에요.",
+   "expected_fry": "used"
+  },
+  {
+   "id": "V54",
+   "category": "연결",
+   "text": "그리들은 매일 쓰고 튀김기는 안 써요.",
+   "expected_fry": "unused"
+  },
+  {
+   "id": "V55",
+   "category": "연결",
+   "text": "튀김기 안 쓴 지 한 달 됐어요.",
+   "expected_fry": "unused"
+  },
+  {
+   "id": "V56",
+   "category": "연결",
+   "text": "튀김기는 쓰다 말다 해요.",
+   "expected_fry": "used"
+  },
+  {
+   "id": "V57",
+   "category": "연결",
+   "text": "원래 튀김을 했는데 지금은 안 해요.",
+   "expected_fry": "unused"
+  },
+  {
+   "id": "V58",
+   "category": "연결",
+   "text": "튀김기는 고장 나도 계속 써요.",
+   "expected_fry": "used"
+  },
+  {
+   "id": "V59",
+   "category": "연결",
+   "text": "튀김기 말고 오븐만 써요.",
+   "expected_fry": "unused"
+  },
+  {
+   "id": "V60",
+   "category": "연결",
+   "text": "튀김기는 손님 많을 때만 안 쓰고 평소엔 써요.",
+   "expected_fry": "used"
+  }
+ ]
+}
