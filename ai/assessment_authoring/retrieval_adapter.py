@@ -5,7 +5,7 @@ import re
 from pathlib import Path
 from .catalog import catalog_index
 from .contracts import schema, require
-from .negation import denied, judge
+from .negation import denied, judge, verb_at
 
 MAPPINGS = json.loads((Path(__file__).parent/"mappings/catalog_links.json").read_text(encoding="utf-8"))
 
@@ -14,13 +14,18 @@ MAPPINGS = json.loads((Path(__file__).parent/"mappings/catalog_links.json").read
 _FRY_WORK_TERMS = ("튀김", "튀기", "튀깁", "튀겨")
 
 
-# 어간만 적은 기준어 중 다른 동사의 명사형과 겹치는 것은 어미가 바로 붙을 때만 인정한다.
-# "튀기"는 "튀기고·튀기는·튀기기"(튀기다)만 인정하고, "소스가 튀기 시작"(튀다)은 제외한다.
-_TERM_PATTERNS = {"튀기": r"튀기(?=[가-힣])"}
+# 동사 활용형 기준어는 글자 일치만으로 인정하지 않고, 그 자리가 형태소 분석에서 해당 동사로
+# 나올 때만 인정한다. "튀기·튀깁·튀겨"는 튀기다(VV "튀기")일 때만 인정한다.
+# "소스가 튀기 시작합니다·튀기도 합니다·튀기만 해요"는 튀다(VV "튀") + 명사형 어미 "기"이므로 제외한다.
+_VERB_TERMS = {"튀기": "튀기", "튀깁": "튀기", "튀겨": "튀기"}
 
 
 def _term_matches(term, text):
-    return re.finditer(_TERM_PATTERNS.get(term, re.escape(term)), text)
+    matches = re.finditer(re.escape(term), text)
+    lemma = _VERB_TERMS.get(term)
+    if lemma is None:
+        return list(matches)
+    return [m for m in matches if verb_at(text, m.start(), lemma)]
 
 
 def _mentions(text, terms):
