@@ -265,6 +265,54 @@ class AuthoringTests(unittest.TestCase):
                 self.assertEqual(trace["not_applicable_candidates"], excluded)
                 self.assertEqual("FRY" in [c["scenario_id"] for c in bundle["candidates"]], bool(uncertain))
 
+    def test_judge_marks_uncertain_unused_statements(self):
+        # 문맥이 필요한 미사용 진술은 잠정 미사용·불확실로, 위험·조치 부정은 확실한 사용으로 둔다.
+        from ai.assessment_authoring.negation import judge
+        for observation, verdict, certain in [
+            ("튀김기는 안 돌려요.", "unused", True),
+            ("튀김기 스위치를 안 켜요.", "unused", False),
+            ("튀김기는 지난주에 치웠어요.", "unused", False),
+            ("튀김 메뉴는 없앴어요.", "unused", False),
+            ("튀김기 말고 그리들만 써요.", "unused", False),
+            ("튀김기가 있긴 하지만 안 돌려요.", "unused", False),
+            ("튀김기는 아침엔 안 쓰고 저녁에만 돌려요.", "used", False),
+            ("튀김기 기름을 안 갈아요.", "used", True),
+            ("튀김기 스위치를 안 끄고 퇴근해요.", "used", True),
+            ("튀김기 전원 코드가 낡았는데 수리를 안 했어요.", "used", True),
+        ]:
+            with self.subTest(observation=observation):
+                start = observation.index("튀김")
+                self.assertEqual(judge(observation, start, start + 2)[:2], (verdict, certain))
+
+    def test_negation_judge_confirms_only_when_rule_agrees(self):
+        # 모델 판정은 규칙의 잠정 판정과 같을 때만 확정한다. 다르거나 검증에 실패하면 작업 미확인이다.
+        def fake(status, quote=None, fail=False):
+            def judge(text, targets):
+                if fail:
+                    raise RuntimeError("관문 오류")
+                return {sid: dict(status=status, quote=quote or text) for sid in targets}
+            return judge
+        cases = [
+            ("튀김기 스위치를 안 켜요.", fake("unused"), [], ["FRY"], "unused"),
+            ("튀김기 스위치를 안 켜요.", fake("used"), ["FRY"], [], "review"),
+            ("튀김기 스위치를 안 켜요.", fake("unknown"), ["FRY"], [], "review"),
+            ("튀김기 스위치를 안 켜요.", fake("unused", quote="튀김기는 없어요"), ["FRY"], [], "review"),
+            ("튀김기 스위치를 안 켜요.", fake("unused", quote="스위치를 안 켜요"), ["FRY"], [], "review"),
+            ("튀김기 스위치를 안 켜요.", fake("unused", fail=True), ["FRY"], [], "review"),
+            # 생략 주어 사용 절은 모델이 미사용이라 해도 제외하지 않는다.
+            ("튀김기는 아침엔 안 쓰고 저녁에만 돌려요.", fake("unused"), ["FRY"], [], "review"),
+            ("튀김기는 아침엔 안 쓰고 저녁에만 돌려요.", fake("used"), [], [], "used"),
+        ]
+        for observation, judge, uncertain, excluded, decision in cases:
+            with self.subTest(observation=observation, decision=decision):
+                self.i["equipment_ids"] = ["EQ_FRYER"]
+                self.i["media"][0]["text"] = observation
+                _, trace = retrieve_with_evidence(self.i, self.catalog, negation_judge=judge)
+                self.assertEqual(trace["uncertain_work_candidates"], uncertain)
+                self.assertEqual(trace["not_applicable_candidates"], excluded)
+                self.assertEqual([j["decision"] for j in trace["negation_judgements"]], [decision])
+                self.assertEqual("FRY" in trace["text_candidates"], decision == "used")
+
     def test_negation_targets_other_noun(self):
         # 다른 명사가 부정의 대상이면 기기 미사용이 아니다.
         for observation, sid, applies in [
