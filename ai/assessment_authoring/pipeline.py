@@ -1,6 +1,6 @@
 """입력·추출 담당 구현을 함수 주입으로 연결하는 독립 실행 경로."""
 import copy
-from .retrieval_adapter import retrieve_with_evidence, candidate_batches
+from .retrieval_adapter import retrieve_with_evidence, candidate_batches, work_supported
 from .assessment_composer import render_assessment
 
 def run_pipeline(raw_request, *, build_context, extract_analysis, catalog_snapshot,
@@ -24,6 +24,21 @@ def run_pipeline(raw_request, *, build_context, extract_analysis, catalog_snapsh
         part = validate_analysis(context, batch, part, catalog_snapshot, legal_registry)
         analysis["candidates"].extend(part["candidates"])
         analysis["unmatched_risks"].extend(part["unmatched_risks"])
+    # 사진·등록 기기만으로 올라온 후보는 노출 근거가 아니다. 작업 문장이 그 작업·기기를
+    # 직접 언급할 때만 평가 행으로 인정하고, 아니면 작업 미확인 후보로 남긴다.
+    work_media = {m["id"] for m in context["media"] if m["kind"] in ("text", "voice_transcript")}
+    scenarios = {s["id"]: s for s in catalog_snapshot["scenarios"]}
+    equipment_only = set(trace["equipment_candidates"]) - set(trace["text_candidates"])
+    supported = []
+    for candidate in analysis["candidates"]:
+        sid = candidate["scenario_id"]
+        if sid in equipment_only and not any(
+                quote["media_id"] in work_media and work_supported(scenarios[sid], quote["statement"])
+                for quote in candidate["evidence"]):
+            trace["diagnostics"].append("작업 근거 없음: " + sid)
+            continue
+        supported.append(candidate)
+    analysis["candidates"] = supported
     denied = set(trace["not_applicable_candidates"])
     assessed = {candidate["scenario_id"] for candidate in analysis["candidates"]}
     pending = set(trace["equipment_candidates"]) - assessed - denied

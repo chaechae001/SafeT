@@ -153,6 +153,27 @@ class AuthoringTests(unittest.TestCase):
                                  [{"scenario_id": sid, "reason": "work_unconfirmed"} for sid in pending]
                                  + [{"scenario_id": sid, "reason": "input_denies_work"} for sid in excluded])
 
+    def test_photo_equipment_needs_work_statement(self):
+        # 2026-11-22 실제 EXAONE이 무관한 작업 문장을 사진 기기(FRY)의 근거로 인용한 사례.
+        for observation, rows, pending, excluded in [
+            ("칼로 채소를 손질합니다.", [], ["FRY"], []),
+            ("오늘은 튀김기를 사용하지 않습니다.", [], [], ["FRY"]),
+            ("지금은 튀김기를 가동하지 않습니다.", [], [], ["FRY"]),
+            ("주방에서 튀김 조리를 합니다.", ["FRY"], [], []),
+        ]:
+            with self.subTest(observation=observation):
+                context = read("examples/input_variants/photo.json")
+                context["media"].append(dict(id="TEXT", kind="text", text=observation))
+                def extract(_, batch, catalog):
+                    analysis = read("examples/unknown/analysis.json")
+                    analysis["candidates"][0]["evidence"] = [dict(media_id="TEXT", statement=observation)]
+                    return analysis
+                result = run_pipeline(context, build_context=copy.deepcopy, extract_analysis=extract,
+                                      catalog_snapshot=self.catalog)
+                self.assertEqual([row["scenario_id"] for row in result["assessment"]["rows"]], rows)
+                self.assertEqual(result["retrieval_trace"]["work_review_candidates"], pending)
+                self.assertEqual(result["retrieval_trace"]["not_applicable_candidates"], excluded)
+
     def test_irrelevant_note_does_not_make_draft_partial(self):
         self.i["media"].append(dict(id="NOTE", kind="text", text="주방 정리"))
         r, trace = retrieve_with_evidence(self.i, self.catalog)
