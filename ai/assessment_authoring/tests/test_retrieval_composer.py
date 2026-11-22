@@ -270,16 +270,33 @@ class AuthoringTests(unittest.TestCase):
 
     def test_fry_verb_terms_follow_morphemes(self):
         # 튀김 동사 기준어는 형태소 분석이 튀기다(VV "튀기")라고 할 때만 인정한다.
-        # 형태소 결과를 고정한 모의 토큰으로 판정 경로가 글자 일치에 기대지 않는지 확인한다.
+        # 모의 토큰은 kiwipiepy 0.25.1의 실제 출력과 같다. 판정이 글자 일치가 아닌 형태소를 따르는지 확인한다.
         from unittest import mock
         from ai.assessment_authoring import negation
-        splash = (("소스", "NNG", 0, 2), ("가", "JKS", 2, 3), ("튀", "VV", 4, 5), ("기", "ETN", 5, 6),
-                  ("도", "JX", 6, 7), ("하", "VX", 8, 9), ("ᆸ니다", "EF", 8, 11), (".", "SF", 11, 12))
-        fry = (("감자", "NNG", 0, 2), ("를", "JKO", 2, 3), ("튀기", "VV", 4, 6), ("도", "JX", 6, 7),
-               ("하", "VX", 8, 9), ("ᆸ니다", "EF", 8, 11), (".", "SF", 11, 12))
-        for text, tokens, expected in [("소스가 튀기도 합니다.", splash, False), ("감자를 튀기도 합니다.", fry, True)]:
+        splash = (("오븐", "NNG", 0, 2), ("에서", "JKB", 2, 4), ("소스", "NNG", 5, 7), ("가", "JKS", 7, 8),
+                  ("튀", "VV", 9, 10), ("기", "ETN", 10, 11), ("도", "JX", 11, 12), ("하", "VX", 13, 14),
+                  ("ᆸ니다", "EF", 13, 16), (".", "SF", 16, 17))
+        fry = (("감자", "NNG", 0, 2), ("를", "JKO", 2, 3), ("튀기", "VV", 4, 6), ("기", "ETN", 6, 7),
+               ("도", "JX", 7, 8), ("하", "VX", 9, 10), ("ᆸ니다", "EF", 9, 12), (".", "SF", 12, 13))
+        for text, tokens, expected in [("오븐에서 소스가 튀기도 합니다.", splash, False),
+                                       ("감자를 튀기기도 합니다.", fry, True)]:
             with self.subTest(text=text), mock.patch.object(negation, "_tokens", lambda _t, tokens=tokens: tokens):
                 self.assertEqual("FRY" in text_candidates(dict(id="TEXT", text=text), [])[0], expected)
+
+    def test_fry_verb_terms_with_kiwi(self):
+        # 실제 kiwipiepy(requirements 고정 버전)로 튀다·튀기다를 구분한다.
+        import kiwipiepy
+        self.assertEqual(kiwipiepy.__version__, "0.25.1")
+        for observation, hits, fry_denied in [
+            ("오븐에서 소스가 튀기도 합니다.", {"OVEN"}, False),
+            ("감자를 튀기기도 합니다.", {"FRY"}, False),
+            ("기름이 튀기도 하고 닭도 튀겨요.", {"FRY"}, False),
+            ("오븐에서 소스가 튀기 시작합니다.", {"OVEN"}, False),
+            ("요즘은 튀기지 않습니다.", set(), True),
+            ("튀김기는 안 씁니다.", set(), True),
+        ]:
+            with self.subTest(observation=observation):
+                self.assertEqual(text_candidates(dict(id="TEXT", text=observation), []), (hits, fry_denied))
 
     def test_judge_marks_uncertain_unused_statements(self):
         # 문맥이 필요한 미사용 진술은 잠정 미사용·불확실로, 위험·조치 부정은 확실한 사용으로 둔다.
