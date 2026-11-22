@@ -1,0 +1,715 @@
+{
+ "version": "negation-holdout-v1",
+ "built_by": "수작업(2026-11-23 KST)",
+ "count": 50,
+ "note": "합성 데이터. 형태소 규칙을 만든 뒤 새 표현으로 작성했고, 이 셋의 결과를 보고 규칙을 고치지 않았다(1회 평가).",
+ "expected_format": "FRY=[hit, denied], 그 외 시나리오=hit",
+ "items": [
+  {
+   "id": "H01-t",
+   "template": 1,
+   "category": "미사용",
+   "kind": "text",
+   "text": "저희 가게는 튀김을 하지 않아요.",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "H01-v",
+   "template": 1,
+   "category": "미사용",
+   "kind": "voice_transcript",
+   "text": "음 저희 가게는 튀김을 하지 않아요",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "H02-t",
+   "template": 2,
+   "category": "미사용",
+   "kind": "text",
+   "text": "튀김기를 못 쓰고 있어요.",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "H02-v",
+   "template": 2,
+   "category": "미사용",
+   "kind": "voice_transcript",
+   "text": "음 튀김기를 못 쓰고 있어요",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "H03-t",
+   "template": 3,
+   "category": "미사용",
+   "kind": "text",
+   "text": "요새는 튀김기 안 켜요.",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "H03-v",
+   "template": 3,
+   "category": "미사용",
+   "kind": "voice_transcript",
+   "text": "음 요새는 튀김기 안 켜요",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "H04-t",
+   "template": 4,
+   "category": "미사용",
+   "kind": "text",
+   "text": "기름 튀김 작업은 이제 안 해요.",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "H04-v",
+   "template": 4,
+   "category": "미사용",
+   "kind": "voice_transcript",
+   "text": "음 기름 튀김 작업은 이제 안 해요",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "H05-t",
+   "template": 5,
+   "category": "미사용",
+   "kind": "text",
+   "text": "튀김기 전원을 안 켜요.",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "H05-v",
+   "template": 5,
+   "category": "미사용",
+   "kind": "voice_transcript",
+   "text": "음 튀김기 전원을 안 켜요",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "H06-t",
+   "template": 6,
+   "category": "미사용",
+   "kind": "text",
+   "text": "튀김기는 이번 달까지 꺼 둡니다.",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "H06-v",
+   "template": 6,
+   "category": "미사용",
+   "kind": "voice_transcript",
+   "text": "음 튀김기는 이번 달까지 꺼 둡니다",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "H07-t",
+   "template": 7,
+   "category": "미사용",
+   "kind": "text",
+   "text": "튀김 요리는 메뉴에 없습니다.",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "H07-v",
+   "template": 7,
+   "category": "미사용",
+   "kind": "voice_transcript",
+   "text": "음 튀김 요리는 메뉴에 없습니다",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "H08-t",
+   "template": 8,
+   "category": "미사용",
+   "kind": "text",
+   "text": "튀김기가 있긴 한데 안 써요.",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "H08-v",
+   "template": 8,
+   "category": "미사용",
+   "kind": "voice_transcript",
+   "text": "음 튀김기가 있긴 한데 안 써요",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "H09-t",
+   "template": 9,
+   "category": "미사용",
+   "kind": "text",
+   "text": "튀김은 안 하고요, 볶음이랑 국만 해요.",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "H09-v",
+   "template": 9,
+   "category": "미사용",
+   "kind": "voice_transcript",
+   "text": "음 튀김은 안 하고요 볶음이랑 국만 해요",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "H10-t",
+   "template": 10,
+   "category": "미사용",
+   "kind": "text",
+   "text": "튀김기 이번 주는 안 돌려요. 수리 맡겼어요.",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "H10-v",
+   "template": 10,
+   "category": "미사용",
+   "kind": "voice_transcript",
+   "text": "음 튀김기 이번 주는 안 돌려요 수리 맡겼어요",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "H11-t",
+   "template": 11,
+   "category": "미사용",
+   "kind": "text",
+   "text": "튀김기 그거 안 써요.",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "H11-v",
+   "template": 11,
+   "category": "미사용",
+   "kind": "voice_transcript",
+   "text": "음 튀김기 그거 안 써요",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "H12-t",
+   "template": 12,
+   "category": "사용",
+   "kind": "text",
+   "text": "튀김기 켜고 돈가스 튀겨요.",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "H12-v",
+   "template": 12,
+   "category": "사용",
+   "kind": "voice_transcript",
+   "text": "음 튀김기 켜고 돈가스 튀겨요",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "H13-t",
+   "template": 13,
+   "category": "사용",
+   "kind": "text",
+   "text": "매일 아침 튀김기 기름을 데웁니다.",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "H13-v",
+   "template": 13,
+   "category": "사용",
+   "kind": "voice_transcript",
+   "text": "음 매일 아침 튀김기 기름을 데웁니다",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "H14-t",
+   "template": 14,
+   "category": "사용",
+   "kind": "text",
+   "text": "튀김기 안쪽 청소를 합니다.",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "H14-v",
+   "template": 14,
+   "category": "사용",
+   "kind": "voice_transcript",
+   "text": "음 튀김기 안쪽 청소를 합니다",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "H15-t",
+   "template": 15,
+   "category": "사용",
+   "kind": "text",
+   "text": "어 튀김기는 쓰긴 써요.",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "H15-v",
+   "template": 15,
+   "category": "사용",
+   "kind": "voice_transcript",
+   "text": "음 어 튀김기는 쓰긴 써요",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "H16-t",
+   "template": 16,
+   "category": "위험부정",
+   "kind": "text",
+   "text": "튀김기 뚜껑이 잘 안 닫혀요.",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "H16-v",
+   "template": 16,
+   "category": "위험부정",
+   "kind": "voice_transcript",
+   "text": "음 튀김기 뚜껑이 잘 안 닫혀요",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "H17-t",
+   "template": 17,
+   "category": "위험부정",
+   "kind": "text",
+   "text": "튀김기 옆에 소화기를 안 뒀어요.",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "H17-v",
+   "template": 17,
+   "category": "위험부정",
+   "kind": "voice_transcript",
+   "text": "음 튀김기 옆에 소화기를 안 뒀어요",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "H18-t",
+   "template": 18,
+   "category": "위험부정",
+   "kind": "text",
+   "text": "튀김할 때 앞치마를 안 입어요.",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "H18-v",
+   "template": 18,
+   "category": "위험부정",
+   "kind": "voice_transcript",
+   "text": "음 튀김할 때 앞치마를 안 입어요",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "H19-t",
+   "template": 19,
+   "category": "위험부정",
+   "kind": "text",
+   "text": "튀김기를 끄지 않고 자리를 비웁니다.",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "H19-v",
+   "template": 19,
+   "category": "위험부정",
+   "kind": "voice_transcript",
+   "text": "음 튀김기를 끄지 않고 자리를 비웁니다",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "H20-t",
+   "template": 20,
+   "category": "위험부정",
+   "kind": "text",
+   "text": "기름을 갈지 않고 계속 튀겨요.",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "H20-v",
+   "template": 20,
+   "category": "위험부정",
+   "kind": "voice_transcript",
+   "text": "음 기름을 갈지 않고 계속 튀겨요",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "H21-t",
+   "template": 21,
+   "category": "위험부정",
+   "kind": "text",
+   "text": "튀김기 쪽은 환기가 안 돼요.",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "H21-v",
+   "template": 21,
+   "category": "위험부정",
+   "kind": "voice_transcript",
+   "text": "음 튀김기 쪽은 환기가 안 돼요",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "H22-t",
+   "template": 22,
+   "category": "연결",
+   "kind": "text",
+   "text": "튀김기는 점심에는 안 쓰고 저녁에만 써요.",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     true,
+     true
+    ]
+   }
+  },
+  {
+   "id": "H22-v",
+   "template": 22,
+   "category": "연결",
+   "kind": "voice_transcript",
+   "text": "음 튀김기는 점심에는 안 쓰고 저녁에만 써요",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     true,
+     true
+    ]
+   }
+  },
+  {
+   "id": "H23-t",
+   "template": 23,
+   "category": "연결",
+   "kind": "text",
+   "text": "반죽기는 쓰지만 튀김기는 안 써요.",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ],
+    "MIX": true
+   }
+  },
+  {
+   "id": "H23-v",
+   "template": 23,
+   "category": "연결",
+   "kind": "voice_transcript",
+   "text": "음 반죽기는 쓰지만 튀김기는 안 써요",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ],
+    "MIX": true
+   }
+  },
+  {
+   "id": "H24-t",
+   "template": 24,
+   "category": "연결",
+   "kind": "text",
+   "text": "그리들은 안 쓰는데 튀김기는 매일 돌려요.",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ],
+    "GRIDDLE": false
+   }
+  },
+  {
+   "id": "H24-v",
+   "template": 24,
+   "category": "연결",
+   "kind": "voice_transcript",
+   "text": "음 그리들은 안 쓰는데 튀김기는 매일 돌려요",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ],
+    "GRIDDLE": false
+   }
+  },
+  {
+   "id": "H25-t",
+   "template": 25,
+   "category": "다른기기",
+   "kind": "text",
+   "text": "반죽기는 못 쓰고 있어요.",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     false,
+     false
+    ],
+    "MIX": false
+   }
+  },
+  {
+   "id": "H25-v",
+   "template": 25,
+   "category": "다른기기",
+   "kind": "voice_transcript",
+   "text": "음 반죽기는 못 쓰고 있어요",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     false,
+     false
+    ],
+    "MIX": false
+   }
+  }
+ ]
+}

@@ -1,0 +1,94 @@
+{
+  "_note": "위험요인 ID(카탈로그 시나리오)별 기대 법령 조문 명세. 조문 번호만 적고 제목·원문 발췌는 build_law_gold.py가 보유 HWPX 원문에서 채운다. 원문에 없으면 빌드가 실패한다.",
+  "_basis": {
+    "source_cited": "카탈로그 source_refs의 문서 B(=D5) 쪽이 해당 조문을 직접 인용함. 261115 법령검증목록 v1의 cited_in과 쪽 번호로 대조.",
+    "ai_proposed": "AI(Claude)가 조문 원문을 읽고 위험요인과 관련 있다고 제안. 원문 존재·문구는 확인했으나 적용 판단은 전문가 검토 전.",
+    "prior_gold_v0": "ai/risk_law_search/benchmark/gold_v0.json(AI 보조, 담당자 검토 전)에도 같은 위험 문장의 정답으로 들어 있음."
+  },
+  "_levels": "core=검색 상위에 나와야 하는 조문(재현율·MRR·1순위 정확 일치 계산). related=맞다고 볼 수 있는 조문(정밀도 계산에서 오답으로 세지 않음). '문서번호:*'는 그 문서의 어느 조문이든 related로 인정.",
+  "scenarios": {
+    "ENV": {"status": "평가", "core": [
+        {"key": "02:제3조", "basis": ["source_cited", "prior_gold_v0"], "cited_chunk": "D5-p063-s1-c01"},
+        {"key": "02:제4조", "basis": ["source_cited"], "cited_chunk": "D5-p063-s1-c01"}],
+      "related": [
+        {"key": "02:제5조", "basis": ["ai_proposed", "prior_gold_v0"]},
+        {"key": "02:제30조", "basis": ["source_cited"], "cited_chunk": "D5-p063-s1-c01", "note": "같은 쪽에서 인용했으나 계단 난간 조문이라 바닥 미끄러짐과는 간접 관련"}]},
+    "LADDER": {"status": "평가", "core": [
+        {"key": "02:제42조", "basis": ["ai_proposed", "prior_gold_v0"]}],
+      "related": [
+        {"key": "02:제24조", "basis": ["ai_proposed"], "note": "고정 사다리식 통로 구조 조문. 이동식 사다리·의자에는 간접 관련"},
+        {"key": "02:제32조", "basis": ["ai_proposed"], "note": "추락 위험 작업 안전모 지급"}],
+      "note": "근거 문서 D5 p066은 '안전보건기준에 관한 규칙 준수'라고만 쓰고 조항 번호가 없다(법령검증목록 unverified)."},
+    "STORAGE": {"status": "평가", "core": [
+        {"key": "02:제14조", "basis": ["ai_proposed"]},
+        {"key": "02:제393조", "basis": ["ai_proposed"]}], "related": []},
+    "COLD": {"status": "평가", "core": [
+        {"key": "02:제632조", "basis": ["ai_proposed", "prior_gold_v0"]}],
+      "related": [{"key": "02:제633조", "basis": ["ai_proposed"], "note": "밀폐시설 출입구 임의잠김 방지. 냉장실은 제632조가 직접 규정"}]},
+    "UV": {"status": "평가", "core": [
+        {"key": "02:제668조", "basis": ["ai_proposed"], "note": "유해광선 등 비전리전자기파. 살균 자외선 적용 여부는 전문가 확인 필요"}], "related": []},
+    "CUT": {"status": "평가", "core": [
+        {"key": "02:제87조", "basis": ["ai_proposed", "prior_gold_v0"]},
+        {"key": "02:제92조", "basis": ["ai_proposed", "prior_gold_v0"]},
+        {"key": "02:제130조", "basis": ["ai_proposed", "prior_gold_v0"]}],
+      "related": [{"key": "02:제88조", "basis": ["ai_proposed"]}, {"key": "02:제93조", "basis": ["ai_proposed"]}]},
+    "MIX": {"status": "평가", "core": [
+        {"key": "02:제92조", "basis": ["source_cited", "prior_gold_v0"], "cited_chunk": "D5-p068-s1-c02"},
+        {"key": "02:제87조", "basis": ["ai_proposed", "prior_gold_v0"]},
+        {"key": "02:제130조", "basis": ["ai_proposed", "prior_gold_v0"]}],
+      "related": [{"key": "02:제94조", "basis": ["ai_proposed"]}, {"key": "02:제88조", "basis": ["ai_proposed"]},
+        {"key": "02:제123조", "basis": ["prior_gold_v0"], "note": "제면기 롤러 문장의 정답 후보. 원문은 합판·종이·천·금속박 롤러기"}]},
+    "GAS": {"status": "평가", "core": [
+        {"key": "02:제232조", "basis": ["ai_proposed", "prior_gold_v0"]}],
+      "related": [{"key": "07:*", "basis": ["prior_gold_v0"], "note": "액화석유가스 사용 매장만 해당. 도시가스사업법은 보유 원문에 없음"},
+        {"key": "02:제299조", "basis": ["prior_gold_v0"]}]},
+    "VENT": {"status": "평가", "core": [
+        {"key": "02:제72조", "basis": ["ai_proposed", "prior_gold_v0"]},
+        {"key": "02:제77조", "basis": ["ai_proposed", "prior_gold_v0"]},
+        {"key": "02:제78조", "basis": ["ai_proposed", "prior_gold_v0"]}],
+      "related": [{"key": "02:제75조", "basis": ["prior_gold_v0"]}, {"key": "02:제76조", "basis": ["prior_gold_v0"]},
+        {"key": "02:제73조", "basis": ["ai_proposed"]}, {"key": "02:제74조", "basis": ["ai_proposed"]}]},
+    "LIFT": {"status": "평가", "core": [
+        {"key": "02:제86조", "basis": ["source_cited", "prior_gold_v0"], "cited_chunk": "D5-p067-s1-c01"},
+        {"key": "02:제133조", "basis": ["source_cited", "prior_gold_v0"], "cited_chunk": "D5-p067-s1-c02"}],
+      "related": [
+        {"key": "02:제132조", "basis": ["source_cited"], "cited_chunk": "D5-p067-s1-c02", "note": "양중기 정의 조문"},
+        {"key": "02:제135조", "basis": ["source_cited"], "cited_chunk": "D5-p067-s1-c02"}]},
+    "DELIVERY": {"status": "평가", "core": [
+        {"key": "02:제673조", "basis": ["source_cited", "prior_gold_v0"], "cited_chunk": "D5-p061-s1-c01"},
+        {"key": "08:제50조", "basis": ["ai_proposed", "prior_gold_v0"], "note": "제3항 이륜자동차 인명보호 장구"}],
+      "related": [{"key": "08:제49조", "basis": ["prior_gold_v0"]}, {"key": "08:제5조", "basis": ["prior_gold_v0"]},
+        {"key": "08:제43조", "basis": ["prior_gold_v0"]}, {"key": "08:제80조", "basis": ["prior_gold_v0"]},
+        {"key": "02:제32조", "basis": ["prior_gold_v0"]}]},
+    "ELECT": {"status": "평가", "core": [
+        {"key": "02:제301조", "basis": ["ai_proposed"]},
+        {"key": "02:제302조", "basis": ["ai_proposed", "prior_gold_v0"]},
+        {"key": "02:제304조", "basis": ["ai_proposed", "prior_gold_v0"]}],
+      "related": [{"key": "02:제313조", "basis": ["ai_proposed"]}, {"key": "02:제314조", "basis": ["ai_proposed"]}]},
+    "FIRE": {"status": "평가", "core": [
+        {"key": "02:제243조", "basis": ["ai_proposed", "prior_gold_v0"]},
+        {"key": "02:제245조", "basis": ["ai_proposed", "prior_gold_v0"]}],
+      "related": [{"key": "02:제232조", "basis": ["prior_gold_v0"]}, {"key": "02:제236조", "basis": ["prior_gold_v0"]},
+        {"key": "02:제241조", "basis": ["prior_gold_v0"]}, {"key": "06:*", "basis": ["prior_gold_v0"]}, {"key": "06-02:*", "basis": ["ai_proposed"]}]},
+    "MSD": {"status": "평가", "core": [
+        {"key": "02:제663조", "basis": ["ai_proposed", "prior_gold_v0"]},
+        {"key": "02:제665조", "basis": ["ai_proposed", "prior_gold_v0"]},
+        {"key": "02:제666조", "basis": ["ai_proposed", "prior_gold_v0"]}],
+      "related": [{"key": "02:제657조", "basis": ["ai_proposed"]}, {"key": "02:제656조", "basis": ["ai_proposed"]},
+        {"key": "02:제664조", "basis": ["ai_proposed"]}, {"key": "02:제385조", "basis": ["prior_gold_v0"]}]},
+    "PSYCH": {"status": "평가", "core": [
+        {"key": "03:제41조", "basis": ["ai_proposed"]}],
+      "related": [{"key": "02:제669조", "basis": ["ai_proposed"]}]},
+    "TRANS": {"status": "미확인", "note": "대차 전도·고온 운반물. gold_v0 Q29도 null. 직접 조문을 원문에서 특정하지 못함."},
+    "KNIFE": {"status": "미확인", "note": "gold_v0 Q09·Q10 null. 칼 베임을 직접 다루는 조문을 특정하지 못함."},
+    "KNIFE_STORAGE": {"status": "미확인", "note": "KNIFE와 같음."},
+    "RICE": {"status": "미확인", "note": "제254조(화상 등의 방지)는 용광로 등 다량 고열물 작업 조문이라 주방 증기·용기 화상에 적용 여부 불명."},
+    "KETTLE": {"status": "미확인", "note": "RICE와 같음. gold_v0 Q24는 제254조를 제안했으나 원문 적용 대상이 다름."},
+    "FRY": {"status": "미확인", "note": "고온유 튐 화상 조문을 특정하지 못함. 제236조는 인화점 250℃ 미만 액체 대상이라 식용유 적용 여부 불명. 화재 측면은 FIRE에서 평가."},
+    "GRIDDLE": {"status": "미확인", "note": "RICE와 같음."},
+    "OVEN": {"status": "미확인", "note": "RICE와 같음."},
+    "SERVE": {"status": "미확인", "note": "RICE와 같음."},
+    "WASH": {"status": "미확인", "note": "뜨거운 물·세정제 노출. 세정제 성분별 관리대상 유해물질 해당 여부 미확인."},
+    "CHEM": {"status": "미확인", "note": "gold_v0 Q20 null. 락스 등 세정제의 관리대상 유해물질 해당 여부 미확인."}
+  }
+}
