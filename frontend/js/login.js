@@ -37,24 +37,19 @@
 
   function codeHint(text, ok) {
     var $h = $('#code-hint');
-    if (!$h.length) $h = $('<p class="hint" id="code-hint" aria-live="polite">').insertAfter('#auth_code');
+    if (!$h.length) $h = $('<p class="hint" id="code-hint" aria-live="polite">').insertAfter($('#auth_code').closest('.code-box'));
     $h.text(text || '').toggleClass('code-ok', !!ok).prop('hidden', !text);
   }
 
+  // UX-016: 재요청 대기(60초) 동안은 버튼 글자를 그대로 두고 잠금, 끝나면 '재요청'
   function countdown(sec) {
     var $b = $('#auth-request');
-    var left = sec;
     clearInterval(timer);
-    $b.prop('disabled', true).text('다시 요청 (' + left + ')');
+    $b.prop('disabled', true);
     timer = setInterval(function () {
-      left -= 1;
-      if (left <= 0) {
-        clearInterval(timer);
-        $b.prop('disabled', false).text('다시 요청');
-      } else {
-        $b.text('다시 요청 (' + left + ')');
-      }
-    }, 1000);
+      clearInterval(timer);
+      $b.prop('disabled', false).text('재요청');
+    }, Math.max(1, sec) * 1000);
   }
 
   function setVerified(on, token) {
@@ -62,7 +57,11 @@
     // 코드 확인 때 받은 일회용 인증 토큰: 메모리에만 두고 가입하기에 함께 보냄 (새로 고침하면 다시 인증)
     state.token = on ? token : null;
     $('#auth_code').prop('readonly', on);
+    codeBox('auth_code', on ? 'done' : 'idle');      // UX-016
+    if (on) { clearInterval(timer); $('#auth-request').prop('disabled', false).text('재요청'); }
     codeHint(on ? '✓ 이메일 인증을 마쳤어요.' : '', on);
+    // UX-001 M: 인증을 마치면 다음에 입력할 비밀번호 칸으로
+    if (on && !$('#signup-pw').val()) $('#signup-pw').trigger('focus');
   }
 
   /** ① 인증 요청 */
@@ -81,7 +80,8 @@
         setVerified(false);
         $('#auth_code').val('');
         countdown(res.resend_after || 60);
-        codeHint('메일로 보낸 6자리 코드를 ' + Math.round((res.expires_in || 300) / 60) + '분 안에 입력해 주세요.');
+        codeBox('auth_code', 'wait', res.expires_in || 300, function () { codeExpired('auth_code', '#auth-request', codeHint, function () { clearInterval(timer); }); });
+        codeHint('메일로 보낸 6자리 코드를 ' + Math.round((res.expires_in || 300) / 60) + '분 안에 입력해 주세요.' + resendNote(res.resend_after || 60));
         SafeT.toast('인증 코드를 보냈어요. 메일을 확인해 주세요.');
         $('#auth_code').trigger('focus');
       })
@@ -103,7 +103,9 @@
       .done(function (res) { setVerified(true, res.verify_token); d.resolve(); })
       .fail(function (err) {
         if (err.code === 'TOO_MANY_TRIES' || err.code === 'CODE_EXPIRED' || err.code === 'CODE_ALREADY_USED') {
-          $('#auth-request').prop('disabled', false).text('다시 요청');
+          clearInterval(timer);
+          codeBox('auth_code', 'idle');
+          $('#auth-request').prop('disabled', false).text('재요청');
         }
         showError(err);
         d.reject(err);
@@ -168,7 +170,7 @@
               setVerified(false);
               $('#auth_code').val('');
               clearInterval(timer);
-              $('#auth-request').prop('disabled', false).text('다시 요청');
+              $('#auth-request').prop('disabled', false).text('재요청');
             }
             showError(err);
           });
@@ -225,6 +227,7 @@
         // 다른 사용자가 남긴 돌아갈 화면·편집 복구 정보는 지움 (같은 탭에서 계정을 바꾼 경우)
         SafeT.auth.forgetOthers(res.email);
         SafeT.auth.save(res);
+        rememberEmail($('#login-remember').prop('checked') ? $.trim($('#login-email').val()) : '');   // UX-001 J
         // 만료·로그인 필요로 왔으면 원래 화면(같은 사용자만), 아니면 사업장 유무에 따라 (설계서 07쪽)
         var back = SafeT.auth.takeReturn(res.email);
         window.location.href = back || (res.has_workplace ? 'home.html' : 'workplace.html?first=1#v-new');
@@ -263,27 +266,28 @@
 
     function resetHint(text, ok) {
       var $h = $('#reset-hint');
-      if (!$h.length) $h = $('<p class="hint" id="reset-hint" aria-live="polite">').insertAfter('#reset-code');
+      if (!$h.length) $h = $('<p class="hint" id="reset-hint" aria-live="polite">').insertAfter($('#reset-code').closest('.code-box'));
       $h.text(text || '').toggleClass('code-ok', !!ok).prop('hidden', !text);
     }
 
-    function resetCountdown(sec) {
+    function resetCountdown(sec) {              // UX-016: 회원가입과 같은 방식
       var $b = $('#reset-request');
-      var left = sec;
       clearInterval(rs.timer);
-      $b.prop('disabled', true).text('다시 요청 (' + left + ')');
+      $b.prop('disabled', true);
       rs.timer = setInterval(function () {
-        left -= 1;
-        if (left <= 0) { clearInterval(rs.timer); $b.prop('disabled', false).text('다시 요청'); }
-        else $b.text('다시 요청 (' + left + ')');
-      }, 1000);
+        clearInterval(rs.timer);
+        $b.prop('disabled', false).text('재요청');
+      }, Math.max(1, sec) * 1000);
     }
 
     function resetVerified(on, token) {
       rs.verified = on ? resetEmail() : null;
       rs.token = on ? token : null;          // 일회용 인증 토큰 (메모리에만)
       $('#reset-code').prop('readonly', on);
+      codeBox('reset-code', on ? 'done' : 'idle');      // UX-016
+      if (on) { clearInterval(rs.timer); $('#reset-request').prop('disabled', false).text('재요청'); }
       resetHint(on ? '✓ 이메일 인증을 마쳤어요. 새 비밀번호를 입력해 주세요.' : '', on);
+      if (on && !$('#reset-pw').val()) $('#reset-pw').trigger('focus');   // UX-001 M
     }
 
     $('#v-reset').on('safet:show', function () {
@@ -305,8 +309,9 @@
           resetVerified(false);
           $('#reset-code').val('');
           resetCountdown(res.resend_after || 60);
+          codeBox('reset-code', 'wait', res.expires_in || 300, function () { codeExpired('reset-code', '#reset-request', resetHint, function () { clearInterval(rs.timer); }); });
           // 가입 여부와 관계없이 같은 안내
-          resetHint('가입된 이메일이면 6자리 코드를 보냈어요. ' + Math.round((res.expires_in || 300) / 60) + '분 안에 입력해 주세요.');
+          resetHint('가입된 이메일이면 6자리 코드를 보냈어요. ' + Math.round((res.expires_in || 300) / 60) + '분 안에 입력해 주세요.' + resendNote(res.resend_after || 60));
           $('#reset-code').trigger('focus');
         })
         .fail(function (err) {
@@ -325,7 +330,9 @@
         .done(function (res) { resetVerified(true, res.verify_token); d.resolve(); })
         .fail(function (err) {
           if (err.code === 'TOO_MANY_TRIES' || err.code === 'CODE_EXPIRED' || err.code === 'CODE_ALREADY_USED') {
-            $('#reset-request').prop('disabled', false).text('다시 요청');
+            clearInterval(rs.timer);
+            codeBox('reset-code', 'idle');
+            $('#reset-request').prop('disabled', false).text('재요청');
           }
           resetError(err);
           d.reject(err);
@@ -377,7 +384,7 @@
                 resetVerified(false);
                 $('#reset-code').val('');
                 clearInterval(rs.timer);
-                $('#reset-request').prop('disabled', false).text('다시 요청');
+                $('#reset-request').prop('disabled', false).text('재요청');
               }
               resetError(err);
             });
@@ -401,5 +408,206 @@
           SafeT.loading(false);
         });
     });
+
+    /* =========================================================
+       UX-001 (2026-11-21) 화면 개선
+       F 스플래시 → 시작 화면 · E 비밀번호 보기 · G·I 비밀번호 조건
+       J 아이디(이메일) 저장 · M 입력할 칸으로 자동 이동·강조
+       기존 API 요청·주소·이벤트는 그대로 둡니다.
+       ========================================================= */
+
+    /* J 아이디 저장: 이 기기 브라우저(localStorage)에만. 비밀번호는 저장하지 않음 */
+    var saved = '';
+    try { saved = window.localStorage.getItem(REMEMBER_KEY) || ''; } catch (err) { saved = ''; }
+    if (saved) {
+      if (!$('#login-email').val()) $('#login-email').val(saved);
+      $('#login-remember').prop('checked', true);
+    }
+
+    /* M 화면이 열리면 입력할 칸으로 커서 이동 (비어 있는 첫 칸) */
+    function focusFirstEmpty($view) {
+      var el = $view.find('input.input').filter(function () {
+        return !this.readOnly && !this.disabled && $(this).is(':visible') && !$.trim(this.value);
+      }).get(0);
+      if (el) el.focus();
+    }
+    $('#v-login, #v-signup, #v-reset').on('safet:show', function () { focusFirstEmpty($(this)); });
+
+    /* M 다음 할 일 강조: 이메일 형식이 맞고 아직 인증 요청 전이면 '인증 요청' 버튼 강조 */
+    function emphasizeRequest(inputSel, btnSel, requested) {
+      var v = $.trim($(inputSel).val()).toLowerCase();
+      $(btnSel).toggleClass('btn--emphasis', EMAIL_RE.test(v) && requested() !== v && !$(btnSel).prop('disabled'));
+    }
+    $('#signup-email').on('input', function () { emphasizeRequest('#signup-email', '#auth-request', function () { return state.requested; }); });
+    $('#reset-email').on('input', function () { emphasizeRequest('#reset-email', '#reset-request', function () { return rs.requested; }); });
+    $('#auth-request, #reset-request').on('click', function () { $(this).removeClass('btn--emphasis'); });
+
+    /* E 비밀번호 보기/숨기기 · UX-016: 글자 대신 눈 아이콘(보이는 중이면 눈 감은 아이콘), 이름은 화면 낭독기용 */
+    $(document).on('click', '[data-pw-toggle]', function () {
+      var input = document.getElementById($(this).data('pw-toggle'));
+      if (!input) return;
+      var show = input.type === 'password';
+      input.type = show ? 'text' : 'password';
+      $(this).attr({ 'aria-pressed': show ? 'true' : 'false', 'aria-label': show ? '비밀번호 숨기기' : '비밀번호 보기' });
+      if (SafeT.icon) $(this).html(SafeT.icon(show ? 'eyeOff' : 'eye'));
+      else $(this).text(show ? '숨기기' : '보기');
+      input.focus();
+    });
+
+    /* UX-016 인증 코드 '확인' 버튼: 6자리를 다 넣으면 자동 확인되는 기존 방식은 그대로 두고, 직접 누를 수도 있게 */
+    function confirmCode(codeSel, emailSel, requested, emailVal, verify) {
+      var $c = $(codeSel);
+      if (requested() !== emailVal()) { SafeT.fieldError($(emailSel), '먼저 인증 요청을 눌러 주세요.'); $(emailSel).trigger('focus'); return; }
+      if ($c.val().length !== 6) { SafeT.fieldError($c, '메일로 받은 6자리 코드를 입력해 주세요.'); $c.trigger('focus'); return; }
+      verify();
+    }
+    $('[data-code-box="auth_code"] .code-box__btn').on('click', function () {
+      confirmCode('#auth_code', '#signup-email', function () { return state.requested; }, email, verifyCode);
+    });
+    $('[data-code-box="reset-code"] .code-box__btn').on('click', function () {
+      confirmCode('#reset-code', '#reset-email', function () { return rs.requested; }, resetEmail, verifyReset);
+    });
+
+    /* UX-016 개인정보 수집·이용 '보기 >' → 안내 창 (체크는 바뀌지 않음) */
+    $('[data-open-terms]').on('click', function (e) { e.preventDefault(); SafeT.openModal('terms'); });
+
+    /* G·I 비밀번호 조건 (회원가입·재설정 공통): 대·소문자, 숫자, 특수문자, 8자 이상
+       서버도 같은 규칙으로 검사합니다 (backend/schemas/auth.py password_rule_ok). */
+    function updateRules(input) {
+      var r = pwRules(input.value);
+      $('[data-pw-rules="' + input.id + '"] li').each(function () {
+        var ok = !!r[$(this).data('rule')];
+        $(this).toggleClass('is-ok', ok).attr('aria-label', $(this).text() + (ok ? ' 충족' : ' 미충족'));
+      });
+    }
+    $('#signup-pw, #reset-pw').on('input', function () { updateRules(this); }).each(function () { updateRules(this); });
+    $('#signup-form, #reset-form').on('safet:validate', function (e) {
+      var $pw = $(this).find('#signup-pw, #reset-pw');
+      if (!$pw.val() || $pw.hasClass('is-invalid')) return;     // 빈 칸은 공통 검사가 안내
+      if (!pwOk($pw.val())) {
+        e.preventDefault();
+        SafeT.fieldError($pw, PW_RULE_MSG);
+      }
+    });
+
+    /* F 스플래시 → 시작 화면
+       - 주소만으로 들어오면(해시·안내 없음) 시작 화면(#v-start). 스플래시는 탭마다 한 번
+       - ?required=1 / ?expired=1 / ?logout=1 또는 #v-login 등 해시가 있으면 기존대로 */
+    /* K 게스트 QR 자동 로그인 (시연용): login.html#g=<키>
+       키는 주소의 # 뒤(서버·프록시 기록에 남지 않음)에 두고, 읽자마자 주소에서 지웁니다.
+       POST /auth/guest → 일반 로그인과 같은 방식으로 저장·이동. 서버에 SAFET_GUEST_KEY 가 없으면 안내만 */
+    // 이미 로그인 화면이 열린 탭에서 QR 주소로 바뀌면(# 만 바뀜) 새로 읽어 처리
+    $(window).on('hashchange', function () {
+      if (/^#g=/.test(window.location.hash)) window.location.reload();
+    });
+    var guest = /^#g=([A-Za-z0-9_\-]{24,128})$/.exec(window.location.hash);
+    if (guest) {
+      if (window.history && history.replaceState) history.replaceState(null, '', window.location.pathname + '#v-login');
+      SafeT.showView('v-login');
+      $('#auth-notice').attr('class', 'notice').text('게스트(시연) 계정으로 로그인하는 중이에요…').prop('hidden', false);
+      SafeT.loading(true);
+      SafeT.api.post('/auth/guest', { key: guest[1] }).done(function (res) {
+        SafeT.auth.forgetOthers(res.email);
+        SafeT.auth.save(res);
+        window.location.href = res.has_workplace ? 'home.html' : 'workplace.html?first=1#v-new';
+      }).fail(function (err) {
+        SafeT.loading(false);
+        $('#auth-notice').attr('class', 'notice notice--danger')
+          .text((err && err.message) || '게스트 로그인에 실패했어요. 이메일로 로그인해 주세요.').prop('hidden', false);
+        focusFirstEmpty($('#v-login'));
+      });
+      return;
+    }
+
+    // UX-016 후속(사용자 결정): 주소만으로 들어오면 시작 화면(#v-start) → [로그인]을 누르면 새 로그인 화면
+    var plainEntry = !window.location.hash && !window.location.search;
+    if (plainEntry) {
+      SafeT.showView('v-start');
+    } else if (SafeT.currentView().is('#v-login, #v-signup, #v-reset')) {
+      // 주소의 #view 로 바로 열린 경우: 공통 화면 전환이 이 파일보다 먼저 실행되므로 여기서 한 번 더
+      focusFirstEmpty(SafeT.currentView());
+    }
+    var $splash = $('#splash');
+    if (document.documentElement.classList.contains('show-splash')) {
+      try { window.sessionStorage.setItem('safet.splashShown', '1'); } catch (err) { /* 무시 */ }
+      var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var closeSplash = function () {
+        if (!document.documentElement.classList.contains('show-splash')) return;
+        $splash.addClass('is-leaving');
+        setTimeout(function () { document.documentElement.classList.remove('show-splash'); }, reduce ? 0 : 350);
+      };
+      setTimeout(closeSplash, reduce ? 300 : 1200);
+      $splash.on('click', closeSplash);      // 눌러서 건너뛰기
+    }
   });
+
+  var REMEMBER_KEY = 'safet.rememberEmail';
+  var PW_RULE_MSG = '대문자·소문자·숫자·특수문자를 모두 넣어 8자 이상으로 만들어 주세요.';
+
+  function rememberEmail(v) {
+    try {
+      if (v) window.localStorage.setItem(REMEMBER_KEY, v);
+      else window.localStorage.removeItem(REMEMBER_KEY);
+    } catch (err) { /* 저장소를 못 써도 로그인은 진행 */ }
+  }
+
+  function pwRules(v) {
+    v = v || '';
+    return {
+      len: v.length >= 8,
+      upper: /[A-Z]/.test(v),
+      lower: /[a-z]/.test(v),
+      digit: /[0-9]/.test(v),
+      special: /[^A-Za-z0-9\s]/.test(v)
+    };
+  }
+
+  function pwOk(v) {
+    var r = pwRules(v);
+    return r.len && r.upper && r.lower && r.digit && r.special;
+  }
+
+  /* =========================================================
+     UX-016 (2026-11-22) 인증 코드 칸 상태
+     idle(요청 전) · wait(요청 후: 남은 시간 + 확인) · expired(시간 끝: 00:00) · done(✓ 인증 완료)
+     남은 시간은 서버가 알려 준 코드 유효 시간(expires_in, 기본 5분)으로 셉니다.
+     ========================================================= */
+  var codeTimers = {};
+
+  function two(n) { return (n < 10 ? '0' : '') + n; }
+
+  function codeBox(id, mode, sec, onEnd) {
+    var $box = $('[data-code-box="' + id + '"]');
+    if (!$box.length) return;
+    clearInterval(codeTimers[id]);
+    $box.attr('data-state', mode);
+    $box.find('.code-box__timer').prop('hidden', mode !== 'wait' && mode !== 'expired');
+    $box.find('.code-box__btn').prop('hidden', mode !== 'wait');
+    $box.find('.code-box__ok').prop('hidden', mode !== 'done');
+    if (mode !== 'wait') return;
+    var end = Date.now() + Math.max(1, sec) * 1000;
+    var $t = $box.find('.code-box__time');
+    var tick = function () {
+      var left = Math.max(0, Math.ceil((end - Date.now()) / 1000));
+      $t.text(two(Math.floor(left / 60)) + ':' + two(left % 60));
+      if (left <= 0) {
+        clearInterval(codeTimers[id]);
+        $box.attr('data-state', 'expired').find('.code-box__btn').prop('hidden', true);
+        if (onEnd) onEnd();
+      }
+    };
+    tick();
+    codeTimers[id] = setInterval(tick, 1000);
+  }
+
+  /** 코드 유효 시간이 끝나면: 다시 요청할 수 있게 하고 안내 */
+  function codeExpired(id, btnSel, hint, stopResendWait) {
+    stopResendWait();
+    $(btnSel).prop('disabled', false).text('재요청');
+    hint('인증 시간이 지났어요. 재요청을 눌러 새 코드를 받아 주세요.');
+  }
+
+  function resendNote(sec) {
+    return ' 메일이 오지 않으면 ' + (sec >= 60 ? Math.round(sec / 60) + '분' : sec + '초') + ' 뒤 재요청할 수 있어요.';
+  }
 })(jQuery, window.SafeT);

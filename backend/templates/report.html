@@ -61,12 +61,13 @@
 
 <!-- ===== 1쪽 : 개요 ===== -->
 <table class="head"><tr>
-  <td style="width:80%">
+  <td style="width:100%">
     <div class="brand">Safe-T</div>
     <h1>위험성평가 결과서</h1>
     <div class="muted">{{ r.workplace }} · {{ r.eval_nm }}</div>
   </td>
-  <td style="width:20%"><div class="stamp{% if r.draft %} stamp-draft{% endif %}">{{ r.status_nm }}</div></td>
+  {# UX-007 (화면수정요청 30): 받는 사람에게 필요 없는 상태 표시(확정·서명 완료 등) 도장 제거.
+     서명 여부는 평가 개요의 확정일·서명 완료일로, 미확정본은 아래 경고와 쪽 아래 문구로 표시 #}
 </tr></table>
 <div class="rule"></div>
 
@@ -86,7 +87,7 @@
       <tr><th>서명 완료일</th><td>{{ r.sign_end_dt or "—" }}</td></tr>
       <tr><th>참여 근로자</th><td>{% if r.members %}{{ r.members | join(", ") }} ({{ r.members | length }}명){% else %}—{% endif %}</td></tr>
       <tr><th>평가 대상 기기</th><td>{{ r.machines | join(", ") if r.machines else "—" }}</td></tr>
-      <tr><th>판정 방식</th><td>{{ r.method }}</td></tr>
+      {# UX-007 (화면수정요청 31): '판정 방식'(내부 시스템 이름) 줄 삭제 #}
     </table>
   </td>
   <td style="width:51%; vertical-align:top">

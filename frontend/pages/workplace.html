@@ -6,8 +6,9 @@
   <title>사업장 관리 · Safe-T</title>
   <link rel="stylesheet" href="../css/common.css">
   <link rel="stylesheet" href="../css/workplace.css">
+  <link rel="stylesheet" href="../css/ux-guide.css">
 </head>
-<body data-auth-required>
+<body data-auth-required data-ux-guide>
   <!-- workplace.html · 화면설계서 v3.19 통합본 (08~09쪽)
        화면(view) 목록 (처음 화면 = .is-active)
        - #v-list : B01 사업장 관리
@@ -16,6 +17,8 @@
        데이터는 백엔드 API 에서 불러옵니다 (workplace.js · backend/routers/workplaces.py). -->
   <div class="app">
     <header class="topbar">
+      <!-- UX-016: 등록·수정 화면에서는 ☰ 대신 ← (목록으로) + 가운데 Safe-T (workplace.js 가 body.wp-sub 로 전환) -->
+      <a class="wp-back" id="wp-back" href="#v-list" aria-label="사업장 목록으로 돌아가기" hidden><i data-ico="arrowLeft"></i></a>
       <a class="logo" href="home.html">Safe-T</a>
       <details class="menu">
         <summary aria-label="메뉴">≡</summary>
@@ -35,7 +38,7 @@
         <div class="page">
           <div class="stack">
             <h1 class="page-title">사업장 관리</h1>
-            <p class="page-desc">더보기를 누르면 등록한 보유 기기를 볼 수 있어요.</p>
+            <p class="page-desc">평가표를 만들 매장과 매장에 있는 기기를 관리해요.</p>
           </div>
 
           <p class="notice notice--danger" id="wp-error" hidden>
@@ -43,12 +46,13 @@
             <button class="btn btn--sm" id="wp-retry" type="button">다시 불러오기</button>
           </p>
           <ul class="card-list" id="wp-list" aria-live="polite"></ul>
+          <p class="wp-summary" id="wp-summary" hidden></p>
           <div class="empty" id="wp-empty" hidden>
             <p>등록된 사업장이 없어요. 새 사업장을 등록해 주세요.</p>
           </div>
         </div>
         <div class="bottom-bar">
-          <a class="btn btn--primary" href="#v-new">새 사업장 등록</a>
+          <a class="btn btn--primary" href="#v-new"><i data-ico="plus"></i>새 사업장 등록</a>
         </div>
       </section>
 
@@ -59,6 +63,14 @@
            - 기기를 하나도 체크하지 않아도 저장 가능 · 저장 → 내 평가표(H01) -->
       <section class="view workplace" id="v-new" aria-label="B02 새 사업장 등록">
         <div class="page">
+          <!-- 첫 등록 안내 · UX-003 (workplace.html?first=1 일 때만, workplace.js) -->
+          <div class="wp-first" id="wp-first" hidden>
+            <ol class="wp-steps" aria-label="시작 단계">
+              <li class="is-current" aria-current="step"><span class="wp-steps__num" aria-hidden="true">1</span>매장 등록</li>
+              <li><span class="wp-steps__num" aria-hidden="true">2</span>첫 평가표 작성</li>
+            </ol>
+            <p class="wp-first__text">평가표를 만들려면 매장 정보가 필요해요. 매장 이름과 업종만 넣으면 바로 시작할 수 있어요.</p>
+          </div>
           <h1 class="page-title">새 사업장 등록</h1>
 
           <form id="new-form" class="stack" action="home.html" method="get" novalidate>
@@ -67,7 +79,7 @@
               <input class="input" id="new-workplace" name="workplace" maxlength="50" placeholder="예: 온기치킨 성수점" required>
             </div>
 
-            <fieldset class="field">
+            <fieldset class="field" data-ux-required>
               <legend class="label">업종<span class="req" aria-hidden="true">*</span></legend>
               <div class="biz-options" id="new-biz"></div>
               <p class="hint" id="new-biz-msg" hidden></p>
@@ -75,24 +87,31 @@
 
             <fieldset class="field">
               <legend class="label">보유 기기 <span class="muted small js-biz-label"></span></legend>
+              <!-- UX-016: 업종을 고르기 전에는 안내 상자만, 고른 뒤에는 추천 기기 칩 + 직접 추가 (#v-new.wp-no-biz) -->
+              <div class="wp-equip-guide">
+                <i data-ico="machine"></i>
+                <p>먼저 위에서 업종을 선택하면<br>추천 기기 목록이 나타나요.</p>
+              </div>
+              <p class="wp-count js-machine-count" aria-live="polite" hidden></p>
               <p class="hint js-machine-hint">업종을 고르면 기기 목록이 나와요. 매장에 있는 기기만 체크해 주세요.</p>
               <p class="hint js-machine-loading" hidden>기기 목록을 불러오는 중이에요…</p>
               <p class="notice notice--danger small js-machine-error" hidden>
                 기기 목록을 불러오지 못했어요. 다시 불러오거나, 아래에서 직접 추가해 주세요.
                 <button class="btn btn--sm js-machine-retry" type="button">다시 불러오기</button>
               </p>
-              <div class="machine-scroll">
-                <div class="machine-grid"></div>
+              <div class="wp-equip-box">
+                <div class="machine-scroll">
+                  <div class="machine-grid"></div>
+                </div>
+                <div class="field wp-equip-add">
+                  <label class="label" for="new-machine-add">목록에 없는 기기 직접 추가</label>
+                  <div class="input-row">
+                    <input class="input js-machine-input" id="new-machine-add" maxlength="50" placeholder="예: 반죽기" data-enter="#new-machine-add-btn">
+                    <button class="btn js-machine-add" id="new-machine-add-btn" type="button"><i data-ico="plus"></i>추가</button>
+                  </div>
+                </div>
               </div>
             </fieldset>
-
-            <div class="field">
-              <label class="label" for="new-machine-add">목록에 없는 기기</label>
-              <div class="input-row">
-                <input class="input js-machine-input" id="new-machine-add" maxlength="50" placeholder="예: 반죽기" data-enter="#new-machine-add-btn">
-                <button class="btn js-machine-add" id="new-machine-add-btn" type="button">추가</button>
-              </div>
-            </div>
           </form>
         </div>
         <div class="bottom-bar">
@@ -116,14 +135,14 @@
 
             <div class="field">
               <label class="label" for="edit-biz">업종</label>
-              <div class="input-row">
-                <input class="input" id="edit-biz" readonly aria-describedby="edit-biz-lock">
-                <span class="tag" id="edit-biz-lock">변경 불가</span>
-              </div>
+              <!-- UX-003: 입력칸처럼 보이지 않게 일반 글자로 표시 (id·값 설정은 그대로) -->
+              <input class="wp-fixed" id="edit-biz" readonly tabindex="-1" aria-describedby="edit-biz-lock">
+              <p class="hint" id="edit-biz-lock">업종은 바꿀 수 없어요. 다른 업종이면 새 사업장으로 등록해 주세요.</p>
             </div>
 
             <fieldset class="field">
               <legend class="label">보유 기기 <span class="muted small js-biz-label"></span></legend>
+              <p class="wp-count js-machine-count" aria-live="polite" hidden></p>
               <!-- 수정 화면: 기기 목록을 불러오는 중이거나 실패하면 저장을 막음
                    (빈 목록으로 저장하면 기존 보유 기기가 지워지므로 · 2026-11-16 보완) -->
               <p class="hint js-machine-loading" hidden>기기 목록을 불러오는 중이에요…</p>
@@ -131,18 +150,19 @@
                 기기 목록을 불러오지 못했어요. 다시 불러온 뒤 저장할 수 있어요.
                 <button class="btn btn--sm js-machine-retry" type="button">다시 불러오기</button>
               </p>
-              <div class="machine-scroll">
-                <div class="machine-grid"></div>
+              <div class="wp-equip-box">
+                <div class="machine-scroll">
+                  <div class="machine-grid"></div>
+                </div>
+                <div class="field wp-equip-add">
+                  <label class="label" for="edit-machine-add">목록에 없는 기기 직접 추가</label>
+                  <div class="input-row">
+                    <input class="input js-machine-input" id="edit-machine-add" maxlength="50" placeholder="예: 반죽기" data-enter="#edit-machine-add-btn">
+                    <button class="btn js-machine-add" id="edit-machine-add-btn" type="button"><i data-ico="plus"></i>추가</button>
+                  </div>
+                </div>
               </div>
             </fieldset>
-
-            <div class="field">
-              <label class="label" for="edit-machine-add">목록에 없는 기기</label>
-              <div class="input-row">
-                <input class="input js-machine-input" id="edit-machine-add" maxlength="50" placeholder="예: 반죽기" data-enter="#edit-machine-add-btn">
-                <button class="btn js-machine-add" id="edit-machine-add-btn" type="button">추가</button>
-              </div>
-            </div>
 
             <p class="notice notice--muted small">저장한 기기 목록은 다음에 만드는 평가표부터 쓰여요. 이미 작성한 평가표는 바뀌지 않아요.</p>
           </form>
@@ -159,7 +179,9 @@
 
   <script src="../js/vendor/jquery-3.7.1.min.js"></script>
   <script src="../js/common.js"></script>
+  <script src="../js/ui-icons.js"></script>
   <script src="../js/api.js"></script>
   <script src="../js/workplace.js"></script>
+  <script src="../js/ux-guide.js"></script>
 </body>
 </html>

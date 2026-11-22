@@ -84,12 +84,26 @@ def insert_items(db,no,items,email,offset=0):
         if it.get('catalog'): catalog.initialize(db,result.lastrowid,it['catalog'],it.get('ai_analysis'),it.get('risk_law'))
         if it.get('authoring'): authoring_rag.initialize(db,result.lastrowid,it['authoring'])
 
+def added_machines(db,w,body):
+    """UX-017: 03 기기에서 이번 평가에만 추가한 기기. 업종 기기 코드는 검사하고, 같은 이름은 업종 기기로 합친다.
+    사업장에 이미 등록된 기기(코드 또는 이름이 같음)는 빼서 중복 검색·저장을 막는다. 사업장 정보는 바꾸지 않는다."""
+    if not (body.add_machine_codes or body.add_custom_machines): return []
+    have={m['machine_code'] for m in w['machines'] if m.get('machine_code')}
+    names={(m['machine_nm'] or '').strip().lower() for m in w['machines']}
+    out=[]
+    for code,name in workplaces._resolve_machines(db,w['biz_code'],body.add_machine_codes,body.add_custom_machines):
+        if (code and code in have) or name.strip().lower() in names: continue
+        have.add(code); names.add(name.strip().lower())
+        out.append({'machine_code':code,'machine_nm':name,'custom':code is None})
+    return out
+
 def create(db,email,body):
     key=str(body.request_key)
     old=rows(db,'SELECT eval_no FROM eval_mst WHERE email=:e AND request_key=:k',e=email,k=key)
     if old: return detail(db,email,old[0]['eval_no'])
     w=workplaces.get_workplace(db,email,body.work_no)
-    context=body.model_dump(); context['machines']=w['machines']
+    extra=added_machines(db,w,body)
+    context=body.model_dump(exclude={'add_machine_codes','add_custom_machines'}); context['machines']=w['machines']+extra
     use_catalog=catalog.enabled()
     use_authoring=authoring_rag.enabled()
     # 신규 평가표는 ACTIVE_POLICY(FOOD-3LEVEL-1.2). input_based v1 계약은 CATALOG-MVP-1.1에 고정되어 있어 1.1 카탈로그를 쓴다.
@@ -124,7 +138,7 @@ def create(db,email,body):
             execute(db, 'UPDATE eval_mst SET authoring_snapshot=:s WHERE eval_no=:n',
                     s=json.dumps(dict(rls_pending=pending), ensure_ascii=False), n=no)
         for i,name in enumerate(body.members): execute(db,'INSERT INTO eval_member (eval_no,member_nm,sort) VALUES (:n,:name,:i)',n=no,name=name,i=i)
-        for machine in w['machines']: execute(db,"INSERT INTO eval_machine (eval_no,machine_code,machine_nm,ai_yn,check_yn) VALUES (:n,:c,:name,'N','Y')",n=no,c=machine['machine_code'],name=machine['machine_nm'])
+        for machine in w['machines']+extra: execute(db,"INSERT INTO eval_machine (eval_no,machine_code,machine_nm,ai_yn,check_yn) VALUES (:n,:c,:name,'N','Y')",n=no,c=machine['machine_code'],name=machine['machine_nm'])
         for kind,content in (('T',body.text),('V',body.voice_text)):
             if content: execute(db,'INSERT INTO eval_file (eval_no,file_type,file_text) VALUES (:n,:k,:t)',n=no,k=kind,t=content)
         for photo in body.photos: execute(db,"INSERT INTO eval_file (eval_no,file_type,ori_file_nm,place_nm,file_text) VALUES (:n,'P',:name,:place,:data)",n=no,name=photo.name,place=photo.place,data=photo.data)
@@ -252,6 +266,25 @@ def add_risk(db,email,no,body):
             raise AuthError(409,'PROVIDER_CHANGED','평가표 생성 기준이 변경됐어요.')
         insert_items(db,no,items,email,len(data['items']))
         execute(db,'UPDATE eval_mst SET revision=revision+1,upt_dt=:t WHERE eval_no=:n',n=no,t=now())
+        db.commit(); return detail(db,email,no)
+    except Exception:
+        db.rollback(); raise
+
+
+def remove_risk(db,email,no,dtl_no,body):
+    """위험 항목 1개 삭제 (UX-005 · 화면수정요청 15).
+    작성 중(W)·revision 일치·이 평가표의 항목일 때만. 입력 기반(input_based) 평가표는 분석 결과를 유지하므로 막는다.
+    항목의 조치(eval_action)·항목 첨부(eval_file.eval_dtl_no)를 함께 지우고 revision 을 올린다. 휴지통 보관 없음."""
+    try:
+        m=owned(db,email,no,True); writable(m,body.revision)
+        if m['generation_source']==authoring_rag.SOURCE:
+            raise AuthError(409,'AUTHORING_REMOVE_UNSUPPORTED','이 평가표의 위험 항목은 저장된 입력 분석 결과로 유지합니다.')
+        hit=rows(db,'SELECT eval_dtl_no FROM eval_dtl WHERE eval_dtl_no=:d AND eval_no=:n',d=dtl_no,n=no)
+        if not hit: raise AuthError(404,'ITEM_NOT_FOUND','위험 항목을 찾을 수 없어요. 새로 불러와 주세요.')
+        execute(db,'DELETE FROM eval_action WHERE eval_dtl_no=:d',d=dtl_no)
+        execute(db,'DELETE FROM eval_file WHERE eval_dtl_no=:d',d=dtl_no)
+        execute(db,'DELETE FROM eval_dtl WHERE eval_dtl_no=:d',d=dtl_no)
+        execute(db,'UPDATE eval_mst SET revision=revision+1,upt_dt=:t,upt_nm=:e WHERE eval_no=:n',t=now(),e=email,n=no)
         db.commit(); return detail(db,email,no)
     except Exception:
         db.rollback(); raise

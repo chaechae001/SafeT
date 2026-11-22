@@ -13,7 +13,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 import database  # noqa: F401  (.env 를 먼저 읽음)
-from routers import auth, evaluations, health, workplaces, assessment, report, sign, share, rag, trash
+from routers import auth, evaluations, health, workplaces, assessment, report, sign, share, rag, trash, dev_outbox
 from services.auth import AuthError
 
 app = FastAPI(title="Safe-T API", version="0.1.0")
@@ -42,6 +42,7 @@ app.include_router(sign.router)
 app.include_router(share.router)
 app.include_router(rag.router)
 app.include_router(trash.router)
+app.include_router(dev_outbox.router)   # 개발용 메일 보관함 (SAFET_DEV_MAIL_OUTBOX 설정 + 이 PC 요청만)
 
 
 @app.exception_handler(AuthError)

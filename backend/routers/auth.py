@@ -4,6 +4,7 @@ POST /auth/signup/code           인증 요청 (메일 발송)
 POST /auth/signup/code/verify    인증 코드 확인
 POST /auth/signup                가입하기
 POST /auth/login                 로그인 → 토큰(JWT) + 사업장 유무
+POST /auth/guest                 게스트 로그인 (시연용 QR, SAFET_GUEST_KEY 설정 시만)
 GET  /auth/me                    현재 로그인한 사용자 (헤더 Authorization: Bearer <토큰>)
 POST /auth/password/code         비밀번호 재설정 인증 요청 (가입 여부와 관계없이 같은 응답)
 POST /auth/password/code/verify  재설정 인증 코드 확인
@@ -18,7 +19,7 @@ from database import get_db
 from functools import partial
 
 from schemas.auth import (
-    CodeRequest, CodeSent, CodeVerified, CodeVerify, LoginRequest, LoginResult,
+    CodeRequest, CodeSent, CodeVerified, CodeVerify, GuestLoginRequest, LoginRequest, LoginResult,
     PasswordReset, PasswordResetDone, SignupRequest, SignupResult, UserInfo,
 )
 from services import auth as service
@@ -64,6 +65,11 @@ def signup(body: SignupRequest, db: Session = Depends(get_db)):
 @router.post("/login", response_model=LoginResult, summary="로그인")
 def login(body: LoginRequest, db: Session = Depends(get_db)):
     return service.login(db, body.email, body.password)
+
+
+@router.post("/guest", response_model=LoginResult, summary="게스트 로그인 (시연용 QR · SAFET_GUEST_KEY 설정 시)")
+def guest_login(body: GuestLoginRequest, db: Session = Depends(get_db)):
+    return service.guest_login(db, body.key)
 
 
 @router.post("/password/code", response_model=CodeSent, summary="비밀번호 재설정 인증 요청")

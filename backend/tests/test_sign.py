@@ -100,3 +100,26 @@ def test_남의_평가표는_404(client, setup):
     finally:
         with engine.begin() as c:
             purge_user_rows(c, other)
+
+
+def test_서명할_사람_추가_후_서명(client, setup):
+    """UX-016: 참여자가 없거나 빠졌으면 서명 화면에서 이름을 추가하고 서명"""
+    url = f"/evals/{setup['ids']['확정']}/signs/members"
+    r = client.post(url, json={"member_nm": "작성자 본인"}, headers=setup["auth"])
+    body = r.json()
+    assert r.status_code == 201 and body["member_count"] == 3 and body["members"][-1]["member_nm"] == "작성자 본인"
+    assert client.post(url, json={"member_nm": "작성자 본인"}, headers=setup["auth"]).json()["detail"]["code"] == "MEMBER_EXISTS"
+    assert client.post(url, json={"member_nm": ""}, headers=setup["auth"]).status_code == 422
+    new_no = body["members"][-1]["member_no"]
+    r = client.post(f"/evals/{setup['ids']['확정']}/signs", headers=setup["auth"],
+                    json={"member_no": new_no, "confirm": True, "sign_img": PNG})
+    assert r.status_code == 201 and r.json()["signed_count"] == 1
+
+
+def test_서명할_사람_추가_제한(client, setup):
+    no = setup["ids"]["작성중"]
+    r = client.post(f"/evals/{no}/signs/members", json={"member_nm": "가"}, headers=setup["auth"])
+    assert r.json()["detail"]["code"] == "EVAL_NOT_CONFIRMED"                       # 작성 중은 불가
+    sign(client, setup, "이민호"); sign(client, setup, "박지수")                     # 전원 서명 → 마감
+    r = client.post(f"/evals/{setup['ids']['확정']}/signs/members", json={"member_nm": "나"}, headers=setup["auth"])
+    assert r.status_code == 409 and r.json()["detail"]["code"] == "SIGN_CLOSED"

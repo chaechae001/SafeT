@@ -8,6 +8,13 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator
 MAX_SIGN_URL = 300_000
 
 
+class AddSigner(BaseModel):
+    """UX-016: 참여자가 없거나 빠진 경우 서명 화면에서 서명할 사람(이름)을 추가"""
+    model_config = ConfigDict(extra='forbid', str_strip_whitespace=True)
+
+    member_nm: str = Field(min_length=1, max_length=50)
+
+
 class SaveSign(BaseModel):
     model_config = ConfigDict(extra='forbid', str_strip_whitespace=True)
 

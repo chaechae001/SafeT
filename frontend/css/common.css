@@ -160,6 +160,11 @@ legend { padding: 0; }
 }
 .menu > summary::-webkit-details-marker { display: none; }
 .menu[open] > summary { border-color: var(--c-primary); color: var(--c-primary); }
+/* UX-016: ☰ 메뉴 버튼 네모 테두리 없이 라인 아이콘(세 줄)만, 누름 영역 44px 유지 */
+.menu > summary { border-color: transparent !important; background: transparent; font-size: 0; color: #3d4441; }
+.menu > summary::before { content: ''; width: 22px; height: 16px; background: linear-gradient(currentColor 0 0) top / 100% 2px no-repeat, linear-gradient(currentColor 0 0) center / 100% 2px no-repeat, linear-gradient(currentColor 0 0) bottom / 100% 2px no-repeat; border-radius: 1px; }
+.menu > summary:hover { background: var(--c-surface-muted); }
+.menu[open] > summary { color: var(--c-primary); background: var(--c-primary-soft); }
 .menu__list {
   position: absolute;
   right: 0;
@@ -481,6 +486,12 @@ html:not(.js) .views:has(:target) .view.is-active:not(:target):not(:has(:target)
 .signal[data-signal="Y"] i:nth-child(2) { background: var(--signal-yellow); box-shadow: 0 0 0 2px rgba(242, 179, 43, 0.35); }
 .signal[data-signal="G"] i:nth-child(3) { background: var(--signal-green); box-shadow: 0 0 0 2px rgba(47, 163, 107, 0.35); }
 /* data-signal="N" (판단 필요) 은 모두 꺼짐 */
+/* UX-015: 모든 화면 신호등을 연회색 몸체(#F1F3F5)의 가로 3구로 통일 */
+.signal { padding: 5px 8px; gap: 5px; background: #F1F3F5; border: 1px solid #E6E9EC; }
+.signal i { width: 10px; height: 10px; background: #D5D9DE; }
+.signal[data-signal="R"] i:nth-child(1),
+.signal[data-signal="Y"] i:nth-child(2),
+.signal[data-signal="G"] i:nth-child(3) { box-shadow: none; }
 
 .signal-with-label { display: inline-flex; flex-direction: column; align-items: flex-start; gap: 3px; }
 .signal-label { font-size: 12px; font-weight: 700; }
@@ -554,6 +565,10 @@ a.card:hover { border-color: var(--c-primary-line); }
   font-size: 13px; font-weight: 600;
 }
 .stepper li[aria-current="step"] { background: var(--c-primary); color: #fff; }
+/* UX-015: 간격 없이 하나로 이어진 세그먼트 진행 바 */
+.stepper { gap: 0; padding: 3px; border-radius: 10px; background: var(--c-surface-muted); }
+.stepper li { min-height: 34px; border-radius: 8px; background: transparent; }
+.stepper li[aria-current="step"] { background: var(--c-primary); box-shadow: 0 1px 3px rgba(20, 30, 25, .18); }
 
 /* 탭 (링크형) */
 .tabs { display: flex; flex-wrap: wrap; gap: 6px; }

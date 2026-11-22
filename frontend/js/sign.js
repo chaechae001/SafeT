@@ -42,7 +42,26 @@
       $list.append($l);
     });
     $('#signer-empty').prop('hidden', res.member_count > 0);
+    // UX-016: 모두 서명을 마치기 전에는 서명할 사람을 추가할 수 있음(참여자 0명이면 서명할 수 없던 문제)
+    $('#signer-add').prop('hidden', !!res.sign_end_dt);
+    var hasWriter = writer && res.members.some(function (x) { return x.member_nm === writer; });
+    $('#signer-add-me').prop('hidden', !writer || hasWriter).text('+ 작성자 ' + (writer || '') + ' 추가');
     updatePick();
+  }
+
+  /* ---------- UX-016: 서명할 사람 추가 ---------- */
+  var writer = null;
+  function addSigner(name) {
+    name = $.trim(name || '');
+    if (!name) { SafeT.toast('이름을 입력해 주세요.'); $('#signer-add-name').trigger('focus'); return; }
+    SafeT.loading(true);
+    SafeT.api.post('/evals/' + evalNo + '/signs/members', { member_nm: name }).done(function (res) {
+      $('#signer-add-name').val('');
+      render(res);
+      var added = res.members.filter(function (x) { return x.member_nm === name; })[0];
+      if (added) { $('#signer-list input[value="' + added.member_no + '"]').prop('checked', true); updatePick(); }
+      SafeT.toast(name + ' 님을 추가했어요. 이어서 서명해 주세요.');
+    }).fail(function (err) { SafeT.toast(err.message); }).always(function () { SafeT.loading(false); });
   }
 
   function updatePick() {
@@ -146,7 +165,10 @@
       return;
     }
     if (SafeT.current) SafeT.current.setEval(evalNo);
-    load();
+    // UX-016: 작성자 이름(빠른 추가 버튼용)을 먼저 읽고 목록 표시
+    SafeT.api.get('/evals/' + evalNo).done(function (d) { writer = d.eval_writer || null; }).always(load);
+    $('#signer-add-form').on('submit', function (e) { e.preventDefault(); addSigner($('#signer-add-name').val()); });
+    $('#signer-add-me').on('click', function () { addSigner(writer); });
 
     $('#signer-list').on('change', 'input', updatePick);
 

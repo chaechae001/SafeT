@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 300" role="img" aria-label="화기와 튀김기: 기름때 낀 후드, 튀김기, 가스레인지 옆 키친타월, K급 소화기">
+  <!-- UX-011 가상 일러스트(직접 제작) · 빨간 점선 = 찍을 곳 -->
+  <rect width="480" height="300" fill="#f6f4ef"/>
+  <rect y="200" width="480" height="100" fill="#ddd7cc"/>
+  <!-- 후드(기름때) -->
+  <path d="M40 30 h260 l-30 50 h-200z" fill="#bfc6c2"/>
+  <g fill="#8a6d3a" opacity=".55"><circle cx="90" cy="55" r="6"/><circle cx="140" cy="62" r="4"/><circle cx="200" cy="50" r="7"/><circle cx="250" cy="60" r="5"/></g>
+  <!-- 조리대 -->
+  <rect x="40" y="130" width="300" height="70" rx="4" fill="#b8c4bd"/><rect x="40" y="122" width="300" height="12" rx="3" fill="#9fb0a6"/>
+  <!-- 튀김기 -->
+  <rect x="60" y="90" width="110" height="36" rx="5" fill="#7d8a83"/><rect x="68" y="84" width="94" height="12" rx="3" fill="#d29a1e"/>
+  <g fill="#f2b32b"><circle cx="95" cy="72" r="4"/><circle cx="120" cy="64" r="3"/><circle cx="140" cy="72" r="4"/></g>
+  <!-- 가스레인지·불꽃·키친타월 -->
+  <rect x="200" y="104" width="110" height="20" rx="4" fill="#4d5752"/>
+  <path d="M235 104 q6 -16 12 0 q6 -14 12 0" fill="#4f8fc9"/>
+  <rect x="318" y="86" width="16" height="36" rx="6" fill="#fff" stroke="#d8d8d8"/>
+  <!-- K급 소화기 -->
+  <rect x="400" y="140" width="34" height="64" rx="10" fill="#c8383d"/><rect x="410" y="128" width="14" height="14" fill="#2f3a35"/>
+  <text x="417" y="180" font-size="16" text-anchor="middle" font-family="sans-serif" font-weight="800" fill="#fff">K</text>
+  <g fill="none" stroke="#e5484d" stroke-width="4" stroke-dasharray="10 7">
+    <path d="M30 22 h280 l-34 66 h-214z"/>
+    <ellipse cx="115" cy="98" rx="70" ry="34"/>
+    <circle cx="300" cy="104" r="42"/>
+    <rect x="390" y="118" width="54" height="96" rx="10"/>
+  </g>
+</svg>

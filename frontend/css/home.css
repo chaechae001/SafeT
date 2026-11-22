@@ -12,3 +12,69 @@
 @media (max-width: 340px) {
   .home .eval-card .btn-row { flex-direction: column; }
 }
+
+/* =========================================================
+   UX-004 (2026-11-21) · home.html 전용 (body.page-home)
+   - 9 검색 조건(탭·기간·사업장)과 하단 '새 평가표'는 고정, 평가표 목록만 스크롤
+   ========================================================= */
+.page-home .app { height: 100vh; height: 100dvh; min-height: 0; }
+@media (min-width: 768px) { .page-home .app { height: calc(100vh - 48px); } }
+.page-home .views { min-height: 0; }
+.page-home #v-home.is-active { display: flex; flex-direction: column; flex: 1; min-height: 0; }
+.page-home #v-home .page { flex: 1; min-height: 0; padding-bottom: 0; }
+.page-home .home__scroll {
+  flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain;
+  display: flex; flex-direction: column; gap: 10px;
+  margin: 0 calc(var(--gutter) * -1); padding: 4px var(--gutter) 16px;
+  border-top: 1px solid var(--c-line);
+}
+.page-home .home__scroll:focus { outline: none; }
+.page-home .disclaimer { padding-top: 6px; padding-bottom: 8px; }
+
+/* 탭 누름 영역 44px (디자인 기준) */
+.page-home .tabs > a { min-height: 44px; padding: 0 16px; font-size: 15px; }
+
+/* 10 카드 제목 한 줄(줄인 제목), 넘치면 말줄임 */
+.page-home .eval-card .card__title { font-size: 17px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; flex: 1; }
+.page-home .eval-card .card__meta { font-size: 14px; }
+
+/* =========================================================
+   UX-015 (2026-11-22) · 기간 한 칸·회색 검색 상자, 상태별 카드·버튼, '+ 새 평가표'
+   ========================================================= */
+.ico { flex: none; display: inline-block; vertical-align: middle; }
+.page-home .home__filter { gap: 10px; padding: 12px; border: 1px solid #E9ECEF; border-radius: 14px; background: #F4F5F7; }
+.page-home .home__filter .label { font-size: 13px; color: var(--c-text-sub); }
+.page-home .home__filter .select { background-color: #fff; }
+.page-home .period { position: relative; }
+.page-home .period__view { display: flex; align-items: center; justify-content: space-between; gap: 8px; width: 100%; text-align: left; background: #fff; cursor: pointer; font-variant-numeric: tabular-nums; }
+.page-home .period__view .ico { color: var(--c-text-sub); width: 20px; height: 20px; }
+.page-home .period__view[aria-expanded="true"] { border-color: var(--c-primary); }
+.page-home .period__panel { display: flex; flex-direction: column; gap: 8px; margin-top: 6px; padding: 10px; border: 1px solid #E4E7EA; border-radius: 12px; background: #fff; box-shadow: 0 8px 24px rgba(20, 30, 25, .12); }
+.page-home .period__panel[hidden] { display: none; }
+.page-home .period__close { align-self: flex-end; }
+
+/* 카드 공통 */
+.page-home .eval-card { padding: 16px; border-radius: 14px; gap: 12px; position: relative; }
+.page-home .eval-card .card__head { align-items: center; }
+.page-home .eval-card .tag.status { flex: none; display: inline-flex; align-items: center; gap: 3px; min-height: 26px; padding: 0 10px; border-radius: 999px; font-size: 13px; font-weight: 700; }
+.page-home .eval-card .tag.status .ico { width: 14px; height: 14px; }
+.page-home .eval-card .btn-row { display: flex; gap: 8px; }
+.page-home .eval-card .btn-row .btn { flex: 1; min-height: 46px; gap: 6px; font-size: 15px; font-weight: 700; }
+.page-home .eval-card .btn-row .btn .ico { width: 17px; height: 17px; }
+.page-home .eval-card .btn-row .btn:not(.btn--primary) { background: #fff; border: 1px solid #D5DAD7; color: var(--c-text); }
+/* 작성 중: 흰 바탕 + 점선, 연노랑 배지, [이어서 작성하기] 전체 너비 아웃라인 */
+.page-home .eval-card[data-card="W"] { border: 1.5px dashed #B9C0BC; background: #fff; }
+.page-home .eval-card .tag.status[data-status="W"] { background: #FFF4D6; color: #8A5A00; }
+.page-home .eval-card .eval-card__continue { border: 1.5px solid #1d2420 !important; }
+/* 확정: 흰 바탕 + 실선, 연파랑 배지, [서명하기] 딥그린 + [문서 다운로드] 아웃라인 */
+.page-home .eval-card[data-card="C"] { border: 1px solid #D5DAD7; background: #fff; }
+.page-home .eval-card .tag.status[data-status="C"] { background: #E7F0FB; color: #2B5C99; }
+/* 서명 완료: 연회색 바탕·테두리 없음으로 물러나게, 연초록 '✓ 서명 완료' */
+.page-home .eval-card[data-card="S"], .page-home .eval-card[data-card="A"] { border: 1px solid transparent; background: #F4F5F7; }
+.page-home .eval-card[data-card="S"] .card__title { color: #4B5563; }
+.page-home .eval-card .tag.status[data-status="S"] { background: #E3F4EA; color: #1D7A4E; }
+.page-home .eval-card__share { position: absolute; right: 16px; bottom: 74px; font-size: 13px; font-weight: 700; color: var(--c-primary); text-decoration: none; padding: 6px 0; }
+.page-home .eval-card[data-card="S"] .card__meta { padding-right: 84px; }
+/* 하단 '+ 새 평가표' */
+.page-home .bottom-bar .btn { gap: 6px; min-height: 50px; font-size: 16px; }
+.page-home .bottom-bar .btn .ico { width: 19px; height: 19px; }

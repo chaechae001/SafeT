@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 300" role="img" aria-label="전기와 창고: 싱크대 옆 멀티탭과 벗겨진 전선, 높은 선반의 무거운 상자">
+  <!-- UX-011 가상 일러스트(직접 제작) · 빨간 점선 = 찍을 곳 -->
+  <rect width="480" height="300" fill="#f2f4f6"/>
+  <rect y="230" width="480" height="70" fill="#d5ddd8"/>
+  <!-- 싱크대·물기 -->
+  <rect x="20" y="130" width="160" height="100" rx="4" fill="#b8c4bd"/><rect x="20" y="120" width="160" height="14" rx="3" fill="#9fb0a6"/>
+  <g fill="#8fbbe0"><circle cx="150" cy="140" r="5"/><circle cx="165" cy="150" r="4"/><circle cx="158" cy="166" r="5"/></g>
+  <!-- 멀티탭·전선 -->
+  <rect x="196" y="190" width="80" height="22" rx="5" fill="#fff" stroke="#c4cbc7" stroke-width="2"/>
+  <g fill="#2f3a35"><rect x="206" y="196" width="10" height="10" rx="2"/><rect x="224" y="196" width="10" height="10" rx="2"/><rect x="242" y="196" width="10" height="10" rx="2"/><rect x="260" y="196" width="10" height="10" rx="2"/></g>
+  <path d="M211 196 q-10 -40 -30 -60 M229 196 q0 -50 10 -80 M247 196 q20 -30 40 -40" stroke="#2f3a35" stroke-width="4" fill="none"/>
+  <path d="M236 128 l8 -6" stroke="#c8583b" stroke-width="5"/>
+  <!-- 선반과 무거운 상자 -->
+  <rect x="330" y="40" width="130" height="8" fill="#8b6340"/><rect x="330" y="120" width="130" height="8" fill="#8b6340"/><rect x="330" y="200" width="130" height="8" fill="#8b6340"/>
+  <rect x="330" y="40" width="8" height="190" fill="#8b6340"/><rect x="452" y="40" width="8" height="190" fill="#8b6340"/>
+  <rect x="350" y="0" width="60" height="40" fill="#c79a5b"/><rect x="410" y="10" width="40" height="30" fill="#d4aa6e"/>
+  <rect x="352" y="160" width="40" height="40" fill="#e6ecf1"/>
+  <g fill="none" stroke="#e5484d" stroke-width="4" stroke-dasharray="10 7">
+    <ellipse cx="228" cy="170" rx="74" ry="62"/>
+    <rect x="340" y="-6" width="118" height="56" rx="10"/>
+  </g>
+</svg>

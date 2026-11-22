@@ -15,7 +15,7 @@ def verify(client, email, code):
     return client.post("/auth/signup/code/verify", json={"email": email, "code": code})
 
 
-def signup(client, email, password="password123", name="김하늘", token="no-token"):
+def signup(client, email, password="Password123!", name="김하늘", token="no-token"):
     return client.post("/auth/signup", json={"email": email, "password": password, "name": name, "verify_token": token})
 
 
@@ -78,7 +78,7 @@ def test_이미_가입한_이메일은_인증요청에서_안내(client, mailer,
 
 
 def test_메일_설정없음_503_저장안함(client, monkeypatch, email):
-    for k in ("SMTP_HOST", "SMTP_USER", "SMTP_PASSWORD"):
+    for k in ("SMTP_HOST", "SMTP_USER", "SMTP_PASSWORD", "SAFET_DEV_MAIL_OUTBOX"):   # 개발용 보관함도 끔(UX-001)
         monkeypatch.delenv(k, raising=False)
     r = request_code(client, email)      # 실제 발송 함수 사용
     assert r.status_code == 503
@@ -145,18 +145,18 @@ def test_인증된_뒤엔_틀린코드도_맞는코드도_성공_안함(client, 
 def test_인증없이_가입_막힘(client, email):
     r = signup(client, email)
     assert r.status_code == 400 and r.json()["detail"]["code"] == "NOT_VERIFIED"
-    assert client.post("/auth/signup", json={"email": email, "password": "password123", "name": "x"}).status_code == 422
+    assert client.post("/auth/signup", json={"email": email, "password": "Password123!", "name": "x"}).status_code == 422
 
 
 def test_다른사람이_인증완료를_가로채_가입_못함(client, mailer, email):
     """이메일 주인이 코드를 확인한 뒤, 가입하기 전에 다른 사람이 같은 이메일로 가입 시도"""
     token = verified_token(client, mailer, email)
-    r = signup(client, email, password="attacker-pass", name="다른 사람", token="guessed-token")
+    r = signup(client, email, password="Attacker-pass1", name="다른 사람", token="guessed-token")
     assert r.status_code == 400 and r.json()["detail"]["code"] == "INVALID_VERIFY_TOKEN"
     assert db_one("SELECT COUNT(*) n FROM `user` WHERE email=:e", e=email)["n"] == 0
-    r = signup(client, email, password="owner-pass1", name="주인", token=token)       # 주인은 그대로 가입
+    r = signup(client, email, password="Owner-pass1!", name="주인", token=token)       # 주인은 그대로 가입
     assert r.status_code == 201
-    assert client.post("/auth/login", json={"email": email, "password": "owner-pass1"}).status_code == 200
+    assert client.post("/auth/login", json={"email": email, "password": "Owner-pass1!"}).status_code == 200
 
 
 def test_인증토큰은_한번만(client, mailer, email):
@@ -169,12 +169,12 @@ def test_인증토큰은_한번만(client, mailer, email):
 
 def test_가입_전체흐름_비밀번호_bcrypt(client, mailer, email):
     token = verified_token(client, mailer, email)
-    r = signup(client, email, password="safe-t-pass!", name="  김 하늘 ", token=token)
+    r = signup(client, email, password="Safe-t-pass1!", name="  김 하늘 ", token=token)
     assert r.status_code == 201, r.text
     assert r.json() == {"email": email, "name": "김 하늘"}
     row = db_one("SELECT pw, name, auth_dt, ins_dt FROM `user` WHERE email=:e", e=email)
-    assert row["pw"] != "safe-t-pass!" and row["pw"].startswith("$2b$")
-    assert bcrypt.checkpw(b"safe-t-pass!", row["pw"].encode())
+    assert row["pw"] != "Safe-t-pass1!" and row["pw"].startswith("$2b$")
+    assert bcrypt.checkpw(b"Safe-t-pass1!", row["pw"].encode())
     assert row["auth_dt"] is not None and row["ins_dt"] is not None
 
     r = signup(client, email)                       # 같은 이메일 다시 가입

@@ -4,3 +4,275 @@
 .auth__links { text-align: center; }
 .auth__form .btn--primary { margin-top: 8px; }
 .auth .code-ok { color: var(--c-primary); font-weight: 600; }
+
+/* =========================================================
+   UX-001 (2026-11-21) · login.html 전용. body.page-login 아래로만 적용해
+   다른 페이지의 공통 스타일에는 영향을 주지 않습니다.
+   ========================================================= */
+
+/* A 글자 크기: 입력·버튼 16px, 라벨 15px */
+.page-login .label { font-size: 15px; }
+.page-login .input { font-size: 16px; min-height: 48px; }
+.page-login .btn { font-size: 16px; }
+.page-login .btn--lg { min-height: 52px; font-size: 17px; }
+.page-login .hint,
+.page-login .error-text { font-size: 14px; }
+.page-login .check__text { font-size: 15px; }
+
+/* C 대비: 입력 예시 #6B736E(흰 바탕 4.9:1), 하단 안내 본문 보조색·13px */
+.page-login .input::placeholder { color: #6b736e; }
+.page-login .disclaimer { font-size: 13px; color: var(--c-text-sub); }
+
+/* M 입력할 칸 강조: 포커스 칸은 두꺼운 테두리 + 연한 배경, 라벨도 강조 */
+.page-login .input:focus {
+  border-color: var(--c-primary);
+  box-shadow: 0 0 0 3px var(--c-primary-line);
+  background: #fbfdfb;
+}
+.page-login .field:focus-within > .label { color: var(--c-primary); }
+.page-login .input[aria-invalid="true"] { border-width: 2px; background: var(--c-danger-bg); }
+.page-login .check:has(input[aria-invalid="true"]) { border-color: var(--c-danger); background: var(--c-danger-bg); }
+.page-login .btn--emphasis { box-shadow: 0 0 0 3px var(--c-primary-line); }
+
+/* B·D 보조 링크: 로그인 버튼 아래, 목적별 한 줄씩, 누름 영역 44px */
+.page-login .auth__links {
+  display: flex; flex-direction: column; gap: 2px;
+  padding-top: 4px; border-top: 1px solid var(--c-line);
+  font-size: 15px;
+}
+.page-login .auth__links li {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: center; column-gap: 6px;
+}
+.page-login .link--touch {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 44px; padding: 0 6px; font-size: 15px;
+}
+.page-login .auth__form > .link--touch { align-self: center; }
+
+/* J 아이디 저장: 테두리 없는 체크 */
+.page-login .check--plain { border: 0; padding: 0 2px; background: transparent; }
+.page-login .check--plain:has(input:checked) { background: transparent; }
+.page-login .check--plain input { width: 22px; height: 22px; }
+
+/* E 비밀번호 보기 */
+.page-login .pw-field { position: relative; }
+.page-login .pw-field .input { padding-right: 76px; }
+.page-login .pw-toggle {
+  position: absolute; top: 2px; right: 2px;
+  min-width: 64px; height: 44px; padding: 0 10px;
+  border: 0; border-radius: var(--radius-sm);
+  background: transparent; color: var(--c-primary);
+  font-size: 15px; font-weight: 700; cursor: pointer;
+}
+.page-login .pw-toggle:hover { background: var(--c-primary-soft); }
+
+/* G·I 비밀번호 조건: 색 + 기호(○/✓) + 글자로 표시 */
+.page-login .pw-rules {
+  display: flex; flex-wrap: wrap; gap: 6px;
+  font-size: 14px; color: var(--c-text-sub);
+}
+.page-login .pw-rules li {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 3px 10px; border: 1px solid var(--c-line); border-radius: 999px;
+  background: var(--c-surface);
+}
+.page-login .pw-rules li::before { content: '○'; font-weight: 700; }
+.page-login .pw-rules li.is-ok { color: var(--c-primary); border-color: var(--c-primary-line); background: var(--c-primary-soft); }
+.page-login .pw-rules li.is-ok::before { content: '✓'; }
+
+/* F 시작 화면 */
+.page-login .start { gap: 20px; padding-top: 40px; }
+.page-login .start__eyebrow { color: var(--c-primary); font-weight: 700; font-size: 15px; }
+.page-login .start__title { font-size: 26px; line-height: 1.35; }
+.page-login .start__desc { font-size: 16px; color: var(--c-text-sub); line-height: 1.6; }
+.page-login .start__steps {
+  display: flex; flex-direction: column; gap: 8px;
+  padding: 16px; border-radius: var(--radius-md, 12px); background: var(--c-bg);
+  font-size: 16px; font-weight: 600;
+}
+.page-login .start__steps li { display: flex; align-items: center; gap: 12px; }
+.page-login .start__num {
+  display: inline-flex; align-items: center; justify-content: center; flex: none;
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--c-primary); color: #fff; font-size: 14px; font-weight: 800;
+}
+.page-login .start__actions { display: flex; flex-direction: column; gap: 10px; margin-top: 8px; }
+
+/* F 스플래시: 주소만으로 처음 들어올 때 탭마다 한 번 (login.html 머리 스크립트 + login.js) */
+.splash { display: none; }
+.show-splash .splash {
+  position: fixed; inset: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--c-primary); color: #fff;
+  transition: opacity .35s ease;
+}
+.show-splash .splash.is-leaving { opacity: 0; }
+.splash__inner { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.splash__logo { font-size: 40px; font-weight: 800; letter-spacing: -0.5px; }
+.splash__tag { font-size: 16px; opacity: .92; }
+@media (prefers-reduced-motion: reduce) {
+  .show-splash .splash { transition: none; }
+}
+
+/* =========================================================
+   UX-016 (2026-11-22) · 로그인·회원가입·비밀번호 재설정 화면 정리
+   - 로그인: 위쪽 브랜드 영역(방패 아이콘·로고·한 줄 소개), 상단 바 숨김
+   - 회원가입·재설정: 상단 바 ← 뒤로 + 가운데 로고
+   - 입력칸 흰 바탕·얇은 연회색 테두리, 비밀번호 보기는 눈 아이콘
+   - 인증 코드 칸 안쪽 오른쪽: 남은 시간(빨강)+확인 / ✓ 인증 완료(초록)
+   - 비밀번호 조건 알약: 모두 ✓ 표시, 충족하면 초록
+   ========================================================= */
+
+/* 상단 바: 로그인 화면에서는 숨기고(브랜드 영역이 대신), 나머지는 ← | 로고(가운데) | 빈칸 */
+.page-login .auth-topbar {
+  display: grid; grid-template-columns: 44px 1fr 44px; align-items: center; gap: 8px;
+}
+.page-login .auth-topbar .logo { justify-self: center; font-size: 17px; }
+.page-login .auth-back {
+  display: grid; place-items: center; width: 44px; height: 44px; margin-left: -10px;
+  border-radius: var(--radius-sm); color: var(--c-text); text-decoration: none;
+}
+.page-login .auth-back:hover { background: var(--c-surface-muted, #f4f5f7); }
+.page-login .auth-back:focus-visible { outline: 2px solid var(--c-primary); outline-offset: 2px; }
+.page-login .auth-back .ico { width: 22px; height: 22px; }
+.page-login .app:has(#v-login.is-active) .auth-topbar { display: none; }
+.page-login .app:has(#v-start.is-active) .auth-back { visibility: hidden; }
+
+/* 로그인 브랜드 영역 */
+.page-login .auth--login .page { padding-top: 48px; gap: 20px; }
+.page-login .auth-brand {
+  display: flex; flex-direction: column; align-items: center; text-align: center; gap: 6px;
+  margin-bottom: 12px;
+}
+.page-login .auth-brand__mark {
+  display: grid; place-items: center; width: 64px; height: 64px; margin-bottom: 10px;
+  border-radius: 18px; background: var(--c-primary-soft); color: var(--c-primary);
+}
+.page-login .auth-brand__mark .ico { width: 34px; height: 34px; }
+.page-login .auth-brand__logo {
+  font-size: 30px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.15; color: var(--c-primary);
+}
+.page-login .auth-brand__tag { font-size: 15px; color: var(--c-text-sub); word-break: keep-all; }
+.page-login .auth--login .page-title { font-size: 22px; }
+
+/* 입력칸 통일: 흰 바탕 + 얇은 연회색 실선 (포커스 강조는 UX-001 그대로, 바탕만 흰색) */
+.page-login .auth .input { background: #fff; border: 1px solid #d3d9d5; border-radius: 10px; }
+.page-login .auth .input:focus { background: #fff; border-color: var(--c-primary); }
+.page-login .auth .input[aria-invalid="true"] { border: 2px solid var(--c-danger); background: var(--c-danger-bg); }
+
+/* 비밀번호 보기: 눈 아이콘 버튼 (누름 영역 44px) */
+.page-login .pw-field .input { padding-right: 52px; }
+.page-login .pw-toggle {
+  min-width: 44px; width: 44px; height: 44px; padding: 0;
+  display: grid; place-items: center; color: var(--c-text-sub);
+}
+.page-login .pw-toggle .ico { width: 22px; height: 22px; }
+.page-login .pw-toggle:hover { background: var(--c-surface-muted, #f4f5f7); color: var(--c-text); }
+.page-login .pw-toggle:focus-visible { outline: 2px solid var(--c-primary); outline-offset: -2px; }
+
+/* 아이디 저장 + 비밀번호 찾기 한 줄 */
+.page-login .auth-opts { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.page-login .auth-opts .check--plain { min-height: 44px; }
+.page-login .auth-opts__find {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 0 2px;
+  font-size: 15px; color: var(--c-text-sub); text-decoration: none;
+}
+.page-login .auth-opts__find:hover { color: var(--c-primary); text-decoration: underline; text-underline-offset: 3px; }
+.page-login .auth__form .auth-opts + .btn--primary { margin-top: 4px; }
+
+/* 아래쪽: 회원가입 한 줄만 */
+.page-login .auth-join {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: center; column-gap: 6px;
+  min-height: 44px; font-size: 15px; text-align: center;
+}
+.page-login .auth-join .muted { color: var(--c-text-sub); }
+.page-login .auth-join .link { display: inline-flex; align-items: center; min-height: 44px; font-weight: 800; }
+
+/* 이메일 옆 '인증 요청'·'재요청': 흰 바탕 외곽선 버튼 */
+.page-login .auth .input-row:not(.code-box) > .btn {
+  flex: none; min-width: 92px; padding: 0 14px; border-radius: 10px;
+  background: #fff; border: 1px solid var(--c-text); color: var(--c-text); font-weight: 700;
+}
+.page-login .auth .input-row:not(.code-box) > .btn:disabled {
+  border-color: #d3d9d5; color: var(--c-text-sub); background: #fff; opacity: 1; cursor: not-allowed;
+}
+.page-login .auth .input-row:not(.code-box) > .btn.btn--emphasis { border-color: var(--c-primary); color: var(--c-primary); }
+
+/* 인증 코드 칸: 안쪽 오른쪽에 상태 표시 */
+.page-login .code-box { position: relative; display: block; }
+.page-login .code-box .input { width: 100%; letter-spacing: 0.04em; }
+.page-login .code-box[data-state="wait"] .input,
+.page-login .code-box[data-state="expired"] .input { padding-right: 124px; }
+.page-login .code-box[data-state="done"] .input { padding-right: 112px; }
+.page-login .code-box__timer,
+.page-login .code-box__btn,
+.page-login .code-box__ok { position: absolute; top: 50%; transform: translateY(-50%); }
+.page-login .code-box__timer {
+  right: 72px; font-size: 15px; font-weight: 700; color: var(--c-danger);
+  font-variant-numeric: tabular-nums;
+}
+.page-login .code-box[data-state="expired"] .code-box__timer { right: 14px; }
+.page-login .code-box__btn {
+  right: 6px; min-width: 56px; height: 36px; padding: 0 12px;
+  border: 0; border-radius: 8px; background: var(--c-primary); color: #fff;
+  font-size: 14px; font-weight: 700; cursor: pointer;
+}
+.page-login .code-box__btn:hover { background: var(--c-primary-dark); }
+.page-login .code-box__btn:focus-visible { outline: 2px solid var(--c-primary); outline-offset: 2px; }
+.page-login .code-box__btn::after { content: ""; position: absolute; inset: -4px 0; }   /* 누름 영역 44px */
+.page-login .code-box__ok {
+  right: 14px; display: inline-flex; align-items: center; gap: 4px;
+  font-size: 14px; font-weight: 700; color: var(--c-primary); white-space: nowrap;
+}
+.page-login .code-box__ok .ico { width: 16px; height: 16px; stroke-width: 2.4; }
+.page-login .code-box[data-state="done"] .input {
+  background: var(--c-primary-soft); border-color: var(--c-primary-line); color: var(--c-text);
+}
+/* 인증 완료 안내 문장은 칸 안 표시와 겹치므로 화면 낭독기에만 */
+.page-login .hint.code-ok {
+  position: absolute !important; width: 1px; height: 1px; margin: -1px; padding: 0;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* 비밀번호 조건 알약: 모두 ✓, 미충족 회색 → 충족 초록 */
+.page-login .pw-rules { gap: 6px; font-size: 13px; }
+.page-login .pw-rules li { padding: 3px 10px 3px 8px; background: #fff; border-color: #dfe3e0; color: #6b736e; }
+.page-login .pw-rules li::before { content: "✓"; font-weight: 800; color: #a3aba6; }
+.page-login .pw-rules li.is-ok { color: var(--c-primary); border-color: var(--c-primary-line); background: var(--c-primary-soft); }
+.page-login .pw-rules li.is-ok::before { color: var(--c-primary); }
+
+/* 개인정보 동의 상자: 오른쪽 끝 '보기 >' */
+.page-login .agree-box {
+  display: flex; flex-wrap: wrap; align-items: center;
+  border: 1px solid #d3d9d5; border-radius: 10px; background: #fff;
+}
+.page-login .agree-box:has(input:checked) { border-color: var(--c-primary-line); background: var(--c-primary-soft); }
+.page-login .agree-box .check { flex: 1; min-width: 0; border: 0; background: transparent; }
+.page-login .agree-box .check__text { font-size: 14px; word-break: keep-all; }
+.page-login .agree-box .check { gap: 8px; padding-right: 0; letter-spacing: -0.01em; }
+.page-login .agree-box__view {
+  flex: none; display: inline-flex; align-items: center; gap: 2px;
+  min-height: 44px; padding: 0 8px 0 4px; border: 0; background: none;
+  font-size: 14px; color: var(--c-text-sub); cursor: pointer;
+}
+.page-login .agree-box__view .ico { width: 16px; height: 16px; }
+.page-login .agree-box__view:hover { color: var(--c-primary); }
+.page-login .agree-box__view:focus-visible { outline: 2px solid var(--c-primary); outline-offset: -2px; border-radius: 8px; }
+.page-login .agree-box > .error-text { flex-basis: 100%; padding: 0 12px 10px; }
+.page-login .agree-box:has(input[aria-invalid="true"]) { border-color: var(--c-danger); background: var(--c-danger-bg); }
+.page-login .agree-box .check:has(input[aria-invalid="true"]) { background: transparent; }
+
+/* 좁은 화면(320px): 버튼·글자가 칸을 밀어내지 않게 */
+@media (max-width: 359px) {
+  .page-login .auth .input-row:not(.code-box) > .btn { min-width: 80px; padding: 0 10px; }
+  .page-login .auth-brand__logo { font-size: 26px; }
+  .page-login .agree-box .check__text { font-size: 14px; }
+}
+
+/* UX-017 개인정보 수집·이용 안내 창: 4가지 고지 항목 (#terms 안으로 한정) */
+#terms .terms-list { margin: 0; display: flex; flex-direction: column; gap: 12px; }
+#terms .terms-list__row { padding: 12px; border: 1px solid var(--c-line); border-radius: var(--radius-sm); background: var(--c-surface); }
+#terms .terms-list dt { font-weight: 700; color: var(--c-text); margin-bottom: 4px; }
+#terms .terms-list dd { margin: 0; color: var(--c-text-sub); line-height: 1.6; word-break: keep-all; overflow-wrap: anywhere; }
+#terms .terms-list__sub { display: block; margin-top: 6px; font-size: 14px; font-weight: 600; color: var(--c-text); }
+#terms .terms-list__sub:first-child { margin-top: 0; }
