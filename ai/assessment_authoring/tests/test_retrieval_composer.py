@@ -4,7 +4,8 @@ from itertools import product
 from ai.assessment_authoring.contracts import read, load_catalog
 from ai.assessment_authoring.analysis_validator import validate_analysis
 from ai.assessment_authoring.assessment_composer import compose_assessment, render_assessment
-from ai.assessment_authoring.retrieval_adapter import retrieve_evidence, retrieve_with_evidence, candidate_batches
+from ai.assessment_authoring.retrieval_adapter import (retrieve_evidence, retrieve_with_evidence, candidate_batches,
+                                                       text_candidates, work_supported)
 from ai.assessment_authoring.pipeline import run_pipeline
 
 class AuthoringTests(unittest.TestCase):
@@ -189,6 +190,60 @@ class AuthoringTests(unittest.TestCase):
                 self.assertEqual(result["assessment"]["core"]["review_candidates"],
                                  [{"scenario_id": sid, "reason": "work_unconfirmed"} for sid in pending]
                                  + [{"scenario_id": sid, "reason": "input_denies_work"} for sid in excluded])
+
+    def test_work_support_ignores_broad_hazard_words(self):
+        # 카탈로그 keywords의 위험·조치 단어("가열", "세척")만으로는 사진 기기의 작업 근거가 되지 않는다.
+        scenarios = {s["id"]: s for s in self.catalog["scenarios"]}
+        for sid, statement, supported in [
+            ("FRY", "큰 냄비에 물을 가열해서 육수를 끓입니다.", False),
+            ("MIX", "식기를 세척하고 행주를 삶습니다.", False),
+            ("MIX", "반죽기 날을 분리해 세척합니다.", True),
+            ("FRY", "냉동 감자를 기름에 튀깁니다.", True),
+            ("GRIDDLE", "그리들에 버터를 두르고 고기를 굽습니다.", True),
+            ("FRY", "칼로 채소를 손질합니다.", False),
+            ("FRY", "튀김기는 사용하지 않고 기름 교체만 합니다.", True),
+            ("MIX", "반죽기는 고장 나서 쓰지 않습니다.", False),
+        ]:
+            with self.subTest(statement=statement):
+                self.assertEqual(work_supported(scenarios[sid], statement), supported)
+
+    def test_fryer_denial_variants(self):
+        # 부사가 끼거나 다음 절로 이어지는 미사용 진술도 미사용으로 인식한다.
+        for observation, rows, pending, excluded in [
+            ("튀김기를 요즘 사용하지 않습니다.", [], [], ["FRY"]),
+            ("튀김기는 현재 가동하지 않습니다.", [], [], ["FRY"]),
+            ("요즘은 튀기지 않습니다.", [], [], ["FRY"]),
+            ("튀김기는 사용하지 않고 반죽기만 사용합니다.", [], [], ["FRY"]),
+            ("튀김기는 사용하지 않지만 기름 교체는 제가 합니다.", ["FRY"], [], []),
+        ]:
+            with self.subTest(observation=observation):
+                context = read("examples/input_variants/photo.json")
+                context["media"].append(dict(id="TEXT", kind="text", text=observation))
+                def extract(_, batch, catalog):
+                    analysis = read("examples/unknown/analysis.json")
+                    analysis["candidates"] = [c for c in analysis["candidates"]
+                                              if c["scenario_id"] in [b["scenario_id"] for b in batch["candidates"]]]
+                    for c in analysis["candidates"]:
+                        c["evidence"] = [dict(media_id="TEXT", statement=observation)]
+                    return analysis
+                result = run_pipeline(context, build_context=copy.deepcopy, extract_analysis=extract,
+                                      catalog_snapshot=self.catalog)
+                self.assertEqual([row["scenario_id"] for row in result["assessment"]["rows"]], rows)
+                self.assertEqual(result["retrieval_trace"]["work_review_candidates"], pending)
+                self.assertEqual(result["retrieval_trace"]["not_applicable_candidates"], excluded)
+
+    def test_text_terms_cover_verb_forms_and_device_names(self):
+        for observation, expected in [
+            ("돈가스를 튀기고 철판에서 전을 부칩니다.", {"FRY", "GRIDDLE"}),
+            ("칼로 고기를 썰고 반죽기로 면 반죽을 합니다.", {"KNIFE", "MIX"}),
+            ("믹서기로 소스를 갈아 만듭니다.", {"MIX"}),
+            ("튀김기 옆 바닥에 기름이 떨어져 미끄럽습니다.", {"FRY", "ENV"}),
+            ("칼로리 표시를 확인합니다.", set()),
+            ("요즘은 튀기지 않습니다.", set()),
+        ]:
+            with self.subTest(observation=observation):
+                hits, _ = text_candidates(dict(id="TEXT", text=observation), [])
+                self.assertEqual(hits, expected)
 
     def test_irrelevant_note_does_not_make_draft_partial(self):
         self.i["media"].append(dict(id="NOTE", kind="text", text="주방 정리"))
