@@ -1,0 +1,4663 @@
+{
+ "run_at": "2026-11-22T22:01:01+09:00",
+ "gold": {
+  "file": "261122_RAG_법령정답셋_v1_DR.json",
+  "version": "law-gold-v1",
+  "counts": {
+   "scenarios": 26,
+   "evaluated": 15,
+   "unverified": 11,
+   "core": 30,
+   "core_source_cited": 6,
+   "dev": 7,
+   "holdout": 8
+  },
+  "status": "AI 보조 정답 · 담당자 검토 전. source_cited만 출처 문서가 직접 인용한 조문이다."
+ },
+ "query": "카탈로그 title+task+event+scenario. R4·R5만 keywords+controls 추가.",
+ "results": {
+  "R0 서비스 현재(legal_registry 없음)": {
+   "all": {
+    "recall@1": 0.0,
+    "recall@3": 0.0,
+    "recall@5": 0.0,
+    "recall@10": 0.0,
+    "hit@3": 0.0,
+    "mrr": 0.0,
+    "exact@1": 0.0,
+    "acc_p@5": 0.0,
+    "n": 15
+   },
+   "dev": {
+    "recall@1": 0.0,
+    "recall@3": 0.0,
+    "recall@5": 0.0,
+    "recall@10": 0.0,
+    "hit@3": 0.0,
+    "mrr": 0.0,
+    "exact@1": 0.0,
+    "acc_p@5": 0.0,
+    "n": 7
+   },
+   "holdout": {
+    "recall@1": 0.0,
+    "recall@3": 0.0,
+    "recall@5": 0.0,
+    "recall@10": 0.0,
+    "hit@3": 0.0,
+    "mrr": 0.0,
+    "exact@1": 0.0,
+    "acc_p@5": 0.0,
+    "n": 8
+   },
+   "source_cited": {
+    "recall@1": 0.0,
+    "recall@3": 0.0,
+    "recall@5": 0.0,
+    "recall@10": 0.0,
+    "hit@3": 0.0,
+    "mrr": 0.0,
+    "exact@1": 0.0,
+    "acc_p@5": 0.0,
+    "n": 4
+   },
+   "per_scenario": [
+    {
+     "recall@1": 0.0,
+     "recall@3": 0.0,
+     "recall@5": 0.0,
+     "recall@10": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "hit@10": 0.0,
+     "mrr": 0.0,
+     "exact@1": 0.0,
+     "acc_p@5": 0.0,
+     "first_rank": null,
+     "scenario_id": "COLD",
+     "split": "dev",
+     "top5": [],
+     "core": [
+      "02:제632조"
+     ],
+     "source_cited": false
+    },
+    {
+     "recall@1": 0.0,
+     "recall@3": 0.0,
+     "recall@5": 0.0,
+     "recall@10": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "hit@10": 0.0,
+     "mrr": 0.0,
+     "exact@1": 0.0,
+     "acc_p@5": 0.0,
+     "first_rank": null,
+     "scenario_id": "CUT",
+     "split": "holdout",
+     "top5": [],
+     "core": [
+      "02:제87조",
+      "02:제92조",
+      "02:제130조"
+     ],
+     "source_cited": false
+    },
+    {
+     "recall@1": 0.0,
+     "recall@3": 0.0,
+     "recall@5": 0.0,
+     "recall@10": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "hit@10": 0.0,
+     "mrr": 0.0,
+     "exact@1": 0.0,
+     "acc_p@5": 0.0,
+     "first_rank": null,
+     "scenario_id": "DELIVERY",
+     "split": "holdout",
+     "top5": [],
+     "core": [
+      "02:제673조",
+      "08:제50조"
+     ],
+     "source_cited": true
+    },
+    {
+     "recall@1": 0.0,
+     "recall@3": 0.0,
+     "recall@5": 0.0,
+     "recall@10": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "hit@10": 0.0,
+     "mrr": 0.0,
+     "exact@1": 0.0,
+     "acc_p@5": 0.0,
+     "first_rank": null,
+     "scenario_id": "ELECT",
+     "split": "holdout",
+     "top5": [],
+     "core": [
+      "02:제301조",
+      "02:제302조",
+      "02:제304조"
+     ],
+     "source_cited": false
+    },
+    {
+     "recall@1": 0.0,
+     "recall@3": 0.0,
+     "recall@5": 0.0,
+     "recall@10": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "hit@10": 0.0,
+     "mrr": 0.0,
+     "exact@1": 0.0,
+     "acc_p@5": 0.0,
+     "first_rank": null,
+     "scenario_id": "ENV",
+     "split": "dev",
+     "top5": [],
+     "core": [
+      "02:제3조",
+      "02:제4조"
+     ],
+     "source_cited": true
+    },
+    {
+     "recall@1": 0.0,
+     "recall@3": 0.0,
+     "recall@5": 0.0,
+     "recall@10": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "hit@10": 0.0,
+     "mrr": 0.0,
+     "exact@1": 0.0,
+     "acc_p@5": 0.0,
+     "first_rank": null,
+     "scenario_id": "FIRE",
+     "split": "dev",
+     "top5": [],
+     "core": [
+      "02:제243조",
+      "02:제245조"
+     ],
+     "source_cited": false
+    },
+    {
+     "recall@1": 0.0,
+     "recall@3": 0.0,
+     "recall@5": 0.0,
+     "recall@10": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "hit@10": 0.0,
+     "mrr": 0.0,
+     "exact@1": 0.0,
+     "acc_p@5": 0.0,
+     "first_rank": null,
+     "scenario_id": "GAS",
+     "split": "holdout",
+     "top5": [],
+     "core": [
+      "02:제232조"
+     ],
+     "source_cited": false
+    },
+    {
+     "recall@1": 0.0,
+     "recall@3": 0.0,
+     "recall@5": 0.0,
+     "recall@10": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "hit@10": 0.0,
+     "mrr": 0.0,
+     "exact@1": 0.0,
+     "acc_p@5": 0.0,
+     "first_rank": null,
+     "scenario_id": "LADDER",
+     "split": "holdout",
+     "top5": [],
+     "core": [
+      "02:제42조"
+     ],
+     "source_cited": false
+    },
+    {
+     "recall@1": 0.0,
+     "recall@3": 0.0,
+     "recall@5": 0.0,
+     "recall@10": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "hit@10": 0.0,
+     "mrr": 0.0,
+     "exact@1": 0.0,
+     "acc_p@5": 0.0,
+     "first_rank": null,
+     "scenario_id": "LIFT",
+     "split": "holdout",
+     "top5": [],
+     "core": [
+      "02:제86조",
+      "02:제133조"
+     ],
+     "source_cited": true
+    },
+    {
+     "recall@1": 0.0,
+     "recall@3": 0.0,
+     "recall@5": 0.0,
+     "recall@10": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "hit@10": 0.0,
+     "mrr": 0.0,
+     "exact@1": 0.0,
+     "acc_p@5": 0.0,
+     "first_rank": null,
+     "scenario_id": "MIX",
+     "split": "dev",
+     "top5": [],
+     "core": [
+      "02:제92조",
+      "02:제87조",
+      "02:제130조"
+     ],
+     "source_cited": true
+    },
+    {
+     "recall@1": 0.0,
+     "recall@3": 0.0,
+     "recall@5": 0.0,
+     "recall@10": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "hit@10": 0.0,
+     "mrr": 0.0,
+     "exact@1": 0.0,
+     "acc_p@5": 0.0,
+     "first_rank": null,
+     "scenario_id": "MSD",
+     "split": "dev",
+     "top5": [],
+     "core": [
+      "02:제663조",
+      "02:제665조",
+      "02:제666조"
+     ],
+     "source_cited": false
+    },
+    {
+     "recall@1": 0.0,
+     "recall@3": 0.0,
+     "recall@5": 0.0,
+     "recall@10": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "hit@10": 0.0,
+     "mrr": 0.0,
+     "exact@1": 0.0,
+     "acc_p@5": 0.0,
+     "first_rank": null,
+     "scenario_id": "PSYCH",
+     "split": "dev",
+     "top5": [],
+     "core": [
+      "03:제41조"
+     ],
+     "source_cited": false
+    },
+    {
+     "recall@1": 0.0,
+     "recall@3": 0.0,
+     "recall@5": 0.0,
+     "recall@10": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "hit@10": 0.0,
+     "mrr": 0.0,
+     "exact@1": 0.0,
+     "acc_p@5": 0.0,
+     "first_rank": null,
+     "scenario_id": "STORAGE",
+     "split": "holdout",
+     "top5": [],
+     "core": [
+      "02:제14조",
+      "02:제393조"
+     ],
+     "source_cited": false
+    },
+    {
+     "recall@1": 0.0,
+     "recall@3": 0.0,
+     "recall@5": 0.0,
+     "recall@10": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "hit@10": 0.0,
+     "mrr": 0.0,
+     "exact@1": 0.0,
+     "acc_p@5": 0.0,
+     "first_rank": null,
+     "scenario_id": "UV",
+     "split": "dev",
+     "top5": [],
+     "core": [
+      "02:제668조"
+     ],
+     "source_cited": false
+    },
+    {
+     "recall@1": 0.0,
+     "recall@3": 0.0,
+     "recall@5": 0.0,
+     "recall@10": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "hit@10": 0.0,
+     "mrr": 0.0,
+     "exact@1": 0.0,
+     "acc_p@5": 0.0,
+     "first_rank": null,
+     "scenario_id": "VENT",
+     "split": "holdout",
+     "top5": [],
+     "core": [
+      "02:제72조",
+      "02:제77조",
+      "02:제78조"
+     ],
+     "source_cited": false
+    }
+   ]
+  },
+  "R1 기존 키워드(TF-IDF·항 단위)": {
+   "all": {
+    "recall@1": 0.378,
+    "recall@3": 0.522,
+    "recall@5": 0.522,
+    "recall@10": 0.644,
+    "hit@3": 0.8,
+    "mrr": 0.659,
+    "exact@1": 0.533,
+    "acc_p@5": 0.24,
+    "n": 15
+   },
+   "dev": {
+    "recall@1": 0.405,
+    "recall@3": 0.476,
+    "recall@5": 0.476,
+    "recall@10": 0.571,
+    "hit@3": 0.714,
+    "mrr": 0.657,
+    "exact@1": 0.571,
+    "acc_p@5": 0.229,
+    "n": 7
+   },
+   "holdout": {
+    "recall@1": 0.354,
+    "recall@3": 0.562,
+    "recall@5": 0.562,
+    "recall@10": 0.708,
+    "hit@3": 0.875,
+    "mrr": 0.66,
+    "exact@1": 0.5,
+    "acc_p@5": 0.25,
+    "n": 8
+   },
+   "source_cited": {
+    "recall@1": 0.125,
+    "recall@3": 0.375,
+    "recall@5": 0.375,
+    "recall@10": 0.458,
+    "hit@3": 0.75,
+    "mrr": 0.525,
+    "exact@1": 0.25,
+    "acc_p@5": 0.15,
+    "n": 4
+   },
+   "per_scenario": [
+    {
+     "recall@1": 1.0,
+     "recall@3": 1.0,
+     "recall@5": 1.0,
+     "recall@10": 1.0,
+     "hit@1": 1.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "hit@10": 1.0,
+     "mrr": 1.0,
+     "exact@1": 1.0,
+     "acc_p@5": 0.2,
+     "first_rank": 1,
+     "scenario_id": "COLD",
+     "split": "dev",
+     "top5": [
+      "02:제632조",
+      "02:제378조",
+      "02:제636조",
+      "02:제377조",
+      "02:제559조"
+     ],
+     "core": [
+      "02:제632조"
+     ],
+     "source_cited": false
+    },
+    {
+     "recall@1": 0.0,
+     "recall@3": 0.0,
+     "recall@5": 0.0,
+     "recall@10": 0.3333333333333333,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "hit@10": 1.0,
+     "mrr": 0.1111111111111111,
+     "exact@1": 0.0,
+     "acc_p@5": 0.2,
+     "first_rank": 9,
+     "scenario_id": "CUT",
+     "split": "holdout",
+     "top5": [
+      "02:제88조",
+      "02:제95조",
+      "02:제114조",
+      "02:제165조",
+      "02:제414조"
+     ],
+     "core": [
+      "02:제87조",
+      "02:제92조",
+      "02:제130조"
+     ],
+     "source_cited": false
+    },
+    {
+     "recall@1": 0.0,
+     "recall@3": 0.5,
+     "recall@5": 0.5,
+     "recall@10": 0.5,
+     "hit@1": 0.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "hit@10": 1.0,
+     "mrr": 0.5,
+     "exact@1": 0.0,
+     "acc_p@5": 0.2,
+     "first_rank": 2,
+     "scenario_id": "DELIVERY",
+     "split": "holdout",
+     "top5": [
+      "02:제199조",
+      "02:제673조",
+      "03:제78조",
+      "02:제415조",
+      "02:제414조"
+     ],
+     "core": [
+      "02:제673조",
+      "08:제50조"
+     ],
+     "source_cited": true
+    },
+    {
+     "recall@1": 0.3333333333333333,
+     "recall@3": 0.6666666666666666,
+     "recall@5": 0.6666666666666666,
+     "recall@10": 1.0,
+     "hit@1": 1.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "hit@10": 1.0,
+     "mrr": 1.0,
+     "exact@1": 1.0,
+     "acc_p@5": 0.4,
+     "first_rank": 1,
+     "scenario_id": "ELECT",
+     "split": "holdout",
+     "top5": [
+      "02:제301조",
+      "02:제304조",
+      "02:제320조",
+      "02:제323조",
+      "02:제321조"
+     ],
+     "core": [
+      "02:제301조",
+      "02:제302조",
+      "02:제304조"
+     ],
+     "source_cited": false
+    },
+    {
+     "recall@1": 0.0,
+     "recall@3": 0.5,
+     "recall@5": 0.5,
+     "recall@10": 0.5,
+     "hit@1": 0.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "hit@10": 1.0,
+     "mrr": 0.5,
+     "exact@1": 0.0,
+     "acc_p@5": 0.2,
+     "first_rank": 2,
+     "scenario_id": "ENV",
+     "split": "dev",
+     "top5": [
+      "02:제315조",
+      "02:제3조",
+      "02:제22조",
+      "02:제24조",
+      "02:제25조"
+     ],
+     "core": [
+      "02:제3조",
+      "02:제4조"
+     ],
+     "source_cited": true
+    },
+    {
+     "recall@1": 0.5,
+     "recall@3": 0.5,
+     "recall@5": 0.5,
+     "recall@10": 0.5,
+     "hit@1": 1.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "hit@10": 1.0,
+     "mrr": 1.0,
+     "exact@1": 1.0,
+     "acc_p@5": 0.4,
+     "first_rank": 1,
+     "scenario_id": "FIRE",
+     "split": "dev",
+     "top5": [
+      "02:제245조",
+      "02:제242조",
+      "06:제17조",
+      "02:제225조",
+      "02:제239조"
+     ],
+     "core": [
+      "02:제243조",
+      "02:제245조"
+     ],
+     "source_cited": false
+    },
+    {
+     "recall@1": 1.0,
+     "recall@3": 1.0,
+     "recall@5": 1.0,
+     "recall@10": 1.0,
+     "hit@1": 1.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "hit@10": 1.0,
+     "mrr": 1.0,
+     "exact@1": 1.0,
+     "acc_p@5": 0.2,
+     "first_rank": 1,
+     "scenario_id": "GAS",
+     "split": "holdout",
+     "top5": [
+      "02:제232조",
+      "02:제298조",
+      "02:제466조",
+      "02:제507조",
+      "03:제47조"
+     ],
+     "core": [
+      "02:제232조"
+     ],
+     "source_cited": false
+    },
+    {
+     "recall@1": 1.0,
+     "recall@3": 1.0,
+     "recall@5": 1.0,
+     "recall@10": 1.0,
+     "hit@1": 1.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "hit@10": 1.0,
+     "mrr": 1.0,
+     "exact@1": 1.0,
+     "acc_p@5": 0.4,
+     "first_rank": 1,
+     "scenario_id": "LADDER",
+     "split": "holdout",
+     "top5": [
+      "02:제42조",
+      "02:제397조",
+      "02:제445조",
+      "02:제24조",
+      "02:제27조"
+     ],
+     "core": [
+      "02:제42조"
+     ],
+     "source_cited": false
+    },
+    {
+     "recall@1": 0.5,
+     "recall@3": 0.5,
+     "recall@5": 0.5,
+     "recall@10": 0.5,
+     "hit@1": 1.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "hit@10": 1.0,
+     "mrr": 1.0,
+     "exact@1": 1.0,
+     "acc_p@5": 0.2,
+     "first_rank": 1,
+     "scenario_id": "LIFT",
+     "split": "holdout",
+     "top5": [
+      "02:제86조",
+      "02:제381조",
+      "02:제414조",
+      "02:제161조",
+      "02:제42조"
+     ],
+     "core": [
+      "02:제86조",
+      "02:제133조"
+     ],
+     "source_cited": true
+    },
+    {
+     "recall@1": 0.0,
+     "recall@3": 0.0,
+     "recall@5": 0.0,
+     "recall@10": 0.3333333333333333,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "hit@10": 1.0,
+     "mrr": 0.1,
+     "exact@1": 0.0,
+     "acc_p@5": 0.0,
+     "first_rank": 10,
+     "scenario_id": "MIX",
+     "split": "dev",
+     "top5": [
+      "02:제114조",
+      "02:제414조",
+      "02:제115조",
+      "03:제80조",
+      "02:제221조의2"
+     ],
+     "core": [
+      "02:제92조",
+      "02:제87조",
+      "02:제130조"
+     ],
+     "source_cited": true
+    },
+    {
+     "recall@1": 0.3333333333333333,
+     "recall@3": 0.3333333333333333,
+     "recall@5": 0.3333333333333333,
+     "recall@10": 0.6666666666666666,
+     "hit@1": 1.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "hit@10": 1.0,
+     "mrr": 1.0,
+     "exact@1": 1.0,
+     "acc_p@5": 0.6,
+     "first_rank": 1,
+     "scenario_id": "MSD",
+     "split": "dev",
+     "top5": [
+      "02:제663조",
+      "02:제661조",
+      "02:제385조",
+      "02:제662조",
+      "02:제656조"
+     ],
+     "core": [
+      "02:제663조",
+      "02:제665조",
+      "02:제666조"
+     ],
+     "source_cited": false
+    },
+    {
+     "recall@1": 1.0,
+     "recall@3": 1.0,
+     "recall@5": 1.0,
+     "recall@10": 1.0,
+     "hit@1": 1.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "hit@10": 1.0,
+     "mrr": 1.0,
+     "exact@1": 1.0,
+     "acc_p@5": 0.2,
+     "first_rank": 1,
+     "scenario_id": "PSYCH",
+     "split": "dev",
+     "top5": [
+      "03:제41조",
+      "03:제39조",
+      "05:제90조의3",
+      "03:제135조",
+      "03:제166조"
+     ],
+     "core": [
+      "03:제41조"
+     ],
+     "source_cited": false
+    },
+    {
+     "recall@1": 0.0,
+     "recall@3": 0.5,
+     "recall@5": 0.5,
+     "recall@10": 1.0,
+     "hit@1": 0.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "hit@10": 1.0,
+     "mrr": 0.3333333333333333,
+     "exact@1": 0.0,
+     "acc_p@5": 0.2,
+     "first_rank": 3,
+     "scenario_id": "STORAGE",
+     "split": "holdout",
+     "top5": [
+      "02:제411조",
+      "02:제159조",
+      "02:제393조",
+      "02:제87조",
+      "02:제193조"
+     ],
+     "core": [
+      "02:제14조",
+      "02:제393조"
+     ],
+     "source_cited": false
+    },
+    {
+     "recall@1": 0.0,
+     "recall@3": 0.0,
+     "recall@5": 0.0,
+     "recall@10": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "hit@10": 0.0,
+     "mrr": 0.0,
+     "exact@1": 0.0,
+     "acc_p@5": 0.0,
+     "first_rank": null,
+     "scenario_id": "UV",
+     "split": "dev",
+     "top5": [
+      "02:제85조",
+      "03:제157조",
+      "02:제604조",
+      "05:제8조",
+      "02:제510조"
+     ],
+     "core": [
+      "02:제668조"
+     ],
+     "source_cited": false
+    },
+    {
+     "recall@1": 0.0,
+     "recall@3": 0.3333333333333333,
+     "recall@5": 0.3333333333333333,
+     "recall@10": 0.3333333333333333,
+     "hit@1": 0.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "hit@10": 1.0,
+     "mrr": 0.3333333333333333,
+     "exact@1": 0.0,
+     "acc_p@5": 0.2,
+     "first_rank": 3,
+     "scenario_id": "VENT",
+     "split": "holdout",
+     "top5": [
+      "02:제453조",
+      "02:제445조",
+      "02:제72조",
+      "02:제553조",
+      "02:제612조"
+     ],
+     "core": [
+      "02:제72조",
+      "02:제77조",
+      "02:제78조"
+     ],
+     "source_cited": false
+    }
+   ]
+  },
+  "R2 조문 단위 BM25": {
+   "all": {
+    "recall@1": 0.367,
+    "recall@3": 0.456,
+    "recall@5": 0.533,
+    "recall@10": 0.678,
+    "hit@3": 0.667,
+    "mrr": 0.671,
+    "exact@1": 0.6,
+    "acc_p@5": 0.28,
+    "n": 15
+   },
+   "dev": {
+    "recall@1": 0.333,
+    "recall@3": 0.333,
+    "recall@5": 0.405,
+    "recall@10": 0.643,
+    "hit@3": 0.429,
+    "mrr": 0.504,
+    "exact@1": 0.429,
+    "acc_p@5": 0.229,
+    "n": 7
+   },
+   "holdout": {
+    "recall@1": 0.396,
+    "recall@3": 0.562,
+    "recall@5": 0.646,
+    "recall@10": 0.708,
+    "hit@3": 0.875,
+    "mrr": 0.817,
+    "exact@1": 0.75,
+    "acc_p@5": 0.325,
+    "n": 8
+   },
+   "source_cited": {
+    "recall@1": 0.25,
+    "recall@3": 0.25,
+    "recall@5": 0.375,
+    "recall@10": 0.458,
+    "hit@3": 0.5,
+    "mrr": 0.59,
+    "exact@1": 0.5,
+    "acc_p@5": 0.2,
+    "n": 4
+   },
+   "per_scenario": [
+    {
+     "recall@1": 1.0,
+     "recall@3": 1.0,
+     "recall@5": 1.0,
+     "recall@10": 1.0,
+     "hit@1": 1.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "hit@10": 1.0,
+     "mrr": 1.0,
+     "exact@1": 1.0,
+     "acc_p@5": 0.2,
+     "first_rank": 1,
+     "scenario_id": "COLD",
+     "split": "dev",
+     "top5": [
+      "02:제632조",
+      "02:제377조",
+      "02:제378조",
+      "02:제636조",
+      "02:제357조"
+     ],
+     "core": [
+      "02:제632조"
+     ],
+     "source_cited": false
+    },
+    {
+     "recall@1": 0.0,
+     "recall@3": 0.0,
+     "recall@5": 0.3333333333333333,
+     "recall@10": 0.3333333333333333,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 1.0,
+     "hit@10": 1.0,
+     "mrr": 0.2,
+     "exact@1": 0.0,
+     "acc_p@5": 0.4,
+     "first_rank": 5,
+     "scenario_id": "CUT",
+     "split": "holdout",
+     "top5": [
+      "02:제95조",
+      "02:제88조",
+      "02:제114조",
+      "02:제115조",
+      "02:제130조"
+     ],
+     "core": [
+      "02:제87조",
+      "02:제92조",
+      "02:제130조"
+     ],
+     "source_cited": false
+    },
+    {
+     "recall@1": 0.5,
+     "recall@3": 0.5,
+     "recall@5": 0.5,
+     "recall@10": 0.5,
+     "hit@1": 1.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "hit@10": 1.0,
+     "mrr": 1.0,
+     "exact@1": 1.0,
+     "acc_p@5": 0.2,
+     "first_rank": 1,
+     "scenario_id": "DELIVERY",
+     "split": "holdout",
+     "top5": [
+      "02:제673조",
+      "02:제415조",
+      "02:제199조",
+      "03:제78조",
+      "02:제409조"
+     ],
+     "core": [
+      "02:제673조",
+      "08:제50조"
+     ],
+     "source_cited": true
+    },
+    {
+     "recall@1": 0.3333333333333333,
+     "recall@3": 0.6666666666666666,
+     "recall@5": 1.0,
+     "recall@10": 1.0,
+     "hit@1": 1.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "hit@10": 1.0,
+     "mrr": 1.0,
+     "exact@1": 1.0,
+     "acc_p@5": 0.6,
+     "first_rank": 1,
+     "scenario_id": "ELECT",
+     "split": "holdout",
+     "top5": [
+      "02:제301조",
+      "02:제319조",
+      "02:제304조",
+      "02:제321조",
+      "02:제302조"
+     ],
+     "core": [
+      "02:제301조",
+      "02:제302조",
+      "02:제304조"
+     ],
+     "source_cited": false
+    },
+    {
+     "recall@1": 0.0,
+     "recall@3": 0.0,
+     "recall@5": 0.5,
+     "recall@10": 0.5,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 1.0,
+     "hit@10": 1.0,
+     "mrr": 0.25,
+     "exact@1": 0.0,
+     "acc_p@5": 0.2,
+     "first_rank": 4,
+     "scenario_id": "ENV",
+     "split": "dev",
+     "top5": [
+      "02:제24조",
+      "02:제315조",
+      "02:제23조",
+      "02:제3조",
+      "02:제27조"
+     ],
+     "core": [
+      "02:제3조",
+      "02:제4조"
+     ],
+     "source_cited": true
+    },
+    {
+     "recall@1": 0.0,
+     "recall@3": 0.0,
+     "recall@5": 0.0,
+     "recall@10": 1.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "hit@10": 1.0,
+     "mrr": 0.16666666666666666,
+     "exact@1": 0.0,
+     "acc_p@5": 0.2,
+     "first_rank": 6,
+     "scenario_id": "FIRE",
+     "split": "dev",
+     "top5": [
+      "02:제225조",
+      "06:제17조",
+      "02:제238조",
+      "02:제241조의2",
+      "02:제242조"
+     ],
+     "core": [
+      "02:제243조",
+      "02:제245조"
+     ],
+     "source_cited": false
+    },
+    {
+     "recall@1": 0.0,
+     "recall@3": 1.0,
+     "recall@5": 1.0,
+     "recall@10": 1.0,
+     "hit@1": 0.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "hit@10": 1.0,
+     "mrr": 0.3333333333333333,
+     "exact@1": 0.0,
+     "acc_p@5": 0.2,
+     "first_rank": 3,
+     "scenario_id": "GAS",
+     "split": "holdout",
+     "top5": [
+      "02:제298조",
+      "02:제233조",
+      "02:제232조",
+      "02:제296조",
+      "02:제283조"
+     ],
+     "core": [
+      "02:제232조"
+     ],
+     "source_cited": false
+    },
+    {
+     "recall@1": 1.0,
+     "recall@3": 1.0,
+     "recall@5": 1.0,
+     "recall@10": 1.0,
+     "hit@1": 1.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "hit@10": 1.0,
+     "mrr": 1.0,
+     "exact@1": 1.0,
+     "acc_p@5": 0.4,
+     "first_rank": 1,
+     "scenario_id": "LADDER",
+     "split": "holdout",
+     "top5": [
+      "02:제42조",
+      "02:제24조",
+      "02:제158조",
+      "02:제397조",
+      "02:제66조"
+     ],
+     "core": [
+      "02:제42조"
+     ],
+     "source_cited": false
+    },
+    {
+     "recall@1": 0.5,
+     "recall@3": 0.5,
+     "recall@5": 0.5,
+     "recall@10": 0.5,
+     "hit@1": 1.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "hit@10": 1.0,
+     "mrr": 1.0,
+     "exact@1": 1.0,
+     "acc_p@5": 0.4,
+     "first_rank": 1,
+     "scenario_id": "LIFT",
+     "split": "holdout",
+     "top5": [
+      "02:제86조",
+      "02:제132조",
+      "02:제162조",
+      "02:제301조",
+      "02:제414조"
+     ],
+     "core": [
+      "02:제86조",
+      "02:제133조"
+     ],
+     "source_cited": true
+    },
+    {
+     "recall@1": 0.0,
+     "recall@3": 0.0,
+     "recall@5": 0.0,
+     "recall@10": 0.3333333333333333,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "hit@10": 1.0,
+     "mrr": 0.1111111111111111,
+     "exact@1": 0.0,
+     "acc_p@5": 0.0,
+     "first_rank": 9,
+     "scenario_id": "MIX",
+     "split": "dev",
+     "top5": [
+      "02:제114조",
+      "02:제115조",
+      "02:제430조",
+      "02:제414조",
+      "03:제80조"
+     ],
+     "core": [
+      "02:제92조",
+      "02:제87조",
+      "02:제130조"
+     ],
+     "source_cited": true
+    },
+    {
+     "recall@1": 0.3333333333333333,
+     "recall@3": 0.3333333333333333,
+     "recall@5": 0.3333333333333333,
+     "recall@10": 0.6666666666666666,
+     "hit@1": 1.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "hit@10": 1.0,
+     "mrr": 1.0,
+     "exact@1": 1.0,
+     "acc_p@5": 0.6,
+     "first_rank": 1,
+     "scenario_id": "MSD",
+     "split": "dev",
+     "top5": [
+      "02:제663조",
+      "02:제656조",
+      "02:제657조",
+      "02:제661조",
+      "02:제662조"
+     ],
+     "core": [
+      "02:제663조",
+      "02:제665조",
+      "02:제666조"
+     ],
+     "source_cited": false
+    },
+    {
+     "recall@1": 1.0,
+     "recall@3": 1.0,
+     "recall@5": 1.0,
+     "recall@10": 1.0,
+     "hit@1": 1.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "hit@10": 1.0,
+     "mrr": 1.0,
+     "exact@1": 1.0,
+     "acc_p@5": 0.4,
+     "first_rank": 1,
+     "scenario_id": "PSYCH",
+     "split": "dev",
+     "top5": [
+      "03:제41조",
+      "03:제39조",
+      "02:제663조",
+      "05:제90조의3",
+      "02:제669조"
+     ],
+     "core": [
+      "03:제41조"
+     ],
+     "source_cited": false
+    },
+    {
+     "recall@1": 0.5,
+     "recall@3": 0.5,
+     "recall@5": 0.5,
+     "recall@10": 1.0,
+     "hit@1": 1.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "hit@10": 1.0,
+     "mrr": 1.0,
+     "exact@1": 1.0,
+     "acc_p@5": 0.2,
+     "first_rank": 1,
+     "scenario_id": "STORAGE",
+     "split": "holdout",
+     "top5": [
+      "02:제393조",
+      "02:제159조",
+      "02:제411조",
+      "02:제333조",
+      "02:제189조"
+     ],
+     "core": [
+      "02:제14조",
+      "02:제393조"
+     ],
+     "source_cited": false
+    },
+    {
+     "recall@1": 0.0,
+     "recall@3": 0.0,
+     "recall@5": 0.0,
+     "recall@10": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "hit@10": 0.0,
+     "mrr": 0.0,
+     "exact@1": 0.0,
+     "acc_p@5": 0.0,
+     "first_rank": null,
+     "scenario_id": "UV",
+     "split": "dev",
+     "top5": [
+      "02:제85조",
+      "05:제8조",
+      "02:제604조",
+      "02:제317조",
+      "02:제597조"
+     ],
+     "core": [
+      "02:제668조"
+     ],
+     "source_cited": false
+    },
+    {
+     "recall@1": 0.3333333333333333,
+     "recall@3": 0.3333333333333333,
+     "recall@5": 0.3333333333333333,
+     "recall@10": 0.3333333333333333,
+     "hit@1": 1.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "hit@10": 1.0,
+     "mrr": 1.0,
+     "exact@1": 1.0,
+     "acc_p@5": 0.2,
+     "first_rank": 1,
+     "scenario_id": "VENT",
+     "split": "holdout",
+     "top5": [
+      "02:제72조",
+      "03:제39조",
+      "02:제453조",
+      "03:제107조",
+      "02:제524조"
+     ],
+     "core": [
+      "02:제72조",
+      "02:제77조",
+      "02:제78조"
+     ],
+     "source_cited": false
+    }
+   ]
+  },
+  "R3 R2+메타데이터 필터": {
+   "all": {
+    "recall@1": 0.367,
+    "recall@3": 0.456,
+    "recall@5": 0.511,
+    "recall@10": 0.678,
+    "hit@3": 0.667,
+    "mrr": 0.669,
+    "exact@1": 0.6,
+    "acc_p@5": 0.267,
+    "n": 15
+   },
+   "dev": {
+    "recall@1": 0.333,
+    "recall@3": 0.333,
+    "recall@5": 0.405,
+    "recall@10": 0.643,
+    "hit@3": 0.429,
+    "mrr": 0.504,
+    "exact@1": 0.429,
+    "acc_p@5": 0.229,
+    "n": 7
+   },
+   "holdout": {
+    "recall@1": 0.396,
+    "recall@3": 0.562,
+    "recall@5": 0.604,
+    "recall@10": 0.708,
+    "hit@3": 0.875,
+    "mrr": 0.812,
+    "exact@1": 0.75,
+    "acc_p@5": 0.3,
+    "n": 8
+   },
+   "source_cited": {
+    "recall@1": 0.25,
+    "recall@3": 0.25,
+    "recall@5": 0.375,
+    "recall@10": 0.458,
+    "hit@3": 0.5,
+    "mrr": 0.59,
+    "exact@1": 0.5,
+    "acc_p@5": 0.2,
+    "n": 4
+   },
+   "per_scenario": [
+    {
+     "recall@1": 1.0,
+     "recall@3": 1.0,
+     "recall@5": 1.0,
+     "recall@10": 1.0,
+     "hit@1": 1.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "hit@10": 1.0,
+     "mrr": 1.0,
+     "exact@1": 1.0,
+     "acc_p@5": 0.2,
+     "first_rank": 1,
+     "scenario_id": "COLD",
+     "split": "dev",
+     "top5": [
+      "02:제632조",
+      "02:제377조",
+      "02:제378조",
+      "02:제636조",
+      "02:제357조"
+     ],
+     "core": [
+      "02:제632조"
+     ],
+     "source_cited": false
+    },
+    {
+     "recall@1": 0.0,
+     "recall@3": 0.0,
+     "recall@5": 0.0,
+     "recall@10": 0.3333333333333333,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "hit@10": 1.0,
+     "mrr": 0.16666666666666666,
+     "exact@1": 0.0,
+     "acc_p@5": 0.2,
+     "first_rank": 6,
+     "scenario_id": "CUT",
+     "split": "holdout",
+     "top5": [
+      "02:제95조",
+      "02:제88조",
+      "02:제114조",
+      "02:제115조",
+      "02:제107조"
+     ],
+     "core": [
+      "02:제87조",
+      "02:제92조",
+      "02:제130조"
+     ],
+     "source_cited": false
+    },
+    {
+     "recall@1": 0.5,
+     "recall@3": 0.5,
+     "recall@5": 0.5,
+     "recall@10": 0.5,
+     "hit@1": 1.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "hit@10": 1.0,
+     "mrr": 1.0,
+     "exact@1": 1.0,
+     "acc_p@5": 0.2,
+     "first_rank": 1,
+     "scenario_id": "DELIVERY",
+     "split": "holdout",
+     "top5": [
+      "02:제673조",
+      "02:제199조",
+      "02:제415조",
+      "03:제78조",
+      "02:제409조"
+     ],
+     "core": [
+      "02:제673조",
+      "08:제50조"
+     ],
+     "source_cited": true
+    },
+    {
+     "recall@1": 0.3333333333333333,
+     "recall@3": 0.6666666666666666,
+     "recall@5": 1.0,
+     "recall@10": 1.0,
+     "hit@1": 1.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "hit@10": 1.0,
+     "mrr": 1.0,
+     "exact@1": 1.0,
+     "acc_p@5": 0.6,
+     "first_rank": 1,
+     "scenario_id": "ELECT",
+     "split": "holdout",
+     "top5": [
+      "02:제301조",
+      "02:제319조",
+      "02:제304조",
+      "02:제321조",
+      "02:제302조"
+     ],
+     "core": [
+      "02:제301조",
+      "02:제302조",
+      "02:제304조"
+     ],
+     "source_cited": false
+    },
+    {
+     "recall@1": 0.0,
+     "recall@3": 0.0,
+     "recall@5": 0.5,
+     "recall@10": 0.5,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 1.0,
+     "hit@10": 1.0,
+     "mrr": 0.25,
+     "exact@1": 0.0,
+     "acc_p@5": 0.2,
+     "first_rank": 4,
+     "scenario_id": "ENV",
+     "split": "dev",
+     "top5": [
+      "02:제24조",
+      "02:제315조",
+      "02:제23조",
+      "02:제3조",
+      "02:제27조"
+     ],
+     "core": [
+      "02:제3조",
+      "02:제4조"
+     ],
+     "source_cited": true
+    },
+    {
+     "recall@1": 0.0,
+     "recall@3": 0.0,
+     "recall@5": 0.0,
+     "recall@10": 1.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "hit@10": 1.0,
+     "mrr": 0.16666666666666666,
+     "exact@1": 0.0,
+     "acc_p@5": 0.2,
+     "first_rank": 6,
+     "scenario_id": "FIRE",
+     "split": "dev",
+     "top5": [
+      "02:제225조",
+      "02:제238조",
+      "06:제17조",
+      "02:제241조의2",
+      "02:제242조"
+     ],
+     "core": [
+      "02:제243조",
+      "02:제245조"
+     ],
+     "source_cited": false
+    },
+    {
+     "recall@1": 0.0,
+     "recall@3": 1.0,
+     "recall@5": 1.0,
+     "recall@10": 1.0,
+     "hit@1": 0.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "hit@10": 1.0,
+     "mrr": 0.3333333333333333,
+     "exact@1": 0.0,
+     "acc_p@5": 0.2,
+     "first_rank": 3,
+     "scenario_id": "GAS",
+     "split": "holdout",
+     "top5": [
+      "02:제298조",
+      "02:제233조",
+      "02:제232조",
+      "02:제296조",
+      "02:제283조"
+     ],
+     "core": [
+      "02:제232조"
+     ],
+     "source_cited": false
+    },
+    {
+     "recall@1": 1.0,
+     "recall@3": 1.0,
+     "recall@5": 1.0,
+     "recall@10": 1.0,
+     "hit@1": 1.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "hit@10": 1.0,
+     "mrr": 1.0,
+     "exact@1": 1.0,
+     "acc_p@5": 0.4,
+     "first_rank": 1,
+     "scenario_id": "LADDER",
+     "split": "holdout",
+     "top5": [
+      "02:제42조",
+      "02:제24조",
+      "02:제158조",
+      "02:제397조",
+      "02:제66조"
+     ],
+     "core": [
+      "02:제42조"
+     ],
+     "source_cited": false
+    },
+    {
+     "recall@1": 0.5,
+     "recall@3": 0.5,
+     "recall@5": 0.5,
+     "recall@10": 0.5,
+     "hit@1": 1.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "hit@10": 1.0,
+     "mrr": 1.0,
+     "exact@1": 1.0,
+     "acc_p@5": 0.4,
+     "first_rank": 1,
+     "scenario_id": "LIFT",
+     "split": "holdout",
+     "top5": [
+      "02:제86조",
+      "02:제132조",
+      "02:제162조",
+      "02:제301조",
+      "02:제381조"
+     ],
+     "core": [
+      "02:제86조",
+      "02:제133조"
+     ],
+     "source_cited": true
+    },
+    {
+     "recall@1": 0.0,
+     "recall@3": 0.0,
+     "recall@5": 0.0,
+     "recall@10": 0.3333333333333333,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "hit@10": 1.0,
+     "mrr": 0.1111111111111111,
+     "exact@1": 0.0,
+     "acc_p@5": 0.0,
+     "first_rank": 9,
+     "scenario_id": "MIX",
+     "split": "dev",
+     "top5": [
+      "02:제114조",
+      "02:제115조",
+      "02:제430조",
+      "02:제414조",
+      "03:제80조"
+     ],
+     "core": [
+      "02:제92조",
+      "02:제87조",
+      "02:제130조"
+     ],
+     "source_cited": true
+    },
+    {
+     "recall@1": 0.3333333333333333,
+     "recall@3": 0.3333333333333333,
+     "recall@5": 0.3333333333333333,
+     "recall@10": 0.6666666666666666,
+     "hit@1": 1.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "hit@10": 1.0,
+     "mrr": 1.0,
+     "exact@1": 1.0,
+     "acc_p@5": 0.6,
+     "first_rank": 1,
+     "scenario_id": "MSD",
+     "split": "dev",
+     "top5": [
+      "02:제663조",
+      "02:제657조",
+      "02:제661조",
+      "02:제662조",
+      "02:제385조"
+     ],
+     "core": [
+      "02:제663조",
+      "02:제665조",
+      "02:제666조"
+     ],
+     "source_cited": false
+    },
+    {
+     "recall@1": 1.0,
+     "recall@3": 1.0,
+     "recall@5": 1.0,
+     "recall@10": 1.0,
+     "hit@1": 1.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "hit@10": 1.0,
+     "mrr": 1.0,
+     "exact@1": 1.0,
+     "acc_p@5": 0.4,
+     "first_rank": 1,
+     "scenario_id": "PSYCH",
+     "split": "dev",
+     "top5": [
+      "03:제41조",
+      "03:제39조",
+      "02:제663조",
+      "02:제669조",
+      "02:제672조"
+     ],
+     "core": [
+      "03:제41조"
+     ],
+     "source_cited": false
+    },
+    {
+     "recall@1": 0.5,
+     "recall@3": 0.5,
+     "recall@5": 0.5,
+     "recall@10": 1.0,
+     "hit@1": 1.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "hit@10": 1.0,
+     "mrr": 1.0,
+     "exact@1": 1.0,
+     "acc_p@5": 0.2,
+     "first_rank": 1,
+     "scenario_id": "STORAGE",
+     "split": "holdout",
+     "top5": [
+      "02:제393조",
+      "02:제159조",
+      "02:제411조",
+      "02:제333조",
+      "02:제189조"
+     ],
+     "core": [
+      "02:제14조",
+      "02:제393조"
+     ],
+     "source_cited": false
+    },
+    {
+     "recall@1": 0.0,
+     "recall@3": 0.0,
+     "recall@5": 0.0,
+     "recall@10": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "hit@10": 0.0,
+     "mrr": 0.0,
+     "exact@1": 0.0,
+     "acc_p@5": 0.0,
+     "first_rank": null,
+     "scenario_id": "UV",
+     "split": "dev",
+     "top5": [
+      "02:제85조",
+      "02:제604조",
+      "02:제317조",
+      "02:제597조",
+      "02:제301조"
+     ],
+     "core": [
+      "02:제668조"
+     ],
+     "source_cited": false
+    },
+    {
+     "recall@1": 0.3333333333333333,
+     "recall@3": 0.3333333333333333,
+     "recall@5": 0.3333333333333333,
+     "recall@10": 0.3333333333333333,
+     "hit@1": 1.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "hit@10": 1.0,
+     "mrr": 1.0,
+     "exact@1": 1.0,
+     "acc_p@5": 0.2,
+     "first_rank": 1,
+     "scenario_id": "VENT",
+     "split": "holdout",
+     "top5": [
+      "02:제72조",
+      "03:제39조",
+      "02:제453조",
+      "03:제107조",
+      "02:제524조"
+     ],
+     "core": [
+      "02:제72조",
+      "02:제77조",
+      "02:제78조"
+     ],
+     "source_cited": false
+    }
+   ]
+  },
+  "R4 R3+질의 확장": {
+   "all": {
+    "recall@1": 0.378,
+    "recall@3": 0.544,
+    "recall@5": 0.567,
+    "recall@10": 0.733,
+    "hit@3": 0.8,
+    "mrr": 0.742,
+    "exact@1": 0.667,
+    "acc_p@5": 0.307,
+    "n": 15
+   },
+   "dev": {
+    "recall@1": 0.381,
+    "recall@3": 0.429,
+    "recall@5": 0.429,
+    "recall@10": 0.786,
+    "hit@3": 0.571,
+    "mrr": 0.613,
+    "exact@1": 0.571,
+    "acc_p@5": 0.286,
+    "n": 7
+   },
+   "holdout": {
+    "recall@1": 0.375,
+    "recall@3": 0.646,
+    "recall@5": 0.687,
+    "recall@10": 0.687,
+    "hit@3": 1.0,
+    "mrr": 0.854,
+    "exact@1": 0.75,
+    "acc_p@5": 0.325,
+    "n": 8
+   },
+   "source_cited": {
+    "recall@1": 0.208,
+    "recall@3": 0.417,
+    "recall@5": 0.417,
+    "recall@10": 0.625,
+    "hit@3": 0.75,
+    "mrr": 0.656,
+    "exact@1": 0.5,
+    "acc_p@5": 0.25,
+    "n": 4
+   },
+   "per_scenario": [
+    {
+     "recall@1": 1.0,
+     "recall@3": 1.0,
+     "recall@5": 1.0,
+     "recall@10": 1.0,
+     "hit@1": 1.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "hit@10": 1.0,
+     "mrr": 1.0,
+     "exact@1": 1.0,
+     "acc_p@5": 0.2,
+     "first_rank": 1,
+     "scenario_id": "COLD",
+     "split": "dev",
+     "top5": [
+      "02:제632조",
+      "02:제377조",
+      "02:제241조의2",
+      "02:제437조",
+      "02:제32조"
+     ],
+     "core": [
+      "02:제632조"
+     ],
+     "source_cited": false
+    },
+    {
+     "recall@1": 0.3333333333333333,
+     "recall@3": 0.3333333333333333,
+     "recall@5": 0.6666666666666666,
+     "recall@10": 0.6666666666666666,
+     "hit@1": 1.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "hit@10": 1.0,
+     "mrr": 1.0,
+     "exact@1": 1.0,
+     "acc_p@5": 0.4,
+     "first_rank": 1,
+     "scenario_id": "CUT",
+     "split": "holdout",
+     "top5": [
+      "02:제130조",
+      "02:제322조",
+      "02:제95조",
+      "02:제321조",
+      "02:제92조"
+     ],
+     "core": [
+      "02:제87조",
+      "02:제92조",
+      "02:제130조"
+     ],
+     "source_cited": false
+    },
+    {
+     "recall@1": 0.5,
+     "recall@3": 0.5,
+     "recall@5": 0.5,
+     "recall@10": 0.5,
+     "hit@1": 1.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "hit@10": 1.0,
+     "mrr": 1.0,
+     "exact@1": 1.0,
+     "acc_p@5": 0.2,
+     "first_rank": 1,
+     "scenario_id": "DELIVERY",
+     "split": "holdout",
+     "top5": [
+      "02:제673조",
+      "02:제415조",
+      "02:제199조",
+      "02:제409조",
+      "02:제322조"
+     ],
+     "core": [
+      "02:제673조",
+      "08:제50조"
+     ],
+     "source_cited": true
+    },
+    {
+     "recall@1": 0.3333333333333333,
+     "recall@3": 1.0,
+     "recall@5": 1.0,
+     "recall@10": 1.0,
+     "hit@1": 1.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "hit@10": 1.0,
+     "mrr": 1.0,
+     "exact@1": 1.0,
+     "acc_p@5": 0.6,
+     "first_rank": 1,
+     "scenario_id": "ELECT",
+     "split": "holdout",
+     "top5": [
+      "02:제301조",
+      "02:제302조",
+      "02:제304조",
+      "02:제319조",
+      "02:제321조"
+     ],
+     "core": [
+      "02:제301조",
+      "02:제302조",
+      "02:제304조"
+     ],
+     "source_cited": false
+    },
+    {
+     "recall@1": 0.0,
+     "recall@3": 0.0,
+     "recall@5": 0.0,
+     "recall@10": 0.5,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "hit@10": 1.0,
+     "mrr": 0.125,
+     "exact@1": 0.0,
+     "acc_p@5": 0.0,
+     "first_rank": 8,
+     "scenario_id": "ENV",
+     "split": "dev",
+     "top5": [
+      "02:제27조",
+      "02:제29조",
+      "02:제24조",
+      "02:제23조",
+      "02:제26조"
+     ],
+     "core": [
+      "02:제3조",
+      "02:제4조"
+     ],
+     "source_cited": true
+    },
+    {
+     "recall@1": 0.0,
+     "recall@3": 0.0,
+     "recall@5": 0.0,
+     "recall@10": 1.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "hit@10": 1.0,
+     "mrr": 0.16666666666666666,
+     "exact@1": 0.0,
+     "acc_p@5": 0.4,
+     "first_rank": 6,
+     "scenario_id": "FIRE",
+     "split": "dev",
+     "top5": [
+      "02:제241조의2",
+      "02:제241조",
+      "06:제17조",
+      "02:제225조",
+      "02:제542조"
+     ],
+     "core": [
+      "02:제243조",
+      "02:제245조"
+     ],
+     "source_cited": false
+    },
+    {
+     "recall@1": 0.0,
+     "recall@3": 1.0,
+     "recall@5": 1.0,
+     "recall@10": 1.0,
+     "hit@1": 0.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "hit@10": 1.0,
+     "mrr": 0.3333333333333333,
+     "exact@1": 0.0,
+     "acc_p@5": 0.2,
+     "first_rank": 3,
+     "scenario_id": "GAS",
+     "split": "holdout",
+     "top5": [
+      "02:제233조",
+      "02:제297조",
+      "02:제232조",
+      "02:제298조",
+      "02:제296조"
+     ],
+     "core": [
+      "02:제232조"
+     ],
+     "source_cited": false
+    },
+    {
+     "recall@1": 1.0,
+     "recall@3": 1.0,
+     "recall@5": 1.0,
+     "recall@10": 1.0,
+     "hit@1": 1.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "hit@10": 1.0,
+     "mrr": 1.0,
+     "exact@1": 1.0,
+     "acc_p@5": 0.4,
+     "first_rank": 1,
+     "scenario_id": "LADDER",
+     "split": "holdout",
+     "top5": [
+      "02:제42조",
+      "02:제24조",
+      "02:제397조",
+      "02:제415조",
+      "02:제158조"
+     ],
+     "core": [
+      "02:제42조"
+     ],
+     "source_cited": false
+    },
+    {
+     "recall@1": 0.0,
+     "recall@3": 0.5,
+     "recall@5": 0.5,
+     "recall@10": 0.5,
+     "hit@1": 0.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "hit@10": 1.0,
+     "mrr": 0.5,
+     "exact@1": 0.0,
+     "acc_p@5": 0.4,
+     "first_rank": 2,
+     "scenario_id": "LIFT",
+     "split": "holdout",
+     "top5": [
+      "02:제132조",
+      "02:제86조",
+      "02:제162조",
+      "02:제134조",
+      "02:제20조"
+     ],
+     "core": [
+      "02:제86조",
+      "02:제133조"
+     ],
+     "source_cited": true
+    },
+    {
+     "recall@1": 0.3333333333333333,
+     "recall@3": 0.6666666666666666,
+     "recall@5": 0.6666666666666666,
+     "recall@10": 1.0,
+     "hit@1": 1.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "hit@10": 1.0,
+     "mrr": 1.0,
+     "exact@1": 1.0,
+     "acc_p@5": 0.4,
+     "first_rank": 1,
+     "scenario_id": "MIX",
+     "split": "dev",
+     "top5": [
+      "02:제130조",
+      "02:제87조",
+      "02:제321조",
+      "02:제114조",
+      "02:제301조"
+     ],
+     "core": [
+      "02:제92조",
+      "02:제87조",
+      "02:제130조"
+     ],
+     "source_cited": true
+    },
+    {
+     "recall@1": 0.3333333333333333,
+     "recall@3": 0.3333333333333333,
+     "recall@5": 0.3333333333333333,
+     "recall@10": 1.0,
+     "hit@1": 1.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "hit@10": 1.0,
+     "mrr": 1.0,
+     "exact@1": 1.0,
+     "acc_p@5": 0.6,
+     "first_rank": 1,
+     "scenario_id": "MSD",
+     "split": "dev",
+     "top5": [
+      "02:제663조",
+      "02:제661조",
+      "02:제657조",
+      "02:제385조",
+      "02:제386조"
+     ],
+     "core": [
+      "02:제663조",
+      "02:제665조",
+      "02:제666조"
+     ],
+     "source_cited": false
+    },
+    {
+     "recall@1": 1.0,
+     "recall@3": 1.0,
+     "recall@5": 1.0,
+     "recall@10": 1.0,
+     "hit@1": 1.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "hit@10": 1.0,
+     "mrr": 1.0,
+     "exact@1": 1.0,
+     "acc_p@5": 0.4,
+     "first_rank": 1,
+     "scenario_id": "PSYCH",
+     "split": "dev",
+     "top5": [
+      "03:제41조",
+      "02:제669조",
+      "03:제39조",
+      "03:제165조",
+      "03:제128조의2"
+     ],
+     "core": [
+      "03:제41조"
+     ],
+     "source_cited": false
+    },
+    {
+     "recall@1": 0.5,
+     "recall@3": 0.5,
+     "recall@5": 0.5,
+     "recall@10": 0.5,
+     "hit@1": 1.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "hit@10": 1.0,
+     "mrr": 1.0,
+     "exact@1": 1.0,
+     "acc_p@5": 0.2,
+     "first_rank": 1,
+     "scenario_id": "STORAGE",
+     "split": "holdout",
+     "top5": [
+      "02:제393조",
+      "08:제39조의2",
+      "02:제411조",
+      "02:제159조",
+      "02:제9조"
+     ],
+     "core": [
+      "02:제14조",
+      "02:제393조"
+     ],
+     "source_cited": false
+    },
+    {
+     "recall@1": 0.0,
+     "recall@3": 0.0,
+     "recall@5": 0.0,
+     "recall@10": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "hit@10": 0.0,
+     "mrr": 0.0,
+     "exact@1": 0.0,
+     "acc_p@5": 0.0,
+     "first_rank": null,
+     "scenario_id": "UV",
+     "split": "dev",
+     "top5": [
+      "02:제317조",
+      "02:제301조",
+      "02:제604조",
+      "02:제597조",
+      "02:제85조"
+     ],
+     "core": [
+      "02:제668조"
+     ],
+     "source_cited": false
+    },
+    {
+     "recall@1": 0.3333333333333333,
+     "recall@3": 0.3333333333333333,
+     "recall@5": 0.3333333333333333,
+     "recall@10": 0.3333333333333333,
+     "hit@1": 1.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "hit@10": 1.0,
+     "mrr": 1.0,
+     "exact@1": 1.0,
+     "acc_p@5": 0.2,
+     "first_rank": 1,
+     "scenario_id": "VENT",
+     "split": "holdout",
+     "top5": [
+      "02:제72조",
+      "02:제453조",
+      "02:제655조",
+      "02:제500조",
+      "02:제509조"
+     ],
+     "core": [
+      "02:제72조",
+      "02:제77조",
+      "02:제78조"
+     ],
+     "source_cited": false
+    }
+   ]
+  },
+  "R5 R4+제목 재순위": {
+   "all": {
+    "recall@1": 0.456,
+    "recall@3": 0.556,
+    "recall@5": 0.578,
+    "recall@10": 0.722,
+    "hit@3": 0.867,
+    "mrr": 0.8,
+    "exact@1": 0.733,
+    "acc_p@5": 0.333,
+    "n": 15
+   },
+   "dev": {
+    "recall@1": 0.333,
+    "recall@3": 0.5,
+    "recall@5": 0.5,
+    "recall@10": 0.643,
+    "hit@3": 0.714,
+    "mrr": 0.571,
+    "exact@1": 0.429,
+    "acc_p@5": 0.343,
+    "n": 7
+   },
+   "holdout": {
+    "recall@1": 0.562,
+    "recall@3": 0.604,
+    "recall@5": 0.646,
+    "recall@10": 0.792,
+    "hit@3": 1.0,
+    "mrr": 1.0,
+    "exact@1": 1.0,
+    "acc_p@5": 0.325,
+    "n": 8
+   },
+   "source_cited": {
+    "recall@1": 0.333,
+    "recall@3": 0.417,
+    "recall@5": 0.417,
+    "recall@10": 0.5,
+    "hit@3": 0.75,
+    "mrr": 0.75,
+    "exact@1": 0.75,
+    "acc_p@5": 0.25,
+    "n": 4
+   },
+   "per_scenario": [
+    {
+     "recall@1": 1.0,
+     "recall@3": 1.0,
+     "recall@5": 1.0,
+     "recall@10": 1.0,
+     "hit@1": 1.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "hit@10": 1.0,
+     "mrr": 1.0,
+     "exact@1": 1.0,
+     "acc_p@5": 0.2,
+     "first_rank": 1,
+     "scenario_id": "COLD",
+     "split": "dev",
+     "top5": [
+      "02:제632조",
+      "02:제377조",
+      "02:제322조",
+      "02:제437조",
+      "02:제636조"
+     ],
+     "core": [
+      "02:제632조"
+     ],
+     "source_cited": false
+    },
+    {
+     "recall@1": 0.3333333333333333,
+     "recall@3": 0.3333333333333333,
+     "recall@5": 0.3333333333333333,
+     "recall@10": 1.0,
+     "hit@1": 1.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "hit@10": 1.0,
+     "mrr": 1.0,
+     "exact@1": 1.0,
+     "acc_p@5": 0.2,
+     "first_rank": 1,
+     "scenario_id": "CUT",
+     "split": "holdout",
+     "top5": [
+      "02:제130조",
+      "02:제322조",
+      "02:제95조",
+      "02:제90조",
+      "02:제321조"
+     ],
+     "core": [
+      "02:제87조",
+      "02:제92조",
+      "02:제130조"
+     ],
+     "source_cited": false
+    },
+    {
+     "recall@1": 0.5,
+     "recall@3": 0.5,
+     "recall@5": 0.5,
+     "recall@10": 0.5,
+     "hit@1": 1.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "hit@10": 1.0,
+     "mrr": 1.0,
+     "exact@1": 1.0,
+     "acc_p@5": 0.2,
+     "first_rank": 1,
+     "scenario_id": "DELIVERY",
+     "split": "holdout",
+     "top5": [
+      "02:제673조",
+      "02:제415조",
+      "02:제199조",
+      "02:제322조",
+      "02:제171조"
+     ],
+     "core": [
+      "02:제673조",
+      "08:제50조"
+     ],
+     "source_cited": true
+    },
+    {
+     "recall@1": 0.3333333333333333,
+     "recall@3": 0.6666666666666666,
+     "recall@5": 1.0,
+     "recall@10": 1.0,
+     "hit@1": 1.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "hit@10": 1.0,
+     "mrr": 1.0,
+     "exact@1": 1.0,
+     "acc_p@5": 0.6,
+     "first_rank": 1,
+     "scenario_id": "ELECT",
+     "split": "holdout",
+     "top5": [
+      "02:제301조",
+      "02:제321조",
+      "02:제304조",
+      "02:제319조",
+      "02:제302조"
+     ],
+     "core": [
+      "02:제301조",
+      "02:제302조",
+      "02:제304조"
+     ],
+     "source_cited": false
+    },
+    {
+     "recall@1": 0.0,
+     "recall@3": 0.0,
+     "recall@5": 0.0,
+     "recall@10": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "hit@10": 0.0,
+     "mrr": 0.0,
+     "exact@1": 0.0,
+     "acc_p@5": 0.0,
+     "first_rank": null,
+     "scenario_id": "ENV",
+     "split": "dev",
+     "top5": [
+      "02:제315조",
+      "02:제24조",
+      "02:제27조",
+      "02:제23조",
+      "02:제29조"
+     ],
+     "core": [
+      "02:제3조",
+      "02:제4조"
+     ],
+     "source_cited": true
+    },
+    {
+     "recall@1": 0.0,
+     "recall@3": 0.5,
+     "recall@5": 0.5,
+     "recall@10": 0.5,
+     "hit@1": 0.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "hit@10": 1.0,
+     "mrr": 0.5,
+     "exact@1": 0.0,
+     "acc_p@5": 0.8,
+     "first_rank": 2,
+     "scenario_id": "FIRE",
+     "split": "dev",
+     "top5": [
+      "02:제241조의2",
+      "02:제245조",
+      "02:제241조",
+      "06:제17조",
+      "02:제236조"
+     ],
+     "core": [
+      "02:제243조",
+      "02:제245조"
+     ],
+     "source_cited": false
+    },
+    {
+     "recall@1": 1.0,
+     "recall@3": 1.0,
+     "recall@5": 1.0,
+     "recall@10": 1.0,
+     "hit@1": 1.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "hit@10": 1.0,
+     "mrr": 1.0,
+     "exact@1": 1.0,
+     "acc_p@5": 0.4,
+     "first_rank": 1,
+     "scenario_id": "GAS",
+     "split": "holdout",
+     "top5": [
+      "02:제232조",
+      "02:제298조",
+      "02:제325조",
+      "02:제233조",
+      "02:제299조"
+     ],
+     "core": [
+      "02:제232조"
+     ],
+     "source_cited": false
+    },
+    {
+     "recall@1": 1.0,
+     "recall@3": 1.0,
+     "recall@5": 1.0,
+     "recall@10": 1.0,
+     "hit@1": 1.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "hit@10": 1.0,
+     "mrr": 1.0,
+     "exact@1": 1.0,
+     "acc_p@5": 0.4,
+     "first_rank": 1,
+     "scenario_id": "LADDER",
+     "split": "holdout",
+     "top5": [
+      "02:제42조",
+      "02:제24조",
+      "02:제415조",
+      "02:제418조",
+      "02:제186조"
+     ],
+     "core": [
+      "02:제42조"
+     ],
+     "source_cited": false
+    },
+    {
+     "recall@1": 0.5,
+     "recall@3": 0.5,
+     "recall@5": 0.5,
+     "recall@10": 0.5,
+     "hit@1": 1.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "hit@10": 1.0,
+     "mrr": 1.0,
+     "exact@1": 1.0,
+     "acc_p@5": 0.4,
+     "first_rank": 1,
+     "scenario_id": "LIFT",
+     "split": "holdout",
+     "top5": [
+      "02:제86조",
+      "02:제132조",
+      "02:제387조",
+      "02:제175조",
+      "02:제134조"
+     ],
+     "core": [
+      "02:제86조",
+      "02:제133조"
+     ],
+     "source_cited": true
+    },
+    {
+     "recall@1": 0.3333333333333333,
+     "recall@3": 0.6666666666666666,
+     "recall@5": 0.6666666666666666,
+     "recall@10": 1.0,
+     "hit@1": 1.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "hit@10": 1.0,
+     "mrr": 1.0,
+     "exact@1": 1.0,
+     "acc_p@5": 0.4,
+     "first_rank": 1,
+     "scenario_id": "MIX",
+     "split": "dev",
+     "top5": [
+      "02:제87조",
+      "02:제130조",
+      "02:제114조",
+      "02:제321조",
+      "02:제12조"
+     ],
+     "core": [
+      "02:제92조",
+      "02:제87조",
+      "02:제130조"
+     ],
+     "source_cited": true
+    },
+    {
+     "recall@1": 0.0,
+     "recall@3": 0.3333333333333333,
+     "recall@5": 0.3333333333333333,
+     "recall@10": 1.0,
+     "hit@1": 0.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "hit@10": 1.0,
+     "mrr": 0.5,
+     "exact@1": 0.0,
+     "acc_p@5": 0.6,
+     "first_rank": 2,
+     "scenario_id": "MSD",
+     "split": "dev",
+     "top5": [
+      "02:제385조",
+      "02:제663조",
+      "02:제662조",
+      "02:제386조",
+      "02:제664조"
+     ],
+     "core": [
+      "02:제663조",
+      "02:제665조",
+      "02:제666조"
+     ],
+     "source_cited": false
+    },
+    {
+     "recall@1": 1.0,
+     "recall@3": 1.0,
+     "recall@5": 1.0,
+     "recall@10": 1.0,
+     "hit@1": 1.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "hit@10": 1.0,
+     "mrr": 1.0,
+     "exact@1": 1.0,
+     "acc_p@5": 0.4,
+     "first_rank": 1,
+     "scenario_id": "PSYCH",
+     "split": "dev",
+     "top5": [
+      "03:제41조",
+      "02:제669조",
+      "03:제109조",
+      "02:제668조",
+      "02:제35조"
+     ],
+     "core": [
+      "03:제41조"
+     ],
+     "source_cited": false
+    },
+    {
+     "recall@1": 0.5,
+     "recall@3": 0.5,
+     "recall@5": 0.5,
+     "recall@10": 1.0,
+     "hit@1": 1.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "hit@10": 1.0,
+     "mrr": 1.0,
+     "exact@1": 1.0,
+     "acc_p@5": 0.2,
+     "first_rank": 1,
+     "scenario_id": "STORAGE",
+     "split": "holdout",
+     "top5": [
+      "02:제393조",
+      "02:제411조",
+      "02:제159조",
+      "08:제39조의2",
+      "02:제173조"
+     ],
+     "core": [
+      "02:제14조",
+      "02:제393조"
+     ],
+     "source_cited": false
+    },
+    {
+     "recall@1": 0.0,
+     "recall@3": 0.0,
+     "recall@5": 0.0,
+     "recall@10": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "hit@10": 0.0,
+     "mrr": 0.0,
+     "exact@1": 0.0,
+     "acc_p@5": 0.0,
+     "first_rank": null,
+     "scenario_id": "UV",
+     "split": "dev",
+     "top5": [
+      "02:제317조",
+      "02:제604조",
+      "02:제597조",
+      "02:제217조",
+      "02:제301조"
+     ],
+     "core": [
+      "02:제668조"
+     ],
+     "source_cited": false
+    },
+    {
+     "recall@1": 0.3333333333333333,
+     "recall@3": 0.3333333333333333,
+     "recall@5": 0.3333333333333333,
+     "recall@10": 0.3333333333333333,
+     "hit@1": 1.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "hit@10": 1.0,
+     "mrr": 1.0,
+     "exact@1": 1.0,
+     "acc_p@5": 0.2,
+     "first_rank": 1,
+     "scenario_id": "VENT",
+     "split": "holdout",
+     "top5": [
+      "02:제72조",
+      "02:제669조",
+      "02:제509조",
+      "02:제668조",
+      "03:제109조"
+     ],
+     "core": [
+      "02:제72조",
+      "02:제77조",
+      "02:제78조"
+     ],
+     "source_cited": false
+    }
+   ]
+  }
+ },
+ "gold_v0": {
+  "R0 서비스 현재(legal_registry 없음)": {
+   "summary": {
+    "hit@1": 0.0,
+    "hit@3": 0.0,
+    "hit@5": 0.0,
+    "recall@5": 0.0,
+    "mrr": 0.0,
+    "n": 25
+   },
+   "per_query": [
+    {
+     "id": "Q01",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": []
+    },
+    {
+     "id": "Q02",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": []
+    },
+    {
+     "id": "Q03",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": []
+    },
+    {
+     "id": "Q04",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": []
+    },
+    {
+     "id": "Q05",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": []
+    },
+    {
+     "id": "Q06",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": []
+    },
+    {
+     "id": "Q07",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": []
+    },
+    {
+     "id": "Q08",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": []
+    },
+    {
+     "id": "Q11",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": []
+    },
+    {
+     "id": "Q12",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": []
+    },
+    {
+     "id": "Q13",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": []
+    },
+    {
+     "id": "Q14",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": []
+    },
+    {
+     "id": "Q15",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": []
+    },
+    {
+     "id": "Q16",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": []
+    },
+    {
+     "id": "Q17",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": []
+    },
+    {
+     "id": "Q18",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": []
+    },
+    {
+     "id": "Q19",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": []
+    },
+    {
+     "id": "Q22",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": []
+    },
+    {
+     "id": "Q23",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": []
+    },
+    {
+     "id": "Q24",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": []
+    },
+    {
+     "id": "Q25",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": []
+    },
+    {
+     "id": "Q26",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": []
+    },
+    {
+     "id": "Q27",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": []
+    },
+    {
+     "id": "Q28",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": []
+    },
+    {
+     "id": "Q30",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": []
+    }
+   ]
+  },
+  "R1 기존 키워드(TF-IDF·항 단위)": {
+   "summary": {
+    "hit@1": 0.16,
+    "hit@3": 0.36,
+    "hit@5": 0.4,
+    "recall@5": 0.171,
+    "mrr": 0.284,
+    "n": 25
+   },
+   "per_query": [
+    {
+     "id": "Q01",
+     "mrr": 0.3333333333333333,
+     "hit@1": 0.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "recall@5": 0.5,
+     "top3": [
+      "02:제431조",
+      "02:제139조",
+      "02:제3조"
+     ]
+    },
+    {
+     "id": "Q02",
+     "mrr": 0.16666666666666666,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "02:제27조",
+      "02:제25조",
+      "02:제365조"
+     ]
+    },
+    {
+     "id": "Q03",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "02:제284조",
+      "02:제542조",
+      "02:제129조"
+     ]
+    },
+    {
+     "id": "Q04",
+     "mrr": 0.3333333333333333,
+     "hit@1": 0.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "recall@5": 0.25,
+     "top3": [
+      "02:제293조",
+      "02:제261조",
+      "07:제39조"
+     ]
+    },
+    {
+     "id": "Q05",
+     "mrr": 1.0,
+     "hit@1": 1.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "recall@5": 0.3333333333333333,
+     "top3": [
+      "02:제673조",
+      "03:제156조",
+      "03:제78조"
+     ]
+    },
+    {
+     "id": "Q06",
+     "mrr": 1.0,
+     "hit@1": 1.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "recall@5": 0.3333333333333333,
+     "top3": [
+      "02:제673조",
+      "03:제78조",
+      "02:제90조"
+     ]
+    },
+    {
+     "id": "Q07",
+     "mrr": 1.0,
+     "hit@1": 1.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "recall@5": 0.3333333333333333,
+     "top3": [
+      "02:제673조",
+      "03:제156조",
+      "05:제53조"
+     ]
+    },
+    {
+     "id": "Q08",
+     "mrr": 0.5,
+     "hit@1": 0.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "recall@5": 0.5,
+     "top3": [
+      "08:제38조",
+      "02:제673조",
+      "08:제25조의2"
+     ]
+    },
+    {
+     "id": "Q11",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "02:제103조",
+      "02:제117조",
+      "02:제531조"
+     ]
+    },
+    {
+     "id": "Q12",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "02:제657조",
+      "08:제5조의3",
+      "02:제661조"
+     ]
+    },
+    {
+     "id": "Q13",
+     "mrr": 0.16666666666666666,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "02:제94조",
+      "02:제95조",
+      "03:제80조"
+     ]
+    },
+    {
+     "id": "Q14",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "02:제10조",
+      "02:제319조",
+      "02:제7조"
+     ]
+    },
+    {
+     "id": "Q15",
+     "mrr": 0.14285714285714285,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "02:제12조",
+      "02:제11조",
+      "02:제17조"
+     ]
+    },
+    {
+     "id": "Q16",
+     "mrr": 0.14285714285714285,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "02:제161조",
+      "02:제158조",
+      "02:제187조"
+     ]
+    },
+    {
+     "id": "Q17",
+     "mrr": 0.16666666666666666,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "02:제66조",
+      "08:제20조",
+      "02:제24조"
+     ]
+    },
+    {
+     "id": "Q18",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "02:제10조",
+      "02:제453조",
+      "02:제445조"
+     ]
+    },
+    {
+     "id": "Q19",
+     "mrr": 1.0,
+     "hit@1": 1.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "recall@5": 0.2,
+     "top3": [
+      "02:제72조",
+      "08:제66조",
+      "02:제453조"
+     ]
+    },
+    {
+     "id": "Q22",
+     "mrr": 0.2,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 1.0,
+     "recall@5": 0.5,
+     "top3": [
+      "02:제195조",
+      "02:제193조",
+      "02:제86조"
+     ]
+    },
+    {
+     "id": "Q23",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "02:제315조",
+      "02:제501조",
+      "02:제497조"
+     ]
+    },
+    {
+     "id": "Q24",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "02:제569조",
+      "02:제154조",
+      "02:제437조"
+     ]
+    },
+    {
+     "id": "Q25",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "08:제11조",
+      "02:제27조",
+      "02:제402조"
+     ]
+    },
+    {
+     "id": "Q26",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "08:제13조의2",
+      "08:제27조",
+      "02:제27조"
+     ]
+    },
+    {
+     "id": "Q27",
+     "mrr": 0.1111111111111111,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "02:제197조",
+      "02:제27조",
+      "02:제179조"
+     ]
+    },
+    {
+     "id": "Q28",
+     "mrr": 0.5,
+     "hit@1": 0.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "recall@5": 1.0,
+     "top3": [
+      "08:제24조",
+      "02:제632조",
+      "08:제116조"
+     ]
+    },
+    {
+     "id": "Q30",
+     "mrr": 0.3333333333333333,
+     "hit@1": 0.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "recall@5": 0.3333333333333333,
+     "top3": [
+      "02:제628조",
+      "06-02:제11조",
+      "02:제245조"
+     ]
+    }
+   ]
+  },
+  "R2 조문 단위 BM25": {
+   "summary": {
+    "hit@1": 0.08,
+    "hit@3": 0.24,
+    "hit@5": 0.36,
+    "recall@5": 0.181,
+    "mrr": 0.22,
+    "n": 25
+   },
+   "per_query": [
+    {
+     "id": "Q01",
+     "mrr": 0.16666666666666666,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "02:제209조",
+      "02:제431조",
+      "02:제139조"
+     ]
+    },
+    {
+     "id": "Q02",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "02:제27조",
+      "02:제25조",
+      "02:제21조"
+     ]
+    },
+    {
+     "id": "Q03",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "02:제284조",
+      "02:제273조",
+      "02:제281조"
+     ]
+    },
+    {
+     "id": "Q04",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "02:제293조",
+      "02:제233조",
+      "02:제261조"
+     ]
+    },
+    {
+     "id": "Q05",
+     "mrr": 0.5,
+     "hit@1": 0.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "recall@5": 0.3333333333333333,
+     "top3": [
+      "03:제156조",
+      "02:제673조",
+      "03:제78조"
+     ]
+    },
+    {
+     "id": "Q06",
+     "mrr": 0.5,
+     "hit@1": 0.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "recall@5": 0.3333333333333333,
+     "top3": [
+      "03:제78조",
+      "02:제673조",
+      "02:제90조"
+     ]
+    },
+    {
+     "id": "Q07",
+     "mrr": 1.0,
+     "hit@1": 1.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "recall@5": 0.3333333333333333,
+     "top3": [
+      "02:제673조",
+      "03:제156조",
+      "03:제78조"
+     ]
+    },
+    {
+     "id": "Q08",
+     "mrr": 0.5,
+     "hit@1": 0.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "recall@5": 0.5,
+     "top3": [
+      "08:제38조",
+      "02:제673조",
+      "03:제78조"
+     ]
+    },
+    {
+     "id": "Q11",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "02:제103조",
+      "02:제224조",
+      "02:제117조"
+     ]
+    },
+    {
+     "id": "Q12",
+     "mrr": 0.1,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "08:제5조의3",
+      "02:제620조",
+      "02:제72조"
+     ]
+    },
+    {
+     "id": "Q13",
+     "mrr": 0.14285714285714285,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "02:제94조",
+      "02:제95조",
+      "03:제80조"
+     ]
+    },
+    {
+     "id": "Q14",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "02:제319조",
+      "02:제10조",
+      "02:제651조"
+     ]
+    },
+    {
+     "id": "Q15",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "02:제12조",
+      "02:제11조",
+      "02:제666조"
+     ]
+    },
+    {
+     "id": "Q16",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "02:제161조",
+      "02:제158조",
+      "02:제187조"
+     ]
+    },
+    {
+     "id": "Q17",
+     "mrr": 0.25,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 1.0,
+     "recall@5": 1.0,
+     "top3": [
+      "08:제20조",
+      "02:제66조",
+      "02:제24조"
+     ]
+    },
+    {
+     "id": "Q18",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "02:제10조",
+      "02:제651조",
+      "02:제153조"
+     ]
+    },
+    {
+     "id": "Q19",
+     "mrr": 1.0,
+     "hit@1": 1.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "recall@5": 0.2,
+     "top3": [
+      "02:제72조",
+      "08:제66조",
+      "08:제24조"
+     ]
+    },
+    {
+     "id": "Q22",
+     "mrr": 0.25,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 1.0,
+     "recall@5": 0.5,
+     "top3": [
+      "02:제195조",
+      "02:제194조",
+      "02:제193조"
+     ]
+    },
+    {
+     "id": "Q23",
+     "mrr": 0.14285714285714285,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "02:제315조",
+      "02:제319조",
+      "02:제56조"
+     ]
+    },
+    {
+     "id": "Q24",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "02:제569조",
+      "02:제437조",
+      "02:제154조"
+     ]
+    },
+    {
+     "id": "Q25",
+     "mrr": 0.14285714285714285,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "08:제11조",
+      "02:제670조",
+      "02:제650조"
+     ]
+    },
+    {
+     "id": "Q26",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "08:제13조의2",
+      "08:제27조",
+      "02:제27조"
+     ]
+    },
+    {
+     "id": "Q27",
+     "mrr": 0.1,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "02:제197조",
+      "02:제179조",
+      "02:제26조"
+     ]
+    },
+    {
+     "id": "Q28",
+     "mrr": 0.5,
+     "hit@1": 0.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "recall@5": 1.0,
+     "top3": [
+      "08:제24조",
+      "02:제632조",
+      "02:제12조"
+     ]
+    },
+    {
+     "id": "Q30",
+     "mrr": 0.2,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 1.0,
+     "recall@5": 0.3333333333333333,
+     "top3": [
+      "02:제628조",
+      "02:제241조의2",
+      "02:제241조"
+     ]
+    }
+   ]
+  },
+  "R3 R2+메타데이터 필터": {
+   "summary": {
+    "hit@1": 0.08,
+    "hit@3": 0.24,
+    "hit@5": 0.36,
+    "recall@5": 0.181,
+    "mrr": 0.217,
+    "n": 25
+   },
+   "per_query": [
+    {
+     "id": "Q01",
+     "mrr": 0.16666666666666666,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "02:제209조",
+      "02:제431조",
+      "02:제139조"
+     ]
+    },
+    {
+     "id": "Q02",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "02:제27조",
+      "02:제25조",
+      "02:제21조"
+     ]
+    },
+    {
+     "id": "Q03",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "02:제284조",
+      "02:제273조",
+      "02:제281조"
+     ]
+    },
+    {
+     "id": "Q04",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "02:제293조",
+      "02:제233조",
+      "02:제261조"
+     ]
+    },
+    {
+     "id": "Q05",
+     "mrr": 0.5,
+     "hit@1": 0.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "recall@5": 0.3333333333333333,
+     "top3": [
+      "03:제156조",
+      "02:제673조",
+      "03:제78조"
+     ]
+    },
+    {
+     "id": "Q06",
+     "mrr": 0.5,
+     "hit@1": 0.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "recall@5": 0.3333333333333333,
+     "top3": [
+      "03:제78조",
+      "02:제673조",
+      "02:제90조"
+     ]
+    },
+    {
+     "id": "Q07",
+     "mrr": 1.0,
+     "hit@1": 1.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "recall@5": 0.3333333333333333,
+     "top3": [
+      "02:제673조",
+      "03:제156조",
+      "03:제78조"
+     ]
+    },
+    {
+     "id": "Q08",
+     "mrr": 0.5,
+     "hit@1": 0.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "recall@5": 0.5,
+     "top3": [
+      "08:제38조",
+      "02:제673조",
+      "03:제78조"
+     ]
+    },
+    {
+     "id": "Q11",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "02:제103조",
+      "02:제224조",
+      "02:제117조"
+     ]
+    },
+    {
+     "id": "Q12",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "08:제5조의3",
+      "02:제620조",
+      "02:제72조"
+     ]
+    },
+    {
+     "id": "Q13",
+     "mrr": 0.14285714285714285,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "02:제94조",
+      "02:제95조",
+      "03:제80조"
+     ]
+    },
+    {
+     "id": "Q14",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "02:제319조",
+      "02:제10조",
+      "02:제651조"
+     ]
+    },
+    {
+     "id": "Q15",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "02:제12조",
+      "02:제11조",
+      "02:제666조"
+     ]
+    },
+    {
+     "id": "Q16",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "02:제161조",
+      "02:제158조",
+      "02:제187조"
+     ]
+    },
+    {
+     "id": "Q17",
+     "mrr": 0.25,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 1.0,
+     "recall@5": 1.0,
+     "top3": [
+      "08:제20조",
+      "02:제66조",
+      "02:제24조"
+     ]
+    },
+    {
+     "id": "Q18",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "02:제10조",
+      "02:제651조",
+      "02:제153조"
+     ]
+    },
+    {
+     "id": "Q19",
+     "mrr": 1.0,
+     "hit@1": 1.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "recall@5": 0.2,
+     "top3": [
+      "02:제72조",
+      "08:제66조",
+      "08:제24조"
+     ]
+    },
+    {
+     "id": "Q22",
+     "mrr": 0.25,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 1.0,
+     "recall@5": 0.5,
+     "top3": [
+      "02:제195조",
+      "02:제194조",
+      "02:제193조"
+     ]
+    },
+    {
+     "id": "Q23",
+     "mrr": 0.14285714285714285,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "02:제315조",
+      "02:제319조",
+      "02:제56조"
+     ]
+    },
+    {
+     "id": "Q24",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "02:제569조",
+      "02:제437조",
+      "02:제154조"
+     ]
+    },
+    {
+     "id": "Q25",
+     "mrr": 0.16666666666666666,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "08:제11조",
+      "02:제670조",
+      "02:제650조"
+     ]
+    },
+    {
+     "id": "Q26",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "08:제13조의2",
+      "08:제27조",
+      "02:제27조"
+     ]
+    },
+    {
+     "id": "Q27",
+     "mrr": 0.1,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "02:제197조",
+      "02:제179조",
+      "02:제26조"
+     ]
+    },
+    {
+     "id": "Q28",
+     "mrr": 0.5,
+     "hit@1": 0.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "recall@5": 1.0,
+     "top3": [
+      "08:제24조",
+      "02:제632조",
+      "02:제12조"
+     ]
+    },
+    {
+     "id": "Q30",
+     "mrr": 0.2,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 1.0,
+     "recall@5": 0.3333333333333333,
+     "top3": [
+      "02:제628조",
+      "02:제241조의2",
+      "02:제241조"
+     ]
+    }
+   ]
+  },
+  "R4 R3+질의 확장": {
+   "summary": {
+    "hit@1": 0.08,
+    "hit@3": 0.24,
+    "hit@5": 0.36,
+    "recall@5": 0.181,
+    "mrr": 0.217,
+    "n": 25
+   },
+   "per_query": [
+    {
+     "id": "Q01",
+     "mrr": 0.16666666666666666,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "02:제209조",
+      "02:제431조",
+      "02:제139조"
+     ]
+    },
+    {
+     "id": "Q02",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "02:제27조",
+      "02:제25조",
+      "02:제21조"
+     ]
+    },
+    {
+     "id": "Q03",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "02:제284조",
+      "02:제273조",
+      "02:제281조"
+     ]
+    },
+    {
+     "id": "Q04",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "02:제293조",
+      "02:제233조",
+      "02:제261조"
+     ]
+    },
+    {
+     "id": "Q05",
+     "mrr": 0.5,
+     "hit@1": 0.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "recall@5": 0.3333333333333333,
+     "top3": [
+      "03:제156조",
+      "02:제673조",
+      "03:제78조"
+     ]
+    },
+    {
+     "id": "Q06",
+     "mrr": 0.5,
+     "hit@1": 0.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "recall@5": 0.3333333333333333,
+     "top3": [
+      "03:제78조",
+      "02:제673조",
+      "02:제90조"
+     ]
+    },
+    {
+     "id": "Q07",
+     "mrr": 1.0,
+     "hit@1": 1.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "recall@5": 0.3333333333333333,
+     "top3": [
+      "02:제673조",
+      "03:제156조",
+      "03:제78조"
+     ]
+    },
+    {
+     "id": "Q08",
+     "mrr": 0.5,
+     "hit@1": 0.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "recall@5": 0.5,
+     "top3": [
+      "08:제38조",
+      "02:제673조",
+      "03:제78조"
+     ]
+    },
+    {
+     "id": "Q11",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "02:제103조",
+      "02:제224조",
+      "02:제117조"
+     ]
+    },
+    {
+     "id": "Q12",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "08:제5조의3",
+      "02:제620조",
+      "02:제72조"
+     ]
+    },
+    {
+     "id": "Q13",
+     "mrr": 0.14285714285714285,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "02:제94조",
+      "02:제95조",
+      "03:제80조"
+     ]
+    },
+    {
+     "id": "Q14",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "02:제319조",
+      "02:제10조",
+      "02:제651조"
+     ]
+    },
+    {
+     "id": "Q15",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "02:제12조",
+      "02:제11조",
+      "02:제666조"
+     ]
+    },
+    {
+     "id": "Q16",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "02:제161조",
+      "02:제158조",
+      "02:제187조"
+     ]
+    },
+    {
+     "id": "Q17",
+     "mrr": 0.25,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 1.0,
+     "recall@5": 1.0,
+     "top3": [
+      "08:제20조",
+      "02:제66조",
+      "02:제24조"
+     ]
+    },
+    {
+     "id": "Q18",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "02:제10조",
+      "02:제651조",
+      "02:제153조"
+     ]
+    },
+    {
+     "id": "Q19",
+     "mrr": 1.0,
+     "hit@1": 1.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "recall@5": 0.2,
+     "top3": [
+      "02:제72조",
+      "08:제66조",
+      "08:제24조"
+     ]
+    },
+    {
+     "id": "Q22",
+     "mrr": 0.25,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 1.0,
+     "recall@5": 0.5,
+     "top3": [
+      "02:제195조",
+      "02:제194조",
+      "02:제193조"
+     ]
+    },
+    {
+     "id": "Q23",
+     "mrr": 0.14285714285714285,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "02:제315조",
+      "02:제319조",
+      "02:제56조"
+     ]
+    },
+    {
+     "id": "Q24",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "02:제569조",
+      "02:제437조",
+      "02:제154조"
+     ]
+    },
+    {
+     "id": "Q25",
+     "mrr": 0.16666666666666666,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "08:제11조",
+      "02:제670조",
+      "02:제650조"
+     ]
+    },
+    {
+     "id": "Q26",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "08:제13조의2",
+      "08:제27조",
+      "02:제27조"
+     ]
+    },
+    {
+     "id": "Q27",
+     "mrr": 0.1,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "02:제197조",
+      "02:제179조",
+      "02:제26조"
+     ]
+    },
+    {
+     "id": "Q28",
+     "mrr": 0.5,
+     "hit@1": 0.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "recall@5": 1.0,
+     "top3": [
+      "08:제24조",
+      "02:제632조",
+      "02:제12조"
+     ]
+    },
+    {
+     "id": "Q30",
+     "mrr": 0.2,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 1.0,
+     "recall@5": 0.3333333333333333,
+     "top3": [
+      "02:제628조",
+      "02:제241조의2",
+      "02:제241조"
+     ]
+    }
+   ]
+  },
+  "R5 R4+제목 재순위": {
+   "summary": {
+    "hit@1": 0.08,
+    "hit@3": 0.28,
+    "hit@5": 0.4,
+    "recall@5": 0.195,
+    "mrr": 0.229,
+    "n": 25
+   },
+   "per_query": [
+    {
+     "id": "Q01",
+     "mrr": 0.16666666666666666,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "02:제431조",
+      "02:제209조",
+      "02:제315조"
+     ]
+    },
+    {
+     "id": "Q02",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "02:제25조",
+      "02:제21조",
+      "02:제27조"
+     ]
+    },
+    {
+     "id": "Q03",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "02:제284조",
+      "02:제273조",
+      "02:제281조"
+     ]
+    },
+    {
+     "id": "Q04",
+     "mrr": 0.14285714285714285,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "02:제293조",
+      "02:제233조",
+      "02:제261조"
+     ]
+    },
+    {
+     "id": "Q05",
+     "mrr": 0.5,
+     "hit@1": 0.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "recall@5": 0.3333333333333333,
+     "top3": [
+      "03:제156조",
+      "02:제673조",
+      "03:제78조"
+     ]
+    },
+    {
+     "id": "Q06",
+     "mrr": 0.5,
+     "hit@1": 0.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "recall@5": 0.3333333333333333,
+     "top3": [
+      "03:제78조",
+      "02:제673조",
+      "02:제90조"
+     ]
+    },
+    {
+     "id": "Q07",
+     "mrr": 1.0,
+     "hit@1": 1.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "recall@5": 0.3333333333333333,
+     "top3": [
+      "02:제673조",
+      "03:제156조",
+      "03:제78조"
+     ]
+    },
+    {
+     "id": "Q08",
+     "mrr": 0.5,
+     "hit@1": 0.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "recall@5": 0.5,
+     "top3": [
+      "08:제38조",
+      "02:제673조",
+      "03:제78조"
+     ]
+    },
+    {
+     "id": "Q11",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "02:제117조",
+      "02:제103조",
+      "02:제224조"
+     ]
+    },
+    {
+     "id": "Q12",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "08:제5조의3",
+      "02:제658조",
+      "08:제26조"
+     ]
+    },
+    {
+     "id": "Q13",
+     "mrr": 0.2,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 1.0,
+     "recall@5": 0.3333333333333333,
+     "top3": [
+      "02:제94조",
+      "02:제95조",
+      "03:제80조"
+     ]
+    },
+    {
+     "id": "Q14",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "02:제319조",
+      "02:제10조",
+      "02:제308조"
+     ]
+    },
+    {
+     "id": "Q15",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "02:제12조",
+      "02:제11조",
+      "02:제666조"
+     ]
+    },
+    {
+     "id": "Q16",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "02:제158조",
+      "02:제161조",
+      "02:제187조"
+     ]
+    },
+    {
+     "id": "Q17",
+     "mrr": 0.25,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 1.0,
+     "recall@5": 1.0,
+     "top3": [
+      "02:제66조",
+      "02:제24조",
+      "08:제20조"
+     ]
+    },
+    {
+     "id": "Q18",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "02:제10조",
+      "02:제153조",
+      "02:제500조"
+     ]
+    },
+    {
+     "id": "Q19",
+     "mrr": 1.0,
+     "hit@1": 1.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "recall@5": 0.2,
+     "top3": [
+      "02:제72조",
+      "08:제66조",
+      "02:제180조"
+     ]
+    },
+    {
+     "id": "Q22",
+     "mrr": 0.25,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 1.0,
+     "recall@5": 0.5,
+     "top3": [
+      "02:제194조",
+      "02:제195조",
+      "02:제193조"
+     ]
+    },
+    {
+     "id": "Q23",
+     "mrr": 0.1111111111111111,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "02:제315조",
+      "02:제613조",
+      "02:제319조"
+     ]
+    },
+    {
+     "id": "Q24",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "02:제569조",
+      "02:제437조",
+      "02:제239조"
+     ]
+    },
+    {
+     "id": "Q25",
+     "mrr": 0.16666666666666666,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "08:제11조",
+      "02:제670조",
+      "02:제650조"
+     ]
+    },
+    {
+     "id": "Q26",
+     "mrr": 0.0,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "08:제13조의2",
+      "02:제27조",
+      "02:제28조"
+     ]
+    },
+    {
+     "id": "Q27",
+     "mrr": 0.1,
+     "hit@1": 0.0,
+     "hit@3": 0.0,
+     "hit@5": 0.0,
+     "recall@5": 0.0,
+     "top3": [
+      "02:제26조",
+      "02:제197조",
+      "02:제27조"
+     ]
+    },
+    {
+     "id": "Q28",
+     "mrr": 0.5,
+     "hit@1": 0.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "recall@5": 1.0,
+     "top3": [
+      "08:제24조",
+      "02:제632조",
+      "02:제12조"
+     ]
+    },
+    {
+     "id": "Q30",
+     "mrr": 0.3333333333333333,
+     "hit@1": 0.0,
+     "hit@3": 1.0,
+     "hit@5": 1.0,
+     "recall@5": 0.3333333333333333,
+     "top3": [
+      "02:제628조",
+      "06-02:제11조",
+      "02:제243조"
+     ]
+    }
+   ]
+  }
+ },
+ "gold_v0_status": "AI 보조 정답 · 담당자 검토 전. 합성 입력 문장이며 실제 현장 자료가 아니다."
+}
