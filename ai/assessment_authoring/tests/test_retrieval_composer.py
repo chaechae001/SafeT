@@ -169,6 +169,9 @@ class AuthoringTests(unittest.TestCase):
             ("오늘은 1층 주방에서 전기 튀김기를 가동합니다.", ["FRY"], [], []),
             ("튀김기는 2층에서 가동하지만 1층 주방에서는 전기 튀김기를 가동하지 않습니다.", ["FRY"], [], []),
             ("주방에서 튀김 조리를 합니다.", ["FRY"], [], []),
+            # "튀기 시작"은 소스가 튀는 것(튀다)이지 튀김 작업(튀기다)이 아니다.
+            ("오븐에서 소스가 튀기 시작합니다.", [], ["FRY"], []),
+            ("냉동 감자를 기름에 튀깁니다.", ["FRY"], [], []),
         ]
         for kind, (observation, rows, pending, excluded) in product(("text", "voice_transcript"), cases):
             with self.subTest(kind=kind, observation=observation):
@@ -239,6 +242,9 @@ class AuthoringTests(unittest.TestCase):
             ("믹서기로 소스를 갈아 만듭니다.", {"MIX"}),
             ("튀김기 옆 바닥에 기름이 떨어져 미끄럽습니다.", {"FRY", "ENV"}),
             ("칼로리 표시를 확인합니다.", set()),
+            ("오븐에서 소스가 튀기 시작합니다.", {"OVEN"}),
+            ("감자를 튀기기 시작합니다.", {"FRY"}),
+            ("돈가스를 튀기는 중입니다.", {"FRY"}),
             ("요즘은 튀기지 않습니다.", set()),
         ]:
             with self.subTest(observation=observation):

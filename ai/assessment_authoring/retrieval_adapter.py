@@ -34,13 +34,22 @@ _FRY_WORK_DENIAL = re.compile(
 )
 
 
+# 어간만 적은 기준어 중 다른 동사의 명사형과 겹치는 것은 어미가 바로 붙을 때만 인정한다.
+# "튀기"는 "튀기고·튀기는·튀기기"(튀기다)만 인정하고, "소스가 튀기 시작"(튀다)은 제외한다.
+_TERM_PATTERNS = {"튀기": r"튀기(?=[가-힣])"}
+
+
+def _term_matches(term, text):
+    return re.finditer(_TERM_PATTERNS.get(term, re.escape(term)), text)
+
+
 def _affirmed(sid, text, terms, diagnostics=None, media_id=""):
     """True when a term appears outside an explicit negation (and, for FRY, outside a fryer-work denial)."""
     # 장소 표현("1층 주방에서")은 부정 범위에서 빼고, 작업·기기 부정 부분만 막는다.
     denied_spans = [m.span("work") for m in _FRY_WORK_DENIAL.finditer(text)] if sid == "FRY" else []
     found = False
     for term in terms:
-        for match in re.finditer(re.escape(term), text):
+        for match in _term_matches(term, text):
             if any(start <= match.start() < end for start, end in denied_spans) or _UNUSED.match(text[match.end():]):
                 if diagnostics is not None:
                     diagnostics.append(f"명시적 부정: {media_id} {sid} {term}")
@@ -89,7 +98,7 @@ def work_supported(scenario, statement):
 
 
 def _positive(text, term):
-    return any(not _UNUSED.match(text[m.end():]) for m in re.finditer(re.escape(term), text))
+    return any(not _UNUSED.match(text[m.end():]) for m in _term_matches(term, text))
 
 
 def retrieve_with_evidence(context, catalog_snapshot, *, rag_provider=None, rag_links=None, legal_registry=None):
