@@ -27,7 +27,8 @@ _USE_VERBS = {"쓰", "사용하", "돌리", "켜", "하", "튀기", "가동하",
 _USE_NOUNS = {"사용", "가동", "운영", "작업", "조리"}
 # 기기·작업어 뒤에 붙어도 부정 대상을 바꾸지 않는 명사(작업 이름, 시점).
 _SAME_TARGET_NOUNS = {"작업", "조리", "사용", "가동", "일", "때", "오늘", "요즘", "당분간", "지금", "현재",
-                      "평소", "이번", "주", "요새", "최근", "한동안"}
+                      "평소", "이번", "주", "요새", "최근", "한동안",
+                      "아침", "점심", "저녁", "밤", "낮", "오전", "오후", "평일", "주말", "매일"}
 
 
 @lru_cache(maxsize=1)
@@ -142,4 +143,28 @@ def denied(text, start, end):
                 continue
             if absence or use:
                 return True
+    return False
+
+
+def resumed_without_subject(text, start, end):
+    """미사용 진술 뒤에 주어·목적어 없이 사용 서술어만 있는 절이 이어지면 True.
+
+    "튀김기는 점심에는 안 쓰고 저녁에만 써요"처럼 생략된 주어가 앞의 기기일 수 있다.
+    이때 미사용으로 단정하지 않고 사람이 확인하도록 남긴다(보수 규칙).
+    """
+    tokens = _tokens(text)
+    term = [i for i, t in enumerate(tokens) if t[2] < end and t[3] > start]
+    if not term:
+        return False
+    clauses = _clauses(tokens)
+    c = next(n for n, (a, b) in enumerate(clauses) if a <= term[0] < b)
+    for lo, hi in clauses[c + 1:]:
+        if any(_negation(tokens, x)[0] for x in range(lo, hi)):
+            continue
+        if not any(_is_use(tokens, x) for x in range(lo, hi)):
+            continue
+        explicit = [a for a, b, p in _noun_phrases(tokens, lo, hi)
+                    if _is_argument(p) and not {tokens[x][0] for x in range(a, b)} <= _SAME_TARGET_NOUNS]
+        if not explicit:
+            return True
     return False

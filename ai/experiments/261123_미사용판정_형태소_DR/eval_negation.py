@@ -34,7 +34,10 @@ def main():
     rows, by = [], collections.defaultdict(lambda: [0, 0])
     for item in data["items"]:
         got, ok = judge(item)
-        rows.append(dict(id=item["id"], ok=ok, text=item["text"], expected=item["expected"], got=got))
+        # 위험 쪽 오류: 사용 중인 튀김 작업을 미사용으로 단정해 평가 후보에서 뺌.
+        wrongly_excluded = item["expected"]["FRY"][0] and got["FRY"] == [False, True]
+        rows.append(dict(id=item["id"], ok=ok, wrongly_excluded=wrongly_excluded, text=item["text"],
+                         expected=item["expected"], got=got))
         keys = [("분류", item["category"]), ("입력", item["kind"])]
         keys += [("변형", f"{k}={v}") for k, v in item["variants"].items()]
         for key in keys + [("전체", "")]:
@@ -42,7 +45,11 @@ def main():
             by[key][1] += 1
     summary = {f"{a}:{b}" if b else a: dict(correct=c, total=n, fail_rate=round(1 - c / n, 3))
                for (a, b), (c, n) in sorted(by.items())}
+    summary["위험쪽_오류(사용 중 튀김 제외)"] = sum(r["wrongly_excluded"] for r in rows)
     for name, s in summary.items():
+        if not isinstance(s, dict):
+            print(f"[{args.label}] {name} {s}")
+            continue
         print(f"[{args.label}] {name:24s} {s['correct']:3d}/{s['total']:3d}  실패율 {s['fail_rate']:.3f}")
     for r in rows:
         if not r["ok"]:

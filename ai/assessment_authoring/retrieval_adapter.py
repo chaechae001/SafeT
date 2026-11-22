@@ -5,7 +5,7 @@ import re
 from pathlib import Path
 from .catalog import catalog_index
 from .contracts import schema, require
-from .negation import denied
+from .negation import denied, resumed_without_subject
 
 MAPPINGS = json.loads((Path(__file__).parent/"mappings/catalog_links.json").read_text(encoding="utf-8"))
 
@@ -36,8 +36,22 @@ def _affirmed(sid, text, terms, diagnostics=None, media_id=""):
     return found
 
 
+def _fry_work_statements(text):
+    """(미사용 진술, 불확실한 미사용 진술). 미사용 진술 뒤에 주어 없는 사용 절이 이어지면
+    ("점심에는 안 쓰고 저녁에만 써요") 미사용으로 단정하지 않고 불확실로 분류한다."""
+    denied_flag = uncertain = False
+    for term in _FRY_WORK_TERMS:
+        for m in _term_matches(term, text):
+            if denied(text, *m.span()):
+                if resumed_without_subject(text, *m.span()):
+                    uncertain = True
+                else:
+                    denied_flag = True
+    return denied_flag, uncertain
+
+
 def _fry_work_denied(text):
-    return any(denied(text, *m.span()) for term in _FRY_WORK_TERMS for m in _term_matches(term, text))
+    return _fry_work_statements(text)[0]
 
 
 def text_candidates(media, diagnostics):
@@ -91,6 +105,9 @@ def retrieve_with_evidence(context, catalog_snapshot, *, rag_provider=None, rag_
     equipment_candidates = set()
     text_matches = set()
     denied_work = set()
+    # 미사용인지 불확실한 작업. 사진 기기 후보처럼 작업 근거가 확인될 때만 평가 행이 되고,
+    # 아니면 작업 미확인 후보로 남는다.
+    uncertain_work = set()
     diagnostics = []
     trace = {"retrieval_mode": "catalog", "rag_response": None, "diagnostics": diagnostics}
     for eq in context["equipment_ids"]:
@@ -105,6 +122,8 @@ def retrieve_with_evidence(context, catalog_snapshot, *, rag_provider=None, rag_
         text_matches.update(hits)
         if fryer_denied:
             denied_work.add("FRY")
+        if _fry_work_statements(media["text"])[1] and "FRY" not in hits:
+            uncertain_work.add("FRY")
         if not hits:
             diagnostics.append("검색어 매핑 없음: " + media["id"])
     if rag_provider is not None and context["equipment_ids"]:
@@ -123,11 +142,13 @@ def retrieve_with_evidence(context, catalog_snapshot, *, rag_provider=None, rag_
                 equipment_candidates.update(links)
                 if not links:
                     diagnostics.append("RAG 시나리오 매핑 없음: " + key)
-    selected = equipment_candidates | text_matches
+    selected = equipment_candidates | text_matches | uncertain_work
     # When input contains both positive and negative indications, retain the candidate for review.
-    not_applicable = denied_work - text_matches
+    # 불확실한 미사용 진술이 함께 있으면 제외하지 않고 확인 후보로 둔다.
+    not_applicable = denied_work - text_matches - uncertain_work
     trace["equipment_candidates"] = sorted(equipment_candidates)
     trace["text_candidates"] = sorted(text_matches)
+    trace["uncertain_work_candidates"] = sorted(uncertain_work)
     trace["not_applicable_candidates"] = sorted(not_applicable)
     selected -= not_applicable
     require(selected <= catalog.keys(), "mapping scenario outside catalog")
