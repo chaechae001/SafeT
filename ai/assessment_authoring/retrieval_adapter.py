@@ -17,6 +17,7 @@ _UNUSED = re.compile(r"^(?:기|\s*작업)?(?:은|는|이|가|을|를)?\s*"
 # Negated hazards and controls, such as a missing temperature controller, are not work denials.
 _FRY_WORK_DENIAL = re.compile(
     r"(?:^|[.!?。！？\n])\s*(?:(?:현재|오늘|지금|요즘|이번\s*주|평소)(?:은|는|에는)?\s+)?"
+    r"(?:[가-힣]+에서(?:는)?[ \t]+)?"
     r"(?:튀김(?:\s*(?:작업|조리))?(?:은|는|을|를)?\s*"
     r"(?:안\s*(?:합니다|해요|한다|함)|하지\s*않(?:습니다|아요|는다|음))"
     r"|튀김기(?:는|를|가)?\s*"
@@ -41,12 +42,13 @@ def text_candidates(media, diagnostics):
 
 def work_supported(scenario, statement):
     """True when a work statement names the scenario's work or equipment without negating it."""
+    if scenario["id"] == "FRY":
+        return not _FRY_WORK_DENIAL.search(statement) and any(
+            _positive(statement, term) for term in MAPPINGS["terms"]["FRY"]
+        )
     terms = {part.strip() for keyword in scenario.get("keywords", [])
              for part in keyword.split("·") if part.strip()}
-    if scenario["id"] == "FRY" and _FRY_WORK_DENIAL.search(statement):
-        return False
-    return any(not _UNUSED.match(statement[m.end():])
-               for term in terms for m in re.finditer(re.escape(term), statement))
+    return any(_positive(statement, term) for term in terms)
 
 
 def _positive(text, term):
