@@ -1,0 +1,2225 @@
+{
+ "label": "holdout_after",
+ "gold": "hazard-selection-holdout-1",
+ "label_status": "합성 작업 설명 + AI 보조 정답(Claude). 규칙·기준어 수정 후, 수정 결과를 실행하기 전에 작성했다. 튜닝에 쓰지 않은 별도 확인용이다. 전문가 검수 전.",
+ "greedy": {
+  "summary": {
+   "pairs": 32,
+   "tp": 15,
+   "fp": 0,
+   "fn": 1,
+   "precision": 1.0,
+   "recall": 0.938,
+   "f1": 0.968,
+   "exact": 31,
+   "exact_rate": 0.969,
+   "denial_ok": 30
+  },
+  "results": [
+   {
+    "photo": "fryer_only",
+    "case": "H01",
+    "tags": [
+     "부정문",
+     "부사위치"
+    ],
+    "text": "튀김기는 당분간 쓰지 않습니다.",
+    "rows": [],
+    "candidates": [
+     "ENV"
+    ],
+    "review": [
+     {
+      "scenario_id": "ENV",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "FRY",
+      "reason": "input_denies_work"
+     }
+    ],
+    "denied": [
+     "FRY"
+    ],
+    "tp": [],
+    "fn": [],
+    "fp": [],
+    "denial_ok": true
+   },
+   {
+    "photo": "fryer_only",
+    "case": "H02",
+    "tags": [
+     "부정문",
+     "연결어미",
+     "복수작업"
+    ],
+    "text": "튀김 작업은 하지 않고 도마에서 칼질만 합니다.",
+    "rows": [
+     "KNIFE"
+    ],
+    "candidates": [
+     "ENV",
+     "KNIFE"
+    ],
+    "review": [
+     {
+      "scenario_id": "ENV",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "FRY",
+      "reason": "input_denies_work"
+     }
+    ],
+    "denied": [
+     "FRY"
+    ],
+    "tp": [
+     "KNIFE"
+    ],
+    "fn": [],
+    "fp": [],
+    "denial_ok": true
+   },
+   {
+    "photo": "fryer_only",
+    "case": "H03",
+    "tags": [
+     "동사활용"
+    ],
+    "text": "새우를 튀겨서 접시에 담습니다.",
+    "rows": [
+     "FRY"
+    ],
+    "candidates": [
+     "ENV",
+     "FRY"
+    ],
+    "review": [
+     {
+      "scenario_id": "ENV",
+      "reason": "work_unconfirmed"
+     }
+    ],
+    "denied": [],
+    "tp": [
+     "FRY"
+    ],
+    "fn": [],
+    "fp": [],
+    "denial_ok": true
+   },
+   {
+    "photo": "fryer_only",
+    "case": "H04",
+    "tags": [
+     "넓은기준어"
+    ],
+    "text": "오븐 문 개방 전에 장갑을 낍니다.",
+    "rows": [
+     "OVEN"
+    ],
+    "candidates": [
+     "ENV",
+     "FRY",
+     "OVEN"
+    ],
+    "review": [
+     {
+      "scenario_id": "ENV",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "FRY",
+      "reason": "work_unconfirmed"
+     }
+    ],
+    "denied": [],
+    "tp": [
+     "OVEN"
+    ],
+    "fn": [],
+    "fp": [],
+    "denial_ok": true
+   },
+   {
+    "photo": "fryer_only",
+    "case": "H05",
+    "tags": [
+     "넓은기준어"
+    ],
+    "text": "행주를 세척하고 말립니다.",
+    "rows": [],
+    "candidates": [
+     "ENV",
+     "FRY"
+    ],
+    "review": [
+     {
+      "scenario_id": "ENV",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "FRY",
+      "reason": "work_unconfirmed"
+     }
+    ],
+    "denied": [],
+    "tp": [],
+    "fn": [],
+    "fp": [],
+    "denial_ok": true
+   },
+   {
+    "photo": "fryer_only",
+    "case": "H06",
+    "tags": [
+     "넓은기준어"
+    ],
+    "text": "우유를 가열해서 소스를 만듭니다.",
+    "rows": [],
+    "candidates": [
+     "ENV",
+     "FRY"
+    ],
+    "review": [
+     {
+      "scenario_id": "ENV",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "FRY",
+      "reason": "work_unconfirmed"
+     }
+    ],
+    "denied": [],
+    "tp": [],
+    "fn": [],
+    "fp": [],
+    "denial_ok": true
+   },
+   {
+    "photo": "fryer_only",
+    "case": "H07",
+    "tags": [
+     "기기동의어"
+    ],
+    "text": "블렌더로 과일을 갈아요.",
+    "rows": [],
+    "candidates": [
+     "ENV",
+     "FRY"
+    ],
+    "review": [
+     {
+      "scenario_id": "ENV",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "FRY",
+      "reason": "work_unconfirmed"
+     }
+    ],
+    "denied": [],
+    "tp": [],
+    "fn": [
+     "MIX"
+    ],
+    "fp": [],
+    "denial_ok": true
+   },
+   {
+    "photo": "fryer_only",
+    "case": "H08",
+    "tags": [
+     "기기동의어"
+    ],
+    "text": "떡볶이 철판에서 떡볶이를 조리합니다.",
+    "rows": [
+     "GRIDDLE"
+    ],
+    "candidates": [
+     "ENV",
+     "FRY",
+     "GRIDDLE"
+    ],
+    "review": [
+     {
+      "scenario_id": "ENV",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "FRY",
+      "reason": "work_unconfirmed"
+     }
+    ],
+    "denied": [],
+    "tp": [
+     "GRIDDLE"
+    ],
+    "fn": [],
+    "fp": [],
+    "denial_ok": true
+   },
+   {
+    "photo": "fryer_only",
+    "case": "H09",
+    "tags": [
+     "기기미언급"
+    ],
+    "text": "포장 주문을 받고 계산을 합니다.",
+    "rows": [],
+    "candidates": [
+     "ENV",
+     "FRY"
+    ],
+    "review": [
+     {
+      "scenario_id": "ENV",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "FRY",
+      "reason": "work_unconfirmed"
+     }
+    ],
+    "denied": [],
+    "tp": [],
+    "fn": [],
+    "fp": [],
+    "denial_ok": true
+   },
+   {
+    "photo": "fryer_only",
+    "case": "H10",
+    "tags": [
+     "부정문",
+     "기기언급"
+    ],
+    "text": "제면기는 요즘 사용하지 않습니다.",
+    "rows": [],
+    "candidates": [
+     "ENV",
+     "FRY"
+    ],
+    "review": [
+     {
+      "scenario_id": "ENV",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "FRY",
+      "reason": "work_unconfirmed"
+     }
+    ],
+    "denied": [],
+    "tp": [],
+    "fn": [],
+    "fp": [],
+    "denial_ok": true
+   },
+   {
+    "photo": "fryer_only",
+    "case": "H11",
+    "tags": [
+     "복수작업"
+    ],
+    "text": "반죽기로 반죽하고 프라이어로 도넛을 튀깁니다.",
+    "rows": [
+     "FRY",
+     "MIX"
+    ],
+    "candidates": [
+     "ENV",
+     "FRY",
+     "MIX"
+    ],
+    "review": [
+     {
+      "scenario_id": "ENV",
+      "reason": "work_unconfirmed"
+     }
+    ],
+    "denied": [],
+    "tp": [
+     "FRY",
+     "MIX"
+    ],
+    "fn": [],
+    "fp": [],
+    "denial_ok": true
+   },
+   {
+    "photo": "fryer_only",
+    "case": "H12",
+    "tags": [
+     "텍스트위험"
+    ],
+    "text": "물기가 있는 바닥을 지나 쓰레기를 버립니다.",
+    "rows": [
+     "ENV"
+    ],
+    "candidates": [
+     "ENV",
+     "FRY"
+    ],
+    "review": [
+     {
+      "scenario_id": "FRY",
+      "reason": "work_unconfirmed"
+     }
+    ],
+    "denied": [],
+    "tp": [
+     "ENV"
+    ],
+    "fn": [],
+    "fp": [],
+    "denial_ok": true
+   },
+   {
+    "photo": "fryer_only",
+    "case": "H13",
+    "tags": [
+     "음성전사",
+     "부정문"
+    ],
+    "text": "음 튀김기는 오늘 안 써요 그냥 볶음만 해요",
+    "rows": [],
+    "candidates": [
+     "ENV",
+     "FRY"
+    ],
+    "review": [
+     {
+      "scenario_id": "ENV",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "FRY",
+      "reason": "work_unconfirmed"
+     }
+    ],
+    "denied": [],
+    "tp": [],
+    "fn": [],
+    "fp": [],
+    "denial_ok": false
+   },
+   {
+    "photo": "fryer_only",
+    "case": "H14",
+    "tags": [
+     "기준어협소"
+    ],
+    "text": "칼로리 표시를 확인합니다.",
+    "rows": [],
+    "candidates": [
+     "ENV",
+     "FRY"
+    ],
+    "review": [
+     {
+      "scenario_id": "ENV",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "FRY",
+      "reason": "work_unconfirmed"
+     }
+    ],
+    "denied": [],
+    "tp": [],
+    "fn": [],
+    "fp": [],
+    "denial_ok": true
+   },
+   {
+    "photo": "fryer_only",
+    "case": "H15",
+    "tags": [
+     "혼합진술"
+    ],
+    "text": "튀김기는 꺼 두었고 폐유통만 정리합니다.",
+    "rows": [
+     "FRY"
+    ],
+    "candidates": [
+     "ENV",
+     "FRY"
+    ],
+    "review": [
+     {
+      "scenario_id": "ENV",
+      "reason": "work_unconfirmed"
+     }
+    ],
+    "denied": [],
+    "tp": [],
+    "fn": [],
+    "fp": [],
+    "denial_ok": true
+   },
+   {
+    "photo": "fryer_only",
+    "case": "H16",
+    "tags": [
+     "텍스트위험"
+    ],
+    "text": "칼국수 면을 삶습니다.",
+    "rows": [],
+    "candidates": [
+     "ENV",
+     "FRY"
+    ],
+    "review": [
+     {
+      "scenario_id": "ENV",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "FRY",
+      "reason": "work_unconfirmed"
+     }
+    ],
+    "denied": [],
+    "tp": [],
+    "fn": [],
+    "fp": [],
+    "denial_ok": true
+   },
+   {
+    "photo": "multi",
+    "case": "H01",
+    "tags": [
+     "부정문",
+     "부사위치"
+    ],
+    "text": "튀김기는 당분간 쓰지 않습니다.",
+    "rows": [],
+    "candidates": [
+     "ENV",
+     "GRIDDLE",
+     "MIX"
+    ],
+    "review": [
+     {
+      "scenario_id": "ENV",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "FRY",
+      "reason": "input_denies_work"
+     },
+     {
+      "scenario_id": "GRIDDLE",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "MIX",
+      "reason": "work_unconfirmed"
+     }
+    ],
+    "denied": [
+     "FRY"
+    ],
+    "tp": [],
+    "fn": [],
+    "fp": [],
+    "denial_ok": true
+   },
+   {
+    "photo": "multi",
+    "case": "H02",
+    "tags": [
+     "부정문",
+     "연결어미",
+     "복수작업"
+    ],
+    "text": "튀김 작업은 하지 않고 도마에서 칼질만 합니다.",
+    "rows": [
+     "KNIFE"
+    ],
+    "candidates": [
+     "ENV",
+     "GRIDDLE",
+     "KNIFE",
+     "MIX"
+    ],
+    "review": [
+     {
+      "scenario_id": "ENV",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "FRY",
+      "reason": "input_denies_work"
+     },
+     {
+      "scenario_id": "GRIDDLE",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "MIX",
+      "reason": "work_unconfirmed"
+     }
+    ],
+    "denied": [
+     "FRY"
+    ],
+    "tp": [
+     "KNIFE"
+    ],
+    "fn": [],
+    "fp": [],
+    "denial_ok": true
+   },
+   {
+    "photo": "multi",
+    "case": "H03",
+    "tags": [
+     "동사활용"
+    ],
+    "text": "새우를 튀겨서 접시에 담습니다.",
+    "rows": [
+     "FRY"
+    ],
+    "candidates": [
+     "ENV",
+     "FRY",
+     "GRIDDLE",
+     "MIX"
+    ],
+    "review": [
+     {
+      "scenario_id": "ENV",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "GRIDDLE",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "MIX",
+      "reason": "work_unconfirmed"
+     }
+    ],
+    "denied": [],
+    "tp": [
+     "FRY"
+    ],
+    "fn": [],
+    "fp": [],
+    "denial_ok": true
+   },
+   {
+    "photo": "multi",
+    "case": "H04",
+    "tags": [
+     "넓은기준어"
+    ],
+    "text": "오븐 문 개방 전에 장갑을 낍니다.",
+    "rows": [
+     "OVEN"
+    ],
+    "candidates": [
+     "ENV",
+     "FRY",
+     "GRIDDLE",
+     "MIX",
+     "OVEN"
+    ],
+    "review": [
+     {
+      "scenario_id": "ENV",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "FRY",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "GRIDDLE",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "MIX",
+      "reason": "work_unconfirmed"
+     }
+    ],
+    "denied": [],
+    "tp": [
+     "OVEN"
+    ],
+    "fn": [],
+    "fp": [],
+    "denial_ok": true
+   },
+   {
+    "photo": "multi",
+    "case": "H05",
+    "tags": [
+     "넓은기준어"
+    ],
+    "text": "행주를 세척하고 말립니다.",
+    "rows": [],
+    "candidates": [
+     "ENV",
+     "FRY",
+     "GRIDDLE",
+     "MIX"
+    ],
+    "review": [
+     {
+      "scenario_id": "ENV",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "FRY",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "GRIDDLE",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "MIX",
+      "reason": "work_unconfirmed"
+     }
+    ],
+    "denied": [],
+    "tp": [],
+    "fn": [],
+    "fp": [],
+    "denial_ok": true
+   },
+   {
+    "photo": "multi",
+    "case": "H06",
+    "tags": [
+     "넓은기준어"
+    ],
+    "text": "우유를 가열해서 소스를 만듭니다.",
+    "rows": [],
+    "candidates": [
+     "ENV",
+     "FRY",
+     "GRIDDLE",
+     "MIX"
+    ],
+    "review": [
+     {
+      "scenario_id": "ENV",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "FRY",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "GRIDDLE",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "MIX",
+      "reason": "work_unconfirmed"
+     }
+    ],
+    "denied": [],
+    "tp": [],
+    "fn": [],
+    "fp": [],
+    "denial_ok": true
+   },
+   {
+    "photo": "multi",
+    "case": "H07",
+    "tags": [
+     "기기동의어"
+    ],
+    "text": "블렌더로 과일을 갈아요.",
+    "rows": [
+     "MIX"
+    ],
+    "candidates": [
+     "ENV",
+     "FRY",
+     "GRIDDLE",
+     "MIX"
+    ],
+    "review": [
+     {
+      "scenario_id": "ENV",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "FRY",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "GRIDDLE",
+      "reason": "work_unconfirmed"
+     }
+    ],
+    "denied": [],
+    "tp": [
+     "MIX"
+    ],
+    "fn": [],
+    "fp": [],
+    "denial_ok": true
+   },
+   {
+    "photo": "multi",
+    "case": "H08",
+    "tags": [
+     "기기동의어"
+    ],
+    "text": "떡볶이 철판에서 떡볶이를 조리합니다.",
+    "rows": [
+     "GRIDDLE"
+    ],
+    "candidates": [
+     "ENV",
+     "FRY",
+     "GRIDDLE",
+     "MIX"
+    ],
+    "review": [
+     {
+      "scenario_id": "ENV",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "FRY",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "MIX",
+      "reason": "work_unconfirmed"
+     }
+    ],
+    "denied": [],
+    "tp": [
+     "GRIDDLE"
+    ],
+    "fn": [],
+    "fp": [],
+    "denial_ok": true
+   },
+   {
+    "photo": "multi",
+    "case": "H09",
+    "tags": [
+     "기기미언급"
+    ],
+    "text": "포장 주문을 받고 계산을 합니다.",
+    "rows": [],
+    "candidates": [
+     "ENV",
+     "FRY",
+     "GRIDDLE",
+     "MIX"
+    ],
+    "review": [
+     {
+      "scenario_id": "ENV",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "FRY",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "GRIDDLE",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "MIX",
+      "reason": "work_unconfirmed"
+     }
+    ],
+    "denied": [],
+    "tp": [],
+    "fn": [],
+    "fp": [],
+    "denial_ok": true
+   },
+   {
+    "photo": "multi",
+    "case": "H10",
+    "tags": [
+     "부정문",
+     "기기언급"
+    ],
+    "text": "제면기는 요즘 사용하지 않습니다.",
+    "rows": [],
+    "candidates": [
+     "ENV",
+     "FRY",
+     "GRIDDLE",
+     "MIX"
+    ],
+    "review": [
+     {
+      "scenario_id": "ENV",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "FRY",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "GRIDDLE",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "MIX",
+      "reason": "work_unconfirmed"
+     }
+    ],
+    "denied": [],
+    "tp": [],
+    "fn": [],
+    "fp": [],
+    "denial_ok": true
+   },
+   {
+    "photo": "multi",
+    "case": "H11",
+    "tags": [
+     "복수작업"
+    ],
+    "text": "반죽기로 반죽하고 프라이어로 도넛을 튀깁니다.",
+    "rows": [
+     "FRY",
+     "MIX"
+    ],
+    "candidates": [
+     "ENV",
+     "FRY",
+     "GRIDDLE",
+     "MIX"
+    ],
+    "review": [
+     {
+      "scenario_id": "ENV",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "GRIDDLE",
+      "reason": "work_unconfirmed"
+     }
+    ],
+    "denied": [],
+    "tp": [
+     "FRY",
+     "MIX"
+    ],
+    "fn": [],
+    "fp": [],
+    "denial_ok": true
+   },
+   {
+    "photo": "multi",
+    "case": "H12",
+    "tags": [
+     "텍스트위험"
+    ],
+    "text": "물기가 있는 바닥을 지나 쓰레기를 버립니다.",
+    "rows": [
+     "ENV"
+    ],
+    "candidates": [
+     "ENV",
+     "FRY",
+     "GRIDDLE",
+     "MIX"
+    ],
+    "review": [
+     {
+      "scenario_id": "FRY",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "GRIDDLE",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "MIX",
+      "reason": "work_unconfirmed"
+     }
+    ],
+    "denied": [],
+    "tp": [
+     "ENV"
+    ],
+    "fn": [],
+    "fp": [],
+    "denial_ok": true
+   },
+   {
+    "photo": "multi",
+    "case": "H13",
+    "tags": [
+     "음성전사",
+     "부정문"
+    ],
+    "text": "음 튀김기는 오늘 안 써요 그냥 볶음만 해요",
+    "rows": [],
+    "candidates": [
+     "ENV",
+     "FRY",
+     "GRIDDLE",
+     "MIX"
+    ],
+    "review": [
+     {
+      "scenario_id": "ENV",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "FRY",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "GRIDDLE",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "MIX",
+      "reason": "work_unconfirmed"
+     }
+    ],
+    "denied": [],
+    "tp": [],
+    "fn": [],
+    "fp": [],
+    "denial_ok": false
+   },
+   {
+    "photo": "multi",
+    "case": "H14",
+    "tags": [
+     "기준어협소"
+    ],
+    "text": "칼로리 표시를 확인합니다.",
+    "rows": [],
+    "candidates": [
+     "ENV",
+     "FRY",
+     "GRIDDLE",
+     "MIX"
+    ],
+    "review": [
+     {
+      "scenario_id": "ENV",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "FRY",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "GRIDDLE",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "MIX",
+      "reason": "work_unconfirmed"
+     }
+    ],
+    "denied": [],
+    "tp": [],
+    "fn": [],
+    "fp": [],
+    "denial_ok": true
+   },
+   {
+    "photo": "multi",
+    "case": "H15",
+    "tags": [
+     "혼합진술"
+    ],
+    "text": "튀김기는 꺼 두었고 폐유통만 정리합니다.",
+    "rows": [
+     "FRY"
+    ],
+    "candidates": [
+     "ENV",
+     "FRY",
+     "GRIDDLE",
+     "MIX"
+    ],
+    "review": [
+     {
+      "scenario_id": "ENV",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "GRIDDLE",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "MIX",
+      "reason": "work_unconfirmed"
+     }
+    ],
+    "denied": [],
+    "tp": [],
+    "fn": [],
+    "fp": [],
+    "denial_ok": true
+   },
+   {
+    "photo": "multi",
+    "case": "H16",
+    "tags": [
+     "텍스트위험"
+    ],
+    "text": "칼국수 면을 삶습니다.",
+    "rows": [],
+    "candidates": [
+     "ENV",
+     "FRY",
+     "GRIDDLE",
+     "MIX"
+    ],
+    "review": [
+     {
+      "scenario_id": "ENV",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "FRY",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "GRIDDLE",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "MIX",
+      "reason": "work_unconfirmed"
+     }
+    ],
+    "denied": [],
+    "tp": [],
+    "fn": [],
+    "fp": [],
+    "denial_ok": true
+   }
+  ]
+ },
+ "oracle": {
+  "summary": {
+   "pairs": 32,
+   "tp": 15,
+   "fp": 0,
+   "fn": 1,
+   "precision": 1.0,
+   "recall": 0.938,
+   "f1": 0.968,
+   "exact": 31,
+   "exact_rate": 0.969,
+   "denial_ok": 30
+  },
+  "results": [
+   {
+    "photo": "fryer_only",
+    "case": "H01",
+    "tags": [
+     "부정문",
+     "부사위치"
+    ],
+    "text": "튀김기는 당분간 쓰지 않습니다.",
+    "rows": [],
+    "candidates": [
+     "ENV"
+    ],
+    "review": [
+     {
+      "scenario_id": "ENV",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "FRY",
+      "reason": "input_denies_work"
+     }
+    ],
+    "denied": [
+     "FRY"
+    ],
+    "tp": [],
+    "fn": [],
+    "fp": [],
+    "denial_ok": true
+   },
+   {
+    "photo": "fryer_only",
+    "case": "H02",
+    "tags": [
+     "부정문",
+     "연결어미",
+     "복수작업"
+    ],
+    "text": "튀김 작업은 하지 않고 도마에서 칼질만 합니다.",
+    "rows": [
+     "KNIFE"
+    ],
+    "candidates": [
+     "ENV",
+     "KNIFE"
+    ],
+    "review": [
+     {
+      "scenario_id": "ENV",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "FRY",
+      "reason": "input_denies_work"
+     }
+    ],
+    "denied": [
+     "FRY"
+    ],
+    "tp": [
+     "KNIFE"
+    ],
+    "fn": [],
+    "fp": [],
+    "denial_ok": true
+   },
+   {
+    "photo": "fryer_only",
+    "case": "H03",
+    "tags": [
+     "동사활용"
+    ],
+    "text": "새우를 튀겨서 접시에 담습니다.",
+    "rows": [
+     "FRY"
+    ],
+    "candidates": [
+     "ENV",
+     "FRY"
+    ],
+    "review": [
+     {
+      "scenario_id": "ENV",
+      "reason": "work_unconfirmed"
+     }
+    ],
+    "denied": [],
+    "tp": [
+     "FRY"
+    ],
+    "fn": [],
+    "fp": [],
+    "denial_ok": true
+   },
+   {
+    "photo": "fryer_only",
+    "case": "H04",
+    "tags": [
+     "넓은기준어"
+    ],
+    "text": "오븐 문 개방 전에 장갑을 낍니다.",
+    "rows": [
+     "OVEN"
+    ],
+    "candidates": [
+     "ENV",
+     "FRY",
+     "OVEN"
+    ],
+    "review": [
+     {
+      "scenario_id": "ENV",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "FRY",
+      "reason": "work_unconfirmed"
+     }
+    ],
+    "denied": [],
+    "tp": [
+     "OVEN"
+    ],
+    "fn": [],
+    "fp": [],
+    "denial_ok": true
+   },
+   {
+    "photo": "fryer_only",
+    "case": "H05",
+    "tags": [
+     "넓은기준어"
+    ],
+    "text": "행주를 세척하고 말립니다.",
+    "rows": [],
+    "candidates": [
+     "ENV",
+     "FRY"
+    ],
+    "review": [
+     {
+      "scenario_id": "ENV",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "FRY",
+      "reason": "work_unconfirmed"
+     }
+    ],
+    "denied": [],
+    "tp": [],
+    "fn": [],
+    "fp": [],
+    "denial_ok": true
+   },
+   {
+    "photo": "fryer_only",
+    "case": "H06",
+    "tags": [
+     "넓은기준어"
+    ],
+    "text": "우유를 가열해서 소스를 만듭니다.",
+    "rows": [],
+    "candidates": [
+     "ENV",
+     "FRY"
+    ],
+    "review": [
+     {
+      "scenario_id": "ENV",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "FRY",
+      "reason": "work_unconfirmed"
+     }
+    ],
+    "denied": [],
+    "tp": [],
+    "fn": [],
+    "fp": [],
+    "denial_ok": true
+   },
+   {
+    "photo": "fryer_only",
+    "case": "H07",
+    "tags": [
+     "기기동의어"
+    ],
+    "text": "블렌더로 과일을 갈아요.",
+    "rows": [],
+    "candidates": [
+     "ENV",
+     "FRY"
+    ],
+    "review": [
+     {
+      "scenario_id": "ENV",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "FRY",
+      "reason": "work_unconfirmed"
+     }
+    ],
+    "denied": [],
+    "tp": [],
+    "fn": [
+     "MIX"
+    ],
+    "fp": [],
+    "denial_ok": true
+   },
+   {
+    "photo": "fryer_only",
+    "case": "H08",
+    "tags": [
+     "기기동의어"
+    ],
+    "text": "떡볶이 철판에서 떡볶이를 조리합니다.",
+    "rows": [
+     "GRIDDLE"
+    ],
+    "candidates": [
+     "ENV",
+     "FRY",
+     "GRIDDLE"
+    ],
+    "review": [
+     {
+      "scenario_id": "ENV",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "FRY",
+      "reason": "work_unconfirmed"
+     }
+    ],
+    "denied": [],
+    "tp": [
+     "GRIDDLE"
+    ],
+    "fn": [],
+    "fp": [],
+    "denial_ok": true
+   },
+   {
+    "photo": "fryer_only",
+    "case": "H09",
+    "tags": [
+     "기기미언급"
+    ],
+    "text": "포장 주문을 받고 계산을 합니다.",
+    "rows": [],
+    "candidates": [
+     "ENV",
+     "FRY"
+    ],
+    "review": [
+     {
+      "scenario_id": "ENV",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "FRY",
+      "reason": "work_unconfirmed"
+     }
+    ],
+    "denied": [],
+    "tp": [],
+    "fn": [],
+    "fp": [],
+    "denial_ok": true
+   },
+   {
+    "photo": "fryer_only",
+    "case": "H10",
+    "tags": [
+     "부정문",
+     "기기언급"
+    ],
+    "text": "제면기는 요즘 사용하지 않습니다.",
+    "rows": [],
+    "candidates": [
+     "ENV",
+     "FRY"
+    ],
+    "review": [
+     {
+      "scenario_id": "ENV",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "FRY",
+      "reason": "work_unconfirmed"
+     }
+    ],
+    "denied": [],
+    "tp": [],
+    "fn": [],
+    "fp": [],
+    "denial_ok": true
+   },
+   {
+    "photo": "fryer_only",
+    "case": "H11",
+    "tags": [
+     "복수작업"
+    ],
+    "text": "반죽기로 반죽하고 프라이어로 도넛을 튀깁니다.",
+    "rows": [
+     "FRY",
+     "MIX"
+    ],
+    "candidates": [
+     "ENV",
+     "FRY",
+     "MIX"
+    ],
+    "review": [
+     {
+      "scenario_id": "ENV",
+      "reason": "work_unconfirmed"
+     }
+    ],
+    "denied": [],
+    "tp": [
+     "FRY",
+     "MIX"
+    ],
+    "fn": [],
+    "fp": [],
+    "denial_ok": true
+   },
+   {
+    "photo": "fryer_only",
+    "case": "H12",
+    "tags": [
+     "텍스트위험"
+    ],
+    "text": "물기가 있는 바닥을 지나 쓰레기를 버립니다.",
+    "rows": [
+     "ENV"
+    ],
+    "candidates": [
+     "ENV",
+     "FRY"
+    ],
+    "review": [
+     {
+      "scenario_id": "FRY",
+      "reason": "work_unconfirmed"
+     }
+    ],
+    "denied": [],
+    "tp": [
+     "ENV"
+    ],
+    "fn": [],
+    "fp": [],
+    "denial_ok": true
+   },
+   {
+    "photo": "fryer_only",
+    "case": "H13",
+    "tags": [
+     "음성전사",
+     "부정문"
+    ],
+    "text": "음 튀김기는 오늘 안 써요 그냥 볶음만 해요",
+    "rows": [],
+    "candidates": [
+     "ENV",
+     "FRY"
+    ],
+    "review": [
+     {
+      "scenario_id": "ENV",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "FRY",
+      "reason": "work_unconfirmed"
+     }
+    ],
+    "denied": [],
+    "tp": [],
+    "fn": [],
+    "fp": [],
+    "denial_ok": false
+   },
+   {
+    "photo": "fryer_only",
+    "case": "H14",
+    "tags": [
+     "기준어협소"
+    ],
+    "text": "칼로리 표시를 확인합니다.",
+    "rows": [],
+    "candidates": [
+     "ENV",
+     "FRY"
+    ],
+    "review": [
+     {
+      "scenario_id": "ENV",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "FRY",
+      "reason": "work_unconfirmed"
+     }
+    ],
+    "denied": [],
+    "tp": [],
+    "fn": [],
+    "fp": [],
+    "denial_ok": true
+   },
+   {
+    "photo": "fryer_only",
+    "case": "H15",
+    "tags": [
+     "혼합진술"
+    ],
+    "text": "튀김기는 꺼 두었고 폐유통만 정리합니다.",
+    "rows": [
+     "FRY"
+    ],
+    "candidates": [
+     "ENV",
+     "FRY"
+    ],
+    "review": [
+     {
+      "scenario_id": "ENV",
+      "reason": "work_unconfirmed"
+     }
+    ],
+    "denied": [],
+    "tp": [],
+    "fn": [],
+    "fp": [],
+    "denial_ok": true
+   },
+   {
+    "photo": "fryer_only",
+    "case": "H16",
+    "tags": [
+     "텍스트위험"
+    ],
+    "text": "칼국수 면을 삶습니다.",
+    "rows": [],
+    "candidates": [
+     "ENV",
+     "FRY"
+    ],
+    "review": [
+     {
+      "scenario_id": "ENV",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "FRY",
+      "reason": "work_unconfirmed"
+     }
+    ],
+    "denied": [],
+    "tp": [],
+    "fn": [],
+    "fp": [],
+    "denial_ok": true
+   },
+   {
+    "photo": "multi",
+    "case": "H01",
+    "tags": [
+     "부정문",
+     "부사위치"
+    ],
+    "text": "튀김기는 당분간 쓰지 않습니다.",
+    "rows": [],
+    "candidates": [
+     "ENV",
+     "GRIDDLE",
+     "MIX"
+    ],
+    "review": [
+     {
+      "scenario_id": "ENV",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "FRY",
+      "reason": "input_denies_work"
+     },
+     {
+      "scenario_id": "GRIDDLE",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "MIX",
+      "reason": "work_unconfirmed"
+     }
+    ],
+    "denied": [
+     "FRY"
+    ],
+    "tp": [],
+    "fn": [],
+    "fp": [],
+    "denial_ok": true
+   },
+   {
+    "photo": "multi",
+    "case": "H02",
+    "tags": [
+     "부정문",
+     "연결어미",
+     "복수작업"
+    ],
+    "text": "튀김 작업은 하지 않고 도마에서 칼질만 합니다.",
+    "rows": [
+     "KNIFE"
+    ],
+    "candidates": [
+     "ENV",
+     "GRIDDLE",
+     "KNIFE",
+     "MIX"
+    ],
+    "review": [
+     {
+      "scenario_id": "ENV",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "FRY",
+      "reason": "input_denies_work"
+     },
+     {
+      "scenario_id": "GRIDDLE",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "MIX",
+      "reason": "work_unconfirmed"
+     }
+    ],
+    "denied": [
+     "FRY"
+    ],
+    "tp": [
+     "KNIFE"
+    ],
+    "fn": [],
+    "fp": [],
+    "denial_ok": true
+   },
+   {
+    "photo": "multi",
+    "case": "H03",
+    "tags": [
+     "동사활용"
+    ],
+    "text": "새우를 튀겨서 접시에 담습니다.",
+    "rows": [
+     "FRY"
+    ],
+    "candidates": [
+     "ENV",
+     "FRY",
+     "GRIDDLE",
+     "MIX"
+    ],
+    "review": [
+     {
+      "scenario_id": "ENV",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "GRIDDLE",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "MIX",
+      "reason": "work_unconfirmed"
+     }
+    ],
+    "denied": [],
+    "tp": [
+     "FRY"
+    ],
+    "fn": [],
+    "fp": [],
+    "denial_ok": true
+   },
+   {
+    "photo": "multi",
+    "case": "H04",
+    "tags": [
+     "넓은기준어"
+    ],
+    "text": "오븐 문 개방 전에 장갑을 낍니다.",
+    "rows": [
+     "OVEN"
+    ],
+    "candidates": [
+     "ENV",
+     "FRY",
+     "GRIDDLE",
+     "MIX",
+     "OVEN"
+    ],
+    "review": [
+     {
+      "scenario_id": "ENV",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "FRY",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "GRIDDLE",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "MIX",
+      "reason": "work_unconfirmed"
+     }
+    ],
+    "denied": [],
+    "tp": [
+     "OVEN"
+    ],
+    "fn": [],
+    "fp": [],
+    "denial_ok": true
+   },
+   {
+    "photo": "multi",
+    "case": "H05",
+    "tags": [
+     "넓은기준어"
+    ],
+    "text": "행주를 세척하고 말립니다.",
+    "rows": [],
+    "candidates": [
+     "ENV",
+     "FRY",
+     "GRIDDLE",
+     "MIX"
+    ],
+    "review": [
+     {
+      "scenario_id": "ENV",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "FRY",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "GRIDDLE",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "MIX",
+      "reason": "work_unconfirmed"
+     }
+    ],
+    "denied": [],
+    "tp": [],
+    "fn": [],
+    "fp": [],
+    "denial_ok": true
+   },
+   {
+    "photo": "multi",
+    "case": "H06",
+    "tags": [
+     "넓은기준어"
+    ],
+    "text": "우유를 가열해서 소스를 만듭니다.",
+    "rows": [],
+    "candidates": [
+     "ENV",
+     "FRY",
+     "GRIDDLE",
+     "MIX"
+    ],
+    "review": [
+     {
+      "scenario_id": "ENV",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "FRY",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "GRIDDLE",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "MIX",
+      "reason": "work_unconfirmed"
+     }
+    ],
+    "denied": [],
+    "tp": [],
+    "fn": [],
+    "fp": [],
+    "denial_ok": true
+   },
+   {
+    "photo": "multi",
+    "case": "H07",
+    "tags": [
+     "기기동의어"
+    ],
+    "text": "블렌더로 과일을 갈아요.",
+    "rows": [
+     "MIX"
+    ],
+    "candidates": [
+     "ENV",
+     "FRY",
+     "GRIDDLE",
+     "MIX"
+    ],
+    "review": [
+     {
+      "scenario_id": "ENV",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "FRY",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "GRIDDLE",
+      "reason": "work_unconfirmed"
+     }
+    ],
+    "denied": [],
+    "tp": [
+     "MIX"
+    ],
+    "fn": [],
+    "fp": [],
+    "denial_ok": true
+   },
+   {
+    "photo": "multi",
+    "case": "H08",
+    "tags": [
+     "기기동의어"
+    ],
+    "text": "떡볶이 철판에서 떡볶이를 조리합니다.",
+    "rows": [
+     "GRIDDLE"
+    ],
+    "candidates": [
+     "ENV",
+     "FRY",
+     "GRIDDLE",
+     "MIX"
+    ],
+    "review": [
+     {
+      "scenario_id": "ENV",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "FRY",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "MIX",
+      "reason": "work_unconfirmed"
+     }
+    ],
+    "denied": [],
+    "tp": [
+     "GRIDDLE"
+    ],
+    "fn": [],
+    "fp": [],
+    "denial_ok": true
+   },
+   {
+    "photo": "multi",
+    "case": "H09",
+    "tags": [
+     "기기미언급"
+    ],
+    "text": "포장 주문을 받고 계산을 합니다.",
+    "rows": [],
+    "candidates": [
+     "ENV",
+     "FRY",
+     "GRIDDLE",
+     "MIX"
+    ],
+    "review": [
+     {
+      "scenario_id": "ENV",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "FRY",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "GRIDDLE",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "MIX",
+      "reason": "work_unconfirmed"
+     }
+    ],
+    "denied": [],
+    "tp": [],
+    "fn": [],
+    "fp": [],
+    "denial_ok": true
+   },
+   {
+    "photo": "multi",
+    "case": "H10",
+    "tags": [
+     "부정문",
+     "기기언급"
+    ],
+    "text": "제면기는 요즘 사용하지 않습니다.",
+    "rows": [],
+    "candidates": [
+     "ENV",
+     "FRY",
+     "GRIDDLE",
+     "MIX"
+    ],
+    "review": [
+     {
+      "scenario_id": "ENV",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "FRY",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "GRIDDLE",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "MIX",
+      "reason": "work_unconfirmed"
+     }
+    ],
+    "denied": [],
+    "tp": [],
+    "fn": [],
+    "fp": [],
+    "denial_ok": true
+   },
+   {
+    "photo": "multi",
+    "case": "H11",
+    "tags": [
+     "복수작업"
+    ],
+    "text": "반죽기로 반죽하고 프라이어로 도넛을 튀깁니다.",
+    "rows": [
+     "FRY",
+     "MIX"
+    ],
+    "candidates": [
+     "ENV",
+     "FRY",
+     "GRIDDLE",
+     "MIX"
+    ],
+    "review": [
+     {
+      "scenario_id": "ENV",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "GRIDDLE",
+      "reason": "work_unconfirmed"
+     }
+    ],
+    "denied": [],
+    "tp": [
+     "FRY",
+     "MIX"
+    ],
+    "fn": [],
+    "fp": [],
+    "denial_ok": true
+   },
+   {
+    "photo": "multi",
+    "case": "H12",
+    "tags": [
+     "텍스트위험"
+    ],
+    "text": "물기가 있는 바닥을 지나 쓰레기를 버립니다.",
+    "rows": [
+     "ENV"
+    ],
+    "candidates": [
+     "ENV",
+     "FRY",
+     "GRIDDLE",
+     "MIX"
+    ],
+    "review": [
+     {
+      "scenario_id": "FRY",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "GRIDDLE",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "MIX",
+      "reason": "work_unconfirmed"
+     }
+    ],
+    "denied": [],
+    "tp": [
+     "ENV"
+    ],
+    "fn": [],
+    "fp": [],
+    "denial_ok": true
+   },
+   {
+    "photo": "multi",
+    "case": "H13",
+    "tags": [
+     "음성전사",
+     "부정문"
+    ],
+    "text": "음 튀김기는 오늘 안 써요 그냥 볶음만 해요",
+    "rows": [],
+    "candidates": [
+     "ENV",
+     "FRY",
+     "GRIDDLE",
+     "MIX"
+    ],
+    "review": [
+     {
+      "scenario_id": "ENV",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "FRY",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "GRIDDLE",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "MIX",
+      "reason": "work_unconfirmed"
+     }
+    ],
+    "denied": [],
+    "tp": [],
+    "fn": [],
+    "fp": [],
+    "denial_ok": false
+   },
+   {
+    "photo": "multi",
+    "case": "H14",
+    "tags": [
+     "기준어협소"
+    ],
+    "text": "칼로리 표시를 확인합니다.",
+    "rows": [],
+    "candidates": [
+     "ENV",
+     "FRY",
+     "GRIDDLE",
+     "MIX"
+    ],
+    "review": [
+     {
+      "scenario_id": "ENV",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "FRY",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "GRIDDLE",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "MIX",
+      "reason": "work_unconfirmed"
+     }
+    ],
+    "denied": [],
+    "tp": [],
+    "fn": [],
+    "fp": [],
+    "denial_ok": true
+   },
+   {
+    "photo": "multi",
+    "case": "H15",
+    "tags": [
+     "혼합진술"
+    ],
+    "text": "튀김기는 꺼 두었고 폐유통만 정리합니다.",
+    "rows": [
+     "FRY"
+    ],
+    "candidates": [
+     "ENV",
+     "FRY",
+     "GRIDDLE",
+     "MIX"
+    ],
+    "review": [
+     {
+      "scenario_id": "ENV",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "GRIDDLE",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "MIX",
+      "reason": "work_unconfirmed"
+     }
+    ],
+    "denied": [],
+    "tp": [],
+    "fn": [],
+    "fp": [],
+    "denial_ok": true
+   },
+   {
+    "photo": "multi",
+    "case": "H16",
+    "tags": [
+     "텍스트위험"
+    ],
+    "text": "칼국수 면을 삶습니다.",
+    "rows": [],
+    "candidates": [
+     "ENV",
+     "FRY",
+     "GRIDDLE",
+     "MIX"
+    ],
+    "review": [
+     {
+      "scenario_id": "ENV",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "FRY",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "GRIDDLE",
+      "reason": "work_unconfirmed"
+     },
+     {
+      "scenario_id": "MIX",
+      "reason": "work_unconfirmed"
+     }
+    ],
+    "denied": [],
+    "tp": [],
+    "fn": [],
+    "fp": [],
+    "denial_ok": true
+   }
+  ]
+ }
+}
