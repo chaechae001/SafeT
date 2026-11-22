@@ -1,0 +1,911 @@
+{
+ "label": "after_kiwi",
+ "set": "261123_미사용판정_검증셋_holdout_v1_DR.json",
+ "set_version": "negation-holdout-v1",
+ "summary": {
+  "분류:다른기기": {
+   "correct": 2,
+   "total": 2,
+   "fail_rate": 0.0
+  },
+  "분류:미사용": {
+   "correct": 12,
+   "total": 22,
+   "fail_rate": 0.455
+  },
+  "분류:사용": {
+   "correct": 8,
+   "total": 8,
+   "fail_rate": 0.0
+  },
+  "분류:연결": {
+   "correct": 4,
+   "total": 6,
+   "fail_rate": 0.333
+  },
+  "분류:위험부정": {
+   "correct": 12,
+   "total": 12,
+   "fail_rate": 0.0
+  },
+  "입력:text": {
+   "correct": 19,
+   "total": 25,
+   "fail_rate": 0.24
+  },
+  "입력:voice_transcript": {
+   "correct": 19,
+   "total": 25,
+   "fail_rate": 0.24
+  },
+  "전체": {
+   "correct": 38,
+   "total": 50,
+   "fail_rate": 0.24
+  }
+ },
+ "rows": [
+  {
+   "id": "H01-t",
+   "ok": true,
+   "text": "저희 가게는 튀김을 하지 않아요.",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "H01-v",
+   "ok": true,
+   "text": "음 저희 가게는 튀김을 하지 않아요",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "H02-t",
+   "ok": true,
+   "text": "튀김기를 못 쓰고 있어요.",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "H02-v",
+   "ok": true,
+   "text": "음 튀김기를 못 쓰고 있어요",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "H03-t",
+   "ok": true,
+   "text": "요새는 튀김기 안 켜요.",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "H03-v",
+   "ok": true,
+   "text": "음 요새는 튀김기 안 켜요",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "H04-t",
+   "ok": true,
+   "text": "기름 튀김 작업은 이제 안 해요.",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "H04-v",
+   "ok": true,
+   "text": "음 기름 튀김 작업은 이제 안 해요",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "H05-t",
+   "ok": false,
+   "text": "튀김기 전원을 안 켜요.",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "H05-v",
+   "ok": false,
+   "text": "음 튀김기 전원을 안 켜요",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "H06-t",
+   "ok": false,
+   "text": "튀김기는 이번 달까지 꺼 둡니다.",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "H06-v",
+   "ok": false,
+   "text": "음 튀김기는 이번 달까지 꺼 둡니다",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "H07-t",
+   "ok": false,
+   "text": "튀김 요리는 메뉴에 없습니다.",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "H07-v",
+   "ok": false,
+   "text": "음 튀김 요리는 메뉴에 없습니다",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "H08-t",
+   "ok": false,
+   "text": "튀김기가 있긴 한데 안 써요.",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "H08-v",
+   "ok": false,
+   "text": "음 튀김기가 있긴 한데 안 써요",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "H09-t",
+   "ok": true,
+   "text": "튀김은 안 하고요, 볶음이랑 국만 해요.",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "H09-v",
+   "ok": true,
+   "text": "음 튀김은 안 하고요 볶음이랑 국만 해요",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "H10-t",
+   "ok": true,
+   "text": "튀김기 이번 주는 안 돌려요. 수리 맡겼어요.",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "H10-v",
+   "ok": true,
+   "text": "음 튀김기 이번 주는 안 돌려요 수리 맡겼어요",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "H11-t",
+   "ok": false,
+   "text": "튀김기 그거 안 써요.",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "H11-v",
+   "ok": false,
+   "text": "음 튀김기 그거 안 써요",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "H12-t",
+   "ok": true,
+   "text": "튀김기 켜고 돈가스 튀겨요.",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "H12-v",
+   "ok": true,
+   "text": "음 튀김기 켜고 돈가스 튀겨요",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "H13-t",
+   "ok": true,
+   "text": "매일 아침 튀김기 기름을 데웁니다.",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "H13-v",
+   "ok": true,
+   "text": "음 매일 아침 튀김기 기름을 데웁니다",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "H14-t",
+   "ok": true,
+   "text": "튀김기 안쪽 청소를 합니다.",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "H14-v",
+   "ok": true,
+   "text": "음 튀김기 안쪽 청소를 합니다",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "H15-t",
+   "ok": true,
+   "text": "어 튀김기는 쓰긴 써요.",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "H15-v",
+   "ok": true,
+   "text": "음 어 튀김기는 쓰긴 써요",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "H16-t",
+   "ok": true,
+   "text": "튀김기 뚜껑이 잘 안 닫혀요.",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "H16-v",
+   "ok": true,
+   "text": "음 튀김기 뚜껑이 잘 안 닫혀요",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "H17-t",
+   "ok": true,
+   "text": "튀김기 옆에 소화기를 안 뒀어요.",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "H17-v",
+   "ok": true,
+   "text": "음 튀김기 옆에 소화기를 안 뒀어요",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "H18-t",
+   "ok": true,
+   "text": "튀김할 때 앞치마를 안 입어요.",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "H18-v",
+   "ok": true,
+   "text": "음 튀김할 때 앞치마를 안 입어요",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "H19-t",
+   "ok": true,
+   "text": "튀김기를 끄지 않고 자리를 비웁니다.",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "H19-v",
+   "ok": true,
+   "text": "음 튀김기를 끄지 않고 자리를 비웁니다",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "H20-t",
+   "ok": true,
+   "text": "기름을 갈지 않고 계속 튀겨요.",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "H20-v",
+   "ok": true,
+   "text": "음 기름을 갈지 않고 계속 튀겨요",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "H21-t",
+   "ok": true,
+   "text": "튀김기 쪽은 환기가 안 돼요.",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "H21-v",
+   "ok": true,
+   "text": "음 튀김기 쪽은 환기가 안 돼요",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "H22-t",
+   "ok": false,
+   "text": "튀김기는 점심에는 안 쓰고 저녁에만 써요.",
+   "expected": {
+    "FRY": [
+     true,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "H22-v",
+   "ok": false,
+   "text": "음 튀김기는 점심에는 안 쓰고 저녁에만 써요",
+   "expected": {
+    "FRY": [
+     true,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "H23-t",
+   "ok": true,
+   "text": "반죽기는 쓰지만 튀김기는 안 써요.",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ],
+    "MIX": true
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ],
+    "MIX": true
+   }
+  },
+  {
+   "id": "H23-v",
+   "ok": true,
+   "text": "음 반죽기는 쓰지만 튀김기는 안 써요",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ],
+    "MIX": true
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ],
+    "MIX": true
+   }
+  },
+  {
+   "id": "H24-t",
+   "ok": true,
+   "text": "그리들은 안 쓰는데 튀김기는 매일 돌려요.",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ],
+    "GRIDDLE": false
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ],
+    "GRIDDLE": false
+   }
+  },
+  {
+   "id": "H24-v",
+   "ok": true,
+   "text": "음 그리들은 안 쓰는데 튀김기는 매일 돌려요",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ],
+    "GRIDDLE": false
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ],
+    "GRIDDLE": false
+   }
+  },
+  {
+   "id": "H25-t",
+   "ok": true,
+   "text": "반죽기는 못 쓰고 있어요.",
+   "expected": {
+    "FRY": [
+     false,
+     false
+    ],
+    "MIX": false
+   },
+   "got": {
+    "FRY": [
+     false,
+     false
+    ],
+    "MIX": false
+   }
+  },
+  {
+   "id": "H25-v",
+   "ok": true,
+   "text": "음 반죽기는 못 쓰고 있어요",
+   "expected": {
+    "FRY": [
+     false,
+     false
+    ],
+    "MIX": false
+   },
+   "got": {
+    "FRY": [
+     false,
+     false
+    ],
+    "MIX": false
+   }
+  }
+ ]
+}

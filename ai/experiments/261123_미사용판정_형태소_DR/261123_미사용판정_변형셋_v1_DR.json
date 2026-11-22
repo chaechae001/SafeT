@@ -1,0 +1,3642 @@
+{
+ "version": "negation-variants-v1",
+ "built_by": "build_negation_set.py",
+ "seed": 261123,
+ "note": "합성 데이터. 실제 사용자 발화가 아니며 현장 판정 정확도로 해석하지 않는다.",
+ "expected_format": "FRY=[hit, denied], 그 외 시나리오=hit",
+ "count": 220,
+ "items": [
+  {
+   "id": "T01-001",
+   "template": 1,
+   "category": "사용",
+   "kind": "text",
+   "text": "튀김기를 사용합니다.",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T01-002",
+   "template": 1,
+   "category": "사용",
+   "kind": "voice_transcript",
+   "text": "음 튀김기를 사용합니다",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T01-003",
+   "template": 1,
+   "category": "사용",
+   "kind": "text",
+   "text": "1층 주방에서 전기 튀김기를 당분간 사용합니다.",
+   "variants": {
+    "loc": "1층 주방에서",
+    "mod": "전기",
+    "time": "당분간"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T01-004",
+   "template": 1,
+   "category": "사용",
+   "kind": "voice_transcript",
+   "text": "음 1층 주방에서 전기 튀김기를 당분간 사용합니다",
+   "variants": {
+    "loc": "1층 주방에서",
+    "mod": "전기",
+    "time": "당분간"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T01-005",
+   "template": 1,
+   "category": "사용",
+   "kind": "text",
+   "text": "1층 주방에서 튀김기를 사용합니다.",
+   "variants": {
+    "loc": "1층 주방에서"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T01-006",
+   "template": 1,
+   "category": "사용",
+   "kind": "voice_transcript",
+   "text": "음 1층 주방에서 튀김기를 사용합니다",
+   "variants": {
+    "loc": "1층 주방에서"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T01-007",
+   "template": 1,
+   "category": "사용",
+   "kind": "text",
+   "text": "1층 주방에서 전기 튀김기를 사용합니다.",
+   "variants": {
+    "loc": "1층 주방에서",
+    "mod": "전기"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T01-008",
+   "template": 1,
+   "category": "사용",
+   "kind": "voice_transcript",
+   "text": "음 1층 주방에서 전기 튀김기를 사용합니다",
+   "variants": {
+    "loc": "1층 주방에서",
+    "mod": "전기"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T01-009",
+   "template": 1,
+   "category": "사용",
+   "kind": "text",
+   "text": "1층 주방에서 가스 튀김기를 사용합니다.",
+   "variants": {
+    "loc": "1층 주방에서",
+    "mod": "가스"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T01-010",
+   "template": 1,
+   "category": "사용",
+   "kind": "voice_transcript",
+   "text": "음 1층 주방에서 가스 튀김기를 사용합니다",
+   "variants": {
+    "loc": "1층 주방에서",
+    "mod": "가스"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T02-011",
+   "template": 2,
+   "category": "사용",
+   "kind": "text",
+   "text": "튀김기로 감자를 튀깁니다.",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T02-012",
+   "template": 2,
+   "category": "사용",
+   "kind": "voice_transcript",
+   "text": "음 튀김기로 감자를 튀깁니다",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T02-013",
+   "template": 2,
+   "category": "사용",
+   "kind": "text",
+   "text": "튀김기로 요즘 감자를 튀깁니다.",
+   "variants": {
+    "time": "요즘"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T02-014",
+   "template": 2,
+   "category": "사용",
+   "kind": "voice_transcript",
+   "text": "음 튀김기로 요즘 감자를 튀깁니다",
+   "variants": {
+    "time": "요즘"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T02-015",
+   "template": 2,
+   "category": "사용",
+   "kind": "text",
+   "text": "전기 튀김기로 당분간 감자를 튀깁니다.",
+   "variants": {
+    "mod": "전기",
+    "time": "당분간"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T02-016",
+   "template": 2,
+   "category": "사용",
+   "kind": "voice_transcript",
+   "text": "음 전기 튀김기로 당분간 감자를 튀깁니다",
+   "variants": {
+    "mod": "전기",
+    "time": "당분간"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T02-017",
+   "template": 2,
+   "category": "사용",
+   "kind": "text",
+   "text": "1층 주방에서 가스 튀김기로 요즘 감자를 튀깁니다.",
+   "variants": {
+    "loc": "1층 주방에서",
+    "mod": "가스",
+    "time": "요즘"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T02-018",
+   "template": 2,
+   "category": "사용",
+   "kind": "voice_transcript",
+   "text": "음 1층 주방에서 가스 튀김기로 요즘 감자를 튀깁니다",
+   "variants": {
+    "loc": "1층 주방에서",
+    "mod": "가스",
+    "time": "요즘"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T02-019",
+   "template": 2,
+   "category": "사용",
+   "kind": "text",
+   "text": "1층 주방에서 전기 튀김기로 감자를 튀깁니다.",
+   "variants": {
+    "loc": "1층 주방에서",
+    "mod": "전기"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T02-020",
+   "template": 2,
+   "category": "사용",
+   "kind": "voice_transcript",
+   "text": "음 1층 주방에서 전기 튀김기로 감자를 튀깁니다",
+   "variants": {
+    "loc": "1층 주방에서",
+    "mod": "전기"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T03-021",
+   "template": 3,
+   "category": "사용",
+   "kind": "text",
+   "text": "튀김기를 돌려요.",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T03-022",
+   "template": 3,
+   "category": "사용",
+   "kind": "voice_transcript",
+   "text": "음 튀김기를 돌려요",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T03-023",
+   "template": 3,
+   "category": "사용",
+   "kind": "text",
+   "text": "튀김기를 당분간 돌려요.",
+   "variants": {
+    "time": "당분간"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T03-024",
+   "template": 3,
+   "category": "사용",
+   "kind": "voice_transcript",
+   "text": "음 튀김기를 당분간 돌려요",
+   "variants": {
+    "time": "당분간"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T03-025",
+   "template": 3,
+   "category": "사용",
+   "kind": "text",
+   "text": "1층 주방에서 튀김기를 당분간 돌려요.",
+   "variants": {
+    "loc": "1층 주방에서",
+    "time": "당분간"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T03-026",
+   "template": 3,
+   "category": "사용",
+   "kind": "voice_transcript",
+   "text": "음 1층 주방에서 튀김기를 당분간 돌려요",
+   "variants": {
+    "loc": "1층 주방에서",
+    "time": "당분간"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T03-027",
+   "template": 3,
+   "category": "사용",
+   "kind": "text",
+   "text": "큰 튀김기를 요즘 돌려요.",
+   "variants": {
+    "mod": "큰",
+    "time": "요즘"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T03-028",
+   "template": 3,
+   "category": "사용",
+   "kind": "voice_transcript",
+   "text": "음 큰 튀김기를 요즘 돌려요",
+   "variants": {
+    "mod": "큰",
+    "time": "요즘"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T03-029",
+   "template": 3,
+   "category": "사용",
+   "kind": "text",
+   "text": "가스 튀김기를 요즘 돌려요.",
+   "variants": {
+    "mod": "가스",
+    "time": "요즘"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T03-030",
+   "template": 3,
+   "category": "사용",
+   "kind": "voice_transcript",
+   "text": "음 가스 튀김기를 요즘 돌려요",
+   "variants": {
+    "mod": "가스",
+    "time": "요즘"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T04-031",
+   "template": 4,
+   "category": "사용",
+   "kind": "text",
+   "text": "돈가스를 튀기는 일을 합니다.",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T04-032",
+   "template": 4,
+   "category": "사용",
+   "kind": "voice_transcript",
+   "text": "음 돈가스를 튀기는 일을 합니다",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T04-033",
+   "template": 4,
+   "category": "사용",
+   "kind": "text",
+   "text": "요즘 돈가스를 튀기는 일을 합니다.",
+   "variants": {
+    "time": "요즘"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T04-034",
+   "template": 4,
+   "category": "사용",
+   "kind": "voice_transcript",
+   "text": "음 요즘 돈가스를 튀기는 일을 합니다",
+   "variants": {
+    "time": "요즘"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T04-035",
+   "template": 4,
+   "category": "사용",
+   "kind": "text",
+   "text": "1층 주방에서 돈가스를 튀기는 일을 합니다.",
+   "variants": {
+    "loc": "1층 주방에서"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T04-036",
+   "template": 4,
+   "category": "사용",
+   "kind": "voice_transcript",
+   "text": "음 1층 주방에서 돈가스를 튀기는 일을 합니다",
+   "variants": {
+    "loc": "1층 주방에서"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T04-037",
+   "template": 4,
+   "category": "사용",
+   "kind": "text",
+   "text": "1층 주방에서 요즘 돈가스를 튀기는 일을 합니다.",
+   "variants": {
+    "loc": "1층 주방에서",
+    "time": "요즘"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T04-038",
+   "template": 4,
+   "category": "사용",
+   "kind": "voice_transcript",
+   "text": "음 1층 주방에서 요즘 돈가스를 튀기는 일을 합니다",
+   "variants": {
+    "loc": "1층 주방에서",
+    "time": "요즘"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T04-039",
+   "template": 4,
+   "category": "사용",
+   "kind": "text",
+   "text": "당분간 돈가스를 튀기는 일을 합니다.",
+   "variants": {
+    "time": "당분간"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T04-040",
+   "template": 4,
+   "category": "사용",
+   "kind": "voice_transcript",
+   "text": "음 당분간 돈가스를 튀기는 일을 합니다",
+   "variants": {
+    "time": "당분간"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T05-041",
+   "template": 5,
+   "category": "미사용",
+   "kind": "text",
+   "text": "튀김기는 사용하지 않습니다.",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T05-042",
+   "template": 5,
+   "category": "미사용",
+   "kind": "voice_transcript",
+   "text": "음 튀김기는 사용하지 않습니다",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T05-043",
+   "template": 5,
+   "category": "미사용",
+   "kind": "text",
+   "text": "1층 주방에서 튀김기는 요즘 사용하지 않습니다.",
+   "variants": {
+    "loc": "1층 주방에서",
+    "time": "요즘"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T05-044",
+   "template": 5,
+   "category": "미사용",
+   "kind": "voice_transcript",
+   "text": "음 1층 주방에서 튀김기는 요즘 사용하지 않습니다",
+   "variants": {
+    "loc": "1층 주방에서",
+    "time": "요즘"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T05-045",
+   "template": 5,
+   "category": "미사용",
+   "kind": "text",
+   "text": "튀김기는 요즘 사용하지 않습니다.",
+   "variants": {
+    "time": "요즘"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T05-046",
+   "template": 5,
+   "category": "미사용",
+   "kind": "voice_transcript",
+   "text": "음 튀김기는 요즘 사용하지 않습니다",
+   "variants": {
+    "time": "요즘"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T05-047",
+   "template": 5,
+   "category": "미사용",
+   "kind": "text",
+   "text": "1층 주방에서 가스 튀김기는 당분간 고장 나서 사용하지 않습니다.",
+   "variants": {
+    "loc": "1층 주방에서",
+    "mod": "가스",
+    "time": "당분간",
+    "reason": "고장 나서"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T05-048",
+   "template": 5,
+   "category": "미사용",
+   "kind": "voice_transcript",
+   "text": "음 1층 주방에서 가스 튀김기는 당분간 고장 나서 사용하지 않습니다",
+   "variants": {
+    "loc": "1층 주방에서",
+    "mod": "가스",
+    "time": "당분간",
+    "reason": "고장 나서"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T05-049",
+   "template": 5,
+   "category": "미사용",
+   "kind": "text",
+   "text": "1층 주방에서 가스 튀김기는 요즘 사용하지 않습니다.",
+   "variants": {
+    "loc": "1층 주방에서",
+    "mod": "가스",
+    "time": "요즘"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T05-050",
+   "template": 5,
+   "category": "미사용",
+   "kind": "voice_transcript",
+   "text": "음 1층 주방에서 가스 튀김기는 요즘 사용하지 않습니다",
+   "variants": {
+    "loc": "1층 주방에서",
+    "mod": "가스",
+    "time": "요즘"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T06-051",
+   "template": 6,
+   "category": "미사용",
+   "kind": "text",
+   "text": "튀김기는 안 써요.",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T06-052",
+   "template": 6,
+   "category": "미사용",
+   "kind": "voice_transcript",
+   "text": "음 튀김기는 안 써요",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T06-053",
+   "template": 6,
+   "category": "미사용",
+   "kind": "text",
+   "text": "튀김기는 요즘 안 써요.",
+   "variants": {
+    "time": "요즘"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T06-054",
+   "template": 6,
+   "category": "미사용",
+   "kind": "voice_transcript",
+   "text": "음 튀김기는 요즘 안 써요",
+   "variants": {
+    "time": "요즘"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T06-055",
+   "template": 6,
+   "category": "미사용",
+   "kind": "text",
+   "text": "튀김기는 고장 나서 안 써요.",
+   "variants": {
+    "reason": "고장 나서"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T06-056",
+   "template": 6,
+   "category": "미사용",
+   "kind": "voice_transcript",
+   "text": "음 튀김기는 고장 나서 안 써요",
+   "variants": {
+    "reason": "고장 나서"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T06-057",
+   "template": 6,
+   "category": "미사용",
+   "kind": "text",
+   "text": "전기 튀김기는 요즘 안 써요.",
+   "variants": {
+    "mod": "전기",
+    "time": "요즘"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T06-058",
+   "template": 6,
+   "category": "미사용",
+   "kind": "voice_transcript",
+   "text": "음 전기 튀김기는 요즘 안 써요",
+   "variants": {
+    "mod": "전기",
+    "time": "요즘"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T06-059",
+   "template": 6,
+   "category": "미사용",
+   "kind": "text",
+   "text": "큰 튀김기는 안 써요.",
+   "variants": {
+    "mod": "큰"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T06-060",
+   "template": 6,
+   "category": "미사용",
+   "kind": "voice_transcript",
+   "text": "음 큰 튀김기는 안 써요",
+   "variants": {
+    "mod": "큰"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T07-061",
+   "template": 7,
+   "category": "미사용",
+   "kind": "text",
+   "text": "튀김기는 안 돌려요.",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T07-062",
+   "template": 7,
+   "category": "미사용",
+   "kind": "voice_transcript",
+   "text": "음 튀김기는 안 돌려요",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T07-063",
+   "template": 7,
+   "category": "미사용",
+   "kind": "text",
+   "text": "전기 튀김기는 요즘 고장 나서 안 돌려요.",
+   "variants": {
+    "mod": "전기",
+    "time": "요즘",
+    "reason": "고장 나서"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T07-064",
+   "template": 7,
+   "category": "미사용",
+   "kind": "voice_transcript",
+   "text": "음 전기 튀김기는 요즘 고장 나서 안 돌려요",
+   "variants": {
+    "mod": "전기",
+    "time": "요즘",
+    "reason": "고장 나서"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T07-065",
+   "template": 7,
+   "category": "미사용",
+   "kind": "text",
+   "text": "가스 튀김기는 당분간 안 돌려요.",
+   "variants": {
+    "mod": "가스",
+    "time": "당분간"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T07-066",
+   "template": 7,
+   "category": "미사용",
+   "kind": "voice_transcript",
+   "text": "음 가스 튀김기는 당분간 안 돌려요",
+   "variants": {
+    "mod": "가스",
+    "time": "당분간"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T07-067",
+   "template": 7,
+   "category": "미사용",
+   "kind": "text",
+   "text": "1층 주방에서 큰 튀김기는 고장 나서 안 돌려요.",
+   "variants": {
+    "loc": "1층 주방에서",
+    "mod": "큰",
+    "reason": "고장 나서"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T07-068",
+   "template": 7,
+   "category": "미사용",
+   "kind": "voice_transcript",
+   "text": "음 1층 주방에서 큰 튀김기는 고장 나서 안 돌려요",
+   "variants": {
+    "loc": "1층 주방에서",
+    "mod": "큰",
+    "reason": "고장 나서"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T07-069",
+   "template": 7,
+   "category": "미사용",
+   "kind": "text",
+   "text": "1층 주방에서 큰 튀김기는 요즘 안 돌려요.",
+   "variants": {
+    "loc": "1층 주방에서",
+    "mod": "큰",
+    "time": "요즘"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T07-070",
+   "template": 7,
+   "category": "미사용",
+   "kind": "voice_transcript",
+   "text": "음 1층 주방에서 큰 튀김기는 요즘 안 돌려요",
+   "variants": {
+    "loc": "1층 주방에서",
+    "mod": "큰",
+    "time": "요즘"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T08-071",
+   "template": 8,
+   "category": "미사용",
+   "kind": "text",
+   "text": "튀김기는 쓸 일 없어요.",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T08-072",
+   "template": 8,
+   "category": "미사용",
+   "kind": "voice_transcript",
+   "text": "음 튀김기는 쓸 일 없어요",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T08-073",
+   "template": 8,
+   "category": "미사용",
+   "kind": "text",
+   "text": "가스 튀김기는 요즘 고장 나서 쓸 일 없어요.",
+   "variants": {
+    "mod": "가스",
+    "time": "요즘",
+    "reason": "고장 나서"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T08-074",
+   "template": 8,
+   "category": "미사용",
+   "kind": "voice_transcript",
+   "text": "음 가스 튀김기는 요즘 고장 나서 쓸 일 없어요",
+   "variants": {
+    "mod": "가스",
+    "time": "요즘",
+    "reason": "고장 나서"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T08-075",
+   "template": 8,
+   "category": "미사용",
+   "kind": "text",
+   "text": "큰 튀김기는 요즘 고장 나서 쓸 일 없어요.",
+   "variants": {
+    "mod": "큰",
+    "time": "요즘",
+    "reason": "고장 나서"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T08-076",
+   "template": 8,
+   "category": "미사용",
+   "kind": "voice_transcript",
+   "text": "음 큰 튀김기는 요즘 고장 나서 쓸 일 없어요",
+   "variants": {
+    "mod": "큰",
+    "time": "요즘",
+    "reason": "고장 나서"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T08-077",
+   "template": 8,
+   "category": "미사용",
+   "kind": "text",
+   "text": "전기 튀김기는 당분간 고장 나서 쓸 일 없어요.",
+   "variants": {
+    "mod": "전기",
+    "time": "당분간",
+    "reason": "고장 나서"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T08-078",
+   "template": 8,
+   "category": "미사용",
+   "kind": "voice_transcript",
+   "text": "음 전기 튀김기는 당분간 고장 나서 쓸 일 없어요",
+   "variants": {
+    "mod": "전기",
+    "time": "당분간",
+    "reason": "고장 나서"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T08-079",
+   "template": 8,
+   "category": "미사용",
+   "kind": "text",
+   "text": "1층 주방에서 튀김기는 요즘 고장 나서 쓸 일 없어요.",
+   "variants": {
+    "loc": "1층 주방에서",
+    "time": "요즘",
+    "reason": "고장 나서"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T08-080",
+   "template": 8,
+   "category": "미사용",
+   "kind": "voice_transcript",
+   "text": "음 1층 주방에서 튀김기는 요즘 고장 나서 쓸 일 없어요",
+   "variants": {
+    "loc": "1층 주방에서",
+    "time": "요즘",
+    "reason": "고장 나서"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T09-081",
+   "template": 9,
+   "category": "미사용",
+   "kind": "text",
+   "text": "튀김은 안 해요.",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T09-082",
+   "template": 9,
+   "category": "미사용",
+   "kind": "voice_transcript",
+   "text": "음 튀김은 안 해요",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T09-083",
+   "template": 9,
+   "category": "미사용",
+   "kind": "text",
+   "text": "1층 주방에서 당분간 튀김은 고장 나서 안 해요.",
+   "variants": {
+    "loc": "1층 주방에서",
+    "time": "당분간",
+    "reason": "고장 나서"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T09-084",
+   "template": 9,
+   "category": "미사용",
+   "kind": "voice_transcript",
+   "text": "음 1층 주방에서 당분간 튀김은 고장 나서 안 해요",
+   "variants": {
+    "loc": "1층 주방에서",
+    "time": "당분간",
+    "reason": "고장 나서"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T09-085",
+   "template": 9,
+   "category": "미사용",
+   "kind": "text",
+   "text": "1층 주방에서 튀김은 고장 나서 안 해요.",
+   "variants": {
+    "loc": "1층 주방에서",
+    "reason": "고장 나서"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T09-086",
+   "template": 9,
+   "category": "미사용",
+   "kind": "voice_transcript",
+   "text": "음 1층 주방에서 튀김은 고장 나서 안 해요",
+   "variants": {
+    "loc": "1층 주방에서",
+    "reason": "고장 나서"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T09-087",
+   "template": 9,
+   "category": "미사용",
+   "kind": "text",
+   "text": "1층 주방에서 당분간 튀김은 안 해요.",
+   "variants": {
+    "loc": "1층 주방에서",
+    "time": "당분간"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T09-088",
+   "template": 9,
+   "category": "미사용",
+   "kind": "voice_transcript",
+   "text": "음 1층 주방에서 당분간 튀김은 안 해요",
+   "variants": {
+    "loc": "1층 주방에서",
+    "time": "당분간"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T09-089",
+   "template": 9,
+   "category": "미사용",
+   "kind": "text",
+   "text": "요즘 튀김은 안 해요.",
+   "variants": {
+    "time": "요즘"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T09-090",
+   "template": 9,
+   "category": "미사용",
+   "kind": "voice_transcript",
+   "text": "음 요즘 튀김은 안 해요",
+   "variants": {
+    "time": "요즘"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T10-091",
+   "template": 10,
+   "category": "미사용",
+   "kind": "text",
+   "text": "튀기지 않습니다.",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T10-092",
+   "template": 10,
+   "category": "미사용",
+   "kind": "voice_transcript",
+   "text": "음 튀기지 않습니다",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T10-093",
+   "template": 10,
+   "category": "미사용",
+   "kind": "text",
+   "text": "당분간 고장 나서 튀기지 않습니다.",
+   "variants": {
+    "time": "당분간",
+    "reason": "고장 나서"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T10-094",
+   "template": 10,
+   "category": "미사용",
+   "kind": "voice_transcript",
+   "text": "음 당분간 고장 나서 튀기지 않습니다",
+   "variants": {
+    "time": "당분간",
+    "reason": "고장 나서"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T10-095",
+   "template": 10,
+   "category": "미사용",
+   "kind": "text",
+   "text": "1층 주방에서 고장 나서 튀기지 않습니다.",
+   "variants": {
+    "loc": "1층 주방에서",
+    "reason": "고장 나서"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T10-096",
+   "template": 10,
+   "category": "미사용",
+   "kind": "voice_transcript",
+   "text": "음 1층 주방에서 고장 나서 튀기지 않습니다",
+   "variants": {
+    "loc": "1층 주방에서",
+    "reason": "고장 나서"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T10-097",
+   "template": 10,
+   "category": "미사용",
+   "kind": "text",
+   "text": "1층 주방에서 요즘 고장 나서 튀기지 않습니다.",
+   "variants": {
+    "loc": "1층 주방에서",
+    "time": "요즘",
+    "reason": "고장 나서"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T10-098",
+   "template": 10,
+   "category": "미사용",
+   "kind": "voice_transcript",
+   "text": "음 1층 주방에서 요즘 고장 나서 튀기지 않습니다",
+   "variants": {
+    "loc": "1층 주방에서",
+    "time": "요즘",
+    "reason": "고장 나서"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T10-099",
+   "template": 10,
+   "category": "미사용",
+   "kind": "text",
+   "text": "요즘 고장 나서 튀기지 않습니다.",
+   "variants": {
+    "time": "요즘",
+    "reason": "고장 나서"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T10-100",
+   "template": 10,
+   "category": "미사용",
+   "kind": "voice_transcript",
+   "text": "음 요즘 고장 나서 튀기지 않습니다",
+   "variants": {
+    "time": "요즘",
+    "reason": "고장 나서"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T11-101",
+   "template": 11,
+   "category": "미사용",
+   "kind": "text",
+   "text": "튀김기를 가동하지 않습니다.",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T11-102",
+   "template": 11,
+   "category": "미사용",
+   "kind": "voice_transcript",
+   "text": "음 튀김기를 가동하지 않습니다",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T11-103",
+   "template": 11,
+   "category": "미사용",
+   "kind": "text",
+   "text": "1층 주방에서 튀김기를 고장 나서 가동하지 않습니다.",
+   "variants": {
+    "loc": "1층 주방에서",
+    "reason": "고장 나서"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T11-104",
+   "template": 11,
+   "category": "미사용",
+   "kind": "voice_transcript",
+   "text": "음 1층 주방에서 튀김기를 고장 나서 가동하지 않습니다",
+   "variants": {
+    "loc": "1층 주방에서",
+    "reason": "고장 나서"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T11-105",
+   "template": 11,
+   "category": "미사용",
+   "kind": "text",
+   "text": "튀김기를 고장 나서 가동하지 않습니다.",
+   "variants": {
+    "reason": "고장 나서"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T11-106",
+   "template": 11,
+   "category": "미사용",
+   "kind": "voice_transcript",
+   "text": "음 튀김기를 고장 나서 가동하지 않습니다",
+   "variants": {
+    "reason": "고장 나서"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T11-107",
+   "template": 11,
+   "category": "미사용",
+   "kind": "text",
+   "text": "큰 튀김기를 당분간 가동하지 않습니다.",
+   "variants": {
+    "mod": "큰",
+    "time": "당분간"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T11-108",
+   "template": 11,
+   "category": "미사용",
+   "kind": "voice_transcript",
+   "text": "음 큰 튀김기를 당분간 가동하지 않습니다",
+   "variants": {
+    "mod": "큰",
+    "time": "당분간"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T11-109",
+   "template": 11,
+   "category": "미사용",
+   "kind": "text",
+   "text": "1층 주방에서 튀김기를 당분간 가동하지 않습니다.",
+   "variants": {
+    "loc": "1층 주방에서",
+    "time": "당분간"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T11-110",
+   "template": 11,
+   "category": "미사용",
+   "kind": "voice_transcript",
+   "text": "음 1층 주방에서 튀김기를 당분간 가동하지 않습니다",
+   "variants": {
+    "loc": "1층 주방에서",
+    "time": "당분간"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T12-111",
+   "template": 12,
+   "category": "미사용",
+   "kind": "text",
+   "text": "튀김기는 안 써요. 볶음만 해요.",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T12-112",
+   "template": 12,
+   "category": "미사용",
+   "kind": "voice_transcript",
+   "text": "음 튀김기는 안 써요 볶음만 해요",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T12-113",
+   "template": 12,
+   "category": "미사용",
+   "kind": "text",
+   "text": "전기 튀김기는 안 써요. 볶음만 해요.",
+   "variants": {
+    "mod": "전기"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T12-114",
+   "template": 12,
+   "category": "미사용",
+   "kind": "voice_transcript",
+   "text": "음 전기 튀김기는 안 써요 볶음만 해요",
+   "variants": {
+    "mod": "전기"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T12-115",
+   "template": 12,
+   "category": "미사용",
+   "kind": "text",
+   "text": "튀김기는 당분간 안 써요. 볶음만 해요.",
+   "variants": {
+    "time": "당분간"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T12-116",
+   "template": 12,
+   "category": "미사용",
+   "kind": "voice_transcript",
+   "text": "음 튀김기는 당분간 안 써요 볶음만 해요",
+   "variants": {
+    "time": "당분간"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T12-117",
+   "template": 12,
+   "category": "미사용",
+   "kind": "text",
+   "text": "가스 튀김기는 안 써요. 볶음만 해요.",
+   "variants": {
+    "mod": "가스"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T12-118",
+   "template": 12,
+   "category": "미사용",
+   "kind": "voice_transcript",
+   "text": "음 가스 튀김기는 안 써요 볶음만 해요",
+   "variants": {
+    "mod": "가스"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T12-119",
+   "template": 12,
+   "category": "미사용",
+   "kind": "text",
+   "text": "큰 튀김기는 안 써요. 볶음만 해요.",
+   "variants": {
+    "mod": "큰"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T12-120",
+   "template": 12,
+   "category": "미사용",
+   "kind": "voice_transcript",
+   "text": "음 큰 튀김기는 안 써요 볶음만 해요",
+   "variants": {
+    "mod": "큰"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T13-121",
+   "template": 13,
+   "category": "위험부정",
+   "kind": "text",
+   "text": "튀김기의 온도 제어 장치가 작동하지 않습니다.",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T13-122",
+   "template": 13,
+   "category": "위험부정",
+   "kind": "voice_transcript",
+   "text": "음 튀김기의 온도 제어 장치가 작동하지 않습니다",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T13-123",
+   "template": 13,
+   "category": "위험부정",
+   "kind": "text",
+   "text": "큰 튀김기의 온도 제어 장치가 작동하지 않습니다.",
+   "variants": {
+    "mod": "큰"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T13-124",
+   "template": 13,
+   "category": "위험부정",
+   "kind": "voice_transcript",
+   "text": "음 큰 튀김기의 온도 제어 장치가 작동하지 않습니다",
+   "variants": {
+    "mod": "큰"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T13-125",
+   "template": 13,
+   "category": "위험부정",
+   "kind": "text",
+   "text": "1층 주방에서 가스 튀김기의 온도 제어 장치가 작동하지 않습니다.",
+   "variants": {
+    "loc": "1층 주방에서",
+    "mod": "가스"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T13-126",
+   "template": 13,
+   "category": "위험부정",
+   "kind": "voice_transcript",
+   "text": "음 1층 주방에서 가스 튀김기의 온도 제어 장치가 작동하지 않습니다",
+   "variants": {
+    "loc": "1층 주방에서",
+    "mod": "가스"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T13-127",
+   "template": 13,
+   "category": "위험부정",
+   "kind": "text",
+   "text": "1층 주방에서 큰 튀김기의 온도 제어 장치가 작동하지 않습니다.",
+   "variants": {
+    "loc": "1층 주방에서",
+    "mod": "큰"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T13-128",
+   "template": 13,
+   "category": "위험부정",
+   "kind": "voice_transcript",
+   "text": "음 1층 주방에서 큰 튀김기의 온도 제어 장치가 작동하지 않습니다",
+   "variants": {
+    "loc": "1층 주방에서",
+    "mod": "큰"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T13-129",
+   "template": 13,
+   "category": "위험부정",
+   "kind": "text",
+   "text": "1층 주방에서 튀김기의 온도 제어 장치가 작동하지 않습니다.",
+   "variants": {
+    "loc": "1층 주방에서"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T13-130",
+   "template": 13,
+   "category": "위험부정",
+   "kind": "voice_transcript",
+   "text": "음 1층 주방에서 튀김기의 온도 제어 장치가 작동하지 않습니다",
+   "variants": {
+    "loc": "1층 주방에서"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T14-131",
+   "template": 14,
+   "category": "위험부정",
+   "kind": "text",
+   "text": "튀김기 주변에 소화기가 없습니다.",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T14-132",
+   "template": 14,
+   "category": "위험부정",
+   "kind": "voice_transcript",
+   "text": "음 튀김기 주변에 소화기가 없습니다",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T14-133",
+   "template": 14,
+   "category": "위험부정",
+   "kind": "text",
+   "text": "큰 튀김기 주변에 소화기가 없습니다.",
+   "variants": {
+    "mod": "큰"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T14-134",
+   "template": 14,
+   "category": "위험부정",
+   "kind": "voice_transcript",
+   "text": "음 큰 튀김기 주변에 소화기가 없습니다",
+   "variants": {
+    "mod": "큰"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T14-135",
+   "template": 14,
+   "category": "위험부정",
+   "kind": "text",
+   "text": "1층 주방에서 전기 튀김기 주변에 소화기가 없습니다.",
+   "variants": {
+    "loc": "1층 주방에서",
+    "mod": "전기"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T14-136",
+   "template": 14,
+   "category": "위험부정",
+   "kind": "voice_transcript",
+   "text": "음 1층 주방에서 전기 튀김기 주변에 소화기가 없습니다",
+   "variants": {
+    "loc": "1층 주방에서",
+    "mod": "전기"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T14-137",
+   "template": 14,
+   "category": "위험부정",
+   "kind": "text",
+   "text": "전기 튀김기 주변에 소화기가 없습니다.",
+   "variants": {
+    "mod": "전기"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T14-138",
+   "template": 14,
+   "category": "위험부정",
+   "kind": "voice_transcript",
+   "text": "음 전기 튀김기 주변에 소화기가 없습니다",
+   "variants": {
+    "mod": "전기"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T14-139",
+   "template": 14,
+   "category": "위험부정",
+   "kind": "text",
+   "text": "1층 주방에서 큰 튀김기 주변에 소화기가 없습니다.",
+   "variants": {
+    "loc": "1층 주방에서",
+    "mod": "큰"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T14-140",
+   "template": 14,
+   "category": "위험부정",
+   "kind": "voice_transcript",
+   "text": "음 1층 주방에서 큰 튀김기 주변에 소화기가 없습니다",
+   "variants": {
+    "loc": "1층 주방에서",
+    "mod": "큰"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T15-141",
+   "template": 15,
+   "category": "위험부정",
+   "kind": "text",
+   "text": "튀김기를 쓸 때 보호장갑을 착용하지 않습니다.",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T15-142",
+   "template": 15,
+   "category": "위험부정",
+   "kind": "voice_transcript",
+   "text": "음 튀김기를 쓸 때 보호장갑을 착용하지 않습니다",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T15-143",
+   "template": 15,
+   "category": "위험부정",
+   "kind": "text",
+   "text": "1층 주방에서 전기 튀김기를 쓸 때 보호장갑을 요즘 착용하지 않습니다.",
+   "variants": {
+    "loc": "1층 주방에서",
+    "mod": "전기",
+    "time": "요즘"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T15-144",
+   "template": 15,
+   "category": "위험부정",
+   "kind": "voice_transcript",
+   "text": "음 1층 주방에서 전기 튀김기를 쓸 때 보호장갑을 요즘 착용하지 않습니다",
+   "variants": {
+    "loc": "1층 주방에서",
+    "mod": "전기",
+    "time": "요즘"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T15-145",
+   "template": 15,
+   "category": "위험부정",
+   "kind": "text",
+   "text": "전기 튀김기를 쓸 때 보호장갑을 요즘 착용하지 않습니다.",
+   "variants": {
+    "mod": "전기",
+    "time": "요즘"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T15-146",
+   "template": 15,
+   "category": "위험부정",
+   "kind": "voice_transcript",
+   "text": "음 전기 튀김기를 쓸 때 보호장갑을 요즘 착용하지 않습니다",
+   "variants": {
+    "mod": "전기",
+    "time": "요즘"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T15-147",
+   "template": 15,
+   "category": "위험부정",
+   "kind": "text",
+   "text": "1층 주방에서 큰 튀김기를 쓸 때 보호장갑을 착용하지 않습니다.",
+   "variants": {
+    "loc": "1층 주방에서",
+    "mod": "큰"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T15-148",
+   "template": 15,
+   "category": "위험부정",
+   "kind": "voice_transcript",
+   "text": "음 1층 주방에서 큰 튀김기를 쓸 때 보호장갑을 착용하지 않습니다",
+   "variants": {
+    "loc": "1층 주방에서",
+    "mod": "큰"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T15-149",
+   "template": 15,
+   "category": "위험부정",
+   "kind": "text",
+   "text": "큰 튀김기를 쓸 때 보호장갑을 당분간 착용하지 않습니다.",
+   "variants": {
+    "mod": "큰",
+    "time": "당분간"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T15-150",
+   "template": 15,
+   "category": "위험부정",
+   "kind": "voice_transcript",
+   "text": "음 큰 튀김기를 쓸 때 보호장갑을 당분간 착용하지 않습니다",
+   "variants": {
+    "mod": "큰",
+    "time": "당분간"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T16-151",
+   "template": 16,
+   "category": "위험부정",
+   "kind": "text",
+   "text": "튀김기 기름을 자주 갈지 않습니다.",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T16-152",
+   "template": 16,
+   "category": "위험부정",
+   "kind": "voice_transcript",
+   "text": "음 튀김기 기름을 자주 갈지 않습니다",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T16-153",
+   "template": 16,
+   "category": "위험부정",
+   "kind": "text",
+   "text": "튀김기 기름을 요즘 자주 갈지 않습니다.",
+   "variants": {
+    "time": "요즘"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T16-154",
+   "template": 16,
+   "category": "위험부정",
+   "kind": "voice_transcript",
+   "text": "음 튀김기 기름을 요즘 자주 갈지 않습니다",
+   "variants": {
+    "time": "요즘"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T16-155",
+   "template": 16,
+   "category": "위험부정",
+   "kind": "text",
+   "text": "1층 주방에서 큰 튀김기 기름을 요즘 자주 갈지 않습니다.",
+   "variants": {
+    "loc": "1층 주방에서",
+    "mod": "큰",
+    "time": "요즘"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T16-156",
+   "template": 16,
+   "category": "위험부정",
+   "kind": "voice_transcript",
+   "text": "음 1층 주방에서 큰 튀김기 기름을 요즘 자주 갈지 않습니다",
+   "variants": {
+    "loc": "1층 주방에서",
+    "mod": "큰",
+    "time": "요즘"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T16-157",
+   "template": 16,
+   "category": "위험부정",
+   "kind": "text",
+   "text": "전기 튀김기 기름을 자주 갈지 않습니다.",
+   "variants": {
+    "mod": "전기"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T16-158",
+   "template": 16,
+   "category": "위험부정",
+   "kind": "voice_transcript",
+   "text": "음 전기 튀김기 기름을 자주 갈지 않습니다",
+   "variants": {
+    "mod": "전기"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T16-159",
+   "template": 16,
+   "category": "위험부정",
+   "kind": "text",
+   "text": "1층 주방에서 가스 튀김기 기름을 요즘 자주 갈지 않습니다.",
+   "variants": {
+    "loc": "1층 주방에서",
+    "mod": "가스",
+    "time": "요즘"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T16-160",
+   "template": 16,
+   "category": "위험부정",
+   "kind": "voice_transcript",
+   "text": "음 1층 주방에서 가스 튀김기 기름을 요즘 자주 갈지 않습니다",
+   "variants": {
+    "loc": "1층 주방에서",
+    "mod": "가스",
+    "time": "요즘"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T17-161",
+   "template": 17,
+   "category": "연결",
+   "kind": "text",
+   "text": "튀김기는 사용하지 않고 반죽기만 사용합니다.",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ],
+    "MIX": true
+   }
+  },
+  {
+   "id": "T17-162",
+   "template": 17,
+   "category": "연결",
+   "kind": "voice_transcript",
+   "text": "음 튀김기는 사용하지 않고 반죽기만 사용합니다",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ],
+    "MIX": true
+   }
+  },
+  {
+   "id": "T17-163",
+   "template": 17,
+   "category": "연결",
+   "kind": "text",
+   "text": "튀김기는 요즘 사용하지 않고 반죽기만 사용합니다.",
+   "variants": {
+    "time": "요즘"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ],
+    "MIX": true
+   }
+  },
+  {
+   "id": "T17-164",
+   "template": 17,
+   "category": "연결",
+   "kind": "voice_transcript",
+   "text": "음 튀김기는 요즘 사용하지 않고 반죽기만 사용합니다",
+   "variants": {
+    "time": "요즘"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ],
+    "MIX": true
+   }
+  },
+  {
+   "id": "T17-165",
+   "template": 17,
+   "category": "연결",
+   "kind": "text",
+   "text": "전기 튀김기는 요즘 사용하지 않고 반죽기만 사용합니다.",
+   "variants": {
+    "mod": "전기",
+    "time": "요즘"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ],
+    "MIX": true
+   }
+  },
+  {
+   "id": "T17-166",
+   "template": 17,
+   "category": "연결",
+   "kind": "voice_transcript",
+   "text": "음 전기 튀김기는 요즘 사용하지 않고 반죽기만 사용합니다",
+   "variants": {
+    "mod": "전기",
+    "time": "요즘"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ],
+    "MIX": true
+   }
+  },
+  {
+   "id": "T17-167",
+   "template": 17,
+   "category": "연결",
+   "kind": "text",
+   "text": "전기 튀김기는 당분간 사용하지 않고 반죽기만 사용합니다.",
+   "variants": {
+    "mod": "전기",
+    "time": "당분간"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ],
+    "MIX": true
+   }
+  },
+  {
+   "id": "T17-168",
+   "template": 17,
+   "category": "연결",
+   "kind": "voice_transcript",
+   "text": "음 전기 튀김기는 당분간 사용하지 않고 반죽기만 사용합니다",
+   "variants": {
+    "mod": "전기",
+    "time": "당분간"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ],
+    "MIX": true
+   }
+  },
+  {
+   "id": "T17-169",
+   "template": 17,
+   "category": "연결",
+   "kind": "text",
+   "text": "큰 튀김기는 요즘 사용하지 않고 반죽기만 사용합니다.",
+   "variants": {
+    "mod": "큰",
+    "time": "요즘"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ],
+    "MIX": true
+   }
+  },
+  {
+   "id": "T17-170",
+   "template": 17,
+   "category": "연결",
+   "kind": "voice_transcript",
+   "text": "음 큰 튀김기는 요즘 사용하지 않고 반죽기만 사용합니다",
+   "variants": {
+    "mod": "큰",
+    "time": "요즘"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ],
+    "MIX": true
+   }
+  },
+  {
+   "id": "T18-171",
+   "template": 18,
+   "category": "연결",
+   "kind": "text",
+   "text": "튀김기는 쓰지 않지만 그리들은 매일 씁니다.",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ],
+    "GRIDDLE": true
+   }
+  },
+  {
+   "id": "T18-172",
+   "template": 18,
+   "category": "연결",
+   "kind": "voice_transcript",
+   "text": "음 튀김기는 쓰지 않지만 그리들은 매일 씁니다",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ],
+    "GRIDDLE": true
+   }
+  },
+  {
+   "id": "T18-173",
+   "template": 18,
+   "category": "연결",
+   "kind": "text",
+   "text": "튀김기는 요즘 쓰지 않지만 그리들은 매일 씁니다.",
+   "variants": {
+    "time": "요즘"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ],
+    "GRIDDLE": true
+   }
+  },
+  {
+   "id": "T18-174",
+   "template": 18,
+   "category": "연결",
+   "kind": "voice_transcript",
+   "text": "음 튀김기는 요즘 쓰지 않지만 그리들은 매일 씁니다",
+   "variants": {
+    "time": "요즘"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ],
+    "GRIDDLE": true
+   }
+  },
+  {
+   "id": "T18-175",
+   "template": 18,
+   "category": "연결",
+   "kind": "text",
+   "text": "큰 튀김기는 쓰지 않지만 그리들은 매일 씁니다.",
+   "variants": {
+    "mod": "큰"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ],
+    "GRIDDLE": true
+   }
+  },
+  {
+   "id": "T18-176",
+   "template": 18,
+   "category": "연결",
+   "kind": "voice_transcript",
+   "text": "음 큰 튀김기는 쓰지 않지만 그리들은 매일 씁니다",
+   "variants": {
+    "mod": "큰"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ],
+    "GRIDDLE": true
+   }
+  },
+  {
+   "id": "T18-177",
+   "template": 18,
+   "category": "연결",
+   "kind": "text",
+   "text": "튀김기는 당분간 쓰지 않지만 그리들은 매일 씁니다.",
+   "variants": {
+    "time": "당분간"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ],
+    "GRIDDLE": true
+   }
+  },
+  {
+   "id": "T18-178",
+   "template": 18,
+   "category": "연결",
+   "kind": "voice_transcript",
+   "text": "음 튀김기는 당분간 쓰지 않지만 그리들은 매일 씁니다",
+   "variants": {
+    "time": "당분간"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ],
+    "GRIDDLE": true
+   }
+  },
+  {
+   "id": "T18-179",
+   "template": 18,
+   "category": "연결",
+   "kind": "text",
+   "text": "큰 튀김기는 당분간 쓰지 않지만 그리들은 매일 씁니다.",
+   "variants": {
+    "mod": "큰",
+    "time": "당분간"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ],
+    "GRIDDLE": true
+   }
+  },
+  {
+   "id": "T18-180",
+   "template": 18,
+   "category": "연결",
+   "kind": "voice_transcript",
+   "text": "음 큰 튀김기는 당분간 쓰지 않지만 그리들은 매일 씁니다",
+   "variants": {
+    "mod": "큰",
+    "time": "당분간"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ],
+    "GRIDDLE": true
+   }
+  },
+  {
+   "id": "T19-181",
+   "template": 19,
+   "category": "연결",
+   "kind": "text",
+   "text": "반죽기는 안 쓰고 튀김기만 돌려요.",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ],
+    "MIX": false
+   }
+  },
+  {
+   "id": "T19-182",
+   "template": 19,
+   "category": "연결",
+   "kind": "voice_transcript",
+   "text": "음 반죽기는 안 쓰고 튀김기만 돌려요",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ],
+    "MIX": false
+   }
+  },
+  {
+   "id": "T19-183",
+   "template": 19,
+   "category": "연결",
+   "kind": "text",
+   "text": "반죽기는 요즘 안 쓰고 전기 튀김기만 돌려요.",
+   "variants": {
+    "mod": "전기",
+    "time": "요즘"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ],
+    "MIX": false
+   }
+  },
+  {
+   "id": "T19-184",
+   "template": 19,
+   "category": "연결",
+   "kind": "voice_transcript",
+   "text": "음 반죽기는 요즘 안 쓰고 전기 튀김기만 돌려요",
+   "variants": {
+    "mod": "전기",
+    "time": "요즘"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ],
+    "MIX": false
+   }
+  },
+  {
+   "id": "T19-185",
+   "template": 19,
+   "category": "연결",
+   "kind": "text",
+   "text": "반죽기는 당분간 안 쓰고 전기 튀김기만 돌려요.",
+   "variants": {
+    "mod": "전기",
+    "time": "당분간"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ],
+    "MIX": false
+   }
+  },
+  {
+   "id": "T19-186",
+   "template": 19,
+   "category": "연결",
+   "kind": "voice_transcript",
+   "text": "음 반죽기는 당분간 안 쓰고 전기 튀김기만 돌려요",
+   "variants": {
+    "mod": "전기",
+    "time": "당분간"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ],
+    "MIX": false
+   }
+  },
+  {
+   "id": "T19-187",
+   "template": 19,
+   "category": "연결",
+   "kind": "text",
+   "text": "반죽기는 요즘 안 쓰고 가스 튀김기만 돌려요.",
+   "variants": {
+    "mod": "가스",
+    "time": "요즘"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ],
+    "MIX": false
+   }
+  },
+  {
+   "id": "T19-188",
+   "template": 19,
+   "category": "연결",
+   "kind": "voice_transcript",
+   "text": "음 반죽기는 요즘 안 쓰고 가스 튀김기만 돌려요",
+   "variants": {
+    "mod": "가스",
+    "time": "요즘"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ],
+    "MIX": false
+   }
+  },
+  {
+   "id": "T19-189",
+   "template": 19,
+   "category": "연결",
+   "kind": "text",
+   "text": "반죽기는 요즘 안 쓰고 튀김기만 돌려요.",
+   "variants": {
+    "time": "요즘"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ],
+    "MIX": false
+   }
+  },
+  {
+   "id": "T19-190",
+   "template": 19,
+   "category": "연결",
+   "kind": "voice_transcript",
+   "text": "음 반죽기는 요즘 안 쓰고 튀김기만 돌려요",
+   "variants": {
+    "time": "요즘"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ],
+    "MIX": false
+   }
+  },
+  {
+   "id": "T20-191",
+   "template": 20,
+   "category": "연결",
+   "kind": "text",
+   "text": "튀김기는 2층에서 가동하지만 튀김기를 가동하지 않습니다.",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     true,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T20-192",
+   "template": 20,
+   "category": "연결",
+   "kind": "voice_transcript",
+   "text": "음 튀김기는 2층에서 가동하지만 튀김기를 가동하지 않습니다",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     true,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T20-193",
+   "template": 20,
+   "category": "연결",
+   "kind": "text",
+   "text": "튀김기는 2층에서 가동하지만 1층 주방에서 큰 튀김기를 가동하지 않습니다.",
+   "variants": {
+    "loc": "1층 주방에서",
+    "mod": "큰"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T20-194",
+   "template": 20,
+   "category": "연결",
+   "kind": "voice_transcript",
+   "text": "음 튀김기는 2층에서 가동하지만 1층 주방에서 큰 튀김기를 가동하지 않습니다",
+   "variants": {
+    "loc": "1층 주방에서",
+    "mod": "큰"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T20-195",
+   "template": 20,
+   "category": "연결",
+   "kind": "text",
+   "text": "튀김기는 2층에서 가동하지만 1층 주방에서 가스 튀김기를 가동하지 않습니다.",
+   "variants": {
+    "loc": "1층 주방에서",
+    "mod": "가스"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T20-196",
+   "template": 20,
+   "category": "연결",
+   "kind": "voice_transcript",
+   "text": "음 튀김기는 2층에서 가동하지만 1층 주방에서 가스 튀김기를 가동하지 않습니다",
+   "variants": {
+    "loc": "1층 주방에서",
+    "mod": "가스"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T20-197",
+   "template": 20,
+   "category": "연결",
+   "kind": "text",
+   "text": "튀김기는 2층에서 가동하지만 1층 주방에서 전기 튀김기를 가동하지 않습니다.",
+   "variants": {
+    "loc": "1층 주방에서",
+    "mod": "전기"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T20-198",
+   "template": 20,
+   "category": "연결",
+   "kind": "voice_transcript",
+   "text": "음 튀김기는 2층에서 가동하지만 1층 주방에서 전기 튀김기를 가동하지 않습니다",
+   "variants": {
+    "loc": "1층 주방에서",
+    "mod": "전기"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T20-199",
+   "template": 20,
+   "category": "연결",
+   "kind": "text",
+   "text": "튀김기는 2층에서 가동하지만 가스 튀김기를 가동하지 않습니다.",
+   "variants": {
+    "mod": "가스"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T20-200",
+   "template": 20,
+   "category": "연결",
+   "kind": "voice_transcript",
+   "text": "음 튀김기는 2층에서 가동하지만 가스 튀김기를 가동하지 않습니다",
+   "variants": {
+    "mod": "가스"
+   },
+   "expected": {
+    "FRY": [
+     true,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T21-201",
+   "template": 21,
+   "category": "다른기기",
+   "kind": "text",
+   "text": "반죽기는 안 돌려요.",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     false,
+     false
+    ],
+    "MIX": false
+   }
+  },
+  {
+   "id": "T21-202",
+   "template": 21,
+   "category": "다른기기",
+   "kind": "voice_transcript",
+   "text": "음 반죽기는 안 돌려요",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     false,
+     false
+    ],
+    "MIX": false
+   }
+  },
+  {
+   "id": "T21-203",
+   "template": 21,
+   "category": "다른기기",
+   "kind": "text",
+   "text": "반죽기는 당분간 안 돌려요.",
+   "variants": {
+    "time": "당분간"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     false
+    ],
+    "MIX": false
+   }
+  },
+  {
+   "id": "T21-204",
+   "template": 21,
+   "category": "다른기기",
+   "kind": "voice_transcript",
+   "text": "음 반죽기는 당분간 안 돌려요",
+   "variants": {
+    "time": "당분간"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     false
+    ],
+    "MIX": false
+   }
+  },
+  {
+   "id": "T21-205",
+   "template": 21,
+   "category": "다른기기",
+   "kind": "text",
+   "text": "1층 주방에서 반죽기는 요즘 고장 나서 안 돌려요.",
+   "variants": {
+    "loc": "1층 주방에서",
+    "time": "요즘",
+    "reason": "고장 나서"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     false
+    ],
+    "MIX": false
+   }
+  },
+  {
+   "id": "T21-206",
+   "template": 21,
+   "category": "다른기기",
+   "kind": "voice_transcript",
+   "text": "음 1층 주방에서 반죽기는 요즘 고장 나서 안 돌려요",
+   "variants": {
+    "loc": "1층 주방에서",
+    "time": "요즘",
+    "reason": "고장 나서"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     false
+    ],
+    "MIX": false
+   }
+  },
+  {
+   "id": "T21-207",
+   "template": 21,
+   "category": "다른기기",
+   "kind": "text",
+   "text": "반죽기는 요즘 고장 나서 안 돌려요.",
+   "variants": {
+    "time": "요즘",
+    "reason": "고장 나서"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     false
+    ],
+    "MIX": false
+   }
+  },
+  {
+   "id": "T21-208",
+   "template": 21,
+   "category": "다른기기",
+   "kind": "voice_transcript",
+   "text": "음 반죽기는 요즘 고장 나서 안 돌려요",
+   "variants": {
+    "time": "요즘",
+    "reason": "고장 나서"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     false
+    ],
+    "MIX": false
+   }
+  },
+  {
+   "id": "T21-209",
+   "template": 21,
+   "category": "다른기기",
+   "kind": "text",
+   "text": "1층 주방에서 반죽기는 당분간 안 돌려요.",
+   "variants": {
+    "loc": "1층 주방에서",
+    "time": "당분간"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     false
+    ],
+    "MIX": false
+   }
+  },
+  {
+   "id": "T21-210",
+   "template": 21,
+   "category": "다른기기",
+   "kind": "voice_transcript",
+   "text": "음 1층 주방에서 반죽기는 당분간 안 돌려요",
+   "variants": {
+    "loc": "1층 주방에서",
+    "time": "당분간"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     false
+    ],
+    "MIX": false
+   }
+  },
+  {
+   "id": "T22-211",
+   "template": 22,
+   "category": "다른기기",
+   "kind": "text",
+   "text": "반죽기로 면 반죽을 합니다.",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     false,
+     false
+    ],
+    "MIX": true
+   }
+  },
+  {
+   "id": "T22-212",
+   "template": 22,
+   "category": "다른기기",
+   "kind": "voice_transcript",
+   "text": "음 반죽기로 면 반죽을 합니다",
+   "variants": {},
+   "expected": {
+    "FRY": [
+     false,
+     false
+    ],
+    "MIX": true
+   }
+  },
+  {
+   "id": "T22-213",
+   "template": 22,
+   "category": "다른기기",
+   "kind": "text",
+   "text": "1층 주방에서 반죽기로 요즘 면 반죽을 합니다.",
+   "variants": {
+    "loc": "1층 주방에서",
+    "time": "요즘"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     false
+    ],
+    "MIX": true
+   }
+  },
+  {
+   "id": "T22-214",
+   "template": 22,
+   "category": "다른기기",
+   "kind": "voice_transcript",
+   "text": "음 1층 주방에서 반죽기로 요즘 면 반죽을 합니다",
+   "variants": {
+    "loc": "1층 주방에서",
+    "time": "요즘"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     false
+    ],
+    "MIX": true
+   }
+  },
+  {
+   "id": "T22-215",
+   "template": 22,
+   "category": "다른기기",
+   "kind": "text",
+   "text": "1층 주방에서 반죽기로 당분간 면 반죽을 합니다.",
+   "variants": {
+    "loc": "1층 주방에서",
+    "time": "당분간"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     false
+    ],
+    "MIX": true
+   }
+  },
+  {
+   "id": "T22-216",
+   "template": 22,
+   "category": "다른기기",
+   "kind": "voice_transcript",
+   "text": "음 1층 주방에서 반죽기로 당분간 면 반죽을 합니다",
+   "variants": {
+    "loc": "1층 주방에서",
+    "time": "당분간"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     false
+    ],
+    "MIX": true
+   }
+  },
+  {
+   "id": "T22-217",
+   "template": 22,
+   "category": "다른기기",
+   "kind": "text",
+   "text": "반죽기로 당분간 면 반죽을 합니다.",
+   "variants": {
+    "time": "당분간"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     false
+    ],
+    "MIX": true
+   }
+  },
+  {
+   "id": "T22-218",
+   "template": 22,
+   "category": "다른기기",
+   "kind": "voice_transcript",
+   "text": "음 반죽기로 당분간 면 반죽을 합니다",
+   "variants": {
+    "time": "당분간"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     false
+    ],
+    "MIX": true
+   }
+  },
+  {
+   "id": "T22-219",
+   "template": 22,
+   "category": "다른기기",
+   "kind": "text",
+   "text": "1층 주방에서 반죽기로 면 반죽을 합니다.",
+   "variants": {
+    "loc": "1층 주방에서"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     false
+    ],
+    "MIX": true
+   }
+  },
+  {
+   "id": "T22-220",
+   "template": 22,
+   "category": "다른기기",
+   "kind": "voice_transcript",
+   "text": "음 1층 주방에서 반죽기로 면 반죽을 합니다",
+   "variants": {
+    "loc": "1층 주방에서"
+   },
+   "expected": {
+    "FRY": [
+     false,
+     false
+    ],
+    "MIX": true
+   }
+  }
+ ]
+}
