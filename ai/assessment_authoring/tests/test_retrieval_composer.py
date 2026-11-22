@@ -1,7 +1,8 @@
 import copy
+import json
 import unittest
 from itertools import product
-from ai.assessment_authoring.contracts import read, load_catalog
+from ai.assessment_authoring.contracts import ROOT, read, load_catalog
 from ai.assessment_authoring.analysis_validator import validate_analysis
 from ai.assessment_authoring.assessment_composer import compose_assessment, render_assessment
 from ai.assessment_authoring.retrieval_adapter import (retrieve_evidence, retrieve_with_evidence, candidate_batches,
@@ -172,6 +173,9 @@ class AuthoringTests(unittest.TestCase):
             # "튀기 시작"은 소스가 튀는 것(튀다)이지 튀김 작업(튀기다)이 아니다.
             ("오븐에서 소스가 튀기 시작합니다.", [], ["FRY"], []),
             ("냉동 감자를 기름에 튀깁니다.", ["FRY"], [], []),
+            # 미사용 절 뒤에 주어 없는 사용 절이 이어지면 제외하지 않고 확인 후보로 둔다.
+            ("튀김기는 평일에는 안 쓰고 주말에만 돌려요.", [], ["FRY"], []),
+            ("튀김기는 평일에는 안 쓰고 볶음만 해요.", [], [], ["FRY"]),
         ]
         for kind, (observation, rows, pending, excluded) in product(("text", "voice_transcript"), cases):
             with self.subTest(kind=kind, observation=observation):
@@ -234,6 +238,45 @@ class AuthoringTests(unittest.TestCase):
                 self.assertEqual([row["scenario_id"] for row in result["assessment"]["rows"]], rows)
                 self.assertEqual(result["retrieval_trace"]["work_review_candidates"], pending)
                 self.assertEqual(result["retrieval_trace"]["not_applicable_candidates"], excluded)
+
+    def test_negation_variant_set(self):
+        # 합성 변형 회귀셋(장소·수식어·시점·이유·구어·부호 없는 음성 전사·연결 절, 위험·조치 부정 포함).
+        data = json.loads((ROOT / "ai/experiments/261123_미사용판정_형태소_DR/261123_미사용판정_변형셋_v1_DR.json")
+                          .read_text(encoding="utf-8"))
+        for item in data["items"]:
+            with self.subTest(id=item["id"], text=item["text"]):
+                hits, denied = text_candidates(dict(id=item["id"], text=item["text"]), [])
+                got = dict(FRY=["FRY" in hits, denied],
+                           **{sid: sid in hits for sid in item["expected"] if sid != "FRY"})
+                self.assertEqual(got, item["expected"])
+
+    def test_uncertain_denial_without_photo_stays_for_review(self):
+        # 사진이 없어도 불확실한 미사용 진술은 사라지지 않고 작업 미확인 후보로 남는다.
+        for observation, uncertain, excluded in [
+            ("튀김기는 평일에는 안 쓰고 주말에만 돌려요.", ["FRY"], []),
+            ("음 튀김기는 오전엔 안 돌리고 오후에 돌려요", ["FRY"], []),
+            ("튀김기는 평일에는 안 쓰고 볶음만 해요.", [], ["FRY"]),
+        ]:
+            with self.subTest(observation=observation):
+                self.i["equipment_ids"] = []
+                self.i["media"][0]["text"] = observation
+                bundle, trace = retrieve_with_evidence(self.i, self.catalog)
+                self.assertEqual(trace["uncertain_work_candidates"], uncertain)
+                self.assertEqual(trace["not_applicable_candidates"], excluded)
+                self.assertEqual("FRY" in [c["scenario_id"] for c in bundle["candidates"]], bool(uncertain))
+
+    def test_negation_targets_other_noun(self):
+        # 다른 명사가 부정의 대상이면 기기 미사용이 아니다.
+        for observation, sid, applies in [
+            ("튀김기의 온도 제어 장치가 작동하지 않습니다.", "FRY", True),
+            ("가스레인지 사용, 가스 누출 없음 매일 확인", "GAS", True),
+            ("튀김기 기름을 자주 갈지 않습니다.", "FRY", True),
+            ("음 튀김기는 요즘 고장 나서 쓸 일 없어요", "FRY", False),
+            ("튀김기는 손님이 없어서 안 돌려요.", "FRY", False),
+        ]:
+            with self.subTest(observation=observation):
+                hits, _ = text_candidates(dict(id="TEXT", text=observation), [])
+                self.assertEqual(sid in hits, applies)
 
     def test_text_terms_cover_verb_forms_and_device_names(self):
         for observation, expected in [

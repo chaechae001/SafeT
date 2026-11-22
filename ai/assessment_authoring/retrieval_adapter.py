@@ -5,33 +5,13 @@ import re
 from pathlib import Path
 from .catalog import catalog_index
 from .contracts import schema, require
+from .negation import denied, resumed_without_subject
 
 MAPPINGS = json.loads((Path(__file__).parent/"mappings/catalog_links.json").read_text(encoding="utf-8"))
 
-# 기기·작업어와 부정 서술어 사이에 올 수 있는 시점 부사와 고장 사유("요즘", "고장 나서").
-_PAUSE = (r"(?:(?:현재|오늘|지금|요즘|당분간|이번\s*주(?:에|엔)?|평소)(?:은|는|에는)?\s*"
-          r"|고장\s*(?:나서|으로|이라)\s*)")
-
-# Exclude only an explicitly absent device or unused task immediately after the term.
-_UNUSED = re.compile(r"^(?:기|\s*작업)?(?:은|는|이|가|을|를)?\s*" + _PAUSE + r"*"
-                     r"(?:없(?:다|습니다|어요|음|고|으며)|미사용|사용하지\s*않|하지\s*않|쓰지\s*않|가동하지\s*않"
-                     r"|돌리지\s*않|지\s*않|안\s*(?:함|합니다|해요|한다|사용|씁니다|써요|쓴다|씀))")
-
-# 문장 끝 부정("않습니다.") 또는 다음 절로 이어지는 부정("않고 …").
-_NOT = r"않(?:(?:습니다|아요|는다|음)\s*(?=[.!?。！？\n]|$)|고(?=[\s,]))"
-_SENTENCE_END = r"\s*(?=[.!?。！？\n]|$)"
-
-# Only a direct denial of frying work (or use of the fryer) establishes non-applicability.
-# Negated hazards and controls, such as a missing temperature controller, are not work denials.
-_FRY_WORK_DENIAL = re.compile(
-    r"(?:^|[.!?。！？\n])\s*(?:(?:현재|오늘|지금|요즘|이번\s*주|평소)(?:은|는|에는)?\s+)?"
-    r"(?:[0-9가-힣]+(?:[ \t]+[0-9가-힣]+)*에서(?:는)?[ \t]+)?"
-    r"(?P<work>튀김(?:\s*(?:작업|조리))?(?:은|는|을|를)?\s*" + _PAUSE + r"*"
-    r"(?:안\s*(?:합니다|해요|한다|함)" + _SENTENCE_END + r"|하지\s*" + _NOT + r")"
-    r"|(?:(?:전기|가스)[ \t]*)?튀김기(?:는|를|가)?\s*" + _PAUSE + r"*"
-    r"(?:안\s*(?:씁니다|써요|쓴다|씀)" + _SENTENCE_END + r"|(?:쓰지|사용하지|가동하지|돌리지)\s*" + _NOT + r")"
-    r"|튀기지\s*" + _NOT + r")"
-)
+# 튀김 작업 자체를 가리키는 기준어. 이 단어가 미사용으로 진술되면 FRY를 해당 없음 후보로 둔다.
+# "기름 교체"처럼 작업 일부를 하지 않는다는 진술은 튀김 작업 미사용이 아니다.
+_FRY_WORK_TERMS = ("튀김", "튀기", "튀깁", "튀겨")
 
 
 # 어간만 적은 기준어 중 다른 동사의 명사형과 겹치는 것은 어미가 바로 붙을 때만 인정한다.
@@ -44,13 +24,11 @@ def _term_matches(term, text):
 
 
 def _affirmed(sid, text, terms, diagnostics=None, media_id=""):
-    """True when a term appears outside an explicit negation (and, for FRY, outside a fryer-work denial)."""
-    # 장소 표현("1층 주방에서")은 부정 범위에서 빼고, 작업·기기 부정 부분만 막는다.
-    denied_spans = [m.span("work") for m in _FRY_WORK_DENIAL.finditer(text)] if sid == "FRY" else []
+    """True when a term appears at least once without being stated as unused or absent."""
     found = False
     for term in terms:
         for match in _term_matches(term, text):
-            if any(start <= match.start() < end for start, end in denied_spans) or _UNUSED.match(text[match.end():]):
+            if denied(text, *match.span()):
                 if diagnostics is not None:
                     diagnostics.append(f"명시적 부정: {media_id} {sid} {term}")
             else:
@@ -58,10 +36,28 @@ def _affirmed(sid, text, terms, diagnostics=None, media_id=""):
     return found
 
 
+def _fry_work_statements(text):
+    """(미사용 진술, 불확실한 미사용 진술). 미사용 진술 뒤에 주어 없는 사용 절이 이어지면
+    ("점심에는 안 쓰고 저녁에만 써요") 미사용으로 단정하지 않고 불확실로 분류한다."""
+    denied_flag = uncertain = False
+    for term in _FRY_WORK_TERMS:
+        for m in _term_matches(term, text):
+            if denied(text, *m.span()):
+                if resumed_without_subject(text, *m.span()):
+                    uncertain = True
+                else:
+                    denied_flag = True
+    return denied_flag, uncertain
+
+
+def _fry_work_denied(text):
+    return _fry_work_statements(text)[0]
+
+
 def text_candidates(media, diagnostics):
     hits = {sid for sid, terms in MAPPINGS["terms"].items()
             if _affirmed(sid, media["text"], terms, diagnostics, media["id"])}
-    return hits, bool(_FRY_WORK_DENIAL.search(media["text"]))
+    return hits, _fry_work_denied(media["text"])
 
 
 def _name_parts(name):
@@ -98,7 +94,7 @@ def work_supported(scenario, statement):
 
 
 def _positive(text, term):
-    return any(not _UNUSED.match(text[m.end():]) for m in _term_matches(term, text))
+    return any(not denied(text, *m.span()) for m in _term_matches(term, text))
 
 
 def retrieve_with_evidence(context, catalog_snapshot, *, rag_provider=None, rag_links=None, legal_registry=None):
@@ -109,6 +105,9 @@ def retrieve_with_evidence(context, catalog_snapshot, *, rag_provider=None, rag_
     equipment_candidates = set()
     text_matches = set()
     denied_work = set()
+    # 미사용인지 불확실한 작업. 사진 기기 후보처럼 작업 근거가 확인될 때만 평가 행이 되고,
+    # 아니면 작업 미확인 후보로 남는다.
+    uncertain_work = set()
     diagnostics = []
     trace = {"retrieval_mode": "catalog", "rag_response": None, "diagnostics": diagnostics}
     for eq in context["equipment_ids"]:
@@ -123,6 +122,8 @@ def retrieve_with_evidence(context, catalog_snapshot, *, rag_provider=None, rag_
         text_matches.update(hits)
         if fryer_denied:
             denied_work.add("FRY")
+        if _fry_work_statements(media["text"])[1] and "FRY" not in hits:
+            uncertain_work.add("FRY")
         if not hits:
             diagnostics.append("검색어 매핑 없음: " + media["id"])
     if rag_provider is not None and context["equipment_ids"]:
@@ -141,11 +142,13 @@ def retrieve_with_evidence(context, catalog_snapshot, *, rag_provider=None, rag_
                 equipment_candidates.update(links)
                 if not links:
                     diagnostics.append("RAG 시나리오 매핑 없음: " + key)
-    selected = equipment_candidates | text_matches
+    selected = equipment_candidates | text_matches | uncertain_work
     # When input contains both positive and negative indications, retain the candidate for review.
-    not_applicable = denied_work - text_matches
+    # 불확실한 미사용 진술이 함께 있으면 제외하지 않고 확인 후보로 둔다.
+    not_applicable = denied_work - text_matches - uncertain_work
     trace["equipment_candidates"] = sorted(equipment_candidates)
     trace["text_candidates"] = sorted(text_matches)
+    trace["uncertain_work_candidates"] = sorted(uncertain_work)
     trace["not_applicable_candidates"] = sorted(not_applicable)
     selected -= not_applicable
     require(selected <= catalog.keys(), "mapping scenario outside catalog")

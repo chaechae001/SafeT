@@ -1,0 +1,3924 @@
+{
+ "label": "after_kiwi",
+ "set": "261123_미사용판정_변형셋_v1_DR.json",
+ "set_version": "negation-variants-v1",
+ "summary": {
+  "변형:loc=1층 주방에서": {
+   "correct": 78,
+   "total": 78,
+   "fail_rate": 0.0
+  },
+  "변형:mod=가스": {
+   "correct": 26,
+   "total": 26,
+   "fail_rate": 0.0
+  },
+  "변형:mod=전기": {
+   "correct": 36,
+   "total": 36,
+   "fail_rate": 0.0
+  },
+  "변형:mod=큰": {
+   "correct": 36,
+   "total": 36,
+   "fail_rate": 0.0
+  },
+  "변형:reason=고장 나서": {
+   "correct": 36,
+   "total": 36,
+   "fail_rate": 0.0
+  },
+  "변형:time=당분간": {
+   "correct": 46,
+   "total": 46,
+   "fail_rate": 0.0
+  },
+  "변형:time=요즘": {
+   "correct": 68,
+   "total": 68,
+   "fail_rate": 0.0
+  },
+  "분류:다른기기": {
+   "correct": 20,
+   "total": 20,
+   "fail_rate": 0.0
+  },
+  "분류:미사용": {
+   "correct": 80,
+   "total": 80,
+   "fail_rate": 0.0
+  },
+  "분류:사용": {
+   "correct": 40,
+   "total": 40,
+   "fail_rate": 0.0
+  },
+  "분류:연결": {
+   "correct": 40,
+   "total": 40,
+   "fail_rate": 0.0
+  },
+  "분류:위험부정": {
+   "correct": 40,
+   "total": 40,
+   "fail_rate": 0.0
+  },
+  "입력:text": {
+   "correct": 110,
+   "total": 110,
+   "fail_rate": 0.0
+  },
+  "입력:voice_transcript": {
+   "correct": 110,
+   "total": 110,
+   "fail_rate": 0.0
+  },
+  "전체": {
+   "correct": 220,
+   "total": 220,
+   "fail_rate": 0.0
+  }
+ },
+ "rows": [
+  {
+   "id": "T01-001",
+   "ok": true,
+   "text": "튀김기를 사용합니다.",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T01-002",
+   "ok": true,
+   "text": "음 튀김기를 사용합니다",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T01-003",
+   "ok": true,
+   "text": "1층 주방에서 전기 튀김기를 당분간 사용합니다.",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T01-004",
+   "ok": true,
+   "text": "음 1층 주방에서 전기 튀김기를 당분간 사용합니다",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T01-005",
+   "ok": true,
+   "text": "1층 주방에서 튀김기를 사용합니다.",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T01-006",
+   "ok": true,
+   "text": "음 1층 주방에서 튀김기를 사용합니다",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T01-007",
+   "ok": true,
+   "text": "1층 주방에서 전기 튀김기를 사용합니다.",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T01-008",
+   "ok": true,
+   "text": "음 1층 주방에서 전기 튀김기를 사용합니다",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T01-009",
+   "ok": true,
+   "text": "1층 주방에서 가스 튀김기를 사용합니다.",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T01-010",
+   "ok": true,
+   "text": "음 1층 주방에서 가스 튀김기를 사용합니다",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T02-011",
+   "ok": true,
+   "text": "튀김기로 감자를 튀깁니다.",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T02-012",
+   "ok": true,
+   "text": "음 튀김기로 감자를 튀깁니다",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T02-013",
+   "ok": true,
+   "text": "튀김기로 요즘 감자를 튀깁니다.",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T02-014",
+   "ok": true,
+   "text": "음 튀김기로 요즘 감자를 튀깁니다",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T02-015",
+   "ok": true,
+   "text": "전기 튀김기로 당분간 감자를 튀깁니다.",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T02-016",
+   "ok": true,
+   "text": "음 전기 튀김기로 당분간 감자를 튀깁니다",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T02-017",
+   "ok": true,
+   "text": "1층 주방에서 가스 튀김기로 요즘 감자를 튀깁니다.",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T02-018",
+   "ok": true,
+   "text": "음 1층 주방에서 가스 튀김기로 요즘 감자를 튀깁니다",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T02-019",
+   "ok": true,
+   "text": "1층 주방에서 전기 튀김기로 감자를 튀깁니다.",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T02-020",
+   "ok": true,
+   "text": "음 1층 주방에서 전기 튀김기로 감자를 튀깁니다",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T03-021",
+   "ok": true,
+   "text": "튀김기를 돌려요.",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T03-022",
+   "ok": true,
+   "text": "음 튀김기를 돌려요",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T03-023",
+   "ok": true,
+   "text": "튀김기를 당분간 돌려요.",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T03-024",
+   "ok": true,
+   "text": "음 튀김기를 당분간 돌려요",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T03-025",
+   "ok": true,
+   "text": "1층 주방에서 튀김기를 당분간 돌려요.",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T03-026",
+   "ok": true,
+   "text": "음 1층 주방에서 튀김기를 당분간 돌려요",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T03-027",
+   "ok": true,
+   "text": "큰 튀김기를 요즘 돌려요.",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T03-028",
+   "ok": true,
+   "text": "음 큰 튀김기를 요즘 돌려요",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T03-029",
+   "ok": true,
+   "text": "가스 튀김기를 요즘 돌려요.",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T03-030",
+   "ok": true,
+   "text": "음 가스 튀김기를 요즘 돌려요",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T04-031",
+   "ok": true,
+   "text": "돈가스를 튀기는 일을 합니다.",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T04-032",
+   "ok": true,
+   "text": "음 돈가스를 튀기는 일을 합니다",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T04-033",
+   "ok": true,
+   "text": "요즘 돈가스를 튀기는 일을 합니다.",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T04-034",
+   "ok": true,
+   "text": "음 요즘 돈가스를 튀기는 일을 합니다",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T04-035",
+   "ok": true,
+   "text": "1층 주방에서 돈가스를 튀기는 일을 합니다.",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T04-036",
+   "ok": true,
+   "text": "음 1층 주방에서 돈가스를 튀기는 일을 합니다",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T04-037",
+   "ok": true,
+   "text": "1층 주방에서 요즘 돈가스를 튀기는 일을 합니다.",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T04-038",
+   "ok": true,
+   "text": "음 1층 주방에서 요즘 돈가스를 튀기는 일을 합니다",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T04-039",
+   "ok": true,
+   "text": "당분간 돈가스를 튀기는 일을 합니다.",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T04-040",
+   "ok": true,
+   "text": "음 당분간 돈가스를 튀기는 일을 합니다",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T05-041",
+   "ok": true,
+   "text": "튀김기는 사용하지 않습니다.",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T05-042",
+   "ok": true,
+   "text": "음 튀김기는 사용하지 않습니다",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T05-043",
+   "ok": true,
+   "text": "1층 주방에서 튀김기는 요즘 사용하지 않습니다.",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T05-044",
+   "ok": true,
+   "text": "음 1층 주방에서 튀김기는 요즘 사용하지 않습니다",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T05-045",
+   "ok": true,
+   "text": "튀김기는 요즘 사용하지 않습니다.",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T05-046",
+   "ok": true,
+   "text": "음 튀김기는 요즘 사용하지 않습니다",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T05-047",
+   "ok": true,
+   "text": "1층 주방에서 가스 튀김기는 당분간 고장 나서 사용하지 않습니다.",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T05-048",
+   "ok": true,
+   "text": "음 1층 주방에서 가스 튀김기는 당분간 고장 나서 사용하지 않습니다",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T05-049",
+   "ok": true,
+   "text": "1층 주방에서 가스 튀김기는 요즘 사용하지 않습니다.",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T05-050",
+   "ok": true,
+   "text": "음 1층 주방에서 가스 튀김기는 요즘 사용하지 않습니다",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T06-051",
+   "ok": true,
+   "text": "튀김기는 안 써요.",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T06-052",
+   "ok": true,
+   "text": "음 튀김기는 안 써요",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T06-053",
+   "ok": true,
+   "text": "튀김기는 요즘 안 써요.",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T06-054",
+   "ok": true,
+   "text": "음 튀김기는 요즘 안 써요",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T06-055",
+   "ok": true,
+   "text": "튀김기는 고장 나서 안 써요.",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T06-056",
+   "ok": true,
+   "text": "음 튀김기는 고장 나서 안 써요",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T06-057",
+   "ok": true,
+   "text": "전기 튀김기는 요즘 안 써요.",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T06-058",
+   "ok": true,
+   "text": "음 전기 튀김기는 요즘 안 써요",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T06-059",
+   "ok": true,
+   "text": "큰 튀김기는 안 써요.",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T06-060",
+   "ok": true,
+   "text": "음 큰 튀김기는 안 써요",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T07-061",
+   "ok": true,
+   "text": "튀김기는 안 돌려요.",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T07-062",
+   "ok": true,
+   "text": "음 튀김기는 안 돌려요",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T07-063",
+   "ok": true,
+   "text": "전기 튀김기는 요즘 고장 나서 안 돌려요.",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T07-064",
+   "ok": true,
+   "text": "음 전기 튀김기는 요즘 고장 나서 안 돌려요",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T07-065",
+   "ok": true,
+   "text": "가스 튀김기는 당분간 안 돌려요.",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T07-066",
+   "ok": true,
+   "text": "음 가스 튀김기는 당분간 안 돌려요",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T07-067",
+   "ok": true,
+   "text": "1층 주방에서 큰 튀김기는 고장 나서 안 돌려요.",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T07-068",
+   "ok": true,
+   "text": "음 1층 주방에서 큰 튀김기는 고장 나서 안 돌려요",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T07-069",
+   "ok": true,
+   "text": "1층 주방에서 큰 튀김기는 요즘 안 돌려요.",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T07-070",
+   "ok": true,
+   "text": "음 1층 주방에서 큰 튀김기는 요즘 안 돌려요",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T08-071",
+   "ok": true,
+   "text": "튀김기는 쓸 일 없어요.",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T08-072",
+   "ok": true,
+   "text": "음 튀김기는 쓸 일 없어요",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T08-073",
+   "ok": true,
+   "text": "가스 튀김기는 요즘 고장 나서 쓸 일 없어요.",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T08-074",
+   "ok": true,
+   "text": "음 가스 튀김기는 요즘 고장 나서 쓸 일 없어요",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T08-075",
+   "ok": true,
+   "text": "큰 튀김기는 요즘 고장 나서 쓸 일 없어요.",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T08-076",
+   "ok": true,
+   "text": "음 큰 튀김기는 요즘 고장 나서 쓸 일 없어요",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T08-077",
+   "ok": true,
+   "text": "전기 튀김기는 당분간 고장 나서 쓸 일 없어요.",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T08-078",
+   "ok": true,
+   "text": "음 전기 튀김기는 당분간 고장 나서 쓸 일 없어요",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T08-079",
+   "ok": true,
+   "text": "1층 주방에서 튀김기는 요즘 고장 나서 쓸 일 없어요.",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T08-080",
+   "ok": true,
+   "text": "음 1층 주방에서 튀김기는 요즘 고장 나서 쓸 일 없어요",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T09-081",
+   "ok": true,
+   "text": "튀김은 안 해요.",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T09-082",
+   "ok": true,
+   "text": "음 튀김은 안 해요",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T09-083",
+   "ok": true,
+   "text": "1층 주방에서 당분간 튀김은 고장 나서 안 해요.",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T09-084",
+   "ok": true,
+   "text": "음 1층 주방에서 당분간 튀김은 고장 나서 안 해요",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T09-085",
+   "ok": true,
+   "text": "1층 주방에서 튀김은 고장 나서 안 해요.",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T09-086",
+   "ok": true,
+   "text": "음 1층 주방에서 튀김은 고장 나서 안 해요",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T09-087",
+   "ok": true,
+   "text": "1층 주방에서 당분간 튀김은 안 해요.",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T09-088",
+   "ok": true,
+   "text": "음 1층 주방에서 당분간 튀김은 안 해요",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T09-089",
+   "ok": true,
+   "text": "요즘 튀김은 안 해요.",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T09-090",
+   "ok": true,
+   "text": "음 요즘 튀김은 안 해요",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T10-091",
+   "ok": true,
+   "text": "튀기지 않습니다.",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T10-092",
+   "ok": true,
+   "text": "음 튀기지 않습니다",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T10-093",
+   "ok": true,
+   "text": "당분간 고장 나서 튀기지 않습니다.",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T10-094",
+   "ok": true,
+   "text": "음 당분간 고장 나서 튀기지 않습니다",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T10-095",
+   "ok": true,
+   "text": "1층 주방에서 고장 나서 튀기지 않습니다.",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T10-096",
+   "ok": true,
+   "text": "음 1층 주방에서 고장 나서 튀기지 않습니다",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T10-097",
+   "ok": true,
+   "text": "1층 주방에서 요즘 고장 나서 튀기지 않습니다.",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T10-098",
+   "ok": true,
+   "text": "음 1층 주방에서 요즘 고장 나서 튀기지 않습니다",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T10-099",
+   "ok": true,
+   "text": "요즘 고장 나서 튀기지 않습니다.",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T10-100",
+   "ok": true,
+   "text": "음 요즘 고장 나서 튀기지 않습니다",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T11-101",
+   "ok": true,
+   "text": "튀김기를 가동하지 않습니다.",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T11-102",
+   "ok": true,
+   "text": "음 튀김기를 가동하지 않습니다",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T11-103",
+   "ok": true,
+   "text": "1층 주방에서 튀김기를 고장 나서 가동하지 않습니다.",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T11-104",
+   "ok": true,
+   "text": "음 1층 주방에서 튀김기를 고장 나서 가동하지 않습니다",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T11-105",
+   "ok": true,
+   "text": "튀김기를 고장 나서 가동하지 않습니다.",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T11-106",
+   "ok": true,
+   "text": "음 튀김기를 고장 나서 가동하지 않습니다",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T11-107",
+   "ok": true,
+   "text": "큰 튀김기를 당분간 가동하지 않습니다.",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T11-108",
+   "ok": true,
+   "text": "음 큰 튀김기를 당분간 가동하지 않습니다",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T11-109",
+   "ok": true,
+   "text": "1층 주방에서 튀김기를 당분간 가동하지 않습니다.",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T11-110",
+   "ok": true,
+   "text": "음 1층 주방에서 튀김기를 당분간 가동하지 않습니다",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T12-111",
+   "ok": true,
+   "text": "튀김기는 안 써요. 볶음만 해요.",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T12-112",
+   "ok": true,
+   "text": "음 튀김기는 안 써요 볶음만 해요",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T12-113",
+   "ok": true,
+   "text": "전기 튀김기는 안 써요. 볶음만 해요.",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T12-114",
+   "ok": true,
+   "text": "음 전기 튀김기는 안 써요 볶음만 해요",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T12-115",
+   "ok": true,
+   "text": "튀김기는 당분간 안 써요. 볶음만 해요.",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T12-116",
+   "ok": true,
+   "text": "음 튀김기는 당분간 안 써요 볶음만 해요",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T12-117",
+   "ok": true,
+   "text": "가스 튀김기는 안 써요. 볶음만 해요.",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T12-118",
+   "ok": true,
+   "text": "음 가스 튀김기는 안 써요 볶음만 해요",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T12-119",
+   "ok": true,
+   "text": "큰 튀김기는 안 써요. 볶음만 해요.",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T12-120",
+   "ok": true,
+   "text": "음 큰 튀김기는 안 써요 볶음만 해요",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T13-121",
+   "ok": true,
+   "text": "튀김기의 온도 제어 장치가 작동하지 않습니다.",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T13-122",
+   "ok": true,
+   "text": "음 튀김기의 온도 제어 장치가 작동하지 않습니다",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T13-123",
+   "ok": true,
+   "text": "큰 튀김기의 온도 제어 장치가 작동하지 않습니다.",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T13-124",
+   "ok": true,
+   "text": "음 큰 튀김기의 온도 제어 장치가 작동하지 않습니다",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T13-125",
+   "ok": true,
+   "text": "1층 주방에서 가스 튀김기의 온도 제어 장치가 작동하지 않습니다.",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T13-126",
+   "ok": true,
+   "text": "음 1층 주방에서 가스 튀김기의 온도 제어 장치가 작동하지 않습니다",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T13-127",
+   "ok": true,
+   "text": "1층 주방에서 큰 튀김기의 온도 제어 장치가 작동하지 않습니다.",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T13-128",
+   "ok": true,
+   "text": "음 1층 주방에서 큰 튀김기의 온도 제어 장치가 작동하지 않습니다",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T13-129",
+   "ok": true,
+   "text": "1층 주방에서 튀김기의 온도 제어 장치가 작동하지 않습니다.",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T13-130",
+   "ok": true,
+   "text": "음 1층 주방에서 튀김기의 온도 제어 장치가 작동하지 않습니다",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T14-131",
+   "ok": true,
+   "text": "튀김기 주변에 소화기가 없습니다.",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T14-132",
+   "ok": true,
+   "text": "음 튀김기 주변에 소화기가 없습니다",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T14-133",
+   "ok": true,
+   "text": "큰 튀김기 주변에 소화기가 없습니다.",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T14-134",
+   "ok": true,
+   "text": "음 큰 튀김기 주변에 소화기가 없습니다",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T14-135",
+   "ok": true,
+   "text": "1층 주방에서 전기 튀김기 주변에 소화기가 없습니다.",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T14-136",
+   "ok": true,
+   "text": "음 1층 주방에서 전기 튀김기 주변에 소화기가 없습니다",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T14-137",
+   "ok": true,
+   "text": "전기 튀김기 주변에 소화기가 없습니다.",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T14-138",
+   "ok": true,
+   "text": "음 전기 튀김기 주변에 소화기가 없습니다",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T14-139",
+   "ok": true,
+   "text": "1층 주방에서 큰 튀김기 주변에 소화기가 없습니다.",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T14-140",
+   "ok": true,
+   "text": "음 1층 주방에서 큰 튀김기 주변에 소화기가 없습니다",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T15-141",
+   "ok": true,
+   "text": "튀김기를 쓸 때 보호장갑을 착용하지 않습니다.",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T15-142",
+   "ok": true,
+   "text": "음 튀김기를 쓸 때 보호장갑을 착용하지 않습니다",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T15-143",
+   "ok": true,
+   "text": "1층 주방에서 전기 튀김기를 쓸 때 보호장갑을 요즘 착용하지 않습니다.",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T15-144",
+   "ok": true,
+   "text": "음 1층 주방에서 전기 튀김기를 쓸 때 보호장갑을 요즘 착용하지 않습니다",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T15-145",
+   "ok": true,
+   "text": "전기 튀김기를 쓸 때 보호장갑을 요즘 착용하지 않습니다.",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T15-146",
+   "ok": true,
+   "text": "음 전기 튀김기를 쓸 때 보호장갑을 요즘 착용하지 않습니다",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T15-147",
+   "ok": true,
+   "text": "1층 주방에서 큰 튀김기를 쓸 때 보호장갑을 착용하지 않습니다.",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T15-148",
+   "ok": true,
+   "text": "음 1층 주방에서 큰 튀김기를 쓸 때 보호장갑을 착용하지 않습니다",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T15-149",
+   "ok": true,
+   "text": "큰 튀김기를 쓸 때 보호장갑을 당분간 착용하지 않습니다.",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T15-150",
+   "ok": true,
+   "text": "음 큰 튀김기를 쓸 때 보호장갑을 당분간 착용하지 않습니다",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T16-151",
+   "ok": true,
+   "text": "튀김기 기름을 자주 갈지 않습니다.",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T16-152",
+   "ok": true,
+   "text": "음 튀김기 기름을 자주 갈지 않습니다",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T16-153",
+   "ok": true,
+   "text": "튀김기 기름을 요즘 자주 갈지 않습니다.",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T16-154",
+   "ok": true,
+   "text": "음 튀김기 기름을 요즘 자주 갈지 않습니다",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T16-155",
+   "ok": true,
+   "text": "1층 주방에서 큰 튀김기 기름을 요즘 자주 갈지 않습니다.",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T16-156",
+   "ok": true,
+   "text": "음 1층 주방에서 큰 튀김기 기름을 요즘 자주 갈지 않습니다",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T16-157",
+   "ok": true,
+   "text": "전기 튀김기 기름을 자주 갈지 않습니다.",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T16-158",
+   "ok": true,
+   "text": "음 전기 튀김기 기름을 자주 갈지 않습니다",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T16-159",
+   "ok": true,
+   "text": "1층 주방에서 가스 튀김기 기름을 요즘 자주 갈지 않습니다.",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T16-160",
+   "ok": true,
+   "text": "음 1층 주방에서 가스 튀김기 기름을 요즘 자주 갈지 않습니다",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ]
+   }
+  },
+  {
+   "id": "T17-161",
+   "ok": true,
+   "text": "튀김기는 사용하지 않고 반죽기만 사용합니다.",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ],
+    "MIX": true
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ],
+    "MIX": true
+   }
+  },
+  {
+   "id": "T17-162",
+   "ok": true,
+   "text": "음 튀김기는 사용하지 않고 반죽기만 사용합니다",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ],
+    "MIX": true
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ],
+    "MIX": true
+   }
+  },
+  {
+   "id": "T17-163",
+   "ok": true,
+   "text": "튀김기는 요즘 사용하지 않고 반죽기만 사용합니다.",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ],
+    "MIX": true
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ],
+    "MIX": true
+   }
+  },
+  {
+   "id": "T17-164",
+   "ok": true,
+   "text": "음 튀김기는 요즘 사용하지 않고 반죽기만 사용합니다",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ],
+    "MIX": true
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ],
+    "MIX": true
+   }
+  },
+  {
+   "id": "T17-165",
+   "ok": true,
+   "text": "전기 튀김기는 요즘 사용하지 않고 반죽기만 사용합니다.",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ],
+    "MIX": true
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ],
+    "MIX": true
+   }
+  },
+  {
+   "id": "T17-166",
+   "ok": true,
+   "text": "음 전기 튀김기는 요즘 사용하지 않고 반죽기만 사용합니다",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ],
+    "MIX": true
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ],
+    "MIX": true
+   }
+  },
+  {
+   "id": "T17-167",
+   "ok": true,
+   "text": "전기 튀김기는 당분간 사용하지 않고 반죽기만 사용합니다.",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ],
+    "MIX": true
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ],
+    "MIX": true
+   }
+  },
+  {
+   "id": "T17-168",
+   "ok": true,
+   "text": "음 전기 튀김기는 당분간 사용하지 않고 반죽기만 사용합니다",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ],
+    "MIX": true
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ],
+    "MIX": true
+   }
+  },
+  {
+   "id": "T17-169",
+   "ok": true,
+   "text": "큰 튀김기는 요즘 사용하지 않고 반죽기만 사용합니다.",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ],
+    "MIX": true
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ],
+    "MIX": true
+   }
+  },
+  {
+   "id": "T17-170",
+   "ok": true,
+   "text": "음 큰 튀김기는 요즘 사용하지 않고 반죽기만 사용합니다",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ],
+    "MIX": true
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ],
+    "MIX": true
+   }
+  },
+  {
+   "id": "T18-171",
+   "ok": true,
+   "text": "튀김기는 쓰지 않지만 그리들은 매일 씁니다.",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ],
+    "GRIDDLE": true
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ],
+    "GRIDDLE": true
+   }
+  },
+  {
+   "id": "T18-172",
+   "ok": true,
+   "text": "음 튀김기는 쓰지 않지만 그리들은 매일 씁니다",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ],
+    "GRIDDLE": true
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ],
+    "GRIDDLE": true
+   }
+  },
+  {
+   "id": "T18-173",
+   "ok": true,
+   "text": "튀김기는 요즘 쓰지 않지만 그리들은 매일 씁니다.",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ],
+    "GRIDDLE": true
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ],
+    "GRIDDLE": true
+   }
+  },
+  {
+   "id": "T18-174",
+   "ok": true,
+   "text": "음 튀김기는 요즘 쓰지 않지만 그리들은 매일 씁니다",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ],
+    "GRIDDLE": true
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ],
+    "GRIDDLE": true
+   }
+  },
+  {
+   "id": "T18-175",
+   "ok": true,
+   "text": "큰 튀김기는 쓰지 않지만 그리들은 매일 씁니다.",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ],
+    "GRIDDLE": true
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ],
+    "GRIDDLE": true
+   }
+  },
+  {
+   "id": "T18-176",
+   "ok": true,
+   "text": "음 큰 튀김기는 쓰지 않지만 그리들은 매일 씁니다",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ],
+    "GRIDDLE": true
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ],
+    "GRIDDLE": true
+   }
+  },
+  {
+   "id": "T18-177",
+   "ok": true,
+   "text": "튀김기는 당분간 쓰지 않지만 그리들은 매일 씁니다.",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ],
+    "GRIDDLE": true
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ],
+    "GRIDDLE": true
+   }
+  },
+  {
+   "id": "T18-178",
+   "ok": true,
+   "text": "음 튀김기는 당분간 쓰지 않지만 그리들은 매일 씁니다",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ],
+    "GRIDDLE": true
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ],
+    "GRIDDLE": true
+   }
+  },
+  {
+   "id": "T18-179",
+   "ok": true,
+   "text": "큰 튀김기는 당분간 쓰지 않지만 그리들은 매일 씁니다.",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ],
+    "GRIDDLE": true
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ],
+    "GRIDDLE": true
+   }
+  },
+  {
+   "id": "T18-180",
+   "ok": true,
+   "text": "음 큰 튀김기는 당분간 쓰지 않지만 그리들은 매일 씁니다",
+   "expected": {
+    "FRY": [
+     false,
+     true
+    ],
+    "GRIDDLE": true
+   },
+   "got": {
+    "FRY": [
+     false,
+     true
+    ],
+    "GRIDDLE": true
+   }
+  },
+  {
+   "id": "T19-181",
+   "ok": true,
+   "text": "반죽기는 안 쓰고 튀김기만 돌려요.",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ],
+    "MIX": false
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ],
+    "MIX": false
+   }
+  },
+  {
+   "id": "T19-182",
+   "ok": true,
+   "text": "음 반죽기는 안 쓰고 튀김기만 돌려요",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ],
+    "MIX": false
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ],
+    "MIX": false
+   }
+  },
+  {
+   "id": "T19-183",
+   "ok": true,
+   "text": "반죽기는 요즘 안 쓰고 전기 튀김기만 돌려요.",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ],
+    "MIX": false
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ],
+    "MIX": false
+   }
+  },
+  {
+   "id": "T19-184",
+   "ok": true,
+   "text": "음 반죽기는 요즘 안 쓰고 전기 튀김기만 돌려요",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ],
+    "MIX": false
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ],
+    "MIX": false
+   }
+  },
+  {
+   "id": "T19-185",
+   "ok": true,
+   "text": "반죽기는 당분간 안 쓰고 전기 튀김기만 돌려요.",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ],
+    "MIX": false
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ],
+    "MIX": false
+   }
+  },
+  {
+   "id": "T19-186",
+   "ok": true,
+   "text": "음 반죽기는 당분간 안 쓰고 전기 튀김기만 돌려요",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ],
+    "MIX": false
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ],
+    "MIX": false
+   }
+  },
+  {
+   "id": "T19-187",
+   "ok": true,
+   "text": "반죽기는 요즘 안 쓰고 가스 튀김기만 돌려요.",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ],
+    "MIX": false
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ],
+    "MIX": false
+   }
+  },
+  {
+   "id": "T19-188",
+   "ok": true,
+   "text": "음 반죽기는 요즘 안 쓰고 가스 튀김기만 돌려요",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ],
+    "MIX": false
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ],
+    "MIX": false
+   }
+  },
+  {
+   "id": "T19-189",
+   "ok": true,
+   "text": "반죽기는 요즘 안 쓰고 튀김기만 돌려요.",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ],
+    "MIX": false
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ],
+    "MIX": false
+   }
+  },
+  {
+   "id": "T19-190",
+   "ok": true,
+   "text": "음 반죽기는 요즘 안 쓰고 튀김기만 돌려요",
+   "expected": {
+    "FRY": [
+     true,
+     false
+    ],
+    "MIX": false
+   },
+   "got": {
+    "FRY": [
+     true,
+     false
+    ],
+    "MIX": false
+   }
+  },
+  {
+   "id": "T20-191",
+   "ok": true,
+   "text": "튀김기는 2층에서 가동하지만 튀김기를 가동하지 않습니다.",
+   "expected": {
+    "FRY": [
+     true,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T20-192",
+   "ok": true,
+   "text": "음 튀김기는 2층에서 가동하지만 튀김기를 가동하지 않습니다",
+   "expected": {
+    "FRY": [
+     true,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T20-193",
+   "ok": true,
+   "text": "튀김기는 2층에서 가동하지만 1층 주방에서 큰 튀김기를 가동하지 않습니다.",
+   "expected": {
+    "FRY": [
+     true,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T20-194",
+   "ok": true,
+   "text": "음 튀김기는 2층에서 가동하지만 1층 주방에서 큰 튀김기를 가동하지 않습니다",
+   "expected": {
+    "FRY": [
+     true,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T20-195",
+   "ok": true,
+   "text": "튀김기는 2층에서 가동하지만 1층 주방에서 가스 튀김기를 가동하지 않습니다.",
+   "expected": {
+    "FRY": [
+     true,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T20-196",
+   "ok": true,
+   "text": "음 튀김기는 2층에서 가동하지만 1층 주방에서 가스 튀김기를 가동하지 않습니다",
+   "expected": {
+    "FRY": [
+     true,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T20-197",
+   "ok": true,
+   "text": "튀김기는 2층에서 가동하지만 1층 주방에서 전기 튀김기를 가동하지 않습니다.",
+   "expected": {
+    "FRY": [
+     true,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T20-198",
+   "ok": true,
+   "text": "음 튀김기는 2층에서 가동하지만 1층 주방에서 전기 튀김기를 가동하지 않습니다",
+   "expected": {
+    "FRY": [
+     true,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T20-199",
+   "ok": true,
+   "text": "튀김기는 2층에서 가동하지만 가스 튀김기를 가동하지 않습니다.",
+   "expected": {
+    "FRY": [
+     true,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T20-200",
+   "ok": true,
+   "text": "음 튀김기는 2층에서 가동하지만 가스 튀김기를 가동하지 않습니다",
+   "expected": {
+    "FRY": [
+     true,
+     true
+    ]
+   },
+   "got": {
+    "FRY": [
+     true,
+     true
+    ]
+   }
+  },
+  {
+   "id": "T21-201",
+   "ok": true,
+   "text": "반죽기는 안 돌려요.",
+   "expected": {
+    "FRY": [
+     false,
+     false
+    ],
+    "MIX": false
+   },
+   "got": {
+    "FRY": [
+     false,
+     false
+    ],
+    "MIX": false
+   }
+  },
+  {
+   "id": "T21-202",
+   "ok": true,
+   "text": "음 반죽기는 안 돌려요",
+   "expected": {
+    "FRY": [
+     false,
+     false
+    ],
+    "MIX": false
+   },
+   "got": {
+    "FRY": [
+     false,
+     false
+    ],
+    "MIX": false
+   }
+  },
+  {
+   "id": "T21-203",
+   "ok": true,
+   "text": "반죽기는 당분간 안 돌려요.",
+   "expected": {
+    "FRY": [
+     false,
+     false
+    ],
+    "MIX": false
+   },
+   "got": {
+    "FRY": [
+     false,
+     false
+    ],
+    "MIX": false
+   }
+  },
+  {
+   "id": "T21-204",
+   "ok": true,
+   "text": "음 반죽기는 당분간 안 돌려요",
+   "expected": {
+    "FRY": [
+     false,
+     false
+    ],
+    "MIX": false
+   },
+   "got": {
+    "FRY": [
+     false,
+     false
+    ],
+    "MIX": false
+   }
+  },
+  {
+   "id": "T21-205",
+   "ok": true,
+   "text": "1층 주방에서 반죽기는 요즘 고장 나서 안 돌려요.",
+   "expected": {
+    "FRY": [
+     false,
+     false
+    ],
+    "MIX": false
+   },
+   "got": {
+    "FRY": [
+     false,
+     false
+    ],
+    "MIX": false
+   }
+  },
+  {
+   "id": "T21-206",
+   "ok": true,
+   "text": "음 1층 주방에서 반죽기는 요즘 고장 나서 안 돌려요",
+   "expected": {
+    "FRY": [
+     false,
+     false
+    ],
+    "MIX": false
+   },
+   "got": {
+    "FRY": [
+     false,
+     false
+    ],
+    "MIX": false
+   }
+  },
+  {
+   "id": "T21-207",
+   "ok": true,
+   "text": "반죽기는 요즘 고장 나서 안 돌려요.",
+   "expected": {
+    "FRY": [
+     false,
+     false
+    ],
+    "MIX": false
+   },
+   "got": {
+    "FRY": [
+     false,
+     false
+    ],
+    "MIX": false
+   }
+  },
+  {
+   "id": "T21-208",
+   "ok": true,
+   "text": "음 반죽기는 요즘 고장 나서 안 돌려요",
+   "expected": {
+    "FRY": [
+     false,
+     false
+    ],
+    "MIX": false
+   },
+   "got": {
+    "FRY": [
+     false,
+     false
+    ],
+    "MIX": false
+   }
+  },
+  {
+   "id": "T21-209",
+   "ok": true,
+   "text": "1층 주방에서 반죽기는 당분간 안 돌려요.",
+   "expected": {
+    "FRY": [
+     false,
+     false
+    ],
+    "MIX": false
+   },
+   "got": {
+    "FRY": [
+     false,
+     false
+    ],
+    "MIX": false
+   }
+  },
+  {
+   "id": "T21-210",
+   "ok": true,
+   "text": "음 1층 주방에서 반죽기는 당분간 안 돌려요",
+   "expected": {
+    "FRY": [
+     false,
+     false
+    ],
+    "MIX": false
+   },
+   "got": {
+    "FRY": [
+     false,
+     false
+    ],
+    "MIX": false
+   }
+  },
+  {
+   "id": "T22-211",
+   "ok": true,
+   "text": "반죽기로 면 반죽을 합니다.",
+   "expected": {
+    "FRY": [
+     false,
+     false
+    ],
+    "MIX": true
+   },
+   "got": {
+    "FRY": [
+     false,
+     false
+    ],
+    "MIX": true
+   }
+  },
+  {
+   "id": "T22-212",
+   "ok": true,
+   "text": "음 반죽기로 면 반죽을 합니다",
+   "expected": {
+    "FRY": [
+     false,
+     false
+    ],
+    "MIX": true
+   },
+   "got": {
+    "FRY": [
+     false,
+     false
+    ],
+    "MIX": true
+   }
+  },
+  {
+   "id": "T22-213",
+   "ok": true,
+   "text": "1층 주방에서 반죽기로 요즘 면 반죽을 합니다.",
+   "expected": {
+    "FRY": [
+     false,
+     false
+    ],
+    "MIX": true
+   },
+   "got": {
+    "FRY": [
+     false,
+     false
+    ],
+    "MIX": true
+   }
+  },
+  {
+   "id": "T22-214",
+   "ok": true,
+   "text": "음 1층 주방에서 반죽기로 요즘 면 반죽을 합니다",
+   "expected": {
+    "FRY": [
+     false,
+     false
+    ],
+    "MIX": true
+   },
+   "got": {
+    "FRY": [
+     false,
+     false
+    ],
+    "MIX": true
+   }
+  },
+  {
+   "id": "T22-215",
+   "ok": true,
+   "text": "1층 주방에서 반죽기로 당분간 면 반죽을 합니다.",
+   "expected": {
+    "FRY": [
+     false,
+     false
+    ],
+    "MIX": true
+   },
+   "got": {
+    "FRY": [
+     false,
+     false
+    ],
+    "MIX": true
+   }
+  },
+  {
+   "id": "T22-216",
+   "ok": true,
+   "text": "음 1층 주방에서 반죽기로 당분간 면 반죽을 합니다",
+   "expected": {
+    "FRY": [
+     false,
+     false
+    ],
+    "MIX": true
+   },
+   "got": {
+    "FRY": [
+     false,
+     false
+    ],
+    "MIX": true
+   }
+  },
+  {
+   "id": "T22-217",
+   "ok": true,
+   "text": "반죽기로 당분간 면 반죽을 합니다.",
+   "expected": {
+    "FRY": [
+     false,
+     false
+    ],
+    "MIX": true
+   },
+   "got": {
+    "FRY": [
+     false,
+     false
+    ],
+    "MIX": true
+   }
+  },
+  {
+   "id": "T22-218",
+   "ok": true,
+   "text": "음 반죽기로 당분간 면 반죽을 합니다",
+   "expected": {
+    "FRY": [
+     false,
+     false
+    ],
+    "MIX": true
+   },
+   "got": {
+    "FRY": [
+     false,
+     false
+    ],
+    "MIX": true
+   }
+  },
+  {
+   "id": "T22-219",
+   "ok": true,
+   "text": "1층 주방에서 반죽기로 면 반죽을 합니다.",
+   "expected": {
+    "FRY": [
+     false,
+     false
+    ],
+    "MIX": true
+   },
+   "got": {
+    "FRY": [
+     false,
+     false
+    ],
+    "MIX": true
+   }
+  },
+  {
+   "id": "T22-220",
+   "ok": true,
+   "text": "음 1층 주방에서 반죽기로 면 반죽을 합니다",
+   "expected": {
+    "FRY": [
+     false,
+     false
+    ],
+    "MIX": true
+   },
+   "got": {
+    "FRY": [
+     false,
+     false
+    ],
+    "MIX": true
+   }
+  }
+ ]
+}
