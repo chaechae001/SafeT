@@ -579,3 +579,8 @@
 .gen__time { margin: 2px 0 0; font-size: 14px; font-weight: 600; color: var(--c-primary-dark); font-variant-numeric: tabular-nums; }
 .gen__note { margin: 2px 0 0; font-size: 13px; color: var(--c-text-faint, #8B95A1); }
 @media (prefers-reduced-motion: reduce) { .gen__spin { animation: none; } }
+
+/* UX-025 자동 보관본 불러옴 안내 + 새로 쓰기 */
+.page-write .restore-note, .restore-note.notice { flex-direction: row; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; padding: 10px 12px 10px 14px; text-align: left; }
+.restore-note__text { min-width: 0; word-break: keep-all; }
+.restore-note.notice .restore-note__reset { flex: none; min-height: 44px; background: var(--c-surface); }

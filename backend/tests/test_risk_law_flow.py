@@ -269,3 +269,23 @@ def test_rls_registered_machine_risk_is_row_from_first_draft(client, rls_flow, m
     r = client.post(url + '/confirm', headers=h, json=confirm_body(d, none=True))
     assert r.status_code == 200, r.text
     assert r.json()['eval_status'] == 'C'
+
+
+def test_ux025_machine_list_change_during_analysis_keeps_draft(client, rls_flow, monkeypatch):
+    """UX-025: 분석 중 같은 사업장 기기 목록이 바뀌어도(다른 초안이 '사업장에도 저장') 409 없이 초안을 만든다.
+    이 평가표의 기기는 분석에 쓴 목록이고, 이미 들어온 같은 기기는 사업장에 중복 저장하지 않는다."""
+    h, p = rls_flow
+
+    def analyze(t, v, m=()):
+        with engine.begin() as c:   # 다른 요청이 분석 중에 기기를 저장한 상황
+            c.execute(text("INSERT INTO workplace_machine (work_no, machine_nm, ins_dt, ins_nm, upt_dt, upt_nm) "
+                           "VALUES (:w, '제빙기', NOW(), 'other', NOW(), 'other')"), {'w': p['work_no']})
+        return RESULT
+    monkeypatch.setattr(risk_law, 'analyze', analyze)
+    r = client.post('/evals', headers=h, json=dict(p, add_custom_machines=['제빙기'], save_machines_to_workplace=True))
+    assert r.status_code == 201, r.text
+    d = r.json()
+    assert sorted(m['machine_nm'] for m in d['machines']) == ['제빙기', '튀김기']
+    with engine.begin() as c:
+        n = c.execute(text("SELECT COUNT(*) FROM workplace_machine WHERE work_no=:w AND machine_nm='제빙기'"), {'w': p['work_no']}).scalar()
+    assert n == 1

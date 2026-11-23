@@ -14,7 +14,7 @@
     if(!restored){
       try{
         var a=JSON.parse(sessionStorage.getItem(AUTO_KEY)||'null');
-        if(a && a.email===user.email && Date.now()-a.at<12*3600*1000 && (a.text || a.voice_text || (a.photos||[]).length || (a.members||[]).length || (a.added||[]).length)){restored=a;autoRestored=true;}
+        if(a && a.email===user.email && Date.now()-a.at<12*3600*1000 && (a.text || a.voice_text || (a.photos||[]).length || (a.members||[]).length || (a.added||[]).length || (a.found||[]).length)){restored=a;autoRestored=true;}
       }catch(e){}
     }
     $('#work_no').empty().append('<option value="">사업장 불러오는 중</option>');
@@ -44,11 +44,13 @@
       shownWork=now;renderAdded();
       updateSummary();
     }
+    /** names: ['기기명'] 또는 UX-025 자동 보관 복원용 [{nm, on}] (on=false 면 체크 해제 상태로) */
     function setDetected(names){
       var box=$('#v-equipment .eq-found .check-list').empty();
-      (names || []).forEach(function(nm){
+      (names || []).forEach(function(x){
+        var nm=typeof x==='string'?x:x.nm, on=typeof x==='string'?true:x.on!==false;
         var l=$('<label class="eq-chip eq-chip--ai">').appendTo(box);
-        $('<input type="checkbox" class="sr-only" name="ai_machine_nm" checked>').val(nm).appendTo(l);
+        $('<input type="checkbox" class="sr-only" name="ai_machine_nm">').prop('checked',on).val(nm).appendTo(l);
         l.append(ico('check').replace('class="ico"','class="ico eq-chip__on"')).append(ico('plus').replace('class="ico"','class="ico eq-chip__off"'));
         $('<span>').text(nm).appendTo(l);
         $('<span class="eq-chip__state">').text(' (추가됨)').appendTo(l);
@@ -194,21 +196,30 @@
           .always(function(){reading--;});
       });this.value='';
     });
+    // UX-025: 작성자가 평가일을 직접 바꿨는지(바꾸지 않았으면 다시 열 때 그날 날짜로). 자정을 넘겨 다시 저장해도 '직접 바꿈'으로 오인하지 않게 값 비교 대신 입력으로 판단
+    var dtTouched=false;
+    $('#eval_dt').on('input change',function(e){if(e.originalEvent || e.isTrigger)dtTouched=true;});
     if(restored){
-      $('#eval_dt').val(restored.eval_dt);$('#eval_writer').val(restored.eval_writer);
-      if(restored.eval_cycle)$('#basic-form input[name="eval_cycle"]').filter(function(){return this.value===restored.eval_cycle;}).prop('checked',true);   // UX-024
+      // UX-025: 평가일은 작성자가 직접 바꾼 경우만 되살림. 기본값(그날 날짜)이었으면 오늘 날짜를 그대로 둠
+      //         (23:30에 쓰다 00:10에 다시 열면 전날 날짜가 남던 문제). 예전 보관본(eval_dt_auto 없음)도 같은 규칙
+      if(restored.eval_dt_auto===false){$('#eval_dt').val(restored.eval_dt);dtTouched=true;}
+      $('#eval_writer').val(restored.eval_writer);
       $('#file_text').val(restored.text || '');
       (restored.members || []).forEach(function(n){$('#member_add').val(n);$('#member-add-btn').trigger('click');});
       photos=(restored.photos || []).filter(function(p){return /^data:image\/(png|jpeg|webp);base64,/.test(p.data);});renderPhotos();
       if(restored.voice_text)$('<div class="field"><label for="voice_text">음성 전사문</label><textarea id="voice_text" class="textarea"></textarea></div>').insertBefore($('#file_text').closest('.field')).find('textarea').val(restored.voice_text);
       requestKey=restored.requestKey;lastBody=restored.lastBody || '';
       added=(restored.added || []).filter(function(m){return m && m.nm;});shownWork=restored.work_no?String(restored.work_no):null;renderAdded();
-      S.toast(autoRestored ? '작성하던 내용을 불러왔어요.' : '작성 중인 입력을 복구했어요.');
+      // UX-025: '사업장에도 저장' 체크와 사진에서 찾은 기기의 체크 상태도 되살림
+      if(restored.save_workplace)$('#eq-save-workplace').prop('checked',true);
+      if((restored.found || []).length)setDetected(restored.found);
+      if(autoRestored)showRestoreNote();
+      else S.toast('작성 중인 입력을 복구했어요.');
       if(autoRestored && /^#v-(field|equipment)$/.test(restored.view || '')){var v=restored.view.slice(1);setTimeout(function(){S.go(v);},0);}
     }
-    function snapshot(){return {email:user.email,at:Date.now(),view:location.hash,work_no:$('#work_no').val(),eval_dt:$('#eval_dt').val(),eval_writer:$('#eval_writer').val(),eval_cycle:cycle(),members:$('[name="member_nm"]').map(function(){return this.value;}).get(),text:$('#file_text').val(),voice_text:$('#voice_text').val(),photos:photos,added:added,requestKey:requestKey,lastBody:lastBody};}
-    /** UX-024 평가 주기(Y 연간 · H1 상반기 · H2 하반기). 고른 값이 없으면 보내지 않음 */
-    function cycle(){return $('#basic-form input[name="eval_cycle"]:checked').val() || null;}
+    /* UX-025 자동 보관 항목 추가: eval_dt_auto(평가일이 그날 기본값인지), save_workplace('사업장에도 저장' 체크), found(사진에서 찾은 기기와 체크 상태) */
+    function foundState(){return $('#v-equipment .eq-found input[name="ai_machine_nm"]').map(function(){return {nm:this.value,on:this.checked};}).get();}
+    function snapshot(){return {email:user.email,at:Date.now(),view:location.hash,work_no:$('#work_no').val(),eval_dt:$('#eval_dt').val(),eval_dt_auto:!dtTouched,eval_writer:$('#eval_writer').val(),save_workplace:$('#eq-save-workplace').prop('checked'),found:foundState(),members:$('[name="member_nm"]').map(function(){return this.value;}).get(),text:$('#file_text').val(),voice_text:$('#voice_text').val(),photos:photos,added:added,requestKey:requestKey,lastBody:lastBody};}
     var autoTimer=null, autoOff=false;
     function autosave(){
       if(autoOff)return;
@@ -221,11 +232,23 @@
       },400);
     }
     function clearAutosave(){autoOff=true;clearTimeout(autoTimer);try{sessionStorage.removeItem(AUTO_KEY);}catch(e){}}
+    /* UX-025: 자동 보관본을 불러오면 화면 위에 안내 + '새로 쓰기'(불러온 내용을 버리고 빈 작성 화면으로). 보는 단계마다 맨 위로 옮김 */
+    function showRestoreNote(){
+      var $n=$('<div class="notice notice--muted restore-note" id="restore-note" role="status">')
+        .append($('<span class="restore-note__text">').text('작성하던 내용을 불러왔어요.'))
+        .append($('<button type="button" class="btn btn--sm restore-note__reset">새로 쓰기</button>'));
+      function place(){var $p=$('.view.is-active .page').first();if($p.length)$n.prependTo($p);}
+      $('#v-basic, #v-field, #v-equipment').on('safet:show',place);place();
+      $n.on('click','.restore-note__reset',function(){
+        S.confirm({title:'불러온 내용을 지우고 새로 쓸까요?',message:'사진·글·참여자·기기 선택이 모두 지워져요.',ok:'새로 쓰기',cancel:'취소',danger:true})
+          .then(function(yes){if(yes!==true)return;clearAutosave();S.hasUnsaved=function(){return false;};window.location.replace('write.html');});
+      });
+    }
     $(document).on('input change','#v-basic, #v-field, #v-equipment',autosave);
     $(document).on('click','#member-add-btn, .name-tags, .photo-grid, #eq-added',function(){setTimeout(autosave,50);});
     $(window).on('hashchange',autosave);
     $(document).on('visibilitychange',function(){if(document.visibilityState==='hidden'){clearTimeout(autoTimer);if(!autoOff){var d=snapshot();try{sessionStorage.setItem(AUTO_KEY,JSON.stringify(d));}catch(e){try{d.photos=[];sessionStorage.setItem(AUTO_KEY,JSON.stringify(d));}catch(e2){}}}}});
-    S.auth.onExpire(function(){return {page:'assessment-write',data:{email:user.email,work_no:$('#work_no').val(),eval_dt:$('#eval_dt').val(),eval_writer:$('#eval_writer').val(),eval_cycle:cycle(),members:$('[name="member_nm"]').map(function(){return this.value;}).get(),text:$('#file_text').val(),voice_text:$('#voice_text').val(),photos:photos,added:added,requestKey:requestKey,lastBody:lastBody}};});
+    S.auth.onExpire(function(){return {page:'assessment-write',data:{email:user.email,work_no:$('#work_no').val(),eval_dt:$('#eval_dt').val(),eval_dt_auto:false,eval_writer:$('#eval_writer').val(),save_workplace:$('#eq-save-workplace').prop('checked'),found:foundState(),members:$('[name="member_nm"]').map(function(){return this.value;}).get(),text:$('#file_text').val(),voice_text:$('#voice_text').val(),photos:photos,added:added,requestKey:requestKey,lastBody:lastBody}};});
     var recognition=null;
     $('#voice-btn').off('click').on('click',function(){
       if(!$('#voice_text').length){
@@ -251,7 +274,6 @@
         add_machine_codes:added.filter(function(m){return m.code;}).map(function(m){return m.code;}),
         add_custom_machines:added.filter(function(m){return !m.code;}).map(function(m){return m.nm;})
           .concat($('#v-equipment .eq-found input[name="ai_machine_nm"]:checked').map(function(){return this.value;}).get())};
-      if(cycle())body.eval_cycle=cycle();   // UX-024 평가 주기
       if(added.length && $('#eq-save-workplace').prop('checked'))body.save_machines_to_workplace=true;   // UX-018   /* UX-015: 화면용 size 는 보내지 않음(서버 extra 금지) */
       var serial=JSON.stringify(body);if(serial!==lastBody){requestKey=crypto.randomUUID();lastBody=serial;}body.request_key=requestKey;
       busy=true;$('#v-generating .bottom-bar a').attr('aria-disabled','true').hide();

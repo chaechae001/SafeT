@@ -43,8 +43,6 @@ class CreateAssessment(StrictModel):
     add_custom_machines: list[Name] = Field(default_factory=list, max_length=30)
     # UX-018: true 면 위 기기를 사업장 보유 기기에도 저장(다음 평가에도 등록 기기로 나옴)
     save_machines_to_workplace: bool = False
-    # UX-024: 평가 주기(작성자가 고름). Y 연간 · H1 상반기 · H2 하반기. 없으면 미지정(예전 화면·예전 평가표)
-    eval_cycle: Literal['Y', 'H1', 'H2'] | None = None
 
     @model_validator(mode='after')
     def inputs(self):

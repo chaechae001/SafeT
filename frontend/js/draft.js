@@ -1093,17 +1093,24 @@
       toTop();
     });
 
+    /* UX-022 → UX-025: 빠진 필수 입력 안내는 '다음 항목'에서만, 한 번만.
+       - '검토 마치기'(남은 일 없음)·확인 대기 카드로 가기는 막지 않음(목록에서 입력 필요 건수로 다시 안내)
+       - 빠진 칸이 있으면 첫 누름에 그 칸을 알려 주고, 같은 항목에서 한 번 더 누르면 건너뜀
+         (입력 필요 모드는 모든 항목이 미완성이라, 막으면 다음 항목으로 갈 수 없었음) */
+    var skipWarned = null;
     $('#d-next').on('click', function () {
-      // UX-022: 지금 항목에 빠진 필수 입력이 있으면 다음으로 넘어가지 않고 그 칸을 알려 줌
-      var m = missing(cur());
-      if (m.length) {
-        $('#v-risk .js-error').remove(); $('#risk-form .section').removeClass('is-invalid');
-        focusMissing(m[0]);
-        return;
-      }
       var n = navPos().next;
       if (n === 'end' || n === null) { leaveToList(); return; }   // UX-005 22: 마지막 항목 = 검토 마치기
       if (n === 'pending') { toPending(); return; }                 // UX-021: 남은 일이 확인 대기 카드뿐
+      var m = missing(cur());
+      if (m.length && skipWarned !== cur()) {
+        skipWarned = cur();
+        $('#v-risk .js-error').remove(); $('#risk-form .section').removeClass('is-invalid');
+        focusMissing(m[0]);
+        $('#v-risk .js-error').first().append(document.createTextNode(" 나중에 입력하려면 '다음 항목'을 한 번 더 눌러 주세요."));
+        return;
+      }
+      skipWarned = null;
       if (state.mode === 'need' && $.inArray(n, state.needList) < 0) state.needList.push(n);   // 위치 표시(입력 필요 k / n) 유지
       state.index = n;
       renderDetail();

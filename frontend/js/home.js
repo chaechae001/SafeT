@@ -55,18 +55,16 @@
     return $.trim(t) || s;
   }
 
-  /** UX-024 카드 제목 = 평가일 연도 2자리 + 평가 주기 + 사업장명. 예) '26년 이어드림치킨 당산점', '26년 상반기 …'
+  /** UX-024 카드 제목 = 평가일 연도 2자리 + 사업장명. 예) '26년 이어드림치킨 당산점'
       - 연도는 오늘이 아니라 이 평가표의 평가일(eval_dt) 기준
-      - 주기는 작성자가 고른 값(eval_cycle: Y 연간 · H1 상반기 · H2 하반기)만 씀. 평가일 월로 짐작하지 않음
-      - 주기 값이 없는 예전 평가표는 '연도 + 사업장명'. 사업장명은 저장된 평가표 이름에서 날짜·'위험성평가'를 뺀 것(없으면 현재 사업장명)
-      - 화면 표시만 바꿈. 저장된 평가표 이름·사업장명은 그대로 */
-  var CYCLE = { Y: '', H1: '상반기 ', H2: '하반기 ' };
+      - 사업장명은 저장된 평가표 이름에서 날짜·'위험성평가'를 뺀 것(없으면 현재 사업장명)
+      - 화면 표시만 바꿈. 저장된 평가표 이름·사업장명은 그대로(연간·반기 구분 기능은 넣지 않기로 함 · 2026-11-23) */
   function cardTitle(e) {
     var place = e.eval_nm ? shortTitle(e.eval_nm) : (e.workplace || '');
     if (!place) return '(이름 없는 평가표)';
     var y = /^(\d{4})/.exec(String(e.eval_dt || ''));
     if (!y) return place;
-    return y[1].slice(2) + '년 ' + (CYCLE[e.eval_cycle] || '') + place;
+    return y[1].slice(2) + '년 ' + place;
   }
 
   function scroller() { return document.getElementById('home-scroll'); }

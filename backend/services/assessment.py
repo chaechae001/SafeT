@@ -7,7 +7,6 @@ from services import workplaces, assessment_provider as provider
 from services import catalog_risk as catalog
 from services import authoring_rag
 from services import risk_law
-from services import evaluations
 
 
 def rows(db, sql, **p): return [dict(r) for r in db.execute(text(sql),p).mappings()]
@@ -40,7 +39,6 @@ def detail(db,email,no):
     m=owned(db,email,no)
     members=rows(db,'SELECT member_nm FROM eval_member WHERE eval_no=:n ORDER BY sort,member_no',n=no)
     result={k:m[k] for k in ('eval_no','work_no','eval_nm','eval_writer','eval_dt','eval_status','confirm_dt','revision','generation_source')}
-    result['eval_cycle']=m.get('eval_cycle')   # UX-024 평가 주기(열이 없거나 미지정이면 None)
     result['members']=[r['member_nm'] for r in members]
     w=rows(db,'SELECT workplace FROM workplaces WHERE work_no=:n',n=m['work_no'])
     result['workplace']=w[0]['workplace'] if w else ''
@@ -105,7 +103,7 @@ def create(db,email,body):
     if old: return detail(db,email,old[0]['eval_no'])
     w=workplaces.get_workplace(db,email,body.work_no)
     extra=added_machines(db,w,body)
-    context=body.model_dump(exclude={'add_machine_codes','add_custom_machines','save_machines_to_workplace','eval_cycle'}); context['machines']=w['machines']+extra
+    context=body.model_dump(exclude={'add_machine_codes','add_custom_machines','save_machines_to_workplace'}); context['machines']=w['machines']+extra
     use_catalog=catalog.enabled()
     use_authoring=authoring_rag.enabled()
     # 신규 평가표는 ACTIVE_POLICY(FOOD-3LEVEL-1.2). input_based v1 계약은 CATALOG-MVP-1.1에 고정되어 있어 1.1 카탈로그를 쓴다.
@@ -130,12 +128,13 @@ def create(db,email,body):
         old=rows(db,'SELECT eval_no FROM eval_mst WHERE email=:e AND request_key=:k',e=email,k=key)
         if old: return detail(db,email,old[0]['eval_no'])
         fresh=workplaces.get_workplace(db,email,body.work_no)
-        if any(fresh[k]!=w[k] for k in ('workplace','biz_code','machines')):
+        # UX-025: 기기 목록 변경은 막지 않는다. 같은 사업장의 다른 초안이 '사업장에도 저장'으로 기기를 넣으면 목록이 바뀌어
+        # 분석 결과를 잃었음. 이 평가표는 분석에 쓴 기기(w['machines']+extra)를 eval_machine 에 그대로 남긴다.
+        # 사업장 이름·업종이 바뀐 경우만 다시 확인하게 한다(위험 기준이 달라질 수 있음).
+        if any(fresh[k]!=w[k] for k in ('workplace','biz_code')):
             raise AuthError(409,'WORKPLACE_CHANGED','분석 중 사업장 정보가 변경됐어요. 다시 확인해 주세요.')
         r=execute(db,"INSERT INTO eval_mst (work_no,email,eval_nm,eval_writer,eval_dt,eval_status,del_yn,request_key,revision,generation_source,ins_dt,ins_nm,upt_dt,upt_nm) VALUES (:w,:e,:nm,:writer,:dt,'W','N',:key,1,:src,:t,:e,:t,:e)",w=body.work_no,e=email,nm=f"{body.eval_dt} {w['workplace']} 위험성평가",writer=body.eval_writer,dt=body.eval_dt,key=key,src=source,t=now())
         no=r.lastrowid
-        if body.eval_cycle and evaluations.has_cycle(db):   # UX-024 평가 주기(열이 없는 예전 DB는 건너뜀 · README 마이그레이션)
-            execute(db,'UPDATE eval_mst SET eval_cycle=:c WHERE eval_no=:n',c=body.eval_cycle,n=no)
         if use_authoring and (not items or context.get('_photo_cache')):
             if context.get('_photo_cache'):
                 authoring_snapshot['photo_cache'] = context['_photo_cache']
@@ -146,7 +145,12 @@ def create(db,email,body):
                     s=json.dumps(dict(rls_pending=pending), ensure_ascii=False), n=no)
         for i,name in enumerate(body.members): execute(db,'INSERT INTO eval_member (eval_no,member_nm,sort) VALUES (:n,:name,:i)',n=no,name=name,i=i)
         if body.save_machines_to_workplace and extra:   # UX-018 사업장 보유 기기에도 추가(변경 확인 뒤, 같은 트랜잭션)
-            workplaces._insert_machines(db,body.work_no,[(m['machine_code'],m['machine_nm']) for m in extra],email)
+            # UX-025: 분석 중 다른 요청이 같은 기기를 먼저 저장했으면 중복으로 넣지 않음(코드 또는 이름 기준)
+            now_codes={m['machine_code'] for m in fresh['machines'] if m.get('machine_code')}
+            now_names={(m['machine_nm'] or '').strip().lower() for m in fresh['machines']}
+            save=[(m['machine_code'],m['machine_nm']) for m in extra
+                  if not ((m['machine_code'] and m['machine_code'] in now_codes) or m['machine_nm'].strip().lower() in now_names)]
+            if save: workplaces._insert_machines(db,body.work_no,save,email)
         for machine in w['machines']+extra: execute(db,"INSERT INTO eval_machine (eval_no,machine_code,machine_nm,ai_yn,check_yn) VALUES (:n,:c,:name,'N','Y')",n=no,c=machine['machine_code'],name=machine['machine_nm'])
         for kind,content in (('T',body.text),('V',body.voice_text)):
             if content: execute(db,'INSERT INTO eval_file (eval_no,file_type,file_text) VALUES (:n,:k,:t)',n=no,k=kind,t=content)

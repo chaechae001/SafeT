@@ -18,17 +18,6 @@ from sqlalchemy.orm import Session
 from services.auth import AuthError
 
 PAGE_SIZE = 10
-_CYCLE = False   # UX-024 eval_mst.eval_cycle 열이 있는지(있다고 확인되면 다시 묻지 않음)
-
-
-def has_cycle(db: Session) -> bool:
-    """평가 주기 열(migrations/20261123_eval_cycle.sql) 유무. 적용 전 DB에서도 목록·작성이 그대로 동작하게 한다."""
-    global _CYCLE
-    if not _CYCLE:
-        _CYCLE = bool(db.execute(text(
-            "SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = DATABASE() "
-            "AND TABLE_NAME = 'eval_mst' AND COLUMN_NAME = 'eval_cycle'")).scalar())
-    return _CYCLE
 
 TAB_WHERE = {
     "ALL": "1 = 1",                                   # 전체: 상태 조건 없음 (휴지통·기간·사업장 조건은 그대로)
@@ -65,7 +54,6 @@ def list_evals(db: Session, email: str, tab: str, start: date | None, end: date 
         text(
             "SELECT m.eval_no, m.eval_nm, m.work_no, w.workplace, m.eval_dt, m.eval_writer, m.eval_status, "
             "       m.confirm_dt, m.sign_end_dt, "
-            + ("m.eval_cycle, " if has_cycle(db) else "NULL AS eval_cycle, ") +   # UX-024 카드 제목의 상반기·하반기
             "       (SELECT COUNT(*) FROM eval_member em WHERE em.eval_no = m.eval_no) AS member_count, "
             "       (SELECT COUNT(DISTINCT s.member_no) FROM eval_sign s "
             "         WHERE s.eval_no = m.eval_no AND s.sign_yn = 'Y' AND s.signer_type = 'WO') AS signed_count, "
