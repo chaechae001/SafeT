@@ -12,9 +12,7 @@
 비워 두면 Windows 맑은 고딕 → Linux 나눔고딕(apt install fonts-nanum) 순서로 찾음.
 (Noto CJK .otf 는 reportlab 이 읽지 못함)
 """
-import base64
 import io
-import json
 import os
 from datetime import datetime
 from pathlib import Path
@@ -49,33 +47,6 @@ def _d(v, fmt="%Y.%m.%d"):
     if isinstance(v, str):
         v = datetime.fromisoformat(v)
     return v.strftime(fmt)
-
-
-def _law(d) -> dict:
-    """관련 법령. 저장된 law 칸이 우선, 비어 있으면 일반 평가표(catalog_rls_v1)의 검색 후보(catalog_state.risk_law.law).
-    검색 후보는 '자동 검색 후보 · 적용 여부 작성자 확인' 상태 문구를 함께 넣어 확정 법령처럼 보이지 않게 한다 (UX-020)."""
-    if d.get("law"):
-        return {"law": d["law"], "law_summary": d.get("law_summary"), "law_note": None}
-    try:
-        state = json.loads(d.get("catalog_state") or "{}")
-    except (TypeError, ValueError):
-        state = {}
-    law = ((state.get("risk_law") or {}).get("law") or {}) if isinstance(state, dict) else {}
-    c = law.get("candidate") or {}
-    if not c.get("law_name"):
-        return {"law": None, "law_summary": None, "law_note": None}
-    return {"law": f"{c['law_name']} {c.get('locator') or ''}".strip(), "law_summary": c.get("article_title"),
-            "law_note": law.get("status") or "자동 검색 후보 · 적용 여부는 작성자가 확인"}
-
-
-_LOGO = TEMPLATE_DIR / "report-logo.png"
-
-
-def _logo() -> str | None:
-    try:
-        return "data:image/png;base64," + base64.b64encode(_LOGO.read_bytes()).decode("ascii")
-    except OSError:
-        return None
 
 
 def build_context(eval_no: int, fetch, share: bool = False) -> dict:
@@ -132,7 +103,7 @@ def build_context(eval_no: int, fetch, share: bool = False) -> dict:
             "grade": grade, "plans": plans, "keep": keep, "after": after,
             "manager": None if keep else d["manager_nm"],
             "due_dt": None if keep else _d(d["due_dt"]),
-            **_law(d),
+            "law": d["law"], "law_summary": d["law_summary"],
         })
 
     signed = {s["member_no"]: s for s in fetch(
@@ -166,7 +137,6 @@ def build_context(eval_no: int, fetch, share: bool = False) -> dict:
             "last_due": _d(max(dues)) if dues else None,
         },
         "generated_at": datetime.now().strftime("%Y.%m.%d %H:%M"),
-        "logo": _logo(),
     }
 
 

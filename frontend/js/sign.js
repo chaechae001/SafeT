@@ -66,13 +66,6 @@
 
   function updatePick() {
     var allDone = !!data && data.member_count > 0 && data.signed_count === data.member_count;
-    // UX-022: 확정 탭에는 서명 완료 평가표가 나오지 않으므로, 전원 서명이 끝나면 돌아갈 내 평가표 탭을 '서명 완료'로 바꿈(기간·사업장은 그대로)
-    if (allDone) {
-      try {
-        var hs = JSON.parse(window.sessionStorage.getItem('safet.home') || 'null');
-        if (hs && hs.tab === 'C') { hs.tab = 'S'; hs.page = 1; hs.scroll = 0; window.sessionStorage.setItem('safet.home', JSON.stringify(hs)); }
-      } catch (e) { /* 저장소를 쓸 수 없으면 기본 탭 */ }
-    }
     $('#sign-done').prop('hidden', !allDone);
     $('#to-home').prop('hidden', !(allDone || (data && !data.member_count)));
     $('#pick-btn').prop('hidden', allDone || (data && !data.member_count));
@@ -130,7 +123,7 @@
       ctx.lineWidth = 2.5;
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
-      ctx.strokeStyle = '#191f28';
+      ctx.strokeStyle = '#1d2420';
       hasStroke = false;              // 크기가 바뀌면 칸이 비워지므로 다시 서명
       updateSave();
     }

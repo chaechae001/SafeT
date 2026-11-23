@@ -92,31 +92,3 @@ def test_PDF_생성():
         pytest.skip('한글 폰트 없음 (REPORT_FONT_REGULAR 지정 필요)')
     pdf = rs.render_pdf(rs.build_context(1, fetch))
     assert pdf.startswith(b'%PDF') and len(pdf) > 10000
-
-
-def test_법령_검색후보는_상태문구와_함께_표시():
-    """UX-020: 일반 평가표는 law 칸이 비어 있고 catalog_state.risk_law.law.candidate 에 후보가 있다."""
-    import json
-    state = json.dumps({'risk_law': {'law': {'candidate': {'law_name': '산업안전보건기준에 관한 규칙', 'locator': '제239조',
-                                                          'article_title': '위험물 등이 있는 장소에서 화기 등의 사용 금지'},
-                                            'status': '자동 검색 후보 · 적용 여부는 작성자가 확인'}}}, ensure_ascii=False)
-    got = rs._law(dict(law=None, law_summary=None, catalog_state=state))
-    assert got['law'] == '산업안전보건기준에 관한 규칙 제239조' and '위험물' in got['law_summary'] and '작성자가 확인' in got['law_note']
-    assert rs._law(dict(law='저장된 법령', law_summary='요약'))['law_note'] is None          # 저장된 법령이 우선
-    assert rs._law(dict(law=None, catalog_state='깨진 값'))['law'] is None                    # 읽지 못하면 비움
-
-
-def test_결과서_로고와_모바일_용지():
-    html = rs.render_html(rs.build_context(1, fetch))
-    assert 'data:image/png;base64,' in html and 'a5 portrait' in html
-
-
-def test_항목_카드는_쪽마다_하나씩이_아니라_이어서_배치():
-    """UX-021: 카드마다 새 쪽으로 넘기던 구조(강제 쪽 넘김·여백 있는 묶음)를 쓰지 않는다.
-    카드는 여백 없는 page-break-inside: avoid 묶음으로만 감싸 잘리지 않고 이어서 놓인다."""
-    import re
-    html = rs.render_html(rs.build_context(1, fetch))
-    assert '<pdf:nextpage' not in html
-    keeps = re.findall(r'<div style="([^"]*page-break-inside: avoid[^"]*)"', html)
-    assert len(keeps) == 3 + 1 and all('padding' not in k and 'margin' not in k for k in keeps)   # 카드 3 + 서명 1
-    assert '현재 안전조치' in html and '개선대책' in html and '개선 후 (예상)' in html

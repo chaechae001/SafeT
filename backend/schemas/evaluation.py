@@ -21,7 +21,6 @@ class EvalCard(BaseModel):
     member_count: int                   # 서명이 필요한 참여 근로자 수
     signed_count: int                   # 서명한 참여 근로자 수
     item_count: int = 0                 # 위험 항목 수(eval_dtl) · UX-017 카드 표시용, 읽기 전용
-    pending_count: int = 0              # 확인 대기 항목 수(등록 기기 기준 후보) · UX-018, 읽기 전용
 
 
 class EvalList(BaseModel):

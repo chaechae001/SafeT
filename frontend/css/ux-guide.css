@@ -15,8 +15,8 @@
   animation: ux-glow 1.8s ease-in-out infinite;
 }
 @keyframes ux-glow {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0); }
-  50% { box-shadow: 0 0 0 5px rgba(37, 99, 235, .16); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(31, 90, 71, 0); }
+  50% { box-shadow: 0 0 0 5px rgba(31, 90, 71, .16); }
 }
 
 /* 포커스 칸: 두꺼운 테두리 + 연한 배경, 라벨 강조 */
@@ -25,7 +25,7 @@
 [data-ux-guide] .textarea:focus {
   border-color: var(--c-primary);
   box-shadow: 0 0 0 3px var(--c-primary-line);
-  background: #fafbfc;
+  background: #fbfdfb;
   animation: none;
 }
 [data-ux-guide] .field:focus-within > .label,
