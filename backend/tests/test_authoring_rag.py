@@ -202,6 +202,9 @@ def test_law_excludes_only_the_denied_machine_sharing_a_scenario(client, rag_flo
     payload = rag_flow[1]
     payload.update(text='', add_custom_machines=['채소절단기', '육절기'], save_machines_to_workplace=True)
     payload[field] = description
+    # 이 시험은 법령 검색 대상만 본다. 고정 모의 분석은 다른 작업 문장용이라 빈 분석으로 둔다.
+    monkeypatch.setattr(authoring_rag, 'extract', lambda *args: dict(
+        contract_version='assessment-authoring-1', candidates=[], unmatched_risks=[]))
     searched = []
     def search(text, voice, machines):
         searched.append([m['machine_nm'] for m in machines])
