@@ -1,0 +1,33 @@
+{
+ "viewport": 390,
+ "errors": [],
+ "layout": {
+  "11-workplace-list": {
+   "hscroll": 0
+  },
+  "12-workplace-new": {
+   "hscroll": 0
+  },
+  "14-sign-pick": {
+   "hscroll": 0
+  },
+  "15-sign-draw": {
+   "hscroll": 0
+  },
+  "16-share": {
+   "hscroll": 0
+  },
+  "18-trash": {
+   "hscroll": 0
+  },
+  "17-share-download": {
+   "hscroll": 0
+  },
+  "17b-share-invalid": {
+   "hscroll": 0
+  },
+  "19-error-404": {
+   "hscroll": 0
+  }
+ }
+}

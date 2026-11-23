@@ -4,9 +4,12 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>새 평가표 작성 · Safe-T</title>
-  <link rel="stylesheet" href="../css/common.css">
-  <link rel="stylesheet" href="../css/assessment.css">
-  <link rel="stylesheet" href="../css/field.css">
+  <!-- UX-019: Pretendard 실제 로드(가변·필요 글자만). 실패하면 시스템 한글 글꼴로 대체 -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+  <link rel="stylesheet" href="../css/common.css?v=20261125">
+  <link rel="stylesheet" href="../css/assessment.css?v=20261125">
+  <link rel="stylesheet" href="../css/field.css?v=20261125">
 </head>
 <body data-auth-required data-assessment>
   <!-- write.html · 화면설계서 v3.19 통합본
@@ -286,7 +289,12 @@
               <h2 class="modal__title" id="eq-add-title">기기 직접 추가</h2>
             </div>
             <div class="modal__body">
-              <p class="hint eq-add__desc">이번 평가표에만 들어가요. 사업장에 계속 남기려면 사업장 관리에서 추가해 주세요.</p>
+              <p class="hint eq-add__desc">추가한 기기는 이번 평가표에 들어가요.</p>
+              <!-- UX-018: 체크하면 초안을 만들 때 사업장 보유 기기에도 저장(save_machines_to_workplace) -->
+              <label class="check eq-add__save">
+                <input type="checkbox" id="eq-save-workplace">
+                <span class="check__text">사업장 보유 기기에도 저장해 다음 평가에도 쓰기</span>
+              </label>
               <!-- 업종 기기 목록이 길어 이름 입력칸을 먼저 둔다(키보드가 올라와도 가리지 않게) -->
               <div class="field">
                 <label class="eq-add__label" for="eq-custom">기기 이름으로 추가</label>
@@ -331,12 +339,13 @@
   </div>
 
   <script src="../js/vendor/jquery-3.7.1.min.js"></script>
-  <script src="../js/common.js"></script>
-  <script src="../js/ui-icons.js"></script>
-  <script src="../js/api.js"></script>
-  <script src="../js/write.js"></script>
-  <script src="../js/assessment-write.js"></script>
-  <script src="../js/voice-recorder.js"></script>
-  <script src="../js/field-blocks.js"></script>
+  <script src="../js/common.js?v=20261125"></script>
+  <script src="../js/ui-icons.js?v=20261125"></script>
+  <script src="../js/config.js?v=20261125"></script>
+  <script src="../js/api.js?v=20261125"></script>
+  <script src="../js/write.js?v=20261125"></script>
+  <script src="../js/assessment-write.js?v=20261125"></script>
+  <script src="../js/voice-recorder.js?v=20261125"></script>
+  <script src="../js/field-blocks.js?v=20261125"></script>
 </body>
 </html>

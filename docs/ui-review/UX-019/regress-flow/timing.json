@@ -1,0 +1,204 @@
+{
+ "slowmo_ms": 0,
+ "marks": [
+  [
+   "시작: 새 평가표 화면 열기",
+   0.0
+  ],
+  [
+   "입력 완료(기본·현장·기기)",
+   0.64
+  ],
+  [
+   "초안 생성 완료(초안 화면 표시)",
+   6.61
+  ],
+  [
+   "모든 위험 항목 조치 체크 완료",
+   30.27
+  ],
+  [
+   "평가표 확정 완료",
+   32.83
+  ],
+  [
+   "서명 완료(1명)",
+   35.77
+  ],
+  [
+   "문서 다운로드 완료(2026-11-22 이어드림치킨 당산점 위험성평가_위험성평가결과서.pdf, 117KB)",
+   39.22
+  ]
+ ],
+ "api": [
+  {
+   "m": "POST",
+   "url": "/auth/login",
+   "status": 200,
+   "ms": 250.5
+  },
+  {
+   "m": "GET",
+   "url": "/auth/me",
+   "status": 200,
+   "ms": 23.6
+  },
+  {
+   "m": "GET",
+   "url": "/workplaces",
+   "status": 200,
+   "ms": 26.5
+  },
+  {
+   "m": "GET",
+   "url": "/evals?tab=ALL&page=1&start=2026-11-01&end=2026-11-22",
+   "status": 200,
+   "ms": 18.1
+  },
+  {
+   "m": "GET",
+   "url": "/auth/me",
+   "status": 200,
+   "ms": 14.5
+  },
+  {
+   "m": "GET",
+   "url": "/workplaces",
+   "status": 200,
+   "ms": 15.3
+  },
+  {
+   "m": "POST",
+   "url": "/evals",
+   "status": 201,
+   "ms": 5085.5
+  },
+  {
+   "m": "GET",
+   "url": "/auth/me",
+   "status": 200,
+   "ms": 18.9
+  },
+  {
+   "m": "GET",
+   "url": "/evals/1721",
+   "status": 200,
+   "ms": 54.8
+  },
+  {
+   "m": "POST",
+   "url": "/evals/1721/pending-rows",
+   "status": 200,
+   "ms": 122.7
+  },
+  {
+   "m": "PUT",
+   "url": "/evals/1721",
+   "status": 200,
+   "ms": 232.9
+  },
+  {
+   "m": "PUT",
+   "url": "/evals/1721",
+   "status": 200,
+   "ms": 245.9
+  },
+  {
+   "m": "PUT",
+   "url": "/evals/1721",
+   "status": 200,
+   "ms": 185.8
+  },
+  {
+   "m": "PUT",
+   "url": "/evals/1721",
+   "status": 200,
+   "ms": 276.5
+  },
+  {
+   "m": "PUT",
+   "url": "/evals/1721",
+   "status": 200,
+   "ms": 218.9
+  },
+  {
+   "m": "PUT",
+   "url": "/evals/1721",
+   "status": 200,
+   "ms": 227.9
+  },
+  {
+   "m": "PUT",
+   "url": "/evals/1721",
+   "status": 200,
+   "ms": 188.3
+  },
+  {
+   "m": "POST",
+   "url": "/evals/1721/confirm",
+   "status": 200,
+   "ms": 197.9
+  },
+  {
+   "m": "GET",
+   "url": "/auth/me",
+   "status": 200,
+   "ms": 16.9
+  },
+  {
+   "m": "GET",
+   "url": "/evals/1721",
+   "status": 200,
+   "ms": 54.2
+  },
+  {
+   "m": "GET",
+   "url": "/auth/me",
+   "status": 200,
+   "ms": 11.7
+  },
+  {
+   "m": "GET",
+   "url": "/evals/1721",
+   "status": 200,
+   "ms": 48.2
+  },
+  {
+   "m": "GET",
+   "url": "/evals/1721/signs",
+   "status": 200,
+   "ms": 11.0
+  },
+  {
+   "m": "POST",
+   "url": "/evals/1721/signs",
+   "status": 201,
+   "ms": 35.1
+  },
+  {
+   "m": "GET",
+   "url": "/auth/me",
+   "status": 200,
+   "ms": 19.1
+  },
+  {
+   "m": "GET",
+   "url": "/workplaces",
+   "status": 200,
+   "ms": 21.2
+  },
+  {
+   "m": "GET",
+   "url": "/evals?tab=C&page=1&start=2026-11-22&end=2026-11-22&work_no=1054",
+   "status": 200,
+   "ms": 13.7
+  },
+  {
+   "m": "GET",
+   "url": "/evals/1721/report",
+   "status": 200,
+   "ms": 1811.8
+  }
+ ],
+ "errors": []
+}

@@ -1,0 +1,28 @@
+{
+ "list": {
+  "first_card_top": 273,
+  "signal_bg": "rgb(242, 244, 246)",
+  "dot_px": 10,
+  "dot_color": "rgb(245, 165, 36)"
+ },
+ "align": {
+  "reason_text_x": 31,
+  "law_label_x": 44
+ },
+ "law_modal": {
+  "top": 506,
+  "bottom_gap": 16,
+  "centered": false
+ },
+ "check_shift_px": [
+  0.0,
+  0.0
+ ],
+ "in_use_selectable": false,
+ "owner_box_bg": "rgba(0, 0, 0, 0)",
+ "disclaimer": [
+  "체크한 기준 조치로 서버가 계산한 위험도입니다. 최종 안전 판단은 담당자가 합니다.",
+  "13px"
+ ],
+ "errors": []
+}

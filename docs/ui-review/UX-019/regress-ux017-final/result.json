@@ -1,0 +1,102 @@
+[
+ {
+  "name": "개인정보 고지: 이용 목적",
+  "ok": true,
+  "note": ""
+ },
+ {
+  "name": "개인정보 고지: 수집 항목",
+  "ok": true,
+  "note": ""
+ },
+ {
+  "name": "개인정보 고지: 보유 기간",
+  "ok": true,
+  "note": ""
+ },
+ {
+  "name": "개인정보 고지: 동의 거부",
+  "ok": true,
+  "note": ""
+ },
+ {
+  "name": "개인정보 창: 가로 넘침 없음",
+  "ok": true,
+  "note": ""
+ },
+ {
+  "name": "개인정보 창: Esc로 닫고 체크는 그대로",
+  "ok": true,
+  "note": ""
+ },
+ {
+  "name": "내 평가표: 카드에 위험 항목 N건",
+  "ok": true,
+  "note": "2026.11.22 · 작성자 UX검토 · 위험 항목 6건 · 서명일 11.22"
+ },
+ {
+  "name": "06 확정: 하단 서명하기 버튼",
+  "ok": true,
+  "note": ""
+ },
+ {
+  "name": "06 → 07 서명 화면 열림(같은 평가표)",
+  "ok": true,
+  "note": ""
+ },
+ {
+  "name": "03 기기: 직접 추가 창 열림(페이지 이동 없음)",
+  "ok": true,
+  "note": ""
+ },
+ {
+  "name": "03 기기: 업종 기기 고르기(aria-pressed)",
+  "ok": true,
+  "note": "튀김기"
+ },
+ {
+  "name": "03 기기: 같은 이름 중복 안내",
+  "ok": true,
+  "note": ""
+ },
+ {
+  "name": "03 기기: 창 안 상태 문구(알림이 입력칸을 가리지 않음)",
+  "ok": true,
+  "note": ""
+ },
+ {
+  "name": "03 기기: 이번 평가에 추가한 기기 표시",
+  "ok": true,
+  "note": "튀김기 / 시험용 제빙기"
+ },
+ {
+  "name": "03 기기: 총 N개에 반영",
+  "ok": true,
+  "note": "1 → 3"
+ },
+ {
+  "name": "03 기기: × 로 빼기",
+  "ok": true,
+  "note": ""
+ },
+ {
+  "name": "03 기기: 요청에 add_custom_machines",
+  "ok": true,
+  "note": "{\"add_machine_codes\": [\"CH01\"], \"add_custom_machines\": [\"시험용 제빙기\"]}"
+ },
+ {
+  "name": "03 기기: 요청에 add_machine_codes",
+  "ok": true,
+  "note": ""
+ },
+ {
+  "name": "초안 생성 응답",
+  "ok": true,
+  "note": "NO_CREATE: 생성 요청은 보내지 않음"
+ },
+ {
+  "name": "페이지 스크립트 오류 없음",
+  "ok": true,
+  "note": ""
+ }
+]

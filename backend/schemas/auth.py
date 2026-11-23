@@ -5,7 +5,7 @@
 """
 import re
 
-from pydantic import BaseModel, field_validator
+from pydantic import BaseModel, Field, field_validator
 
 EMAIL_RE = re.compile(r"^[^\s@]+@[^\s@]+\.[^\s@]+$")
 EMAIL_MAX = 50          # user.email varchar(50)
@@ -120,6 +120,16 @@ class PasswordReset(BaseModel):
 
 class PasswordResetDone(BaseModel):
     email: str
+
+
+class WithdrawRequest(BaseModel):
+    """회원 탈퇴 (UX-018): 비밀번호 재확인"""
+    password: str = Field(min_length=1, max_length=200)
+
+
+class WithdrawDone(BaseModel):
+    email: str
+    withdrawn: bool
 
 
 class LoginRequest(BaseModel):

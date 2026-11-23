@@ -4,9 +4,12 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>사업장 관리 · Safe-T</title>
-  <link rel="stylesheet" href="../css/common.css">
-  <link rel="stylesheet" href="../css/workplace.css">
-  <link rel="stylesheet" href="../css/ux-guide.css">
+  <!-- UX-019: Pretendard 실제 로드(가변·필요 글자만). 실패하면 시스템 한글 글꼴로 대체 -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+  <link rel="stylesheet" href="../css/common.css?v=20261125">
+  <link rel="stylesheet" href="../css/workplace.css?v=20261125">
+  <link rel="stylesheet" href="../css/ux-guide.css?v=20261125">
 </head>
 <body data-auth-required data-ux-guide>
   <!-- workplace.html · 화면설계서 v3.19 통합본 (08~09쪽)
@@ -49,6 +52,11 @@
           <p class="wp-summary" id="wp-summary" hidden></p>
           <div class="empty" id="wp-empty" hidden>
             <p>등록된 사업장이 없어요. 새 사업장을 등록해 주세요.</p>
+          </div>
+
+          <!-- UX-018 회원 탈퇴: 계정 관리 입구. 되돌리기 어려운 동작이라 목록 아래에 따로 둠 -->
+          <div class="account-out">
+            <button class="link account-out__btn" type="button" data-open-withdraw aria-haspopup="dialog">회원 탈퇴</button>
           </div>
         </div>
         <div class="bottom-bar">
@@ -174,14 +182,42 @@
       </section>
     </main>
 
+    <!-- UX-018 회원 탈퇴 확인 창 · POST /auth/withdraw {password}
+         로그인 불가·이름 삭제·사업장 사용 중지·공유 링크 중지. 평가 기록은 법정 보존 기간 동안 남김 -->
+    <div class="modal" id="withdraw" role="dialog" aria-modal="true" aria-labelledby="withdraw-title">
+      <div class="modal__box">
+        <div class="modal__head">
+          <h2 class="modal__title" id="withdraw-title">회원 탈퇴</h2>
+        </div>
+        <form class="modal__body" id="withdraw-form" novalidate>
+          <ul class="withdraw-list">
+            <li>탈퇴하면 이 계정으로 다시 로그인할 수 없어요.</li>
+            <li>사업장은 사용 중지되고, 공유 중인 결과서 링크는 바로 막혀요.</li>
+            <li>작성한 위험성평가 기록은 법에서 정한 보존 기간(3년) 동안 보관돼요.</li>
+            <li>같은 이메일로 다시 가입할 수 없어요.</li>
+          </ul>
+          <div class="field">
+            <label class="label" for="withdraw-pw">비밀번호 확인<span class="req" aria-hidden="true">*</span></label>
+            <input class="input" id="withdraw-pw" name="password" type="password" autocomplete="current-password" required>
+          </div>
+        </form>
+        <div class="modal__foot">
+          <button class="btn" type="button" data-close>취소</button>
+          <button class="btn btn--danger" type="submit" form="withdraw-form" id="withdraw-ok">탈퇴하기</button>
+        </div>
+      </div>
+    </div>
+
     <p class="disclaimer">화면·입력 예시이며 실제 현장 판정이 아닙니다.</p>
   </div>
 
   <script src="../js/vendor/jquery-3.7.1.min.js"></script>
-  <script src="../js/common.js"></script>
-  <script src="../js/ui-icons.js"></script>
-  <script src="../js/api.js"></script>
-  <script src="../js/workplace.js"></script>
-  <script src="../js/ux-guide.js"></script>
+  <script src="../js/common.js?v=20261125"></script>
+  <script src="../js/ui-icons.js?v=20261125"></script>
+  <script src="../js/config.js?v=20261125"></script>
+  <script src="../js/api.js?v=20261125"></script>
+  <script src="../js/workplace.js?v=20261125"></script>
+  <script src="../js/account.js?v=20261125"></script>
+  <script src="../js/ux-guide.js?v=20261125"></script>
 </body>
 </html>

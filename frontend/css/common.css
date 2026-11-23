@@ -6,53 +6,65 @@
    ========================================================= */
 
 /* ---------- 1. 디자인 토큰 ---------- */
+/* UX-019 (2026-11-22) 디자인 1안: 신뢰감 있는 파랑 주색 + 로고의 주황 한 점, 차가운 무채색 바탕.
+   위험도 색(빨강·노랑·초록)은 위험도 표시에만 쓰고 문서 상태·버튼에는 쓰지 않는다.
+   토큰 이름은 그대로 두고 값만 바꿔 화면별 CSS가 함께 바뀌게 한다. */
 :root {
   /* 브랜드 */
-  --c-primary: #1f5a47;
-  --c-primary-dark: #17463a;
-  --c-primary-soft: #e6efe9;
-  --c-primary-line: #b9d3c5;
+  --c-primary: #2563eb;        /* 흰 글자 대비 5.17:1 */
+  --c-primary-dark: #1d4ed8;   /* 눌림·연한 바탕 위 글자 */
+  --c-primary-soft: #eaf1ff;
+  --c-primary-line: #c7d8fe;
+  --c-brand: #ff6b1a;          /* 로고·그림 전용(글자 대비 2.85:1이라 글자에 쓰지 않음) */
 
   /* 바탕·글자 */
-  --c-bg: #f4f3ec;
+  --c-bg: #f4f6f8;
   --c-surface: #ffffff;
-  --c-surface-muted: #eef0ea;
-  --c-text: #1d2420;
-  --c-text-sub: #5b645f;
-  --c-text-faint: #8a928d;
-  --c-line: #dde2dc;
-  --c-line-strong: #c5ccc6;
+  --c-surface-muted: #eef1f4;
+  --c-text: #191f28;
+  --c-text-sub: #4e5968;       /* 흰 바탕 7.1:1 */
+  --c-text-faint: #6b7684;     /* 흰 바탕 4.6:1 · 꼭 읽어야 하는 안내에는 쓰지 않음 */
+  --c-icon: #333d4b;
+  --c-line: #e5e8eb;
+  --c-line-strong: #d1d6db;
 
   /* 상태 */
-  --c-warn-bg: #fff6e0;
-  --c-warn-line: #f2d68f;
-  --c-warn-text: #8a5a00;
-  --c-danger: #c8383d;
-  --c-danger-bg: #fdecec;
-  --c-info-bg: #e7f0fb;
-  --c-info-text: #2b5c99;
-  --c-accent: #c8582b; /* '변경' 표시 등 */
+  --c-warn-bg: #fff4d6;
+  --c-warn-line: #f5d58a;
+  --c-warn-text: #8a5300;
+  --c-danger: #dc2626;
+  --c-danger-bg: #feecec;
+  --c-info-bg: #eaf1ff;
+  --c-info-text: #1d4ed8;
+  --c-accent: #c2410c; /* '변경' 표시 등 */
+
+  /* 위험도 (점 · 연한 바탕 · 글자) — 글자/연한 바탕 대비 5.8:1 안팎 */
+  --risk-hi: #e5484d;  --risk-hi-soft: #feecec;  --risk-hi-text: #b42318;
+  --risk-mid: #f5a524; --risk-mid-soft: #fff4d6; --risk-mid-text: #8a5300;
+  --risk-lo: #22a06b;  --risk-lo-soft: #e5f6ec;  --risk-lo-text: #126b43;
+  --risk-na: #8b95a1;  --risk-na-soft: #eef1f4;  --risk-na-text: #4e5968;
 
   /* 신호등 (화면설계서 04쪽) */
-  --signal-red: #e5484d;
-  --signal-yellow: #f2b32b;
-  --signal-green: #2fa36b;
-  --signal-off: #55605a;
-  --signal-housing: #2a302c;
+  --signal-red: var(--risk-hi);
+  --signal-yellow: var(--risk-mid);
+  --signal-green: var(--risk-lo);
+  --signal-off: #8b95a1;
+  --signal-housing: #2a2f36;
 
   /* 모양 */
-  --radius-sm: 8px;
-  --radius: 12px;
-  --radius-lg: 20px;
-  --shadow: 0 1px 2px rgba(20, 30, 25, 0.06), 0 2px 8px rgba(20, 30, 25, 0.05);
-  --shadow-pop: 0 8px 28px rgba(20, 30, 25, 0.18);
+  --radius-sm: 8px;    /* 칩·작은 버튼 */
+  --radius: 12px;      /* 버튼·입력칸 */
+  --radius-lg: 16px;   /* 카드·창 */
+  --shadow: 0 1px 2px rgba(17, 24, 39, 0.05), 0 2px 8px rgba(17, 24, 39, 0.04);
+  --shadow-pop: 0 10px 30px rgba(17, 24, 39, 0.16);
+  --focus-ring: 0 0 0 3px rgba(37, 99, 235, 0.28);
 
   /* 크기 */
   --touch: 44px;               /* 터치 영역 최소 44px */
   --app-max: 480px;            /* 모바일 기준 폭 */
   --gutter: 16px;
 
-  --font: "Pretendard", "Pretendard Variable", -apple-system, BlinkMacSystemFont,
+  --font: "Pretendard Variable", "Pretendard", -apple-system, BlinkMacSystemFont,
     "Apple SD Gothic Neo", "Malgun Gothic", "맑은 고딕", "Noto Sans KR", sans-serif;
 }
 
@@ -66,8 +78,10 @@ html { -webkit-text-size-adjust: 100%; }
 body {
   margin: 0;
   font-family: var(--font);
-  font-size: 15px;
+  font-size: 16px;            /* UX-019: 본문 15 → 16 (DESIGN_GUIDE 목표값) */
   line-height: 1.55;
+  letter-spacing: -0.01em;
+  -webkit-font-smoothing: antialiased;
   color: var(--c-text);
   background: var(--c-bg);
   word-break: keep-all;
@@ -75,6 +89,18 @@ body {
 }
 
 h1, h2, h3, h4, p, ul, ol, dl, dd, figure { margin: 0; }
+
+/* UX-019: 브라우저 기본 표시도 팔레트에 맞춤 */
+::selection { background: #c7d8fe; color: var(--c-text); }
+input, textarea { caret-color: var(--c-primary); }
+.num, time { font-variant-numeric: tabular-nums; }
+/* 화면 전환 때 스크립트가 제목에 옮긴 포커스(tabindex=-1)는 테두리 없이: 화면 낭독기만 위치를 알면 됨 */
+[tabindex="-1"]:focus { outline: none; }
+/* web-design-guidelines 보완 (UX-019) */
+h1, h2, .page-title, .card__title { text-wrap: balance; }
+a, button, label, summary, input, select, textarea { touch-action: manipulation; }
+body { -webkit-tap-highlight-color: rgba(37, 99, 235, .12); }
+.modal, .modal__body { overscroll-behavior: contain; }
 ul, ol { padding: 0; list-style: none; }
 img { max-width: 100%; display: block; }
 a { color: inherit; }
@@ -83,7 +109,7 @@ fieldset { margin: 0; padding: 0; border: 0; min-width: 0; }
 legend { padding: 0; }
 
 :focus-visible {
-  outline: 3px solid #3b82c4;
+  outline: 3px solid var(--c-primary);
   outline-offset: 2px;
   border-radius: 6px;
 }
@@ -136,11 +162,22 @@ legend { padding: 0; }
 }
 
 .logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
   font-weight: 800;
-  font-size: 18px;
-  letter-spacing: -0.01em;
-  color: var(--c-primary);
+  font-size: 19px;
+  letter-spacing: -0.02em;
+  color: var(--c-text);
   text-decoration: none;
+}
+/* UX-019 로고 마크: 파란 방패 + 주황 점(음식점의 따뜻함). 글자 '로고'는 먹색 */
+.logo::before {
+  content: "";
+  flex: none;
+  width: 22px;
+  height: 22px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5z' fill='%232563eb'/%3E%3Cpath d='m8.6 12 2.4 2.4 4.4-4.8' fill='none' stroke='%23fff' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='18.6' cy='4.6' r='3' fill='%23ff6b1a' stroke='%23fff' stroke-width='1.4'/%3E%3C/svg%3E") center / contain no-repeat;
 }
 
 /* 상단 메뉴 (details 사용 · JS 없음) */
@@ -161,7 +198,7 @@ legend { padding: 0; }
 .menu > summary::-webkit-details-marker { display: none; }
 .menu[open] > summary { border-color: var(--c-primary); color: var(--c-primary); }
 /* UX-016: ☰ 메뉴 버튼 네모 테두리 없이 라인 아이콘(세 줄)만, 누름 영역 44px 유지 */
-.menu > summary { border-color: transparent !important; background: transparent; font-size: 0; color: #3d4441; }
+.menu > summary { border-color: transparent !important; background: transparent; font-size: 0; color: var(--c-icon); }
 .menu > summary::before { content: ''; width: 22px; height: 16px; background: linear-gradient(currentColor 0 0) top / 100% 2px no-repeat, linear-gradient(currentColor 0 0) center / 100% 2px no-repeat, linear-gradient(currentColor 0 0) bottom / 100% 2px no-repeat; border-radius: 1px; }
 .menu > summary:hover { background: var(--c-surface-muted); }
 .menu[open] > summary { color: var(--c-primary); background: var(--c-primary-soft); }
@@ -239,7 +276,7 @@ html:not(.js) .views:has(:target) .view.is-active:not(:target):not(:has(:target)
 /* 하단 안내(합성 데이터 표시) */
 .disclaimer {
   padding: 10px var(--gutter) 14px;
-  font-size: 12px;
+  font-size: 13px;
   color: var(--c-text-faint);
   text-align: center;
   background: var(--c-surface);
@@ -254,11 +291,11 @@ html:not(.js) .views:has(:target) .view.is-active:not(:target):not(:has(:target)
   min-height: var(--touch);
   padding: 0 16px;
   border: 1px solid var(--c-line-strong);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius);        /* UX-019 버튼 모서리 12 */
   background: var(--c-surface);
-  color: var(--c-primary);
+  color: var(--c-text);                /* UX-019 보조 버튼은 먹색 글자(주요 버튼만 파랑) */
   font-weight: 700;
-  font-size: 15px;
+  font-size: 16px;
   text-align: center;
   text-decoration: none;
   cursor: pointer;
@@ -421,7 +458,7 @@ html:not(.js) .views:has(:target) .view.is-active:not(:target):not(:has(:target)
   color: var(--c-primary);
   box-shadow: var(--shadow);
 }
-.segmented label:has(input:focus-visible) { outline: 3px solid #3b82c4; }
+.segmented label:has(input:focus-visible) { outline: 3px solid var(--c-primary); }
 
 /* ---------- 6. 표시 요소 ---------- */
 .tag {
@@ -445,9 +482,10 @@ html:not(.js) .views:has(:target) .view.is-active:not(:target):not(:has(:target)
 .tag-list { display: flex; flex-wrap: wrap; gap: 6px; }
 
 /* 평가표 상태 (공통코드 EVAL_STATUS) · class="tag status" 로 사용 */
-.status[data-status="W"] { background: var(--c-warn-bg); color: var(--c-warn-text); }   /* 작성 중 */
-.status[data-status="C"] { background: var(--c-info-bg); color: var(--c-info-text); }   /* 확정 */
-.status[data-status="S"] { background: var(--c-primary-soft); color: var(--c-primary); } /* 서명 완료 */
+/* UX-019: 문서 상태는 위험도 색(노랑·초록)을 쓰지 않는다. 작성 중 회색 · 확정 연한 파랑 · 서명 완료 먹색 */
+.status[data-status="W"] { background: var(--c-surface-muted); color: var(--c-text-sub); }   /* 작성 중 */
+.status[data-status="C"] { background: var(--c-primary-soft); color: var(--c-primary-dark); } /* 확정 */
+.status[data-status="S"] { background: var(--c-text); color: #fff; }                          /* 서명 완료 */
 .status[data-status="A"] { background: #e9e4f5; color: #57418f; }                       /* 조치 완료 */
 
 /* 값 출처 구분: AI 추천 / 직접 추가 / 일괄 지정 */
@@ -482,23 +520,23 @@ html:not(.js) .views:has(:target) .view.is-active:not(:target):not(:has(:target)
   border-radius: 50%;
   background: var(--signal-off);
 }
-.signal[data-signal="R"] i:nth-child(1) { background: var(--signal-red); box-shadow: 0 0 0 2px rgba(229, 72, 77, 0.35); }
-.signal[data-signal="Y"] i:nth-child(2) { background: var(--signal-yellow); box-shadow: 0 0 0 2px rgba(242, 179, 43, 0.35); }
-.signal[data-signal="G"] i:nth-child(3) { background: var(--signal-green); box-shadow: 0 0 0 2px rgba(47, 163, 107, 0.35); }
+.signal[data-signal="R"] i:nth-child(1) { background: var(--signal-red); box-shadow: 0 0 0 2px rgba(229, 72, 77, 0.3); }
+.signal[data-signal="Y"] i:nth-child(2) { background: var(--signal-yellow); box-shadow: 0 0 0 2px rgba(245, 165, 36, 0.3); }
+.signal[data-signal="G"] i:nth-child(3) { background: var(--signal-green); box-shadow: 0 0 0 2px rgba(34, 160, 107, 0.3); }
 /* data-signal="N" (판단 필요) 은 모두 꺼짐 */
 /* UX-015: 모든 화면 신호등을 연회색 몸체(#F1F3F5)의 가로 3구로 통일 */
-.signal { padding: 5px 8px; gap: 5px; background: #F1F3F5; border: 1px solid #E6E9EC; }
-.signal i { width: 10px; height: 10px; background: #D5D9DE; }
+.signal { padding: 5px 8px; gap: 5px; background: #F2F4F6; border: 1px solid #E5E8EB; }
+.signal i { width: 10px; height: 10px; background: #D1D6DB; }
 .signal[data-signal="R"] i:nth-child(1),
 .signal[data-signal="Y"] i:nth-child(2),
 .signal[data-signal="G"] i:nth-child(3) { box-shadow: none; }
 
 .signal-with-label { display: inline-flex; flex-direction: column; align-items: flex-start; gap: 3px; }
 .signal-label { font-size: 12px; font-weight: 700; }
-.signal-label[data-signal="R"] { color: #b4282d; }
-.signal-label[data-signal="Y"] { color: #9a6b00; }
-.signal-label[data-signal="G"] { color: #1d7a4e; }
-.signal-label[data-signal="N"] { color: var(--signal-off); }
+.signal-label[data-signal="R"] { color: var(--risk-hi-text); }
+.signal-label[data-signal="Y"] { color: var(--risk-mid-text); }
+.signal-label[data-signal="G"] { color: var(--risk-lo-text); }
+.signal-label[data-signal="N"] { color: var(--risk-na-text); }
 
 /* 안내 상자 */
 .notice {
@@ -515,7 +553,7 @@ html:not(.js) .views:has(:target) .view.is-active:not(:target):not(:has(:target)
 .notice--muted { border-color: var(--c-line); background: var(--c-surface-muted); color: var(--c-text-sub); }
 .notice--danger { border-color: #efc2c4; background: var(--c-danger-bg); color: #8f2226; }
 .notice__row { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
-.notice__count strong { color: #b4282d; font-size: 15px; }
+.notice__count strong { color: var(--risk-hi-text); font-size: 15px; }
 
 /* 카드 */
 .card {
@@ -568,7 +606,7 @@ a.card:hover { border-color: var(--c-primary-line); }
 /* UX-015: 간격 없이 하나로 이어진 세그먼트 진행 바 */
 .stepper { gap: 0; padding: 3px; border-radius: 10px; background: var(--c-surface-muted); }
 .stepper li { min-height: 34px; border-radius: 8px; background: transparent; }
-.stepper li[aria-current="step"] { background: var(--c-primary); box-shadow: 0 1px 3px rgba(20, 30, 25, .18); }
+.stepper li[aria-current="step"] { background: var(--c-primary); box-shadow: 0 1px 3px rgba(17, 24, 39, .18); }
 
 /* 탭 (링크형) */
 .tabs { display: flex; flex-wrap: wrap; gap: 6px; }
@@ -685,21 +723,32 @@ html.js body[data-auth-required]:not(.auth-ok) .app { visibility: hidden; }
 
 /* 알림 */
 .toast {
+  /* UX-022: 위쪽 표시(위치는 common.js 가 머리글 아래로 계산) · 넉넉한 안쪽 여백 · 한국어 낱말 단위 줄바꿈 */
   position: fixed;
   left: 50%;
-  bottom: calc(88px + env(safe-area-inset-bottom, 0px));
+  top: calc(64px + env(safe-area-inset-top, 0px));
   z-index: 80;
   transform: translateX(-50%);
-  max-width: calc(100% - 32px);
-  padding: 12px 18px;
-  border-radius: 999px;
-  background: #24302a;
+  box-sizing: border-box;
+  width: max-content;
+  max-width: min(400px, calc(100% - 32px));
+  padding: 13px 20px;
+  border-radius: 14px;
+  background: rgba(25, 31, 40, .94);
   color: #fff;
-  font-size: 14px;
-  font-weight: 600;
-  box-shadow: var(--shadow-pop);
-  pointer-events: none;   /* 알림이 아래 버튼을 가리지 않게 */
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.5;
+  text-align: center;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+  text-wrap: balance;   /* 두 줄일 때 줄 길이를 고르게 */
+  box-shadow: 0 8px 24px rgba(17, 24, 39, .22);
+  pointer-events: none;   /* 알림이 아래 내용을 누르는 것을 막지 않게 */
 }
+.toast.is-in { animation: toast-in .22s ease-out; }
+@keyframes toast-in { from { opacity: 0; transform: translate(-50%, -6px); } to { opacity: 1; transform: translate(-50%, 0); } }
+@media (prefers-reduced-motion: reduce) { .toast.is-in { animation: none; } }
 
 /* 원형 로딩만 (데이터만 저장하는 동작) */
 .loading {
@@ -715,6 +764,7 @@ html.js body[data-auth-required]:not(.auth-ok) .app { visibility: hidden; }
 .is-invalid,
 .check-list.is-invalid .check { border-color: var(--c-danger) !important; }
 .section.is-invalid > legend .section-title,
+.section.is-invalid > .block-head .section-title,
 .section.is-invalid > .section-title { color: var(--c-danger); }
 
 /* 작은 달력 (입력칸 1개 + 달력 1개) */
@@ -777,3 +827,37 @@ html.js body[data-auth-required]:not(.auth-ok) .app { visibility: hidden; }
 .pager { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 8px; border-radius: var(--radius-sm); background: var(--c-surface-muted); font-size: 14px; }
 .pager a { min-height: 36px; display: inline-flex; align-items: center; padding: 0 8px; }
 .empty { padding: 32px 16px; text-align: center; color: var(--c-text-sub); border: 1px dashed var(--c-line-strong); border-radius: var(--radius); }
+
+/* =========================================================
+   UX-020 큰 글자 설정(안드로이드 글자 크기 최대 200%) 대응
+   평소 크기에서는 한 줄 그대로, 글자가 커져 공간이 모자랄 때만 다음 줄로 내려가게 한다.
+   ========================================================= */
+.bottom-bar { flex-wrap: wrap; }
+.bottom-bar > .btn { min-width: 0; }
+.btn { white-space: normal; overflow-wrap: anywhere; }
+.input-row { flex-wrap: wrap; }
+.input-row > .input,
+.input-row > .select { flex: 1 1 160px; }
+
+/* UX-022: 휴대폰(특히 iPhone)은 16px보다 작은 입력칸을 누르면 화면을 확대하고, 다음 화면으로 가도 확대가 남음.
+   글자 입력칸은 모두 16px 이상으로 맞춰 확대 자체가 일어나지 않게 함(사용자의 손가락 확대는 그대로 가능) */
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]),
+select, textarea, .input, .select, .textarea { font-size: max(16px, 1em); }
+/* UX-022: 안내·알림·상자 안 문장은 낱말 단위로 보기 좋게 줄바꿈 */
+p, .hint, .notice, .error-text, .modal__body, .check__text, .card__meta { text-wrap: pretty; }
+
+/* UX-023 Safe-T 도우미 캐릭터 (js/mascot.js) · 머뭇거릴 때 다음 칸 옆에서 가리킴 */
+.mascot { position: fixed; z-index: 70; display: flex; align-items: flex-end; gap: 6px; max-width: min(300px, calc(100vw - 16px)); pointer-events: auto; cursor: pointer; }
+.mascot[hidden] { display: none; }
+.mascot__body { flex: none; width: 72px; filter: drop-shadow(0 4px 8px rgba(17, 24, 39, .22)); }
+/* UX-024 고양이 그림: 바깥 흰 여백을 잘라 낸 원본이라 칸 너비 그대로 얼굴·귀·수염·안전모가 모두 보임 */
+.mascot__body img { width: 100%; height: auto; display: block; user-select: none; -webkit-user-drag: none; }
+@media (max-width: 360px) { .mascot__body { width: 64px; } }
+.mascot__bubble { position: relative; margin-bottom: 26px; padding: 9px 12px; border-radius: 14px 14px 4px 14px; background: #fff; border: 1px solid var(--c-primary-line);
+  box-shadow: 0 6px 18px rgba(17, 24, 39, .14); font-size: 14px; font-weight: 600; line-height: 1.45; color: var(--c-text); word-break: keep-all; text-wrap: balance; }
+.mascot.is-in { animation: mascot-in .35s cubic-bezier(.2, .9, .3, 1.3); }
+.mascot.is-in .mascot__body { animation: mascot-bob 1.6s ease-in-out .4s 3; }
+.mascot[data-point="side"] .mascot__body { transform: rotate(-8deg); }
+@keyframes mascot-in { from { opacity: 0; transform: translateY(10px) scale(.9); } to { opacity: 1; transform: none; } }
+@keyframes mascot-bob { 0%, 100% { translate: 0 0; } 50% { translate: 0 -5px; } }
+@media (prefers-reduced-motion: reduce) { .mascot.is-in, .mascot.is-in .mascot__body { animation: none; } }

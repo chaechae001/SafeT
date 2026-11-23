@@ -93,7 +93,7 @@
 .page-draft .risk-card__state { font-size: 14px; }
 .page-draft .bottom-bar .btn { min-height: 48px; font-size: 15px; }
 /* 상세 하단 3버튼: 가운데 저장을 넓게, 한 줄 유지 */
-.page-draft #v-risk .bottom-bar .btn { white-space: nowrap; padding: 0 8px; }
+.page-draft #v-risk .bottom-bar .btn { white-space: normal; line-height: 1.2; padding: 4px 8px; word-break: keep-all; }   /* UX-020 큰 글자에서 버튼 안 줄바꿈 */
 .page-draft #v-risk .bottom-bar #d-save { flex: 1.45; }
 @media (max-width: 360px) { .page-draft #v-risk .bottom-bar .btn { font-size: 14px; padding: 0 6px; } }
 
@@ -154,7 +154,7 @@
 #law-modal .law-modal__quote { margin: 0; padding: 12px 14px; border-left: 4px solid var(--c-primary-line); background: var(--c-surface-muted); font-size: 15px; line-height: 1.65; border-radius: 0 8px 8px 0; }
 
 /* 떠오르는 강조: 테두리 색 없이 블록 전체가 살짝 떠올랐다 내려옴 */
-@keyframes draft-lift { 0%, 100% { transform: translateY(0); box-shadow: 0 0 0 rgba(0, 0, 0, 0); } 50% { transform: translateY(-4px); box-shadow: 0 10px 18px rgba(29, 36, 32, .12); } }
+@keyframes draft-lift { 0%, 100% { transform: translateY(0); box-shadow: 0 0 0 rgba(0, 0, 0, 0); } 50% { transform: translateY(-4px); box-shadow: 0 10px 18px rgba(17, 24, 39, .12); } }
 .page-draft .ux-pulse,
 .page-draft #d-curr-list.ux-pulse,
 .page-draft #d-plan-list.ux-pulse { outline: 0; animation: draft-lift 2.2s ease-in-out infinite; border-radius: 10px; }
@@ -171,14 +171,9 @@
 .page-draft #d-current, .page-draft #d-plan, .page-draft .owner-box {
   border-radius: 14px; transition: transform .35s ease, box-shadow .35s ease, background-color .35s ease;
 }
-.page-draft #d-current.is-next, .page-draft #d-plan.is-next, .page-draft .owner-box.is-next {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 28px rgba(29, 36, 32, .16), 0 2px 6px rgba(29, 36, 32, .08);
-  background: var(--c-surface);
-  margin: 0 -10px; padding: 12px 10px;
-}
+/* UX-022: 블록 강조(떠 있는 카드)는 없앰 — 체크할 때마다 상자 모양이 바뀌어 보였음. 아래 UX-022 규칙 참고 */
 .page-draft #d-save { transition: transform .35s ease, box-shadow .35s ease; }
-.page-draft #d-save.is-next { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(31, 90, 71, .35); }
+.page-draft #d-save.is-next { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(37, 99, 235, .35); }
 
 /* 리스트 카드: 작성 덜 됨 / 작성 완료 / 다음 할 카드 */
 .page-draft .risk-card { transition: transform .35s ease, box-shadow .35s ease; }
@@ -188,7 +183,7 @@
 .page-draft .risk-card.card--done {
   border: 1px solid var(--c-primary-line); border-left: 6px solid var(--c-primary); background: #f3f9f5;
 }
-.page-draft .risk-card.is-next { transform: translateY(-4px); box-shadow: 0 12px 26px rgba(29, 36, 32, .16); }
+.page-draft .risk-card.is-next { transform: translateY(-4px); box-shadow: 0 12px 26px rgba(17, 24, 39, .16); }
 .page-draft .tag--done { background: var(--c-primary); color: #fff; font-weight: 800; }
 @media (prefers-reduced-motion: reduce) {
   .page-draft #d-current, .page-draft #d-plan, .page-draft .owner-box, .page-draft .risk-card, .page-draft #d-save { transition: none; }
@@ -213,13 +208,13 @@
 
 /* ① 미작성: 순백 + 진한 실선, 할 일은 흰 바탕 검은 테두리 아웃라인 */
 .page-draft .risk-card[data-card="need"],
-.page-draft .risk-card.card--need { border: 1.5px solid #8F9893; border-left-width: 1.5px; background: #fff; }
-.page-draft .tag--todo { background: #fff; color: var(--c-text); border: 1.5px solid #1d2420; }
+.page-draft .risk-card.card--need { border: 1.5px solid #8b95a1; border-left-width: 1.5px; background: #fff; }
+.page-draft .tag--todo { background: #fff; color: var(--c-text); border: 1.5px solid var(--c-text); }
 /* ② 임시저장: 흰 바탕 + 점선 테두리 + 연회색 배지 */
-.page-draft .risk-card.card--temp { border: 1.5px dashed #A9B0AC; background: #fff; }
-.page-draft .tag--temp { background: #EEF0F2; color: #5B645F; border: 0; }
+.page-draft .risk-card.card--temp { border: 1.5px dashed #b0b8c1; background: #fff; }
+.page-draft .tag--temp { background: #EEF0F2; color: var(--c-text-sub); border: 0; }
 /* ③ 작성 완료: 연회색 바탕·회색 글자로 톤다운(초록 띠·초록 배지 없음) */
-.page-draft .risk-card.card--done { border: 1px solid #E6E8EB; border-left-width: 1px; background: #F4F5F7; color: #6B7280; }
+.page-draft .risk-card.card--done { border: 1px solid #E6E8EB; border-left-width: 1px; background: #f2f4f6; color: #6B7280; }
 .page-draft .risk-card.card--done .card__title { color: #4B5563; }
 .page-draft .risk-card.card--done .card__meta,
 .page-draft .risk-card.card--done .risk-card__state { color: #8A9099; }
@@ -258,7 +253,7 @@
 .page-draft .risk-item__swipe-del .ico { width: 22px; height: 22px; }
 .page-draft .risk-item.is-swiped .risk-item__swipe-del,
 .page-draft .risk-item.is-dragging .risk-item__swipe-del { visibility: visible; }
-.page-draft .risk-item.is-swiped .risk-card { box-shadow: 4px 0 12px rgba(20, 30, 25, .12); }
+.page-draft .risk-item.is-swiped .risk-card { box-shadow: 4px 0 12px rgba(17, 24, 39, .12); }
 .page-draft .risk-item.is-swiped .risk-card,
 .page-draft .risk-item.is-dragging .risk-card { border-top-right-radius: 0; border-bottom-right-radius: 0; }
 /* 떠 있는 '다음 카드' 그림자가 잘리지 않게 */
@@ -266,11 +261,11 @@
 @media (prefers-reduced-motion: reduce) { .page-draft .risk-item .risk-card { transition: none; } }
 
 /* UX-015 · 상세: 개선대책 중 '현재 조치 중', 예상 위험도 요약 카드 */
-.page-draft #d-plan-list .check.is-in-use { background: #F4F5F7; border-color: #E6E8EB; }
+.page-draft #d-plan-list .check.is-in-use { background: #f2f4f6; border-color: #E6E8EB; }
 .page-draft #d-plan-list .check.is-in-use .check__text { color: #9AA0A6; }
 .page-draft #d-plan-list .check.is-in-use input:disabled { opacity: .45; }
-.page-draft .in-use-badge { flex: none; margin-left: auto; padding: 2px 9px; border-radius: 999px; background: #E6E8EB; color: #5B645F; font-size: 12px; font-weight: 700; white-space: nowrap; }
-.page-draft .proj-card { display: flex; flex-direction: column; gap: 10px; padding: 14px 16px; border: 1px solid #E4E7EA; border-top: 4px solid var(--c-primary); border-radius: 14px; background: #fff; box-shadow: 0 1px 3px rgba(20, 30, 25, .05); }
+.page-draft .in-use-badge { flex: none; margin-left: auto; padding: 2px 9px; border-radius: 999px; background: #E6E8EB; color: var(--c-text-sub); font-size: 12px; font-weight: 700; white-space: nowrap; }
+.page-draft .proj-card { display: flex; flex-direction: column; gap: 10px; padding: 14px 16px; border: 1px solid var(--c-primary-line); border-radius: var(--radius-lg); background: #f5f8ff; box-shadow: 0 1px 3px rgba(17, 24, 39, .05); }
 .page-draft .proj-card[hidden] { display: none; }
 .page-draft .proj-card.is-pending { border-top-color: #C9CDD2; }
 .page-draft .proj-card__head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
@@ -281,11 +276,11 @@
 .page-draft .proj-card__side { display: inline-flex; align-items: center; gap: 6px; }
 .page-draft .proj-card__label { font-size: 13px; color: var(--c-text-sub); }
 .page-draft .proj-card__grade { font-size: 15px; }
-.page-draft .proj-card__grade[data-signal="R"] { color: #B4282D; }
-.page-draft .proj-card__grade[data-signal="Y"] { color: #9A6B00; }
-.page-draft .proj-card__grade[data-signal="G"] { color: #1D7A4E; }
+.page-draft .proj-card__grade[data-signal="R"] { color: var(--risk-hi-text); }
+.page-draft .proj-card__grade[data-signal="Y"] { color: var(--risk-mid-text); }
+.page-draft .proj-card__grade[data-signal="G"] { color: var(--risk-lo-text); }
 .page-draft .proj-card__arrow { color: var(--c-text-faint); font-weight: 700; }
-.page-draft .proj-card__tip { display: flex; align-items: flex-start; gap: 6px; margin: 0; padding: 9px 12px; border-radius: 10px; background: #EAF5EE; color: #1F5A47; font-size: 14px; font-weight: 700; line-height: 1.45; }
+.page-draft .proj-card__tip { display: flex; align-items: flex-start; gap: 6px; margin: 0; padding: 9px 12px; border-radius: 10px; background: var(--c-primary-soft); color: var(--c-primary); font-size: 14px; font-weight: 700; line-height: 1.45; }
 .page-draft .proj-card__tip .ico { width: 17px; height: 17px; margin-top: 1px; color: #2F8F5B; }
 .page-draft .proj-card__notes { margin: 0; padding-left: 18px; font-size: 13px; color: var(--c-text-sub); line-height: 1.6; }
 .page-draft .proj-card__muted { margin: 0; font-size: 14px; color: var(--c-text-sub); }
@@ -305,15 +300,15 @@
 /* =========================================================
    UX-016 (2026-11-22) · 확인 대기 통합: 대기 카드·등록 기기 배지·입력 필요 상자·확정 버튼 잠김
    ========================================================= */
-/* 등록 기기 배지: 제목 옆 연한 딥그린 */
+/* 등록 기기 배지: 제목 옆 연한 주색 */
 .page-draft .machine-badge {
   display: inline-flex; align-items: center; min-height: 22px; padding: 0 8px; margin-left: 2px;
-  border-radius: 999px; background: #E6EFE9; color: #1F5A47; font-size: 12px; font-weight: 700;
+  border-radius: 999px; background: var(--c-primary-soft); color: var(--c-primary); font-size: 13px; font-weight: 700;
   white-space: nowrap; vertical-align: 2px;
 }
 .page-draft .risk-card .card__head .card__title { min-width: 0; }
 /* 대기 카드 = 미작성 카드와 같은 모양(흰 바탕·진한 실선) */
-.page-draft .risk-card.card--pending { border: 1.5px solid #8F9893; background: #fff; }
+.page-draft .risk-card.card--pending { border: 1.5px solid #8b95a1; background: #fff; }
 /* 입력 필요 요약 상자: 노란 바탕 없이 진한 다크그레이 실선으로 강조 */
 .page-draft .draft-summary__grid > #need-row-a.is-alert { border: 2px solid #374151; background: var(--c-surface); padding: 7px 3px; }
 .page-draft .draft-summary__grid > #need-row-a.is-alert strong { color: var(--c-text); }
@@ -323,3 +318,95 @@
   background: #E5E7EB; border-color: #E5E7EB; color: #6B7280; box-shadow: none;
   pointer-events: auto; cursor: pointer;
 }
+
+
+/* UX-019 현재 조치 / 개선대책 구분: 현재 조치 = 회색 상자(이미 하는 일), 개선대책 = 연한 파랑 상자(앞으로 할 일).
+   한쪽 띠 대신 전체 테두리 + 옅은 바탕으로 구분. 배치·문구는 그대로 */
+.page-draft #d-current,
+.page-draft #d-plan { padding: 14px 14px 16px; border-radius: var(--radius-lg); }
+.page-draft #d-current { background: #f6f7f9; border: 1px solid var(--c-line); }
+.page-draft #d-plan { background: #f5f8ff; border: 1px solid var(--c-primary-line); }
+.page-draft #d-plan .section-title { color: var(--c-primary-dark); }
+.page-draft #risk-form > .divider { display: none; }
+/* UX-022: 제목은 legend 대신 상자 안 첫 줄 블록(.block-head). 휴대폰 브라우저에서도 테두리에 걸치지 않음 */
+.page-draft #d-current > .block-head,
+.page-draft #d-plan > .block-head { display: flex; flex-direction: column; gap: 2px; margin: 0 0 10px; }
+
+/* '입력 필요 n / m'(할 일 표시)도 위험도 노랑 대신 연한 파랑 */
+.page-draft #d-pos.tag--warn { background: var(--c-primary-soft); color: var(--c-primary-dark); }
+/* UX-020 큰 글자: 예상 위험도 줄(현재 → 개선 후 예상)이 모자라면 줄바꿈 */
+.page-draft .proj-card__row { flex-wrap: wrap; }
+
+/* UX-022 (2026-11-23): 위 요약 상자(전체·입력 필요·담당자 미지정)와 필터 줄을 약 90~95%로 줄여 한 화면에 더 보이게.
+   필터 4개 + [편집]이 390px 폭 한 줄에 들어오게(더 좁으면 기존처럼 가로로 밀어 보기) */
+.page-draft .draft-summary__grid { gap: 6px; }
+.page-draft .draft-summary__grid > div { padding: 6px 4px; gap: 0; }
+.page-draft .draft-summary__grid dt { font-size: 12px; }
+.page-draft .draft-summary__grid dd { font-size: 14px; }
+.page-draft .draft-summary__grid dd strong { font-size: 17px; }
+.page-draft .draft-summary__grid > #need-row-a.is-alert { padding: 5px 3px; }
+.page-draft .draft__filters { gap: 6px; }
+.page-draft .draft__filters .tabs { gap: 4px; }
+.page-draft .draft__filters .tabs > a { min-height: 36px; font-size: 13px; padding: 0 9px; }
+.page-draft .draft__edit { min-height: 36px; padding: 0 10px; font-size: 13px; }
+.page-draft .draft__edit .ico { width: 15px; height: 15px; }
+
+/* =========================================================
+   UX-023 (2026-11-23) 휴대폰 확인 피드백
+   ========================================================= */
+/* 목록 위쪽 줄이기: 제목 18px, 요약 상자를 한 줄(이름 + 숫자)로, 간격 축소 → 위험 카드가 더 보이게 */
+.page-draft #v-list .page { padding-top: 12px; }
+.page-draft .draft__fixed { gap: 8px; }
+.page-draft .draft__title-row .page-title { font-size: 18px; line-height: 1.32; }
+.page-draft .draft__title-row .tag { font-size: 12.5px; min-height: 24px; }
+.page-draft .draft-summary__grid > div { flex-direction: row; justify-content: center; align-items: baseline; gap: 5px; padding: 6px 4px; }
+.page-draft .draft-summary__grid dt { font-size: 12px; }
+.page-draft .draft-summary__grid dd { font-size: 13px; }
+.page-draft .draft-summary__grid dd strong { font-size: 15px; }
+.page-draft .draft-summary__grid > #need-row-a.is-alert { padding: 5px 3px; }
+
+/* 위험도 신호: 휴대폰에서도 색이 한눈에 보이게 점을 키우고, 캡슐 바탕을 위험도 색으로 옅게 칠함(상·중·하 글자는 넣지 않음) */
+.page-draft .risk-card .signal { padding: 5px 9px; gap: 5px; }
+.page-draft .risk-card .signal i { width: 12px; height: 12px; background: #DDE1E6; }
+.page-draft .signal[data-signal="R"] { background: var(--risk-hi-soft, #FEECEC); border-color: #F8C9CB; }
+.page-draft .signal[data-signal="Y"] { background: var(--risk-mid-soft, #FFF4D6); border-color: #F6DE9C; }
+.page-draft .signal[data-signal="G"] { background: var(--risk-lo-soft, #E5F6EC); border-color: #B9E3CB; }
+.page-draft .signal[data-signal="R"] i:nth-child(1) { background: var(--signal-red); }
+.page-draft .signal[data-signal="Y"] i:nth-child(2) { background: var(--signal-yellow); }
+.page-draft .signal[data-signal="G"] i:nth-child(3) { background: var(--signal-green); }
+.page-draft .signal[data-signal="R"] i:not(:nth-child(1)),
+.page-draft .signal[data-signal="Y"] i:not(:nth-child(2)),
+.page-draft .signal[data-signal="G"] i:not(:nth-child(3)) { background: rgba(255, 255, 255, .85); }
+.page-draft .risk-card.card--done .signal { opacity: 1; }
+
+/* '모든 항목을 확인했어요' 안내: 흰 바탕 + 진한 글자(제목만 파랑) */
+.page-draft #d-finish.notice--done { background: #fff; border-color: var(--c-primary-line); color: var(--c-text); }
+.page-draft #d-finish.notice--done #d-finish-title { color: var(--c-primary-dark); }
+
+/* 담당자·예정일 상자: 개선대책(연한 파랑) 상자 안에서 흰 바탕으로 구분 */
+.page-draft #d-plan .owner-box { background: #fff; border-color: var(--c-line); }
+
+/* 판단 이유 · 관련 근거: 글자 시작선을 같게(둘 다 안쪽 12px) */
+.page-draft #d-reason-box > summary { padding-left: 12px; padding-right: 12px; }
+.page-draft #d-reason-box > p { padding: 0 12px; }
+
+/* 관련 근거 창: 아래에서 올라오는 대신 화면 가운데 */
+#law-modal { align-items: center; }
+#law-modal .modal__box { max-height: min(80dvh, 640px); }
+
+/* 아래 안내 문구: 짧고 작게 */
+.page-draft .disclaimer { font-size: 12px; padding-top: 4px; padding-bottom: 6px; }
+/* UX-023: '현재 조치 중' 후보도 고를 수 있음. 고르기 전엔 옅게, 고르면 일반 선택 모양 */
+.page-draft #d-plan-list .check.is-in-use { cursor: pointer; }
+.page-draft #d-plan-list .check.is-in-use .check__text { color: var(--c-text-sub); }
+.page-draft #d-plan-list .check.is-in-use:has(input:checked) { background: var(--c-primary-soft); border-color: var(--c-primary-line); }
+.page-draft #d-plan-list .check.is-in-use:has(input:checked) .check__text { color: var(--c-text); }
+
+/* =========================================================
+   UX-024 (2026-11-23) · 첫 목록 신호등 상태 · 기기 출처 배지
+   ========================================================= */
+/* 판단 전(회색) 신호등 옆 '현재 조치 입력 전' — 색이 없어도 상태를 글로 알 수 있게 */
+.page-draft .risk-card .card__head .signal-note { flex: none; display: inline-flex; align-items: center; gap: 6px; margin-top: 1px; }
+.page-draft .signal-note__text { font-size: 12px; font-weight: 700; line-height: 1.2; color: var(--c-text-sub); white-space: nowrap; }
+/* 이번 평가에만 추가한(미등록) 기기 배지: 등록 기기와 구분되게 회색 */
+.page-draft .machine-badge--extra { background: var(--c-surface-muted); color: var(--c-text-sub); }

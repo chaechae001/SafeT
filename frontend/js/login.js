@@ -207,6 +207,7 @@
     var notice = /[?&]expired=1/.test(q) ? ['로그인 시간이 지났어요. 다시 로그인하면 보던 화면으로 돌아가요.', 'notice']
       : /[?&]required=1/.test(q) ? ['로그인이 필요해요. 로그인하면 열려던 화면으로 이동해요.', 'notice']
       : /[?&]logout=1/.test(q) ? ['로그아웃했어요.', 'notice notice--done']
+      : /[?&]withdrawn=1/.test(q) ? ['회원 탈퇴를 마쳤어요. 그동안 이용해 주셔서 고마워요.', 'notice notice--done']
       : null;
     if (notice) $('#auth-notice').attr('class', notice[1]).text(notice[0]).prop('hidden', false);
     $('#v-signup').on('safet:show', function () { $('#auth-notice').prop('hidden', true); });

@@ -318,9 +318,44 @@ RESET_SENT = "가입된 이메일이면 인증 코드를 보냈어요. 메일을
 
 
 def _reset_user(db: Session, email: str):
+    # UX-018: 탈퇴한 계정은 가입되지 않은 이메일과 같게 처리(재설정으로 되살리지 못함)
     return db.execute(
-        text("SELECT email, COALESCE(upt_dt, ins_dt) AS since FROM `user` WHERE email = :e"), {"e": email}
+        text("SELECT email, COALESCE(upt_dt, ins_dt) AS since FROM `user` "
+             "WHERE email = :e AND COALESCE(pw, '') <> :w"), {"e": email, "w": WITHDRAWN}
     ).mappings().first()
+
+
+# ---------- 회원 탈퇴 (UX-018 · 2026-11-22) ----------
+# - 비밀번호를 다시 확인한 뒤 처리. DB 구조는 바꾸지 않음
+# - 로그인 불가(pw 표식), 이름 삭제, 기존 로그인(토큰) 모두 종료, 사업장 사용 중지, 공유 링크 중지
+# - 위험성평가 기록(평가표·서명)은 법정 보존 기간 동안 남김(개인정보 안내 '보유 기간')
+# - 같은 이메일로 다시 가입할 수 없음(기록 보존 중). 완전 삭제는 보존 기간 뒤 관리자 작업
+WITHDRAWN = "WITHDRAWN"          # bcrypt 형식이 아니라 로그인 검사에서 항상 실패
+WITHDRAWN_NAME = "탈퇴한 사용자"
+
+
+def withdraw(db: Session, email: str, password: str) -> dict:
+    row = db.execute(text("SELECT email, pw, upt_dt, ins_dt FROM `user` WHERE email = :e"), {"e": email}).mappings().first()
+    stored = row["pw"] if row else None
+    try:
+        ok = bool(stored) and bcrypt.checkpw(password.encode("utf-8"), stored.encode("ascii"))
+    except ValueError:
+        ok = False
+    if not ok:
+        raise AuthError(400, "PASSWORD_MISMATCH", "비밀번호가 맞지 않아요. 다시 입력해 주세요.", field="password")
+    t = now()
+    since = row["upt_dt"] or row["ins_dt"]
+    if since and t <= since:                       # 같은 초여도 토큰 버전이 바뀌게
+        t = since + timedelta(seconds=1)
+    db.execute(text("UPDATE `user` SET pw = :w, name = :n, upt_dt = :t, upt_nm = :e WHERE email = :e"),
+               {"w": WITHDRAWN, "n": WITHDRAWN_NAME, "t": t, "e": email})
+    db.execute(text("UPDATE workplaces SET use_yn = 'N', upt_dt = :t, upt_nm = :e WHERE email = :e AND COALESCE(use_yn, 'Y') = 'Y'"),
+               {"t": t, "e": email})
+    db.execute(text("UPDATE eval_share SET stop_yn = 'Y', upt_dt = :t, upt_nm = :e "
+                    "WHERE COALESCE(stop_yn, 'N') = 'N' AND eval_no IN (SELECT eval_no FROM eval_mst WHERE email = :e)"),
+               {"t": t, "e": email})
+    db.commit()
+    return {"email": email, "withdrawn": True}
 
 
 def _latest_reset(db: Session, email: str, since):
