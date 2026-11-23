@@ -14,7 +14,7 @@
 }
 
 /* =========================================================
-   UX-005 (2026-11-21) · draft.html 전용 (body.page-draft) · 화면수정요청 13~25
+   draft.html 전용 (body.page-draft)
    ========================================================= */
 /* 20·25 고정 영역 + 목록/입력 영역만 스크롤 */
 .page-draft .app { height: 100vh; height: 100dvh; min-height: 0; }
@@ -72,7 +72,6 @@
   box-shadow: 0 4px 12px rgba(138, 90, 0, .12);
   animation: draft-float 2.4s ease-in-out infinite;
 }
-/* (UX-010: 위험도 칩의 색 점과 헷갈려 제목 앞 점 제거) */
 @keyframes draft-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
 @media (prefers-reduced-motion: reduce) { .page-draft .risk-card.card--need { animation: none; } }
 
@@ -93,12 +92,12 @@
 .page-draft .risk-card__state { font-size: 14px; }
 .page-draft .bottom-bar .btn { min-height: 48px; font-size: 15px; }
 /* 상세 하단 3버튼: 가운데 저장을 넓게, 한 줄 유지 */
-.page-draft #v-risk .bottom-bar .btn { white-space: normal; line-height: 1.2; padding: 4px 8px; word-break: keep-all; }   /* UX-020 큰 글자에서 버튼 안 줄바꿈 */
+.page-draft #v-risk .bottom-bar .btn { white-space: normal; line-height: 1.2; padding: 4px 8px; word-break: keep-all; }   /* 큰 글자에서 버튼 안 줄바꿈 */
 .page-draft #v-risk .bottom-bar #d-save { flex: 1.45; }
 @media (max-width: 360px) { .page-draft #v-risk .bottom-bar .btn { font-size: 14px; padding: 0 6px; } }
 
 /* =========================================================
-   UX-010 (2026-11-22) · 위험도 칩, 펄스 안내, 목록 버튼·돌아왔을 때 강조
+   위험도 칩, 펄스 안내, 목록 버튼·돌아왔을 때 강조
    ========================================================= */
 /* 위험도 칩: 색 점 + 진한 글자(색만으로 구분하지 않음) */
 .page-draft .risk-chip {
@@ -133,7 +132,7 @@
 @media (prefers-reduced-motion: reduce) { .page-draft .ux-pulse { animation: none; } }
 
 /* =========================================================
-   UX-012 (2026-11-22) · 상세 구성(설명+위험도 한 줄, 판단 이유, 관련 근거 창), 떠오르는 강조
+   상세 구성(설명+위험도 한 줄, 판단 이유, 관련 근거 창), 떠오르는 강조
    ========================================================= */
 .page-draft .risk-box { gap: 10px; }
 .page-draft .risk-box__line { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
@@ -161,7 +160,7 @@
 @media (prefers-reduced-motion: reduce) { .page-draft .ux-pulse { animation: none; } }
 
 /* =========================================================
-   UX-014 (2026-11-22) · 다음 블록 플로팅(한 번만), 카드 작성 상태 구분
+   다음 블록 플로팅(한 번만), 카드 작성 상태 구분
    ========================================================= */
 /* 반복 움직임 없애기 */
 .page-draft .ux-pulse { animation: none !important; }
@@ -171,7 +170,7 @@
 .page-draft #d-current, .page-draft #d-plan, .page-draft .owner-box {
   border-radius: 14px; transition: transform .35s ease, box-shadow .35s ease, background-color .35s ease;
 }
-/* UX-022: 블록 강조(떠 있는 카드)는 없앰 — 체크할 때마다 상자 모양이 바뀌어 보였음. 아래 UX-022 규칙 참고 */
+/* 블록 강조(떠 있는 카드)는 없앰 — 체크할 때마다 상자 모양이 바뀌어 보였음. 아래 규칙 참고 */
 .page-draft #d-save { transition: transform .35s ease, box-shadow .35s ease; }
 .page-draft #d-save.is-next { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(37, 99, 235, .35); }
 
@@ -190,7 +189,7 @@
 }
 
 /* =========================================================
-   UX-015 (2026-11-22) · 위험도 신호등, 카드 3상태(미작성·임시저장·작성 완료), 편집/밀어서 삭제
+   위험도 신호등, 카드 3상태(미작성·임시저장·작성 완료), 편집/밀어서 삭제
    ========================================================= */
 .ico { flex: none; display: inline-block; vertical-align: middle; }
 /* 신호등: 글자 없이 가로 3구 */
@@ -260,7 +259,7 @@
 .page-draft .risk-item:has(.risk-card.is-next) { overflow: visible; }
 @media (prefers-reduced-motion: reduce) { .page-draft .risk-item .risk-card { transition: none; } }
 
-/* UX-015 · 상세: 개선대책 중 '현재 조치 중', 예상 위험도 요약 카드 */
+/* 상세: 개선대책 중 '현재 조치 중', 예상 위험도 요약 카드 */
 .page-draft #d-plan-list .check.is-in-use { background: #f2f4f6; border-color: #E6E8EB; }
 .page-draft #d-plan-list .check.is-in-use .check__text { color: #9AA0A6; }
 .page-draft #d-plan-list .check.is-in-use input:disabled { opacity: .45; }
@@ -298,7 +297,7 @@
 .page-draft .risk-item.is-swiped .risk-card.is-next, .page-draft .risk-item.is-dragging .risk-card.is-next { box-shadow: none; }
 
 /* =========================================================
-   UX-016 (2026-11-22) · 확인 대기 통합: 대기 카드·등록 기기 배지·입력 필요 상자·확정 버튼 잠김
+   확인 대기 통합: 대기 카드·등록 기기 배지·입력 필요 상자·확정 버튼 잠김
    ========================================================= */
 /* 등록 기기 배지: 제목 옆 연한 주색 */
 .page-draft .machine-badge {
@@ -320,7 +319,7 @@
 }
 
 
-/* UX-019 현재 조치 / 개선대책 구분: 현재 조치 = 회색 상자(이미 하는 일), 개선대책 = 연한 파랑 상자(앞으로 할 일).
+/* 현재 조치 / 개선대책 구분: 현재 조치 = 회색 상자(이미 하는 일), 개선대책 = 연한 파랑 상자(앞으로 할 일).
    한쪽 띠 대신 전체 테두리 + 옅은 바탕으로 구분. 배치·문구는 그대로 */
 .page-draft #d-current,
 .page-draft #d-plan { padding: 14px 14px 16px; border-radius: var(--radius-lg); }
@@ -328,16 +327,16 @@
 .page-draft #d-plan { background: #f5f8ff; border: 1px solid var(--c-primary-line); }
 .page-draft #d-plan .section-title { color: var(--c-primary-dark); }
 .page-draft #risk-form > .divider { display: none; }
-/* UX-022: 제목은 legend 대신 상자 안 첫 줄 블록(.block-head). 휴대폰 브라우저에서도 테두리에 걸치지 않음 */
+/* 제목은 legend 대신 상자 안 첫 줄 블록(.block-head). 휴대폰 브라우저에서도 테두리에 걸치지 않음 */
 .page-draft #d-current > .block-head,
 .page-draft #d-plan > .block-head { display: flex; flex-direction: column; gap: 2px; margin: 0 0 10px; }
 
 /* '입력 필요 n / m'(할 일 표시)도 위험도 노랑 대신 연한 파랑 */
 .page-draft #d-pos.tag--warn { background: var(--c-primary-soft); color: var(--c-primary-dark); }
-/* UX-020 큰 글자: 예상 위험도 줄(현재 → 개선 후 예상)이 모자라면 줄바꿈 */
+/* 큰 글자: 예상 위험도 줄(현재 → 개선 후 예상)이 모자라면 줄바꿈 */
 .page-draft .proj-card__row { flex-wrap: wrap; }
 
-/* UX-022 (2026-11-23): 위 요약 상자(전체·입력 필요·담당자 미지정)와 필터 줄을 약 90~95%로 줄여 한 화면에 더 보이게.
+/*  위 요약 상자(전체·입력 필요·담당자 미지정)와 필터 줄을 약 90~95%로 줄여 한 화면에 더 보이게.
    필터 4개 + [편집]이 390px 폭 한 줄에 들어오게(더 좁으면 기존처럼 가로로 밀어 보기) */
 .page-draft .draft-summary__grid { gap: 6px; }
 .page-draft .draft-summary__grid > div { padding: 6px 4px; gap: 0; }
@@ -352,7 +351,7 @@
 .page-draft .draft__edit .ico { width: 15px; height: 15px; }
 
 /* =========================================================
-   UX-023 (2026-11-23) 휴대폰 확인 피드백
+   휴대폰 확인 피드백
    ========================================================= */
 /* 목록 위쪽 줄이기: 제목 18px, 요약 상자를 한 줄(이름 + 숫자)로, 간격 축소 → 위험 카드가 더 보이게 */
 .page-draft #v-list .page { padding-top: 12px; }
@@ -396,14 +395,14 @@
 
 /* 아래 안내 문구: 짧고 작게 */
 .page-draft .disclaimer { font-size: 12px; padding-top: 4px; padding-bottom: 6px; }
-/* UX-023: '현재 조치 중' 후보도 고를 수 있음. 고르기 전엔 옅게, 고르면 일반 선택 모양 */
+/* '현재 조치 중' 후보도 고를 수 있음. 고르기 전엔 옅게, 고르면 일반 선택 모양 */
 .page-draft #d-plan-list .check.is-in-use { cursor: pointer; }
 .page-draft #d-plan-list .check.is-in-use .check__text { color: var(--c-text-sub); }
 .page-draft #d-plan-list .check.is-in-use:has(input:checked) { background: var(--c-primary-soft); border-color: var(--c-primary-line); }
 .page-draft #d-plan-list .check.is-in-use:has(input:checked) .check__text { color: var(--c-text); }
 
 /* =========================================================
-   UX-024 (2026-11-23) · 첫 목록 신호등 상태 · 기기 출처 배지
+   첫 목록 신호등 상태 · 기기 출처 배지
    ========================================================= */
 /* 판단 전(회색) 신호등 옆 '현재 조치 입력 전' — 색이 없어도 상태를 글로 알 수 있게 */
 .page-draft .risk-card .card__head .signal-note { flex: none; display: inline-flex; align-items: center; gap: 6px; margin-top: 1px; }

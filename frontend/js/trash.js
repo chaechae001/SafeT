@@ -1,6 +1,6 @@
 /* =========================================================
-   휴지통 (trash.html) · H02 · 화면설계서 31쪽
-   API (로그인 필요, backend/routers/trash.py)
+   휴지통 (trash.html) · H02
+   API (로그인 필요)
      GET    /trash                   목록 (30일 지난 것은 서버가 이때 영구 삭제)
      POST   /trash/{번호}/restore    복원 → 내 평가표 '작성 중' 탭
      DELETE /trash/{번호}            영구 삭제 (복원 불가)

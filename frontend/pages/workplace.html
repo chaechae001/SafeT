@@ -4,7 +4,6 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>사업장 관리 · Safe-T</title>
-  <!-- UX-019: Pretendard 실제 로드(가변·필요 글자만). 실패하면 시스템 한글 글꼴로 대체 -->
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
   <link rel="stylesheet" href="../css/common.css?v=20261125">
@@ -12,15 +11,8 @@
   <link rel="stylesheet" href="../css/ux-guide.css?v=20261125">
 </head>
 <body data-auth-required data-ux-guide>
-  <!-- workplace.html · 화면설계서 v3.19 통합본 (08~09쪽)
-       화면(view) 목록 (처음 화면 = .is-active)
-       - #v-list : B01 사업장 관리
-       - #v-new  : B02 새 사업장 등록 (workplace.html?first=1#v-new = 첫 등록, 취소 없음)
-       - #v-edit : B02-E 사업장 수정
-       데이터는 백엔드 API 에서 불러옵니다 (workplace.js · backend/routers/workplaces.py). -->
   <div class="app">
     <header class="topbar">
-      <!-- UX-016: 등록·수정 화면에서는 ☰ 대신 ← (목록으로) + 가운데 Safe-T (workplace.js 가 body.wp-sub 로 전환) -->
       <a class="wp-back" id="wp-back" href="#v-list" aria-label="사업장 목록으로 돌아가기" hidden><i data-ico="arrowLeft"></i></a>
       <a class="logo" href="home.html">Safe-T</a>
       <details class="menu">
@@ -35,8 +27,6 @@
     </header>
 
     <main class="views">
-      <!-- B01 사업장 관리 · 08쪽
-           GET /workplaces (use_yn='Y'만) · 삭제 = 확인 창 → DELETE (데이터는 남기고 use_yn='N') -->
       <section class="view workplace is-active" id="v-list" aria-label="B01 사업장 관리">
         <div class="page">
           <div class="stack">
@@ -55,7 +45,6 @@
             <p>등록된 사업장이 없어요. 새 사업장을 등록해 주세요.</p>
           </div>
 
-          <!-- UX-018 회원 탈퇴: 계정 관리 입구. 되돌리기 어려운 동작이라 목록 아래에 따로 둠 -->
           <div class="account-out">
             <button class="link account-out__btn" type="button" data-open-withdraw aria-haspopup="dialog">회원 탈퇴</button>
           </div>
@@ -65,14 +54,8 @@
         </div>
       </section>
 
-      <!-- B02 사업장 등록 · 09쪽
-           GET /biz-categories → 업종 선택 → GET /biz-categories/{업종}/machines (미체크로)
-           - 업종을 바꾸면 체크·직접 추가 기기를 모두 초기화
-           - 직접 추가: 체크된 상태로 끝에 '직접 추가' 표시, 앞뒤 공백·같은 이름은 합침
-           - 기기를 하나도 체크하지 않아도 저장 가능 · 저장 → 내 평가표(H01) -->
       <section class="view workplace" id="v-new" aria-label="B02 새 사업장 등록">
         <div class="page">
-          <!-- 첫 등록 안내 · UX-003 (workplace.html?first=1 일 때만, workplace.js) -->
           <div class="wp-first" id="wp-first" hidden>
             <ol class="wp-steps" aria-label="시작 단계">
               <li class="is-current" aria-current="step"><span class="wp-steps__num" aria-hidden="true">1</span>매장 등록</li>
@@ -96,7 +79,6 @@
 
             <fieldset class="field">
               <legend class="label">보유 기기 <span class="muted small js-biz-label"></span></legend>
-              <!-- UX-016: 업종을 고르기 전에는 안내 상자만, 고른 뒤에는 추천 기기 칩 + 직접 추가 (#v-new.wp-no-biz) -->
               <div class="wp-equip-guide">
                 <i data-ico="machine"></i>
                 <p>먼저 위에서 업종을 선택하면<br>추천 기기 목록이 나타나요.</p>
@@ -129,9 +111,6 @@
         </div>
       </section>
 
-      <!-- B02-E 사업장 수정 · 09쪽
-           GET /workplaces/{번호} → PUT (사업장명·보유 기기만, 업종 변경 불가)
-           - 이미 작성한 평가표의 기기 기록은 바뀌지 않음(다음 평가표부터 적용) · 저장·취소 → B01 -->
       <section class="view workplace" id="v-edit" aria-label="B02-E 사업장 수정">
         <div class="page">
           <h1 class="page-title">사업장 수정</h1>
@@ -144,7 +123,6 @@
 
             <div class="field">
               <label class="label" for="edit-biz">업종</label>
-              <!-- UX-003: 입력칸처럼 보이지 않게 일반 글자로 표시 (id·값 설정은 그대로) -->
               <input class="wp-fixed" id="edit-biz" readonly tabindex="-1" aria-describedby="edit-biz-lock">
               <p class="hint" id="edit-biz-lock">업종은 바꿀 수 없어요. 다른 업종이면 새 사업장으로 등록해 주세요.</p>
             </div>
@@ -152,8 +130,6 @@
             <fieldset class="field">
               <legend class="label">보유 기기 <span class="muted small js-biz-label"></span></legend>
               <p class="wp-count js-machine-count" aria-live="polite" hidden></p>
-              <!-- 수정 화면: 기기 목록을 불러오는 중이거나 실패하면 저장을 막음
-                   (빈 목록으로 저장하면 기존 보유 기기가 지워지므로 · 2026-11-16 보완) -->
               <p class="hint js-machine-loading" hidden>기기 목록을 불러오는 중이에요…</p>
               <p class="notice notice--danger small js-machine-error" hidden>
                 기기 목록을 불러오지 못했어요. 다시 불러온 뒤 저장할 수 있어요.
@@ -183,8 +159,6 @@
       </section>
     </main>
 
-    <!-- UX-018 회원 탈퇴 확인 창 · POST /auth/withdraw {password}
-         로그인 불가·이름 삭제·사업장 사용 중지·공유 링크 중지. 평가 기록은 법정 보존 기간 동안 남김 -->
     <div class="modal" id="withdraw" role="dialog" aria-modal="true" aria-labelledby="withdraw-title">
       <div class="modal__box">
         <div class="modal__head">

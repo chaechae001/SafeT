@@ -37,7 +37,7 @@
   }
 
   /* ---------- 로그인 토큰 (JWT) ----------
-     sessionStorage 에 보관: 브라우저 탭을 닫으면 로그아웃 (설계서 07쪽 '로그인 유지 기능 없음') */
+     sessionStorage 에 보관: 브라우저 탭을 닫으면 로그아웃 */
   var TOKEN_KEY = 'safet.token';
   var USER_KEY = 'safet.user';
 
@@ -62,7 +62,7 @@
     }
   };
 
-  /* ---------- 로그인 확인 · 만료 후 복구 (설계서 07쪽) ----------
+  /* ---------- 로그인 확인 · 만료 후 복구 ----------
      <body data-auth-required> 화면은 로그인해야 볼 수 있습니다.
      - 로그인 안 함 → login.html?required=1, 로그인하면 원래 화면으로
      - 토큰 만료 → 보던 화면 주소와 화면별 편집 내용(onExpire)을 저장하고 login.html?expired=1
@@ -73,7 +73,7 @@
   var expireHooks = [];
   var leaving = false;
 
-  /* ---------- 지금 보는 평가표 번호 (2026-11-16) ----------
+  /* ---------- 지금 보는 평가표 번호 ----------
      주소에 ?eval= 로 드러내지 않고 이 탭의 sessionStorage 에 둡니다.
      - 내 평가표에서 카드·버튼을 누를 때 저장 → draft.html / result.html / sign.html / share.html 이 읽음
      - 같은 탭이면 새로 고침·다른 화면에 다녀와도 유지. 새 탭·주소 복사로는 전달되지 않음
@@ -124,7 +124,7 @@
   SafeT.auth.onExpire = function (fn) { expireHooks.push(fn); };
 
   /**
-   * 로그인 성공 직후: 저장된 돌아갈 화면·복구 정보가 다른 사용자 것이면 모두 지움 (2026-11-16 보완)
+   * 로그인 성공 직후: 저장된 돌아갈 화면·복구 정보가 다른 사용자 것이면 모두 지움
    * 사용자 정보가 없는 예전 형식도 지움. 다른 사용자면 '지금 보는 평가표'도 지움
    */
   SafeT.auth.forgetOthers = function (email) {
@@ -275,7 +275,7 @@
     xhr.timeout = 60000;
     xhr.onload = function () {
       if (xhr.status >= 200 && xhr.status < 300) {
-        // Content-Disposition: filename*=UTF-8''한글이름.pdf (main.py 에서 노출 허용)
+        // Content-Disposition: filename*=UTF-8''한글이름.pdf
         var cd = xhr.getResponseHeader('Content-Disposition') || '';
         var m = /filename\*=UTF-8''([^;]+)/i.exec(cd) || /filename="?([^";]+)"?/i.exec(cd);
         var name = 'safet-document.pdf';

@@ -4,18 +4,12 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>참여자 서명 · Safe-T</title>
-  <!-- UX-019: Pretendard 실제 로드(가변·필요 글자만). 실패하면 시스템 한글 글꼴로 대체 -->
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
   <link rel="stylesheet" href="../css/common.css?v=20261125">
   <link rel="stylesheet" href="../css/sign.css?v=20261125">
 </head>
 <body data-auth-required>
-  <!-- sign.html · 화면설계서 v3.19 통합본
-       화면(view) 목록 (처음 화면 = .is-active)
-       - #v-pick : SIGN ① 참여자 선택
-       - #v-draw : SIGN ② 서명
-       전환: jQuery로 .view 의 .is-active 를 바꿉니다. JS 없이 확인할 때는 주소 끝에 #view-id 를 붙입니다. -->
   <div class="app">
     <header class="topbar">
       <a class="logo" href="home.html">Safe-T</a>
@@ -32,11 +26,6 @@
 
     <main class="views">
       <section class="view sign is-active" id="v-pick" aria-label="SIGN ① 참여자 선택">
-        <!-- SIGN ① 참여자 선택 · 화면설계서 29쪽
-             테이블: eval_member(member_nm) · eval_sign(member_no, signer_type, sign_yn, sign_dt)
-             - 확정(eval_status C·S·A)된 평가표에서만 열림 · API: GET/POST /evals/{번호}/signs (sign.js)
-             - 서명 완료한 사람은 흐리게, 선택 불가
-             - 전원 서명 완료 시 '모두 서명했습니다' + 하단 '내 평가표로' -->
         <div class="page">
           <div class="stack">
             <h1 class="page-title">참여자 서명</h1>
@@ -48,11 +37,9 @@
           <form id="pick-form" class="stack" action="#v-draw" method="get">
             <fieldset class="check-list" id="signer-list" aria-busy="true">
               <legend class="page-desc">본인 이름을 선택해 주세요. 기본정보에 등록한 참여 근로자예요.</legend>
-              <!-- 참여 근로자 목록은 sign.js 가 서버 값으로 채움 -->
             </fieldset>
             <p class="empty small" id="signer-empty" hidden>등록된 참여자가 없어요. 아래에서 서명할 사람을 추가해 주세요.</p>
           </form>
-          <!-- UX-016: 참여자가 없거나 빠졌으면 여기서 서명할 사람 추가 (POST /evals/{번호}/signs/members) -->
           <section class="signer-add" id="signer-add" aria-labelledby="signer-add-title" hidden>
             <h2 class="section-title" id="signer-add-title">서명할 사람 추가</h2>
             <button class="btn btn--sm signer-add__me" id="signer-add-me" type="button" hidden></button>
@@ -69,11 +56,6 @@
         </div>
       </section>
       <section class="view sign" id="v-draw" aria-label="SIGN ② 서명">
-        <!-- SIGN ② 서명 · 화면설계서 29쪽
-             테이블: eval_sign(confirm_yn, sign_img, sign_yn, sign_dt)
-             - 확인 체크 + 서명 획이 있어야 '서명 저장' 활성
-             - 저장한 서명은 정정 불가. 저장은 원형 로딩만
-             - 공유본에는 다른 사람의 서명 원본을 넣지 않음 -->
         <div class="page">
           <div class="stack">
             <h1 class="page-title">참여자 서명</h1>
@@ -91,7 +73,6 @@
               <span class="check__text">결과와 계획을 확인했어요</span>
             </label>
 
-            <!-- 서명 칸: 실제 그리기는 JS 단계에서 canvas 로 구현 -->
             <div class="sign-pad" id="sign-pad" role="img" aria-label="서명 입력 칸">여기에 직접 서명</div>
             <div class="row sign-pad__tools">
               <button class="btn btn--sm" id="sign-clear" type="button">지우기</button>

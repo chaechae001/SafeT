@@ -9,7 +9,7 @@
 .result .result-item__row b { color: var(--c-text-sub); font-weight: 600; }
 
 /* =========================================================
-   UX-015 (2026-11-22) · 배지 줄, 연회색 요약 상자 2열, 라벨 열 정렬, 담당·예정 구분선
+   배지 줄, 연회색 요약 상자 2열, 라벨 열 정렬, 담당·예정 구분선
    ========================================================= */
 .ico { flex: none; display: inline-block; vertical-align: middle; }
 .result .result-head { display: flex; flex-direction: column; gap: 8px; }
@@ -28,7 +28,7 @@
 .result .result-item .card__title { font-size: 17px; font-weight: 800; }
 .result .result-rows { display: flex; flex-direction: column; gap: 6px; margin: 0; }
 .result .result-rows > div { display: grid; grid-template-columns: 64px 1fr; gap: 10px; font-size: 14px; line-height: 1.5; }
-.result .result-rows dt { color: var(--c-text-sub); font-size: 14px; padding-top: 0; }   /* UX-019 13px·대비 3.2 → 14px·7:1 */
+.result .result-rows dt { color: var(--c-text-sub); font-size: 14px; padding-top: 0; }
 .result .result-rows dd { margin: 0; color: var(--c-text); min-width: 0; overflow-wrap: anywhere; }
 .result .result-rows--owner { padding-top: 10px; border-top: 1px solid #ECEEF0; }
 /* 라벨이 두 줄로 깨지지 않게 */
@@ -36,7 +36,7 @@
 .result .result-summary dt { width: auto; white-space: nowrap; }
 
 /* =========================================================
-   UX-016 (2026-11-22) · 06 남은 개선: 위 '‹ 내 평가표', 하단 [문서 다운로드][서명하기], 상세 예상 위험도 카드
+   06 남은 개선: 위 '‹ 내 평가표', 하단 [문서 다운로드][서명하기], 상세 예상 위험도 카드
    ========================================================= */
 .result .result-back { align-self: flex-start; min-height: 40px; padding: 0 12px; gap: 4px; font-weight: 700; }
 .result .result-back span { font-size: 20px; line-height: 1; }

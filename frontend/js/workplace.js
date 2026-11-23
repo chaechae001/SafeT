@@ -1,6 +1,6 @@
 /* =========================================================
-   사업장 관리 (workplace.html) · B01 목록 · B02 등록 · B02-E 수정 · 화면설계서 08~09쪽
-   백엔드 API 와 연결되어 있습니다 (backend/routers/workplaces.py, 로그인 필요).
+   사업장 관리 (workplace.html) · B01 목록 · B02 등록 · B02-E 수정
+   백엔드 API 와 연결되어 있습니다 (로그인 필요).
      GET    /biz-categories, /biz-categories/{업종}/machines
      GET    /workplaces, /workplaces/{번호}
      POST   /workplaces           등록 → 내 평가표(home.html)
@@ -22,7 +22,7 @@
    * 기기 목록 상태 → 저장 버튼
    * - loading: 불러오는 중 → 저장 막음 (등록·수정 모두)
    * - failed : 수정 화면은 저장 막음 (빈 목록으로 저장하면 기존 기기가 지워짐)
-   *            등록 화면은 직접 추가로 계속 가능 (설계서 09쪽)
+   *            등록 화면은 직접 추가로 계속 가능
    * - ready  : 저장 가능
    */
   function setMachineState($view, st) {
@@ -36,7 +36,7 @@
     }
   }
 
-  /** UX-016: 저장 버튼은 기기 목록 상태 + 필수 칸(사업장명, 등록 화면은 업종까지)을 채웠을 때만 켬 */
+  /** 저장 버튼은 기기 목록 상태 + 필수 칸(사업장명, 등록 화면은 업종까지)을 채웠을 때만 켬 */
   function syncSave($view) {
     var st = $view.data('machine-state');
     var isEdit = $view.attr('id') === 'v-edit';
@@ -96,7 +96,7 @@
         $grid.append(machineRow(m.machine_nm, $.inArray(m.machine_code, checkedCodes || []) > -1, m.machine_code));
       });
       if (!list.length) $view.find('.js-machine-hint').text('이 업종에 등록된 기기가 없어요. 필요하면 직접 추가해 주세요.');
-      // UX-003: 목록이 나오면 '업종을 고르면…' 안내는 숨기고, 매장에 있는 기기만 고르라는 안내로
+      // 목록이 나오면 '업종을 고르면…' 안내는 숨기고, 매장에 있는 기기만 고르라는 안내로
       else $view.find('.js-machine-hint').text('매장에 있는 기기만 골라 주세요. 없는 기기는 아래에서 직접 추가할 수 있어요.');
       addCustom();
       setMachineState($view, 'ready');
@@ -104,7 +104,7 @@
       d.resolve();
     }).fail(function () {
       if (seq !== renderSeq) return;
-      // 등록: 직접 추가로 계속 (09쪽) / 수정: 다시 불러올 때까지 저장 막음
+      // 등록: 직접 추가로 계속 / 수정: 다시 불러올 때까지 저장 막음
       addCustom();
       setMachineState($view, 'failed');
       updateCount($view);
@@ -143,7 +143,7 @@
     $in.val('').trigger('focus');
   }
 
-  /** UX-003: 선택한 기기 수 표시 (바뀔 때 살짝 강조) */
+  /** 선택한 기기 수 표시 (바뀔 때 살짝 강조) */
   function updateCount($view) {
     var n = $view.find('.machine-grid input:checked').length;
     var total = $view.find('.machine-grid input').length;
@@ -188,7 +188,7 @@
     return api.get('/workplaces').done(function (rows) {
       $list.empty();
       $.each(rows, function (_, w) {
-        // UX-016 카드: 이름 + [업종 | 값] 배지 / 오른쪽 수정·⋮ / 회색 기기 상자(통째로 눌러 펼치기) / 구분선 아래 사업장 삭제
+        // 카드: 이름 + [업종 | 값] 배지 / 오른쪽 수정·⋮ / 회색 기기 상자(통째로 눌러 펼치기) / 구분선 아래 사업장 삭제
         var $li = $('<li class="card wp-card" data-work-card>').data('workplace', w);
         var $head = $('<div class="card__head">').appendTo($li);
         var $t = $('<div class="wp-card__title">').appendTo($head);
@@ -196,7 +196,7 @@
         var $acts = $('<div class="wp-card__acts">').appendTo($head);
         $('<button class="btn btn--sm wp-card__edit" type="button">수정</button>').attr('data-edit', w.work_no)
           .attr('aria-label', w.workplace + ' 수정').appendTo($acts);
-        // (UX-016 후속: ⋮ 메뉴는 사용자 요청으로 뺌 — 기기 추가는 기기 상자 안, 삭제는 카드 아래에만)
+
         // 업종 배지는 머리 줄 아래 전체 폭에 (좁은 화면에서 업종 이름이 잘게 줄바꿈되지 않게)
         $('<p class="wp-biz">').append(
           $('<span class="wp-biz__label">').text('업종'),
@@ -245,7 +245,7 @@
     updateCount($view);
     $view.find('.js-biz-label').text('');
     $view.find('.js-machine-hint').text('업종을 고르면 기기 목록이 나와요. 매장에 있는 기기만 체크해 주세요.');
-    $view.removeData('biz').addClass('wp-no-biz');            // UX-016: 업종 고르기 전 = 안내 상자만
+    $view.removeData('biz').addClass('wp-no-biz');            // 업종 고르기 전 = 안내 상자만
     setMachineState($view, 'idle');          // 업종을 고르기 전 (저장하면 업종 필수 안내)
 
     var $opts = $('#new-biz').empty();
@@ -281,7 +281,7 @@
       $.each(w.machines, function (_, m) { if (m.custom) custom.push(m.machine_nm); else codes.push(m.machine_code); });
       editOriginal = { codes: codes, custom: custom };            // 다시 불러오기 때 원래 체크 복구용
       renderMachines($view, w.biz_code, codes, custom).always(function () {
-        // UX-016: 목록 카드의 '기기 추가'로 들어오면 직접 추가 칸으로 바로 이동
+        // 목록 카드의 '기기 추가'로 들어오면 직접 추가 칸으로 바로 이동
         if (focusAdd) {
           var el = document.getElementById('edit-machine-add');
           if (el && !el.disabled) { el.scrollIntoView({ block: 'center' }); el.focus({ preventScroll: true }); }
@@ -299,9 +299,9 @@
     // 회원가입·로그인 직후 첫 등록이면 취소 없음 (workplace.html?first=1#v-new)
     if (/[?&]first=1/.test(window.location.search)) {
       $('#new-cancel').prop('hidden', true);
-      $('#wp-first').prop('hidden', false);          // UX-003: 첫 등록 이유·다음 단계 안내
+      $('#wp-first').prop('hidden', false);          // 첫 등록 이유·다음 단계 안내
     }
-    // UX-003: 기기 체크가 바뀌면 선택 수 갱신
+    // 기기 체크가 바뀌면 선택 수 갱신
     $('.machine-grid').on('change', 'input', function () { updateCount($(this).closest('.view')); });
 
     $('#v-list').on('safet:show', renderList);
@@ -317,7 +317,7 @@
       initEdit(no, !!(o && o.focusAdd));
     });
 
-    // 삭제 = 사용 안 함 (08쪽: 확인 창, 작성 중 평가표 수 안내)
+    // 삭제 = 사용 안 함 (확인 창, 작성 중 평가표 수 안내)
     $('#wp-list').on('click', '[data-delete]', function () {
       var w = $(this).closest('[data-work-card]').data('workplace');
       var msg = '‘' + w.workplace + '’을(를) 목록과 새 평가표의 사업장 선택에서 숨겨요. 이 사업장의 평가표와 기기 기록은 그대로 남아요.';
@@ -337,7 +337,7 @@
     // 등록
     $('#v-new').on('safet:show', initNew);
 
-    // 업종을 바꾸면 그 업종 목록을 새로 불러오고, 체크와 직접 추가한 기기를 모두 초기화 (09쪽)
+    // 업종을 바꾸면 그 업종 목록을 새로 불러오고, 체크와 직접 추가한 기기를 모두 초기화
     $('#new-biz').on('change', 'input[name="biz_code"]', function () {
       $('#new-biz-msg').prop('hidden', true);
       $('#new-biz input').removeClass('is-invalid');
@@ -403,7 +403,6 @@
         .always(function () { setMachineState($view, $view.data('machine-state')); SafeT.loading(false); });
     });
 
-    /* ---------- UX-016 ---------- */
     var first = /[?&]first=1/.test(window.location.search);
     // 등록·수정 화면: ☰ 대신 ← (목록으로) + 가운데 Safe-T. 첫 등록(취소 없음)은 기존처럼 ☰ 유지
     $('#v-new, #v-edit').on('safet:show', function () {

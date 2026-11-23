@@ -4,7 +4,6 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>위험성평가표 내려받기 · Safe-T</title>
-  <!-- UX-019: Pretendard 실제 로드(가변·필요 글자만). 실패하면 시스템 한글 글꼴로 대체 -->
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
   <link rel="stylesheet" href="../css/common.css?v=20261125">
@@ -12,10 +11,6 @@
   <meta name="robots" content="noindex">
 </head>
 <body>
-  <!-- share-download.html · 화면설계서 v3.19 통합본
-       화면(view) 목록 (처음 화면 = .is-active)
-       - #v-download : SHARE 받는 사람 화면
-       전환: jQuery로 .view 의 .is-active 를 바꿉니다. JS 없이 확인할 때는 주소 끝에 #view-id 를 붙입니다. -->
   <div class="app">
     <header class="topbar">
       <span class="logo">Safe-T</span>
@@ -23,11 +18,6 @@
 
     <main class="views">
       <section class="view share is-active" id="v-download" aria-label="SHARE 받는 사람 화면">
-        <!-- SHARE 받는 사람 화면 (링크로 열림 · 로그인 없음) · 화면설계서 30쪽
-             - 평가표 이름·사업장·평가일·확정일과 PDF 파일 정보, PDF 다운로드 버튼 하나
-             - 항목 수정·서명 없음. 열람·다운로드는 결과 확인·서명으로 기록하지 않음(다운로드 횟수만)
-             - 만료·중지된 링크는 만료 안내
-             - API(로그인 없음): GET /share/{토큰}, GET /share/{토큰}/pdf (share.js) -->
         <div class="page">
           <div class="stack" id="dl-info" hidden>
             <h1 class="page-title" id="dl-title">위험성평가표</h1>

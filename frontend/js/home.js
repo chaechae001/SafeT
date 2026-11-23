@@ -1,10 +1,10 @@
 /* =========================================================
-   내 평가표 (home.html) · H01 · 화면설계서 10쪽
-   백엔드 API 와 연결되어 있습니다 (backend/routers/evaluations.py, 로그인 필요).
+   내 평가표 (home.html) · H01
+   백엔드 API 와 연결되어 있습니다 (로그인 필요).
      GET /evals?tab=&start=&end=&work_no=&page=   평가표 목록 (10개씩)
      GET /workplaces                               사업장 선택 (사용 중인 사업장만)
    - 탭(전체·작성 중·확정·서명 완료·조치 완료) + 목록 위 기간·사업장 선택 (바꾸면 바로 반영, 선택한 탭은 유지)
-   - 같은 평가표가 여러 탭에 나올 수 있음 (05쪽, 36쪽 2번 '임시 처리')
+   - 같은 평가표가 여러 탭에 나올 수 있음
    - 다른 화면에 다녀오면 탭·기간·사업장·스크롤 복원
    ========================================================= */
 (function ($, SafeT) {
@@ -12,7 +12,7 @@
 
   var KEY = 'safet.home';
   var STATUS = { W: '작성 중', C: '확정', S: '서명 완료', A: '조치 완료' };
-  var state = { tab: 'ALL', from: '', to: '', work: '', page: 1, scroll: 0 };   // UX-004: 처음 탭 = 전체
+  var state = { tab: 'ALL', from: '', to: '', work: '', page: 1, scroll: 0 };   // 처음 탭 = 전체
   var loadSeq = 0;
 
   function save() {
@@ -23,7 +23,7 @@
   function load() {
     try {
       var s = JSON.parse(window.sessionStorage.getItem(KEY) || 'null');
-      // UX-014 보완: 저장한 날과 오늘이 다르면 복원하지 않음(어제 종료일이 남아 오늘 평가표가 안 보이던 문제)
+      // 보완: 저장한 날과 오늘이 다르면 복원하지 않음(어제 종료일이 남아 오늘 평가표가 안 보이던 문제)
       if (s && s.day === SafeT.formatDate(SafeT.today())) $.extend(state, s);
     } catch (err) { /* 무시 */ }
   }
@@ -47,7 +47,7 @@
     return 'C';
   }
 
-  /** UX-004 카드 제목 줄이기: 맨 앞 날짜(바로 아래 줄에 다시 나옴)와 모든 카드에 공통인 끝의 '위험성평가'를 뺌.
+  /** 카드 제목 줄이기: 맨 앞 날짜(바로 아래 줄에 다시 나옴)와 모든 카드에 공통인 끝의 '위험성평가'를 뺌.
       화면 표시만 바꾸고 저장된 평가표 이름은 그대로(전체 이름은 title·읽기 프로그램용 이름에 둠) */
   function shortTitle(name) {
     var s = $.trim(name || '');
@@ -55,10 +55,10 @@
     return $.trim(t) || s;
   }
 
-  /** UX-024 카드 제목 = 평가일 연도 2자리 + 사업장명. 예) '26년 이어드림치킨 당산점'
+  /** 카드 제목 = 평가일 연도 2자리 + 사업장명. 예) '26년 이어드림치킨 당산점'
       - 연도는 오늘이 아니라 이 평가표의 평가일(eval_dt) 기준
       - 사업장명은 저장된 평가표 이름에서 날짜·'위험성평가'를 뺀 것(없으면 현재 사업장명)
-      - 화면 표시만 바꿈. 저장된 평가표 이름·사업장명은 그대로(연간·반기 구분 기능은 넣지 않기로 함 · 2026-11-23) */
+      - 화면 표시만 바꿈. 저장된 평가표 이름·사업장명은 그대로 */
   function cardTitle(e) {
     var place = e.eval_nm ? shortTitle(e.eval_nm) : (e.workplace || '');
     if (!place) return '(이름 없는 평가표)';
@@ -70,7 +70,7 @@
   function scroller() { return document.getElementById('home-scroll'); }
   function ico(n) { return SafeT.icon ? SafeT.icon(n) : ''; }
 
-  /** UX-015: 기간 한 칸 표시 'YYYY.MM.DD ~ YYYY.MM.DD' */
+  /** 기간 한 칸 표시 'YYYY.MM.DD ~ YYYY.MM.DD' */
   function periodText() {
     $('#period-text').text(($('#from_dt').val() || '처음') + ' ~ ' + ($('#to_dt').val() || '오늘'));
   }
@@ -92,20 +92,20 @@
     $('<span class="card__title">').text(shown).attr('title', e.eval_nm || '').appendTo($head);
     $a.attr('aria-label', shown + ', ' + STATUS[b]);
     $('<span class="tag status">').attr('data-status', b).html(b === 'S' ? ico('check') + STATUS[b] : STATUS[b]).appendTo($head);
-    // UX-015: 사업장은 제목과 겹쳐 빼고 '날짜 · 작성자 OOO (· 서명일 MM.DD)'
+    // 사업장은 제목과 겹쳐 빼고 '날짜 · 작성자 OOO (· 서명일 MM.DD)'
     var meta = [dot(e.eval_dt), e.eval_writer ? '작성자 ' + e.eval_writer : ''];
-    // UX-017: 목록 API의 item_count(eval_dtl 행 수). 예전 서버라 값이 없으면 표시하지 않음
+    // 목록 API의 item_count(eval_dtl 행 수). 예전 서버라 값이 없으면 표시하지 않음
     if (typeof e.item_count === 'number') meta.push('위험 항목 ' + e.item_count + '건');
-    // UX-018: 작성 중 평가표에 아직 고르지 않은 확인 대기 항목이 있으면 함께 표시 (0건 카드가 비어 보이지 않게)
+    // 작성 중 평가표에 아직 고르지 않은 확인 대기 항목이 있으면 함께 표시 (0건 카드가 비어 보이지 않게)
     if (e.eval_status === 'W' && e.pending_count > 0) meta.push('확인 대기 ' + e.pending_count + '건');
     if (b === 'S' && e.sign_end_dt) meta.push('서명일 ' + dot(e.sign_end_dt).slice(5));
     $('<span class="card__meta">').text(meta.filter(Boolean).join(' · ')).attr('title', e.workplace || '').appendTo($a);
     $li.attr('data-card', b);
 
-    // UX-015 상태별 버튼
+    // 상태별 버튼
     //  작성 중 = [이어서 작성하기] 전체 너비 아웃라인
     //  확정    = [서명하기 n/m] 딥그린 + [문서 다운로드] 흰색 아웃라인
-    //  서명 완료 = [문서 다운로드] + [결과 공유] 나란히 (UX-021: 상태 칩 옆에 붙어 있던 작은 '결과 공유' 링크를 버튼으로)
+    //  서명 완료 = [문서 다운로드] + [결과 공유] 나란히 (상태 칩 옆에 붙어 있던 작은 '결과 공유' 링크를 버튼으로)
     var $row = $('<div class="btn-row">').appendTo($li);
     function dl() {
       return $('<button class="btn" type="button">').html(ico('download') + '문서 다운로드')
@@ -114,7 +114,7 @@
     }
     if (e.eval_status === 'W') {
       $('<a class="btn btn--block eval-card__continue" href="draft.html">').html(ico('pencil') + '이어서 작성하기').appendTo($row);
-      // UX-020: 작성 중 평가표는 카드에서 바로 삭제(휴지통으로, 30일 안에 복원). 확정·서명된 평가표는 서버도 삭제를 막음
+      // 작성 중 평가표는 카드에서 바로 삭제(휴지통으로, 30일 안에 복원). 확정·서명된 평가표는 서버도 삭제를 막음
       $('<button class="btn eval-card__delete" type="button">').html(ico('trash'))
         .attr({ 'data-delete-eval': e.eval_no, 'aria-label': (e.eval_nm || '평가표') + ' 삭제' })
         .appendTo($row);
@@ -220,7 +220,7 @@
     var restoreScroll = state.scroll;
     $.when(loadWorkplaces()).always(function () {
       reload().always(function () {
-        if (restoreScroll && scroller()) scroller().scrollTop = restoreScroll;   // UX-004: 목록 영역 스크롤 복원
+        if (restoreScroll && scroller()) scroller().scrollTop = restoreScroll;   // 목록 영역 스크롤 복원
       });
     });
 
@@ -257,7 +257,7 @@
 
     $('#eval-retry').on('click', reload);
 
-    // UX-020 큰 글자 설정: 목록 위 영역이 화면 절반을 넘으면 화면 전체 스크롤로 바꿔 목록이 가려지지 않게
+    // 큰 글자 설정: 목록 위 영역이 화면 절반을 넘으면 화면 전체 스크롤로 바꿔 목록이 가려지지 않게
     function fitHead() {
       var sc = document.getElementById('home-scroll');
       if (!sc) return;
@@ -271,7 +271,7 @@
       $('#home-scroll').prevAll().each(function () { ro.observe(this); });
     }
 
-    // UX-020 카드에서 바로 삭제: 확인 창 → DELETE /evals/{번호}(초안 화면 삭제와 같은 API) → 목록 다시 불러오기
+    // 카드에서 바로 삭제: 확인 창 → DELETE /evals/{번호}(초안 화면 삭제와 같은 API) → 목록 다시 불러오기
     var deleting = false;
     $('#eval-list').on('click', '[data-delete-eval]', function (ev) {
       ev.preventDefault();

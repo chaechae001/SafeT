@@ -1,4 +1,4 @@
-/* 입력 안내 마이크로인터랙션 (UX-003 · 2026-11-21) · body[data-ux-guide] 페이지에서만 */
+/* 입력 안내 마이크로인터랙션 · body[data-ux-guide] 페이지에서만 */
 
 /* 다음에 채울 칸: 테두리 + 은은하게 번지는 빛 (색만이 아니라 테두리 굵기로도 구분) */
 [data-ux-guide] .input.ux-next,
@@ -52,7 +52,7 @@
 [data-ux-guide] .check:active { transform: scale(.98); }
 [data-ux-guide] .check:has(input:checked) { transition: background-color .15s, border-color .15s; }
 
-/* UX-004 달력: 연·월 제목 버튼, 연도·월 선택 격자, 누름 영역 44px */
+/* 달력: 연·월 제목 버튼, 연도·월 선택 격자, 누름 영역 44px */
 [data-ux-guide] .mini-cal { width: 312px; }
 [data-ux-guide] .mini-cal__head button { width: 44px; height: 44px; }
 [data-ux-guide] .mini-cal__head .mini-cal__title {

@@ -3,11 +3,11 @@
   'use strict';
   $(function () {
     var photos=[], works=[], worksReady=false, busy=false, requestKey=null, lastBody='', reading=0;
-    var added=[], catalogs={}, shownWork=null;   // UX-017 이번 평가에만 추가한 기기 [{code|null, nm}] · 업종별 기기 목록 캐시
+    var added=[], catalogs={}, shownWork=null;   // 이번 평가에만 추가한 기기 [{code|null, nm}] · 업종별 기기 목록 캐시
     var user=S.auth.user() || {};
     var restored=S.auth.takeRestore('assessment-write');
     if(restored && restored.email!==user.email)restored=null;
-    /* UX-023: 작성 중 자동 보관. 휴대폰에서 카메라·사진 앱을 다녀오거나 브라우저가 페이지를 다시 불러오면 입력이 사라져
+    /* 작성 중 자동 보관. 휴대폰에서 카메라·사진 앱을 다녀오거나 브라우저가 페이지를 다시 불러오면 입력이 사라져
        처음부터 다시 써야 했음 → 입력이 바뀔 때마다 이 탭(sessionStorage)에 보관하고, 다시 열리면 보던 단계와 함께 되살림.
        초안이 만들어지면 지움. 같은 계정·12시간 안의 보관본만 사용. 저장 한도를 넘으면 마지막 성공 보관본을 유지 */
     var AUTO_KEY='safet.write.autosave', autoRestored=false;
@@ -28,11 +28,11 @@
     $('#eval_dt').val(S.formatDate(S.today())); $('#eval_writer').val(user.name || '');
     $('.name-tags,.photo-grid').empty(); $('.voice-card').remove();
     $('#v-equipment .tag-list,#v-equipment .check-list').empty();
-    /* UX-018: 이 안내는 '사진에서 새로 찾은 기기' 제목 아래가 아니라 등록 기기 상자 아래에 둔다(같은 문구). */
+    /* 이 안내는 '사진에서 새로 찾은 기기' 제목 아래가 아니라 등록 기기 상자 아래에 둔다(같은 문구). */
     $('#v-equipment .eq-new > .hint').prop('hidden',true);
     if(!$('#eq-reg-hint').length)$('<p class="hint eq-reg__hint" id="eq-reg-hint">').text('등록된 기기는 위험 후보 탐색에 참고합니다. 실제 작업·조치 상태는 초안에서 확인해 주세요.').appendTo('#v-equipment .eq-reg');
     $('.disclaimer').text('저장된 입력으로 평가표를 작성합니다. 위험 판단 결과는 현장 검토가 필요합니다.');
-    /* UX-016: 등록 기기는 ✓ 칩(모두 포함). 새로 찾은 기기는 칩(체크박스) — 없으면 점선 안내 카드.
+    /* 등록 기기는 ✓ 칩(모두 포함). 새로 찾은 기기는 칩(체크박스) — 없으면 점선 안내 카드.
        아래 '총 N개' = 등록 기기 + 선택한 새 기기. 서버로 보내는 값은 그대로(등록 기기는 서버가 사업장 기준으로 넣음). */
     var ico=function(n){return S.icon?S.icon(n):'';};
     function regCount(){var w=works.find(function(x){return String(x.work_no)===$('#work_no').val();});return w?w.machines.length:0;}
@@ -53,7 +53,7 @@
       shownWork=now;renderAdded();
       updateSummary();
     }
-    /** names: ['기기명'] 또는 UX-025 자동 보관 복원용 [{nm, on}] (on=false 면 체크 해제 상태로) */
+    /** names: ['기기명'] 또는 자동 보관 복원용 [{nm, on}] (on=false 면 체크 해제 상태로) */
     function setDetected(names){
       var box=$('#v-equipment .eq-found .check-list').empty();
       (names || []).forEach(function(x){
@@ -90,7 +90,7 @@
           .then(function(yes){if(yes===true)go();});
       }else{go();}
     });
-    /* UX-017 기기 직접 추가: 이번 평가에만 넣는다(사업장 등록 기기는 그대로). 서버가 업종 기기 코드를 검사하고
+    /* 기기 직접 추가: 이번 평가에만 넣는다(사업장 등록 기기는 그대로). 서버가 업종 기기 코드를 검사하고
        같은 이름은 업종 기기로 합친다. 추가한 기기는 위험요인 검색에 등록 기기와 함께 쓰인다. */
     function key(nm){return String(nm||'').replace(/\s+/g,' ').trim().toLowerCase();}
     function currentWork(){return works.find(function(x){return String(x.work_no)===$('#work_no').val();});}
@@ -163,7 +163,7 @@
     $('#v-equipment').on('safet:show',showMachines);
     function renderPhotos(){
       var grid=$('.photo-grid').empty();
-      /* UX-015: 한 줄 = 썸네일(X) · 파일명(용량) · 삭제, 설명 칸은 파일명 아래 */
+      /* 한 줄 = 썸네일(X) · 파일명(용량) · 삭제, 설명 칸은 파일명 아래 */
       function remove(i){photos.splice(i,1);renderPhotos();if(typeof autosave==="function")autosave();}
       function size(b){if(!b)return '';return b>=1048576?(b/1048576).toFixed(1)+'MB':Math.max(1,Math.round(b/1024))+'KB';}
       photos.forEach(function(p,i){
@@ -175,13 +175,13 @@
         $('<span class="photo__name">').text(p.name || ('사진 '+(i+1))).attr('title',p.name || '').appendTo(info);
         if(p.size)$('<span class="photo__size">').text('('+size(p.size)+')').appendTo(info);
         $('<label class="sr-only">').attr('for','photo-place-'+i).text('사진 '+(i+1)+' 설명').appendTo(info);
-        $('<input class="input photo__place" maxlength="100" placeholder="설명 입력(선택)">')   /* UX-011: 장소 → 설명 (저장 칸은 그대로 place_nm) */.attr('id','photo-place-'+i).val(p.place).on('input',function(){p.place=this.value;}).appendTo(info);
+        $('<input class="input photo__place" maxlength="100" placeholder="설명 입력(선택)">')   /* 장소 → 설명 (저장 칸은 그대로 place_nm) */.attr('id','photo-place-'+i).val(p.place).on('input',function(){p.place=this.value;}).appendTo(info);
         $('<button type="button" class="photo__del">').html((S.icon?S.icon('trash'):'')+'<span>삭제</span>').attr('aria-label','사진 '+(i+1)+' 삭제').on('click',function(){remove(i);}).appendTo(li);
       });
     }
-    // UX-009: '사진 찍기'(#photo-camera)와 '사진 불러오기'(#photo-input) 같은 처리. 화면에 장수 제한은 표시하지 않고,
+    // '사진 찍기'(#photo-camera)와 '사진 불러오기'(#photo-input) 같은 처리. 화면에 장수 제한은 표시하지 않고,
     // AI 분석이 받는 6장을 넘을 때만 안내(서버·AI 분석 규칙은 그대로)
-    /** UX-022: 휴대폰 사진(보통 3~10MB, iPhone HEIC 포함)도 그대로 고를 수 있게, 올리기 전에 이 기기에서 줄임.
+    /** 휴대폰 사진(보통 3~10MB, iPhone HEIC 포함)도 그대로 고를 수 있게, 올리기 전에 이 기기에서 줄임.
         긴 변 1600px JPEG(품질 0.85)로 바꾸고, 그래도 서버 한도(사진당 약 2MB)를 넘으면 크기·품질을 단계적으로 더 낮춤.
         원본 파일은 보내지 않음. 브라우저가 읽지 못하는 형식이면 안내만 함 */
     var MAX_DATA=2700000;   // 서버 Photo.data 최대 2,800,000자보다 조금 작게
@@ -216,11 +216,11 @@
           .always(function(){reading--;});
       });this.value='';
     });
-    // UX-025: 작성자가 평가일을 직접 바꿨는지(바꾸지 않았으면 다시 열 때 그날 날짜로). 자정을 넘겨 다시 저장해도 '직접 바꿈'으로 오인하지 않게 값 비교 대신 입력으로 판단
+    // 작성자가 평가일을 직접 바꿨는지(바꾸지 않았으면 다시 열 때 그날 날짜로). 자정을 넘겨 다시 저장해도 '직접 바꿈'으로 오인하지 않게 값 비교 대신 입력으로 판단
     var dtTouched=false;
     $('#eval_dt').on('input change',function(e){if(e.originalEvent || e.isTrigger)dtTouched=true;});
     if(restored){
-      // UX-025: 평가일은 작성자가 직접 바꾼 경우만 되살림. 기본값(그날 날짜)이었으면 오늘 날짜를 그대로 둠
+      // 평가일은 작성자가 직접 바꾼 경우만 되살림. 기본값(그날 날짜)이었으면 오늘 날짜를 그대로 둠
       //         (23:30에 쓰다 00:10에 다시 열면 전날 날짜가 남던 문제). 예전 보관본(eval_dt_auto 없음)도 같은 규칙
       if(restored.eval_dt_auto===false){$('#eval_dt').val(restored.eval_dt);dtTouched=true;}
       $('#eval_writer').val(restored.eval_writer);
@@ -230,14 +230,14 @@
       if(restored.voice_text)$('<div class="field"><label for="voice_text">음성 전사문</label><textarea id="voice_text" class="textarea"></textarea></div>').insertBefore($('#file_text').closest('.field')).find('textarea').val(restored.voice_text);
       requestKey=restored.requestKey;lastBody=restored.bodyDigest || restored.lastBody || '';
       added=(restored.added || []).filter(function(m){return m && m.nm;});shownWork=restored.work_no?String(restored.work_no):null;renderAdded();
-      // UX-025: '사업장에도 저장' 체크와 사진에서 찾은 기기의 체크 상태도 되살림
+      // '사업장에도 저장' 체크와 사진에서 찾은 기기의 체크 상태도 되살림
       if(restored.save_workplace)$('#eq-save-workplace').prop('checked',true);
       if((restored.found || []).length)setDetected(restored.found);
       if(autoRestored)showRestoreNote();
       else S.toast('작성 중인 입력을 복구했어요.');
       if(autoRestored && /^#v-(field|equipment)$/.test(restored.view || '')){var v=restored.view.slice(1);setTimeout(function(){S.go(v);},0);}
     }
-    /* UX-025 자동 보관 항목 추가: eval_dt_auto(평가일이 그날 기본값인지), save_workplace('사업장에도 저장' 체크), found(사진에서 찾은 기기와 체크 상태) */
+    /* 자동 보관 항목 추가: eval_dt_auto(평가일이 그날 기본값인지), save_workplace('사업장에도 저장' 체크), found(사진에서 찾은 기기와 체크 상태) */
     function foundState(){return $('#v-equipment .eq-found input[name="ai_machine_nm"]').map(function(){return {nm:this.value,on:this.checked};}).get();}
     function snapshot(){
       // 목록 조회 전·실패 시 빈 선택값이 이전 사업장을 덮어쓰지 않게 한다.
@@ -267,7 +267,7 @@
       autoTimer=setTimeout(saveNow,400);
     }
     function clearAutosave(){autoOff=true;clearTimeout(autoTimer);try{sessionStorage.removeItem(AUTO_KEY);}catch(e){}}
-    /* UX-025: 자동 보관본을 불러오면 화면 위에 안내 + '새로 쓰기'(불러온 내용을 버리고 빈 작성 화면으로). 보는 단계마다 맨 위로 옮김 */
+    /* 자동 보관본을 불러오면 화면 위에 안내 + '새로 쓰기'(불러온 내용을 버리고 빈 작성 화면으로). 보는 단계마다 맨 위로 옮김 */
     function showRestoreNote(){
       var $n=$('<div class="notice notice--muted restore-note" id="restore-note" role="status">')
         .append($('<span class="restore-note__text">').text('작성하던 내용을 불러왔어요.'))
@@ -307,11 +307,11 @@
       var d=S.parseDate($('#eval_dt').val());
       if(!d || !$('#work_no').val() || !$('#eval_writer').val().trim()){S.go('v-basic');S.toast('기본정보를 확인해 주세요.');return;}
       var body={work_no:Number($('#work_no').val()),eval_dt:S.formatDate(d).replace(/\./g,'-'),eval_writer:$('#eval_writer').val().trim(),members:$('[name="member_nm"]').map(function(){return this.value;}).get(),text:$('#file_text').val().trim(),voice_text:($('#voice_text').val() || '').trim(),photos:photos.map(function(p){return {name:p.name,place:p.place,data:p.data};}),
-        // UX-017 이번 평가에만 추가한 기기. 사진에서 찾아 체크한 기기도 이름으로 함께 보냄
+        // 이번 평가에만 추가한 기기. 사진에서 찾아 체크한 기기도 이름으로 함께 보냄
         add_machine_codes:added.filter(function(m){return m.code;}).map(function(m){return m.code;}),
         add_custom_machines:added.filter(function(m){return !m.code;}).map(function(m){return m.nm;}),
         detected_machine_names:$('#v-equipment .eq-found input[name="ai_machine_nm"]:checked').map(function(){return this.value;}).get()};
-      if(added.length && $('#eq-save-workplace').prop('checked'))body.save_machines_to_workplace=true;   // UX-018   /* UX-015: 화면용 size 는 보내지 않음(서버 extra 금지) */
+      if(added.length && $('#eq-save-workplace').prop('checked'))body.save_machines_to_workplace=true;   // 화면용 size는 요청에서 제외한다.
       busy=true;
       try {
         var serial=JSON.stringify(body);
@@ -325,13 +325,13 @@
         busy=false;S.go('v-equipment');S.toast('요청을 준비하지 못했어요. 다시 시도해 주세요.');return;
       }
       $('#v-generating .bottom-bar a').attr('aria-disabled','true').hide();
-      /* UX-022: 초안 생성 화면. 서버는 한 번의 요청으로 처리해 실제 진행률을 알 수 없으므로 % 숫자·단계 완료·남은 시간은 보이지 않는다(화면설계서 15쪽).
+      /* 초안 생성 화면. 서버는 한 번의 요청으로 처리해 실제 진행률을 알 수 없으므로 % 숫자·단계 완료·남은 시간은 보이지 않는다.
          막대는 경과 시간에 따라 90%까지 점점 느려지며 부드럽게 차오르고, 실제로 끝났을 때만 100%로 채운 뒤 초안으로 이동한다. */
       var $scr=$('#v-generating .progress-screen').addClass('gen'), started=Date.now(), raf=0, shown=0;
       $scr.children().attr('hidden',true);
       $('#gen-ui').remove();
       var $ui=$('<div id="gen-ui" class="gen__ui">').appendTo($scr);
-      // UX-023: 막대 대신 도넛. 바깥 원(진행)이 부드럽게 차오르고, 안쪽 빛 띠가 천천히 돎. 가운데 문서 아이콘
+      // 막대 대신 도넛. 바깥 원(진행)이 부드럽게 차오르고, 안쪽 빛 띠가 천천히 돎. 가운데 문서 아이콘
       var R=52, C=2*Math.PI*R;
       var $bar=$('<div class="gen__donut" role="progressbar" aria-label="초안 만드는 중" aria-valuetext="진행 중">'+
         '<svg viewBox="0 0 120 120" aria-hidden="true"><circle class="gen__track" cx="60" cy="60" r="'+R+'"/>'+

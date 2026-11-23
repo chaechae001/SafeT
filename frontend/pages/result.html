@@ -4,7 +4,6 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>확정된 평가표 · Safe-T</title>
-  <!-- UX-019: Pretendard 실제 로드(가변·필요 글자만). 실패하면 시스템 한글 글꼴로 대체 -->
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
   <link rel="stylesheet" href="../css/common.css?v=20261125">
@@ -13,11 +12,6 @@
   <link rel="stylesheet" href="../css/risk.css?v=20261125">
 </head>
 <body data-auth-required data-assessment>
-  <!-- result.html · 화면설계서 v3.19 통합본 SH v3
-       화면(view) 목록 (처음 화면 = .is-active)
-       - #v-list : S08 확정된 평가표
-       - #v-detail : S08-D 위험 상세(읽기 전용)
-       전환: jQuery로 .view 의 .is-active 를 바꿉니다. JS 없이 확인할 때는 주소 끝에 #view-id 를 붙입니다. -->
   <div class="app">
     <header class="topbar">
       <a class="logo" href="home.html">Safe-T</a>
@@ -34,25 +28,13 @@
 
     <main class="views">
       <section class="view result is-active" id="v-list" aria-label="S08 확정된 평가표">
-        <!-- S08 확정된 평가표 보기 · 읽기 전용 · 화면설계서 27쪽
-             테이블: eval_mst(eval_status='C', confirm_dt) · eval_dtl · eval_action(check_yn='Y'만)
-             - 체크박스·입력칸·편집 버튼 없음. 수정 불가·버전 없음·삭제 불가
-             - UX-016·017: 서명이 남았으면 하단 [서명하기](sign.html), 서명이 끝났으면 [결과 공유].
-               (기존 "서명·공유는 카드에서만" 메모를 사용자 요청으로 변경. 카드 버튼도 그대로 둠)
-             - 하단: 내 평가표로 / 문서 다운로드 -->
         <div class="page" aria-live="polite"><p>평가표를 불러오고 있어요.</p></div>
         <div class="bottom-bar">
           <a class="btn" href="home.html">내 평가표로</a>
-          <!-- 결과서 PDF: data-report 가 비어 있으면 지금 보는 평가표 (api.js) -->
           <button class="btn btn--primary" type="button" data-report="">문서 다운로드</button>
         </div>
       </section>
       <section class="view risk" id="v-detail" aria-label="S08-D 위험 상세(읽기 전용)">
-        <!-- S08-D 확정된 평가표 · 위험 상세 (읽기 전용) · 화면설계서 28쪽
-             테이블: eval_dtl(reason, risk_reason, law, law_summary, law_dtl, after_risk_grade) · eval_action(check_yn='Y')
-             - 판단 이유·법령을 펼친 상태로 표시. 법령 원문은 새 창, 검증되지 않은 조항은 표시하지 않음
-             - 체크해서 확정한 조치·대책만 나열 (고르지 않은 후보는 숨김)
-             - 이전·다음·목록 버튼만 (체크박스·입력칸·저장 없음) -->
         <div class="page" aria-live="polite"></div>
         <div class="bottom-bar">
           <a class="btn" href="#v-detail" aria-disabled="true">이전 항목</a>

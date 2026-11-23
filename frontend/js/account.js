@@ -1,4 +1,4 @@
-/* 회원 탈퇴 (UX-018) · workplace.html 의 #withdraw 창
+/* 회원 탈퇴 · workplace.html 의 #withdraw 창
    POST /auth/withdraw {password} → 성공하면 이 탭의 로그인 정보를 지우고 login.html?withdrawn=1
    비밀번호가 틀리면(400 PASSWORD_MISMATCH) 창을 닫지 않고 칸 아래에 안내 */
 (function ($, S) {

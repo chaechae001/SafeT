@@ -4,7 +4,6 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>새 평가표 작성 · Safe-T</title>
-  <!-- UX-019: Pretendard 실제 로드(가변·필요 글자만). 실패하면 시스템 한글 글꼴로 대체 -->
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
   <link rel="stylesheet" href="../css/common.css?v=20261125">
@@ -12,13 +11,6 @@
   <link rel="stylesheet" href="../css/field.css?v=20261125">
 </head>
 <body data-auth-required data-assessment>
-  <!-- write.html · 화면설계서 v3.19 통합본
-       화면(view) 목록 (처음 화면 = .is-active)
-       - #v-basic : S01 기본정보
-       - #v-field : S02 현장입력
-       - #v-equipment : S03 보유기기
-       - #v-generating : S04 초안 생성
-       전환: jQuery로 .view 의 .is-active 를 바꿉니다. JS 없이 확인할 때는 주소 끝에 #view-id 를 붙입니다. -->
   <div class="app">
     <header class="topbar">
       <a class="logo" href="home.html">Safe-T</a>
@@ -35,12 +27,6 @@
 
     <main class="views">
       <section class="view is-active" id="v-basic" aria-label="S01 기본정보">
-        <!-- S01 기본정보 · 화면설계서 11쪽
-             테이블: eval_mst(work_no, eval_dt, eval_writer) · eval_member(member_nm, sort)
-             - 사업장이 하나뿐이면 자동 선택, use_yn='Y'만 노출
-             - 오늘 날짜(한국)·계정 이름은 제안값. 개선대책 담당자 기본값으로 쓰지 않음
-             - 참여 근로자는 필수 아님. 이름 등록 ≠ 참여·서명 완료
-             - 이 화면에는 임시저장 버튼 없음 -->
         <div class="page">
           <ol class="stepper" aria-label="입력 단계">
             <li aria-current="step">01 기본</li>
@@ -94,11 +80,6 @@
         </div>
       </section>
       <section class="view field-page" id="v-field" aria-label="S02 현장입력">
-        <!-- S02 현장입력 · 화면설계서 12~13쪽 (S02-G 도움말은 #help 창)
-             테이블: eval_file(file_type P=사진 / V=녹음 / T=글, place_nm, file_text)
-             - 사진·직접 설명·음성 전사문 중 하나 이상이면 다음으로
-             - 전사문과 직접 설명은 서로 덮어쓰지 않음
-             - 녹음만 있고 전사가 끝나지 않았으면 다음으로 가지 않음 -->
         <div class="page">
           <ol class="stepper" aria-label="입력 단계">
             <li>01 기본</li>
@@ -106,7 +87,6 @@
             <li>03 기기</li>
           </ol>
 
-          <!-- UX-015: 제목 오른쪽 '가이드' 알약 버튼, 아래 안내 한 줄 -->
           <div class="field-head">
             <h1 class="page-title">현장 상황을 알려주세요</h1>
             <a class="guide-pill" href="#help" aria-label="현장 기록 가이드 열기"><i data-ico="bulb"></i>가이드</a>
@@ -114,8 +94,6 @@
           <p class="field-sub">사진, 음성, 텍스트 중 하나 이상 입력해 주세요</p>
 
           <form id="field-form" class="stack" action="#v-equipment" method="get" novalidate>
-            <!-- UX-008: 사진·음성·텍스트를 각각의 입력 블록으로 나누고, 입력 버튼을 해당 블록 안에 둠.
-                 셋 중 하나 이상 입력하면 다음으로 (기존 규칙). UX-015: 컬러 이모지 → 라인 아이콘 -->
             <section class="input-block" id="blk-photo" aria-labelledby="blk-photo-title">
               <div class="input-block__head">
                 <i class="input-block__icon" data-ico="camera"></i>
@@ -123,7 +101,6 @@
                 <span class="count-badge" id="photo-count" hidden></span>
               </div>
               <ul class="photo-grid" aria-label="현장 사진"></ul>
-              <!-- UX-011: 휴대폰·컴퓨터 모두 '사진 촬영'·'사진 불러오기'. 컴퓨터의 촬영은 웹캠 창(field-blocks.js) -->
               <div class="photo-actions">
                 <label class="btn photo-actions__btn" id="photo-camera-btn">
                   <i data-ico="camera"></i><span class="photo-actions__plus" aria-hidden="true">+ </span>사진 촬영
@@ -140,12 +117,9 @@
               <div class="input-block__head">
                 <i class="input-block__icon" data-ico="mic"></i>
                 <h2 class="input-block__title" id="blk-voice-title">음성</h2>
-                <!-- 녹음 상태(● 00:18 녹음 중 / ⏱ 00:24 녹음 완료)는 voice-recorder.js 가 여기에 표시 -->
                 <span class="rec-status" id="rec-status" hidden></span>
               </div>
-              <!-- 녹음기(#recorder)·음성 전사문(#voice_text)은 voice-recorder.js 가 이 블록 안에 그림 -->
               <div class="input-block__voice" id="voice-slot"></div>
-              <!-- 기존 '음성' 버튼(assessment-write.js 연결 대상)은 녹음기 버튼으로 대체되어 숨김 -->
               <button class="btn" id="voice-btn" type="button" hidden>음성</button>
             </section>
 
@@ -166,8 +140,6 @@
           <a class="btn" href="#v-basic">이전</a>
           <button class="btn btn--primary" type="submit" form="field-form">다음</button>
         </div>
-        <!-- S02-G 현장입력 도움말 + 음성 녹음 방법 (샘플은 입력값으로 저장하지 않음) -->
-        <!-- UX-015: 가운데 뜨는 둥근 흰색 창(뒤 어둡게), 사진 2×2 · 안전 경고 · 음성·텍스트 팁 · [확인했어요] -->
         <div class="modal modal--center" id="help" role="dialog" aria-modal="true" aria-labelledby="help-title" aria-describedby="help-sub">
           <div class="modal__box guide">
             <div class="modal__head guide__head">
@@ -220,13 +192,6 @@
         </div>
       </section>
       <section class="view" id="v-equipment" aria-label="S03 보유기기">
-        <!-- S03 보유기기 · 화면설계서 14쪽
-             테이블: eval_machine(machine_code, machine_nm, ai_yn, check_yn)
-             - 사업장 등록 기기(workplace_machine)는 태그로만 표시, 모두 이번 평가에 포함
-             - AI가 사진에서 새로 찾은 기기만 체크박스(ai_yn='Y'), 처음엔 체크된 상태
-             - UX-017: '기기 직접 추가'는 이번 평가에만 추가(add_machine_codes·add_custom_machines → eval_machine).
-               사업장 등록 기기는 바꾸지 않음. 사업장에 영구 등록은 '사업장 관리 >'
-             - 인식 실패 시 새로 찾은 기기 영역을 비우고, 성공으로 표시하지 않음 -->
         <div class="page">
           <ol class="stepper" aria-label="입력 단계">
             <li>01 기본</li>
@@ -237,9 +202,6 @@
           <h1 class="page-title">보유기기를 확인해 주세요</h1>
 
           <form id="equip-form" class="stack" action="#v-generating" method="get" novalidate>
-            <!-- UX-016: 등록 기기는 연회색 카드 + ✓ 칩(모두 포함), 오른쪽 위 '사업장 관리 >' 링크.
-                 새로 찾은 기기: 없으면 점선 안내 카드, 있으면 흰 카드 안 칩(누르면 선택/해제).
-                 UX-017: 직접 추가는 #eq-add 창에서 이번 평가에만 추가(위험요인 검색에 함께 사용). -->
             <section class="eq-reg" aria-labelledby="registered-title">
               <div class="eq-reg__head">
                 <h2 class="section-title eq-reg__title" id="registered-title">사업장에 등록된 기기</h2>
@@ -251,7 +213,6 @@
               </ul>
             </section>
 
-            <!-- UX-017 이번 평가에만 추가한 기기 (없으면 숨김). 칩의 × 로 빼기 -->
             <section class="eq-added" id="eq-added" aria-labelledby="added-title" hidden>
               <h2 class="section-title eq-added__title" id="added-title">이번 평가에 추가한 기기</h2>
               <ul class="eq-chips" id="eq-added-list" aria-label="이번 평가에 추가한 기기"></ul>
@@ -260,13 +221,11 @@
             <fieldset class="section eq-new">
               <legend class="section-title">사진에서 새로 찾은 기기</legend>
               <p class="hint">등록되지 않은 기기를 AI가 사진에서 찾았어요. 매장에 있는 것만 체크해 주세요.</p>
-              <!-- 찾은 기기가 있을 때 (assessment-write.js 의 setDetected 가 채움) -->
               <div class="eq-found" hidden>
                 <p class="eq-found__title">AI가 사진에서 찾은 기기 (<span class="js-eq-found-n">0</span>개)</p>
                 <div class="check-list eq-chips"></div>
                 <button class="btn btn--sm eq-add js-eq-add" type="button" aria-haspopup="dialog"><i data-ico="plus"></i>직접 기기 추가하기</button>
               </div>
-              <!-- 새로 찾은 기기가 없거나 인식 실패 시 (성공으로 표시하지 않음) -->
               <div class="eq-empty">
                 <span class="eq-empty__ico" aria-hidden="true"><i data-ico="machineSearch"></i></span>
                 <p class="eq-empty__title">사진에서 새로 발견된 기기가 없어요</p>
@@ -282,7 +241,6 @@
           <button class="btn btn--primary" type="submit" form="equip-form">평가표 초안 만들기</button>
         </div>
 
-        <!-- UX-017 기기 직접 추가 창: 업종 기기 목록에서 고르거나 이름을 적어 추가. 이번 평가에만 들어감 -->
         <div class="modal" id="eq-add" role="dialog" aria-modal="true" aria-labelledby="eq-add-title">
           <div class="modal__box">
             <div class="modal__head">
@@ -290,12 +248,10 @@
             </div>
             <div class="modal__body">
               <p class="hint eq-add__desc">추가한 기기는 이번 평가표에 들어가요.</p>
-              <!-- UX-018: 체크하면 초안을 만들 때 사업장 보유 기기에도 저장(save_machines_to_workplace) -->
               <label class="check eq-add__save">
                 <input type="checkbox" id="eq-save-workplace">
                 <span class="check__text">직접 추가한 기기를 사업장에도 저장해 다음 평가에 쓰기</span>
               </label>
-              <!-- 업종 기기 목록이 길어 이름 입력칸을 먼저 둔다(키보드가 올라와도 가리지 않게) -->
               <div class="field">
                 <label class="eq-add__label" for="eq-custom">기기 이름으로 추가</label>
                 <div class="input-row">
@@ -316,18 +272,12 @@
         </div>
       </section>
       <section class="view" id="v-generating" aria-label="S04 초안 생성">
-        <!-- S04 초안 생성 · 화면설계서 15쪽
-             단계: 입력 분석 20% → 위험 항목 생성 40% → 위험 신호 판단 60% → 대책 추천·예상 신호 80% → 초안 저장 100%
-             - 실제 처리 단계 기준으로 올리고, 실제로 끝나야 100%
-             - 남은 시간은 표시하지 않음. 모션 감소 설정에서는 값만 바꿈
-             - 현재 조치 미선택, 대책 미체크, 담당자·예정일 비움 -->
         <div class="progress-screen" aria-live="polite">
           <h1 class="page-title">초안을 만들고 있어요</h1>
           <div class="ring" style="--value: 60" role="img" aria-label="진행률 60%">60%</div>
           <p class="strong">위험 신호를 판단하고 있어요</p>
           <progress class="bar" value="60" max="100" aria-label="초안 생성 진행률">60%</progress>
           <p class="steps-text">입력 분석 → 위험 항목 생성 → <strong>위험 신호 판단</strong> → 대책 추천 → 초안 저장</p>
-          <!-- 완료되면 초안 확인(draft.html)으로 이동 (write.js) -->
         </div>
         <div class="bottom-bar">
           <a class="btn" href="#v-equipment">입력으로 돌아가기</a>

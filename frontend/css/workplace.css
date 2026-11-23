@@ -46,7 +46,7 @@
 .workplace .biz-options label:has(input:focus-visible) { outline: 3px solid var(--c-primary); }
 
 /* =========================================================
-   UX-003 (2026-11-21) · workplace.html 전용 (.workplace 아래)
+   workplace.html 전용 (.workplace 아래)
    ========================================================= */
 /* 글자: 보조 14px 이상, 출처 표시 12px */
 .workplace .hint,
@@ -119,7 +119,7 @@
 }
 
 /* =========================================================
-   UX-016 (2026-11-22) · 사업장 관리 카드(업종 배지·⋮·기기 상자) / 등록·수정(← 헤더·업종 칩·단계형 기기·저장 비활성)
+   사업장 관리 카드(업종 배지·⋮·기기 상자) / 등록·수정(← 헤더·업종 칩·단계형 기기·저장 비활성)
    ========================================================= */
 /* 헤더: 등록·수정 화면은 ☰ 숨기고 ← + 가운데 Safe-T (body.wp-sub, workplace.js) */
 .wp-back[hidden] { display: none; }
@@ -272,7 +272,7 @@ body.wp-sub .wp-back .ico { width: 24px; height: 24px; }
   .workplace .wp-acc__chev { transition: none; }
 }
 
-/* UX-018 회원 탈퇴 입구 · 확인 창 */
+/* 회원 탈퇴 입구 · 확인 창 */
 .account-out { display: flex; justify-content: center; margin-top: 32px; }
 .account-out__btn { min-height: 44px; padding: 0 12px; border: 0; background: none; color: var(--c-text-sub); font-size: 14px; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
 #withdraw .withdraw-list { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; color: var(--c-text-sub); line-height: 1.55; word-break: keep-all; }
@@ -280,7 +280,7 @@ body.wp-sub .wp-back .ico { width: 24px; height: 24px; }
 #withdraw .withdraw-list li::marker { color: var(--c-text-faint); }
 
 /* =========================================================
-   UX-023 (2026-11-23) 사업장 관리 화면 정리 — 구조·id·동작은 그대로, 보이는 모양만
+   사업장 관리 화면 정리 — 구조·id·동작은 그대로, 보이는 모양만
    - 목록 위: 제목 · 설명 · "등록된 사업장 N개"(회색 버튼처럼 보이던 것을 작은 글자로 목록 위에)
    - 카드: 흰 바탕 · 이름 옆 업종 칩 · 오른쪽 [수정] · 기기 상자 · 오른쪽 아래 작은 회색 [사업장 삭제]
    - 회원 탈퇴는 목록 맨 아래 작은 글자

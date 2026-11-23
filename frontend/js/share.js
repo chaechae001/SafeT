@@ -1,9 +1,9 @@
 /* =========================================================
-   결과 공유 (share.html) · 받는 사람 화면 (share-download.html) · SHARE · 화면설계서 30쪽
+   결과 공유 (share.html) · 받는 사람 화면 (share-download.html) · SHARE
    - 평가표당 링크 1개(7일). 공유 중지·재발급 시 이전 링크는 바로 막힘
    - 앱 안에서 메신저로 직접 보내지 않음(링크 복사·QR)
    - 열람·다운로드는 결과 확인·서명으로 기록하지 않음(다운로드 횟수만)
-   API (backend/routers/share.py)
+   API
      공유하는 사람(로그인): GET·POST /evals/{번호}/share · POST …/share/reissue · POST …/share/stop
      받는 사람(로그인 없음): GET /share/{토큰} · GET /share/{토큰}/pdf
    ========================================================= */
@@ -38,7 +38,7 @@
     function render(res) {
       $('.js-eval-nm').text(res.eval_nm || '평가표');
       $('#item-count').text(res.item_count);
-      // UX-021: 상태 칩(서명 완료 · 조치 완료). 공유는 전원 서명 뒤에만 열리므로 보통 '서명 완료'
+      // 상태 칩(서명 완료 · 조치 완료). 공유는 전원 서명 뒤에만 열리므로 보통 '서명 완료'
       var st = { S: '서명 완료', A: '조치 완료', C: '확정' }[res.eval_status];
       $('#share-status').attr('data-status', res.eval_status).text(st ? '✓ ' + st : '').prop('hidden', !st);
       var s = res.share;
@@ -88,8 +88,8 @@
     }
     if (SafeT.current) SafeT.current.setEval(evalNo);
 
-    // 처음 열 때: 조회만. 링크를 만든 적이 없을 때(status=none)만 바로 발급 (설계서 30쪽 '결과 공유를 누르면 링크 생성')
-    // 중지·만료된 뒤에는 자동으로 만들지 않고 '새 링크 발급' 버튼으로만 (2026-11-17 결정)
+    // 처음 열 때: 조회만. 링크를 만든 적이 없을 때(status=none)만 바로 발급
+    // 중지·만료된 뒤에는 자동으로 만들지 않고 '새 링크 발급' 버튼으로만
     call('get', '/evals/' + evalNo + '/share').done(function (res) {
       if (res.status === 'none') call('post', '/evals/' + evalNo + '/share');
     });

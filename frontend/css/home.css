@@ -14,7 +14,7 @@
 }
 
 /* =========================================================
-   UX-004 (2026-11-21) · home.html 전용 (body.page-home)
+   home.html 전용 (body.page-home)
    - 9 검색 조건(탭·기간·사업장)과 하단 '새 평가표'는 고정, 평가표 목록만 스크롤
    ========================================================= */
 .page-home .app { height: 100vh; height: 100dvh; min-height: 0; }
@@ -31,7 +31,7 @@
 .page-home .home__scroll:focus { outline: none; }
 .page-home .disclaimer { padding-top: 6px; padding-bottom: 8px; }
 
-/* 탭 누름 영역 44px (디자인 기준) */
+/* 탭 누름 영역 44px */
 .page-home .tabs > a { min-height: 44px; padding: 0 16px; font-size: 15px; }
 
 /* 10 카드 제목 한 줄(줄인 제목), 넘치면 말줄임 */
@@ -39,7 +39,7 @@
 .page-home .eval-card .card__meta { font-size: 14px; }
 
 /* =========================================================
-   UX-015 (2026-11-22) · 기간 한 칸·회색 검색 상자, 상태별 카드·버튼, '+ 새 평가표'
+   기간 한 칸·회색 검색 상자, 상태별 카드·버튼, '+ 새 평가표'
    ========================================================= */
 .ico { flex: none; display: inline-block; vertical-align: middle; }
 .page-home .home__filter { gap: 10px; padding: 12px; border: 1px solid #E9ECEF; border-radius: 14px; background: #f2f4f6; }
@@ -62,42 +62,42 @@
 .page-home .eval-card .btn-row .btn { flex: 1; min-height: 46px; gap: 6px; font-size: 15px; font-weight: 700; }
 .page-home .eval-card .btn-row .btn .ico { width: 17px; height: 17px; }
 .page-home .eval-card .btn-row .btn:not(.btn--primary) { background: #fff; border: 1px solid var(--c-line-strong); color: var(--c-text); }
-/* 작성 중: 흰 바탕 + 점선, 회색 배지(UX-019), [이어서 작성하기] 전체 너비 아웃라인 */
+/* 작성 중: 흰 바탕 + 점선, 회색 배지, [이어서 작성하기] 전체 너비 아웃라인 */
 .page-home .eval-card[data-card="W"] { border: 1.5px dashed #b0b8c1; background: #fff; }
-.page-home .eval-card .tag.status[data-status="W"] { background: var(--c-surface-muted); color: var(--c-text-sub); }   /* UX-019 위험도 노랑과 구분 */
+.page-home .eval-card .tag.status[data-status="W"] { background: var(--c-surface-muted); color: var(--c-text-sub); }   /* 위험도 노랑과 구분 */
 .page-home .eval-card .eval-card__continue { border: 1.5px solid var(--c-text) !important; }
 /* 확정: 흰 바탕 + 실선, 연파랑 배지, [서명하기] 주색 + [문서 다운로드] 아웃라인 */
 .page-home .eval-card[data-card="C"] { border: 1px solid var(--c-line-strong); background: #fff; }
 .page-home .eval-card .tag.status[data-status="C"] { background: var(--c-primary-soft); color: var(--c-primary-dark); }
-/* 서명 완료: 연회색 바탕·테두리 없음으로 물러나게, 먹색 '✓ 서명 완료'(UX-019) */
+/* 서명 완료: 연회색 바탕·테두리 없음으로 물러나게, 먹색 '✓ 서명 완료' */
 .page-home .eval-card[data-card="S"], .page-home .eval-card[data-card="A"] { border: 1px solid transparent; background: #f2f4f6; }
 .page-home .eval-card[data-card="S"] .card__title { color: #4B5563; }
-.page-home .eval-card .tag.status[data-status="S"] { background: var(--c-text); color: #fff; }   /* UX-019 위험도 초록과 구분 */
-/* UX-021: 결과 공유 = 문서 다운로드 옆 연한 파랑 버튼(상태 칩과 떨어뜨림) */
+.page-home .eval-card .tag.status[data-status="S"] { background: var(--c-text); color: #fff; }   /* 위험도 초록과 구분 */
+/* 결과 공유 = 문서 다운로드 옆 연한 파랑 버튼(상태 칩과 떨어뜨림) */
 .page-home .eval-card .btn-row .btn.eval-card__share:not(.btn--primary) { background: var(--c-primary-soft); border-color: var(--c-primary-line); color: var(--c-primary-dark); text-decoration: none; }
 /* 하단 '+ 새 평가표' */
 .page-home .bottom-bar .btn { gap: 6px; min-height: 50px; font-size: 16px; }
 .page-home .bottom-bar .btn .ico { width: 19px; height: 19px; }
 
-/* UX-019: 320px대에서는 상태 탭을 한 줄로 두고 가로로 밀어 보기(초안 화면 필터 줄과 같은 방식) */
+/* 320px대에서는 상태 탭을 한 줄로 두고 가로로 밀어 보기(초안 화면 필터 줄과 같은 방식) */
 @media (max-width: 359px) {
   .page-home .tabs { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin-right: calc(var(--gutter) * -1); padding-right: var(--gutter); }
   .page-home .tabs::-webkit-scrollbar { display: none; }
   .page-home .tabs > a { flex: none; padding: 0 14px; }
 }
 
-/* UX-020 작성 중 카드의 삭제 버튼: [이어서 작성하기] 오른쪽 정사각 버튼, 간격을 두어 잘못 누르지 않게 */
+/* 작성 중 카드의 삭제 버튼: [이어서 작성하기] 오른쪽 정사각 버튼, 간격을 두어 잘못 누르지 않게 */
 .page-home .eval-card .btn-row .btn.eval-card__delete:not(.btn--primary) { flex: none; width: 48px; min-width: 48px; padding: 0; margin-left: 4px; color: var(--c-danger); }
 .page-home .eval-card .btn-row .eval-card__delete .ico { width: 20px; height: 20px; }
 .page-home .eval-card .btn-row .eval-card__delete:hover { background: var(--c-danger-bg); border-color: #f5c2c2; }
-/* UX-020 큰 글자: 카드 제목은 한 줄 말줄임 대신 두 줄까지 보이게 */
+/* 큰 글자: 카드 제목은 한 줄 말줄임 대신 두 줄까지 보이게 */
 .page-home .eval-card .card__title { white-space: normal; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; }
-/* UX-020 큰 글자: 위쪽(탭·기간·사업장)이 화면 절반을 넘으면 목록만 스크롤하지 않고 화면 전체를 스크롤(home.js 가 is-tall-head) */
+/* 큰 글자: 위쪽(탭·기간·사업장)이 화면 절반을 넘으면 목록만 스크롤하지 않고 화면 전체를 스크롤(home.js 가 is-tall-head) */
 .page-home.is-tall-head .app { height: auto; min-height: 100dvh; }
 .page-home.is-tall-head #home-scroll { flex: none; overflow-y: visible; }
 
 /* =========================================================
-   UX-022 (2026-11-23) · 목록이 더 보이게: 위쪽(제목·탭·검색)을 화면의 약 1/3로
+   목록이 더 보이게: 위쪽(제목·탭·검색)을 화면의 약 1/3로
    - 기간·사업장을 회색 상자 대신 한 줄 두 칸(글자 이름표는 화면에서 숨기고 읽기 프로그램에는 그대로)
    - 기간 시작·종료 입력은 펼칠 때 목록 위에 겹쳐 뜨게(목록을 밀어내지 않음)
    - 서명 완료 칩: 먹색 → 연한 회청 바탕·진한 글자, 높이 24
@@ -128,6 +128,6 @@
 .page-home .eval-card .tag.status { min-height: 24px; padding: 0 9px; font-size: 12.5px; font-weight: 700; }
 .page-home .eval-card .tag.status[data-status="S"] { background: #E3E8EF; color: #334155; }
 .page-home .eval-card .tag.status[data-status="S"] .ico { width: 13px; height: 13px; color: #334155; }
-/* UX-022: 360px 폭에서도 기간(YYYY.MM.DD ~ YYYY.MM.DD)이 잘리지 않게 기간 칸을 넓히고 달력 아이콘 여백을 줄임 */
+/* 360px 폭에서도 기간(YYYY.MM.DD ~ YYYY.MM.DD)이 잘리지 않게 기간 칸을 넓히고 달력 아이콘 여백을 줄임 */
 .page-home .home__filter { grid-template-columns: minmax(0, 1.75fr) minmax(0, 1fr); }
 .page-home .home__filter .period__view { font-size: 13.5px; gap: 4px; padding-left: 10px; padding-right: 8px; letter-spacing: -0.02em; }

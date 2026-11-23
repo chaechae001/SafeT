@@ -1,5 +1,5 @@
 /* =========================================================
-   Safe-T 도우미 캐릭터 (UX-023 · 2026-11-23 · UX-024 고양이 그림으로 교체)
+   Safe-T 도우미 캐릭터
    - 사용자가 고르거나 적기를 머뭇거릴 때(정해진 시간 동안 누름·스크롤·입력이 없을 때) 다음에 채울 칸 옆에 나타나 가리킴
    - 어떤 조작이든 하면 바로 사라짐. 같은 칸에서는 다시 머뭇거릴 때만 다시 나옴
    - 화면 읽기 프로그램에는 말풍선 문장만 알림(aria-live polite), 그림은 숨김. 움직임 줄이기 설정이면 흔들림 없음
@@ -9,7 +9,7 @@
 (function ($, SafeT) {
   'use strict';
   if (!SafeT) return;
-  // UX-024: 파란 안전모를 쓴 흰 고양이(원본 그림의 바깥 흰 여백만 잘라 낸 PNG · frontend/public/mascot/). 꾸밈 그림이라 읽기 프로그램에서는 숨김
+  // 파란 안전모를 쓴 흰 고양이(원본 그림의 바깥 흰 여백만 잘라 낸 PNG · frontend/public/mascot/). 꾸밈 그림이라 읽기 프로그램에서는 숨김
   var IMG = '<img src="../public/mascot/safet-cat.png?v=20261124" alt="" aria-hidden="true" width="288" height="258" decoding="async" draggable="false">';
   var $m = null, timer = null, getTarget = null, opts = {}, shownFor = null;
 

@@ -45,7 +45,7 @@
   /** 주소의 #id 를 바꿔 이동합니다. opts 는 화면 표시 이벤트(safet:show)로 전달됩니다. */
   SafeT.go = function (id, opts) {
     pendingOpts = opts || null;
-    // UX-022: 화면을 바꿀 때 입력칸 커서(키보드)를 내려 휴대폰 확대·키보드가 다음 화면에 남지 않게
+    // 화면을 바꿀 때 입력칸 커서(키보드)를 내려 휴대폰 확대·키보드가 다음 화면에 남지 않게
     var a = document.activeElement;
     if (a && a !== document.body && /^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName)) a.blur();
     if (location.hash === '#' + id) {
@@ -169,7 +169,7 @@
     if (!$t.length) {
       $t = $('<div class="toast" id="safet-toast" role="status" aria-live="polite"></div>').appendTo('body');
     }
-    // UX-022: 알림은 화면 위쪽(머리글 바로 아래)에 띄움. 아래 동작 버튼·휴대폰 키보드에 가리거나 버튼을 가리지 않게.
+    // 알림은 화면 위쪽(머리글 바로 아래)에 띄움. 아래 동작 버튼·휴대폰 키보드에 가리거나 버튼을 가리지 않게.
     // 머리글(.topbar)이 화면에 보이면 그 아래 8px, 아니면 화면 위 12px
     var top = 12;
     $('.topbar:visible').each(function () { var r = this.getBoundingClientRect(); if (r.bottom > 0) top = Math.max(top, Math.round(r.bottom + 8)); });
@@ -373,7 +373,7 @@
     var $head = $('<div class="mini-cal__head">').appendTo($cal);
     $('<button type="button" data-cal="prev" aria-label="이전 달">‹</button>').appendTo($head);
     if (yearPickerOn()) {
-      // UX-004: 제목(연·월)을 누르면 연도 → 월 선택 (검토를 마친 페이지 body[data-ux-guide] 에서만)
+      // 제목(연·월)을 누르면 연도 → 월 선택 (검토를 마친 페이지 body[data-ux-guide] 에서만)
       $('<button type="button" class="mini-cal__title" data-cal="years">').text(y + '년 ' + (m + 1) + '월 ▾')
         .attr('aria-label', y + '년 ' + (m + 1) + '월, 눌러서 연도 선택').appendTo($head);
     } else {
@@ -408,7 +408,7 @@
     }
   }
 
-  /* UX-004 연도·월 선택 (body[data-ux-guide] 페이지만) */
+  /* 연도·월 선택 (body[data-ux-guide] 페이지만) */
   function yearPickerOn() { return !!(document.body && document.body.hasAttribute('data-ux-guide')); }
 
   function pickerShell($wrap, title, prevLabel, nextLabel) {
@@ -566,7 +566,7 @@
         case 'prev': renderCalendar($w, new Date(base.getFullYear(), base.getMonth() - 1, 1)); $w.find('[data-cal="prev"]').trigger('focus'); break;
         case 'next': renderCalendar($w, new Date(base.getFullYear(), base.getMonth() + 1, 1)); $w.find('[data-cal="next"]').trigger('focus'); break;
         case 'today': renderCalendar($w, SafeT.today()); break;
-        // UX-004 연도·월 선택
+        // 연도·월 선택
         case 'years': renderYears($w, base.getFullYear() - 7); break;
         case 'pick-prev':
           if ($cal.data('mode') === 'years') renderYears($w, $cal.data('yearStart') - 12);

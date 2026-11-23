@@ -1,12 +1,10 @@
 /* =========================================================
    Safe-T 공통 스타일 (common.css)
-   기준: 화면설계서 v3.19 통합본
-   - 색상·글꼴·버튼 변경은 관련 작업자와 먼저 조율합니다.
    - 화면 전용 스타일은 각 화면 CSS에서 최상위 클래스 아래에 둡니다.
    ========================================================= */
 
 /* ---------- 1. 디자인 토큰 ---------- */
-/* UX-019 (2026-11-22) 디자인 1안: 신뢰감 있는 파랑 주색 + 로고의 주황 한 점, 차가운 무채색 바탕.
+/* 신뢰감 있는 파랑 주색 + 로고의 주황 한 점, 차가운 무채색 바탕.
    위험도 색(빨강·노랑·초록)은 위험도 표시에만 쓰고 문서 상태·버튼에는 쓰지 않는다.
    토큰 이름은 그대로 두고 값만 바꿔 화면별 CSS가 함께 바뀌게 한다. */
 :root {
@@ -44,7 +42,7 @@
   --risk-lo: #22a06b;  --risk-lo-soft: #e5f6ec;  --risk-lo-text: #126b43;
   --risk-na: #8b95a1;  --risk-na-soft: #eef1f4;  --risk-na-text: #4e5968;
 
-  /* 신호등 (화면설계서 04쪽) */
+  /* 신호등 */
   --signal-red: var(--risk-hi);
   --signal-yellow: var(--risk-mid);
   --signal-green: var(--risk-lo);
@@ -78,7 +76,7 @@ html { -webkit-text-size-adjust: 100%; }
 body {
   margin: 0;
   font-family: var(--font);
-  font-size: 16px;            /* UX-019: 본문 15 → 16 (DESIGN_GUIDE 목표값) */
+  font-size: 16px;
   line-height: 1.55;
   letter-spacing: -0.01em;
   -webkit-font-smoothing: antialiased;
@@ -90,13 +88,13 @@ body {
 
 h1, h2, h3, h4, p, ul, ol, dl, dd, figure { margin: 0; }
 
-/* UX-019: 브라우저 기본 표시도 팔레트에 맞춤 */
+/* 브라우저 기본 표시도 팔레트에 맞춤 */
 ::selection { background: #c7d8fe; color: var(--c-text); }
 input, textarea { caret-color: var(--c-primary); }
 .num, time { font-variant-numeric: tabular-nums; }
 /* 화면 전환 때 스크립트가 제목에 옮긴 포커스(tabindex=-1)는 테두리 없이: 화면 낭독기만 위치를 알면 됨 */
 [tabindex="-1"]:focus { outline: none; }
-/* web-design-guidelines 보완 (UX-019) */
+/* web-design-guidelines 보완 */
 h1, h2, .page-title, .card__title { text-wrap: balance; }
 a, button, label, summary, input, select, textarea { touch-action: manipulation; }
 body { -webkit-tap-highlight-color: rgba(37, 99, 235, .12); }
@@ -171,7 +169,7 @@ legend { padding: 0; }
   color: var(--c-text);
   text-decoration: none;
 }
-/* UX-019 로고 마크: 파란 방패 + 주황 점(음식점의 따뜻함). 글자 '로고'는 먹색 */
+/* 로고 마크: 파란 방패 + 주황 점(음식점의 따뜻함). 글자 '로고'는 먹색 */
 .logo::before {
   content: "";
   flex: none;
@@ -197,7 +195,7 @@ legend { padding: 0; }
 }
 .menu > summary::-webkit-details-marker { display: none; }
 .menu[open] > summary { border-color: var(--c-primary); color: var(--c-primary); }
-/* UX-016: ☰ 메뉴 버튼 네모 테두리 없이 라인 아이콘(세 줄)만, 누름 영역 44px 유지 */
+/* ☰ 메뉴 버튼 네모 테두리 없이 라인 아이콘(세 줄)만, 누름 영역 44px 유지 */
 .menu > summary { border-color: transparent !important; background: transparent; font-size: 0; color: var(--c-icon); }
 .menu > summary::before { content: ''; width: 22px; height: 16px; background: linear-gradient(currentColor 0 0) top / 100% 2px no-repeat, linear-gradient(currentColor 0 0) center / 100% 2px no-repeat, linear-gradient(currentColor 0 0) bottom / 100% 2px no-repeat; border-radius: 1px; }
 .menu > summary:hover { background: var(--c-surface-muted); }
@@ -291,9 +289,9 @@ html:not(.js) .views:has(:target) .view.is-active:not(:target):not(:has(:target)
   min-height: var(--touch);
   padding: 0 16px;
   border: 1px solid var(--c-line-strong);
-  border-radius: var(--radius);        /* UX-019 버튼 모서리 12 */
+  border-radius: var(--radius);        /* 버튼 모서리 12 */
   background: var(--c-surface);
-  color: var(--c-text);                /* UX-019 보조 버튼은 먹색 글자(주요 버튼만 파랑) */
+  color: var(--c-text);                /* 보조 버튼은 먹색 글자(주요 버튼만 파랑) */
   font-weight: 700;
   font-size: 16px;
   text-align: center;
@@ -482,7 +480,7 @@ html:not(.js) .views:has(:target) .view.is-active:not(:target):not(:has(:target)
 .tag-list { display: flex; flex-wrap: wrap; gap: 6px; }
 
 /* 평가표 상태 (공통코드 EVAL_STATUS) · class="tag status" 로 사용 */
-/* UX-019: 문서 상태는 위험도 색(노랑·초록)을 쓰지 않는다. 작성 중 회색 · 확정 연한 파랑 · 서명 완료 먹색 */
+/* 문서 상태는 위험도 색(노랑·초록)을 쓰지 않는다. 작성 중 회색 · 확정 연한 파랑 · 서명 완료 먹색 */
 .status[data-status="W"] { background: var(--c-surface-muted); color: var(--c-text-sub); }   /* 작성 중 */
 .status[data-status="C"] { background: var(--c-primary-soft); color: var(--c-primary-dark); } /* 확정 */
 .status[data-status="S"] { background: var(--c-text); color: #fff; }                          /* 서명 완료 */
@@ -524,7 +522,7 @@ html:not(.js) .views:has(:target) .view.is-active:not(:target):not(:has(:target)
 .signal[data-signal="Y"] i:nth-child(2) { background: var(--signal-yellow); box-shadow: 0 0 0 2px rgba(245, 165, 36, 0.3); }
 .signal[data-signal="G"] i:nth-child(3) { background: var(--signal-green); box-shadow: 0 0 0 2px rgba(34, 160, 107, 0.3); }
 /* data-signal="N" (판단 필요) 은 모두 꺼짐 */
-/* UX-015: 모든 화면 신호등을 연회색 몸체(#F1F3F5)의 가로 3구로 통일 */
+/* 모든 화면 신호등을 연회색 몸체(#F1F3F5)의 가로 3구로 통일 */
 .signal { padding: 5px 8px; gap: 5px; background: #F2F4F6; border: 1px solid #E5E8EB; }
 .signal i { width: 10px; height: 10px; background: #D1D6DB; }
 .signal[data-signal="R"] i:nth-child(1),
@@ -603,7 +601,7 @@ a.card:hover { border-color: var(--c-primary-line); }
   font-size: 13px; font-weight: 600;
 }
 .stepper li[aria-current="step"] { background: var(--c-primary); color: #fff; }
-/* UX-015: 간격 없이 하나로 이어진 세그먼트 진행 바 */
+/* 간격 없이 하나로 이어진 세그먼트 진행 바 */
 .stepper { gap: 0; padding: 3px; border-radius: 10px; background: var(--c-surface-muted); }
 .stepper li { min-height: 34px; border-radius: 8px; background: transparent; }
 .stepper li[aria-current="step"] { background: var(--c-primary); box-shadow: 0 1px 3px rgba(17, 24, 39, .18); }
@@ -723,7 +721,7 @@ html.js body[data-auth-required]:not(.auth-ok) .app { visibility: hidden; }
 
 /* 알림 */
 .toast {
-  /* UX-022: 위쪽 표시(위치는 common.js 가 머리글 아래로 계산) · 넉넉한 안쪽 여백 · 한국어 낱말 단위 줄바꿈 */
+  /* 위쪽 표시(위치는 common.js 가 머리글 아래로 계산) · 넉넉한 안쪽 여백 · 한국어 낱말 단위 줄바꿈 */
   position: fixed;
   left: 50%;
   top: calc(64px + env(safe-area-inset-top, 0px));
@@ -829,7 +827,7 @@ html.js body[data-auth-required]:not(.auth-ok) .app { visibility: hidden; }
 .empty { padding: 32px 16px; text-align: center; color: var(--c-text-sub); border: 1px dashed var(--c-line-strong); border-radius: var(--radius); }
 
 /* =========================================================
-   UX-020 큰 글자 설정(안드로이드 글자 크기 최대 200%) 대응
+   큰 글자 설정(안드로이드 글자 크기 최대 200%) 대응
    평소 크기에서는 한 줄 그대로, 글자가 커져 공간이 모자랄 때만 다음 줄로 내려가게 한다.
    ========================================================= */
 .bottom-bar { flex-wrap: wrap; }
@@ -839,18 +837,18 @@ html.js body[data-auth-required]:not(.auth-ok) .app { visibility: hidden; }
 .input-row > .input,
 .input-row > .select { flex: 1 1 160px; }
 
-/* UX-022: 휴대폰(특히 iPhone)은 16px보다 작은 입력칸을 누르면 화면을 확대하고, 다음 화면으로 가도 확대가 남음.
+/* 휴대폰(특히 iPhone)은 16px보다 작은 입력칸을 누르면 화면을 확대하고, 다음 화면으로 가도 확대가 남음.
    글자 입력칸은 모두 16px 이상으로 맞춰 확대 자체가 일어나지 않게 함(사용자의 손가락 확대는 그대로 가능) */
 input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]),
 select, textarea, .input, .select, .textarea { font-size: max(16px, 1em); }
-/* UX-022: 안내·알림·상자 안 문장은 낱말 단위로 보기 좋게 줄바꿈 */
+/* 안내·알림·상자 안 문장은 낱말 단위로 보기 좋게 줄바꿈 */
 p, .hint, .notice, .error-text, .modal__body, .check__text, .card__meta { text-wrap: pretty; }
 
-/* UX-023 Safe-T 도우미 캐릭터 (js/mascot.js) · 머뭇거릴 때 다음 칸 옆에서 가리킴 */
+/* Safe-T 도우미 캐릭터 (js/mascot.js) · 머뭇거릴 때 다음 칸 옆에서 가리킴 */
 .mascot { position: fixed; z-index: 70; display: flex; align-items: flex-end; gap: 6px; max-width: min(300px, calc(100vw - 16px)); pointer-events: auto; cursor: pointer; }
 .mascot[hidden] { display: none; }
 .mascot__body { flex: none; width: 72px; filter: drop-shadow(0 4px 8px rgba(17, 24, 39, .22)); }
-/* UX-024 고양이 그림: 바깥 흰 여백을 잘라 낸 원본이라 칸 너비 그대로 얼굴·귀·수염·안전모가 모두 보임 */
+/* 고양이 그림: 바깥 흰 여백을 잘라 낸 원본이라 칸 너비 그대로 얼굴·귀·수염·안전모가 모두 보임 */
 .mascot__body img { width: 100%; height: auto; display: block; user-select: none; -webkit-user-drag: none; }
 @media (max-width: 360px) { .mascot__body { width: 64px; } }
 .mascot__bubble { position: relative; margin-bottom: 26px; padding: 9px 12px; border-radius: 14px 14px 4px 14px; background: #fff; border: 1px solid var(--c-primary-line);

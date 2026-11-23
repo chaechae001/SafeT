@@ -77,7 +77,7 @@
 #help .voice-states li { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
 
 /* =========================================================
-   UX-006 (2026-11-21) · 화면수정요청 26~29 · write.html 02 현장
+   write.html 02 현장
    ========================================================= */
 /* 29 도움말 '?': 제목 바로 옆, 밝은 색, 제목 글자 높이(누름 영역은 44px 유지) */
 .field-page .field-title { gap: 8px; align-items: center; }
@@ -132,7 +132,7 @@
 }
 
 /* =========================================================
-   UX-008 (2026-11-21) · 현장 입력을 사진·음성·텍스트 블록으로
+   현장 입력을 사진·음성·텍스트 블록으로
    ========================================================= */
 .field-page .input-block {
   display: flex; flex-direction: column; gap: 10px;
@@ -172,7 +172,7 @@
 #help .help-samples figcaption span { display: block; font-weight: 400; font-size: 13px; color: var(--c-text-sub); }
 
 /* =========================================================
-   UX-009 (2026-11-22) · 더 간단하게: 아이콘 녹음기, 사진 버튼 2개, 펄스 안내, 짧은 도움말
+   더 간단하게: 아이콘 녹음기, 사진 버튼 2개, 펄스 안내, 짧은 도움말
    ========================================================= */
 /* 블록 머리: 제목만, ✓는 작은 원 */
 .field-page .input-block { gap: 12px; }
@@ -185,7 +185,7 @@
   border-style: dashed; border-color: var(--c-primary-line); background: var(--c-primary-soft);
 }
 .field-page .photo-actions__btn:focus-within { outline: 3px solid var(--c-primary); outline-offset: 2px; }
-/* (UX-009 보정으로 아래 any-pointer 규칙 사용) */
+/* (보정으로 아래 any-pointer 규칙 사용) */
 
 /* 녹음기: 한 줄 상태 + 아이콘 버튼 */
 .field-page .input-block .recorder,
@@ -239,7 +239,7 @@
 #help .help-voice { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; font-size: 15px; font-weight: 600; margin: 0; }
 #help .help-voice .rec-ico { width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--c-line-strong); }
 #help .help-voice .rec-ico--play::before { border-left-width: 9px; border-top-width: 6px; border-bottom-width: 6px; }
-/* UX-009 보정: 터치 기기에서만 '사진 찍기', 도움말 작은 아이콘 모양 */
+/* 보정: 터치 기기에서만 '사진 찍기', 도움말 작은 아이콘 모양 */
 .field-page .photo-actions .only-touch { display: none; }
 @media (any-pointer: coarse) { .field-page .photo-actions .only-touch { display: inline-flex; } }
 #help .help-voice .rec-ico--pause::before { width: 10px; height: 11px; border-left-width: 3px; border-right-width: 3px; }
@@ -247,7 +247,7 @@
 #help .help-voice .rec-ico--rec::before { width: 12px; height: 12px; }
 
 /* =========================================================
-   UX-011 (2026-11-22) · 인라인 녹음, 촬영 가이드 4포인트, 웹캠 촬영
+   인라인 녹음, 촬영 가이드 4포인트, 웹캠 촬영
    ========================================================= */
 /* 녹음 버튼을 따로 줄로 두지 않고 상태·시간과 한 줄에 */
 .field-page .input-block .recorder { flex-direction: row; flex-wrap: wrap; align-items: center; gap: 10px; }
@@ -277,7 +277,7 @@
 #cam-modal .cam__video { width: 100%; border-radius: 8px; background: #111; aspect-ratio: 4 / 3; object-fit: cover; }
 
 /* =========================================================
-   UX-013 (2026-11-22) · 녹음: [녹음 시작][녹음 중지][초기화] + 기본 재생기, 가이드 2×2 한 화면
+   녹음: [녹음 시작][녹음 중지][초기화] + 기본 재생기, 가이드 2×2 한 화면
    ========================================================= */
 .field-page .input-block .recorder { display: flex; flex-direction: column; align-items: stretch; gap: 10px; }
 .recorder__row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
@@ -307,7 +307,7 @@
 #help .help-voice { font-size: 14px; }
 
 /* =========================================================
-   UX-015 (2026-11-22) · 깔끔한 카드·라인 아이콘·음성 3단계·사진 첨부 줄·글자 수
+   깔끔한 카드·라인 아이콘·음성 3단계·사진 첨부 줄·글자 수
    ========================================================= */
 .ico { flex: none; display: inline-block; vertical-align: middle; }
 /* 제목 + 가이드 알약 버튼 */
@@ -315,7 +315,7 @@
 .field-page .field-head .page-title { margin: 0; }
 .field-page .guide-pill {
   display: inline-flex; align-items: center; gap: 4px; flex: none; min-height: 34px; padding: 0 12px;
-  border: 1px solid var(--c-primary-line); border-radius: 999px; background: var(--c-primary-soft); color: var(--c-primary-dark);   /* UX-019 위험도 노랑과 구분 */
+  border: 1px solid var(--c-primary-line); border-radius: 999px; background: var(--c-primary-soft); color: var(--c-primary-dark);   /* 위험도 노랑과 구분 */
   font-size: 14px; font-weight: 700; text-decoration: none; position: relative;
 }
 .field-page .guide-pill::before { content: ''; position: absolute; inset: -5px; }   /* 누름 영역 44px */
@@ -427,7 +427,7 @@
   .rec-chip { padding: 0 10px; font-size: 14px; }
   .rec-link { padding: 0 3px; font-size: 13px; }
 }
-/* UX-015 보정: 녹음 중·완료일 때 안내 줄·글 칸·변환 중 문장을 하나의 상자로 */
+/* 보정: 녹음 중·완료일 때 안내 줄·글 칸·변환 중 문장을 하나의 상자로 */
 .voice-box:not([data-state="idle"]):not([data-state=""]) { border: 1px solid #E4E7EA; border-radius: 10px; background: #F8F9FA; overflow: hidden; }
 .voice-box:not([data-state="idle"]) .voice-box__head { border: 0; border-radius: 0; background: transparent; }
 .voice-box:not([data-state="idle"]) .voice-box__head ~ .textarea,
@@ -444,7 +444,7 @@
 .field-page .input-block .voice-box[data-state="rec"].is-empty .voice-box__live { padding-top: 6px; min-height: 48px; }
 
 /* =========================================================
-   UX-015 · 현장 기록 가이드: 가운데 둥근 창 + 어두운 배경
+   현장 기록 가이드: 가운데 둥근 창 + 어두운 배경
    ========================================================= */
 .modal.modal--center { align-items: center; background: rgba(15, 20, 18, .55); padding: 16px; }
 #help .guide { max-width: 420px; border-radius: 20px; }
@@ -487,7 +487,7 @@
 #help .shot__img { aspect-ratio: 5 / 2; }
 #help .shot__where { white-space: normal; overflow: visible; }
 
-/* UX-016 (2026-11-22) · 03 기기 — 등록 기기 카드 · 새로 찾은 기기(빈 상태/찾은 상태) 칩 · 하단 '총 N개' 요약 */
+/* 03 기기 — 등록 기기 카드 · 새로 찾은 기기(빈 상태/찾은 상태) 칩 · 하단 '총 N개' 요약 */
 #v-equipment .eq-reg { display: flex; flex-direction: column; gap: 10px; padding: 14px 16px 16px; border: 1px solid #E9ECEF; border-radius: 12px; background: #F8F9FA; }
 #v-equipment .eq-reg__head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
 #v-equipment .eq-reg__title { margin: 0; min-width: 0; }
@@ -529,7 +529,7 @@
 #v-equipment .eq-chip--ai .eq-chip__state { flex: none; white-space: nowrap; }
 @media (max-width: 359px) { #v-equipment .eq-reg { padding: 12px 12px 14px; } #v-equipment .eq-reg__title { font-size: 15px; white-space: nowrap; } #v-equipment .eq-reg__link { font-size: 13px; } }
 
-/* UX-017 03 기기 직접 추가 (이번 평가에만) */
+/* 03 기기 직접 추가 (이번 평가에만) */
 #v-equipment .eq-added { display: flex; flex-direction: column; gap: 10px; padding: 14px 16px 16px; border: 1px solid var(--c-primary-line); border-radius: 12px; background: #fff; }
 #v-equipment .eq-added[hidden] { display: none; }
 #v-equipment .eq-added__title { margin: 0; }
@@ -553,11 +553,11 @@
 #v-equipment .eq-reg__hint { margin: 0; font-size: 14px; }
 #v-equipment .eq-new > .hint[hidden] { display: none; }
 #eq-add .eq-add__save { margin-top: -6px; }
-/* UX-020 큰 글자: 사진 버튼 두 개가 모자라면 두 줄로 */
+/* 큰 글자: 사진 버튼 두 개가 모자라면 두 줄로 */
 .field-page .photo-actions { flex-wrap: wrap; }
 .field-page .photo-actions > * { flex: 1 1 140px; min-width: 0; }
 
-/* UX-022·023 초안 만드는 화면: 도넛(진행 원이 부드럽게 차오름 + 안쪽 빛 띠 회전, 숫자 없음) + 경과 시간 */
+/* 초안 만드는 화면: 도넛(진행 원이 부드럽게 차오름 + 안쪽 빛 띠 회전, 숫자 없음) + 경과 시간 */
 .progress-screen.gen { justify-content: center; padding: 32px var(--gutter); }
 .gen__ui { display: flex; flex-direction: column; align-items: center; gap: 12px; width: 100%; max-width: 340px; text-align: center; }
 .gen__donut { position: relative; width: 148px; height: 148px; margin-bottom: 8px; }
@@ -580,7 +580,7 @@
 .gen__note { margin: 2px 0 0; font-size: 13px; color: var(--c-text-faint, #8B95A1); }
 @media (prefers-reduced-motion: reduce) { .gen__spin { animation: none; } }
 
-/* UX-025 자동 보관본 불러옴 안내 + 새로 쓰기 */
+/* 자동 보관본 불러옴 안내 + 새로 쓰기 */
 .page-write .restore-note, .restore-note.notice { flex-direction: row; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; padding: 10px 12px 10px 14px; text-align: left; }
 .restore-note__text { min-width: 0; word-break: keep-all; }
 .restore-note.notice .restore-note__reset { flex: none; min-height: 44px; background: var(--c-surface); }

@@ -1,6 +1,6 @@
 /* =========================================================
-   참여자 서명 (sign.html) · SIGN ① 참여자 선택 · ② 서명 · 화면설계서 29쪽
-   API (로그인 필요, backend/routers/sign.py)
+   참여자 서명 (sign.html) · SIGN ① 참여자 선택 · ② 서명
+   API (로그인 필요)
      GET  /evals/{번호}/signs   참여 근로자별 서명 여부 (서명 이미지는 받지 않음)
      POST /evals/{번호}/signs   {member_no, confirm: true, sign_img: PNG data URL}
    - 확인 체크 + 서명 획이 있어야 '서명 저장' 활성
@@ -42,14 +42,14 @@
       $list.append($l);
     });
     $('#signer-empty').prop('hidden', res.member_count > 0);
-    // UX-016: 모두 서명을 마치기 전에는 서명할 사람을 추가할 수 있음(참여자 0명이면 서명할 수 없던 문제)
+    // 모두 서명을 마치기 전에는 서명할 사람을 추가할 수 있음(참여자 0명이면 서명할 수 없던 문제)
     $('#signer-add').prop('hidden', !!res.sign_end_dt);
     var hasWriter = writer && res.members.some(function (x) { return x.member_nm === writer; });
     $('#signer-add-me').prop('hidden', !writer || hasWriter).text('+ 작성자 ' + (writer || '') + ' 추가');
     updatePick();
   }
 
-  /* ---------- UX-016: 서명할 사람 추가 ---------- */
+  /* ---------- 서명할 사람 추가 ---------- */
   var writer = null;
   function addSigner(name) {
     name = $.trim(name || '');
@@ -66,7 +66,7 @@
 
   function updatePick() {
     var allDone = !!data && data.member_count > 0 && data.signed_count === data.member_count;
-    // UX-022: 확정 탭에는 서명 완료 평가표가 나오지 않으므로, 전원 서명이 끝나면 돌아갈 내 평가표 탭을 '서명 완료'로 바꿈(기간·사업장은 그대로)
+    // 확정 탭에는 서명 완료 평가표가 나오지 않으므로, 전원 서명이 끝나면 돌아갈 내 평가표 탭을 '서명 완료'로 바꿈(기간·사업장은 그대로)
     if (allDone) {
       try {
         var hs = JSON.parse(window.sessionStorage.getItem('safet.home') || 'null');
@@ -172,7 +172,7 @@
       return;
     }
     if (SafeT.current) SafeT.current.setEval(evalNo);
-    // UX-016: 작성자 이름(빠른 추가 버튼용)을 먼저 읽고 목록 표시
+    // 작성자 이름(빠른 추가 버튼용)을 먼저 읽고 목록 표시
     SafeT.api.get('/evals/' + evalNo).done(function (d) { writer = d.eval_writer || null; }).always(load);
     $('#signer-add-form').on('submit', function (e) { e.preventDefault(); addSigner($('#signer-add-name').val()); });
     $('#signer-add-me').on('click', function () { addSigner(writer); });

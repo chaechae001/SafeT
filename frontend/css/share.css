@@ -37,7 +37,7 @@
 #qr .qr-box--ready svg { width: 100%; height: 100%; display: block; }
 .share .share__meta { color: var(--c-text-sub); font-size: 13px; }
 
-/* UX-021: 공유할 평가표 카드(내 평가표 서명 완료 카드와 같은 모양) · 버튼 두 개 나란히 */
+/* 공유할 평가표 카드(내 평가표 서명 완료 카드와 같은 모양) · 버튼 두 개 나란히 */
 .share .share__eval { background: #f2f4f6; border-color: transparent; border-radius: 14px; padding: 16px; gap: 8px; }
 .share .share__eval .card__head { align-items: center; }
 .share .share__eval .card__title { margin: 0; font-size: 17px; font-weight: 700; color: var(--c-text); overflow-wrap: anywhere; }
@@ -48,5 +48,5 @@
 .share .share__link .btn-row .btn { flex: 1; min-height: 46px; gap: 6px; font-weight: 700; }
 .share .share__link .btn .ico { width: 17px; height: 17px; }
 .share .share__qr-btn { background: var(--c-primary-soft); border-color: var(--c-primary-line); color: var(--c-primary-dark); }
-/* UX-022: 서명 완료 칩은 내 평가표 카드와 같은 연한 회청 */
+/* 서명 완료 칩은 내 평가표 카드와 같은 연한 회청 */
 .share .share__eval .tag.status[data-status="S"] { background: #E3E8EF; color: #334155; min-height: 24px; font-size: 12.5px; }
