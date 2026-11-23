@@ -21,13 +21,12 @@
     if(ps&&ps.core.length&&ps.next)tip="'"+ps.core[0]+"'"+(ps.core.length>1?' 외 '+(ps.core.length-1)+'개':'')+' 추가 시 '+S.riskText.ro(ps.next)+' 완화 가능';
     // UX-024: '꼭 필요한 조치 ○○가 아직 남아 있어요' 코멘트는 숨김(초안 상세와 같게)
     else if(ps&&ps.keep)tip="남은 조치를 해도 위험의 크기 때문에 '"+ps.keep+"' 유지";
+    var info=$('<button type="button" class="proj-card__info" aria-expanded="false" aria-label="계산 설명">').html(S.icon?S.icon('info'):'i').appendTo(head);
     if(tip)$('<p class="proj-card__tip">').html(S.icon?S.icon('bulb'):'').append($('<span>').text(tip)).appendTo(card);
     $('<ul class="proj-card__notes"><li>선택한 대책 모두 이행 시 예상되는 예측치입니다(실제 결과 아님).</li><li>최종 안전 판단 및 관리는 담당자가 확인·수행합니다.</li></ul>').appendTo(card);
-    if(pr&&pr.reason){
-      var info=$('<button type="button" class="proj-card__info" aria-expanded="false" aria-label="계산 설명 보기">').html(S.icon?S.icon('info'):'i').appendTo(head);
-      var full=$('<p class="proj-card__detail" hidden>').text(S.riskText?S.riskText.friendly(pr.reason,controls):pr.reason).appendTo(card);
-      info.on('click',function(){var open=full.prop('hidden');full.prop('hidden',!open);info.attr('aria-expanded',open?'true':'false');});
-    }
+    if(pr&&pr.reason) $('<p class="proj-card__detail">').text(S.riskText?S.riskText.friendly(pr.reason,controls):pr.reason).appendTo(card);
+    var full = card.children(".proj-card__tip, .proj-card__notes, .proj-card__detail").prop("hidden", true);
+    info.on('click',function(){var open=full.prop('hidden');full.prop('hidden',!open);info.attr('aria-expanded',open?'true':'false');});
   }
   function para(parent,label,value){$('<p>').append($('<b>').text(label+' ')).append(document.createTextNode(value || '미입력')).appendTo(parent);}
   function checkedList(parent,label,actions){

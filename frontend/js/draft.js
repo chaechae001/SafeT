@@ -472,7 +472,8 @@
     else if (ps && ps.keep) tip = "남은 조치를 해도 위험의 크기 때문에 '" + ps.keep + "' 유지";
     if (tip) $('<p class="proj-card__tip">').html((SafeT.icon ? SafeT.icon('bulb') : '')).append($('<span>').text(tip)).appendTo($p);
     $('<ul class="proj-card__notes"><li>선택한 대책 모두 이행 시 예상되는 예측치입니다.</li><li>최종 안전 판단 및 관리는 담당자가 확인·수행합니다.</li></ul>').appendTo($p);
-    var full = $('<p class="proj-card__detail" hidden>').text(pr && SafeT.riskText ? SafeT.riskText.friendly(pr.reason, controls) : '').appendTo($p);
+    if (pr && pr.reason) $('<p class="proj-card__detail">').text(pr && SafeT.riskText ? SafeT.riskText.friendly(pr.reason, controls) : '').appendTo($p);
+    var full = $p.children(".proj-card__tip, .proj-card__notes, .proj-card__detail").prop("hidden", true);
     info.on('click', function () { var open = full.prop('hidden'); full.prop('hidden', !open); info.attr('aria-expanded', open ? 'true' : 'false'); });
   }
 
