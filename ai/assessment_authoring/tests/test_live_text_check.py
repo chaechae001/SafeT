@@ -25,6 +25,48 @@ class LiveTransportTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             parse_completion(response)
 
+    def test_whitespace_runaway_after_complete_body_is_repaired(self):
+        # 2026-11-23 다기기 502 원문: 본문을 다 쓴 뒤 바깥 "}" 대신 줄바꿈·공백만 반복하다 길이 제한에 걸림.
+        body = ('{\n  "candidates": [\n    {\n      "scenario_id": "GRIDDLE",\n'
+                '      "work_ref": "S1"  ,\n      "controls": []\n    }\n  ]')
+        response = {"choices": [{"finish_reason": "length", "message": {"content": body + "\n  " * 200}}]}
+        self.assertEqual(parse_completion(response),
+                         {"candidates": [{"scenario_id": "GRIDDLE", "work_ref": "S1", "controls": []}]})
+
+    def test_truncation_inside_body_is_not_repaired(self):
+        cases = [
+            '{"candidates": [{"scenario_id": "FRY", "work_ref": "S1", "controls": [{"control_id": "FRY-C1", "sta',
+            '{"candidates": [{"scenario_id": "FRY", "work_ref": "S1", "controls": [' + " " * 200,
+            '{"candidates": []}' + " " * 10,
+        ]
+        for content in cases:
+            with self.subTest(content=content[:40]), self.assertRaises(ValueError):
+                parse_completion({"choices": [{"finish_reason": "length", "message": {"content": content}}]})
+
+    def test_length_failure_retries_once_with_frequency_penalty(self):
+        from ai.assessment_authoring.live_text_check import complete_json, RETRY_FREQUENCY_PENALTY
+        loop = {"choices": [{"finish_reason": "length", "message": {"content": '{"candidates": [{"a"' + " \t" * 300}}]}
+        ok = {"choices": [{"finish_reason": "stop", "message": {"content": '{"candidates": []}'}}]}
+        sent = []
+        def send(payload):
+            sent.append(payload)
+            return loop if len(sent) == 1 else ok
+        self.assertEqual(complete_json(send, {"max_tokens": 1536}), {"candidates": []})
+        self.assertEqual(sent, [{"max_tokens": 1536}, {"max_tokens": 1536, "frequency_penalty": RETRY_FREQUENCY_PENALTY}])
+        # 재시도도 잘리면 실패를 그대로 올린다(한 번만 재시도).
+        sent.clear()
+        with self.assertRaises(ValueError):
+            complete_json(lambda payload: sent.append(payload) or loop, {})
+        self.assertEqual(len(sent), 2)
+
+    def test_non_length_failure_is_not_retried(self):
+        from ai.assessment_authoring.live_text_check import complete_json
+        sent = []
+        bad = {"choices": [{"finish_reason": "stop", "message": {"content": "[]"}}]}
+        with self.assertRaises(ValueError):
+            complete_json(lambda payload: sent.append(payload) or bad, {})
+        self.assertEqual(len(sent), 1)
+
     def test_only_json_object_accepted(self):
         response = {"choices":[{"finish_reason":"stop","message":{"content":"[]"}}]}
         with self.assertRaises(ValueError):

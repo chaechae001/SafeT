@@ -142,7 +142,6 @@ class AuthoringTests(unittest.TestCase):
                 context["media"].append(dict(id="TEXT", kind="text", text=observation))
                 def extract(_, batch, catalog):
                     self.assertFalse(excluded, "explicitly inapplicable work sent to extraction")
-                    self.assertIn("FRY", [c["scenario_id"] for c in batch["candidates"]])
                     if rows:
                         return read("examples/unknown/analysis.json")
                     return dict(contract_version="assessment-authoring-1", candidates=[], unmatched_risks=[])
@@ -186,8 +185,10 @@ class AuthoringTests(unittest.TestCase):
                 context["media"].append(dict(id="WORK", kind=kind, text=observation))
                 extracted = []
                 def extract(_, batch, catalog):
-                    extracted.append(True)
+                    extracted.append([c["scenario_id"] for c in batch["candidates"]])
                     analysis = read("examples/unknown/analysis.json")
+                    if "FRY" not in extracted[-1]:
+                        return dict(contract_version="assessment-authoring-1", candidates=[], unmatched_risks=[])
                     analysis["candidates"][0]["evidence"] = [dict(media_id="WORK", statement=observation)]
                     return analysis
                 result = run_pipeline(context, build_context=copy.deepcopy, extract_analysis=extract,
@@ -195,6 +196,11 @@ class AuthoringTests(unittest.TestCase):
                 self.assertEqual([row["scenario_id"] for row in result["assessment"]["rows"]], rows)
                 if excluded:
                     self.assertFalse(extracted)
+                # 모델에 보낸 후보와 호출을 생략한 후보가 겹치지 않고, 생략한 후보는 행이 되지 않는다.
+                skipped = result["retrieval_trace"]["extraction_skipped"]
+                self.assertEqual(any("FRY" in batch for batch in extracted), "FRY" not in skipped and not excluded)
+                if "FRY" in skipped:
+                    self.assertNotIn("FRY", rows)
                 self.assertEqual(result["retrieval_trace"]["work_review_candidates"], pending)
                 self.assertEqual(result["retrieval_trace"]["not_applicable_candidates"], excluded)
                 self.assertEqual(result["assessment"]["core"]["review_candidates"],
@@ -297,6 +303,26 @@ class AuthoringTests(unittest.TestCase):
         ]:
             with self.subTest(observation=observation):
                 self.assertEqual(text_candidates(dict(id="TEXT", text=observation), []), (hits, fry_denied))
+
+    def test_equipment_candidate_without_work_sentence_skips_model(self):
+        # 다기기 사진 502(2026-11-23): 작업 문장이 그리들을 언급하지 않는데 GRIDDLE을 모델에 보내
+        # 공백 반복으로 출력이 잘렸다. 어느 문장도 작업 근거가 되지 않는 사진 후보는 결과가 같으므로 보내지 않는다.
+        context = read("examples/input_variants/photo.json")
+        context["equipment_ids"] = ["EQ_FRYER", "EQ_GRIDDLE"]
+        context["media"].append(dict(id="WORK", kind="text", text="튀김기로 조리합니다. 기름은 식힌 뒤 배유합니다."))
+        sent = []
+        def extract(_, batch, catalog):
+            sent.extend(c["scenario_id"] for c in batch["candidates"])
+            return dict(contract_version="assessment-authoring-1", candidates=[], unmatched_risks=[])
+        result = run_pipeline(context, build_context=copy.deepcopy, extract_analysis=extract,
+                              catalog_snapshot=self.catalog, batch_size=1)
+        trace = result["retrieval_trace"]
+        self.assertIn("GRIDDLE", trace["extraction_skipped"])
+        self.assertNotIn("GRIDDLE", sent)
+        self.assertIn("FRY", sent)
+        # 생략한 후보도 사람이 확인할 작업 미확인 후보로 남는다.
+        self.assertIn({"scenario_id": "GRIDDLE", "reason": "work_unconfirmed"},
+                      result["assessment"]["core"]["review_candidates"])
 
     def test_judge_marks_uncertain_unused_statements(self):
         # 문맥이 필요한 미사용 진술은 잠정 미사용·불확실로, 위험·조치 부정은 확실한 사용으로 둔다.

@@ -9,7 +9,9 @@ import urllib.request
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
 from .contracts import load_catalog
+from .extraction_adapter import ExtractionError
 from .pipeline import run_pipeline
+from .segments import split_sentences
 
 class NoRedirect(urllib.request.HTTPRedirectHandler):
     def redirect_request(self, req, fp, code, msg, headers, newurl):
@@ -42,9 +44,8 @@ def input_segments(context):
     for media in context["media"]:
         if media["kind"] not in ("text", "voice_transcript"):
             continue
-        for part in re.split(r"(?<=[.!?。！？])\s+|\n+", media["text"]):
-            if part.strip():
-                segments[f"S{len(segments) + 1}"] = (media["id"], part.strip())
+        for part in split_sentences(media["text"]):
+            segments[f"S{len(segments) + 1}"] = (media["id"], part)
     return segments
 
 
@@ -149,11 +150,59 @@ def output_budget(count, limit=4096):
         raise ValueError("출력 토큰 공간 부족")
     return min(1536, available)
 
+# 마지막 값 뒤에 남은 객체·배열을 닫는 괄호만 보충한다.
+_CLOSERS = ("", "}", "]}", "}]}")
+_MIN_TRAILING_WHITESPACE = 64
+
+
+def _repair_whitespace_runaway(content):
+    """완결된 JSON 본문 뒤에 공백·줄바꿈만 이어지다 잘린 출력이면 복구한 객체를, 아니면 None을 돌려준다."""
+    body = content.rstrip()
+    if len(content) - len(body) < _MIN_TRAILING_WHITESPACE or body.endswith(("[", "{")):
+        return None
+    for closer in _CLOSERS:
+        try:
+            result = json.loads(body + closer)
+        except json.JSONDecodeError:
+            continue
+        return result if isinstance(result, dict) else None
+    return None
+
+
+# 길이 제한으로 잘린 응답의 재시도에만 쓰는 반복 억제값(2026-11-23 Cloud 시험: 공백 반복이 멈추고 정상 종료).
+RETRY_FREQUENCY_PENALTY = 0.5
+
+
+def complete_json(send, payload, context=None, *, validate=None):
+    """send(payload)로 모델을 부르고 JSON을 해석한 뒤 선택적으로 검증한다.
+
+    길이 제한에 걸린 응답을 해석하거나 검증할 수 없을 때만 반복 억제를 넣어 한 번 다시 부른다.
+    정상 경로의 요청은 바꾸지 않는다. 재시도도 실패하면 오류를 그대로 올린다.
+    """
+    def decode(response):
+        decoded = parse_completion(response, context)
+        return validate(decoded) if validate is not None else decoded
+
+    response = send(payload)
+    if response["choices"][0].get("finish_reason") == "length":
+        try:
+            return decode(response)
+        except (ValueError, KeyError, TypeError, ExtractionError):
+            response = send(dict(payload, frequency_penalty=RETRY_FREQUENCY_PENALTY))
+    return decode(response)
+
+
 def parse_completion(response, context=None):
     choice = response["choices"][0]
-    if choice.get("finish_reason") != "stop":
-        raise ValueError("모델 응답이 정상 완료되지 않음")
-    result = json.loads(choice["message"]["content"])
+    content = choice["message"]["content"]
+    if choice.get("finish_reason") == "stop":
+        result = json.loads(content)
+    else:
+        # 구조화 출력은 공백을 제한하지 않아, 본문을 다 쓴 뒤 공백만 반복하다 길이 제한에 걸릴 수 있다.
+        # 본문 중간에서 잘린 경우는 복구하지 않고 그대로 실패시킨다. 복구 결과도 아래 계약 검증을 거친다.
+        result = _repair_whitespace_runaway(content or "") if choice.get("finish_reason") == "length" else None
+        if result is None:
+            raise ValueError("모델 응답이 정상 완료되지 않음")
     if not isinstance(result, dict):
         raise ValueError("모델 JSON 객체 필요")
     return resolve_input_citations(result, context) if context is not None else result
