@@ -215,23 +215,26 @@ def authoring_search_input(context):
         if eq in EQUIPMENT_NAMES and eq not in equipment:
             machines.append({'machine_nm': EQUIPMENT_NAMES[eq]})
 
-    kept, denied = [], set()
+    # 미사용 판정은 기기 단위다. 별칭은 같은 기기 코드의 이름만 쓴다.
+    # 채소절단기·육절기처럼 위험요인(CUT)을 공유하는 다른 기기의 이름은 별칭이 아니다.
+    kept, denied_ids = [], set()
     descriptions = (context.get('text', ''), context.get('voice_text', ''))
     for machine in machines:
         name = machine['machine_nm']
         eq = INVENTORY_NAMES.get(name.strip().casefold()) or machine.get('machine_code')
-        scenario_ids = MAPPINGS['equipment'].get(eq, [])
         aliases = {name}
-        if scenario_ids:
-            aliases.update(label for label, code in INVENTORY_NAMES.items()
-                           if MAPPINGS['equipment'].get(code) == scenario_ids)
+        if eq:
+            aliases.update(label for label, code in INVENTORY_NAMES.items() if code == eq)
         verdicts = {verdict for desc in descriptions for _, _, verdict, certain, _ in _mentions(desc, aliases)
                     if certain}
         if verdicts == {'unused'}:
-            denied.update(scenario_ids)
+            denied_ids.update(MAPPINGS['equipment'].get(eq, []))
         else:
             kept.append(machine)
-    return kept, denied
+    # 미사용 기기의 위험요인이라도 검색에 남는 다른 기기가 같은 위험요인을 가지면 제외하지 않는다.
+    kept_ids = {sid for machine in kept for sid in MAPPINGS['equipment'].get(
+        INVENTORY_NAMES.get(machine['machine_nm'].strip().casefold()) or machine.get('machine_code'), [])}
+    return kept, denied_ids - kept_ids
 
 
 def supplement_authoring(items, snapshot, scenarios, context, registered):

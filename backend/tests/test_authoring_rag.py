@@ -181,7 +181,8 @@ def test_photo_only_uses_detected_machines_for_law_without_registering_them(clie
 def test_law_excludes_registered_mixer_when_input_denies_its_synonym(client, rag_flow, monkeypatch):
     monkeypatch.setenv('SAFET_RISK_LAW_URL', 'http://law.invalid')
     payload = rag_flow[1]
-    payload.update(text='업소용 믹서는 사용하지 않습니다.', add_custom_machines=['반죽기'],
+    # 반죽 믹서는 반죽기와 같은 기기 코드의 별칭이다. 믹서(블렌더)는 다른 기기라 반죽기를 제외하지 않는다.
+    payload.update(text='반죽 믹서는 사용하지 않습니다.', add_custom_machines=['반죽기'],
                    save_machines_to_workplace=True)
     def search(text, voice, machines):
         assert '반죽기' not in [m['machine_nm'] for m in machines]
@@ -190,6 +191,26 @@ def test_law_excludes_registered_mixer_when_input_denies_its_synonym(client, rag
     doc = create(client, rag_flow)
     assert not doc['items']
     assert [(row['scenario_id'], row['machine_kind']) for row in doc['pending_rows']] == [('CUT', 'input')]
+
+
+@pytest.mark.parametrize('field', ['text', 'voice_text'])
+@pytest.mark.parametrize('description', ['육절기는 사용하지 않습니다.',
+                                         '채소절단기로 채소를 썹니다. 육절기는 사용하지 않습니다.'])
+def test_law_excludes_only_the_denied_machine_sharing_a_scenario(client, rag_flow, monkeypatch, field, description):
+    # PR #61 재리뷰: 채소절단기·육절기는 같은 위험요인(CUT)이지만 미사용 진술은 육절기에만 적용한다.
+    monkeypatch.setenv('SAFET_RISK_LAW_URL', 'http://law.invalid')
+    payload = rag_flow[1]
+    payload.update(text='', add_custom_machines=['채소절단기', '육절기'], save_machines_to_workplace=True)
+    payload[field] = description
+    searched = []
+    def search(text, voice, machines):
+        searched.append([m['machine_nm'] for m in machines])
+        return {'units':[dict(source='MACHINE', text='채소절단기', risks=[law_hit('CUT')])]}
+    monkeypatch.setattr(risk_law, 'analyze', search)
+    doc = create(client, rag_flow)
+    assert searched and '채소절단기' in searched[0] and '육절기' not in searched[0]
+    assert any(row.get('catalog', {}).get('scenario', {}).get('id') == 'CUT'
+               or row.get('scenario_id') == 'CUT' for row in doc['items'] + doc.get('pending_rows', []))
 
 
 def test_client_cannot_overwrite_current_or_document_evidence(client,rag_flow):
