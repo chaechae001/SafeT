@@ -2,7 +2,7 @@
 (function ($, S) {
   'use strict';
   $(function () {
-    var photos=[], works=[], busy=false, requestKey=null, lastBody='', reading=0;
+    var photos=[], works=[], worksReady=false, busy=false, requestKey=null, lastBody='', reading=0;
     var added=[], catalogs={}, shownWork=null;   // UX-017 이번 평가에만 추가한 기기 [{code|null, nm}] · 업종별 기기 목록 캐시
     var user=S.auth.user() || {};
     var restored=S.auth.takeRestore('assessment-write');
@@ -41,6 +41,7 @@
       $('#eq-summary').text('총 '+n+'개의 기기로 평가표 초안을 생성합니다.');
     }
     function showMachines() {
+      if (!worksReady) return;
       var w=works.find(function(x){return String(x.work_no)===$('#work_no').val();});
       var list=$('#v-equipment .tag-list').empty();
       if(w) w.machines.forEach(function(m){$('<li class="eq-chip eq-chip--on">').html(ico('check')).append($('<span>').text(m.machine_nm)).appendTo(list);});
@@ -139,7 +140,7 @@
       $in.val('');renderAdded();renderCatalog();$('#eq-add-status').text(nm+' 추가 · 이번 평가에 추가한 기기 '+added.length+'개');$in.trigger('focus');
     });
     S.api.get('/workplaces').done(function(data){
-      works=data; var sel=$('#work_no').empty().append('<option value="">사업장 선택</option>');
+      works=data; worksReady=true; var sel=$('#work_no').empty().append('<option value="">사업장 선택</option>');
       data.forEach(function(w){$('<option>').val(w.work_no).text(w.workplace+' · '+w.biz_nm).appendTo(sel);});
       if(data.length===1) sel.val(data[0].work_no);
       if(restored)sel.val(restored.work_no);
@@ -227,7 +228,10 @@
     }
     /* UX-025 자동 보관 항목 추가: eval_dt_auto(평가일이 그날 기본값인지), save_workplace('사업장에도 저장' 체크), found(사진에서 찾은 기기와 체크 상태) */
     function foundState(){return $('#v-equipment .eq-found input[name="ai_machine_nm"]').map(function(){return {nm:this.value,on:this.checked};}).get();}
-    function snapshot(){return {email:user.email,at:Date.now(),view:location.hash,work_touched:workTouched,work_no:$('#work_no').val(),eval_dt:$('#eval_dt').val(),eval_dt_auto:!dtTouched,eval_writer:$('#eval_writer').val(),save_workplace:$('#eq-save-workplace').prop('checked'),found:foundState(),members:$('[name="member_nm"]').map(function(){return this.value;}).get(),text:$('#file_text').val(),voice_text:$('#voice_text').val(),photos:photos,added:added,requestKey:requestKey,lastBody:lastBody};}
+    function snapshot(){
+      // 목록 조회 전·실패 시 빈 선택값이 이전 사업장을 덮어쓰지 않게 한다.
+      var workNo=worksReady ? $('#work_no').val() : (restored && restored.work_no);
+      return {email:user.email,at:Date.now(),view:location.hash,work_touched:workTouched,work_no:workNo,eval_dt:$('#eval_dt').val(),eval_dt_auto:!dtTouched,eval_writer:$('#eval_writer').val(),save_workplace:$('#eq-save-workplace').prop('checked'),found:foundState(),members:$('[name="member_nm"]').map(function(){return this.value;}).get(),text:$('#file_text').val(),voice_text:$('#voice_text').val(),photos:photos,added:added,requestKey:requestKey,lastBody:lastBody};}
     var autoTimer=null, autoOff=false;
     function autosave(){
       if(autoOff)return;
