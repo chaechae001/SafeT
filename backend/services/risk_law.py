@@ -1,6 +1,6 @@
 """위험요인·법령 검색 모듈(ai/risk_law_search)을 평가표 생성에 연결한다.
 
-SAFET_ASSESSMENT_MODE=catalog_rls_v1 이고 SAFET_RISK_LAW_URL(예: http://127.0.0.1:8020)이 있을 때 쓴다.
+SAFET_RISK_LAW_URL을 설정한 검색 기반 평가와 입력 기반 평가에서 쓴다.
 - 입력 글·음성 전사문 → 모듈 /api/analyze → 위험 카드 → 카드에 연결된 카탈로그 시나리오 → 평가표 행.
 - 행의 현재 안전조치·개선대책은 시나리오 카탈로그(신규: FOOD-3LEVEL-1.2)의 기준 조치로 직접 구성한다(control_id 보유).
   모듈 추천 문구는 검토 완료(confirmed) 연결이면 해당 기준 조치를 앞에 두고, 미확정·미연결이면 저장만 하고 계산에서 제외한다.
@@ -199,6 +199,34 @@ def split_pending(items, registered=None):
                 card['machine_kind'] = 'unregistered'
             pending.append(it)
     return rows_, pending
+
+
+def supplement_authoring(items, snapshot, scenarios, context, registered):
+    """입력 기반 행에 검색 근거를 붙이고 기기 기준 행과 확인 대기를 나눈다."""
+    result = analyze(context.get('text'), context.get('voice_text'), context['machines'])
+    found, _ = rows(result, scenarios, registered)
+    regular, pending = split_pending(found, registered)
+    by_id = {it['authoring']['analysis']['scenario_id']: it for it in items}
+    denied = {c['scenario_id'] for c in snapshot['review_candidates'] if c['reason'] == 'input_denies_work'}
+    reviewed_by_machine = set()
+    pending_rows = []
+    for row in regular + pending:
+        sid = row['catalog']['id']
+        reference = row['risk_law']
+        if sid in denied:
+            continue
+        if sid in by_id:
+            by_id[sid]['law_reference'] = reference['law']
+        elif reference['card'].get('from_machine'):
+            reference['requires_current_review'] = True
+            reviewed_by_machine.add(sid)
+            if reference['card']['machine_kind'] == 'unregistered':
+                pending_rows.append(row)
+            else:
+                items.append(row)
+    snapshot['review_candidates'] = [c for c in snapshot['review_candidates']
+                                     if c['scenario_id'] not in reviewed_by_machine]
+    snapshot['rls_pending'] = pending_rows
 
 
 def pending_view(it):

@@ -7,7 +7,7 @@ from pypdf import PdfReader
 from sqlalchemy import text
 from test_assessment import flow, create, edits
 from conftest import engine
-from services import authoring_rag
+from services import authoring_rag, risk_law
 from services.catalog_risk import seed
 from services.auth import AuthError
 
@@ -65,6 +65,79 @@ def test_document_evidence_roundtrip_and_input_grade_survive_save(client,rag_flo
     final=client.get(f'/evals/{no}',headers=h).json()
     assert final['eval_status']=='C' and final['items'][0]['authoring']==stored
     assert client.put(f'/evals/{no}',headers=h,json=edits(final)).status_code==409
+
+
+def law_result():
+    def hit(sid):
+        return dict(card_id='TEST-'+sid, title='합성 위험 '+sid, risk_type='화상',
+                    scenario={'scenario_id': sid, 'status': 'confirmed'},
+                    law={'law_name': '검수용 법령', 'locator': '제1조', 'article_title': '합성 조문'})
+    return {'units': [
+        dict(source='TEXT', text='주방에서 튀김기로 조리를 합니다.', risks=[hit('FRY'), hit('GAS')]),
+        dict(source='MACHINE', text='튀김기', risks=[hit('FIRE')]),
+        dict(source='MACHINE', text='반죽기', risks=[hit('MIX'), hit('CUT')]),
+    ]}
+
+
+def test_authoring_law_and_pending_roundtrip(client, rag_flow, monkeypatch):
+    headers, payload = rag_flow
+    monkeypatch.setenv('SAFET_RISK_LAW_URL', 'http://law.invalid')
+    calls = []
+    def search(*args):
+        calls.append(args)
+        return law_result()
+    monkeypatch.setattr(risk_law, 'analyze', search)
+    payload['add_custom_machines'] = ['반죽기']
+    doc = create(client, rag_flow)
+    path = f"/evals/{doc['eval_no']}"
+    assert {row['authoring']['row']['scenario_id'] for row in doc['items'] if 'authoring' in row} == {'FRY'}
+    fryer, fire = doc['items']
+    assert fryer['law_reference']['candidate']['locator'] == '제1조'
+    assert fire['catalog']['scenario']['id'] == 'FIRE' and fire['signal'] == 'N'
+    assert fire['catalog']['scenario']['policy_version'] == doc['base_policy_version']
+    assert [row['scenario_id'] for row in doc['pending_rows']] == ['MIX', 'CUT']
+    assert create(client, rag_flow) == doc and len(calls) == 1
+    blocked = client.post(path+'/confirm', headers=headers, json=edits(doc))
+    assert blocked.json()['detail']['code'] == 'PENDING_ROWS_REVIEW_REQUIRED'
+
+    def review(document, scenario, decision):
+        return client.post(path+'/pending-rows', headers=headers,
+                           json={'revision': document['revision'], 'scenario_id': scenario, 'decision': decision})
+
+    dismissed = review(doc, 'CUT', 'dismiss')
+    assert dismissed.status_code == 200, dismissed.text
+    assert review(doc, 'MIX', 'add').json()['detail']['code'] == 'STALE_REVISION'
+    added = review(dismissed.json(), 'MIX', 'add')
+    assert added.status_code == 200, added.text
+    doc = added.json()
+    assert not doc['pending_rows']
+    assert doc['items'][-1]['catalog']['scenario']['id'] == 'MIX'
+    assert doc['items'][-1]['signal'] == 'N'
+
+    form = edits(doc)
+    assert client.put(path, headers=headers, json=form).json()['items'][-1]['signal'] == 'N'
+    fresh = client.get(path, headers=headers).json()
+    form = edits(fresh)
+    form['excluded_review_candidates'] = [c['scenario_id'] for c in fresh['review_candidates']]
+    for row, edit in zip(fresh['items'], form['items']):
+        edit.update(work_reviewed=bool(row.get('authoring')), owner={'type':'R','name':'근로자'}, due='2026-12-01')
+        edit['none'] = 'authoring' not in row
+        edit['plans'][0]['checked'] = True
+    confirmed = client.post(path+'/confirm', headers=headers, json=form)
+    assert confirmed.status_code == 200, confirmed.text
+    assert confirmed.json()['items'][-1]['signal'] != 'N'
+    report = client.get(path+'/report', headers=headers)
+    assert report.status_code == 200
+    assert '검수용 법령' in ''.join(page.extract_text() for page in PdfReader(io.BytesIO(report.content)).pages)
+
+
+def test_law_search_cannot_restore_a_denied_activity(client, rag_flow, monkeypatch):
+    monkeypatch.setenv('SAFET_RISK_LAW_URL', 'http://law.invalid')
+    monkeypatch.setattr(risk_law, 'analyze', lambda *args: law_result())
+    rag_flow[1]['text'] = '튀김기는 사용하지 않습니다.'
+    doc = create(client, rag_flow)
+    assert {'scenario_id': 'FRY', 'reason': 'input_denies_work'} in doc['review_candidates']
+    assert all(row.get('catalog', {}).get('scenario', {}).get('id') != 'FRY' for row in doc['items'])
 
 
 def test_client_cannot_overwrite_current_or_document_evidence(client,rag_flow):

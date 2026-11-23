@@ -57,10 +57,10 @@ def detail(db,email,no):
         catalog.enrich(it, r.get('catalog_state'))
         authoring_rag.enrich(it, it.get('catalog'))
         result['items'].append(it)
+    saved = json.loads(m.get('authoring_snapshot') or '{}')
     if m['generation_source'] == authoring_rag.SOURCE:
-        saved = json.loads(m.get('authoring_snapshot') or '{}')
-        snapshot = (result['items'][0]['authoring'] if result['items']
-                    else saved)
+        snapshot = saved if 'result_status' in saved else next(
+            it['authoring'] for it in result['items'] if it.get('authoring'))
         latest_review = max((it['work_review'] for it in result['items'] if it.get('work_review')),
                             key=lambda review: review['revision'], default={})
         result.update(excluded_review_candidates=saved.get('excluded_review_candidates',
@@ -69,9 +69,7 @@ def detail(db,email,no):
                       review_candidates=snapshot.get('review_candidates', []),
                       base_policy_version=snapshot.get('base_policy_version'),
                       unmatched_risks=snapshot['unmatched_risks'])
-    if m['generation_source'] == catalog.RLS_SOURCE:
-        # 등록 기기에서만 나온 위험: 담당자가 실제 작업인지 확인하기 전에는 평가표 행이 아니다.
-        saved = json.loads(m.get('authoring_snapshot') or '{}')
+    if m['generation_source'] == catalog.RLS_SOURCE or 'rls_pending' in saved:
         result['pending_rows'] = [risk_law.pending_view(p) for p in saved.get('rls_pending', [])]
     return result
 
@@ -82,7 +80,8 @@ def insert_items(db,no,items,email,offset=0):
             for k,value in enumerate(values):
                 execute(db,"INSERT INTO eval_action (eval_dtl_no,action_type,action_text,check_yn,ai_yn,sort) VALUES (:d,:k,:t,'N','Y',:s)",d=result.lastrowid,k=kind,t=value,s=k)
         if it.get('catalog'): catalog.initialize(db,result.lastrowid,it['catalog'],it.get('ai_analysis'),it.get('risk_law'))
-        if it.get('authoring'): authoring_rag.initialize(db,result.lastrowid,it['authoring'])
+        if it.get('authoring'):
+            authoring_rag.initialize(db, result.lastrowid, it['authoring'], it.get('law_reference'))
 
 def added_machines(db,w,codes,custom,existing):
     """UX-017: 03 기기에서 이번 평가에만 추가한 기기. 업종 기기 코드는 검사하고, 같은 이름은 업종 기기로 합친다.
@@ -109,6 +108,7 @@ def create(db,email,body):
     context=body.model_dump(exclude={'add_machine_codes','add_custom_machines','detected_machine_names','save_machines_to_workplace'}); context['machines']=w['machines']+extra
     use_catalog=catalog.enabled()
     use_authoring=authoring_rag.enabled()
+    use_law = use_authoring and risk_law.base_url() and (body.text or body.voice_text or context['machines'])
     # 신규 평가표는 ACTIVE_POLICY(FOOD-3LEVEL-1.2). input_based v1 계약은 CATALOG-MVP-1.1에 고정되어 있어 1.1 카탈로그를 쓴다.
     snapshot=(catalog.list_catalog(db) if use_catalog else
               catalog.list_catalog(db, catalog.POLICY) if use_authoring else [])
@@ -116,8 +116,13 @@ def create(db,email,body):
         context['_photo_cache'] = authoring_rag.cached_photos(db, email, body.work_no, context['photos'])
     # 외부 호출 전에 읽기 트랜잭션도 종료한다.
     db.rollback()
+    authoring_snapshot = {}
     if use_authoring:
-        source, items, authoring_snapshot = authoring_rag.generate(snapshot, context)
+        source, items, authoring_snapshot = authoring_rag.generate(snapshot, context, allow_empty=bool(use_law))
+        if use_law:
+            risk_law.supplement_authoring(items, authoring_snapshot, snapshot, context, registered)
+            if not (items or authoring_snapshot['review_candidates'] or authoring_snapshot['rls_pending']):
+                raise AuthError(422, 'AUTHORING_NO_RESULT', '현재 기준으로 연결할 수 있는 위험 항목이 없습니다.')
     else:
         if use_catalog:
             source, items = catalog.generate_snapshot(snapshot, dict(context, registered_machines=registered))
@@ -140,12 +145,12 @@ def create(db,email,body):
             raise AuthError(409,'WORKPLACE_CHANGED','분석 중 사업장 정보가 변경됐어요. 다시 확인해 주세요.')
         r=execute(db,"INSERT INTO eval_mst (work_no,email,eval_nm,eval_writer,eval_dt,eval_status,del_yn,request_key,revision,generation_source,ins_dt,ins_nm,upt_dt,upt_nm) VALUES (:w,:e,:nm,:writer,:dt,'W','N',:key,1,:src,:t,:e,:t,:e)",w=body.work_no,e=email,nm=f"{body.eval_dt} {w['workplace']} 위험성평가",writer=body.eval_writer,dt=body.eval_dt,key=key,src=source,t=now())
         no=r.lastrowid
-        if use_authoring and (not items or context.get('_photo_cache')):
+        if use_authoring and (use_law or not items or context.get('_photo_cache')):
             if context.get('_photo_cache'):
                 authoring_snapshot['photo_cache'] = context['_photo_cache']
             execute(db, 'UPDATE eval_mst SET authoring_snapshot=:s WHERE eval_no=:n',
                     s=json.dumps(authoring_snapshot, ensure_ascii=False), n=no)
-        if pending:
+        elif pending:
             execute(db, 'UPDATE eval_mst SET authoring_snapshot=:s WHERE eval_no=:n',
                     s=json.dumps(dict(rls_pending=pending), ensure_ascii=False), n=no)
         for i,name in enumerate(body.members): execute(db,'INSERT INTO eval_member (eval_no,member_nm,sort) VALUES (:n,:name,:i)',n=no,name=name,i=i)
@@ -212,7 +217,7 @@ def save(db,email,no,body,confirm=False):
                         x=json.dumps(sorted(exclusions)), n=no)
         for edit in body.items:
             orig=originals[edit.id]
-            if m['generation_source'] == authoring_rag.SOURCE:
+            if orig.get('assessment_mode') == 'input_based':
                 authoring_rag.protect_current(orig, edit)
                 if confirm and not edit.work_reviewed:
                     raise AuthError(422, 'WORK_REVIEW_REQUIRED', '각 작업과 입력 근거를 확인해 주세요.')
@@ -241,8 +246,10 @@ def save(db,email,no,body,confirm=False):
             if edit.owner and edit.owner.type=='R' and edit.owner.name not in [old['eval_writer'],*old['members']]:
                 raise AuthError(400,'INVALID_OWNER','등록된 사람 목록에 없는 담당자예요.')
             execute(db,'UPDATE eval_dtl SET curr_none_yn=:none,keep_yn=:keep,manager_type=:mt,manager_nm=:mn,due_dt=:due,upt_dt=:t,upt_nm=:e WHERE eval_dtl_no=:n',none='Y' if edit.none else 'N',keep=edit.keep,mt=edit.owner.type if edit.owner else None,mn=edit.owner.name if edit.owner else None,due=edit.due,n=edit.id,t=now(),e=email)
-        if m['generation_source'] in catalog.SOURCES:
-            for edit in body.items: catalog.recalculate(db,originals[edit.id],edit,email,body.revision+1,no)
+        for edit in body.items:
+            original = originals[edit.id]
+            if m['generation_source'] in catalog.SOURCES or original.get('catalog', {}).get('risk_law'):
+                catalog.recalculate(db, original, edit, email, body.revision+1, no)
         updated=detail(db,email,no)
         if confirm:
             errors=validation(updated['items'])
@@ -312,19 +319,23 @@ def review_pending(db,email,no,body):
     """확인 대기(기기 기준 · UX-024부터 새 평가표는 미등록 기기만) 위험을 담당자 확인에 따라 평가표 행으로 추가하거나 제외한다."""
     try:
         m=owned(db,email,no,True); writable(m,body.revision)
-        if m['generation_source']!=catalog.RLS_SOURCE:
-            raise AuthError(409,'PENDING_UNSUPPORTED','이 평가표에는 확인 대기 위험이 없어요.')
         saved=json.loads(m.get('authoring_snapshot') or '{}')
+        use_authoring = m['generation_source'] == authoring_rag.SOURCE
+        if m['generation_source'] != catalog.RLS_SOURCE and not (use_authoring and 'rls_pending' in saved):
+            raise AuthError(409,'PENDING_UNSUPPORTED','이 평가표에는 확인 대기 위험이 없어요.')
         pending=saved.get('rls_pending',[])
         hit=next((p for p in pending if p['catalog']['id']==body.scenario_id),None)
         if hit is None: raise AuthError(404,'PENDING_NOT_FOUND','확인 대기 항목을 찾을 수 없어요. 새로 불러와 주세요.')
         at=str(now())
         if body.decision=='add':
             data=detail(db,email,no)
-            if any(it.get('catalog') and it['catalog']['scenario']['id']==body.scenario_id for it in data['items']):
+            existing_ids = {it['authoring']['row']['scenario_id'] if it.get('authoring')
+                            else it.get('catalog', {}).get('scenario', {}).get('id') for it in data['items']}
+            if body.scenario_id in existing_ids:
                 raise AuthError(409,'DUPLICATE_RISK','이미 평가표에 있는 위험요인입니다. 확인 대기에서 제외해 주세요.')
             if len(data['items'])>=100: raise AuthError(400,'ITEM_LIMIT','최대 100개 항목까지 추가할 수 있어요.')
-            if hit['catalog']['policy_version']!=catalog.document_policy(data['items']):
+            policy = saved['base_policy_version'] if use_authoring else catalog.document_policy(data['items'])
+            if hit['catalog']['policy_version'] != policy:
                 raise AuthError(409,'POLICY_CHANGED','이전 기준 평가표입니다. 새 평가표를 작성해 주세요.')
             hit['risk_law']['work_confirmed']=dict(actor=email,at=at)
             unreg=hit['risk_law']['card'].get('machine_kind')=='unregistered'

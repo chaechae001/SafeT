@@ -128,7 +128,7 @@ def negation_judge():
     return exaone_judge(base, os.getenv('SAFET_AI_API_KEY', ''), model)
 
 
-def generate(scenarios, context):
+def generate(scenarios, context, *, allow_empty=False):
     snapshot = load_catalog()
     byid = {s['id']:s for s in scenarios}
     if byid != {s['id']:s for s in snapshot['scenarios']}:
@@ -140,7 +140,7 @@ def generate(scenarios, context):
             extract_with_evidence=extract, batch_size=1, negation_judge=negation_judge())
     except ValueError:
         raise AuthError(502, 'AUTHORING_RESPONSE_INVALID', '분석 근거 검증에 실패했어요. 평가표는 생성하지 않았습니다.') from None
-    if not out['assessment']['rows'] and not out['assessment']['core']['review_candidates']:
+    if not allow_empty and not out['assessment']['rows'] and not out['assessment']['core']['review_candidates']:
         raise AuthError(422, 'AUTHORING_NO_RESULT', '현재 기준으로 연결할 수 있는 위험 항목이 없습니다.')
     reports = {a['scenario_id']:a for a in out['analysis']['candidates']}
     trace = out['retrieval_trace']
@@ -167,9 +167,12 @@ def generate(scenarios, context):
     return SOURCE, items, stamp
 
 
-def initialize(db, item_id, snapshot):
+def initialize(db, item_id, snapshot, law_reference=None):
+    state = {'authoring': snapshot}
+    if law_reference is not None:
+        state['risk_law'] = {'law': law_reference}
     db.execute(text('UPDATE eval_dtl SET catalog_state=:s WHERE eval_dtl_no=:n'),
-        {'s':json.dumps({'authoring':snapshot}, ensure_ascii=False), 'n':item_id})
+        {'s':json.dumps(state, ensure_ascii=False), 'n':item_id})
     db.execute(text("UPDATE eval_action SET check_yn='Y' WHERE eval_dtl_no=:n AND action_type='C'"), {'n':item_id})
 
 
@@ -186,6 +189,8 @@ def enrich(item, state):
     item['authoring'] = snapshot
     item['reason'] = snapshot['row']['rationale']
     item['document_evidence'] = snapshot['row']['document_evidence']
+    if 'risk_law' in state:
+        item['law_reference'] = state['risk_law']['law']
 
 
 def protect_current(original, edit):

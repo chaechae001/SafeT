@@ -456,6 +456,10 @@ python -m uvicorn serve_web:app --app-dir backend --host 127.0.0.1 --port 8021 -
 
 상태 확인은 `/health`, DB 확인은 `/api/health/db`입니다. `SHARE_BASE_URL`에는 같은 외부 주소의 `/pages/share-download.html`을 설정합니다. 사진·음성 기반 평가를 쓰면 `SAFET_ASSESSMENT_MODE=authoring_rag_v1`과 기존 `SAFET_AI_GATEWAY_URL`을 설정합니다.
 
+같은 평가에 팀 법령 검색을 연결하려면 `SAFET_RISK_LAW_URL`에 내부 검색 서버 주소를 설정합니다. 사진·음성 분석에서 확인한 행과 같은 위험 ID에는 법령 후보를 표시합니다. 등록 기기에서만 검색된 위험은 미평가 행으로 추가합니다. 이번 평가에 추가한 미등록 기기에서만 검색된 위험은 UX-024 확인 대기에 표시합니다. 입력에서 미사용을 확인한 위험은 검색으로 추가하지 않습니다.
+
+추가 행은 해당 입력 기반 평가표와 같은 카탈로그 버전을 사용합니다. 작성자가 현재 조치를 확인하면 위험도를 계산합니다. 검색이 실패하면 새 평가표 저장을 중단합니다. 입력 기반 평가만 쓰는 배포에서는 검색 주소를 비워 둡니다.
+
 ## 동시 저장·AI 잠금·사진 캐시 보완
 
 초안 생성·위험 추가·질문 답변은 DB 읽기 트랜잭션 종료 후 AI를 호출하고 저장 직전에 변경 여부를 다시 확인합니다. 사진 탐지 결과는 기존 상태 JSON에 보관하여 같은 사진을 반복 호출하지 않습니다. 관련 검사는 격리 `_test` DB에서 `python -m pytest backend/tests/test_ai_review_regressions.py backend/unit_tests/test_catalog_ai.py -q`로 실행합니다. 모의 AI를 사용하며 실제 서버를 호출하지 않습니다.

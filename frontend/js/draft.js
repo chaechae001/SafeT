@@ -347,7 +347,7 @@
 
   /** 관련 근거(법적 기준). 위험요인·법령 검색 후보(risk_law.law.candidate) 또는 저장된 법령(it.law) */
   function lawOf(it) {
-    var c = it.catalog && it.catalog.risk_law && it.catalog.risk_law.law;
+    var c = it.law_reference || (it.catalog && it.catalog.risk_law && it.catalog.risk_law.law);
     if (c && c.candidate) return { name: c.candidate.law_name, locator: c.candidate.locator, title: c.candidate.article_title,
       quote: c.candidate.quote, from: c.candidate.effective_from, status: c.status || '자동 검색 후보 · 적용 여부는 작성자가 확인' };
     if (it.law && it.law.name) return { name: it.law.name, locator: '', title: '', quote: it.law.summary || '', status: '' };
