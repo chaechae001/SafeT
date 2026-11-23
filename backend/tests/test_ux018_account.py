@@ -28,6 +28,8 @@ def test_withdraw_blocks_login_and_keeps_records(client, flow):  # noqa: F811
 
     r = client.post('/auth/withdraw', headers=h, json={'password': 'password123'})
     assert r.status_code == 200 and r.json()['withdrawn'] is True, r.text
+    signup = client.post('/auth/signup/code', json={'email': email})
+    assert signup.status_code == 409 and '다른 이메일' in signup.json()['detail']['message']
     # 기존 로그인 종료, 다시 로그인 불가
     assert client.get('/auth/me', headers=h).status_code == 401
     assert client.post('/auth/login', json={'email': email, 'password': 'password123'}).status_code == 401
@@ -57,3 +59,15 @@ def test_list_has_pending_count(client, flow):  # noqa: F811
         c.execute(text('UPDATE eval_mst SET authoring_snapshot=NULL WHERE eval_no=:n'), {'n': doc['eval_no']})
     card = next(x for x in client.get('/evals?tab=W', headers=h).json()['items'] if x['eval_no'] == doc['eval_no'])
     assert card['pending_count'] == 0
+
+
+def test_withdraw_attempt_limit_expires(client, email):
+    h = make_login(client, email)
+    for _ in range(5):
+        assert client.post('/auth/withdraw', headers=h, json={'password': 'wrong-pass'}).status_code == 400
+    blocked = client.post('/auth/withdraw', headers=h, json={'password': 'password123'})
+    assert blocked.status_code == 429 and blocked.json()['detail']['retry_after'] > 0
+    with engine.begin() as c:
+        c.execute(text("UPDATE email_verifications SET expiration_dt=NOW() - INTERVAL 1 DAY "
+                       "WHERE email=:e AND auth_code='withdraw:attempts'"), {'e': email})
+    assert client.post('/auth/withdraw', headers=h, json={'password': 'password123'}).status_code == 200

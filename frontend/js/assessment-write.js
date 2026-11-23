@@ -37,6 +37,7 @@
     var ico=function(n){return S.icon?S.icon(n):'';};
     function regCount(){var w=works.find(function(x){return String(x.work_no)===$('#work_no').val();});return w?w.machines.length:0;}
     function updateSummary(){
+      $('#eq-save-workplace').prop('disabled', !added.length);
       var n=regCount()+added.length+$('#v-equipment .eq-found input[name="ai_machine_nm"]:checked').length;
       $('#eq-summary').text('총 '+n+'개의 기기로 평가표 초안을 생성합니다.');
     }
@@ -81,8 +82,7 @@
         try{sessionStorage.setItem(AUTO_KEY,JSON.stringify(data));}
         catch(err){S.toast('작성 내용을 보관할 공간이 부족해요. 사진 수를 줄인 뒤 다시 시도해 주세요.');return;}
         clearTimeout(autoTimer);
-        autoOff=true;
-        S.hasUnsaved=function(){return false;};
+        leavingForWorkplace=true;
         window.location.href=href;
       }
       if($('#recorder .recorder__audio').attr('src')){
@@ -243,9 +243,10 @@
       // 목록 조회 전·실패 시 빈 선택값이 이전 사업장을 덮어쓰지 않게 한다.
       var workNo=worksReady ? $('#work_no').val() : (restored && restored.work_no);
       return {email:user.email,at:Date.now(),view:location.hash,work_touched:workTouched,work_no:workNo,eval_dt:$('#eval_dt').val(),eval_dt_auto:!dtTouched,eval_writer:$('#eval_writer').val(),save_workplace:$('#eq-save-workplace').prop('checked'),found:foundState(),members:$('[name="member_nm"]').map(function(){return this.value;}).get(),text:$('#file_text').val(),voice_text:$('#voice_text').val(),photos:photos,added:added,requestKey:requestKey,bodyDigest:/^[0-9a-f]{64}$/.test(lastBody)?lastBody:''};}
-    var autoTimer=null, autoOff=false;
+    var autoTimer=null, autoOff=false, leavingForWorkplace=false;
+    window.addEventListener('pageshow',function(){leavingForWorkplace=false;});
     function saveNow(){
-      if(autoOff)return;
+      if(autoOff || leavingForWorkplace)return;
       try{
         sessionStorage.setItem(AUTO_KEY,JSON.stringify(snapshot()));
         $('.js-autosave-warning').remove();
@@ -261,7 +262,7 @@
       }
     }
     function autosave(){
-      if(autoOff)return;
+      if(autoOff || leavingForWorkplace)return;
       clearTimeout(autoTimer);
       autoTimer=setTimeout(saveNow,400);
     }
@@ -300,7 +301,7 @@
       recognition.start();$('#voice-btn').text('녹음 종료');
     });
     $('#field-form').on('safet:validate',function(e){if(reading || recognition){e.preventDefault();S.toast('사진 읽기 또는 음성 인식이 끝난 뒤 진행해 주세요.');}});
-    S.hasUnsaved=function(){return !busy && !!($('#file_text').val() || photos.length || $('#voice_text').val());};
+    S.hasUnsaved=function(){return !leavingForWorkplace && !busy && !!($('#file_text').val() || photos.length || $('#voice_text').val());};
     $('#v-generating').off('safet:show safet:hide').on('safet:show',async function(){
       if(busy)return;
       var d=S.parseDate($('#eval_dt').val());
@@ -308,8 +309,8 @@
       var body={work_no:Number($('#work_no').val()),eval_dt:S.formatDate(d).replace(/\./g,'-'),eval_writer:$('#eval_writer').val().trim(),members:$('[name="member_nm"]').map(function(){return this.value;}).get(),text:$('#file_text').val().trim(),voice_text:($('#voice_text').val() || '').trim(),photos:photos.map(function(p){return {name:p.name,place:p.place,data:p.data};}),
         // UX-017 이번 평가에만 추가한 기기. 사진에서 찾아 체크한 기기도 이름으로 함께 보냄
         add_machine_codes:added.filter(function(m){return m.code;}).map(function(m){return m.code;}),
-        add_custom_machines:added.filter(function(m){return !m.code;}).map(function(m){return m.nm;})
-          .concat($('#v-equipment .eq-found input[name="ai_machine_nm"]:checked').map(function(){return this.value;}).get())};
+        add_custom_machines:added.filter(function(m){return !m.code;}).map(function(m){return m.nm;}),
+        detected_machine_names:$('#v-equipment .eq-found input[name="ai_machine_nm"]:checked').map(function(){return this.value;}).get()};
       if(added.length && $('#eq-save-workplace').prop('checked'))body.save_machines_to_workplace=true;   // UX-018   /* UX-015: 화면용 size 는 보내지 않음(서버 extra 금지) */
       busy=true;
       try {

@@ -46,6 +46,15 @@ def main():
             page.reload()
             expect(page.locator('#work_no')).to_have_value('2')
             expect(page.locator('#eq-added-list')).to_contain_text(machine['nm'])
+            # 같은 문서에서 관리 이동 직전 상태와 bfcache의 pageshow(persisted)를 재현한다.
+            page.evaluate("""() => {
+                document.querySelector('.js-eq-manage').href = '#v-equipment';
+                document.querySelector('.js-eq-manage').click();
+                window.dispatchEvent(new PageTransitionEvent('pageshow', {persisted:true}));
+                $('#file_text').val('뒤로 가기 뒤 수정').trigger('input');
+            }""")
+            assert page.evaluate('SafeT.hasUnsaved()')
+            page.wait_for_function("JSON.parse(sessionStorage.getItem('safet.write.autosave')).text==='뒤로 가기 뒤 수정'")
             # 사진은 한 번 저장할 공간만 충분한 상황. 같은 입력 재시도에는 같은 키를 쓴다.
             page.goto(origin + '/js/config.js')
             page.evaluate("""() => {

@@ -84,14 +84,14 @@ def insert_items(db,no,items,email,offset=0):
         if it.get('catalog'): catalog.initialize(db,result.lastrowid,it['catalog'],it.get('ai_analysis'),it.get('risk_law'))
         if it.get('authoring'): authoring_rag.initialize(db,result.lastrowid,it['authoring'])
 
-def added_machines(db,w,body):
+def added_machines(db,w,codes,custom,existing):
     """UX-017: 03 기기에서 이번 평가에만 추가한 기기. 업종 기기 코드는 검사하고, 같은 이름은 업종 기기로 합친다.
     사업장에 이미 등록된 기기(코드 또는 이름이 같음)는 빼서 중복 검색·저장을 막는다. 사업장 정보는 바꾸지 않는다."""
-    if not (body.add_machine_codes or body.add_custom_machines): return []
-    have={m['machine_code'] for m in w['machines'] if m.get('machine_code')}
-    names={(m['machine_nm'] or '').strip().lower() for m in w['machines']}
+    if not (codes or custom): return []
+    have={m['machine_code'] for m in existing if m.get('machine_code')}
+    names={(m['machine_nm'] or '').strip().lower() for m in existing}
     out=[]
-    for code,name in workplaces._resolve_machines(db,w['biz_code'],body.add_machine_codes,body.add_custom_machines):
+    for code,name in workplaces._resolve_machines(db,w['biz_code'],codes,custom):
         if (code and code in have) or name.strip().lower() in names: continue
         have.add(code); names.add(name.strip().lower())
         out.append({'machine_code':code,'machine_nm':name,'custom':code is None})
@@ -102,8 +102,11 @@ def create(db,email,body):
     old=rows(db,'SELECT eval_no FROM eval_mst WHERE email=:e AND request_key=:k',e=email,k=key)
     if old: return detail(db,email,old[0]['eval_no'])
     w=workplaces.get_workplace(db,email,body.work_no)
-    extra=added_machines(db,w,body)
-    context=body.model_dump(exclude={'add_machine_codes','add_custom_machines','save_machines_to_workplace'}); context['machines']=w['machines']+extra
+    direct=added_machines(db,w,body.add_machine_codes,body.add_custom_machines,w['machines'])
+    detected=added_machines(db,w,[],body.detected_machine_names,w['machines']+direct)
+    extra=direct+detected
+    registered=w['machines']+(direct if body.save_machines_to_workplace else [])
+    context=body.model_dump(exclude={'add_machine_codes','add_custom_machines','detected_machine_names','save_machines_to_workplace'}); context['machines']=w['machines']+extra
     use_catalog=catalog.enabled()
     use_authoring=authoring_rag.enabled()
     # 신규 평가표는 ACTIVE_POLICY(FOOD-3LEVEL-1.2). input_based v1 계약은 CATALOG-MVP-1.1에 고정되어 있어 1.1 카탈로그를 쓴다.
@@ -116,13 +119,15 @@ def create(db,email,body):
     if use_authoring:
         source, items, authoring_snapshot = authoring_rag.generate(snapshot, context)
     else:
-        source, items = catalog.generate_snapshot(snapshot, context) if use_catalog else provider.generate(context)
+        if use_catalog:
+            source, items = catalog.generate_snapshot(snapshot, dict(context, registered_machines=registered))
+        else:
+            source, items = provider.generate(context)
     pending = []
     if source == catalog.RLS_SOURCE:
         # UX-024: 사업장 등록 기기 위험은 첫 초안부터 행, 이번 평가에만 추가한 미등록 기기 위험만 확인 대기.
         # 03 기기에서 '사업장 보유 기기에도 추가'를 고른 기기는 이 요청에서 등록되므로 등록 기기로 본다.
-        registered=w['machines']+(extra if body.save_machines_to_workplace else [])
-        items, pending = risk_law.split_pending(items, [m['machine_nm'] for m in registered])
+        items, pending = risk_law.split_pending(items, registered)
     try:
         locked_rows(db,'SELECT work_no FROM workplaces WHERE work_no=:n FOR UPDATE',n=body.work_no)
         old=rows(db,'SELECT eval_no FROM eval_mst WHERE email=:e AND request_key=:k',e=email,k=key)
@@ -144,11 +149,11 @@ def create(db,email,body):
             execute(db, 'UPDATE eval_mst SET authoring_snapshot=:s WHERE eval_no=:n',
                     s=json.dumps(dict(rls_pending=pending), ensure_ascii=False), n=no)
         for i,name in enumerate(body.members): execute(db,'INSERT INTO eval_member (eval_no,member_nm,sort) VALUES (:n,:name,:i)',n=no,name=name,i=i)
-        if body.save_machines_to_workplace and extra:   # UX-018 사업장 보유 기기에도 추가(변경 확인 뒤, 같은 트랜잭션)
+        if body.save_machines_to_workplace and direct:   # UX-018 사업장 보유 기기에도 추가(변경 확인 뒤, 같은 트랜잭션)
             # UX-025: 분석 중 다른 요청이 같은 기기를 먼저 저장했으면 중복으로 넣지 않음(코드 또는 이름 기준)
             now_codes={m['machine_code'] for m in fresh['machines'] if m.get('machine_code')}
             now_names={(m['machine_nm'] or '').strip().lower() for m in fresh['machines']}
-            save=[(m['machine_code'],m['machine_nm']) for m in extra
+            save=[(m['machine_code'],m['machine_nm']) for m in direct
                   if not ((m['machine_code'] and m['machine_code'] in now_codes) or m['machine_nm'].strip().lower() in now_names)]
             if save: workplaces._insert_machines(db,body.work_no,save,email)
         for machine in w['machines']+extra: execute(db,"INSERT INTO eval_machine (eval_no,machine_code,machine_nm,ai_yn,check_yn) VALUES (:n,:c,:name,'N','Y')",n=no,c=machine['machine_code'],name=machine['machine_nm'])

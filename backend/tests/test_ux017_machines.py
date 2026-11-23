@@ -85,8 +85,9 @@ def test_save_added_machines_to_workplace(client, flow, monkeypatch):  # noqa: F
     seen = []
     _setup(monkeypatch, seen)
     h, p = flow
-    r = client.post('/evals', headers=h, json=dict(p, add_custom_machines=['제빙기'], save_machines_to_workplace=True))
+    r = client.post('/evals', headers=h, json=dict(p, add_custom_machines=['제빙기'], detected_machine_names=['사진 기기'], save_machines_to_workplace=True))
     assert r.status_code == 201, r.text
+    assert set(seen[0]) == {'튀김기', '제빙기', '사진 기기'}
     w = client.get(f"/workplaces/{p['work_no']}", headers=h).json()
     assert [m['machine_nm'] for m in w['machines']] == ['튀김기', '제빙기']
     with engine.begin() as c:

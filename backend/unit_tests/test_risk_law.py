@@ -337,3 +337,16 @@ def test_registered_machine_rows_and_unregistered_pending():
     assert [p['catalog']['id'] for p in pending] == ['FIRE']
     view = risk_law.pending_view(pending[0])
     assert view['machine_kind'] == 'unregistered' and view['machine'] == '제빙기'
+
+
+@pytest.mark.parametrize('reverse', [False, True])
+def test_shared_machine_risk_uses_registered_code_in_either_order(reverse):
+    registered = [dict(machine_code='M01', machine_nm='튀김기(대)')]
+    units = [dict(unit_id='MACHINE:M01', source='MACHINE', text='튀김기', risks=[risk('registered')]),
+             dict(unit_id='MACHINE:2', source='MACHINE', text='사진 기기', risks=[risk('detected'), risk('photo-only', sid='FIRE')])]
+    items, _ = risk_law.rows(dict(units=units[::-1] if reverse else units), CAT, registered)
+    rows, pending = risk_law.split_pending(items, registered)
+    assert [r['catalog']['id'] for r in rows] == ['FRY']
+    assert rows[0]['risk_law']['card']['card_id'] == 'registered'
+    assert rows[0]['risk_law']['card']['machine_kind'] == 'registered'
+    assert [p['catalog']['id'] for p in pending] == ['FIRE']

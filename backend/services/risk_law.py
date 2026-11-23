@@ -93,17 +93,43 @@ def control_options(scenario, kind, recs):
     return out + [o for o in extras if o['text'] not in texts]
 
 
-def rows(result, catalog):
+def machine_identity(unit):
+    # 검색 서버의 MACHINE:<코드> 또는 코드 없는 기기의 MACHINE:<순번>.
+    prefix, _, value = (unit.get('unit_id') or '').partition(':')
+    return unit.get('machine_code') or (value if prefix == 'MACHINE' and not value.isdecimal() else None)
+
+
+def registered_matcher(registered):
+    codes, names = set(), set()
+    for machine in registered or ():
+        if isinstance(machine, dict):
+            if machine.get('machine_code'):
+                codes.add(machine['machine_code'])
+            machine = machine.get('machine_nm')
+        names.add(_key(machine))
+    def matches(code, name):
+        return code in codes if code and codes else _key(name) in names
+    return matches
+
+
+def rows(result, catalog, registered=None):
     """모듈 응답 → (행 목록, 행을 만들지 못한 위험). 같은 시나리오는 한 행으로 합친다(공통 계약 MVP)."""
     byid = {s['id']: s for s in catalog}
     items, unmatched, seen = [], [], {}
-    for unit in result.get('units', []):
+    matches = registered_matcher(registered)
+    def priority(unit):
+        if unit.get('source') != 'MACHINE':
+            return 0
+        return 1 if matches(machine_identity(unit), unit.get('text')) else 2
+    # 대표 카드와 그 카드의 법령·조치를 함께 선택한다.
+    for unit in sorted(result.get('units', []), key=priority):
         for risk in unit.get('risks', []):
             link = risk.get('scenario') or {}
             sid = link.get('scenario_id')
             from_machine = unit.get('source') == 'MACHINE'
             card = dict(card_id=risk['card_id'], title=risk['title'][:200], risk_type=risk.get('risk_type'),
                         input_text=(unit.get('text') or '')[:500], source=unit.get('source_label'),
+                        machine_code=machine_identity(unit) if from_machine else None,
                         from_machine=from_machine, low_confidence=bool(risk.get('low_confidence')))
             if link.get('status') not in USABLE or sid not in byid or risk.get('low_confidence'):
                 unmatched.append(dict(card, reason=link.get('message') or '시나리오 연결 없음',
@@ -156,20 +182,20 @@ def split_pending(items, registered=None):
       담당자가 실제 작업으로 확인해 추가하면 그때 행이 된다.
     registered: 사업장 등록 기기 이름 목록. None 이면 예전처럼 기기 기준 위험을 모두 확인 대기로 둔다(호환).
     같은 위험이 작업 설명과 기기 양쪽에서 나오면 rows() 가 한 행으로 합치고 앞선(작업 설명) 출처를 대표로 둔다."""
-    reg = None if registered is None else {_key(n) for n in registered}
+    matches = registered_matcher(registered)
     rows_, pending = [], []
     for it in items:
         card = it['risk_law']['card']
         if not card.get('from_machine'):
             rows_.append(it)
-        elif reg is not None and _key(card.get('input_text')) in reg:
+        elif registered is not None and matches(card.get('machine_code'), card.get('input_text')):
             card['machine_kind'] = 'registered'
             it['risk_law']['notice'] = REGISTERED_NOTICE
             it['reason'] = ('사업장 등록 기기(' + (card.get('input_text') or '')[:50]
                             + ') 기준 AI 추천 위험요인 · 현재 조치를 확인해 주세요.')
             rows_.append(it)
         else:
-            if reg is not None:
+            if registered is not None:
                 card['machine_kind'] = 'unregistered'
             pending.append(it)
     return rows_, pending

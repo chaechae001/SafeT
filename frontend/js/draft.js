@@ -488,16 +488,11 @@
     }
   }
 
-  /** UX-021: 다음 항목 = 지금 남은 일 기준(입력 필요 행 → 등록 기기 확인 대기 카드). 남은 일이 없을 때만 '검토 마치기'
-      - 입력 필요 모드: 지금 항목 뒤의 입력 필요 행(없으면 앞쪽으로 돌아감) → 확인 대기 카드('pending') → 'end'
-      - 전체 보기: 바로 다음 행. 마지막 행이면 남은 입력 필요 행 → 확인 대기 카드 → null */
+  /** 현재 위치 뒤의 미완성 행, 확인 대기 카드 순서로 안내한다. 앞에서 건너뛴 항목은 종료 안내에서 다시 열 수 있다. */
   function nextOpen() {
-    var left = $.grep(needIndexes(), function (i) { return i !== state.index; });
-    var after = $.grep(left, function (i) { return i > state.index; });
+    var after = $.grep(needIndexes(), function (i) { return i > state.index; });
     if (after.length) return after[0];
-    // UX-022: 목록 순서대로(평가표 행 → 그 뒤 확인 대기 카드). 앞쪽에 남은 행은 대기 카드 다음에
-    if (pendingRows().length) return 'pending';
-    return left.length ? left[0] : null;
+    return pendingRows().length ? 'pending' : null;
   }
   function navPos() {
     if (state.mode === 'need') {
@@ -669,14 +664,6 @@
     var go = function () { $('#risk-scroll').scrollTop(0); window.scrollTo(0, 0); };
     go(); requestAnimationFrame(go); setTimeout(go, 120);
   }
-  /** UX-022: 다음 카드가 목록의 확인 대기 카드(등록 기기 기준)면 목록으로 돌아가지 않고 그 카드를 바로 연다.
-      목록에서 그 카드를 누른 것과 같은 동작(reviewPending 'add': 저장 안 된 입력은 먼저 저장). 실제 작업이 아니면 상세의 [삭제]로 뺀다 */
-  function toPending() {
-    var p = pendingRows()[0];
-    if (!p) { leaveToList(); return; }
-    reviewPending(p.scenario_id, 'add');
-  }
-
   /** 23: 지금 항목의 입력만 저장. 다른 항목은 마지막 저장값으로 보내고, 그 항목들의 저장 안 된 입력은 화면에 그대로 둠 */
   function saveCurrentItem() {
     if (busy || !evaluation) return;
@@ -1102,7 +1089,7 @@
     $('#d-next').on('click', function () {
       var n = navPos().next;
       if (n === 'end' || n === null) { leaveToList(); return; }   // UX-005 22: 마지막 항목 = 검토 마치기
-      if (n === 'pending') { toPending(); return; }                 // UX-021: 남은 일이 확인 대기 카드뿐
+      if (n === 'pending') { leaveToList(gotoPending); return; }                 // UX-021: 남은 일이 확인 대기 카드뿐
       var m = missing(cur());
       if (m.length && skipWarned !== cur()) {
         skipWarned = cur();
