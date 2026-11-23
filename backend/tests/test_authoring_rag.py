@@ -67,15 +67,17 @@ def test_document_evidence_roundtrip_and_input_grade_survive_save(client,rag_flo
     assert client.put(f'/evals/{no}',headers=h,json=edits(final)).status_code==409
 
 
+def law_hit(sid):
+    return dict(card_id='TEST-'+sid, title='합성 위험 '+sid, risk_type='화상',
+                scenario={'scenario_id': sid, 'status': 'confirmed'},
+                law={'law_name': '검수용 법령', 'locator': '제1조', 'article_title': '합성 조문'})
+
+
 def law_result():
-    def hit(sid):
-        return dict(card_id='TEST-'+sid, title='합성 위험 '+sid, risk_type='화상',
-                    scenario={'scenario_id': sid, 'status': 'confirmed'},
-                    law={'law_name': '검수용 법령', 'locator': '제1조', 'article_title': '합성 조문'})
     return {'units': [
-        dict(source='TEXT', text='주방에서 튀김기로 조리를 합니다.', risks=[hit('FRY'), hit('GAS')]),
-        dict(source='MACHINE', text='튀김기', risks=[hit('FIRE')]),
-        dict(source='MACHINE', text='반죽기', risks=[hit('MIX'), hit('CUT')]),
+        dict(source='TEXT', text='주방에서 튀김기로 조리를 합니다.', risks=[law_hit('FRY'), law_hit('GAS'), law_hit('MIX')]),
+        dict(source='MACHINE', text='튀김기', risks=[law_hit('FIRE')]),
+        dict(source='MACHINE', text='반죽기', risks=[law_hit('MIX'), law_hit('CUT')]),
     ]}
 
 
@@ -95,7 +97,8 @@ def test_authoring_law_and_pending_roundtrip(client, rag_flow, monkeypatch):
     assert fryer['law_reference']['candidate']['locator'] == '제1조'
     assert fire['catalog']['scenario']['id'] == 'FIRE' and fire['signal'] == 'N'
     assert fire['catalog']['scenario']['policy_version'] == doc['base_policy_version']
-    assert [row['scenario_id'] for row in doc['pending_rows']] == ['MIX', 'CUT']
+    assert {row['scenario_id']: row['machine_kind'] for row in doc['pending_rows']} == {
+        'GAS': 'input', 'MIX': 'unregistered', 'CUT': 'unregistered'}
     assert create(client, rag_flow) == doc and len(calls) == 1
     blocked = client.post(path+'/confirm', headers=headers, json=edits(doc))
     assert blocked.json()['detail']['code'] == 'PENDING_ROWS_REVIEW_REQUIRED'
@@ -110,13 +113,27 @@ def test_authoring_law_and_pending_roundtrip(client, rag_flow, monkeypatch):
     added = review(dismissed.json(), 'MIX', 'add')
     assert added.status_code == 200, added.text
     doc = added.json()
-    assert not doc['pending_rows']
     assert doc['items'][-1]['catalog']['scenario']['id'] == 'MIX'
     assert doc['items'][-1]['signal'] == 'N'
+    assert doc['items'][-1]['catalog']['risk_law']['other_cards'][0]['from_machine'] is False
+    added_text = review(doc, 'GAS', 'add')
+    assert added_text.status_code == 200, added_text.text
+    doc = added_text.json()
+    assert not doc['pending_rows']
+    gas = doc['items'][-1]
+    assert gas['catalog']['scenario']['id'] == 'GAS'
+    assert gas['signal'] == 'N' and not gas['catalog']['risk_law']['card']['from_machine']
 
     form = edits(doc)
     assert client.put(path, headers=headers, json=form).json()['items'][-1]['signal'] == 'N'
     fresh = client.get(path, headers=headers).json()
+    blocked = client.post(path+f"/items/{fryer['id']}/delete", headers=headers, json={'revision': fresh['revision']})
+    assert blocked.json()['detail']['code'] == 'AUTHORING_REMOVE_UNSUPPORTED'
+    for item in (fire, gas):
+        removed = client.post(path+f"/items/{item['id']}/delete", headers=headers, json={'revision': fresh['revision']})
+        assert removed.status_code == 200, removed.text
+        fresh = removed.json()
+    assert len(fresh['items']) == 2 and 'authoring' in fresh['items'][0]
     form = edits(fresh)
     form['excluded_review_candidates'] = [c['scenario_id'] for c in fresh['review_candidates']]
     for row, edit in zip(fresh['items'], form['items']):
@@ -138,6 +155,41 @@ def test_law_search_cannot_restore_a_denied_activity(client, rag_flow, monkeypat
     doc = create(client, rag_flow)
     assert {'scenario_id': 'FRY', 'reason': 'input_denies_work'} in doc['review_candidates']
     assert all(row.get('catalog', {}).get('scenario', {}).get('id') != 'FRY' for row in doc['items'])
+
+
+def test_photo_only_uses_detected_machines_for_law_without_registering_them(client, rag_flow, monkeypatch):
+    headers, payload = rag_flow
+    source = client.get(f"/workplaces/{payload['work_no']}", headers=headers).json()
+    work = client.post('/workplaces', headers=headers,
+                       json={'workplace':'사진 검수', 'biz_code':source['biz_code']}).json()['work_no']
+    monkeypatch.setenv('SAFET_RISK_LAW_URL', 'http://law.invalid')
+    monkeypatch.setattr(authoring_rag.catalog_ai, 'detect_equipment', lambda photos: dict(
+        model='sam3-mock', detections=[dict(photo_id='PHOTO1', equipment='deep fryer',
+                                           bbox=[0, 0, 1, 1], confidence=0.91)]))
+    def search(text, voice, machines):
+        assert text == voice == ''
+        assert [m['machine_nm'] for m in machines] == ['튀김기']
+        return {'units':[dict(source='MACHINE', text='튀김기', risks=[law_hit('FRY')])]}
+    monkeypatch.setattr(risk_law, 'analyze', search)
+    payload.update(work_no=work, text='', photos=[PHOTO])
+    doc = create(client, rag_flow)
+    assert not doc['items']
+    assert [(row['scenario_id'], row['machine_kind']) for row in doc['pending_rows']] == [('FRY', 'unregistered')]
+    assert not client.get(f"/workplaces/{work}", headers=headers).json()['machines']
+
+
+def test_law_excludes_registered_mixer_when_input_denies_its_synonym(client, rag_flow, monkeypatch):
+    monkeypatch.setenv('SAFET_RISK_LAW_URL', 'http://law.invalid')
+    payload = rag_flow[1]
+    payload.update(text='업소용 믹서는 사용하지 않습니다.', add_custom_machines=['반죽기'],
+                   save_machines_to_workplace=True)
+    def search(text, voice, machines):
+        assert '반죽기' not in [m['machine_nm'] for m in machines]
+        return {'units':[dict(source='TEXT', text=text, risks=[law_hit('MIX'), law_hit('CUT')])]}
+    monkeypatch.setattr(risk_law, 'analyze', search)
+    doc = create(client, rag_flow)
+    assert not doc['items']
+    assert [(row['scenario_id'], row['machine_kind']) for row in doc['pending_rows']] == [('CUT', 'input')]
 
 
 def test_client_cannot_overwrite_current_or_document_evidence(client,rag_flow):

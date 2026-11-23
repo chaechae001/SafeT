@@ -112,7 +112,7 @@ def registered_matcher(registered):
     return matches
 
 
-def rows(result, catalog, registered=None):
+def rows(result, catalog, registered=None, *, separate_sources=False):
     """모듈 응답 → (행 목록, 행을 만들지 못한 위험). 같은 시나리오는 한 행으로 합친다(공통 계약 MVP)."""
     byid = {s['id']: s for s in catalog}
     items, unmatched, seen = [], [], {}
@@ -135,8 +135,9 @@ def rows(result, catalog, registered=None):
                 unmatched.append(dict(card, reason=link.get('message') or '시나리오 연결 없음',
                                       scenario_status=link.get('status')))
                 continue
-            if sid in seen:
-                seen[sid]['risk_law']['other_cards'].append(card)
+            key = (sid, from_machine) if separate_sources else sid
+            if key in seen:
+                seen[key]['risk_law']['other_cards'].append(card)
                 continue
             s = byid[sid]
             reference = dict(policy_version=s['policy_version'],card=card, scenario_link=dict(status=link['status'], message=link.get('message')),
@@ -150,7 +151,7 @@ def rows(result, catalog, registered=None):
                                 if from_machine else 'AI 추천 위험요인 · 작업 해당 여부와 현재 조치를 확인해 주세요.'),
                         curr=[o['text'] for o in reference['current']], plans=[o['text'] for o in reference['plans']],
                         catalog=s, risk_law=reference)
-            seen[sid] = item
+            seen[key] = item
             items.append(item)
     return items, unmatched
 
@@ -201,40 +202,85 @@ def split_pending(items, registered=None):
     return rows_, pending
 
 
+def authoring_search_input(context):
+    """사진 탐지를 검색에만 사용하고 확실한 미사용 기기는 검색에서 제외한다."""
+    from ai.assessment_authoring.detection_adapter import EQUIPMENT_NAMES, INVENTORY_NAMES
+    from ai.assessment_authoring.retrieval_adapter import MAPPINGS, _mentions
+
+    machines = list(context['machines'])
+    equipment = {INVENTORY_NAMES.get(m['machine_nm'].strip().casefold()) or m.get('machine_code')
+                 for m in machines}
+    by_photo = (context.get('_photo_cache') or {}).get('equipment_ids_by_photo', {})
+    for eq in dict.fromkeys(eq for ids in by_photo.values() for eq in ids):
+        if eq in EQUIPMENT_NAMES and eq not in equipment:
+            machines.append({'machine_nm': EQUIPMENT_NAMES[eq]})
+
+    kept, denied = [], set()
+    descriptions = (context.get('text', ''), context.get('voice_text', ''))
+    for machine in machines:
+        name = machine['machine_nm']
+        eq = INVENTORY_NAMES.get(name.strip().casefold()) or machine.get('machine_code')
+        scenario_ids = MAPPINGS['equipment'].get(eq, [])
+        aliases = {name}
+        if scenario_ids:
+            aliases.update(label for label, code in INVENTORY_NAMES.items()
+                           if MAPPINGS['equipment'].get(code) == scenario_ids)
+        verdicts = {verdict for desc in descriptions for _, _, verdict, certain, _ in _mentions(desc, aliases)
+                    if certain}
+        if verdicts == {'unused'}:
+            denied.update(scenario_ids)
+        else:
+            kept.append(machine)
+    return kept, denied
+
+
 def supplement_authoring(items, snapshot, scenarios, context, registered):
-    """입력 기반 행에 검색 근거를 붙이고 기기 기준 행과 확인 대기를 나눈다."""
-    result = analyze(context.get('text'), context.get('voice_text'), context['machines'])
-    found, _ = rows(result, scenarios, registered)
+    """검색 카드의 출처를 보존하고 작성자가 확인할 위험을 분리한다."""
+    machines, denied = authoring_search_input(context)
+    text = context.get('text', '').strip()
+    voice = context.get('voice_text', '').strip()
+    snapshot['rls_pending'] = []
+    if not (text or voice or machines):
+        return
+    result = analyze(text, voice, machines)
+    found, _ = rows(result, scenarios, registered, separate_sources=True)
     regular, pending = split_pending(found, registered)
     by_id = {it['authoring']['analysis']['scenario_id']: it for it in items}
-    denied = {c['scenario_id'] for c in snapshot['review_candidates'] if c['reason'] == 'input_denies_work'}
-    reviewed_by_machine = set()
-    pending_rows = []
+    denied.update(c['scenario_id'] for c in snapshot['review_candidates'] if c['reason'] == 'input_denies_work')
+    grouped = {}
     for row in regular + pending:
         sid = row['catalog']['id']
-        reference = row['risk_law']
         if sid in denied:
             continue
+        grouped.setdefault(sid, []).append(row)
+    for sid, candidates in grouped.items():
         if sid in by_id:
-            by_id[sid]['law_reference'] = reference['law']
-        elif reference['card'].get('from_machine'):
-            reference['requires_current_review'] = True
-            reviewed_by_machine.add(sid)
-            if reference['card']['machine_kind'] == 'unregistered':
-                pending_rows.append(row)
-            else:
-                items.append(row)
+            reference = next((row['risk_law']['law'] for row in candidates if row['risk_law']['law']['candidate']), None)
+            if reference:
+                by_id[sid]['law_reference'] = reference
+            continue
+        # 기기 출처가 있으면 글·음성 결과를 함께 남기고 기기 기준으로 분류한다.
+        row = next((r for r in candidates if r['risk_law']['card']['from_machine']), candidates[0])
+        reference = row['risk_law']
+        for other in candidates:
+            if other is not row:
+                reference['other_cards'].extend([other['risk_law']['card'], *other['risk_law']['other_cards']])
+        reference['requires_current_review'] = True
+        if reference['card'].get('machine_kind') == 'registered':
+            items.append(row)
+        else:
+            snapshot['rls_pending'].append(row)
     snapshot['review_candidates'] = [c for c in snapshot['review_candidates']
-                                     if c['scenario_id'] not in reviewed_by_machine]
-    snapshot['rls_pending'] = pending_rows
+                                     if c['scenario_id'] not in grouped]
 
 
 def pending_view(it):
     """화면 표시용 요약. 저장된 확인 대기 항목 전체(기준 조치·추천)는 서버에만 둔다."""
     card = it['risk_law']['card']
     # UX-024: 새 평가표의 확인 대기는 미등록 기기(unregistered)뿐. 예전 평가표에 저장된 대기 항목은 machine_kind 가 없어 registered 로 표시
-    kind = card.get('machine_kind') or 'registered'
+    kind = (card.get('machine_kind') or 'registered') if card.get('from_machine') else 'input'
     return dict(scenario_id=it['catalog']['id'], job=it['job'], title=it['title'], type=it['type'],
                 machine=card.get('input_text', ''), card_title=card.get('title', ''), machine_kind=kind,
-                notice=(UNREGISTERED_NOTICE if kind == 'unregistered' else
+                notice=('글·음성 검색 후보 · 실제로 하는 작업인지 확인해 주세요.' if kind == 'input' else
+                        UNREGISTERED_NOTICE if kind == 'unregistered' else
                         '등록 기기 기준 AI 검색 결과 · 실제로 하는 작업인지 확인한 뒤 평가표에 추가해 주세요.'))

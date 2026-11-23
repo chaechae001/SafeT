@@ -108,7 +108,7 @@ def create(db,email,body):
     context=body.model_dump(exclude={'add_machine_codes','add_custom_machines','detected_machine_names','save_machines_to_workplace'}); context['machines']=w['machines']+extra
     use_catalog=catalog.enabled()
     use_authoring=authoring_rag.enabled()
-    use_law = use_authoring and risk_law.base_url() and (body.text or body.voice_text or context['machines'])
+    use_law = use_authoring and bool(risk_law.base_url())
     # 신규 평가표는 ACTIVE_POLICY(FOOD-3LEVEL-1.2). input_based v1 계약은 CATALOG-MVP-1.1에 고정되어 있어 1.1 카탈로그를 쓴다.
     snapshot=(catalog.list_catalog(db) if use_catalog else
               catalog.list_catalog(db, catalog.POLICY) if use_authoring else [])
@@ -118,7 +118,7 @@ def create(db,email,body):
     db.rollback()
     authoring_snapshot = {}
     if use_authoring:
-        source, items, authoring_snapshot = authoring_rag.generate(snapshot, context, allow_empty=bool(use_law))
+        source, items, authoring_snapshot = authoring_rag.generate(snapshot, context, allow_empty=use_law)
         if use_law:
             risk_law.supplement_authoring(items, authoring_snapshot, snapshot, context, registered)
             if not (items or authoring_snapshot['review_candidates'] or authoring_snapshot['rls_pending']):
@@ -203,7 +203,7 @@ def save(db,email,no,body,confirm=False):
                 raise AuthError(422, 'NO_ASSESSED_ROWS', '평가 항목이 없는 초안은 검토 후보로 보관합니다.')
         if confirm and old.get('pending_rows'):
             raise AuthError(422, 'PENDING_ROWS_REVIEW_REQUIRED',
-                            '기기 기준 확인 대기 위험이 있어요. 실제 작업이면 평가표에 추가하고, 아니면 제외해 주세요.')
+                            '확인 대기 위험이 있어요. 실제 작업이면 평가표에 추가하고, 아니면 제외해 주세요.')
         if m['generation_source'] == authoring_rag.SOURCE:
             pending = {candidate['scenario_id'] for candidate in old['review_candidates']}
             exclusions = set(old['excluded_review_candidates'] if body.excluded_review_candidates is None
@@ -298,14 +298,16 @@ def add_risk(db,email,no,body):
 
 def remove_risk(db,email,no,dtl_no,body):
     """위험 항목 1개 삭제 (UX-005 · 화면수정요청 15).
-    작성 중(W)·revision 일치·이 평가표의 항목일 때만. 입력 기반(input_based) 평가표는 분석 결과를 유지하므로 막는다.
+    작성 중(W)·revision 일치·이 평가표의 항목일 때만. 입력에서 분석한 행은 보호한다.
     항목의 조치(eval_action)·항목 첨부(eval_file.eval_dtl_no)를 함께 지우고 revision 을 올린다. 휴지통 보관 없음."""
     try:
         m=owned(db,email,no,True); writable(m,body.revision)
-        if m['generation_source']==authoring_rag.SOURCE:
-            raise AuthError(409,'AUTHORING_REMOVE_UNSUPPORTED','이 평가표의 위험 항목은 저장된 입력 분석 결과로 유지합니다.')
-        hit=rows(db,'SELECT eval_dtl_no FROM eval_dtl WHERE eval_dtl_no=:d AND eval_no=:n',d=dtl_no,n=no)
+        hit=rows(db,'SELECT catalog_state FROM eval_dtl WHERE eval_dtl_no=:d AND eval_no=:n',d=dtl_no,n=no)
         if not hit: raise AuthError(404,'ITEM_NOT_FOUND','위험 항목을 찾을 수 없어요. 새로 불러와 주세요.')
+        if m['generation_source'] == authoring_rag.SOURCE:
+            state = json.loads(hit[0]['catalog_state'] or '{}')
+            if 'authoring' in state or not state.get('risk_law'):
+                raise AuthError(409,'AUTHORING_REMOVE_UNSUPPORTED','이 평가표의 위험 항목은 저장된 입력 분석 결과로 유지합니다.')
         execute(db,'DELETE FROM eval_action WHERE eval_dtl_no=:d',d=dtl_no)
         execute(db,'DELETE FROM eval_file WHERE eval_dtl_no=:d',d=dtl_no)
         execute(db,'DELETE FROM eval_dtl WHERE eval_dtl_no=:d',d=dtl_no)
@@ -316,7 +318,7 @@ def remove_risk(db,email,no,dtl_no,body):
 
 
 def review_pending(db,email,no,body):
-    """확인 대기(기기 기준 · UX-024부터 새 평가표는 미등록 기기만) 위험을 담당자 확인에 따라 평가표 행으로 추가하거나 제외한다."""
+    """확인 대기 위험을 담당자 확인에 따라 평가표 행으로 추가하거나 제외한다."""
     try:
         m=owned(db,email,no,True); writable(m,body.revision)
         saved=json.loads(m.get('authoring_snapshot') or '{}')
@@ -338,8 +340,11 @@ def review_pending(db,email,no,body):
             if hit['catalog']['policy_version'] != policy:
                 raise AuthError(409,'POLICY_CHANGED','이전 기준 평가표입니다. 새 평가표를 작성해 주세요.')
             hit['risk_law']['work_confirmed']=dict(actor=email,at=at)
-            unreg=hit['risk_law']['card'].get('machine_kind')=='unregistered'
-            hit['risk_law']['notice']=('이번 평가에 추가한 기기' if unreg else '등록 기기')+' 기준 AI 검색 결과 · 담당자가 실제 작업으로 확인해 추가함 · 현재 조치 확인 필요'
+            card = hit['risk_law']['card']
+            label = {'unregistered': '이번 평가에 추가한 기기', 'registered': '등록 기기'}.get(card.get('machine_kind'))
+            if not label:
+                label = '등록 기기' if card.get('from_machine') else '글·음성'
+            hit['risk_law']['notice']=label+' 기준 AI 검색 결과 · 담당자가 실제 작업으로 확인해 추가함 · 현재 조치 확인 필요'
             insert_items(db,no,[hit],email,len(data['items']))
         saved['rls_pending']=[p for p in pending if p is not hit]
         saved['rls_pending_log']=(saved.get('rls_pending_log',[])+[dict(scenario_id=body.scenario_id,decision=body.decision,
