@@ -302,10 +302,10 @@ def remove_risk(db,email,no,dtl_no,body):
     항목의 조치(eval_action)·항목 첨부(eval_file.eval_dtl_no)를 함께 지우고 revision 을 올린다. 휴지통 보관 없음."""
     try:
         m=owned(db,email,no,True); writable(m,body.revision)
-        hit=rows(db,'SELECT catalog_state FROM eval_dtl WHERE eval_dtl_no=:d AND eval_no=:n',d=dtl_no,n=no)
+        hit=rows(db,'SELECT * FROM eval_dtl WHERE eval_dtl_no=:d AND eval_no=:n',d=dtl_no,n=no)
         if not hit: raise AuthError(404,'ITEM_NOT_FOUND','위험 항목을 찾을 수 없어요. 새로 불러와 주세요.')
         if m['generation_source'] == authoring_rag.SOURCE:
-            state = json.loads(hit[0]['catalog_state'] or '{}')
+            state = json.loads(hit[0].get('catalog_state') or '{}')
             if 'authoring' in state or not state.get('risk_law'):
                 raise AuthError(409,'AUTHORING_REMOVE_UNSUPPORTED','이 평가표의 위험 항목은 저장된 입력 분석 결과로 유지합니다.')
         execute(db,'DELETE FROM eval_action WHERE eval_dtl_no=:d',d=dtl_no)
