@@ -46,6 +46,46 @@ def main():
             page.reload()
             expect(page.locator('#work_no')).to_have_value('2')
             expect(page.locator('#eq-added-list')).to_contain_text(machine['nm'])
+            # 사진은 한 번 저장할 공간만 충분한 상황. 같은 입력 재시도에는 같은 키를 쓴다.
+            page.goto(origin + '/js/config.js')
+            page.evaluate("""() => {
+                const draft=JSON.parse(sessionStorage.getItem('safet.write.autosave'));
+                const canvas=document.createElement('canvas');
+                canvas.width=canvas.height=400;
+                const ctx=canvas.getContext('2d');
+                draft.photos=Array.from({length:4}, (_,i)=>{
+                    const pixels=ctx.createImageData(400,400);
+                    for(let j=0;j<pixels.data.length;j++) pixels.data[j]=j%4===3?255:Math.random()*256;
+                    ctx.putImageData(pixels,0,0);
+                    return {name:i+'.png',place:'',data:canvas.toDataURL('image/png')};
+                });
+                sessionStorage.setItem('safet.write.autosave',JSON.stringify(draft));
+            }""")
+            original_photos = page.evaluate("JSON.parse(sessionStorage.getItem('safet.write.autosave')).photos")
+            requests = []
+
+            def fail_creation(route):
+                body = route.request.post_data_json
+                assert body['photos'] == original_photos
+                requests.append(body['request_key'])
+                route.fulfill(status=503, json={'message': '검토용 생성 실패'})
+
+            page.route('**/api/evals', fail_creation)
+            for attempt in range(2):
+                page.goto(origin + '/pages/write.html')
+                expect(page.locator('#work_no')).to_have_value('2')
+                expect(page.locator('.photo__img')).to_have_count(4)
+                with page.expect_response(lambda r: r.url.endswith('/api/evals')):
+                    page.evaluate("SafeT.go('v-generating')")
+                expect(page.locator('#v-equipment')).to_have_class(re.compile('is-active'))
+                page.wait_for_function("""key => {
+                    const saved=JSON.parse(sessionStorage.getItem('safet.write.autosave'));
+                    return saved.requestKey===key;
+                }""", arg=requests[attempt])
+                saved = page.evaluate("JSON.parse(sessionStorage.getItem('safet.write.autosave'))")
+                assert len(saved['photos']) == 4
+                assert len(saved['bodyDigest']) == 64
+            assert requests[0] == requests[1]
             browser.close()
     finally:
         server.shutdown()

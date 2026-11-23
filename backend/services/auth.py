@@ -17,6 +17,7 @@ from typing import Callable
 
 import bcrypt
 import jwt
+from sqlalchemy.exc import OperationalError
 from sqlalchemy import text
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
@@ -420,9 +421,20 @@ def reset_password(db: Session, email: str, password: str, verify_token: str) ->
     t = now()
     if user["since"] and t <= user["since"]:          # 같은 초에 두 번 바뀌어도 버전이 달라지게
         t = user["since"] + timedelta(seconds=1)
-    db.execute(
-        text("UPDATE `user` SET pw = :p, upt_dt = :t, upt_nm = :e WHERE email = :e"),
-        {"p": pw_hash, "t": t, "e": email},
-    )
+    try:
+        updated = db.execute(
+            text("UPDATE `user` SET pw = :p, upt_dt = :t, upt_nm = :e "
+                 "WHERE email = :e AND COALESCE(pw, '') <> :withdrawn"),
+            {"p": pw_hash, "t": t, "e": email, "withdrawn": WITHDRAWN},
+        )
+    except OperationalError as err:
+        # MariaDB는 같은 행이 조회 뒤 변경되면 영향 행 수 대신 1020을 반환하기도 한다.
+        db.rollback()
+        if err.orig.args[:1] != (1020,):
+            raise
+        raise AuthError(400, "INVALID_VERIFY_TOKEN", "계정 상태가 변경됐어요. 인증 코드를 다시 요청해 주세요.") from err
+    if updated.rowcount != 1:
+        db.rollback()
+        raise AuthError(400, "INVALID_VERIFY_TOKEN", "인증 정보가 맞지 않아요. 인증 코드를 다시 요청해 주세요.")
     db.commit()
     return {"email": email}

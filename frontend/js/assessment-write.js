@@ -228,7 +228,7 @@
       (restored.members || []).forEach(function(n){$('#member_add').val(n);$('#member-add-btn').trigger('click');});
       photos=(restored.photos || []).filter(function(p){return /^data:image\/(png|jpeg|webp);base64,/.test(p.data);});renderPhotos();
       if(restored.voice_text)$('<div class="field"><label for="voice_text">음성 전사문</label><textarea id="voice_text" class="textarea"></textarea></div>').insertBefore($('#file_text').closest('.field')).find('textarea').val(restored.voice_text);
-      requestKey=restored.requestKey;lastBody=restored.lastBody || '';
+      requestKey=restored.requestKey;lastBody=restored.bodyDigest || restored.lastBody || '';
       added=(restored.added || []).filter(function(m){return m && m.nm;});shownWork=restored.work_no?String(restored.work_no):null;renderAdded();
       // UX-025: '사업장에도 저장' 체크와 사진에서 찾은 기기의 체크 상태도 되살림
       if(restored.save_workplace)$('#eq-save-workplace').prop('checked',true);
@@ -242,7 +242,7 @@
     function snapshot(){
       // 목록 조회 전·실패 시 빈 선택값이 이전 사업장을 덮어쓰지 않게 한다.
       var workNo=worksReady ? $('#work_no').val() : (restored && restored.work_no);
-      return {email:user.email,at:Date.now(),view:location.hash,work_touched:workTouched,work_no:workNo,eval_dt:$('#eval_dt').val(),eval_dt_auto:!dtTouched,eval_writer:$('#eval_writer').val(),save_workplace:$('#eq-save-workplace').prop('checked'),found:foundState(),members:$('[name="member_nm"]').map(function(){return this.value;}).get(),text:$('#file_text').val(),voice_text:$('#voice_text').val(),photos:photos,added:added,requestKey:requestKey,lastBody:lastBody};}
+      return {email:user.email,at:Date.now(),view:location.hash,work_touched:workTouched,work_no:workNo,eval_dt:$('#eval_dt').val(),eval_dt_auto:!dtTouched,eval_writer:$('#eval_writer').val(),save_workplace:$('#eq-save-workplace').prop('checked'),found:foundState(),members:$('[name="member_nm"]').map(function(){return this.value;}).get(),text:$('#file_text').val(),voice_text:$('#voice_text').val(),photos:photos,added:added,requestKey:requestKey,bodyDigest:/^[0-9a-f]{64}$/.test(lastBody)?lastBody:''};}
     var autoTimer=null, autoOff=false;
     function autosave(){
       if(autoOff)return;
@@ -288,7 +288,7 @@
     });
     $('#field-form').on('safet:validate',function(e){if(reading || recognition){e.preventDefault();S.toast('사진 읽기 또는 음성 인식이 끝난 뒤 진행해 주세요.');}});
     S.hasUnsaved=function(){return !busy && !!($('#file_text').val() || photos.length || $('#voice_text').val());};
-    $('#v-generating').off('safet:show safet:hide').on('safet:show',function(){
+    $('#v-generating').off('safet:show safet:hide').on('safet:show',async function(){
       if(busy)return;
       var d=S.parseDate($('#eval_dt').val());
       if(!d || !$('#work_no').val() || !$('#eval_writer').val().trim()){S.go('v-basic');S.toast('기본정보를 확인해 주세요.');return;}
@@ -298,8 +298,19 @@
         add_custom_machines:added.filter(function(m){return !m.code;}).map(function(m){return m.nm;})
           .concat($('#v-equipment .eq-found input[name="ai_machine_nm"]:checked').map(function(){return this.value;}).get())};
       if(added.length && $('#eq-save-workplace').prop('checked'))body.save_machines_to_workplace=true;   // UX-018   /* UX-015: 화면용 size 는 보내지 않음(서버 extra 금지) */
-      var serial=JSON.stringify(body);if(serial!==lastBody){requestKey=crypto.randomUUID();lastBody=serial;}body.request_key=requestKey;
-      busy=true;$('#v-generating .bottom-bar a').attr('aria-disabled','true').hide();
+      busy=true;
+      try {
+        var serial=JSON.stringify(body);
+        var bytes=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(serial));
+        var digest=Array.from(new Uint8Array(bytes),function(x){return x.toString(16).padStart(2,'0');}).join('');
+        if(!requestKey || (lastBody!==digest && lastBody!==serial)) requestKey=crypto.randomUUID();
+        lastBody=digest;
+        body.request_key=requestKey;
+        autosave();
+      } catch(err) {
+        busy=false;S.go('v-equipment');S.toast('요청을 준비하지 못했어요. 다시 시도해 주세요.');return;
+      }
+      $('#v-generating .bottom-bar a').attr('aria-disabled','true').hide();
       /* UX-022: 초안 생성 화면. 서버는 한 번의 요청으로 처리해 실제 진행률을 알 수 없으므로 % 숫자·단계 완료·남은 시간은 보이지 않는다(화면설계서 15쪽).
          막대는 경과 시간에 따라 90%까지 점점 느려지며 부드럽게 차오르고, 실제로 끝났을 때만 100%로 채운 뒤 초안으로 이동한다. */
       var $scr=$('#v-generating .progress-screen').addClass('gen'), started=Date.now(), raf=0, shown=0;
