@@ -27,7 +27,7 @@
 .page-login .input:focus {
   border-color: var(--c-primary);
   box-shadow: 0 0 0 3px var(--c-primary-line);
-  background: #fafbfc;
+  background: #fbfdfb;
 }
 .page-login .field:focus-within > .label { color: var(--c-primary); }
 .page-login .input[aria-invalid="true"] { border-width: 2px; background: var(--c-danger-bg); }
@@ -132,7 +132,7 @@
   display: grid; place-items: center; width: 44px; height: 44px; margin-left: -10px;
   border-radius: var(--radius-sm); color: var(--c-text); text-decoration: none;
 }
-.page-login .auth-back:hover { background: var(--c-surface-muted, #f2f4f6); }
+.page-login .auth-back:hover { background: var(--c-surface-muted, #f4f5f7); }
 .page-login .auth-back:focus-visible { outline: 2px solid var(--c-primary); outline-offset: 2px; }
 .page-login .auth-back .ico { width: 22px; height: 22px; }
 .page-login .app:has(#v-login.is-active) .auth-topbar { display: none; }
@@ -156,7 +156,7 @@
 .page-login .auth--login .page-title { font-size: 22px; }
 
 /* 입력칸 통일: 흰 바탕 + 얇은 연회색 실선 (포커스 강조는 UX-001 그대로, 바탕만 흰색) */
-.page-login .auth .input { background: #fff; border: 1px solid var(--c-line-strong); border-radius: 10px; }
+.page-login .auth .input { background: #fff; border: 1px solid #d3d9d5; border-radius: 10px; }
 .page-login .auth .input:focus { background: #fff; border-color: var(--c-primary); }
 .page-login .auth .input[aria-invalid="true"] { border: 2px solid var(--c-danger); background: var(--c-danger-bg); }
 
@@ -167,7 +167,7 @@
   display: grid; place-items: center; color: var(--c-text-sub);
 }
 .page-login .pw-toggle .ico { width: 22px; height: 22px; }
-.page-login .pw-toggle:hover { background: var(--c-surface-muted, #f2f4f6); color: var(--c-text); }
+.page-login .pw-toggle:hover { background: var(--c-surface-muted, #f4f5f7); color: var(--c-text); }
 .page-login .pw-toggle:focus-visible { outline: 2px solid var(--c-primary); outline-offset: -2px; }
 
 /* 아이디 저장 + 비밀번호 찾기 한 줄 */
@@ -194,7 +194,7 @@
   background: #fff; border: 1px solid var(--c-text); color: var(--c-text); font-weight: 700;
 }
 .page-login .auth .input-row:not(.code-box) > .btn:disabled {
-  border-color: var(--c-line-strong); color: var(--c-text-sub); background: #fff; opacity: 1; cursor: not-allowed;
+  border-color: #d3d9d5; color: var(--c-text-sub); background: #fff; opacity: 1; cursor: not-allowed;
 }
 .page-login .auth .input-row:not(.code-box) > .btn.btn--emphasis { border-color: var(--c-primary); color: var(--c-primary); }
 
@@ -244,7 +244,7 @@
 /* 개인정보 동의 상자: 오른쪽 끝 '보기 >' */
 .page-login .agree-box {
   display: flex; flex-wrap: wrap; align-items: center;
-  border: 1px solid var(--c-line-strong); border-radius: 10px; background: #fff;
+  border: 1px solid #d3d9d5; border-radius: 10px; background: #fff;
 }
 .page-login .agree-box:has(input:checked) { border-color: var(--c-primary-line); background: var(--c-primary-soft); }
 .page-login .agree-box .check { flex: 1; min-width: 0; border: 0; background: transparent; }
@@ -276,73 +276,3 @@
 #terms .terms-list dd { margin: 0; color: var(--c-text-sub); line-height: 1.6; word-break: keep-all; overflow-wrap: anywhere; }
 #terms .terms-list__sub { display: block; margin-top: 6px; font-size: 14px; font-weight: 600; color: var(--c-text); }
 #terms .terms-list__sub:first-child { margin-top: 0; }
-
-
-/* =========================================================
-   UX-019 (2026-11-22) · 디자인 1안: 시작 화면(랜딩)·Splash·로그인 브랜드
-   문구·버튼 순서·동작은 그대로, 모양만 바꿈 (login.html 안으로 한정)
-   ========================================================= */
-.page-login { --mark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5z' fill='%23fff'/%3E%3Cpath d='m8.6 12 2.4 2.4 4.4-4.8' fill='none' stroke='%232563eb' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='18.6' cy='4.6' r='3' fill='%23ff6b1a' stroke='%232563eb' stroke-width='1.4'/%3E%3C/svg%3E"); }
-
-/* 시작 화면: 큰 앱 아이콘 → 소개 한 줄 → 제목 → 설명 → 3단계 → 버튼 */
-.page-login .start { gap: 18px; padding-top: 32px; }
-.page-login .start::before {
-  content: ""; width: 64px; height: 64px; border-radius: 18px;
-  background: var(--mark) center / 38px no-repeat, var(--c-primary);
-  box-shadow: 0 8px 20px rgba(37, 99, 235, .22);
-}
-.page-login .start__eyebrow { color: var(--c-text-sub); font-weight: 600; font-size: 15px; }
-.page-login .start__title { font-size: 28px; line-height: 1.3; letter-spacing: -0.03em; font-weight: 800; }
-.page-login .start__desc { font-size: 16px; line-height: 1.6; color: var(--c-text-sub); }
-.page-login .start__steps {
-  gap: 0; padding: 4px 16px; border-radius: var(--radius-lg);
-  background: var(--c-surface); border: 1px solid var(--c-line);
-  font-size: 16px; font-weight: 600; counter-reset: none;
-}
-.page-login .start__steps li { min-height: 56px; gap: 14px; }
-.page-login .start__steps li + li { border-top: 1px solid var(--c-line); }
-.page-login .start__num { width: 30px; height: 30px; background: var(--c-primary-soft); color: var(--c-primary-dark); font-size: 15px; }
-.page-login .start__actions { gap: 10px; margin-top: 6px; }
-.page-login .auth--start .page { background: linear-gradient(180deg, #eef3ff 0, var(--c-surface) 220px); }
-
-/* Splash: 파란 바탕 + 흰 앱 아이콘(방패·주황 점) + 로고. 아이콘이 살짝 떠오르는 한 번의 움직임 */
-.show-splash .splash { background: var(--c-primary); }
-.splash__inner { gap: 14px; }
-.splash__mark {
-  width: 84px; height: 84px; border-radius: 24px;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5z' fill='%232563eb'/%3E%3Cpath d='m8.6 12 2.4 2.4 4.4-4.8' fill='none' stroke='%23fff' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='18.6' cy='4.6' r='3' fill='%23ff6b1a' stroke='%23fff' stroke-width='1.4'/%3E%3C/svg%3E") center / 50px no-repeat, #fff;
-  box-shadow: 0 14px 34px rgba(15, 23, 42, .28);
-  animation: splash-rise .7s cubic-bezier(.16, 1, .3, 1) both;
-}
-.splash__logo { font-size: 34px; letter-spacing: -0.03em; animation: splash-rise .7s .08s cubic-bezier(.16, 1, .3, 1) both; }
-.splash__tag { font-size: 16px; color: #fff; opacity: 1; animation: splash-rise .7s .16s cubic-bezier(.16, 1, .3, 1) both; }
-@keyframes splash-rise { from { opacity: 0; transform: translateY(10px) scale(.98); } to { opacity: 1; transform: none; } }
-@media (prefers-reduced-motion: reduce) { .splash__mark, .splash__logo, .splash__tag { animation: none; } }
-
-/* 로그인 브랜드: 파란 앱 아이콘 + 먹색 로고 */
-.page-login .auth-brand__mark { background: var(--c-primary); color: #fff; box-shadow: 0 8px 20px rgba(37, 99, 235, .22); }
-.page-login .auth-brand__logo { color: var(--c-text); letter-spacing: -0.03em; }
-.page-login .input::placeholder { color: #6b7684; }
-.page-login .auth-brand__mark { background: var(--mark) center / 38px no-repeat, var(--c-primary); }
-.page-login .auth-brand__mark .ico { visibility: hidden; }
-/* UX-020 큰 글자: 이메일 옆 버튼이 모자라면 아래 줄로, 화면 폭을 넘지 않게 */
-.page-login .auth .input-row:not(.code-box) > .btn { flex: 0 1 auto; max-width: 100%; }
-
-/* UX-022 (2026-11-23): 휴대폰 브라우저 보이는 높이(주소창 포함 약 640~760px)에서 로그인 화면이 스크롤 없이 한 화면에 들어오게.
-   브랜드 영역·간격만 줄이고 입력칸 높이(48px)·글자(16px)·버튼은 그대로 */
-@media (max-height: 820px) {
-  .page-login .auth--login .page { padding-top: 24px; padding-bottom: 16px; gap: 14px; }
-  .page-login .auth-brand { gap: 2px; margin-bottom: 0; }
-  .page-login .auth-brand__mark { width: 52px; height: 52px; margin-bottom: 6px; border-radius: 15px; background-size: 30px; }
-  .page-login .auth-brand__logo { font-size: 26px; }
-  .page-login .auth-brand__tag { font-size: 14px; }
-  .page-login .auth--login .page-title { font-size: 20px; margin: 4px 0 0; }
-  .page-login .auth--login .auth__form { gap: 12px; }
-  .page-login .auth--login .field { gap: 4px; }
-}
-@media (max-height: 680px) {
-  .page-login .auth--login .page { padding-top: 14px; gap: 10px; }
-  .page-login .auth-brand__mark { width: 44px; height: 44px; margin-bottom: 4px; border-radius: 13px; background-size: 26px; }
-  .page-login .auth-brand__logo { font-size: 22px; }
-  .page-login .auth--login .page-title { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-}

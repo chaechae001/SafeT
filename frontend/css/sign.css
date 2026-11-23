@@ -21,6 +21,3 @@
 .signer-add .input-row { display: flex; gap: 8px; }
 .signer-add .input-row .input { flex: 1; min-width: 0; background: #fff; }
 .signer-add .input-row .btn { flex: none; border: 1px solid var(--c-primary); color: var(--c-primary); background: #fff; font-weight: 700; }
-
-/* UX-019: 참여자별 '서명 필요'는 할 일 표시라 위험도 노랑 대신 연한 파랑 (sign.js 의 tag--warn, 이 화면 안으로 한정) */
-#signer-list .tag--warn { background: var(--c-primary-soft); color: var(--c-primary-dark); }

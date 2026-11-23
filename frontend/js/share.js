@@ -38,9 +38,6 @@
     function render(res) {
       $('.js-eval-nm').text(res.eval_nm || '평가표');
       $('#item-count').text(res.item_count);
-      // UX-021: 상태 칩(서명 완료 · 조치 완료). 공유는 전원 서명 뒤에만 열리므로 보통 '서명 완료'
-      var st = { S: '서명 완료', A: '조치 완료', C: '확정' }[res.eval_status];
-      $('#share-status').attr('data-status', res.eval_status).text(st ? '✓ ' + st : '').prop('hidden', !st);
       var s = res.share;
       $('#share-on, #reissue-link').prop('hidden', !s);
       $('#share-off').prop('hidden', !!s || res.status === 'none');   // 처음(만든 적 없음)엔 '중지' 안내를 띄우지 않음

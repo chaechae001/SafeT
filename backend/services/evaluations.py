@@ -1,9 +1,9 @@
 """내 평가표 목록 (H01 · 화면설계서 10쪽)
 
-- 탭 4개 (UX-022 · 2026-11-23 사용자 결정: 확정 탭에는 서명 완료 평가표를 넣지 않음. 서명 완료는 서명 완료 탭에만)
+- 탭 4개 (같은 평가표가 여러 탭에 나올 수 있음 · 05쪽, 36쪽 2번 '임시 처리')
     ALL 전체    : 상태 조건 없음 (2026-11-17 추가, 화면 맨 앞 탭)
     W 작성 중   : eval_status = 'W'
-    C 확정      : eval_status = 'C' AND sign_end_dt IS NULL   (확정했고 서명이 끝나지 않은 평가표)
+    C 확정      : eval_status IN ('C','S','A')   (확정된 평가표 전체)
     S 서명 완료 : sign_end_dt 가 있음
     A 조치 완료 : eval_status = 'A'
 - 기간: 평가일(eval_dt) 기준, 시작일·종료일 포함
@@ -22,7 +22,7 @@ PAGE_SIZE = 10
 TAB_WHERE = {
     "ALL": "1 = 1",                                   # 전체: 상태 조건 없음 (휴지통·기간·사업장 조건은 그대로)
     "W": "m.eval_status = 'W'",
-    "C": "m.eval_status = 'C' AND m.sign_end_dt IS NULL",   # UX-022: 서명 완료는 S 탭에만
+    "C": "m.eval_status IN ('C', 'S', 'A')",
     "S": "m.sign_end_dt IS NOT NULL",
     "A": "m.eval_status = 'A'",
 }
@@ -57,10 +57,7 @@ def list_evals(db: Session, email: str, tab: str, start: date | None, end: date 
             "       (SELECT COUNT(*) FROM eval_member em WHERE em.eval_no = m.eval_no) AS member_count, "
             "       (SELECT COUNT(DISTINCT s.member_no) FROM eval_sign s "
             "         WHERE s.eval_no = m.eval_no AND s.sign_yn = 'Y' AND s.signer_type = 'WO') AS signed_count, "
-            "       (SELECT COUNT(*) FROM eval_dtl d WHERE d.eval_no = m.eval_no) AS item_count, "  # UX-017 카드 '위험 항목 N건'
-            # UX-018 확인 대기(등록 기기 기준 후보) 수: authoring_snapshot.rls_pending 길이. 추가·제외하면 목록에서 빠짐
-            "       COALESCE(CASE WHEN JSON_VALID(m.authoring_snapshot) "
-            "         THEN JSON_LENGTH(m.authoring_snapshot, '$.rls_pending') END, 0) AS pending_count "
+            "       (SELECT COUNT(*) FROM eval_dtl d WHERE d.eval_no = m.eval_no) AS item_count "  # UX-017 카드 '위험 항목 N건'
             f"FROM eval_mst m LEFT JOIN workplaces w ON w.work_no = m.work_no WHERE {cond} "
             "ORDER BY m.eval_dt DESC, m.eval_no DESC LIMIT :lim OFFSET :off"
         ),

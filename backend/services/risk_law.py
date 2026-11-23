@@ -47,9 +47,6 @@ def analyze(text, voice_text, machines=()):
 
 
 def _law(risk):
-    """관련 법령 후보: 검색 모듈이 주제를 맞춘 1순위(law)만 쓴다. 없으면 후보 없음('찾지 못함').
-    UX-024(2026-11-23 사용자 결정): UX-023의 참고 법령 대체(카드 연결 법령·검색 1순위로 채움)는 되돌린다.
-    직접 맞는 법령이 없을 때 유사 법령을 가져오는 기능은 추후 백엔드 법령 검색 작업에서 다룬다(임의 조문으로 채우지 않음)."""
     law = risk.get('law')
     view = None
     if law:
@@ -140,47 +137,18 @@ def links(reference):
     return out
 
 
-REGISTERED_NOTICE = '사업장 등록 기기 기준 AI 검색 결과 · 현재 조치를 확인해 주세요.'
-UNREGISTERED_NOTICE = '이번 평가에만 추가한 기기(사진 탐지·직접 추가) 기준 AI 검색 결과 · 실제로 하는 작업인지 확인한 뒤 평가표에 추가해 주세요.'
-
-
-def _key(name):
-    return ' '.join(str(name or '').split()).lower()
-
-
-def split_pending(items, registered=None):
-    """(평가표 행, 확인 대기).
-    UX-024(2026-11-23 사용자 결정): 평가표 범위는 사업장에서 정기적으로 하는 전체 작업과 쓰는 기기다.
-      사업장에 등록된 기기에서 나온 위험은 첫 초안부터 일반 평가 행이다(출처 표시 '등록 기기'는 유지, 당일 사용 확인 단계 없음).
-      이번 평가에만 추가한 미등록 기기(사진 탐지·직접 추가)에서만 나온 위험은 지금처럼 '확인 대기'에 두고,
-      담당자가 실제 작업으로 확인해 추가하면 그때 행이 된다.
-    registered: 사업장 등록 기기 이름 목록. None 이면 예전처럼 기기 기준 위험을 모두 확인 대기로 둔다(호환).
-    같은 위험이 작업 설명과 기기 양쪽에서 나오면 rows() 가 한 행으로 합치고 앞선(작업 설명) 출처를 대표로 둔다."""
-    reg = None if registered is None else {_key(n) for n in registered}
+def split_pending(items):
+    """(평가표 행, 확인 대기). 등록 기기에서만 나온 위험은 실제 작업 근거가 아니므로 행으로 만들지 않고
+    '확인 대기'에 둔다. 담당자가 실제로 하는 작업인지 확인해 추가하면 그때 행이 된다(공통 계약: 보유 정보는 작업 근거가 아님)."""
     rows_, pending = [], []
     for it in items:
-        card = it['risk_law']['card']
-        if not card.get('from_machine'):
-            rows_.append(it)
-        elif reg is not None and _key(card.get('input_text')) in reg:
-            card['machine_kind'] = 'registered'
-            it['risk_law']['notice'] = REGISTERED_NOTICE
-            it['reason'] = ('사업장 등록 기기(' + (card.get('input_text') or '')[:50]
-                            + ') 기준 AI 추천 위험요인 · 현재 조치를 확인해 주세요.')
-            rows_.append(it)
-        else:
-            if reg is not None:
-                card['machine_kind'] = 'unregistered'
-            pending.append(it)
+        (pending if it['risk_law']['card'].get('from_machine') else rows_).append(it)
     return rows_, pending
 
 
 def pending_view(it):
     """화면 표시용 요약. 저장된 확인 대기 항목 전체(기준 조치·추천)는 서버에만 둔다."""
     card = it['risk_law']['card']
-    # UX-024: 새 평가표의 확인 대기는 미등록 기기(unregistered)뿐. 예전 평가표에 저장된 대기 항목은 machine_kind 가 없어 registered 로 표시
-    kind = card.get('machine_kind') or 'registered'
     return dict(scenario_id=it['catalog']['id'], job=it['job'], title=it['title'], type=it['type'],
-                machine=card.get('input_text', ''), card_title=card.get('title', ''), machine_kind=kind,
-                notice=(UNREGISTERED_NOTICE if kind == 'unregistered' else
-                        '등록 기기 기준 AI 검색 결과 · 실제로 하는 작업인지 확인한 뒤 평가표에 추가해 주세요.'))
+                machine=card.get('input_text', ''), card_title=card.get('title', ''),
+                notice='등록 기기 기준 AI 검색 결과 · 실제로 하는 작업인지 확인한 뒤 평가표에 추가해 주세요.')

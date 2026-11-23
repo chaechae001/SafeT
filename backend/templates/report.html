@@ -2,208 +2,197 @@
 <html lang="ko">
 <head>
 <meta charset="utf-8">
-<title>Safe-T</title>
+<title>위험성평가 결과서 · {{ r.workplace }} · {{ r.eval_nm }}</title>
 {#
   위험성평가 결과서 템플릿 (services/report_service.py · xhtml2pdf)
-  UX-020 (2026-11-22): Safe-T 디자인(파랑 주색·위험도 칩)과 맞추고 휴대폰에서 읽기 쉽게 A5 세로·항목 카드
-  UX-021 (2026-11-22): 쪽수 줄이기·가독성
-  - 예전에는 카드마다 '<pdf:nextpage />' 뒤 + 여백(padding)이 있는 div(page-break-inside: avoid)로 감싸 항목 1개가 1쪽을 차지했음
-    → 여백 없는 div(page-break-inside: avoid)로만 감쌈: 카드는 쪽 중간에서 잘리지 않고, 남은 자리에 다음 카드가 이어짐.
-      카드 사이 간격은 div 의 padding 이 아니라 별도 빈 div(높이 6px)로 둠(padding 을 주면 카드마다 새 쪽으로 넘어감)
-  - 표지·요약·개요 뒤에 바로 항목 시작(강제 쪽 넘김 없음). 서명 묶음도 같은 방식으로 이어서
-  - 현재 안전조치 | 개선대책을 좌우 두 칸으로 놓아 카드 높이를 줄임. 담당·예정일·관련 법령은 카드 아래 한 줄씩
-  - xhtml2pdf 는 flex·border-radius 를 지원하지 않아 표(table)로 배치. 글꼴 'kr' 은 서비스에서 등록
-  - 문서 제목(<title>)은 PDF 정보에 들어가므로 한글 대신 고정 문구만 씀(한글 메타데이터 글꼴 경고 방지)
+  참고: dev_docs/report.html. xhtml2pdf 는 flex·border-radius·@page 여백 상자를 지원하지 않아
+  표(table)로 배치하고, 쪽 아래 문구는 @frame 으로 넣었습니다. 글꼴 'kr' 은 서비스에서 등록합니다.
 #}
 <style>
   @page {
-    size: a5 portrait;
-    margin: 10mm 9mm 14mm 9mm;
-    @frame footer { -pdf-frame-content: page-foot; left: 9mm; width: 130mm; bottom: 5mm; height: 7mm; }
+    size: a4 landscape;
+    margin: 12mm 12mm 16mm 12mm;
+    @frame footer { -pdf-frame-content: page-foot; left: 12mm; width: 273mm; bottom: 5mm; height: 8mm; }
   }
-  body { font-family: kr; font-size: 10pt; color: #191F28; line-height: 1.45; }
-  table { width: 100%; }
-  td { vertical-align: top; }
-  .muted { color: #4E5968; }
-  .small { font-size: 8.4pt; }
-  .brand { font-weight: bold; font-size: 11pt; color: #191F28; }
-  .doc { font-size: 8.6pt; color: #2563EB; font-weight: bold; text-align: right; }
-  h1 { font-size: 15pt; margin: 4px 0 1px 0; line-height: 1.3; }
-  h2 { font-size: 11pt; margin: 10px 0 5px 0; color: #191F28; }
-  .sub { font-size: 9pt; color: #4E5968; }
-  .rule { border-bottom: 2px solid #2563EB; margin: 6px 0 8px 0; }
-  .warn { border: 1px solid #F5D58A; background-color: #FFF4D6; color: #8A5300; padding: 5px 8px; margin: 0 0 6px 0; font-size: 9pt; }
+  body { font-family: kr; font-size: 8.6pt; color: #1E2622; line-height: 1.4; }
+  h1 { font-size: 18pt; margin: 0; }
+  h2 { font-size: 11pt; margin: 0 0 5px 0; padding-left: 6px; border-left: 3px solid #1F5C4A; }
+  .muted { color: #6B7670; }
+  .small { font-size: 7.4pt; }
+  .brand { font-weight: bold; color: #1F5C4A; font-size: 10pt; }
+  .stamp { border: 1.5px solid #1F5C4A; color: #1F5C4A; font-weight: bold; padding: 3px 8px; font-size: 9pt; text-align: center; }
+  .stamp-draft { border-color: #B42318; color: #B42318; }
+  .warn { border: 1px solid #EED38C; background-color: #FDF1D3; color: #8A5A00; padding: 5px 8px; margin: 0 0 8px 0; }
 
-  /* 요약: 위험도별 개수 한 줄 + 보조 한 줄 */
-  .sum td { border: 1px solid #E5E8EB; padding: 5px 4px 4px 6px; background-color: #FFFFFF; }
-  .sum .tot { background-color: #EAF1FF; border-color: #C9DAFF; }
-  .n { font-size: 14pt; font-weight: bold; line-height: 1.15; }
-  .l { font-size: 8pt; color: #4E5968; }
-  .nB { color: #1D4ED8; } .nR { color: #B42318; } .nY { color: #8A5300; } .nG { color: #126B43; } .nN { color: #4E5968; }
-  .sum2 { font-size: 8.8pt; color: #4E5968; margin: 5px 0 0 0; }
+  .head td { vertical-align: bottom; }
+  .rule { border-bottom: 2px solid #1F5C4A; margin: 6px 0 10px 0; }
+  .info td, .info th { border: 1px solid #CBD3CE; padding: 4px 7px; text-align: left; vertical-align: top; }
+  .info th { background-color: #EEF4F1; width: 26mm; font-weight: bold; }
+  .box { border: 1px solid #CBD3CE; padding: 5px 7px; }
+  .n { font-size: 15pt; font-weight: bold; }
+  .l { font-size: 7.4pt; color: #6B7670; }
 
-  /* 평가 개요: 두 쌍씩 */
-  .info td { border-bottom: 1px solid #EEF1F4; padding: 3px 3px; font-size: 9pt; }
-  .info .k { width: 19mm; color: #6B7684; }
+  .sig { font-weight: bold; font-size: 7.6pt; padding: 1px 3px; }
+  .R { background-color: #FBE3E0; color: #B42318; }
+  .Y { background-color: #FDF1D3; color: #8A5A00; }
+  .G { background-color: #DDF1E4; color: #1D6B3A; }
+  .N { background-color: #EEF0EF; color: #55605A; }
 
-  /* 위험도 칩 */
-  .chip { font-weight: bold; font-size: 8.6pt; padding: 1px 4px; }
-  .R { background-color: #FEECEC; color: #B42318; }
-  .Y { background-color: #FFF4D6; color: #8A5300; }
-  .G { background-color: #E5F6EC; color: #126B43; }
-  .N { background-color: #EEF1F4; color: #4E5968; }
+  .main th { background-color: #1F5C4A; color: #FFFFFF; font-weight: bold; font-size: 7.8pt; padding: 4px 3px; border: 1px solid #1F5C4A; text-align: center; }
+  .main td { border: 1px solid #CBD3CE; padding: 4px; vertical-align: top; }
+  .c { text-align: center; }
+  .direct { color: #5B3E8A; font-size: 7pt; }
+  .tag { font-size: 7pt; color: #55605A; background-color: #EEF0EF; padding: 0 3px; }
 
-  /* 위험 항목 카드 */
-  .gap { height: 6px; font-size: 1pt; line-height: 1; }
-  .item { border: 1px solid #D1D6DB; }
-  .item td { padding: 4px 7px; }
-  .ihead td { background-color: #F4F6F8; border-bottom: 1px solid #E5E8EB; padding-top: 5px; padding-bottom: 4px; }
-  .ino { font-size: 9pt; font-weight: bold; color: #FFFFFF; background-color: #2563EB; padding: 0 4px; }
-  .ijob { font-size: 10.6pt; font-weight: bold; }
-  .lab { font-size: 8pt; font-weight: bold; color: #6B7684; }
-  .factor { font-size: 9.8pt; }
-  .tag { font-size: 7.8pt; color: #4E5968; background-color: #EEF1F4; padding: 0 3px; }
-  .now { background-color: #F6F7F9; font-size: 9.2pt; border-right: 1px solid #FFFFFF; }
-  .plan { background-color: #EEF4FF; font-size: 9.2pt; }
-  .plan .lab { color: #1D4ED8; }
-  .direct { color: #6B7684; font-size: 7.8pt; }
-  .meta td { font-size: 8.6pt; color: #333D4B; border-top: 1px solid #EEF1F4; padding-top: 3px; padding-bottom: 3px; }
-  .lawnote { font-size: 7.8pt; color: #6B7684; }
-
-  /* 서명 */
-  .confirm { background-color: #EAF1FF; color: #1D4ED8; padding: 6px 8px; margin: 0 0 6px 0; font-size: 9pt; }
-  .sbox { border: 1px solid #D1D6DB; padding: 5px 7px; }
-  .sign-img { height: 40px; border-bottom: 1px dashed #D1D6DB; text-align: center; vertical-align: middle; }
+  .sbox { border: 1px solid #CBD3CE; padding: 6px 8px; vertical-align: top; }
+  .sign-img { height: 48px; border-bottom: 1px dashed #CBD3CE; text-align: center; vertical-align: middle; }
+  .confirm { background-color: #EEF4F1; padding: 6px 9px; margin: 0 0 8px 0; }
 </style>
 </head>
 <body>
 
 <div id="page-foot" class="small muted">
   <table><tr>
-    <td style="width:66%">Safe-T 위험성평가 결과서 · {{ r.workplace }} · {% if r.draft %}미확정본{% else %}확정본{% if r.share %} 공유본{% endif %}{% endif %}</td>
-    <td style="width:34%; text-align:right"><pdf:pagenumber/>&nbsp;/&nbsp;<pdf:pagecount/></td>
+    <td style="width:45%">Safe-T · {{ r.workplace }} · {{ r.eval_nm }}</td>
+    <td style="width:40%" class="c">{% if r.draft %}미확정본 · 내용이 바뀔 수 있습니다{% else %}확정본{% if r.share %} 공유본{% endif %} · 이 문서는 수정할 수 없습니다{% endif %}</td>
+    <td style="width:15%; text-align:right"><pdf:pagenumber/>&nbsp;/&nbsp;<pdf:pagecount/></td>
   </tr></table>
 </div>
 
-<!-- ===== 머리 ===== -->
-<table><tr>
-  <td style="width:60%; vertical-align:middle">
-    {% if r.logo %}<img src="{{ r.logo }}" width="18" height="18" style="vertical-align:middle">&nbsp;{% endif %}<span class="brand">Safe-T</span>
+<!-- ===== 1쪽 : 개요 ===== -->
+<table class="head"><tr>
+  <td style="width:100%">
+    <div class="brand">Safe-T</div>
+    <h1>위험성평가 결과서</h1>
+    <div class="muted">{{ r.workplace }} · {{ r.eval_nm }}</div>
   </td>
-  <td style="width:40%; vertical-align:middle" class="doc">위험성평가 결과서</td>
+  {# UX-007 (화면수정요청 30): 받는 사람에게 필요 없는 상태 표시(확정·서명 완료 등) 도장 제거.
+     서명 여부는 평가 개요의 확정일·서명 완료일로, 미확정본은 아래 경고와 쪽 아래 문구로 표시 #}
 </tr></table>
-<h1>{{ r.eval_nm }}</h1>
-<div class="sub">{{ r.workplace }} · {{ r.biz_nm }} · 평가일 {{ r.eval_dt or "—" }}</div>
 <div class="rule"></div>
 
 {% if r.demo %}<div class="warn"><b>시험용 합성 자료</b> · 개발 흐름 확인용으로 만든 평가표입니다. 실제 현장 판정에 사용하지 마세요.</div>{% endif %}
 {% if r.draft %}<div class="warn"><b>미확정본</b> · 작성 중인 평가표입니다. 판단 필요 항목과 빈칸이 남아 있을 수 있습니다.</div>{% endif %}
 
-<!-- ===== 요약 ===== -->
-<table class="sum" cellspacing="0">
-  <tr>
-    <td class="tot" style="width:20%"><div class="n nB">{{ r.sum.total }}</div><div class="l">위험 항목</div></td>
-    <td style="width:20%"><div class="n nR">{{ r.sum.R }}</div><div class="l">상 · 우선 개선</div></td>
-    <td style="width:20%"><div class="n nY">{{ r.sum.Y }}</div><div class="l">중 · 개선 필요</div></td>
-    <td style="width:20%"><div class="n nG">{{ r.sum.G }}</div><div class="l">하 · 유지 관리</div></td>
-    <td style="width:20%"><div class="n nN">{{ r.sum.N }}</div><div class="l">판단 필요</div></td>
-  </tr>
-</table>
-<p class="sum2">개선대책 <b>{{ r.sum.plans }}건</b> · 개선 후 위험도가 내려가는 항목 <b>{{ r.sum.after_down }}건</b> · 마지막 개선 예정일 <b>{{ r.sum.last_due or "—" }}</b></p>
+<table><tr>
+  <td style="width:49%; vertical-align:top; padding-right:5mm">
+    <h2>평가 개요</h2>
+    <table class="info">
+      <tr><th>사업장</th><td>{{ r.workplace }}</td></tr>
+      <tr><th>업종</th><td>{{ r.biz_nm }}</td></tr>
+      <tr><th>평가명</th><td>{{ r.eval_nm }}</td></tr>
+      <tr><th>평가일</th><td>{{ r.eval_dt or "—" }}</td></tr>
+      <tr><th>작성자</th><td>{{ r.writer or "—" }}</td></tr>
+      <tr><th>확정일</th><td>{{ r.confirm_dt or "—" }}</td></tr>
+      <tr><th>서명 완료일</th><td>{{ r.sign_end_dt or "—" }}</td></tr>
+      <tr><th>참여 근로자</th><td>{% if r.members %}{{ r.members | join(", ") }} ({{ r.members | length }}명){% else %}—{% endif %}</td></tr>
+      <tr><th>평가 대상 기기</th><td>{{ r.machines | join(", ") if r.machines else "—" }}</td></tr>
+      {# UX-007 (화면수정요청 31): '판정 방식'(내부 시스템 이름) 줄 삭제 #}
+    </table>
+  </td>
+  <td style="width:51%; vertical-align:top">
+    <h2>평가 결과 요약</h2>
+    <table>
+      <tr>
+        <td class="box"><div class="n">{{ r.sum.total }}</div><div class="l">위험 항목</div></td>
+        <td class="box"><div class="n" style="color:#B42318">{{ r.sum.R }}</div><div class="l">상 · 우선 개선</div></td>
+        <td class="box"><div class="n" style="color:#8A5A00">{{ r.sum.Y }}</div><div class="l">중 · 개선 필요</div></td>
+        <td class="box"><div class="n" style="color:#1D6B3A">{{ r.sum.G }}</div><div class="l">하 · 유지 관리</div></td>
+        <td class="box"><div class="n" style="color:#55605A">{{ r.sum.N }}</div><div class="l">판단 필요</div></td>
+      </tr>
+    </table>
+    <table style="margin-top:4px">
+      <tr>
+        <td class="box"><div class="n">{{ r.sum.plans }}</div><div class="l">개선대책 수</div></td>
+        <td class="box"><div class="n" style="color:#1D6B3A">{{ r.sum.after_down }}</div><div class="l">개선 후 예상 신호가 내려가는 항목</div></td>
+        <td class="box"><div class="n">{{ r.sum.last_due or "—" }}</div><div class="l">마지막 개선 예정일</div></td>
+      </tr>
+    </table>
+    <p class="small muted" style="margin-top:6px">
+      '판단 필요'는 위험이 낮다는 뜻이 아니라 아직 판단하지 못했다는 뜻입니다.
+      개선 후 신호는 대책을 실행했을 때의 예상이며, 실제 조치 완료를 뜻하지 않습니다.
+      최종 안전 판단은 현장 담당자가 합니다.
+    </p>
+  </td>
+</tr></table>
 
-<!-- ===== 평가 개요 ===== -->
-<h2>평가 개요</h2>
-<table class="info" cellspacing="0">
-  <tr><td class="k">사업장</td><td style="width:33%">{{ r.workplace }}</td><td class="k">업종</td><td>{{ r.biz_nm }}</td></tr>
-  <tr><td class="k">작성자</td><td>{{ r.writer or "—" }}</td><td class="k">평가일</td><td>{{ r.eval_dt or "—" }}</td></tr>
-  <tr><td class="k">확정일</td><td>{{ r.confirm_dt or "—" }}</td><td class="k">서명 완료</td><td>{{ r.sign_end_dt or "—" }}</td></tr>
-  <tr><td class="k">참여 근로자</td><td colspan="3">{% if r.members %}{{ r.members | join(", ") }} ({{ r.members | length }}명){% else %}—{% endif %}</td></tr>
-  <tr><td class="k">평가 기기</td><td colspan="3">{{ r.machines | join(", ") if r.machines else "—" }}</td></tr>
+<!-- ===== 2쪽~ : 위험성평가표 ===== -->
+<pdf:nextpage />
+<h2>위험성평가표</h2>
+<table class="main" repeat="1">
+  <thead>
+    <tr>
+      <th style="width:8mm">No</th>
+      <th style="width:22mm">작업</th>
+      <th style="width:44mm">유해·위험요인 / 원인</th>
+      <th style="width:40mm">현재 안전조치</th>
+      <th style="width:18mm">위험성</th>
+      <th style="width:48mm">개선대책</th>
+      <th style="width:16mm">개선 후 (예상)</th>
+      <th style="width:16mm">담당자</th>
+      <th style="width:18mm">개선 예정일</th>
+      <th style="width:43mm">관련 법령</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for it in r.rows %}
+    <tr>
+      <td class="c">{{ loop.index }}</td>
+      <td>{{ it.job }}</td>
+      <td>
+        {{ it.risk_factor }}
+        {% if it.risk_type %}<br><span class="tag">{{ it.risk_type }}</span>{% endif %}
+        {% if it.reason %}<br><span class="small muted">원인: {{ it.reason }}</span>{% endif %}
+      </td>
+      <td>
+        {% if it.curr_none %}<span class="muted">현재 조치 없음</span>
+        {% elif it.curr %}{% for a in it.curr %}· {{ a }}{% if not loop.last %}<br>{% endif %}{% endfor %}
+        {% else %}<span class="muted">확인 전</span>{% endif %}
+      </td>
+      <td class="c"><span class="sig {{ it.grade }}">{{ grade_nm[it.grade] }}</span></td>
+      <td>
+        {% if it.keep %}<span class="muted">현재 상태 유지</span>
+        {% elif it.plans %}{% for p in it.plans %}· {{ p.text }}{% if not p.ai %} <span class="direct">(직접 추가)</span>{% endif %}{% if not loop.last %}<br>{% endif %}{% endfor %}
+        {% else %}—{% endif %}
+      </td>
+      <td class="c">{% if it.keep or not it.after %}—{% else %}<span class="sig {{ it.after }}">{{ grade_nm[it.after] }}</span>{% endif %}</td>
+      <td class="c">{{ it.manager or "—" }}</td>
+      <td class="c">{{ it.due_dt or "—" }}</td>
+      <td>
+        {% if it.law %}{{ it.law }}{% if it.law_summary %}<br><span class="small muted">{{ it.law_summary }}</span>{% endif %}{% else %}—{% endif %}
+      </td>
+    </tr>
+  {% else %}
+    <tr><td colspan="10" class="c muted">위험 항목이 없습니다.</td></tr>
+  {% endfor %}
+  </tbody>
 </table>
 
-<!-- ===== 위험성평가표 (항목 카드) ===== -->
-<h2>위험성평가표 · {{ r.sum.total }}건</h2>
-{% if r.rows %}
-{% for it in r.rows %}
-<div style="page-break-inside: avoid">
-<table class="item" cellspacing="0">
-  <tr class="ihead">
-    <td colspan="2">
-      <table cellspacing="0"><tr>
-        <td style="width:56%; padding:0"><span class="ino">{{ loop.index }}</span>&nbsp; <span class="ijob">{{ it.job }}</span></td>
-        <td style="width:44%; padding:0; text-align:right">
-          <span class="lab">현재</span> <span class="chip {{ it.grade }}">{{ grade_nm[it.grade] }}</span>
-        </td>
-      </tr></table>
-    </td>
-  </tr>
-  <tr>
-    <td colspan="2" class="factor">
-      {{ it.risk_factor }}{% if it.risk_type %} <span class="tag">{{ it.risk_type }}</span>{% endif %}
-      {% if it.reason %}<br><span class="small muted">원인: {{ it.reason }}</span>{% endif %}
-    </td>
-  </tr>
-  <tr>
-    <td class="now" style="width:50%">
-      <span class="lab">현재 안전조치</span><br>
-      {% if it.curr_none %}<span class="muted">현재 조치 없음</span>
-      {% elif it.curr %}{% for a in it.curr %}· {{ a }}{% if not loop.last %}<br>{% endif %}{% endfor %}
-      {% else %}<span class="muted">확인 전</span>{% endif %}
-    </td>
-    <td class="plan" style="width:50%">
-      <span class="lab">개선대책</span><br>
-      {% if it.keep %}<span class="muted">현재 상태 유지</span>
-      {% elif it.plans %}{% for p in it.plans %}· {{ p.text }}{% if not p.ai %} <span class="direct">(직접 추가)</span>{% endif %}{% if not loop.last %}<br>{% endif %}{% endfor %}
-      {% else %}—{% endif %}
-    </td>
-  </tr>
-  <tr class="meta">
-    <td style="width:50%"><span class="lab">담당·예정일</span>&nbsp; {% if it.keep %}—{% else %}{{ it.manager or "—" }} · {{ it.due_dt or "—" }}{% endif %}</td>
-    <td style="width:50%"><span class="lab">개선 후 (예상)</span>&nbsp; {% if it.keep or not it.after %}—{% else %}<span class="chip {{ it.after }}">{{ grade_nm[it.after] }}</span>{% endif %}</td>
-  </tr>
-  <tr class="meta">
-    <td colspan="2">
-      <span class="lab">관련 법령</span>&nbsp; {% if it.law %}{{ it.law }}{% if it.law_summary %} · {{ it.law_summary }}{% endif %}{% if it.law_note %} <span class="lawnote">({{ it.law_note }})</span>{% endif %}{% else %}—{% endif %}
-    </td>
-  </tr>
-</table>
-</div>
-<div class="gap">&nbsp;</div>
-{% endfor %}
-{% else %}
-<p class="muted">위험 항목이 없습니다.</p>
-{% endif %}
-<p class="small muted" style="margin:2px 0 0 0">
-  '판단 필요'는 위험이 낮다는 뜻이 아니라 아직 판단하지 못했다는 뜻입니다.
-  개선 후 위험도는 대책을 실행했을 때의 예상이며, 실제 조치 완료를 뜻하지 않습니다. 최종 안전 판단은 현장 담당자가 합니다.
-</p>
-
-<!-- ===== 참여 근로자 확인 서명 (묶어서 쪽 중간에서 잘리지 않게) ===== -->
-<div style="page-break-inside: avoid">
+<!-- ===== 마지막 : 참여자 확인 서명 ===== -->
+<pdf:nextpage />
 <h2>참여 근로자 확인 서명</h2>
-<div class="confirm">아래 참여 근로자는 이 위험성평가의 결과와 개선 계획을 확인하였습니다.{% if r.share %}<br><span class="small">공유본에는 서명 원본 이미지를 넣지 않고 서명 여부·시각만 표시합니다.</span>{% endif %}</div>
+<div class="confirm">아래 참여 근로자는 이 위험성평가의 결과와 개선 계획을 확인하였습니다.{% if r.share %}<br><span class="small muted">공유본에는 서명 원본 이미지를 넣지 않고 서명 여부·시각만 표시합니다.</span>{% endif %}</div>
 {% if r.signs %}
-<table cellspacing="4">
-  {% for row in r.signs | batch(2) %}
+<table>
+  {% for row in r.signs | batch(3) %}
   <tr>
     {% for s in row %}
-    <td class="sbox" style="width:50%">
+    <td class="sbox" style="width:33%">
       <b>{{ s.name }}</b> <span class="muted small">· 참여 근로자</span>
-      <table><tr><td class="sign-img">{% if s.img %}<img src="{{ s.img }}" height="36">{% elif s.signed %}<b style="color:#1D4ED8">서명 완료</b>{% else %}<span class="muted small">서명 전</span>{% endif %}</td></tr></table>
-      <span class="small muted">확인 {{ "예" if s.confirm else "—" }} · {{ s.sign_dt or "서명 전" }}</span>
+      <table><tr><td class="sign-img">{% if s.img %}<img src="{{ s.img }}" height="44">{% elif s.signed %}<b style="color:#1D6B3A">서명 완료</b>{% else %}<span class="muted small">서명 전</span>{% endif %}</td></tr></table>
+      <span class="small muted">확인 {{ "예" if s.confirm else "—" }} · 서명 일시 {{ s.sign_dt or "—" }}</span>
     </td>
     {% endfor %}
-    {% for _ in range(2 - row | length) %}<td style="width:50%"></td>{% endfor %}
+    {% for _ in range(3 - row | length) %}<td style="width:33%"></td>{% endfor %}
   </tr>
   {% endfor %}
 </table>
 {% else %}
 <p class="muted">등록된 참여 근로자가 없습니다.</p>
 {% endif %}
-<p class="small muted" style="margin-top:8px">
+<p class="small muted" style="margin-top:12px">
   작성자 {{ r.writer or "—" }} · 문서 생성 {{ r.generated_at }} · Safe-T에 저장된 평가표를 그대로 출력한 문서입니다.
 </p>
-</div>
 
 </body>
 </html>

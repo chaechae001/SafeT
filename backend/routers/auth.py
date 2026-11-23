@@ -20,7 +20,7 @@ from functools import partial
 
 from schemas.auth import (
     CodeRequest, CodeSent, CodeVerified, CodeVerify, GuestLoginRequest, LoginRequest, LoginResult,
-    PasswordReset, PasswordResetDone, SignupRequest, SignupResult, UserInfo, WithdrawDone, WithdrawRequest,
+    PasswordReset, PasswordResetDone, SignupRequest, SignupResult, UserInfo,
 )
 from services import auth as service
 from services import mailer
@@ -90,8 +90,3 @@ def reset_password(body: PasswordReset, db: Session = Depends(get_db)):
 @router.get("/me", response_model=UserInfo, summary="현재 로그인한 사용자")
 def me(user: dict = Depends(current_user), db: Session = Depends(get_db)):
     return {**user, "has_workplace": service.has_workplace(db, user["email"])}
-
-
-@router.post("/withdraw", response_model=WithdrawDone, summary="회원 탈퇴 (비밀번호 재확인 · 평가 기록은 법정 기간 보존)")
-def withdraw(body: WithdrawRequest, user: dict = Depends(current_user), db: Session = Depends(get_db)):
-    return service.withdraw(db, user["email"], body.password)

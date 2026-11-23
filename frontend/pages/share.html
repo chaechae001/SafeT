@@ -4,11 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>결과 공유 · Safe-T</title>
-  <!-- UX-019: Pretendard 실제 로드(가변·필요 글자만). 실패하면 시스템 한글 글꼴로 대체 -->
-  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
-  <link rel="stylesheet" href="../css/common.css?v=20261125">
-  <link rel="stylesheet" href="../css/share.css?v=20261125">
+  <link rel="stylesheet" href="../css/common.css?v=20261117">
+  <link rel="stylesheet" href="../css/share.css?v=20261117">
 </head>
 <body data-auth-required>
   <!-- share.html · 화면설계서 v3.19 통합본
@@ -38,18 +35,12 @@
              - 앱 안에서 메신저로 직접 보내지 않음(링크 복사·QR)
              - API: GET·POST /evals/{번호}/share, /share/reissue, /share/stop (share.js) -->
         <div class="page">
-          <h1 class="page-title">결과 공유</h1>
+          <div class="stack">
+            <h1 class="page-title">결과 공유</h1>
+            <p class="eyebrow"><span class="js-eval-nm">평가표</span> · 확정 · 전체 위험 <span id="item-count">-</span>건</p>
+          </div>
 
-          <!-- UX-021: 공유할 평가표를 내 평가표 카드와 같은 모양으로(제목 · 상태 칩 / 위험 항목 수) -->
-          <section class="card share__eval" aria-label="공유할 평가표">
-            <div class="card__head">
-              <p class="card__title js-eval-nm">평가표</p>
-              <span class="tag status" id="share-status" data-status="S" hidden></span>
-            </div>
-            <p class="card__meta">위험 항목 <span id="item-count">-</span>건 · 받는 사람은 로그인 없이 PDF를 내려받아요</p>
-          </section>
-
-          <p class="page-desc">아래 링크를 복사해 보내거나 QR을 보여 주세요.</p>
+          <p class="page-desc">링크나 QR을 카카오톡 등 메신저로 보내면, 받은 사람이 평가표 PDF를 내려받을 수 있어요.</p>
 
           <section class="card share__link" id="share-on" aria-labelledby="link-title" hidden>
             <h2 class="section-title" id="link-title">공유 링크</h2>
@@ -58,8 +49,8 @@
             <p class="hint" id="share-expire"></p>
             <p class="share__meta" id="share-count"></p>
             <div class="btn-row">
-              <button class="btn btn--primary" id="copy-link" type="button"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>링크 복사</button>
-              <a class="btn share__qr-btn" href="#qr"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3h-3zM20 14v.01M14 20h.01M17 20h4v-3"/></svg>QR 보기</a>
+              <button class="btn btn--primary" id="copy-link" type="button">링크 복사</button>
+              <a class="btn" href="#qr">QR 보기</a>
             </div>
           </section>
 
@@ -114,9 +105,8 @@
   </div>
 
   <script src="../js/vendor/jquery-3.7.1.min.js?v=20261117"></script>
-  <script src="../js/common.js?v=20261125"></script>
-  <script src="../js/config.js?v=20261125"></script>
-  <script src="../js/api.js?v=20261125"></script>
-  <script src="../js/share.js?v=20261125"></script>
+  <script src="../js/common.js?v=20261117"></script>
+  <script src="../js/api.js?v=20261117"></script>
+  <script src="../js/share.js?v=20261117"></script>
 </body>
 </html>

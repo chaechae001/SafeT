@@ -17,7 +17,6 @@
     plus: '<path d="M12 5v14"/><path d="M5 12h14"/>',
     x: '<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',
     lock: '<rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>',
-    share: '<path d="M7 17 17 7"/><path d="M8 7h9v9"/>',   // UX-021 결과 공유(바깥으로 보내기)
     download: '<path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/>',
     sign: '<path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>',
     calendar: '<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/>',
