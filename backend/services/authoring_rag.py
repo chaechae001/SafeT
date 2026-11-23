@@ -89,15 +89,19 @@ def extract(context, retrieval, snapshot, evidence):
     messages = build_messages(context, retrieval, snapshot, evidence)
     key = os.getenv('SAFET_AI_API_KEY', '')
     from ai.assessment_authoring.extraction_adapter import check_batch_output, ExtractionError
+    batch_ids = [row['scenario_id'] for row in retrieval['candidates']]
+    catalog = {scenario['id']: scenario for scenario in snapshot['scenarios']}
+
+    def validate(decoded):
+        return check_batch_output(decoded, context, batch_ids, catalog)
+
     try:
         count = request_json(base, key, '/tokenize', dict(model=model, messages=messages, add_generation_prompt=True))['count']
         budget = output_budget(count)
         # 길이 제한으로 잘리면 반복 억제를 넣어 한 번만 다시 부른다(다기기 사진 502 대응).
-        decoded = complete_json(lambda payload: request_json(base, key, '/v1/chat/completions', payload),
+        checked = complete_json(lambda payload: request_json(base, key, '/v1/chat/completions', payload),
             dict(model=model, messages=messages, temperature=0, max_tokens=budget,
-                 response_format=model_response_format(context, retrieval, snapshot)), context)
-        checked = check_batch_output(decoded, context, [r['scenario_id'] for r in retrieval['candidates']],
-                                  {s['id']: s for s in snapshot['scenarios']})
+                 response_format=model_response_format(context, retrieval, snapshot)), context, validate=validate)
         # A fryer document can suggest a passage hazard, but only the user's work can establish exposure.
         from ai.assessment_authoring.retrieval_adapter import text_candidates
         checked['candidates'] = [candidate for candidate in checked['candidates']

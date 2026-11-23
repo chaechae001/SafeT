@@ -30,6 +30,47 @@ def test_photo_description_is_not_offered_as_model_evidence():
     assert input_segments(bundle) == {'S1': ('TEXT', '튀김은 하지 않습니다.')}
 
 
+@pytest.mark.parametrize('prefix', [
+    pytest.param('{"candidates":[', id='candidate-list-not-started'),
+    pytest.param('{"candidates":[{"scenario_id":"FRY","work_ref":"S1"', id='required-controls-missing'),
+    pytest.param(
+        '{"candidates":[{"scenario_id":"FRY","work_ref":"S1","controls":['
+        '{"control_id":"FRY-C1","state":"supported","input_ref":"S2"},'
+        '{"control_id":"FRY-C1","state":"supported","input_ref":"S2"}]}]',
+        id='repaired-response-fails-contract',
+    ),
+])
+def test_extract_retries_invalid_length_response(monkeypatch, prefix):
+    from ai.assessment_authoring.contracts import load_catalog
+
+    context = {'media': [{'id': 'TEXT', 'kind': 'text',
+                          'text': '튀김기로 조리합니다. 온도제어 장치가 작동합니다.'}]}
+    retrieval = {'candidates': [{'scenario_id': 'FRY'}]}
+    sent = []
+
+    def request(_base, _key, path, payload):
+        if path == '/tokenize':
+            return {'count': 1000}
+        sent.append(payload)
+        if len(sent) == 1:
+            reason, content = 'length', prefix + '\n  ' * 70
+        else:
+            reason, content = 'stop', '{"candidates":[{"scenario_id":"FRY","work_ref":"S1","controls":[]}]}'
+        return {'choices': [{'finish_reason': reason, 'message': {'content': content}}]}
+
+    monkeypatch.setattr(adapter.catalog_ai, 'gateway_url', lambda: 'http://mock.invalid')
+    monkeypatch.setattr(adapter.catalog_ai, 'configuration', lambda: (None, 'mock', None))
+    monkeypatch.setattr(adapter.catalog_ai, 'model_headers', lambda: {})
+    monkeypatch.setattr(adapter, 'request_json', request)
+
+    result = adapter.extract(context, retrieval, load_catalog(), {})
+
+    assert [row['scenario_id'] for row in result['candidates']] == ['FRY']
+    assert len(sent) == 2
+    assert 'frequency_penalty' not in sent[0]
+    assert sent[1] == dict(sent[0], frequency_penalty=0.5)
+
+
 @pytest.mark.parametrize('bad',['hash','evaluation_only'])
 def test_link_integrity_and_retrieval_role_required(tmp_path,monkeypatch,bad):
     monkeypatch.setattr(adapter.rag_retrieval,'candidates',lambda *a,**kw:{'candidates':[]})

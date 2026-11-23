@@ -5,6 +5,8 @@
 입력 기반 평가의 사진 입력과 검색 근거를 화면·DB까지 연결하는 실행 방법과 계약은
 [검색 근거의 화면·DB 연결](../docs/implementation/authoring-rag-local-integration.md)을 참고한다.
 
+저장소 루트에서 `python -m pytest backend/unit_tests/test_authoring_rag_adapter.py -q`를 실행하면 모의 모델 응답으로 길이 잘림 복구와 재시도를 확인할 수 있다.
+
 목표 환경은 Python 3.11·FastAPI·MariaDB입니다. 현재는 폴더와 안내만 있으며 실행할 API 서버·DB 연결 코드는 없습니다.
 
 | 경로 | 역할 |

@@ -9,6 +9,7 @@ import urllib.request
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
 from .contracts import load_catalog
+from .extraction_adapter import ExtractionError
 from .pipeline import run_pipeline
 from .segments import split_sentences
 
@@ -149,7 +150,7 @@ def output_budget(count, limit=4096):
         raise ValueError("출력 토큰 공간 부족")
     return min(1536, available)
 
-# 공백 반복으로 잘린 응답에서 보충을 허용하는 닫는 괄호(가장 바깥 객체를 닫는 경우만).
+# 마지막 값 뒤에 남은 객체·배열을 닫는 괄호만 보충한다.
 _CLOSERS = ("", "}", "]}", "}]}")
 _MIN_TRAILING_WHITESPACE = 64
 
@@ -157,7 +158,7 @@ _MIN_TRAILING_WHITESPACE = 64
 def _repair_whitespace_runaway(content):
     """완결된 JSON 본문 뒤에 공백·줄바꿈만 이어지다 잘린 출력이면 복구한 객체를, 아니면 None을 돌려준다."""
     body = content.rstrip()
-    if len(content) - len(body) < _MIN_TRAILING_WHITESPACE:
+    if len(content) - len(body) < _MIN_TRAILING_WHITESPACE or body.endswith(("[", "{")):
         return None
     for closer in _CLOSERS:
         try:
@@ -172,19 +173,23 @@ def _repair_whitespace_runaway(content):
 RETRY_FREQUENCY_PENALTY = 0.5
 
 
-def complete_json(send, payload, context=None):
-    """send(payload)로 모델을 부르고 JSON을 해석한다.
+def complete_json(send, payload, context=None, *, validate=None):
+    """send(payload)로 모델을 부르고 JSON을 해석한 뒤 선택적으로 검증한다.
 
-    길이 제한으로 잘려 복구할 수 없을 때만 반복 억제(frequency_penalty)를 넣어 한 번 다시 부른다.
+    길이 제한에 걸린 응답을 해석하거나 검증할 수 없을 때만 반복 억제를 넣어 한 번 다시 부른다.
     정상 경로의 요청은 바꾸지 않는다. 재시도도 실패하면 오류를 그대로 올린다.
     """
+    def decode(response):
+        decoded = parse_completion(response, context)
+        return validate(decoded) if validate is not None else decoded
+
     response = send(payload)
-    try:
-        return parse_completion(response, context)
-    except ValueError:
-        if response["choices"][0].get("finish_reason") != "length":
-            raise
-    return parse_completion(send(dict(payload, frequency_penalty=RETRY_FREQUENCY_PENALTY)), context)
+    if response["choices"][0].get("finish_reason") == "length":
+        try:
+            return decode(response)
+        except (ValueError, KeyError, TypeError, ExtractionError):
+            response = send(dict(payload, frequency_penalty=RETRY_FREQUENCY_PENALTY))
+    return decode(response)
 
 
 def parse_completion(response, context=None):
