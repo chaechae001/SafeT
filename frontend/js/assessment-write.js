@@ -9,7 +9,7 @@
     if(restored && restored.email!==user.email)restored=null;
     /* UX-023: 작성 중 자동 보관. 휴대폰에서 카메라·사진 앱을 다녀오거나 브라우저가 페이지를 다시 불러오면 입력이 사라져
        처음부터 다시 써야 했음 → 입력이 바뀔 때마다 이 탭(sessionStorage)에 보관하고, 다시 열리면 보던 단계와 함께 되살림.
-       초안이 만들어지면 지움. 같은 계정·12시간 안의 보관본만 사용. 사진이 저장 한도를 넘으면 사진만 빼고 보관 */
+       초안이 만들어지면 지움. 같은 계정·12시간 안의 보관본만 사용. 저장 한도를 넘으면 마지막 성공 보관본을 유지 */
     var AUTO_KEY='safet.write.autosave', autoRestored=false;
     if(!restored){
       try{
@@ -244,15 +244,26 @@
       var workNo=worksReady ? $('#work_no').val() : (restored && restored.work_no);
       return {email:user.email,at:Date.now(),view:location.hash,work_touched:workTouched,work_no:workNo,eval_dt:$('#eval_dt').val(),eval_dt_auto:!dtTouched,eval_writer:$('#eval_writer').val(),save_workplace:$('#eq-save-workplace').prop('checked'),found:foundState(),members:$('[name="member_nm"]').map(function(){return this.value;}).get(),text:$('#file_text').val(),voice_text:$('#voice_text').val(),photos:photos,added:added,requestKey:requestKey,bodyDigest:/^[0-9a-f]{64}$/.test(lastBody)?lastBody:''};}
     var autoTimer=null, autoOff=false;
+    function saveNow(){
+      if(autoOff)return;
+      try{
+        sessionStorage.setItem(AUTO_KEY,JSON.stringify(snapshot()));
+        $('.js-autosave-warning').remove();
+      }catch(err){
+        // setItem 실패 시 기존 값은 유지된다. 사진을 뺀 값으로 다시 쓰지 않는다.
+        $('#v-basic, #v-field, #v-equipment').find('.page').each(function(){
+          if(!$(this).children('.js-autosave-warning').length){
+            $('<p class="notice notice--danger js-autosave-warning" role="alert">')
+              .text('최신 변경을 자동 저장하지 못했어요. 지금 화면에는 입력이 남아 있지만, 다시 열면 마지막으로 저장된 내용까지만 복원돼요.')
+              .prependTo(this);
+          }
+        });
+      }
+    }
     function autosave(){
       if(autoOff)return;
       clearTimeout(autoTimer);
-      autoTimer=setTimeout(function(){
-        if(autoOff)return;
-        var d=snapshot();
-        try{sessionStorage.setItem(AUTO_KEY,JSON.stringify(d));}
-        catch(e){try{d.photos=[];sessionStorage.setItem(AUTO_KEY,JSON.stringify(d));}catch(e2){}}
-      },400);
+      autoTimer=setTimeout(saveNow,400);
     }
     function clearAutosave(){autoOff=true;clearTimeout(autoTimer);try{sessionStorage.removeItem(AUTO_KEY);}catch(e){}}
     /* UX-025: 자동 보관본을 불러오면 화면 위에 안내 + '새로 쓰기'(불러온 내용을 버리고 빈 작성 화면으로). 보는 단계마다 맨 위로 옮김 */
@@ -270,7 +281,9 @@
     $(document).on('input change','#v-basic, #v-field, #v-equipment',autosave);
     $(document).on('click','#member-add-btn, .name-tags, .photo-grid, #eq-added',function(){setTimeout(autosave,50);});
     $(window).on('hashchange',autosave);
-    $(document).on('visibilitychange',function(){if(document.visibilityState==='hidden'){clearTimeout(autoTimer);if(!autoOff){var d=snapshot();try{sessionStorage.setItem(AUTO_KEY,JSON.stringify(d));}catch(e){try{d.photos=[];sessionStorage.setItem(AUTO_KEY,JSON.stringify(d));}catch(e2){}}}}});
+    $(document).on('visibilitychange',function(){
+      if(document.visibilityState==='hidden'){clearTimeout(autoTimer);saveNow();}
+    });
     S.auth.onExpire(function(){return {page:'assessment-write',data:snapshot()};});
     var recognition=null;
     $('#voice-btn').off('click').on('click',function(){

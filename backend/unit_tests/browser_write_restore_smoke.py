@@ -86,6 +86,28 @@ def main():
                 assert len(saved['photos']) == 4
                 assert len(saved['bodyDigest']) == 64
             assert requests[0] == requests[1]
+            # 이전 보관본은 들어갔지만 최신 편집은 들어가지 않는 실제 브라우저 용량 경계.
+            backup = page.evaluate("sessionStorage.getItem('safet.write.autosave')")
+            page.evaluate("""() => {
+                let low=0, high=8*1024*1024;
+                while(low+1<high){
+                    const mid=Math.floor((low+high)/2);
+                    try{sessionStorage.setItem('quota-fixture','x'.repeat(mid));low=mid;}
+                    catch(e){if(e.name!=='QuotaExceededError')throw e;high=mid;}
+                }
+                $('#file_text').val('저장 공간이 부족할 때 편집한 내용'.repeat(20)).trigger('input');
+            }""")
+            with page.expect_response(lambda r: r.url.endswith('/api/evals')):
+                page.evaluate("SafeT.go('v-generating')")
+            expect(page.locator('#v-equipment .js-autosave-warning')).to_contain_text('최신 변경을 자동 저장하지 못했어요')
+            assert page.evaluate("sessionStorage.getItem('safet.write.autosave')") == backup
+            page.reload()
+            expect(page.locator('.photo__img')).to_have_count(4)
+            assert page.locator('.photo__img').evaluate_all('imgs=>imgs.map(i=>i.src)') == [photo['data'] for photo in original_photos]
+            expect(page.locator('#file_text')).not_to_have_value(re.compile('저장 공간이 부족'))
+            page.evaluate("sessionStorage.removeItem('quota-fixture');$('#file_text').val('다시 저장').trigger('input')")
+            page.wait_for_function("JSON.parse(sessionStorage.getItem('safet.write.autosave')).text==='다시 저장'")
+            expect(page.locator('.js-autosave-warning')).to_have_count(0)
             browser.close()
     finally:
         server.shutdown()
