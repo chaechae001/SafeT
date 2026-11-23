@@ -25,6 +25,30 @@ class LiveTransportTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             parse_completion(response)
 
+    def test_whitespace_runaway_after_complete_body_is_repaired(self):
+        # 2026-11-23 다기기 502 원문: 본문을 다 쓴 뒤 바깥 "}" 대신 줄바꿈·공백만 반복하다 길이 제한에 걸림.
+        body = ('{\n  "candidates": [\n    {\n      "scenario_id": "GRIDDLE",\n'
+                '      "work_ref": "S1"  ,\n      "controls": []\n    }\n  ]')
+        response = {"choices": [{"finish_reason": "length", "message": {"content": body + "\n  " * 200}}]}
+        self.assertEqual(parse_completion(response),
+                         {"candidates": [{"scenario_id": "GRIDDLE", "work_ref": "S1", "controls": []}]})
+
+    def test_truncation_inside_body_is_not_repaired(self):
+        cases = [
+            '{"candidates": [{"scenario_id": "FRY", "work_ref": "S1", "controls": [{"control_id": "FRY-C1", "sta',
+            '{"candidates": [{"scenario_id": "FRY", "work_ref": "S1", "controls": [' + " " * 200,
+            '{"candidates": []}' + " " * 10,
+        ]
+        for content in cases:
+            with self.subTest(content=content[:40]), self.assertRaises(ValueError):
+                parse_completion({"choices": [{"finish_reason": "length", "message": {"content": content}}]})
+
+    def test_prompt_asks_single_line_json(self):
+        from ai.assessment_authoring.contracts import read, load_catalog
+        from ai.assessment_authoring.live_text_check import build_messages
+        i, r = [read("examples/unknown/" + n + ".json") for n in ("input", "retrieval")]
+        self.assertIn("줄바꿈과 들여쓰기 없이 한 줄로", build_messages(i, r, load_catalog())[0]["content"])
+
     def test_only_json_object_accepted(self):
         response = {"choices":[{"finish_reason":"stop","message":{"content":"[]"}}]}
         with self.assertRaises(ValueError):
