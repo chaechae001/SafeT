@@ -14,7 +14,14 @@
     if(!restored){
       try{
         var a=JSON.parse(sessionStorage.getItem(AUTO_KEY)||'null');
-        if(a && a.email===user.email && Date.now()-a.at<12*3600*1000 && (a.text || a.voice_text || (a.photos||[]).length || (a.members||[]).length || (a.added||[]).length || (a.found||[]).length)){restored=a;autoRestored=true;}
+        if(a && a.email===user.email && Date.now()-a.at<12*3600*1000){
+          // 기존 보관본에는 사업장을 직접 골랐는지 구분하는 값이 없다.
+          var chosenWork=a.work_touched===undefined ? !!a.work_no : a.work_touched;
+          var basicEdited=chosenWork || a.eval_dt_auto===false || (a.eval_writer && a.eval_writer!==user.name);
+          if(basicEdited || a.text || a.voice_text || (a.photos||[]).length || (a.members||[]).length || (a.added||[]).length || (a.found||[]).length){
+            restored=a;autoRestored=true;
+          }
+        }
       }catch(e){}
     }
     $('#work_no').empty().append('<option value="">사업장 불러오는 중</option>');
@@ -139,7 +146,8 @@
       if(!data.length) S.toast('사업장을 먼저 등록해 주세요.');
       showMachines();
     }).fail(function(e){$('#work_no').empty();S.fieldError($('#work_no'),e.message);});
-    $('#work_no').on('change.assessment',showMachines);
+    var workTouched=!!(restored && (restored.work_touched===undefined ? restored.work_no : restored.work_touched));
+    $('#work_no').on('change.assessment',function(){workTouched=true;showMachines();});
     $('#v-equipment').on('safet:show',showMachines);
     function renderPhotos(){
       var grid=$('.photo-grid').empty();
@@ -219,7 +227,7 @@
     }
     /* UX-025 자동 보관 항목 추가: eval_dt_auto(평가일이 그날 기본값인지), save_workplace('사업장에도 저장' 체크), found(사진에서 찾은 기기와 체크 상태) */
     function foundState(){return $('#v-equipment .eq-found input[name="ai_machine_nm"]').map(function(){return {nm:this.value,on:this.checked};}).get();}
-    function snapshot(){return {email:user.email,at:Date.now(),view:location.hash,work_no:$('#work_no').val(),eval_dt:$('#eval_dt').val(),eval_dt_auto:!dtTouched,eval_writer:$('#eval_writer').val(),save_workplace:$('#eq-save-workplace').prop('checked'),found:foundState(),members:$('[name="member_nm"]').map(function(){return this.value;}).get(),text:$('#file_text').val(),voice_text:$('#voice_text').val(),photos:photos,added:added,requestKey:requestKey,lastBody:lastBody};}
+    function snapshot(){return {email:user.email,at:Date.now(),view:location.hash,work_touched:workTouched,work_no:$('#work_no').val(),eval_dt:$('#eval_dt').val(),eval_dt_auto:!dtTouched,eval_writer:$('#eval_writer').val(),save_workplace:$('#eq-save-workplace').prop('checked'),found:foundState(),members:$('[name="member_nm"]').map(function(){return this.value;}).get(),text:$('#file_text').val(),voice_text:$('#voice_text').val(),photos:photos,added:added,requestKey:requestKey,lastBody:lastBody};}
     var autoTimer=null, autoOff=false;
     function autosave(){
       if(autoOff)return;
@@ -248,7 +256,7 @@
     $(document).on('click','#member-add-btn, .name-tags, .photo-grid, #eq-added',function(){setTimeout(autosave,50);});
     $(window).on('hashchange',autosave);
     $(document).on('visibilitychange',function(){if(document.visibilityState==='hidden'){clearTimeout(autoTimer);if(!autoOff){var d=snapshot();try{sessionStorage.setItem(AUTO_KEY,JSON.stringify(d));}catch(e){try{d.photos=[];sessionStorage.setItem(AUTO_KEY,JSON.stringify(d));}catch(e2){}}}}});
-    S.auth.onExpire(function(){return {page:'assessment-write',data:{email:user.email,work_no:$('#work_no').val(),eval_dt:$('#eval_dt').val(),eval_dt_auto:false,eval_writer:$('#eval_writer').val(),save_workplace:$('#eq-save-workplace').prop('checked'),found:foundState(),members:$('[name="member_nm"]').map(function(){return this.value;}).get(),text:$('#file_text').val(),voice_text:$('#voice_text').val(),photos:photos,added:added,requestKey:requestKey,lastBody:lastBody}};});
+    S.auth.onExpire(function(){return {page:'assessment-write',data:snapshot()};});
     var recognition=null;
     $('#voice-btn').off('click').on('click',function(){
       if(!$('#voice_text').length){
