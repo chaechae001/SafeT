@@ -294,12 +294,15 @@
   }
 
   $(function () {
-    var fromEquipment=new URLSearchParams(location.search).get('from')==='equipment';
+    var params = new URLSearchParams(location.search);
+    var fromEquipment = params.get('from') === 'equipment';
+    var first = params.get('first') === '1';
     $('#wp-resume-write').prop('hidden',!fromEquipment);
     // 회원가입·로그인 직후 첫 등록이면 취소 없음 (workplace.html?first=1#v-new)
-    if (/[?&]first=1/.test(window.location.search)) {
+    if (first) {
       $('#new-cancel').prop('hidden', true);
       $('#wp-first').prop('hidden', false);          // 첫 등록 이유·다음 단계 안내
+      $('button[form="new-form"][type="submit"]').text('등록하고 평가표 작성');
     }
     // 기기 체크가 바뀌면 선택 수 갱신
     $('.machine-grid').on('change', 'input', function () { updateCount($(this).closest('.view')); });
@@ -374,9 +377,17 @@
       api.post('/workplaces', $.extend({
         workplace: $('#new-workplace').val(),
         biz_code: $('#new-biz input:checked').val()
-      }, collect($view))).done(function () {
+      }, collect($view))).done(function (created) {
         SafeT.toast('사업장을 등록했어요.');
-        setTimeout(function () { if(fromEquipment){SafeT.go('v-list');}else{window.location.href = 'home.html';} }, 600);   // 등록 저장 → H01
+        setTimeout(function () {
+          if (fromEquipment) {
+            SafeT.go('v-list');
+          } else {
+            window.location.href = first
+              ? 'write.html?work_no=' + encodeURIComponent(created.work_no)
+              : 'home.html';
+          }
+        }, 600);
       }).fail(function (err) {
         showSaveError(err, $view);
         syncSave($view);
@@ -403,7 +414,6 @@
         .always(function () { setMachineState($view, $view.data('machine-state')); SafeT.loading(false); });
     });
 
-    var first = /[?&]first=1/.test(window.location.search);
     // 등록·수정 화면: ☰ 대신 ← (목록으로) + 가운데 Safe-T. 첫 등록(취소 없음)은 기존처럼 ☰ 유지
     $('#v-new, #v-edit').on('safet:show', function () {
       var sub = !(first && this.id === 'v-new');
