@@ -59,7 +59,7 @@ def test_로그인_없으면_401(client):
 def test_탭별_목록_중복표시_최근순(client, setup):
     assert names(get(client, setup, tab="ALL")) == ["확정B", "작성중A", "조치D", "서명C"]  # 상태 무관, 휴지통 제외
     assert names(get(client, setup, tab="W")) == ["작성중A"]                       # 휴지통 제외
-    assert names(get(client, setup, tab="C")) == ["확정B", "조치D", "서명C"]        # 확정 전체, 평가일 최근 순
+    assert names(get(client, setup, tab="C")) == ["확정B"]                          # UX-022: 서명 끝난 평가표는 확정 탭에 없음
     assert names(get(client, setup, tab="S")) == ["조치D", "서명C"]                 # 서명완료일 있음
     assert names(get(client, setup, tab="A")) == ["조치D"]                          # 기간 밖 '지난달E' 제외
 
@@ -74,8 +74,8 @@ def test_기간_종료일_포함과_검사(client, setup):
 
 
 def test_사업장_선택_삭제한_사업장도_보임(client, setup):
-    assert names(get(client, setup, tab="C", work_no=setup["w1"])) == ["확정B", "조치D"]
-    r = get(client, setup, tab="C", work_no=setup["w2"])
+    assert names(get(client, setup, tab="ALL", work_no=setup["w1"])) == ["확정B", "작성중A", "조치D"]
+    r = get(client, setup, tab="S", work_no=setup["w2"])
     assert names(r) == ["서명C"] and r.json()["items"][0]["workplace"] == "분식점"
 
 

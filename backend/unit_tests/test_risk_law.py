@@ -312,3 +312,41 @@ def test_confirm_blocked_while_pending(monkeypatch):
     with pytest.raises(AuthError) as e:
         assessment.save(DB(), 'tester@test.invalid', 1, SaveAssessment(revision=1, items=[]), confirm=True)
     assert e.value.code == 'PENDING_ROWS_REVIEW_REQUIRED'
+
+
+def test_no_substitute_law_when_no_topic_match():
+    """UX-024: 주제가 맞는 법령이 없으면 카드 연결 법령·검색 1순위로 채우지 않고 후보 없음으로 둔다."""
+    top = dict(id='L1', law_name='산업안전보건기준에 관한 규칙', locator='제3조', article_title='전도의 방지', quote='q')
+    got = risk_law._law(dict(law=None, law_basis='주제가 맞는 후보가 없습니다', law_card=dict(top, id='L2'), law_alt=dict(candidates=[top])))
+    assert got['candidate'] is None and 'fallback' not in got
+    main = risk_law._law(dict(law=top))
+    assert main['candidate']['locator'] == '제3조' and main['status'].startswith('자동 검색 후보')
+
+
+def test_registered_machine_rows_and_unregistered_pending():
+    """UX-024: 등록 기기 → 행(출처 표시 유지), 이번 평가에만 추가한 기기 → 확인 대기, 작업 설명과 겹치면 한 행."""
+    result = dict(units=[dict(text='튀김기에서 기름이 튀어요', source_label='작업 설명', risks=[risk('A')]),
+                         dict(text='튀김기', source='MACHINE', source_label='등록 기기', risks=[risk('B'), risk('M', sid='KNIFE')]),
+                         dict(text='제빙기', source='MACHINE', source_label='등록 기기', risks=[risk('C', sid='FIRE')])])
+    items, _ = risk_law.rows(result, CAT)
+    rows, pending = risk_law.split_pending(items, [' 튀김기 '])
+    assert [r['catalog']['id'] for r in rows] == ['FRY', 'KNIFE']
+    knife = rows[1]
+    assert knife['risk_law']['card']['machine_kind'] == 'registered' and '등록 기기' in knife['reason']
+    assert '실제로 하는 작업인지' not in knife['reason'] + knife['risk_law']['notice']
+    assert [p['catalog']['id'] for p in pending] == ['FIRE']
+    view = risk_law.pending_view(pending[0])
+    assert view['machine_kind'] == 'unregistered' and view['machine'] == '제빙기'
+
+
+@pytest.mark.parametrize('reverse', [False, True])
+def test_shared_machine_risk_uses_registered_code_in_either_order(reverse):
+    registered = [dict(machine_code='M01', machine_nm='튀김기(대)')]
+    units = [dict(unit_id='MACHINE:M01', source='MACHINE', text='튀김기', risks=[risk('registered')]),
+             dict(unit_id='MACHINE:2', source='MACHINE', text='사진 기기', risks=[risk('detected'), risk('photo-only', sid='FIRE')])]
+    items, _ = risk_law.rows(dict(units=units[::-1] if reverse else units), CAT, registered)
+    rows, pending = risk_law.split_pending(items, registered)
+    assert [r['catalog']['id'] for r in rows] == ['FRY']
+    assert rows[0]['risk_law']['card']['card_id'] == 'registered'
+    assert rows[0]['risk_law']['card']['machine_kind'] == 'registered'
+    assert [p['catalog']['id'] for p in pending] == ['FIRE']

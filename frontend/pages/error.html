@@ -4,12 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>안내 · Safe-T</title>
-  <!-- 오류 페이지 · UX-001 L (2026-11-21)
-       어느 주소·하위 경로(예: /proxy/8022/)에서 열려도 보이도록 <base> 기준 상대 경로를 씁니다.
-       화면 서버가 요청 주소 깊이에 맞춰 <base href> 를 바꿔 보냅니다(기본값 ../ = pages/error.html 기준).
-       상태 코드: 화면 서버가 data-status 에 넣어 줌(backend/dev_static_server.py). 직접 열 때는 ?code=404 처럼 지정.
-       운영 서버는 배포 방식이 정해진 뒤 같은 페이지를 오류 페이지로 연결합니다. -->
   <base href="../">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
   <link rel="stylesheet" href="css/common.css">
   <style>
     .err { gap: 16px; padding-top: 48px; text-align: center; align-items: center; }

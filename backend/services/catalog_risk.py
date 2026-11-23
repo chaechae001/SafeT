@@ -83,7 +83,7 @@ def generate_snapshot(catalog, context, keyword=None, source=None):
         if not (text_in.strip() or voice_in.strip() or machines):
             raise AuthError(422, 'RISK_LAW_TEXT_REQUIRED', '작업 설명·음성 전사문을 입력하거나 사업장 기기를 등록해 주세요.')
         result = risk_law.analyze(text_in, voice_in, machines)
-        items, unmatched = risk_law.rows(result, catalog)
+        items, unmatched = risk_law.rows(result, catalog, context.get('registered_machines'))
         if not items:
             raise AuthError(422, 'CATALOG_SELECTION_REQUIRED', '연결할 수 있는 위험요인을 찾지 못했어요. 작업과 상황을 조금 더 적어 주세요.')
         warnings = [str(w)[:300] for w in (result.get('warnings') or [])][:5]  # 예: 법령 인덱스 재생성 안내

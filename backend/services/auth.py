@@ -17,6 +17,7 @@ from typing import Callable
 
 import bcrypt
 import jwt
+from sqlalchemy.exc import OperationalError
 from sqlalchemy import text
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
@@ -119,16 +120,16 @@ def _latest(db: Session, email: str):
     return db.execute(
         text(
             "SELECT seq, auth_code, expiration_dt, try_count, send_dt, auth_dt "
-            "FROM email_verifications WHERE email = :e ORDER BY seq DESC LIMIT 1"
+            "FROM email_verifications WHERE email = :e AND auth_code <> :guard ORDER BY seq DESC LIMIT 1"
         ),
-        {"e": email},
+        {"e": email, "guard": WITHDRAW_GUARD},
     ).mappings().first()
 
 
 def request_code(db: Session, email: str, send: SendCode) -> dict:
     """인증 요청: 코드를 만들어 저장하고 메일로 보냅니다. 메일 발송에 실패하면 저장하지 않습니다."""
     if _user_exists(db, email):
-        raise AuthError(409, "EMAIL_EXISTS", "이미 가입한 이메일이에요. 로그인해 주세요.")
+        raise AuthError(409, "EMAIL_EXISTS", "이미 사용된 이메일이에요. 다른 이메일로 가입해 주세요.")
 
     t = now()
     last = _latest(db, email)
@@ -167,7 +168,7 @@ def verify_code(db: Session, email: str, code: str) -> dict:
 def signup(db: Session, email: str, password: str, name: str, verify_token: str) -> dict:
     """가입하기: 코드 확인 때 받은 인증 토큰을 가진 사람만 가입합니다."""
     if _user_exists(db, email):
-        raise AuthError(409, "EMAIL_EXISTS", "이미 가입한 이메일이에요. 로그인해 주세요.")
+        raise AuthError(409, "EMAIL_EXISTS", "이미 사용된 이메일이에요. 다른 이메일로 가입해 주세요.")
     last = _latest(db, email)
     _consume_token(db, email, last, verify_token)
 
@@ -184,7 +185,7 @@ def signup(db: Session, email: str, password: str, name: str, verify_token: str)
         db.commit()
     except IntegrityError:
         db.rollback()
-        raise AuthError(409, "EMAIL_EXISTS", "이미 가입한 이메일이에요. 로그인해 주세요.")
+        raise AuthError(409, "EMAIL_EXISTS", "이미 사용된 이메일이에요. 다른 이메일로 가입해 주세요.")
     return {"email": email, "name": name}
 
 
@@ -318,9 +319,65 @@ RESET_SENT = "가입된 이메일이면 인증 코드를 보냈어요. 메일을
 
 
 def _reset_user(db: Session, email: str):
+    # UX-018: 탈퇴한 계정은 가입되지 않은 이메일과 같게 처리(재설정으로 되살리지 못함)
     return db.execute(
-        text("SELECT email, COALESCE(upt_dt, ins_dt) AS since FROM `user` WHERE email = :e"), {"e": email}
+        text("SELECT email, COALESCE(upt_dt, ins_dt) AS since FROM `user` "
+             "WHERE email = :e AND COALESCE(pw, '') <> :w"), {"e": email, "w": WITHDRAWN}
     ).mappings().first()
+
+
+# ---------- 회원 탈퇴 (UX-018 · 2026-11-22) ----------
+# - 비밀번호를 다시 확인한 뒤 처리. DB 구조는 바꾸지 않음
+# - 로그인 불가(pw 표식), 이름 삭제, 기존 로그인(토큰) 모두 종료, 사업장 사용 중지, 공유 링크 중지
+# - 위험성평가 기록(평가표·서명)은 법정 보존 기간 동안 남김(개인정보 안내 '보유 기간')
+# - 같은 이메일로 다시 가입할 수 없음(기록 보존 중). 완전 삭제는 보존 기간 뒤 관리자 작업
+WITHDRAWN = "WITHDRAWN"          # bcrypt 형식이 아니라 로그인 검사에서 항상 실패
+WITHDRAW_GUARD = "withdraw:attempts"
+WITHDRAW_WINDOW = timedelta(minutes=10)
+WITHDRAWN_NAME = "탈퇴한 사용자"
+
+
+def withdraw(db: Session, email: str, password: str) -> dict:
+    row = db.execute(text("SELECT email, pw, upt_dt, ins_dt FROM `user` WHERE email = :e FOR UPDATE"), {"e": email}).mappings().first()
+    # 사용자 행 잠금으로 동시 요청도 같은 계정의 한도를 공유한다.
+    t = now()
+    params = {"e": email, "guard": WITHDRAW_GUARD}
+    guard = db.execute(text("SELECT seq, try_count, expiration_dt FROM email_verifications "
+                            "WHERE email=:e AND auth_code=:guard ORDER BY seq DESC LIMIT 1 FOR UPDATE"),
+                       params).mappings().first()
+    active = guard and guard["expiration_dt"] > t
+    if active and guard["try_count"] >= MAX_TRY:
+        wait = int((guard["expiration_dt"] - t).total_seconds())
+        raise AuthError(429, "WITHDRAW_TRY_LIMIT", f"{wait}초 뒤에 다시 시도해 주세요.", retry_after=wait)
+    stored = row["pw"] if row else None
+    try:
+        ok = bool(stored) and bcrypt.checkpw(password.encode("utf-8"), stored.encode("ascii"))
+    except ValueError:
+        ok = False
+    if not ok:
+        until = guard["expiration_dt"] if active else t + WITHDRAW_WINDOW
+        tries = guard["try_count"] + 1 if active else 1
+        if guard:
+            db.execute(text("UPDATE email_verifications SET try_count=:tries, expiration_dt=:until WHERE seq=:seq"),
+                       {"tries": tries, "until": until, "seq": guard["seq"]})
+        else:
+            db.execute(text("INSERT INTO email_verifications (email,auth_code,try_count,expiration_dt,send_dt) "
+                            "VALUES (:e,:guard,:tries,:until,:t)"), dict(params, tries=tries, until=until, t=t))
+        db.commit()
+        raise AuthError(400, "PASSWORD_MISMATCH", "비밀번호가 맞지 않아요. 다시 입력해 주세요.", field="password")
+    t = now()
+    since = row["upt_dt"] or row["ins_dt"]
+    if since and t <= since:                       # 같은 초여도 토큰 버전이 바뀌게
+        t = since + timedelta(seconds=1)
+    db.execute(text("UPDATE `user` SET pw = :w, name = :n, upt_dt = :t, upt_nm = :e WHERE email = :e"),
+               {"w": WITHDRAWN, "n": WITHDRAWN_NAME, "t": t, "e": email})
+    db.execute(text("UPDATE workplaces SET use_yn = 'N', upt_dt = :t, upt_nm = :e WHERE email = :e AND COALESCE(use_yn, 'Y') = 'Y'"),
+               {"t": t, "e": email})
+    db.execute(text("UPDATE eval_share SET stop_yn = 'Y', upt_dt = :t, upt_nm = :e "
+                    "WHERE COALESCE(stop_yn, 'N') = 'N' AND eval_no IN (SELECT eval_no FROM eval_mst WHERE email = :e)"),
+               {"t": t, "e": email})
+    db.commit()
+    return {"email": email, "withdrawn": True}
 
 
 def _latest_reset(db: Session, email: str, since):
@@ -329,9 +386,9 @@ def _latest_reset(db: Session, email: str, since):
     return db.execute(
         text(
             "SELECT seq, auth_code, expiration_dt, try_count, send_dt, auth_dt FROM email_verifications "
-            "WHERE email = :e AND send_dt > :s ORDER BY seq DESC LIMIT 1"
+            "WHERE email = :e AND auth_code <> :guard AND send_dt > :s ORDER BY seq DESC LIMIT 1"
         ),
-        {"e": email, "s": since},
+        {"e": email, "s": since, "guard": WITHDRAW_GUARD},
     ).mappings().first()
 
 
@@ -385,9 +442,20 @@ def reset_password(db: Session, email: str, password: str, verify_token: str) ->
     t = now()
     if user["since"] and t <= user["since"]:          # 같은 초에 두 번 바뀌어도 버전이 달라지게
         t = user["since"] + timedelta(seconds=1)
-    db.execute(
-        text("UPDATE `user` SET pw = :p, upt_dt = :t, upt_nm = :e WHERE email = :e"),
-        {"p": pw_hash, "t": t, "e": email},
-    )
+    try:
+        updated = db.execute(
+            text("UPDATE `user` SET pw = :p, upt_dt = :t, upt_nm = :e "
+                 "WHERE email = :e AND COALESCE(pw, '') <> :withdrawn"),
+            {"p": pw_hash, "t": t, "e": email, "withdrawn": WITHDRAWN},
+        )
+    except OperationalError as err:
+        # MariaDB는 같은 행이 조회 뒤 변경되면 영향 행 수 대신 1020을 반환하기도 한다.
+        db.rollback()
+        if err.orig.args[:1] != (1020,):
+            raise
+        raise AuthError(400, "INVALID_VERIFY_TOKEN", "계정 상태가 변경됐어요. 인증 코드를 다시 요청해 주세요.") from err
+    if updated.rowcount != 1:
+        db.rollback()
+        raise AuthError(400, "INVALID_VERIFY_TOKEN", "인증 정보가 맞지 않아요. 인증 코드를 다시 요청해 주세요.")
     db.commit()
     return {"email": email}

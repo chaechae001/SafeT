@@ -1,13 +1,12 @@
 /* =========================================================
    로그인·회원가입 (login.html) · A01 · A02
-   회원가입은 백엔드 API 와 연결되어 있습니다 (backend/routers/auth.py).
+   회원가입은 백엔드 API 와 연결되어 있습니다.
      ① 인증 요청   POST /auth/signup/code          → 메일로 6자리 코드 (5분 유효, 재요청 60초 뒤)
      ② 코드 확인   POST /auth/signup/code/verify   → 6자리를 다 넣으면 자동 확인 (5번 틀리면 다시 요청)
      ③ 가입하기    POST /auth/signup               → '회원가입이 완료되었습니다' 안내 + 로그인 화면(이메일 채움)
-                                                      (2026-11-16 결정. 설계서 07쪽은 바로 B02 로 이동)
    로그인도 API 와 연결되어 있습니다.
      로그인 POST /auth/login → 토큰(JWT)을 sessionStorage 에 저장
-       사업장이 있으면 내 평가표(home.html), 없으면 새 사업장 등록(workplace.html?first=1#v-new) (설계서 07쪽)
+       사업장이 있으면 내 평가표(home.html), 없으면 새 사업장 등록(workplace.html?first=1#v-new)
      로그인 화면을 열면 이전 로그인은 끝냅니다(메뉴의 '로그아웃'도 이 화면으로 옴).
    ========================================================= */
 (function ($, SafeT) {
@@ -41,7 +40,7 @@
     $h.text(text || '').toggleClass('code-ok', !!ok).prop('hidden', !text);
   }
 
-  // UX-016: 재요청 대기(60초) 동안은 버튼 글자를 그대로 두고 잠금, 끝나면 '재요청'
+  // 재요청 대기(60초) 동안은 버튼 글자를 그대로 두고 잠금, 끝나면 '재요청'
   function countdown(sec) {
     var $b = $('#auth-request');
     clearInterval(timer);
@@ -57,10 +56,10 @@
     // 코드 확인 때 받은 일회용 인증 토큰: 메모리에만 두고 가입하기에 함께 보냄 (새로 고침하면 다시 인증)
     state.token = on ? token : null;
     $('#auth_code').prop('readonly', on);
-    codeBox('auth_code', on ? 'done' : 'idle');      // UX-016
+    codeBox('auth_code', on ? 'done' : 'idle');
     if (on) { clearInterval(timer); $('#auth-request').prop('disabled', false).text('재요청'); }
     codeHint(on ? '✓ 이메일 인증을 마쳤어요.' : '', on);
-    // UX-001 M: 인증을 마치면 다음에 입력할 비밀번호 칸으로
+    // M: 인증을 마치면 다음에 입력할 비밀번호 칸으로
     if (on && !$('#signup-pw').val()) $('#signup-pw').trigger('focus');
   }
 
@@ -207,6 +206,7 @@
     var notice = /[?&]expired=1/.test(q) ? ['로그인 시간이 지났어요. 다시 로그인하면 보던 화면으로 돌아가요.', 'notice']
       : /[?&]required=1/.test(q) ? ['로그인이 필요해요. 로그인하면 열려던 화면으로 이동해요.', 'notice']
       : /[?&]logout=1/.test(q) ? ['로그아웃했어요.', 'notice notice--done']
+      : /[?&]withdrawn=1/.test(q) ? ['회원 탈퇴를 마쳤어요. 그동안 이용해 주셔서 고마워요.', 'notice notice--done']
       : null;
     if (notice) $('#auth-notice').attr('class', notice[1]).text(notice[0]).prop('hidden', false);
     $('#v-signup').on('safet:show', function () { $('#auth-notice').prop('hidden', true); });
@@ -227,8 +227,8 @@
         // 다른 사용자가 남긴 돌아갈 화면·편집 복구 정보는 지움 (같은 탭에서 계정을 바꾼 경우)
         SafeT.auth.forgetOthers(res.email);
         SafeT.auth.save(res);
-        rememberEmail($('#login-remember').prop('checked') ? $.trim($('#login-email').val()) : '');   // UX-001 J
-        // 만료·로그인 필요로 왔으면 원래 화면(같은 사용자만), 아니면 사업장 유무에 따라 (설계서 07쪽)
+        rememberEmail($('#login-remember').prop('checked') ? $.trim($('#login-email').val()) : '');   // J
+        // 만료·로그인 필요로 왔으면 원래 화면(같은 사용자만), 아니면 사업장 유무에 따라
         var back = SafeT.auth.takeReturn(res.email);
         window.location.href = back || (res.has_workplace ? 'home.html' : 'workplace.html?first=1#v-new');
       }).fail(function (err) {
@@ -270,7 +270,7 @@
       $h.text(text || '').toggleClass('code-ok', !!ok).prop('hidden', !text);
     }
 
-    function resetCountdown(sec) {              // UX-016: 회원가입과 같은 방식
+    function resetCountdown(sec) {              // 회원가입과 같은 방식
       var $b = $('#reset-request');
       clearInterval(rs.timer);
       $b.prop('disabled', true);
@@ -284,10 +284,10 @@
       rs.verified = on ? resetEmail() : null;
       rs.token = on ? token : null;          // 일회용 인증 토큰 (메모리에만)
       $('#reset-code').prop('readonly', on);
-      codeBox('reset-code', on ? 'done' : 'idle');      // UX-016
+      codeBox('reset-code', on ? 'done' : 'idle');
       if (on) { clearInterval(rs.timer); $('#reset-request').prop('disabled', false).text('재요청'); }
       resetHint(on ? '✓ 이메일 인증을 마쳤어요. 새 비밀번호를 입력해 주세요.' : '', on);
-      if (on && !$('#reset-pw').val()) $('#reset-pw').trigger('focus');   // UX-001 M
+      if (on && !$('#reset-pw').val()) $('#reset-pw').trigger('focus');   // M
     }
 
     $('#v-reset').on('safet:show', function () {
@@ -410,7 +410,7 @@
     });
 
     /* =========================================================
-       UX-001 (2026-11-21) 화면 개선
+       화면 개선
        F 스플래시 → 시작 화면 · E 비밀번호 보기 · G·I 비밀번호 조건
        J 아이디(이메일) 저장 · M 입력할 칸으로 자동 이동·강조
        기존 API 요청·주소·이벤트는 그대로 둡니다.
@@ -442,7 +442,7 @@
     $('#reset-email').on('input', function () { emphasizeRequest('#reset-email', '#reset-request', function () { return rs.requested; }); });
     $('#auth-request, #reset-request').on('click', function () { $(this).removeClass('btn--emphasis'); });
 
-    /* E 비밀번호 보기/숨기기 · UX-016: 글자 대신 눈 아이콘(보이는 중이면 눈 감은 아이콘), 이름은 화면 낭독기용 */
+    /* E 비밀번호 보기/숨기기 · 글자 대신 눈 아이콘(보이는 중이면 눈 감은 아이콘), 이름은 화면 낭독기용 */
     $(document).on('click', '[data-pw-toggle]', function () {
       var input = document.getElementById($(this).data('pw-toggle'));
       if (!input) return;
@@ -454,7 +454,7 @@
       input.focus();
     });
 
-    /* UX-016 인증 코드 '확인' 버튼: 6자리를 다 넣으면 자동 확인되는 기존 방식은 그대로 두고, 직접 누를 수도 있게 */
+    /* 인증 코드 '확인' 버튼: 6자리를 다 넣으면 자동 확인되는 기존 방식은 그대로 두고, 직접 누를 수도 있게 */
     function confirmCode(codeSel, emailSel, requested, emailVal, verify) {
       var $c = $(codeSel);
       if (requested() !== emailVal()) { SafeT.fieldError($(emailSel), '먼저 인증 요청을 눌러 주세요.'); $(emailSel).trigger('focus'); return; }
@@ -468,11 +468,11 @@
       confirmCode('#reset-code', '#reset-email', function () { return rs.requested; }, resetEmail, verifyReset);
     });
 
-    /* UX-016 개인정보 수집·이용 '보기 >' → 안내 창 (체크는 바뀌지 않음) */
+    /* 개인정보 수집·이용 '보기 >' → 안내 창 (체크는 바뀌지 않음) */
     $('[data-open-terms]').on('click', function (e) { e.preventDefault(); SafeT.openModal('terms'); });
 
     /* G·I 비밀번호 조건 (회원가입·재설정 공통): 대·소문자, 숫자, 특수문자, 8자 이상
-       서버도 같은 규칙으로 검사합니다 (backend/schemas/auth.py password_rule_ok). */
+       서버도 같은 규칙으로 검사합니다. */
     function updateRules(input) {
       var r = pwRules(input.value);
       $('[data-pw-rules="' + input.id + '"] li').each(function () {
@@ -519,7 +519,7 @@
       return;
     }
 
-    // UX-016 후속(사용자 결정): 주소만으로 들어오면 시작 화면(#v-start) → [로그인]을 누르면 새 로그인 화면
+    // 후속(사용자 결정): 주소만으로 들어오면 시작 화면(#v-start) → [로그인]을 누르면 새 로그인 화면
     var plainEntry = !window.location.hash && !window.location.search;
     if (plainEntry) {
       SafeT.showView('v-start');
@@ -568,7 +568,7 @@
   }
 
   /* =========================================================
-     UX-016 (2026-11-22) 인증 코드 칸 상태
+     인증 코드 칸 상태
      idle(요청 전) · wait(요청 후: 남은 시간 + 확인) · expired(시간 끝: 00:00) · done(✓ 인증 완료)
      남은 시간은 서버가 알려 준 코드 유효 시간(expires_in, 기본 5분)으로 셉니다.
      ========================================================= */

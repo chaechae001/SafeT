@@ -154,3 +154,23 @@ def test_메일_발송실패(client, mailer, email):
     mailer.fail = OSError("smtp down")
     assert req(client, email).status_code == 502
     assert db_one("SELECT COUNT(*) n FROM email_verifications WHERE email=:e", e=email)["n"] == 0
+
+
+def test_reset_preserves_withdrawal_committed_after_user_lookup(client, mailer, email, monkeypatch):
+    from services import auth
+
+    make_user(email)
+    token = verified_token(client, mailer, email)
+    lookup = auth._reset_user
+
+    def lookup_before_withdrawal(db, address):
+        previous = lookup(db, address)
+        # 별도 트랜잭션이 저장한 탈퇴 표식을 오래된 조회 결과로 덮지 않아야 한다.
+        db_exec("UPDATE `user` SET pw=:marker WHERE email=:e", marker=auth.WITHDRAWN, e=email)
+        return previous
+
+    monkeypatch.setattr(auth, "_reset_user", lookup_before_withdrawal)
+    response = reset(client, email, token=token)
+    assert response.status_code == 400
+    assert db_one("SELECT pw FROM `user` WHERE email=:e", e=email)["pw"] == auth.WITHDRAWN
+    assert login(client, email, NEW).status_code == 401

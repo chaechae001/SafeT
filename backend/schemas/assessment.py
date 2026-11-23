@@ -41,6 +41,9 @@ class CreateAssessment(StrictModel):
     # UX-017 03 기기: 이번 평가에만 추가한 기기(사업장 등록 기기는 서버가 넣음). 사업장 정보는 바꾸지 않는다.
     add_machine_codes: list[Annotated[str, Field(min_length=1, max_length=20)]] = Field(default_factory=list, max_length=100)
     add_custom_machines: list[Name] = Field(default_factory=list, max_length=30)
+    detected_machine_names: list[Name] = Field(default_factory=list, max_length=30)
+    # UX-018: true 면 위 기기를 사업장 보유 기기에도 저장(다음 평가에도 등록 기기로 나옴)
+    save_machines_to_workplace: bool = False
 
     @model_validator(mode='after')
     def inputs(self):

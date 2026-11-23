@@ -78,3 +78,17 @@ def test_list_has_item_count(client, flow):  # noqa: F811
     doc = r.json()
     card = next(x for x in client.get('/evals?tab=W', headers=h).json()['items'] if x['eval_no'] == doc['eval_no'])
     assert card['item_count'] == len(doc['items']) > 0
+
+
+def test_save_added_machines_to_workplace(client, flow, monkeypatch):  # noqa: F811
+    """UX-018: save_machines_to_workplace=true 면 추가한 기기가 사업장 보유 기기에도 남는다."""
+    seen = []
+    _setup(monkeypatch, seen)
+    h, p = flow
+    r = client.post('/evals', headers=h, json=dict(p, add_custom_machines=['제빙기'], detected_machine_names=['사진 기기'], save_machines_to_workplace=True))
+    assert r.status_code == 201, r.text
+    assert set(seen[0]) == {'튀김기', '제빙기', '사진 기기'}
+    w = client.get(f"/workplaces/{p['work_no']}", headers=h).json()
+    assert [m['machine_nm'] for m in w['machines']] == ['튀김기', '제빙기']
+    with engine.begin() as c:
+        c.execute(text('DELETE FROM risk_event WHERE eval_no IN (SELECT eval_no FROM eval_mst WHERE request_key=:k)'), {'k': p['request_key']})

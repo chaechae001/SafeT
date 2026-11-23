@@ -43,10 +43,10 @@
   border-color: var(--c-primary);
   color: #fff;
 }
-.workplace .biz-options label:has(input:focus-visible) { outline: 3px solid #3b82c4; }
+.workplace .biz-options label:has(input:focus-visible) { outline: 3px solid var(--c-primary); }
 
 /* =========================================================
-   UX-003 (2026-11-21) · workplace.html 전용 (.workplace 아래)
+   workplace.html 전용 (.workplace 아래)
    ========================================================= */
 /* 글자: 보조 14px 이상, 출처 표시 12px */
 .workplace .hint,
@@ -119,7 +119,7 @@
 }
 
 /* =========================================================
-   UX-016 (2026-11-22) · 사업장 관리 카드(업종 배지·⋮·기기 상자) / 등록·수정(← 헤더·업종 칩·단계형 기기·저장 비활성)
+   사업장 관리 카드(업종 배지·⋮·기기 상자) / 등록·수정(← 헤더·업종 칩·단계형 기기·저장 비활성)
    ========================================================= */
 /* 헤더: 등록·수정 화면은 ☰ 숨기고 ← + 가운데 Safe-T (body.wp-sub, workplace.js) */
 .wp-back[hidden] { display: none; }
@@ -128,7 +128,7 @@ body.wp-sub .topbar .logo { justify-self: center; }
 body.wp-sub .topbar .menu { display: none; }
 body.wp-sub .wp-back {
   display: grid; place-items: center; width: 44px; height: 44px;
-  border-radius: var(--radius-sm); color: #3d4441;
+  border-radius: var(--radius-sm); color: var(--c-icon);
 }
 body.wp-sub .wp-back:hover { background: var(--c-surface-muted); }
 body.wp-sub .wp-back .ico { width: 24px; height: 24px; }
@@ -151,7 +151,7 @@ body.wp-sub .wp-back .ico { width: 24px; height: 24px; }
 .workplace .wp-card__edit { border: 1.5px solid var(--c-primary); color: var(--c-primary); border-radius: 10px; padding: 0 14px; }
 .workplace .wp-card__more {
   display: grid; place-items: center; width: 40px; height: 44px; padding: 0;
-  border: 0; border-radius: var(--radius-sm); background: transparent; color: #3d4441; cursor: pointer;
+  border: 0; border-radius: var(--radius-sm); background: transparent; color: var(--c-icon); cursor: pointer;
 }
 .workplace .wp-card__more:hover,
 .workplace .wp-card__more[aria-expanded="true"] { background: var(--c-surface-muted); }
@@ -160,7 +160,7 @@ body.wp-sub .wp-back .ico { width: 24px; height: 24px; }
   position: absolute; right: 0; top: calc(100% + 4px); z-index: 15; min-width: 168px;
   display: flex; flex-direction: column; padding: 6px;
   background: var(--c-surface); border: 1px solid var(--c-line); border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(29, 36, 32, .14);
+  box-shadow: 0 8px 24px rgba(17, 24, 39, .14);
 }
 .workplace .wp-more[hidden] { display: none; }
 .workplace .wp-more button {
@@ -179,7 +179,7 @@ body.wp-sub .wp-back .ico { width: 24px; height: 24px; }
   border: 0; border-radius: 12px; background: transparent; color: var(--c-text);
   font: inherit; text-align: left; cursor: pointer;
 }
-.workplace .wp-acc__toggle:focus-visible { outline: 3px solid #3b82c4; outline-offset: 2px; }
+.workplace .wp-acc__toggle:focus-visible { outline: 3px solid var(--c-primary); outline-offset: 2px; }
 .workplace .wp-acc__icon { flex: none; display: grid; place-items: center; color: var(--c-primary); }
 .workplace .wp-acc__icon .ico { width: 22px; height: 22px; }
 .workplace .wp-acc__title { flex: 1; min-width: 0; font-size: 16px; font-weight: 700; }
@@ -217,7 +217,7 @@ body.wp-sub .wp-back .ico { width: 24px; height: 24px; }
 }
 .workplace .wp-summary[hidden] { display: none; }
 
-/* 업종 칩: 고르면 딥그린 바탕 + 흰 체크 */
+/* 업종 칩: 고르면 주색 바탕 + 흰 체크 */
 .workplace .biz-options label { gap: 6px; }
 .workplace .biz-options .wp-chip-check { display: none; width: 16px; height: 16px; stroke-width: 2.4; }
 .workplace .biz-options label:has(input:checked) .wp-chip-check { display: inline-block; color: #fff; }
@@ -257,7 +257,7 @@ body.wp-sub .wp-back .ico { width: 24px; height: 24px; }
   background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231f5a47' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center / 18px no-repeat;
 }
 .workplace .wp-equip-box .check:has(input:checked) { background: var(--c-primary-soft); border-color: var(--c-primary); }
-.workplace .wp-equip-box .check:has(input:focus-visible) { outline: 3px solid #3b82c4; outline-offset: 2px; }
+.workplace .wp-equip-box .check:has(input:focus-visible) { outline: 3px solid var(--c-primary); outline-offset: 2px; }
 .workplace .wp-equip-box .check__text { flex: 0 1 auto; min-width: 0; font-size: 15px; overflow-wrap: anywhere; }
 .workplace .wp-equip-add { gap: 6px; }
 .workplace .wp-equip-add .label { font-size: 14px; font-weight: 600; color: var(--c-text-sub); }
@@ -271,3 +271,55 @@ body.wp-sub .wp-back .ico { width: 24px; height: 24px; }
 @media (prefers-reduced-motion: reduce) {
   .workplace .wp-acc__chev { transition: none; }
 }
+
+/* 회원 탈퇴 입구 · 확인 창 */
+.account-out { display: flex; justify-content: center; margin-top: 32px; }
+.account-out__btn { min-height: 44px; padding: 0 12px; border: 0; background: none; color: var(--c-text-sub); font-size: 14px; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+#withdraw .withdraw-list { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; color: var(--c-text-sub); line-height: 1.55; word-break: keep-all; }
+#withdraw .withdraw-list { list-style: disc; }
+#withdraw .withdraw-list li::marker { color: var(--c-text-faint); }
+
+/* =========================================================
+   사업장 관리 화면 정리 — 구조·id·동작은 그대로, 보이는 모양만
+   - 목록 위: 제목 · 설명 · "등록된 사업장 N개"(회색 버튼처럼 보이던 것을 작은 글자로 목록 위에)
+   - 카드: 흰 바탕 · 이름 옆 업종 칩 · 오른쪽 [수정] · 기기 상자 · 오른쪽 아래 작은 회색 [사업장 삭제]
+   - 회원 탈퇴는 목록 맨 아래 작은 글자
+   ========================================================= */
+.workplace#v-list .page { gap: 12px; padding-top: 16px; }
+.workplace#v-list .page > .stack { order: 0; gap: 4px; }
+.workplace#v-list .page-title { font-size: 22px; margin: 0; }
+.workplace#v-list .page-desc { font-size: 14px; margin: 0; }
+.workplace#v-list #wp-summary { order: 1; margin: 2px 0 -4px; padding: 0; border: 0; background: none; min-height: 0;
+  font-size: 13px; font-weight: 700; color: var(--c-text-sub); text-align: left; }
+.workplace#v-list #wp-error { order: 2; }
+.workplace#v-list #wp-list, .workplace#v-list #wp-empty { order: 3; }
+.workplace#v-list .account-out { order: 4; margin-top: 12px; }
+.workplace#v-list .card-list { gap: 12px; }
+
+.workplace .wp-card { position: relative; gap: 12px; padding: 16px; border: 1px solid var(--c-line); border-radius: 16px; background: #fff;
+  box-shadow: 0 1px 2px rgba(17, 24, 39, .04); }
+.workplace .wp-card .card__head { align-items: center; gap: 10px; }
+.workplace .wp-card .card__title { padding-top: 0; font-size: 17px; font-weight: 800; line-height: 1.35; }
+.workplace .wp-card__edit { min-height: 36px; padding: 0 14px; border: 1px solid var(--c-line-strong); border-radius: 10px; background: #fff;
+  color: var(--c-text); font-size: 14px; font-weight: 700; }
+.workplace .wp-card__edit:hover { border-color: var(--c-primary); color: var(--c-primary); }
+/* 업종: [업종 | 치킨] 회색 상자 → 연한 파랑 칩 하나(이름 바로 아래) */
+.workplace .wp-biz { margin-top: -6px; padding: 3px 10px; border-radius: 999px; background: var(--c-primary-soft); font-size: 13px; }
+.workplace .wp-biz__label { color: var(--c-primary-dark); opacity: .75; }
+.workplace .wp-biz__value { margin-left: 6px; padding-left: 6px; border-left-color: var(--c-primary-line); color: var(--c-primary-dark); font-weight: 700; }
+/* 보유 기기 상자 */
+.workplace .wp-acc { background: #F6F7F9; border: 1px solid #EDEFF2; border-radius: 12px; }
+.workplace .wp-acc__toggle { min-height: 48px; }
+.workplace .wp-acc__title { font-weight: 700; }
+.workplace .wp-acc__list { gap: 6px; }
+/* 삭제: 구분선 없이 오른쪽 아래 작은 회색 글자(누를 때만 빨강) */
+.workplace .wp-card__foot { display: flex; justify-content: flex-end; margin-top: -4px; padding-top: 0; border-top: 0; }
+.workplace .wp-card__delete { min-height: 36px; padding: 0 6px; gap: 4px; color: var(--c-text-sub); font-size: 13px; font-weight: 600; background: none; border: 0; }
+.workplace .wp-card__delete .ico { width: 15px; height: 15px; }
+.workplace .wp-card__delete:hover, .workplace .wp-card__delete:active { color: var(--c-danger); background: var(--c-danger-bg); }
+/* 회원 탈퇴 */
+.account-out__btn { font-size: 13px; color: var(--c-text-faint, #8B95A1); }
+
+/* 새 사업장·수정: 항목 사이 간격과 업종 칩 크기를 맞춤 */
+#v-new .page, #v-edit .page { gap: 18px; }
+#v-new .page-title, #v-edit .page-title { font-size: 22px; }

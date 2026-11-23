@@ -4,15 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>내 평가표 · Safe-T</title>
-  <link rel="stylesheet" href="../css/common.css?v=20261117">
-  <link rel="stylesheet" href="../css/home.css?v=20261117">
-  <link rel="stylesheet" href="../css/ux-guide.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+  <link rel="stylesheet" href="../css/common.css?v=20261125">
+  <link rel="stylesheet" href="../css/home.css?v=20261125">
+  <link rel="stylesheet" href="../css/ux-guide.css?v=20261125">
 </head>
 <body class="page-home" data-auth-required data-ux-guide>
-  <!-- home.html · 화면설계서 v3.19 통합본
-       화면(view) 목록 (처음 화면 = .is-active)
-       - #v-home : H01 내 평가표
-       전환: jQuery로 .view 의 .is-active 를 바꿉니다. JS 없이 확인할 때는 주소 끝에 #view-id 를 붙입니다. -->
   <div class="app">
     <header class="topbar">
       <a class="logo" href="home.html">Safe-T</a>
@@ -29,13 +27,6 @@
 
     <main class="views">
       <section class="view home is-active" id="v-home" aria-label="H01 내 평가표">
-        <!-- H01 내 평가표 · 화면설계서 10쪽
-             테이블: eval_mst(eval_nm, eval_status, eval_dt, eval_writer, del_yn='N') · workplaces
-             - 탭: 전체(ALL) / 작성 중(W) / 확정(C) / 서명 완료(S) / 조치 완료(A) · 처음 값 = 전체 (UX-004)
-             - 검색 조건·하단 버튼은 고정, 평가표 목록(.home__scroll)만 스크롤 (UX-004)
-             - 기간 처음 값: 이번 달 1일 ~ 오늘(한국 날짜), 사업장 처음 값: -전체-
-             - 카드 왼쪽 버튼: 작성 중 = 서명하기·확정 후(비활성) / 확정 = 서명하기 n/m / 전원 서명 = 결과 공유
-             - 목록 10개씩 -->
         <div class="page">
           <h1 class="page-title">내 평가표</h1>
 
@@ -44,13 +35,9 @@
             <a href="#v-home" data-tab="W">작성 중</a>
             <a href="#v-home" data-tab="C">확정</a>
             <a href="#v-home" data-tab="S">서명 완료</a>
-            <!-- 조치 완료 탭: 후속업무(조치 기록)가 '협의 중'이라 숨김 (2026-11-16). 되살리려면 주석을 풀면 됩니다.
-            <a href="#v-home" data-tab="A">조치 완료</a>
-            -->
           </nav>
 
           <form class="home__filter" id="home-filter" method="get" action="#v-home">
-            <!-- UX-015: 기간을 'YYYY.MM.DD ~ YYYY.MM.DD' 한 칸(오른쪽 달력 아이콘)으로. 누르면 시작·종료 칸이 펼쳐짐(기존 입력·달력 그대로) -->
             <div class="field period">
               <span class="label" id="period-label">기간</span>
               <button class="input period__view" id="period-view" type="button" aria-expanded="false" aria-controls="period-panel" aria-describedby="period-label">
@@ -76,14 +63,12 @@
 
             <div class="field">
               <label class="label" for="work_no">사업장</label>
-              <!-- GET /workplaces: 사용 중(use_yn='Y')인 사업장만 -->
               <select class="select" id="work_no" name="work_no">
                 <option value="">-전체-</option>
               </select>
             </div>
           </form>
 
-          <!-- 평가표 목록: GET /evals (home.js 가 채움) · 이 영역만 스크롤 (UX-004) -->
           <div class="home__scroll" id="home-scroll" tabindex="-1" aria-label="평가표 목록">
           <p class="notice notice--danger" id="eval-error" hidden>
             <span class="js-msg">평가표 목록을 불러오지 못했어요.</span>
@@ -92,7 +77,6 @@
           <ul class="card-list" id="eval-list" aria-live="polite"></ul>
 
           <nav class="pager" id="pager" aria-label="페이지" hidden></nav>
-          <!-- 조건에 맞는 평가표가 없을 때 -->
           <div class="empty" id="eval-empty" hidden>
             <p>이 기간에 작성한 평가표가 없어요.</p>
           </div>
@@ -108,10 +92,11 @@
   </div>
 
   <script src="../js/vendor/jquery-3.7.1.min.js?v=20261117"></script>
-  <script src="../js/common.js?v=20261117"></script>
-  <script src="../js/ui-icons.js"></script>
-  <script src="../js/api.js?v=20261117"></script>
-  <script src="../js/home.js?v=20261117"></script>
-  <script src="../js/ux-guide.js"></script>
+  <script src="../js/common.js?v=20261125"></script>
+  <script src="../js/ui-icons.js?v=20261125"></script>
+  <script src="../js/config.js?v=20261125"></script>
+  <script src="../js/api.js?v=20261125"></script>
+  <script src="../js/home.js?v=20261125"></script>
+  <script src="../js/ux-guide.js?v=20261125"></script>
 </body>
 </html>

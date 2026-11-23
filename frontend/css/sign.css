@@ -12,7 +12,7 @@
 }
 .sign .sign-pad__tools { justify-content: flex-end; }
 
-/* UX-016 (2026-11-22) · 서명할 사람 추가 */
+/* 서명할 사람 추가 */
 .signer-add { display: flex; flex-direction: column; gap: 8px; padding: 14px; border: 1px solid #E4E7EA; border-radius: 14px; background: #F8F9FA; }
 .signer-add[hidden] { display: none; }
 .signer-add .section-title { margin: 0; font-size: 15px; }
@@ -21,3 +21,6 @@
 .signer-add .input-row { display: flex; gap: 8px; }
 .signer-add .input-row .input { flex: 1; min-width: 0; background: #fff; }
 .signer-add .input-row .btn { flex: none; border: 1px solid var(--c-primary); color: var(--c-primary); background: #fff; font-weight: 700; }
+
+/* 참여자별 '서명 필요'는 할 일 표시라 위험도 노랑 대신 연한 파랑 (sign.js 의 tag--warn, 이 화면 안으로 한정) */
+#signer-list .tag--warn { background: var(--c-primary-soft); color: var(--c-primary-dark); }

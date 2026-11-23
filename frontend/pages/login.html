@@ -4,20 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>로그인 · Safe-T</title>
-  <link rel="stylesheet" href="../css/common.css">
-  <link rel="stylesheet" href="../css/auth.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+  <link rel="stylesheet" href="../css/common.css?v=20261125">
+  <link rel="stylesheet" href="../css/auth.css?v=20261125">
 </head>
 <body class="page-login">
-  <!-- login.html · 화면설계서 v3.19 통합본
-       화면(view) 목록 (JS 없이 열면 #v-login 이 처음 화면 = .is-active)
-       - #v-start : 시작 화면(로그인/회원가입 선택) · UX-001. UX-016부터는 주소 끝에 #v-start 를 붙일 때만 표시
-       - #v-login : A01 로그인 · UX-016부터 주소만으로 들어오면 스플래시 뒤 이 화면 (위쪽 브랜드 영역이 시작 화면 역할)
-       - #v-signup : A02 회원가입
-       - #v-reset : 비밀번호 재설정
-       ?required=1 / ?expired=1 / ?logout=1 로 오면 스플래시 없이 바로 #v-login
-       전환: jQuery로 .view 의 .is-active 를 바꿉니다. JS 없이 확인할 때는 주소 끝에 #view-id 를 붙입니다. -->
   <script>
-    // UX-001 스플래시: 주소만으로 처음 들어온 경우에만, 탭마다 한 번 (그리기 전에 표시해 로그인 폼이 깜빡이지 않게)
+    // 스플래시: 주소만으로 처음 들어온 경우에만, 탭마다 한 번 (그리기 전에 표시해 로그인 폼이 깜빡이지 않게)
     (function () {
       try {
         if (!location.hash && !location.search && !sessionStorage.getItem('safet.splashShown')) {
@@ -28,13 +22,13 @@
   </script>
   <div class="splash" id="splash" aria-hidden="true">
     <div class="splash__inner">
+      <span class="splash__mark"></span>
       <span class="splash__logo">Safe-T</span>
       <span class="splash__tag">음식점·카페 위험성평가</span>
     </div>
   </div>
 
   <div class="app">
-    <!-- UX-016: 회원가입·비밀번호 재설정은 ← 뒤로 + 가운데 로고, 로그인 화면은 위쪽 브랜드 영역으로 대신 (auth.css) -->
     <header class="topbar auth-topbar">
       <a class="auth-back" href="#v-login" aria-label="로그인으로 돌아가기"><i data-ico="arrowLeft"></i></a>
       <span class="logo">Safe-T</span>
@@ -43,7 +37,6 @@
 
     <main class="views">
       <section class="view auth auth--start" id="v-start" aria-label="시작">
-        <!-- 시작 화면 · UX-001 (로그인 / 회원가입 선택) -->
         <div class="page start">
           <p class="start__eyebrow">음식점·카페 사장님을 위한 위험성평가</p>
           <h1 class="page-title start__title">우리 매장 위험성평가,<br>휴대폰으로 시작해요</h1>
@@ -63,7 +56,6 @@
       </section>
 
       <section class="view auth auth--login is-active" id="v-login" aria-label="A01 로그인">
-        <!-- A01 로그인 · 화면설계서 07쪽 · UX-016 브랜드 영역 -->
         <div class="page">
           <div class="auth-brand">
             <span class="auth-brand__mark" aria-hidden="true"><i data-ico="shieldCheck"></i></span>
@@ -73,12 +65,9 @@
 
           <h1 class="page-title">로그인</h1>
 
-          <!-- 회원가입을 마치고 오면 표시 (login.js) -->
           <p class="notice notice--done" id="signup-done" role="status" hidden>회원가입이 완료되었습니다. 로그인해 주세요.</p>
-          <!-- 로그아웃·로그인 필요·로그인 시간 만료 안내 (login.js, 주소의 ?logout=1 / ?required=1 / ?expired=1) -->
           <p class="notice" id="auth-notice" role="status" hidden></p>
 
-          <!-- 로그인 → 사업장이 있으면 내 평가표(home.html), 없으면 새 사업장 등록(workplace.html?first=1#v-new) (login.js) -->
           <form class="auth__form" id="login-form" action="home.html" method="get" novalidate>
             <div class="field">
               <label class="label" for="login-email">이메일</label>
@@ -93,12 +82,9 @@
                        autocomplete="current-password" placeholder="비밀번호 입력" required>
                 <button class="pw-toggle" type="button" data-pw-toggle="login-pw" aria-controls="login-pw" aria-pressed="false" aria-label="비밀번호 보기"><i data-ico="eye"></i></button>
               </div>
-              <!-- 오류는 입력칸 아래에 표시 (common.js) -->
             </div>
 
-            <!-- UX-016: 아이디 저장(왼쪽) + 비밀번호 찾기(오른쪽) 한 줄 -->
             <div class="auth-opts">
-              <!-- 아이디(이메일) 저장 · UX-001: 이 기기 브라우저에만 저장 (login.js) -->
               <label class="check check--plain" for="login-remember">
                 <input type="checkbox" id="login-remember" name="remember">
                 <span class="check__text">아이디(이메일) 저장</span>
@@ -113,11 +99,6 @@
         </div>
       </section>
       <section class="view auth" id="v-signup" aria-label="A02 회원가입">
-        <!-- A02 이메일 인증 회원가입 · 화면설계서 07쪽
-             순서: 이메일 → 인증 코드 → 비밀번호 → 이름
-             업종·사업장명은 사업장 등록(B02)에서 받음
-             가입 완료 → '회원가입이 완료되었습니다' 안내 후 로그인 화면으로 이동 (2026-11-16 결정, 설계서 07쪽과 다름)
-             로그인 후 등록된 사업장이 없으면 사업장 등록(B02)으로 보냄 (설계서 07쪽) -->
         <div class="page">
           <h1 class="page-title">회원가입</h1>
 
@@ -129,12 +110,10 @@
                        autocomplete="email" placeholder="owner@example.com" required>
                 <button class="btn" id="auth-request" type="button">인증 요청</button>
               </div>
-              <!-- 이미 가입한 이메일은 인증 요청 단계에서 안내 (login.js) -->
             </div>
 
             <div class="field">
               <label class="label" for="auth_code">인증 코드<span class="req" aria-hidden="true">*</span></label>
-              <!-- UX-016 인증 코드 칸 상태(login.js codeBox): 요청 후 = 남은 시간(빨강) + 확인 / 인증 후 = ✓ 인증 완료 -->
               <div class="input-row code-box" data-code-box="auth_code" data-state="idle">
                 <input class="input" id="auth_code" name="auth_code" inputmode="numeric"
                        maxlength="6" autocomplete="one-time-code" placeholder="6자리 코드" required>
@@ -151,7 +130,6 @@
                        autocomplete="new-password" placeholder="비밀번호 입력" required>
                 <button class="pw-toggle" type="button" data-pw-toggle="signup-pw" aria-controls="signup-pw" aria-pressed="false" aria-label="비밀번호 보기"><i data-ico="eye"></i></button>
               </div>
-              <!-- 비밀번호 규칙 · UX-001 (login.js). 서버도 같은 규칙 검사 (backend/schemas/auth.py password_rule_ok) -->
               <ul class="pw-rules" data-pw-rules="signup-pw" aria-label="비밀번호 조건">
                 <li data-rule="len">8자 이상</li>
                 <li data-rule="upper">영문 대문자</li>
@@ -167,8 +145,6 @@
                      autocomplete="name" placeholder="김하늘" required>
             </div>
 
-            <!-- 개인정보 안내·필수 동의는 실제 정책 문서와 연결 (문서 확정 후)
-                 UX-016: 오른쪽 '보기 >' → #terms 창. 정책 문서 전문이 아직 없어 받는 정보만 안내 -->
             <div class="agree-box">
               <label class="check">
                 <input type="checkbox" name="agree" required>
@@ -180,14 +156,10 @@
             <p class="hint">가입을 마치면 사업장을 등록해요.</p>
 
             <button class="btn btn--primary btn--block btn--lg" type="submit">가입하기</button>
-            <!-- UX-001: 비밀번호 재설정 화면과 같은 형태의 돌아가기 링크 -->
             <a class="link link--touch center" href="#v-login">로그인으로 돌아가기</a>
           </form>
         </div>
 
-        <!-- UX-016 개인정보 수집·이용 안내 창
-             UX-017: 동의받을 때 알려야 하는 4가지(목적·항목·보유 기간·거부 권리와 불이익)를 넣음.
-             문구는 팀·법무 최종 확인 전 초안. 확정되면 이 창의 문구만 바꾼다. -->
         <div class="modal" id="terms" role="dialog" aria-modal="true" aria-labelledby="terms-title">
           <div class="modal__box">
             <div class="modal__head">
@@ -223,11 +195,6 @@
         </div>
       </section>
       <section class="view auth" id="v-reset" aria-label="비밀번호 재설정">
-        <!-- 비밀번호 재설정 (2026-11-16 결정 · 설계서 07쪽은 링크만 있음)
-             순서: 이메일 → 인증 코드 → 새 비밀번호
-             - 가입 여부와 관계없이 '가입된 이메일이면 인증 코드를 보냈어요'로 같은 안내
-             - 바꾸면 기존 로그인(다른 기기 포함)이 모두 끝나고, 로그인 화면으로 이동
-             API: POST /auth/password/code · /auth/password/code/verify · /auth/password/reset -->
         <div class="page">
           <h1 class="page-title">비밀번호 재설정</h1>
           <p class="page-desc">가입한 이메일로 인증 코드를 받아 새 비밀번호를 정해요.</p>
@@ -282,9 +249,10 @@
   </div>
 
   <script src="../js/vendor/jquery-3.7.1.min.js"></script>
-  <script src="../js/common.js"></script>
-  <script src="../js/ui-icons.js"></script>
-  <script src="../js/api.js"></script>
-  <script src="../js/login.js"></script>
+  <script src="../js/common.js?v=20261125"></script>
+  <script src="../js/ui-icons.js?v=20261125"></script>
+  <script src="../js/config.js?v=20261125"></script>
+  <script src="../js/api.js?v=20261125"></script>
+  <script src="../js/login.js?v=20261125"></script>
 </body>
 </html>

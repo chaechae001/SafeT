@@ -46,6 +46,7 @@ uploads/
 # Frontend UI assets (icons, logos, illustrations) are allowed.
 # Keep dataset photos, user uploads and identifiable images out of these folders.
 !frontend/public/**/*.png
+!backend/templates/report-logo.png
 !frontend/public/**/*.jpg
 !frontend/public/**/*.jpeg
 !frontend/public/**/*.webp
