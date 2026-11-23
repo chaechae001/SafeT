@@ -443,6 +443,18 @@ Remove-Item Env:SAFET_RUN_LIVE_TEXT_TEST
 
 `SAFET_AI_GATEWAY_URL`을 설정하면 텍스트·사진 모두 같은 관문과 `SAFET_AI_API_KEY`를 사용합니다. 현재 관문은 토큰 계수 경로가 없어 초안 생성이 차단됩니다. [확인 결과와 서버 보완 사항](../docs/implementation/gateway-integration-20261118.md)을 참고하세요.
 
+## 웹앱 단일 포트 배포
+
+저장소 루트에서 아래 명령을 실행합니다. `backend/.env`에 MariaDB와 평가 모드를 설정합니다.
+
+```sh
+python backend/run_local.py --check
+python -m uvicorn serve_web:app --app-dir backend --host 127.0.0.1 --port 8021 --root-path /proxy/8021
+```
+
+엘리스의 `/proxy/8021/`에서 화면을 열고 `/proxy/8021/api/`로 API를 호출합니다. 직접 접속하는 환경에서는 `--root-path`를 생략합니다. 배포 확인에 쓰는 `SAFET_REVIEW_COMMIT`에는 배포한 커밋 SHA를 넣습니다.
+
+상태 확인은 `/health`, DB 확인은 `/api/health/db`입니다. `SHARE_BASE_URL`에는 같은 외부 주소의 `/pages/share-download.html`을 설정합니다. 사진·음성 기반 평가를 쓰면 `SAFET_ASSESSMENT_MODE=authoring_rag_v1`과 기존 `SAFET_AI_GATEWAY_URL`을 설정합니다.
 
 ## 동시 저장·AI 잠금·사진 캐시 보완
 
