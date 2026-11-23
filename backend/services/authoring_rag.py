@@ -19,7 +19,7 @@ from ai.assessment_authoring.detection_adapter import photo_detector_source
 from ai.assessment_authoring.input_adapter import build_context as adapt_input
 from ai.assessment_authoring.contracts import load_catalog
 from ai.assessment_authoring.evidence_qualification import qualify_direct_evidence
-from ai.assessment_authoring.live_text_check import build_messages, request_json, output_budget, parse_completion, model_response_format
+from ai.assessment_authoring.live_text_check import build_messages, request_json, output_budget, complete_json, model_response_format
 from ai.assessment_authoring.retrieval_adapter import _positive
 
 SOURCE = 'authoring_rag_v1'
@@ -92,9 +92,10 @@ def extract(context, retrieval, snapshot, evidence):
     try:
         count = request_json(base, key, '/tokenize', dict(model=model, messages=messages, add_generation_prompt=True))['count']
         budget = output_budget(count)
-        response = request_json(base, key, '/v1/chat/completions', dict(model=model, messages=messages,
-            temperature=0, max_tokens=budget, response_format=model_response_format(context, retrieval, snapshot)))
-        decoded = parse_completion(response, context)
+        # 길이 제한으로 잘리면 반복 억제를 넣어 한 번만 다시 부른다(다기기 사진 502 대응).
+        decoded = complete_json(lambda payload: request_json(base, key, '/v1/chat/completions', payload),
+            dict(model=model, messages=messages, temperature=0, max_tokens=budget,
+                 response_format=model_response_format(context, retrieval, snapshot)), context)
         checked = check_batch_output(decoded, context, [r['scenario_id'] for r in retrieval['candidates']],
                                   {s['id']: s for s in snapshot['scenarios']})
         # A fryer document can suggest a passage hazard, but only the user's work can establish exposure.
