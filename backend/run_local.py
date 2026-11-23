@@ -25,6 +25,8 @@ def check_db(migrate):
             sql += '\n' + (ROOT / 'backend/migrations/20261117_catalog_risk.sql').read_text(encoding='utf-8')
         if os.getenv('SAFET_ASSESSMENT_MODE') in ('authoring_rag_v1', 'catalog_rls_v1'):  # catalog_rls_v1: 확인 대기 위험 보관
             sql += '\n' + (ROOT / 'backend/migrations/20261119_authoring_snapshot.sql').read_text(encoding='utf-8')
+        sql += '
+' + (ROOT / 'backend/migrations/20261123_eval_cycle.sql').read_text(encoding='utf-8')   # UX-024 평가 주기
         with engine.begin() as conn:
             for stmt in sql.split(';'):
                 if stmt.strip():

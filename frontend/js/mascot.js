@@ -1,5 +1,5 @@
 /* =========================================================
-   Safe-T 도우미 캐릭터 (UX-023 · 2026-11-23)
+   Safe-T 도우미 캐릭터 (UX-023 · 2026-11-23 · UX-024 고양이 그림으로 교체)
    - 사용자가 고르거나 적기를 머뭇거릴 때(정해진 시간 동안 누름·스크롤·입력이 없을 때) 다음에 채울 칸 옆에 나타나 가리킴
    - 어떤 조작이든 하면 바로 사라짐. 같은 칸에서는 다시 머뭇거릴 때만 다시 나옴
    - 화면 읽기 프로그램에는 말풍선 문장만 알림(aria-live polite), 그림은 숨김. 움직임 줄이기 설정이면 흔들림 없음
@@ -9,20 +9,14 @@
 (function ($, SafeT) {
   'use strict';
   if (!SafeT) return;
-  var SVG = '<svg viewBox="0 0 64 72" aria-hidden="true" focusable="false">' +
-    '<path d="M32 3 6 13v19c0 17 11 30 26 36 15-6 26-19 26-36V13Z" fill="#2563EB"/>' +
-    '<path d="M32 3 6 13v19c0 17 11 30 26 36V3Z" fill="#3B82F6"/>' +
-    '<ellipse cx="22" cy="32" rx="5" ry="6" fill="#fff"/><ellipse cx="42" cy="32" rx="5" ry="6" fill="#fff"/>' +
-    '<circle class="mascot__pupil" cx="23" cy="33" r="2.6" fill="#191F28"/><circle class="mascot__pupil" cx="43" cy="33" r="2.6" fill="#191F28"/>' +
-    '<ellipse cx="15" cy="42" rx="4" ry="2.4" fill="#FF8FA3" opacity=".7"/><ellipse cx="49" cy="42" rx="4" ry="2.4" fill="#FF8FA3" opacity=".7"/>' +
-    '<path d="M26 44c3 3.5 9 3.5 12 0" stroke="#191F28" stroke-width="2.4" fill="none" stroke-linecap="round"/>' +
-    '<circle cx="52" cy="10" r="5" fill="#FF6B1A"/></svg>';
+  // UX-024: 파란 안전모를 쓴 흰 고양이(원본 그림의 바깥 흰 여백만 잘라 낸 PNG · frontend/public/mascot/). 꾸밈 그림이라 읽기 프로그램에서는 숨김
+  var IMG = '<img src="../public/mascot/safet-cat.png?v=20261124" alt="" aria-hidden="true" width="288" height="258" decoding="async" draggable="false">';
   var $m = null, timer = null, getTarget = null, opts = {}, shownFor = null;
 
   function el() {
     if ($m) return $m;
     $m = $('<div class="mascot" role="status" aria-live="polite" hidden>' +
-      '<div class="mascot__bubble"></div><div class="mascot__body">' + SVG + '</div></div>').appendTo('body');
+      '<div class="mascot__bubble"></div><div class="mascot__body">' + IMG + '</div></div>').appendTo('body');
     $m.on('click', hide);
     return $m;
   }

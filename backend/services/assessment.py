@@ -7,6 +7,7 @@ from services import workplaces, assessment_provider as provider
 from services import catalog_risk as catalog
 from services import authoring_rag
 from services import risk_law
+from services import evaluations
 
 
 def rows(db, sql, **p): return [dict(r) for r in db.execute(text(sql),p).mappings()]
@@ -39,6 +40,7 @@ def detail(db,email,no):
     m=owned(db,email,no)
     members=rows(db,'SELECT member_nm FROM eval_member WHERE eval_no=:n ORDER BY sort,member_no',n=no)
     result={k:m[k] for k in ('eval_no','work_no','eval_nm','eval_writer','eval_dt','eval_status','confirm_dt','revision','generation_source')}
+    result['eval_cycle']=m.get('eval_cycle')   # UX-024 평가 주기(열이 없거나 미지정이면 None)
     result['members']=[r['member_nm'] for r in members]
     w=rows(db,'SELECT workplace FROM workplaces WHERE work_no=:n',n=m['work_no'])
     result['workplace']=w[0]['workplace'] if w else ''
@@ -103,7 +105,7 @@ def create(db,email,body):
     if old: return detail(db,email,old[0]['eval_no'])
     w=workplaces.get_workplace(db,email,body.work_no)
     extra=added_machines(db,w,body)
-    context=body.model_dump(exclude={'add_machine_codes','add_custom_machines','save_machines_to_workplace'}); context['machines']=w['machines']+extra
+    context=body.model_dump(exclude={'add_machine_codes','add_custom_machines','save_machines_to_workplace','eval_cycle'}); context['machines']=w['machines']+extra
     use_catalog=catalog.enabled()
     use_authoring=authoring_rag.enabled()
     # 신규 평가표는 ACTIVE_POLICY(FOOD-3LEVEL-1.2). input_based v1 계약은 CATALOG-MVP-1.1에 고정되어 있어 1.1 카탈로그를 쓴다.
@@ -119,7 +121,10 @@ def create(db,email,body):
         source, items = catalog.generate_snapshot(snapshot, context) if use_catalog else provider.generate(context)
     pending = []
     if source == catalog.RLS_SOURCE:
-        items, pending = risk_law.split_pending(items)
+        # UX-024: 사업장 등록 기기 위험은 첫 초안부터 행, 이번 평가에만 추가한 미등록 기기 위험만 확인 대기.
+        # 03 기기에서 '사업장 보유 기기에도 추가'를 고른 기기는 이 요청에서 등록되므로 등록 기기로 본다.
+        registered=w['machines']+(extra if body.save_machines_to_workplace else [])
+        items, pending = risk_law.split_pending(items, [m['machine_nm'] for m in registered])
     try:
         locked_rows(db,'SELECT work_no FROM workplaces WHERE work_no=:n FOR UPDATE',n=body.work_no)
         old=rows(db,'SELECT eval_no FROM eval_mst WHERE email=:e AND request_key=:k',e=email,k=key)
@@ -129,6 +134,8 @@ def create(db,email,body):
             raise AuthError(409,'WORKPLACE_CHANGED','분석 중 사업장 정보가 변경됐어요. 다시 확인해 주세요.')
         r=execute(db,"INSERT INTO eval_mst (work_no,email,eval_nm,eval_writer,eval_dt,eval_status,del_yn,request_key,revision,generation_source,ins_dt,ins_nm,upt_dt,upt_nm) VALUES (:w,:e,:nm,:writer,:dt,'W','N',:key,1,:src,:t,:e,:t,:e)",w=body.work_no,e=email,nm=f"{body.eval_dt} {w['workplace']} 위험성평가",writer=body.eval_writer,dt=body.eval_dt,key=key,src=source,t=now())
         no=r.lastrowid
+        if body.eval_cycle and evaluations.has_cycle(db):   # UX-024 평가 주기(열이 없는 예전 DB는 건너뜀 · README 마이그레이션)
+            execute(db,'UPDATE eval_mst SET eval_cycle=:c WHERE eval_no=:n',c=body.eval_cycle,n=no)
         if use_authoring and (not items or context.get('_photo_cache')):
             if context.get('_photo_cache'):
                 authoring_snapshot['photo_cache'] = context['_photo_cache']
@@ -182,7 +189,7 @@ def save(db,email,no,body,confirm=False):
                 raise AuthError(422, 'NO_ASSESSED_ROWS', '평가 항목이 없는 초안은 검토 후보로 보관합니다.')
         if confirm and old.get('pending_rows'):
             raise AuthError(422, 'PENDING_ROWS_REVIEW_REQUIRED',
-                            '등록 기기 기준 확인 대기 위험이 있어요. 실제 작업이면 평가표에 추가하고, 아니면 제외해 주세요.')
+                            '기기 기준 확인 대기 위험이 있어요. 실제 작업이면 평가표에 추가하고, 아니면 제외해 주세요.')
         if m['generation_source'] == authoring_rag.SOURCE:
             pending = {candidate['scenario_id'] for candidate in old['review_candidates']}
             exclusions = set(old['excluded_review_candidates'] if body.excluded_review_candidates is None
@@ -293,7 +300,7 @@ def remove_risk(db,email,no,dtl_no,body):
 
 
 def review_pending(db,email,no,body):
-    """확인 대기(등록 기기 기준) 위험을 담당자 확인에 따라 평가표 행으로 추가하거나 제외한다."""
+    """확인 대기(기기 기준 · UX-024부터 새 평가표는 미등록 기기만) 위험을 담당자 확인에 따라 평가표 행으로 추가하거나 제외한다."""
     try:
         m=owned(db,email,no,True); writable(m,body.revision)
         if m['generation_source']!=catalog.RLS_SOURCE:
@@ -311,7 +318,8 @@ def review_pending(db,email,no,body):
             if hit['catalog']['policy_version']!=catalog.document_policy(data['items']):
                 raise AuthError(409,'POLICY_CHANGED','이전 기준 평가표입니다. 새 평가표를 작성해 주세요.')
             hit['risk_law']['work_confirmed']=dict(actor=email,at=at)
-            hit['risk_law']['notice']='등록 기기 기준 AI 검색 결과 · 담당자가 실제 작업으로 확인해 추가함 · 현재 조치 확인 필요'
+            unreg=hit['risk_law']['card'].get('machine_kind')=='unregistered'
+            hit['risk_law']['notice']=('이번 평가에 추가한 기기' if unreg else '등록 기기')+' 기준 AI 검색 결과 · 담당자가 실제 작업으로 확인해 추가함 · 현재 조치 확인 필요'
             insert_items(db,no,[hit],email,len(data['items']))
         saved['rls_pending']=[p for p in pending if p is not hit]
         saved['rls_pending_log']=(saved.get('rls_pending_log',[])+[dict(scenario_id=body.scenario_id,decision=body.decision,

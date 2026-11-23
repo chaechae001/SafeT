@@ -123,3 +123,22 @@ def test_long_keyword_fits_erd_columns(client,flow):
     r=client.post(f"/evals/{doc['eval_no']}/items",headers=h,json={'revision':1,'keyword':'가'*200})
     assert r.status_code==200,r.text
     assert len(r.json()['items'][-1]['job'])<=100
+
+
+def test_ux024_eval_cycle_saved_and_listed(client, flow):
+    """UX-024: 작성자가 고른 평가 주기를 저장해 상세·목록에 돌려준다. 고르지 않으면 None(예전 평가표와 같음). 평가표 이름은 그대로."""
+    from pathlib import Path
+    sql = (Path(__file__).resolve().parent.parent / 'migrations/20261123_eval_cycle.sql').read_text(encoding='utf-8')
+    with engine.begin() as c:
+        for stmt in [x for x in sql.split(';') if x.strip() and 'ALTER' in x]:
+            c.execute(text(stmt))
+    h, p = flow
+    d = client.post('/evals', headers=h, json=dict(p, eval_cycle='H1')).json()
+    assert d['eval_cycle'] == 'H1' and d['eval_nm'] == '2026-11-16 작성흐름 시험 위험성평가'
+    p2 = dict(p, request_key=str(uuid.uuid4()))
+    d2 = client.post('/evals', headers=h, json=p2).json()
+    assert d2['eval_cycle'] is None
+    listed = {e['eval_no']: e for e in client.get('/evals?tab=W', headers=h).json()['items']}
+    assert listed[d['eval_no']]['eval_cycle'] == 'H1' and listed[d2['eval_no']]['eval_cycle'] is None
+    r = client.post('/evals', headers=h, json=dict(p, request_key=str(uuid.uuid4()), eval_cycle='Q1'))
+    assert r.status_code == 422

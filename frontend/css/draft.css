@@ -401,3 +401,12 @@
 .page-draft #d-plan-list .check.is-in-use .check__text { color: var(--c-text-sub); }
 .page-draft #d-plan-list .check.is-in-use:has(input:checked) { background: var(--c-primary-soft); border-color: var(--c-primary-line); }
 .page-draft #d-plan-list .check.is-in-use:has(input:checked) .check__text { color: var(--c-text); }
+
+/* =========================================================
+   UX-024 (2026-11-23) · 첫 목록 신호등 상태 · 기기 출처 배지
+   ========================================================= */
+/* 판단 전(회색) 신호등 옆 '현재 조치 입력 전' — 색이 없어도 상태를 글로 알 수 있게 */
+.page-draft .risk-card .card__head .signal-note { flex: none; display: inline-flex; align-items: center; gap: 6px; margin-top: 1px; }
+.page-draft .signal-note__text { font-size: 12px; font-weight: 700; line-height: 1.2; color: var(--c-text-sub); white-space: nowrap; }
+/* 이번 평가에만 추가한(미등록) 기기 배지: 등록 기기와 구분되게 회색 */
+.page-draft .machine-badge--extra { background: var(--c-surface-muted); color: var(--c-text-sub); }

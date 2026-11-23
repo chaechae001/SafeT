@@ -196,6 +196,7 @@
     });
     if(restored){
       $('#eval_dt').val(restored.eval_dt);$('#eval_writer').val(restored.eval_writer);
+      if(restored.eval_cycle)$('#basic-form input[name="eval_cycle"]').filter(function(){return this.value===restored.eval_cycle;}).prop('checked',true);   // UX-024
       $('#file_text').val(restored.text || '');
       (restored.members || []).forEach(function(n){$('#member_add').val(n);$('#member-add-btn').trigger('click');});
       photos=(restored.photos || []).filter(function(p){return /^data:image\/(png|jpeg|webp);base64,/.test(p.data);});renderPhotos();
@@ -205,7 +206,9 @@
       S.toast(autoRestored ? '작성하던 내용을 불러왔어요.' : '작성 중인 입력을 복구했어요.');
       if(autoRestored && /^#v-(field|equipment)$/.test(restored.view || '')){var v=restored.view.slice(1);setTimeout(function(){S.go(v);},0);}
     }
-    function snapshot(){return {email:user.email,at:Date.now(),view:location.hash,work_no:$('#work_no').val(),eval_dt:$('#eval_dt').val(),eval_writer:$('#eval_writer').val(),members:$('[name="member_nm"]').map(function(){return this.value;}).get(),text:$('#file_text').val(),voice_text:$('#voice_text').val(),photos:photos,added:added,requestKey:requestKey,lastBody:lastBody};}
+    function snapshot(){return {email:user.email,at:Date.now(),view:location.hash,work_no:$('#work_no').val(),eval_dt:$('#eval_dt').val(),eval_writer:$('#eval_writer').val(),eval_cycle:cycle(),members:$('[name="member_nm"]').map(function(){return this.value;}).get(),text:$('#file_text').val(),voice_text:$('#voice_text').val(),photos:photos,added:added,requestKey:requestKey,lastBody:lastBody};}
+    /** UX-024 평가 주기(Y 연간 · H1 상반기 · H2 하반기). 고른 값이 없으면 보내지 않음 */
+    function cycle(){return $('#basic-form input[name="eval_cycle"]:checked').val() || null;}
     var autoTimer=null, autoOff=false;
     function autosave(){
       if(autoOff)return;
@@ -222,7 +225,7 @@
     $(document).on('click','#member-add-btn, .name-tags, .photo-grid, #eq-added',function(){setTimeout(autosave,50);});
     $(window).on('hashchange',autosave);
     $(document).on('visibilitychange',function(){if(document.visibilityState==='hidden'){clearTimeout(autoTimer);if(!autoOff){var d=snapshot();try{sessionStorage.setItem(AUTO_KEY,JSON.stringify(d));}catch(e){try{d.photos=[];sessionStorage.setItem(AUTO_KEY,JSON.stringify(d));}catch(e2){}}}}});
-    S.auth.onExpire(function(){return {page:'assessment-write',data:{email:user.email,work_no:$('#work_no').val(),eval_dt:$('#eval_dt').val(),eval_writer:$('#eval_writer').val(),members:$('[name="member_nm"]').map(function(){return this.value;}).get(),text:$('#file_text').val(),voice_text:$('#voice_text').val(),photos:photos,added:added,requestKey:requestKey,lastBody:lastBody}};});
+    S.auth.onExpire(function(){return {page:'assessment-write',data:{email:user.email,work_no:$('#work_no').val(),eval_dt:$('#eval_dt').val(),eval_writer:$('#eval_writer').val(),eval_cycle:cycle(),members:$('[name="member_nm"]').map(function(){return this.value;}).get(),text:$('#file_text').val(),voice_text:$('#voice_text').val(),photos:photos,added:added,requestKey:requestKey,lastBody:lastBody}};});
     var recognition=null;
     $('#voice-btn').off('click').on('click',function(){
       if(!$('#voice_text').length){
@@ -248,6 +251,7 @@
         add_machine_codes:added.filter(function(m){return m.code;}).map(function(m){return m.code;}),
         add_custom_machines:added.filter(function(m){return !m.code;}).map(function(m){return m.nm;})
           .concat($('#v-equipment .eq-found input[name="ai_machine_nm"]:checked').map(function(){return this.value;}).get())};
+      if(cycle())body.eval_cycle=cycle();   // UX-024 평가 주기
       if(added.length && $('#eq-save-workplace').prop('checked'))body.save_machines_to_workplace=true;   // UX-018   /* UX-015: 화면용 size 는 보내지 않음(서버 extra 금지) */
       var serial=JSON.stringify(body);if(serial!==lastBody){requestKey=crypto.randomUUID();lastBody=serial;}body.request_key=requestKey;
       busy=true;$('#v-generating .bottom-bar a').attr('aria-disabled','true').hide();

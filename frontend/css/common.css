@@ -849,8 +849,10 @@ p, .hint, .notice, .error-text, .modal__body, .check__text, .card__meta { text-w
 /* UX-023 Safe-T 도우미 캐릭터 (js/mascot.js) · 머뭇거릴 때 다음 칸 옆에서 가리킴 */
 .mascot { position: fixed; z-index: 70; display: flex; align-items: flex-end; gap: 6px; max-width: min(300px, calc(100vw - 16px)); pointer-events: auto; cursor: pointer; }
 .mascot[hidden] { display: none; }
-.mascot__body { flex: none; width: 52px; height: 58px; filter: drop-shadow(0 6px 10px rgba(37, 99, 235, .28)); }
-.mascot__body svg { width: 100%; height: 100%; display: block; }
+.mascot__body { flex: none; width: 72px; filter: drop-shadow(0 4px 8px rgba(17, 24, 39, .22)); }
+/* UX-024 고양이 그림: 바깥 흰 여백을 잘라 낸 원본이라 칸 너비 그대로 얼굴·귀·수염·안전모가 모두 보임 */
+.mascot__body img { width: 100%; height: auto; display: block; user-select: none; -webkit-user-drag: none; }
+@media (max-width: 360px) { .mascot__body { width: 64px; } }
 .mascot__bubble { position: relative; margin-bottom: 26px; padding: 9px 12px; border-radius: 14px 14px 4px 14px; background: #fff; border: 1px solid var(--c-primary-line);
   box-shadow: 0 6px 18px rgba(17, 24, 39, .14); font-size: 14px; font-weight: 600; line-height: 1.45; color: var(--c-text); word-break: keep-all; text-wrap: balance; }
 .mascot.is-in { animation: mascot-in .35s cubic-bezier(.2, .9, .3, 1.3); }

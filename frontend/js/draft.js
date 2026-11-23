@@ -59,13 +59,17 @@
     $('.js-delete-count').text(doc.items.length);
     renderList();
   }
-  /** 확인 대기: 등록 기기에서만 나온 위험(catalog_rls_v1). 담당자가 실제 작업인지 확인해 추가해야 평가표 행이 된다.
+  /** 확인 대기: 기기에서만 나온 위험(catalog_rls_v1). 담당자가 실제 작업인지 확인해 추가해야 평가표 행이 된다.
+      UX-024: 새 평가표에서는 사업장 등록 기기 위험이 처음부터 일반 행이고, 대기는 이번 평가에만 추가한 미등록 기기(사진 탐지·직접 추가)뿐.
+      예전 평가표에 저장된 등록 기기 대기 항목은 machine_kind 가 'registered' 로 와서 지금처럼 '등록 기기'로 보인다.
       UX-016: 따로 모은 '확인 대기' 패널은 없애고, 목록 맨 뒤에 일반 카드와 같은 모양으로 그린다(renderList).
       카드를 누르는 순간(담당자 행동) 기존 add 호출로 행을 만들고, 휴지통·밀어서 삭제는 dismiss(제외). 자동 추가하지 않는다. */
   function pendingRows(){ return (evaluation && evaluation.pending_rows) || []; }
   function renderPending(){ $('#rls-pending-panel').remove(); }
   function fromMachine(it){ return !!(isRls(it) && it.catalog.risk_law.card && it.catalog.risk_law.card.from_machine); }
-  function machineBadge(){ return $('<span class="machine-badge">').text('등록 기기'); }
+  function machineKind(it){ return (it && it.catalog && it.catalog.risk_law && it.catalog.risk_law.card && it.catalog.risk_law.card.machine_kind) || 'registered'; }
+  function machineBadge(kind){ return $('<span class="machine-badge">').toggleClass('machine-badge--extra', kind === 'unregistered').text(kind === 'unregistered' ? '추가 기기' : '등록 기기'); }
+  function machineWord(kind){ return kind === 'unregistered' ? '이번 평가에 추가한 기기' : '등록 기기'; }
   /** 대기 카드로 안내(확정 시도 때): 전체 보기로 바꾸고 첫 대기 카드를 가운데로 + 잠깐 강조 */
   function gotoPending(){
     if(filter!=='all'){filter='all';$('#v-list .tabs [data-filter]').removeAttr('aria-current').filter('[data-filter="all"]').attr('aria-current','page');}
@@ -98,7 +102,7 @@
     if(!c || busy || !evaluation)return;
     SafeT.confirm({
       title: c.job+' 항목을 평가표에서 제외할까요?',
-      message: '등록 기기('+(c.machine||'')+') 기준으로 찾은 위험이에요. 실제로 하지 않는 작업이면 제외해 주세요. 제외한 위험은 목록에 다시 나타나지 않아요.',
+      message: machineWord(c.machine_kind)+'('+(c.machine||'')+') 기준으로 찾은 위험이에요. 실제로 하지 않는 작업이면 제외해 주세요. 제외한 위험은 목록에 다시 나타나지 않아요.',
       ok: '평가표에서 제외', cancel: '취소', danger: true
     }).then(function(yes){ if(yes===true)reviewPending(sid,'dismiss'); });
   }
@@ -167,6 +171,13 @@
     return $('<span class="signal" role="img"><i></i><i></i><i></i></span>').attr({ 'data-signal': sig, 'aria-label': '위험도 ' + GRADE_NAME[sig], title: '위험도 ' + GRADE_NAME[sig] });
   }
   SafeT.lightEl = lightEl;
+  /** UX-024: 목록 카드 신호등. 계산된 등급이 있으면 그 색, 아직 판단 전(N)이고 현재 조치 입력이 필요하면 회색 신호등 옆에 '현재 조치 입력 전' */
+  function signalWithNote(sig, needCurrent) {
+    var $l = lightEl(sig);
+    if ((sig || 'N') !== 'N' || !needCurrent) return $l;
+    $l.attr({ 'aria-label': '위험도 판단 전 · 현재 조치 입력 전', title: '현재 조치 입력 전' });
+    return $('<span class="signal-note">').append($l, $('<span class="signal-note__text" aria-hidden="true">현재 조치 입력 전</span>'));
+  }
 
   var dirty = false;
   /** 변경 표시. idx 를 주면 그 항목, 위험 상세 화면이면 지금 항목 (UX-005 항목별 저장) */
@@ -218,8 +229,8 @@
       var $a = $('<a class="card risk-card" href="#v-risk">').attr('data-index', i).toggleClass('card--need', need);
       var $head = $('<span class="card__head">').appendTo($a);
       var $tt = $('<span class="card__title">').text(no(i) + ' ' + it.job).appendTo($head);
-      if (fromMachine(it)) $tt.append(' ', machineBadge());      // UX-016: 등록 기기에서 온 항목
-      lightEl(it.signal).appendTo($head);
+      if (fromMachine(it)) $tt.append(' ', machineBadge(machineKind(it)));      // UX-016: 기기에서 온 항목(출처 표시)
+      signalWithNote(it.signal, has(missing(it), 'current')).appendTo($head);
       $('<span class="card__meta">').text(it.factor + ' · ' + it.type).appendTo($a);
       var $st = $('<span class="risk-card__state">').appendTo($a);
       // UX-014: 무엇이 남았는지 구체적으로 → UX-015: 할 일은 아웃라인 버튼 모양, 완료·임시저장은 회색 배지
@@ -240,18 +251,18 @@
           .attr({ 'data-delete-item': i, 'aria-label': no(i) + ' ' + it.job + ' 항목 삭제' }).appendTo($li);
       }
     });
-    // UX-016: 확인 대기(등록 기기 기준) 후보 = 목록 맨 뒤의 일반 카드(번호 이어서, 신호등 N, 할 일 '현재 조치 선택')
+    // UX-016: 확인 대기(기기 기준) 후보 = 목록 맨 뒤의 일반 카드(번호 이어서, 신호등 N, 할 일 '현재 조치 선택')
     // 누르면 add → 행이 되고 상세가 열림. 아직 행이 아니므로 '입력 필요'에 포함하고 담당자·후속업무 필터에는 넣지 않는다.
     if (filter === 'all' || filter === 'need') $.each(pendingRows(), function (k, c) {
       var n = items.length + k, label = no(n) + ' ' + c.job;
       var $a = $('<a class="card risk-card card--need card--pending" href="#v-risk" data-card="need" data-state="need">')
-        .attr({ 'data-pending': c.scenario_id, 'aria-label': label + ' · 등록 기기 ' + (c.machine || '') + ' 기준 · 눌러서 평가표에 추가하고 현재 조치 선택' });
+        .attr({ 'data-pending': c.scenario_id, 'aria-label': label + ' · ' + machineWord(c.machine_kind) + ' ' + (c.machine || '') + ' 기준 · 눌러서 평가표에 추가하고 현재 조치 선택' });
       var $head = $('<span class="card__head">').appendTo($a);
-      $('<span class="card__title">').text(label).append(' ', machineBadge()).appendTo($head);
-      lightEl('N').appendTo($head);
+      $('<span class="card__title">').text(label).append(' ', machineBadge(c.machine_kind)).appendTo($head);
+      signalWithNote('N', true).appendTo($head);
       $('<span class="card__meta">').text(c.title + ' · ' + c.type).appendTo($a);
       $('<span class="risk-card__state">').append($('<span class="tag tag--todo">').text('현재 조치 선택'),
-        $('<span class="risk-card__summary">').text('등록 기기 ' + (c.machine || '') + ' 기준 · 실제 작업이면 선택')).appendTo($a);
+        $('<span class="risk-card__summary">').text(machineWord(c.machine_kind) + ' ' + (c.machine || '') + ' 기준 · 실제 작업이면 선택')).appendTo($a);
       var $li = $('<li class="risk-item is-deletable is-pending">').append($a).appendTo($ol);
       // draft-edit.js 는 [data-delete-item] 이 붙은 버튼 누름을 막지 않으므로 같은 속성을 쓰고, 처리기는 data-dismiss-pending 을 먼저 본다
       $('<button class="risk-item__swipe-del" type="button" tabindex="-1">').html(SafeT.icon('trash') + '<span>제외</span>')
@@ -316,8 +327,10 @@
     var ref = it.catalog.risk_law, card = ref.card || {}, law = ref.law || {};
     $('<p>').text(ref.notice || 'AI 검색 결과 · 작성자 확인 후 사용').appendTo($box);
     $.each(ref.warnings || [], function (_, w) { $('<p class="hint">').text('주의: ' + w).appendTo($box); });
-    $('<p>').append($('<b>').text(card.from_machine ? '등록 기기 ' : '입력 문장 '),
-      document.createTextNode(card.from_machine ? (card.input_text || '') + ' (사업장 등록 기기 · 실제 작업 확인 필요)' : '“' + (card.input_text || '') + '”')).appendTo($box);
+    // UX-024: 등록 기기는 사업장 정기 작업의 기기라 '실제 작업 확인 필요' 문구를 뺌(출처만 표시)
+    var unreg = card.machine_kind === 'unregistered';
+    $('<p>').append($('<b>').text(card.from_machine ? (unreg ? '추가 기기 ' : '등록 기기 ') : '입력 문장 '),
+      document.createTextNode(card.from_machine ? (card.input_text || '') + (unreg ? ' (이번 평가에 추가한 기기 · 담당자가 실제 작업으로 확인해 추가)' : ' (사업장 등록 기기)') : '“' + (card.input_text || '') + '”')).appendTo($box);
     $('<p>').append($('<b>').text('찾은 위험 카드 '), document.createTextNode((card.title || '') + ' (' + (card.card_id || '') + ')')).appendTo($box);
     $('<p>').append($('<b>').text('위험도 기준 '), document.createTextNode(it.catalog.scenario.title + ' · ' + ((ref.scenario_link || {}).message || ''))).appendTo($box);
     var $law = $('<p>').append($('<b>').text('관련 법령 후보 ')).appendTo($box);
@@ -455,7 +468,7 @@
     var ps = pr && SafeT.riskText && SafeT.riskText.parse ? SafeT.riskText.parse(pr.reason, controls) : null;
     var tip = '';
     if (ps && ps.core.length && ps.next) tip = "'" + ps.core[0] + "'" + (ps.core.length > 1 ? ' 외 ' + (ps.core.length - 1) + '개' : '') + ' 추가 시 ' + SafeT.riskText.ro(ps.next) + ' 완화 가능';
-    else if (ps && ps.core.length) tip = "꼭 필요한 조치 '" + ps.core[0] + "'" + (ps.core.length > 1 ? ' 외 ' + (ps.core.length - 1) + '개' : '') + '가 아직 남아 있어요';
+    // UX-024: '꼭 필요한 조치 ○○가 아직 남아 있어요' 코멘트는 숨김(화면 문구만 · 계산·critical 값은 그대로)
     else if (ps && ps.keep) tip = "남은 조치를 해도 위험의 크기 때문에 '" + ps.keep + "' 유지";
     if (tip) $('<p class="proj-card__tip">').html((SafeT.icon ? SafeT.icon('bulb') : '')).append($('<span>').text(tip)).appendTo($p);
     $('<ul class="proj-card__notes"><li>선택한 대책 모두 이행 시 예상되는 예측치입니다.</li><li>최종 안전 판단 및 관리는 담당자가 확인·수행합니다.</li></ul>').appendTo($p);
@@ -611,7 +624,7 @@
     var pos = navPos();
     var last = pos.next === null || pos.next === 'end';
     $('#d-next').prop('disabled', false).text(last ? '검토 마치기' : '다음 항목').toggleClass('btn--finish', last)
-      .attr('aria-label', pos.next === 'pending' ? '다음 항목: 등록 기기 확인 대기' : null);
+      .attr('aria-label', pos.next === 'pending' ? '다음 항목: 기기 확인 대기' : null);
     var left = needIndexes(), others = $.grep(left, function (i) { return i !== state.index; });
     var pend = pendingRows().length, rag = unchecked();
     var allDone = items.length && !left.length && !pend && !rag;
@@ -629,7 +642,7 @@
     } else {
       var parts = [];
       if (left.length) parts.push('입력이 필요한 항목 ' + left.length + '개');
-      if (pend) parts.push('등록 기기 기준 확인 대기 ' + pend + '개');
+      if (pend) parts.push('기기 기준 확인 대기 ' + pend + '개');
       if (rag) parts.push('확인하지 않은 후보 ' + rag + '개');
       $('#d-finish-title').text('아직 확인할 항목이 남았어요');
       $('#d-finish-text').text(parts.join(', ') + '가 남았어요.' + (dirty ? ' 저장하지 않은 입력도 있어요.' : ''));

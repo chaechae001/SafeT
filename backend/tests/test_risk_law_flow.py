@@ -239,3 +239,33 @@ def test_rls_confirm_blocked_by_pending_even_when_current_set(client, rls_flow, 
     assert r.status_code == 200, r.text
     r = client.post(f"/evals/{d['eval_no']}/confirm", headers=h, json=confirm_body(r.json(), none=True))
     assert r.status_code == 200, r.text  # 확인 대기 처리 후에는 목록 확인 없이 확정
+
+
+# UX-024: 사업장 등록 기기(이 사업장은 '튀김기' 등록)에서 나온 위험은 첫 초안부터 일반 행. 확인 대기·확정 차단 없음.
+REGISTERED = dict(units=RESULT['units'][:1] + [dict(text='튀김기', source='MACHINE', source_label='등록 기기', risks=[
+    risk('OPS-19-C1', 'FRY', '튀김 중 기름 튐'), risk('OPS-01-H1', 'KNIFE', '칼에 베임')])])
+
+
+def test_rls_registered_machine_risk_is_row_from_first_draft(client, rls_flow, monkeypatch):
+    h, _ = rls_flow
+    monkeypatch.setattr(risk_law, 'analyze', lambda t, v, m=(): REGISTERED)
+    d = create(client, rls_flow)
+    url = f"/evals/{d['eval_no']}"
+    ids = [it['catalog']['scenario']['id'] for it in d['items']]
+    assert sorted(ids) == ['FIRE', 'FRY', 'KNIFE'] and len(ids) == len(set(ids))   # 작업 설명·기기 양쪽의 FRY 는 한 행
+    assert d.get('pending_rows') == []
+    knife = row(d, 'KNIFE')
+    card = knife['catalog']['risk_law']['card']
+    assert card['from_machine'] and card['machine_kind'] == 'registered'   # 신호는 기준 계산값(현재 조치 0개) 그대로
+    assert '실제로 하는 작업인지' not in knife['catalog']['risk_law']['notice']
+    assert not row(d, 'FRY')['catalog']['risk_law']['card']['from_machine']          # 대표 출처는 작업 설명
+    # 목록 건수·확인 대기 0건, 새로 불러와도 같은 행
+    lst = client.get('/evals?tab=W', headers=h).json()['items']
+    mine = next(e for e in lst if e['eval_no'] == d['eval_no'])
+    assert mine['item_count'] == 3 and mine['pending_count'] == 0
+    again = client.get(url, headers=h).json()
+    assert [it['id'] for it in again['items']] == [it['id'] for it in d['items']]
+    # 현재 조치를 입력하면 확인 대기 때문에 막히지 않고 확정
+    r = client.post(url + '/confirm', headers=h, json=confirm_body(d, none=True))
+    assert r.status_code == 200, r.text
+    assert r.json()['eval_status'] == 'C'

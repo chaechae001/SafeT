@@ -494,7 +494,13 @@ N02·N08 문맥 확장 설정·검수: [설명](../docs/implementation/n02-n08-c
 
 - 사용자 결정: 확정 탭에는 서명이 끝나지 않은 확정 평가표만(`eval_status='C' AND sign_end_dt IS NULL`). 서명 완료는 서명 완료 탭에만. `services/evaluations.py` `TAB_WHERE`, 테스트 `tests/test_evaluations.py`.
 
-## 관련 법령 참고 후보 (UX-023 · 2026-11-23)
+## 관련 법령 후보 (UX-023 → UX-024 되돌림 · 2026-11-23)
 
-- `services/risk_law._law`: 검색 서버의 주제 일치 1순위(`law`)가 없으면 카드 연결 법령(`law_card`) → 검색 점수 1순위(`law_alt.candidates[0]`)를 후보로 넣고 `fallback=True`, 상태 문구 "우선순위 참고 법령 · 위험 주제와 맞는지 담당자 확인 필요". 새로 만드는 초안부터 적용. 검사 `unit_tests/test_risk_law.py`.
-- 화면 CSS·JS 주소 버전: 파일을 바꾸면 `frontend/pages/*.html`의 `?v=` 값을 새 날짜로 바꿔 휴대폰 캐시를 무효화한다(UX-023에서 `20261123`).
+- `services/risk_law._law`: 검색 서버의 주제 일치 1순위(`law`)만 후보로 쓴다. 없으면 후보 없음(화면 '찾지 못함'). UX-023에서 넣었던 카드 연결 법령·검색 1순위 대체는 무관한 조문이 붙어 되돌렸다. 유사 법령 검색은 추후 백엔드 법령 검색 작업. 이미 만든 평가표에 저장된 후보는 그대로다. 검사 `unit_tests/test_risk_law.py`.
+- 화면 CSS·JS 주소 버전: 파일을 바꾸면 `frontend/pages/*.html`의 `?v=` 값을 새 날짜로 바꿔 휴대폰 캐시를 무효화한다(UX-024에서 `20261124`).
+
+## 등록 기기 위험 · 평가 주기 (UX-024 · 2026-11-23)
+
+- 등록 기기: `catalog_rls_v1` 초안 생성 때 `risk_law.split_pending(items, 등록 기기 이름)`. 사업장 등록 기기(03 기기에서 '사업장 보유 기기에도 추가'를 고른 기기 포함)에서 나온 위험은 첫 초안부터 일반 행(`risk_law.card.machine_kind='registered'`, 출처 배지 '등록 기기' 유지). 이번 평가에만 추가한 미등록 기기(사진 탐지·직접 추가)에서만 나온 위험은 지금처럼 확인 대기(`machine_kind='unregistered'`)이고 확정 전에 추가·제외해야 한다. 같은 위험은 `rows()`가 한 행으로 합친다. 예전 평가표에 저장된 대기 항목은 그대로 동작한다.
+- 평가 주기: `eval_mst.eval_cycle`(`Y` 연간 · `H1` 상반기 · `H2` 하반기 · `NULL` 미지정). 기존 DB에는 `migrations/20261123_eval_cycle.sql`을 적용한다(`run_local.py --migrate`에 포함). 열이 없으면 저장을 건너뛰고 목록은 `NULL`을 돌려준다. 작성 화면 01 기본에서 작성자가 고르고(기본 연간), 평가일 월로 자동 분류하지 않는다. 내 평가표 카드 제목은 화면에서만 '평가일 연도 2자리 + 주기 + 사업장명'으로 만들고 저장된 평가표 이름은 바꾸지 않는다.
+- 검사: `tests/test_risk_law_flow.py::test_rls_registered_machine_risk_is_row_from_first_draft`, `tests/test_assessment.py::test_ux024_eval_cycle_saved_and_listed`, `unit_tests/test_risk_law.py`.

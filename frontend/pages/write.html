@@ -7,9 +7,9 @@
   <!-- UX-019: Pretendard 실제 로드(가변·필요 글자만). 실패하면 시스템 한글 글꼴로 대체 -->
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
-  <link rel="stylesheet" href="../css/common.css?v=20261123">
-  <link rel="stylesheet" href="../css/assessment.css?v=20261123">
-  <link rel="stylesheet" href="../css/field.css?v=20261123">
+  <link rel="stylesheet" href="../css/common.css?v=20261124">
+  <link rel="stylesheet" href="../css/assessment.css?v=20261124">
+  <link rel="stylesheet" href="../css/field.css?v=20261124">
 </head>
 <body data-auth-required data-assessment>
   <!-- write.html · 화면설계서 v3.19 통합본
@@ -67,6 +67,17 @@
                 <button class="date-input__icon" type="button" aria-label="평가일 달력 열기">📅</button>
               </div>
             </div>
+
+            <!-- UX-024 평가 주기: 내 평가표 카드 제목('26년 상반기 사업장명')에 쓰임. 평가일 월로 자동 분류하지 않고 작성자가 고름 -->
+            <fieldset class="field" id="eval-cycle-field" aria-describedby="eval-cycle-hint">
+              <legend class="label">평가 주기</legend>
+              <div class="segmented">
+                <label><input type="radio" name="eval_cycle" value="Y" checked>연간</label>
+                <label><input type="radio" name="eval_cycle" value="H1">상반기</label>
+                <label><input type="radio" name="eval_cycle" value="H2">하반기</label>
+              </div>
+              <p class="hint" id="eval-cycle-hint">내 평가표 제목에 '26년 상반기'처럼 표시돼요.</p>
+            </fieldset>
 
             <div class="field">
               <label class="label" for="eval_writer">평가 담당자<span class="req" aria-hidden="true">*</span></label>
@@ -339,13 +350,13 @@
   </div>
 
   <script src="../js/vendor/jquery-3.7.1.min.js"></script>
-  <script src="../js/common.js?v=20261123"></script>
-  <script src="../js/ui-icons.js?v=20261123"></script>
-  <script src="../js/config.js?v=20261123"></script>
-  <script src="../js/api.js?v=20261123"></script>
-  <script src="../js/write.js?v=20261123"></script>
-  <script src="../js/assessment-write.js?v=20261123"></script>
-  <script src="../js/voice-recorder.js?v=20261123"></script>
-  <script src="../js/field-blocks.js?v=20261123"></script>
+  <script src="../js/common.js?v=20261124"></script>
+  <script src="../js/ui-icons.js?v=20261124"></script>
+  <script src="../js/config.js?v=20261124"></script>
+  <script src="../js/api.js?v=20261124"></script>
+  <script src="../js/write.js?v=20261124"></script>
+  <script src="../js/assessment-write.js?v=20261124"></script>
+  <script src="../js/voice-recorder.js?v=20261124"></script>
+  <script src="../js/field-blocks.js?v=20261124"></script>
 </body>
 </html>
