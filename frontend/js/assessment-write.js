@@ -71,13 +71,24 @@
     }
     $('#v-equipment').on('change','input[name="ai_machine_nm"]',updateSummary);
     S.equipment={setDetected:setDetected};   // 사진 기기 인식 결과를 그릴 때 사용(현재 서버 응답에는 없음)
-    /* 기기 추가·변경은 사업장 관리에서. 입력이 있으면 사라진다고 먼저 묻는다. */
     $('#v-equipment').on('click','.js-eq-manage',function(e){
       e.preventDefault();
-      var go=function(){S.hasUnsaved=function(){return false;};window.location.href='workplace.html';};
-      if(!S.hasUnsaved()){go();return;}
-      S.confirm({title:'사업장 관리로 이동할까요?',message:'기기는 사업장 관리에서 추가하거나 바꿀 수 있어요. 지금 이동하면 입력한 사진·음성·글이 사라져요.',ok:'이동',cancel:'계속 작성',danger:true})
-        .then(function(yes){if(yes===true)go();});
+      var href=this.href;
+      function go(){
+        if(reading){S.toast('사진을 처리한 뒤 다시 눌러 주세요.');return;}
+        var data=snapshot();
+        data.view='#v-equipment';
+        try{sessionStorage.setItem(AUTO_KEY,JSON.stringify(data));}
+        catch(err){S.toast('작성 내용을 보관할 공간이 부족해요. 사진 수를 줄인 뒤 다시 시도해 주세요.');return;}
+        clearTimeout(autoTimer);
+        autoOff=true;
+        S.hasUnsaved=function(){return false;};
+        window.location.href=href;
+      }
+      if($('#recorder .recorder__audio').attr('src')){
+        S.confirm({title:'사업장 관리로 이동할까요?',message:'음성 전사문은 보관됩니다. 녹음 원본은 이동하면 다시 들을 수 없어요.',ok:'이동',cancel:'계속 작성'})
+          .then(function(yes){if(yes===true)go();});
+      }else{go();}
     });
     /* UX-017 기기 직접 추가: 이번 평가에만 넣는다(사업장 등록 기기는 그대로). 서버가 업종 기기 코드를 검사하고
        같은 이름은 업종 기기로 합친다. 추가한 기기는 위험요인 검색에 등록 기기와 함께 쓰인다. */

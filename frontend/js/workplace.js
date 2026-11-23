@@ -294,6 +294,8 @@
   }
 
   $(function () {
+    var fromEquipment=new URLSearchParams(location.search).get('from')==='equipment';
+    $('#wp-resume-write').prop('hidden',!fromEquipment);
     // 회원가입·로그인 직후 첫 등록이면 취소 없음 (workplace.html?first=1#v-new)
     if (/[?&]first=1/.test(window.location.search)) {
       $('#new-cancel').prop('hidden', true);
@@ -374,7 +376,7 @@
         biz_code: $('#new-biz input:checked').val()
       }, collect($view))).done(function () {
         SafeT.toast('사업장을 등록했어요.');
-        setTimeout(function () { window.location.href = 'home.html'; }, 600);   // 등록 저장 → H01
+        setTimeout(function () { if(fromEquipment){SafeT.go('v-list');}else{window.location.href = 'home.html';} }, 600);   // 등록 저장 → H01
       }).fail(function (err) {
         showSaveError(err, $view);
         syncSave($view);
