@@ -73,10 +73,29 @@ def test_fryer_requires_its_own_work(text, state):
     assert decide({"media": [{"id": "TEXT", "kind": "text", "text": text}]})[0] == state
 
 
+# 리뷰 회귀(PR #66): 튀김기 작업 동사를 부정하면 사용으로 확정하지 않는다. 음성 전사는 마침표가 없을 수 있다.
+@pytest.mark.parametrize("kind", ["text", "voice_transcript"])
+@pytest.mark.parametrize("period", [".", ""])
+@pytest.mark.parametrize(("text", "state"), [
+    ("튀김기를 청소하지 않고 바닥만 닦습니다", "unconfirmed"),
+    ("튀김기 기름을 교체하지 않고 바닥만 닦습니다", "unconfirmed"),
+    ("기름이 식지 않은 상태에서 튀김기를 청소합니다", "used"),
+])
+def test_negated_fryer_task_is_not_use(kind, period, text, state):
+    assert decide({"media": [{"id": "IN", "kind": kind, "text": text + period}]})[0] == state
+
+
 def test_unused_fryer_stays_out_of_assessed_rows(generate):
     rows, snapshot = generate("튀김기는 쓰지 않지만 작업대와 바닥을 청소합니다.", ["FRY"], [], expected_calls=0)
     assert rows == set()
     assert snapshot["review_candidates"] == [{"scenario_id": "FRY", "reason": "input_denies_work"}]
+
+
+@pytest.mark.parametrize("text", ["튀김기를 청소하지 않고 바닥만 닦습니다.", "튀김기 기름을 교체하지 않고 바닥만 닦습니다."])
+def test_negated_fryer_task_goes_to_review(generate, text):
+    rows, snapshot = generate(text, ["FRY"], [], expected_calls=0)
+    assert rows == set()
+    assert snapshot["review_candidates"] == [{"scenario_id": "FRY", "reason": "work_unconfirmed"}]
 
 
 def test_frying_without_equipment_name_is_assessed(generate):
