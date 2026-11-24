@@ -61,6 +61,22 @@ def test_unknown_and_no_evidence(tmp_path, monkeypatch):
     assert e.value.status == 422 and e.value.extra['unknown'] == ['EQ_ZZZ']
 
 
+def test_equipment_limit_applies_to_lookup_api_only(tmp_path, monkeypatch):
+    ids = [f'EQ_{i:02d}' for i in range(16)]  # 주방 사진 6장 탐지 규모
+    index = {'index': [{'equipment_id': e, 'hazards': [
+        {'hazard_code': 'burn', 'tiers': ['B'], 'source_ids': [f'S{e}'], 'hazard_texts': [], 'measures': []}]}
+        for e in ids], 'no_evidence': []}
+    monkeypatch.setenv('SAFET_RAG_DIR', str(write(tmp_path, index)))
+    with pytest.raises(AuthError) as e:
+        rag.candidates(ids)
+    assert e.value.code == 'INVALID_EQUIPMENT'
+    r = rag.candidates(ids, max_equipment=None)
+    assert r['candidates'][0]['equipment_ids'] == ids and r['candidates'][0]['n_sources'] == 16
+    with pytest.raises(AuthError) as e:
+        rag.candidates([], max_equipment=None)
+    assert e.value.code == 'INVALID_EQUIPMENT'
+
+
 def test_hash_mismatch_refused(tmp_path, monkeypatch):
     monkeypatch.setenv('SAFET_RAG_DIR', str(write(tmp_path, tamper=True)))
     with pytest.raises(AuthError) as e:

@@ -58,7 +58,8 @@ def enabled():
 
 
 def qualified_candidates(ids, k=None):
-    response = rag_retrieval.candidates(ids, k=k)
+    # 사진 탐지·입력 기기 전체를 검색한다. 조회 API의 10개 상한은 여기 적용하지 않는다.
+    response = rag_retrieval.candidates(ids, k=k, max_equipment=None)
     try:
         root = rag_retrieval.data_dir()
         manifest = json.loads((root / 'MANIFEST.json').read_text(encoding='utf-8'))
