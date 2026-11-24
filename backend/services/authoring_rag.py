@@ -20,7 +20,7 @@ from ai.assessment_authoring.detection_adapter import photo_detector_source
 from ai.assessment_authoring.input_adapter import build_context as adapt_input
 from ai.assessment_authoring.contracts import load_catalog
 from ai.assessment_authoring.evidence_qualification import qualify_direct_evidence
-from ai.assessment_authoring.live_text_check import build_messages, request_json, output_budget, complete_json, model_response_format, parse_completion
+from ai.assessment_authoring.live_text_check import build_messages, request_json, output_budget, complete_json, model_response_format
 from ai.assessment_authoring.retrieval_adapter import _positive
 
 SOURCE = 'authoring_rag_v1'
@@ -58,7 +58,8 @@ def enabled():
 
 
 def qualified_candidates(ids, k=None):
-    response = rag_retrieval.candidates(ids, k=k)
+    # 사진 탐지·입력 기기 전체를 검색한다. 조회 API의 10개 상한은 여기 적용하지 않는다.
+    response = rag_retrieval.candidates(ids, k=k, max_equipment=None)
     try:
         root = rag_retrieval.data_dir()
         manifest = json.loads((root / 'MANIFEST.json').read_text(encoding='utf-8'))
@@ -137,7 +138,9 @@ def extract(context, retrieval, snapshot, evidence):
             from ai.assessment_authoring.fryer_work import add_confirmed_work
             from ai.assessment_authoring.mechanism_evidence import filter_candidates
 
-            checked = validate(merge_scenario_duplicates(parse_completion(send(payload), context)))
+            # 후보를 한 번에 보내 응답이 길다. 길이 제한 재시도(PR #60)를 같은 방식으로 쓴다.
+            checked = complete_json(send, payload, context,
+                                    validate=lambda decoded: validate(merge_scenario_duplicates(decoded)))
             return validate(add_confirmed_work(context, filter_candidates(checked), batch_ids))
         checked = complete_json(send, payload, context, validate=validate)
         # A fryer document can suggest a passage hazard, but only the user's work can establish exposure.

@@ -71,6 +71,17 @@ def test_extract_retries_invalid_length_response(monkeypatch, prefix):
     assert sent[1] == dict(sent[0], frequency_penalty=0.5)
 
 
+def test_authoring_search_has_no_lookup_equipment_limit(monkeypatch):
+    seen={}
+    def candidates(ids,k=None,max_equipment=10):
+        seen.update(ids=ids,max_equipment=max_equipment)
+        raise AuthError(503,'STOP','stop')
+    monkeypatch.setattr(adapter.rag_retrieval,'candidates',candidates)
+    ids=[f'EQ_{i:02d}' for i in range(16)]  # 사진 6장에서 탐지될 수 있는 규모
+    with pytest.raises(AuthError) as error: adapter.qualified_candidates(ids)
+    assert error.value.code=='STOP' and seen==dict(ids=ids,max_equipment=None)
+
+
 @pytest.mark.parametrize('bad',['hash','evaluation_only'])
 def test_link_integrity_and_retrieval_role_required(tmp_path,monkeypatch,bad):
     monkeypatch.setattr(adapter.rag_retrieval,'candidates',lambda *a,**kw:{'candidates':[]})

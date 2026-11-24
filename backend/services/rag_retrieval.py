@@ -69,11 +69,15 @@ def _sources(ids):
     return [s for s in ids if not s.startswith('CASE-')]
 
 
-def candidates(equipment_ids, k=None):
-    """기기 ID 목록 → 위험 코드 후보(근거 출처·문장·대책 포함), 정렬된 순서."""
+def candidates(equipment_ids, k=None, max_equipment=MAX_EQUIPMENT):
+    """기기 ID 목록 → 위험 코드 후보(근거 출처·문장·대책 포함), 정렬된 순서.
+
+    max_equipment는 사용자가 기기를 지정하는 조회 API의 상한이다. 사진 탐지 기기는 사진 6장에서
+    10종을 쉽게 넘으므로 평가표 작성 경로는 None(상한 없음)으로 부른다.
+    """
     ids = list(dict.fromkeys(equipment_ids or []))
-    if not ids or len(ids) > MAX_EQUIPMENT:
-        raise AuthError(422, 'INVALID_EQUIPMENT', f'기기는 1~{MAX_EQUIPMENT}개를 지정해 주세요.')
+    if not ids or (max_equipment and len(ids) > max_equipment):
+        raise AuthError(422, 'INVALID_EQUIPMENT', f'기기는 1~{max_equipment}개를 지정해 주세요.')
     data = load()
     unknown = [e for e in ids if e not in data['known']]
     if unknown:
