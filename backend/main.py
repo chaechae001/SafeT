@@ -7,6 +7,7 @@
 기존 작성·초안·조회 화면과 같은 평가표 API를 사용합니다.
 """
 import os
+from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
@@ -15,8 +16,16 @@ from fastapi.responses import JSONResponse
 import database  # noqa: F401  (.env 를 먼저 읽음)
 from routers import auth, evaluations, health, workplaces, assessment, report, sign, share, rag, trash, dev_outbox
 from services.auth import AuthError
+from services.authoring_rag import prepare_hybrid
 
-app = FastAPI(title="Safe-T API", version="0.1.0")
+
+@asynccontextmanager
+async def lifespan(app):
+    prepare_hybrid()
+    yield
+
+
+app = FastAPI(title="Safe-T API", version="0.1.0", lifespan=lifespan)
 
 # 화면(프런트엔드 확인 서버 8000번)에서 API(8001번)를 부를 수 있게 허용할 주소
 FRONTEND_ORIGINS = [

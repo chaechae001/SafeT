@@ -4,6 +4,7 @@
   $(function () {
     var photos=[], works=[], worksReady=false, busy=false, requestKey=null, lastBody='', reading=0;
     var added=[], catalogs={}, shownWork=null;   // 이번 평가에만 추가한 기기 [{code|null, nm}] · 업종별 기기 목록 캐시
+    var startedWork = new URLSearchParams(location.search).get('work_no');
     var user=S.auth.user() || {};
     var restored=S.auth.takeRestore('assessment-write');
     if(restored && restored.email!==user.email)restored=null;
@@ -40,13 +41,17 @@
       $('#eq-save-workplace').prop('disabled', !added.length);
       var n=regCount()+added.length+$('#v-equipment .eq-found input[name="ai_machine_nm"]:checked').length;
       $('#eq-summary').text('총 '+n+'개의 기기로 평가표 초안을 생성합니다.');
+      $('#v-equipment .eq-empty__title').text(photos.length
+        ? '사진은 초안을 만들 때 분석해요.'
+        : '첨부된 사진이 없어요.');
     }
     function showMachines() {
       if (!worksReady) return;
       var w=works.find(function(x){return String(x.work_no)===$('#work_no').val();});
       var list=$('#v-equipment .tag-list').empty();
       if(w) w.machines.forEach(function(m){$('<li class="eq-chip eq-chip--on">').html(ico('check')).append($('<span>').text(m.machine_nm)).appendTo(list);});
-      if(!w || !w.machines.length) $('<li class="hint">등록된 기기가 없습니다.</li>').appendTo(list);
+      if(!w || !w.machines.length) $('<li class="hint">')
+        .text(w ? '등록된 기기가 없습니다.' : '01 기본에서 사업장을 먼저 선택해 주세요.').appendTo(list);
       // 사업장을 바꾸면 업종 기기가 달라질 수 있어 이번 평가에 추가한 기기를 비운다
       var now=w?String(w.work_no):null;
       if(shownWork!==null && now!==shownWork && added.length){added=[];S.toast('사업장이 바뀌어 직접 추가한 기기를 비웠어요.');}
@@ -113,8 +118,9 @@
       if(!w){$('<p class="hint">').text('사업장을 먼저 골라 주세요.').appendTo(box);return;}
       var list=catalogs[w.biz_code];
       if(!list){$('<p class="hint">').text('기기 목록을 불러오고 있어요.').appendTo(box);return;}
+      if(!list.length){$('<p class="hint">').text('선택할 기기 목록이 없어요. 이름을 적어 추가할 수 있어요.').appendTo(box);return;}
       var rest=list.filter(function(m){return !isRegistered(m.machine_code,m.machine_nm);});
-      if(!rest.length){$('<p class="hint">').text('이 업종 기기는 모두 등록돼 있어요. 아래에 이름을 적어 추가해 주세요.').appendTo(box);return;}
+      if(!rest.length){$('<p class="hint">').text('이 업종 기기는 모두 등록돼 있어요. 다른 기기는 이름으로 추가할 수 있어요.').appendTo(box);return;}
       rest.forEach(function(m){
         var on=addedIndex(m.machine_code,m.machine_nm)>=0;
         $('<button type="button" class="eq-chip eq-chip--pick">').attr('aria-pressed',on?'true':'false')
@@ -150,15 +156,19 @@
       added.push(hit?{code:hit.machine_code,nm:hit.machine_nm}:{code:null,nm:nm});
       $in.val('');renderAdded();renderCatalog();$('#eq-add-status').text(nm+' 추가 · 이번 평가에 추가한 기기 '+added.length+'개');$in.trigger('focus');
     });
+    var workTouched=!!(restored && (restored.work_touched===undefined ? restored.work_no : restored.work_touched));
     S.api.get('/workplaces').done(function(data){
       works=data; worksReady=true; var sel=$('#work_no').empty().append('<option value="">사업장 선택</option>');
       data.forEach(function(w){$('<option>').val(w.work_no).text(w.workplace+' · '+w.biz_nm).appendTo(sel);});
       if(data.length===1) sel.val(data[0].work_no);
       if(restored)sel.val(restored.work_no);
+      if ((!restored || !currentWork()) && data.some(function(w){return String(w.work_no)===startedWork;})) {
+        sel.val(startedWork);
+        workTouched = true;
+      }
       if(!data.length) S.toast('사업장을 먼저 등록해 주세요.');
       showMachines();
     }).fail(function(e){$('#work_no').empty();S.fieldError($('#work_no'),e.message);});
-    var workTouched=!!(restored && (restored.work_touched===undefined ? restored.work_no : restored.work_touched));
     $('#work_no').on('change.assessment',function(){workTouched=true;showMachines();});
     $('#v-equipment').on('safet:show',showMachines);
     function renderPhotos(){

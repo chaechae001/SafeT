@@ -59,8 +59,8 @@
     $('.js-delete-count').text(doc.items.length);
     renderList();
   }
-  /** 확인 대기: 기기에서만 나온 위험(catalog_rls_v1). 담당자가 실제 작업인지 확인해 추가해야 평가표 행이 된다.
-      새 평가표에서는 사업장 등록 기기 위험이 처음부터 일반 행이고, 대기는 이번 평가에만 추가한 미등록 기기(사진 탐지·직접 추가)뿐.
+  /** 확인 대기: 검색에서만 찾은 위험. 담당자가 실제 작업인지 확인해 추가해야 평가표 행이 된다.
+      이 평가의 미등록 기기와 입력 기반 평가에서 글·음성 검색으로만 나온 후보를 표시한다.
       예전 평가표에 저장된 등록 기기 대기 항목은 machine_kind 가 'registered' 로 와서 지금처럼 '등록 기기'로 보인다.
       따로 모은 '확인 대기' 패널은 없애고, 목록 맨 뒤에 일반 카드와 같은 모양으로 그린다(renderList).
       카드를 누르는 순간(담당자 행동) 기존 add 호출로 행을 만들고, 휴지통·밀어서 삭제는 dismiss(제외). 자동 추가하지 않는다. */
@@ -68,8 +68,8 @@
   function renderPending(){ $('#rls-pending-panel').remove(); }
   function fromMachine(it){ return !!(isRls(it) && it.catalog.risk_law.card && it.catalog.risk_law.card.from_machine); }
   function machineKind(it){ return (it && it.catalog && it.catalog.risk_law && it.catalog.risk_law.card && it.catalog.risk_law.card.machine_kind) || 'registered'; }
-  function machineBadge(kind){ return $('<span class="machine-badge">').toggleClass('machine-badge--extra', kind === 'unregistered').text(kind === 'unregistered' ? '추가 기기' : '등록 기기'); }
-  function machineWord(kind){ return kind === 'unregistered' ? '이번 평가에 추가한 기기' : '등록 기기'; }
+  function machineBadge(kind){ return $('<span class="machine-badge">').toggleClass('machine-badge--extra', kind !== 'registered').text(kind === 'input' ? '검색 후보' : kind === 'unregistered' ? '추가 기기' : '등록 기기'); }
+  function machineWord(kind){ return kind === 'input' ? '글·음성 검색' : kind === 'unregistered' ? '이번 평가에 추가한 기기' : '등록 기기'; }
   /** 대기 카드로 안내(확정 시도 때): 전체 보기로 바꾸고 첫 대기 카드를 가운데로 + 잠깐 강조 */
   function gotoPending(){
     if(filter!=='all'){filter='all';$('#v-list .tabs [data-filter]').removeAttr('aria-current').filter('[data-filter="all"]').attr('aria-current','page');}
@@ -241,9 +241,9 @@
       $a.toggleClass('card--done', cstate === 'done').toggleClass('card--temp', cstate === 'temp').attr('data-state', cstate === 'temp' ? (need ? 'need' : 'done') : cstate).attr('data-card', cstate);
       $st.append($('<span class="risk-card__summary">').text(stateText(it)));
       var $li = $('<li class="risk-item">').append($a).appendTo($ol);
-      // 항목별 삭제 (입력 기반 평가표는 분석 결과 유지라 숨김)
+      // 입력에서 분석한 행은 보호하고, 검색으로 추가한 행은 제외할 수 있다.
       // 편집 모드의 휴지통 버튼 + 왼쪽으로 밀면 드러나는 빨간 '삭제' 영역 (draft-edit.js)
-      if (!evaluation || evaluation.assessment_mode !== 'input_based') {
+      if (!evaluation || evaluation.assessment_mode !== 'input_based' || isRls(it)) {
         $li.addClass('is-deletable');
         $('<button class="risk-item__swipe-del" type="button" tabindex="-1">').html(SafeT.icon('trash') + '<span>삭제</span>')
           .attr({ 'data-delete-item': i, 'aria-label': no(i) + ' ' + it.job + ' 항목 삭제' }).prependTo($li);
@@ -251,7 +251,7 @@
           .attr({ 'data-delete-item': i, 'aria-label': no(i) + ' ' + it.job + ' 항목 삭제' }).appendTo($li);
       }
     });
-    // 확인 대기(기기 기준) 후보 = 목록 맨 뒤의 일반 카드(번호 이어서, 신호등 N, 할 일 '현재 조치 선택')
+    // 확인 대기 후보는 목록 맨 뒤에 신호등 N과 함께 표시한다.
     // 누르면 add → 행이 되고 상세가 열림. 아직 행이 아니므로 '입력 필요'에 포함하고 담당자·후속업무 필터에는 넣지 않는다.
     if (filter === 'all' || filter === 'need') $.each(pendingRows(), function (k, c) {
       var n = items.length + k, label = no(n) + ' ' + c.job;
@@ -347,7 +347,7 @@
 
   /** 관련 근거(법적 기준). 위험요인·법령 검색 후보(risk_law.law.candidate) 또는 저장된 법령(it.law) */
   function lawOf(it) {
-    var c = it.catalog && it.catalog.risk_law && it.catalog.risk_law.law;
+    var c = it.law_reference || (it.catalog && it.catalog.risk_law && it.catalog.risk_law.law);
     if (c && c.candidate) return { name: c.candidate.law_name, locator: c.candidate.locator, title: c.candidate.article_title,
       quote: c.candidate.quote, from: c.candidate.effective_from, status: c.status || '자동 검색 후보 · 적용 여부는 작성자가 확인' };
     if (it.law && it.law.name) return { name: it.law.name, locator: '', title: '', quote: it.law.summary || '', status: '' };
@@ -612,7 +612,7 @@
 
   /** 마지막 항목·모두 입력했을 때 안내 */
   function needIndexes() { var r = []; $.each(items, function (i, it) { if (missing(it).length) r.push(i); }); return r; }
-  /** 확정 전에 남은 일 = 입력 필요 행 + 등록 기기 확인 대기 카드 + 확인하지 않은 검색 후보.
+  /** 확정 전에 남은 일 = 입력 필요 행 + 확인 대기 카드 + 확인하지 않은 검색 후보.
       예전에는 입력 필요 행만 세어, 대기 카드가 남아도 '모든 항목을 확인했어요'가 떴음 */
   function unchecked() { return $('#rag-status-panel .candidate-exclusion:not(:checked)').length; }
   function updateFinish() {
@@ -620,7 +620,7 @@
     var pos = navPos();
     var last = pos.next === null || pos.next === 'end';
     $('#d-next').prop('disabled', false).text(last ? '검토 마치기' : '다음 항목').toggleClass('btn--finish', last)
-      .attr('aria-label', pos.next === 'pending' ? '다음 항목: 기기 확인 대기' : null);
+      .attr('aria-label', pos.next === 'pending' ? '다음 항목: 확인 대기' : null);
     var left = needIndexes(), others = $.grep(left, function (i) { return i !== state.index; });
     var pend = pendingRows().length, rag = unchecked();
     var allDone = items.length && !left.length && !pend && !rag;
@@ -638,7 +638,7 @@
     } else {
       var parts = [];
       if (left.length) parts.push('입력이 필요한 항목 ' + left.length + '개');
-      if (pend) parts.push('기기 기준 확인 대기 ' + pend + '개');
+      if (pend) parts.push('검색 결과 확인 대기 ' + pend + '개');
       if (rag) parts.push('확인하지 않은 후보 ' + rag + '개');
       $('#d-finish-title').text('아직 확인할 항목이 남았어요');
       $('#d-finish-text').text(parts.join(', ') + '가 남았어요.' + (dirty ? ' 저장하지 않은 입력도 있어요.' : ''));
