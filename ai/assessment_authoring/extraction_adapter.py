@@ -146,35 +146,6 @@ def parse_model_response(response, batch_ids):
     return data
 
 
-
-def merge_scenario_duplicates(analysis):
-    """Keep one row per scenario and preserve distinct work citations."""
-    grouped = {}
-    conflicts = {}
-    for candidate in analysis["candidates"]:
-        sid = candidate["scenario_id"]
-        if sid not in grouped:
-            grouped[sid] = candidate
-            conflicts[sid] = set()
-            continue
-        row = grouped[sid]
-        for quote in candidate["evidence"]:
-            if quote not in row["evidence"]:
-                row["evidence"].append(quote)
-        by_control = {item["control_id"]: item for item in row["control_evidence"]}
-        for control in candidate["control_evidence"]:
-            cid = control["control_id"]
-            if cid in conflicts[sid]:
-                continue
-            if cid not in by_control:
-                by_control[cid] = control
-            elif by_control[cid] is not None and by_control[cid]["state"] != control["state"]:
-                conflicts[sid].add(cid)
-                by_control[cid] = None
-        row["control_evidence"] = [item for item in by_control.values() if item is not None]
-    return dict(analysis, candidates=list(grouped.values()))
-
-
 def check_batch_output(data, context, batch_ids, catalog):
     """스키마·등록 ID·직접 인용을 확인한다. 위반은 모두 오류다."""
     data = dict(data)
