@@ -127,7 +127,18 @@ def extract(context, retrieval, snapshot, evidence):
 
     try:
         count = request_json(base, key, '/tokenize', dict(model=model, messages=messages, add_generation_prompt=True))['count']
-        budget = output_budget(count)
+        try:
+            budget = output_budget(count)
+        except ValueError:
+            if len(batch_ids) < 2:
+                raise
+            # E5는 후보를 한 번에 보내 입력이 모델 길이(4096)를 넘을 수 있다. 넘을 때만 반씩 나눠 보낸다.
+            half = len(batch_ids) // 2
+            parts = [extract(context, dict(retrieval, candidates=rows), snapshot,
+                             {row['scenario_id']: evidence[row['scenario_id']] for row in rows if row['scenario_id'] in evidence})
+                     for rows in (retrieval['candidates'][:half], retrieval['candidates'][half:])]
+            return dict(parts[0], candidates=parts[0]['candidates'] + parts[1]['candidates'],
+                        unmatched_risks=parts[0].get('unmatched_risks', []) + parts[1].get('unmatched_risks', []))
         payload = dict(model=model, messages=messages, temperature=0, max_tokens=budget,
                        response_format=model_response_format(context, retrieval, snapshot))
 

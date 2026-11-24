@@ -104,6 +104,27 @@ def test_frying_without_equipment_name_is_assessed(generate):
     assert snapshot["review_candidates"] == []
 
 
+def test_long_hybrid_prompt_is_split_in_halves(generate, monkeypatch):
+    # 후보가 많아 입력이 모델 길이(4096)를 넘으면 502 대신 후보를 반씩 나눠 부른다(8021 E5 흐름 시험 재현).
+    sent = []
+
+    def request(_base, _key, path, payload):
+        ids = [row["id"] for row in json.loads(payload["messages"][-1]["content"])["candidate_scenarios"]]
+        if path == "/tokenize":
+            return {"count": 4073 if len(ids) > 2 else 1000}
+        sent.append(ids)
+        rows = [model_row("FRY", "S1")] if "FRY" in ids else []
+        return dict(choices=[dict(finish_reason="stop", message={"content": json.dumps({"candidates": rows})})])
+
+    monkeypatch.setattr(authoring_rag, "request_json", request)
+    catalog = load_catalog()
+    authoring_rag.hybrid_ranker(None).rank_units = lambda *_: [{"scenario_ids": ["FRY", "KNIFE", "GAS", "OVEN"]}]
+    _, rows, _ = authoring_rag.generate(catalog["scenarios"], {"text": "튀김기로 닭을 튀깁니다. 칼로 양배추를 썹니다."})
+    assert {row["authoring"]["analysis"]["scenario_id"] for row in rows} == {"FRY"}
+    assert len(sent) >= 2 and all(len(ids) <= 2 for ids in sent)
+    assert sorted(sum(sent, [])) == sorted(set(sum(sent, [])))  # 같은 후보를 두 번 보내지 않는다
+
+
 def test_truncated_hybrid_response_is_retried_once(generate):
     rows, _ = generate("치킨을 튀깁니다.", ["FRY"], [model_row("FRY", "S1")], truncated=True)
     assert rows == {"FRY"}
