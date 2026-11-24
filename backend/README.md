@@ -443,22 +443,6 @@ Remove-Item Env:SAFET_RUN_LIVE_TEXT_TEST
 
 `SAFET_AI_GATEWAY_URL`을 설정하면 텍스트·사진 모두 같은 관문과 `SAFET_AI_API_KEY`를 사용합니다. 현재 관문은 토큰 계수 경로가 없어 초안 생성이 차단됩니다. [확인 결과와 서버 보완 사항](../docs/implementation/gateway-integration-20261118.md)을 참고하세요.
 
-## 웹앱 단일 포트 배포
-
-저장소 루트에서 아래 명령을 실행합니다. `backend/.env`에 MariaDB와 평가 모드를 설정합니다.
-
-```sh
-python backend/run_local.py --check
-python -m uvicorn serve_web:app --app-dir backend --host 127.0.0.1 --port 8021 --root-path /proxy/8021
-```
-
-엘리스의 `/proxy/8021/`에서 화면을 열고 `/proxy/8021/api/`로 API를 호출합니다. 직접 접속하는 환경에서는 `--root-path`를 생략합니다. 배포 확인에 쓰는 `SAFET_REVIEW_COMMIT`에는 배포한 커밋 SHA를 넣습니다.
-
-상태 확인은 `/health`, DB 확인은 `/api/health/db`입니다. `SHARE_BASE_URL`에는 같은 외부 주소의 `/pages/share-download.html`을 설정합니다. 사진·음성 기반 평가를 쓰면 `SAFET_ASSESSMENT_MODE=authoring_rag_v1`과 기존 `SAFET_AI_GATEWAY_URL`을 설정합니다.
-
-같은 평가에 팀 법령 검색을 연결하려면 `SAFET_RISK_LAW_URL`에 내부 검색 서버 주소를 설정합니다. 사진 분석에서 확인한 기기는 이번 평가의 검색에 사용합니다. 사진·음성 분석에서 확인한 행과 같은 위험 ID에는 법령 후보를 표시합니다. 등록 기기에서 검색된 위험은 미평가 행으로 추가합니다. 미등록 기기나 글·음성 검색에서만 나온 위험은 확인 대기에 표시합니다. 확실한 미사용 기기는 검색에서 제외합니다. 작성자는 검색으로 추가된 행을 초안에서 제외할 수 있습니다.
-
-추가 행은 해당 입력 기반 평가표와 같은 카탈로그 버전을 사용합니다. 작성자가 현재 조치를 확인하면 위험도를 계산합니다. 검색이 실패하면 새 평가표 저장을 중단합니다. 입력 기반 평가만 쓰는 배포에서는 검색 주소를 비워 둡니다.
 
 ## 동시 저장·AI 잠금·사진 캐시 보완
 
@@ -526,21 +510,3 @@ N02·N08 문맥 확장 설정·검수: [설명](../docs/implementation/n02-n08-c
 ## 초안 생성 중 사업장 기기 변경 (UX-025 · 2026-11-23)
 
 - `services/assessment.create`: 분석 뒤 잠금 단계에서 사업장 이름·업종이 바뀐 경우만 `409 WORKPLACE_CHANGED`. 기기 목록만 바뀐 경우(같은 사업장의 다른 초안이 '사업장에도 저장')는 막지 않고, 이 평가표에는 분석에 쓴 기기를 남긴다. '사업장에도 저장'은 그사이 이미 들어온 같은 기기(코드 또는 이름)를 다시 넣지 않는다. 검사 `tests/test_risk_law_flow.py::test_ux025_machine_list_change_during_analysis_keeps_draft`.
-
-## E5 혼합 검색 (선택)
-
-입력 기반 평가가 켜진 백엔드에서만 쓰는 기능입니다. E5는 작업 문장과 위험 후보의 의미 유사도를 계산합니다. 기기 보유나 검색 점수만으로 일반 위험 행을 만들지 않습니다.
-
-1. 백엔드 Python 3.11 환경에 PyTorch의 CPU 패키지와 추가 의존성을 설치합니다. 아래 명령은 저장소 루트에서 실행합니다.
-   ```sh
-   python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
-   python -m pip install -r backend/requirements-authoring-e5.txt
-   ```
-2. `SAFET_ASSESSMENT_MODE=authoring_rag_v1`과 기존 AI 관문을 설정합니다. `SAFET_AUTHORING_E5_MODEL_DIR`에는 준비한 E5 모델의 로컬 폴더를 지정합니다. 백엔드는 시작할 때 모델과 색인을 로드합니다. 패키지나 모델 경로가 잘못되면 시작 로그를 확인합니다. 변수를 비우면 기존 작성 경로를 사용합니다.
-3. 검색 후보는 평가표당 한 번의 모델 생성 호출로 확인합니다. 답변에 포함되지 않았거나 작업 근거 검증을 통과하지 못한 후보는 담당자 검토 대상으로 남습니다. 시나리오 기준과 맞지 않는 컨베이어·롤러 끼임은 미매칭으로 표시합니다.
-
-모델을 호출하지 않는 회귀 검사 명령입니다. 저장소 루트에서 실행합니다.
-
-```sh
-python -m pytest backend/unit_tests/test_hybrid_authoring.py -q
-```

@@ -350,33 +350,3 @@ def test_shared_machine_risk_uses_registered_code_in_either_order(reverse):
     assert rows[0]['risk_law']['card']['card_id'] == 'registered'
     assert rows[0]['risk_law']['card']['machine_kind'] == 'registered'
     assert [p['catalog']['id'] for p in pending] == ['FIRE']
-
-
-# PR #61 재리뷰: 위험요인(CUT·MIX)을 공유하는 서로 다른 기기의 미사용 진술은 그 기기에만 적용한다.
-@pytest.mark.parametrize('field', ['text', 'voice_text'])
-@pytest.mark.parametrize('description, kept, denied', [
-    ('육절기는 사용하지 않습니다.', ['채소절단기'], set()),
-    ('채소절단기로 채소를 썹니다. 육절기는 사용하지 않습니다.', ['채소절단기'], set()),
-    ('육절기는 사용하지 않습니다. 채소절단기도 사용하지 않습니다.', [], {'CUT'}),
-])
-def test_unused_statement_applies_only_to_that_machine(field, description, kept, denied):
-    if str(ROOT) not in sys.path:
-        sys.path.insert(0, str(ROOT))
-    context = {'machines': [{'machine_nm': '채소절단기'}, {'machine_nm': '육절기'}],
-               'text': '', 'voice_text': ''}
-    context[field] = description if field == 'text' else description.replace('.', '')
-    machines, denied_ids = risk_law.authoring_search_input(context)
-    assert [m['machine_nm'] for m in machines] == kept
-    assert denied_ids == denied
-
-
-@pytest.mark.parametrize('description, kept', [
-    ('반죽 믹서는 사용하지 않습니다.', []),            # 반죽기와 같은 기기 코드의 별칭
-    ('믹서는 사용하지 않습니다.', ['반죽기']),          # 믹서(EQ_MIXER)는 반죽기(EQ_DOUGH_MIXER)와 다른 기기
-])
-def test_unused_alias_is_limited_to_same_machine_code(description, kept):
-    if str(ROOT) not in sys.path:
-        sys.path.insert(0, str(ROOT))
-    context = {'machines': [{'machine_nm': '반죽기'}], 'text': description, 'voice_text': ''}
-    machines, _ = risk_law.authoring_search_input(context)
-    assert [m['machine_nm'] for m in machines] == kept

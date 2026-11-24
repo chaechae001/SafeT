@@ -44,13 +44,6 @@
     para(box,'위험요인',it.title);para(box,'원인',it.cause);para(box,'판단 이유',S.riskText?S.riskText.friendly(it.reason,it.catalog&&it.catalog.scenario&&it.catalog.scenario.controls):it.reason);   /* 쉬운 말 */
     if(S.catalogAI)S.catalogAI.readonly(page,it);
     if(it.law){para(box,'법령',it.law.name);para(box,'요지',it.law.summary);}
-    else {
-      var ref = it.law_reference || (it.catalog && it.catalog.risk_law && it.catalog.risk_law.law);
-      if(ref && ref.candidate){
-        para(box, '법령 후보', [ref.candidate.law_name, ref.candidate.locator, ref.candidate.article_title].filter(Boolean).join(' '));
-        para(box, '검토 상태', ref.status);
-      }
-    }
     if(it.assessment_mode==='input_based' && !it.curr.length)para(page,'현재 안전조치','입력에서 확인되지 않음');
     else if(it.none)para(page,'현재 조치','현재 조치 없음');else checkedList(page,'현재 안전조치',it.curr);
     if(it.keep==='Y')para(page,'개선대책','현재 상태 유지');else checkedList(page,'개선대책 계획',it.plans);

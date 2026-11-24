@@ -6,7 +6,6 @@ import os
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
-from functools import lru_cache
 from sqlalchemy import text
 
 from services.auth import AuthError
@@ -20,34 +19,10 @@ from ai.assessment_authoring.detection_adapter import photo_detector_source
 from ai.assessment_authoring.input_adapter import build_context as adapt_input
 from ai.assessment_authoring.contracts import load_catalog
 from ai.assessment_authoring.evidence_qualification import qualify_direct_evidence
-from ai.assessment_authoring.live_text_check import build_messages, request_json, output_budget, complete_json, model_response_format, parse_completion
+from ai.assessment_authoring.live_text_check import build_messages, request_json, output_budget, complete_json, model_response_format
 from ai.assessment_authoring.retrieval_adapter import _positive
 
 SOURCE = 'authoring_rag_v1'
-
-
-def hybrid_model_dir():
-    return os.getenv('SAFET_AUTHORING_E5_MODEL_DIR', '').strip()
-
-
-@lru_cache(maxsize=1)
-def hybrid_ranker(model_dir):
-    from ai.assessment_authoring.hybrid_frontdoor import HybridFrontDoor
-    return HybridFrontDoor(ROOT, model_dir, load_catalog())
-
-
-def prepare_hybrid():
-    model_dir = hybrid_model_dir()
-    if not (enabled() and model_dir):
-        return
-    try:
-        if not Path(model_dir).is_dir():
-            raise ValueError('E5 로컬 모델 폴더가 없습니다.')
-        hybrid_ranker(model_dir)
-    except (ImportError, OSError, RuntimeError, ValueError) as exc:
-        raise RuntimeError('E5를 시작할 수 없습니다. 백엔드 패키지와 SAFET_AUTHORING_E5_MODEL_DIR를 확인하세요.') from exc
-
-
 LINK_FILE = '261116_RAG_기기위험요인링크_v2_DR.jsonl'
 RAG_LINKS = {'EQ_FRYER:burn': ['FRY'], 'EQ_FRYER:slip': ['ENV']}
 SIGNALS = {'상': 'R', '중': 'Y', '하': 'G'}
@@ -112,12 +87,8 @@ def extract(context, retrieval, snapshot, evidence):
     if not base:
         raise AuthError(503, 'AI_UNCONFIGURED', '입력 기반 평가의 AI 관문을 설정해 주세요.')
     messages = build_messages(context, retrieval, snapshot, evidence)
-    hybrid = bool(hybrid_model_dir())
-    if hybrid:
-        from ai.assessment_authoring.hybrid_frontdoor import strengthen_generation_prompt
-        strengthen_generation_prompt(messages)
     key = os.getenv('SAFET_AI_API_KEY', '')
-    from ai.assessment_authoring.extraction_adapter import check_batch_output, ExtractionError, merge_scenario_duplicates
+    from ai.assessment_authoring.extraction_adapter import check_batch_output, ExtractionError
     batch_ids = [row['scenario_id'] for row in retrieval['candidates']]
     catalog = {scenario['id']: scenario for scenario in snapshot['scenarios']}
 
@@ -127,19 +98,10 @@ def extract(context, retrieval, snapshot, evidence):
     try:
         count = request_json(base, key, '/tokenize', dict(model=model, messages=messages, add_generation_prompt=True))['count']
         budget = output_budget(count)
-        payload = dict(model=model, messages=messages, temperature=0, max_tokens=budget,
-                       response_format=model_response_format(context, retrieval, snapshot))
-
-        def send(body):
-            return request_json(base, key, '/v1/chat/completions', body)
-
-        if hybrid:
-            from ai.assessment_authoring.fryer_work import add_confirmed_work
-            from ai.assessment_authoring.mechanism_evidence import filter_candidates
-
-            checked = validate(merge_scenario_duplicates(parse_completion(send(payload), context)))
-            return validate(add_confirmed_work(context, filter_candidates(checked), batch_ids))
-        checked = complete_json(send, payload, context, validate=validate)
+        # 길이 제한으로 잘리면 반복 억제를 넣어 한 번만 다시 부른다(다기기 사진 502 대응).
+        checked = complete_json(lambda payload: request_json(base, key, '/v1/chat/completions', payload),
+            dict(model=model, messages=messages, temperature=0, max_tokens=budget,
+                 response_format=model_response_format(context, retrieval, snapshot)), context, validate=validate)
         # A fryer document can suggest a passage hazard, but only the user's work can establish exposure.
         from ai.assessment_authoring.retrieval_adapter import text_candidates
         checked['candidates'] = [candidate for candidate in checked['candidates']
@@ -166,39 +128,29 @@ def negation_judge():
     return exaone_judge(base, os.getenv('SAFET_AI_API_KEY', ''), model)
 
 
-def generate(scenarios, context, *, allow_empty=False):
+def generate(scenarios, context):
     snapshot = load_catalog()
     byid = {s['id']:s for s in scenarios}
     if byid != {s['id']:s for s in snapshot['scenarios']}:
         raise AuthError(503, 'AUTHORING_CATALOG_MISMATCH', 'DB 기준과 파이프라인 기준 버전이 일치하지 않습니다.')
     try:
         bundle = build_context(context)
-        model_dir = hybrid_model_dir()
-        enricher = None
-        if model_dir:
-            from ai.assessment_authoring.fryer_work import enrich
-            ranker = hybrid_ranker(model_dir)
-            def enricher(prepared, retrieval, trace):
-                enrich(prepared, retrieval, trace, ranker)
-        out = run_pipeline(
-            bundle, build_context=lambda prepared: prepared, extract_analysis=None,
+        out = run_pipeline(bundle, build_context=lambda prepared: prepared, extract_analysis=None,
             catalog_snapshot=snapshot, rag_provider=qualified_candidates, rag_links=RAG_LINKS,
-            extract_with_evidence=extract,
-            batch_size=len(snapshot['scenarios']) if model_dir else 1,
-            negation_judge=None if model_dir else negation_judge(), candidate_enricher=enricher,
-        )
+            extract_with_evidence=extract, batch_size=1, negation_judge=negation_judge())
     except ValueError:
         raise AuthError(502, 'AUTHORING_RESPONSE_INVALID', '분석 근거 검증에 실패했어요. 평가표는 생성하지 않았습니다.') from None
-    core = out['assessment']['core']
-    if not (allow_empty or out['assessment']['rows'] or core['review_candidates'] or core['unmatched_risks']):
+    if not out['assessment']['rows'] and not out['assessment']['core']['review_candidates']:
         raise AuthError(422, 'AUTHORING_NO_RESULT', '현재 기준으로 연결할 수 있는 위험 항목이 없습니다.')
     reports = {a['scenario_id']:a for a in out['analysis']['candidates']}
     trace = out['retrieval_trace']
     rag = trace['rag_response'] or {}
     stamp = dict(model=os.getenv('SAFET_AI_MODEL'), generated_at=datetime.now(timezone.utc).isoformat(),
-        assessment_mode='input_based', result_status=core['result_status'],
-        base_policy_version=core['base_policy_version'], review_candidates=core['review_candidates'],
-        unmatched_risks=core['unmatched_risks'], decision_policy_version=core['decision_policy_version'],
+        assessment_mode='input_based', result_status=out['assessment']['core']['result_status'],
+        base_policy_version=out['assessment']['core']['base_policy_version'],
+        review_candidates=out['assessment']['core']['review_candidates'],
+        unmatched_risks=out['assessment']['core']['unmatched_risks'],
+        decision_policy_version=out['assessment']['core']['decision_policy_version'],
         retrieval_mode=trace['retrieval_mode'], data_version=rag.get('data_version'),
         index_sha256=rag.get('index_sha256'), links_sha256=rag.get('links_sha256'),
         excluded_links=rag.get('excluded_links', []),
@@ -215,12 +167,9 @@ def generate(scenarios, context, *, allow_empty=False):
     return SOURCE, items, stamp
 
 
-def initialize(db, item_id, snapshot, law_reference=None):
-    state = {'authoring': snapshot}
-    if law_reference is not None:
-        state['risk_law'] = {'law': law_reference}
+def initialize(db, item_id, snapshot):
     db.execute(text('UPDATE eval_dtl SET catalog_state=:s WHERE eval_dtl_no=:n'),
-        {'s':json.dumps(state, ensure_ascii=False), 'n':item_id})
+        {'s':json.dumps({'authoring':snapshot}, ensure_ascii=False), 'n':item_id})
     db.execute(text("UPDATE eval_action SET check_yn='Y' WHERE eval_dtl_no=:n AND action_type='C'"), {'n':item_id})
 
 
@@ -237,8 +186,6 @@ def enrich(item, state):
     item['authoring'] = snapshot
     item['reason'] = snapshot['row']['rationale']
     item['document_evidence'] = snapshot['row']['document_evidence']
-    if 'risk_law' in state:
-        item['law_reference'] = state['risk_law']['law']
 
 
 def protect_current(original, edit):

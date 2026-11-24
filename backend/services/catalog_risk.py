@@ -134,11 +134,10 @@ def initialize(db, item_id, scenario, analysis=None, reference=None):
     if reference is not None:
         state['risk_law'] = reference
         state['action_controls'] = controls  # 화면 표시용: 추천 대책별 위험도 반영 여부와 이유
-        if not reference.get('requires_current_review'):
-            current, projected = rls_results(scenario, set(), set(), reviewed=False)
-            state.update(current_result=current, projected_result=projected)
-            db.execute(text('UPDATE eval_dtl SET curr_risk_grade=:g,risk_reason=:r,after_risk_grade=:a,after_judge_yn=:j WHERE eval_dtl_no=:n'),
-                       {'n': item_id, 'g': current['signal'], 'r': current['reason'], 'a': projected['signal'], 'j': 'Y'})
+        current, projected = rls_results(scenario, set(), set(), reviewed=False)
+        state.update(current_result=current, projected_result=projected)
+        db.execute(text('UPDATE eval_dtl SET curr_risk_grade=:g,risk_reason=:r,after_risk_grade=:a,after_judge_yn=:j WHERE eval_dtl_no=:n'),
+                   {'n': item_id, 'g': current['signal'], 'r': current['reason'], 'a': projected['signal'], 'j': 'Y'})
     store(db, item_id, state)
 
 
@@ -202,17 +201,12 @@ def recalculate(db, item, edit, email, revision, no):
                 if a.checked and a.id is not None and state['links'].get(str(a.id)) in known}
     current = selected(edit.curr)
     if state.get('risk_law') is not None:
-        has_current_review = edit.none or any(a.checked for a in edit.curr)
-        if state['risk_law'].get('requires_current_review') and not has_current_review:
-            result, projected = evaluate(state['scenario'], set(), answered=False), None
-        else:
-            result, projected = rls_results(state['scenario'], current, selected(edit.plans),
-                                            edit.controls_reviewed and has_current_review)
+        reviewed = edit.controls_reviewed and (edit.none or any(a.checked for a in edit.curr))
+        result, projected = rls_results(state['scenario'], current, selected(edit.plans), reviewed)
         state.update(controls_reviewed=edit.controls_reviewed, current_result=result, projected_result=projected)
         store(db, item['id'], state)
         db.execute(text('UPDATE eval_dtl SET curr_risk_grade=:g,risk_reason=:r,after_risk_grade=:a,after_judge_yn=:j WHERE eval_dtl_no=:n'),
-                   {'n': item['id'], 'g': result['signal'], 'r': result['reason'],
-                    'a': projected['signal'] if projected else 'N', 'j': 'Y' if projected else 'N'})
+                   {'n': item['id'], 'g': result['signal'], 'r': result['reason'], 'a': projected['signal'], 'j': 'Y'})
         event(db, no, item['id'], revision, 'calculation', email, {'current': result, 'projected': projected})
         return
     answered = edit.controls_reviewed and (edit.none or any(a.checked for a in edit.curr)) and not state.get('ai_analysis',{}).get('questions')
