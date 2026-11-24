@@ -536,7 +536,7 @@ N02·N08 문맥 확장 설정·검수: [설명](../docs/implementation/n02-n08-c
    python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
    python -m pip install -r backend/requirements-authoring-e5.txt
    ```
-2. `SAFET_ASSESSMENT_MODE=authoring_rag_v1`과 기존 AI 관문을 설정합니다. `SAFET_AUTHORING_E5_MODEL_DIR`에는 준비한 E5 모델의 로컬 폴더를 지정합니다. 백엔드는 시작할 때 모델과 색인을 로드합니다. 패키지나 모델 경로가 잘못되면 시작 로그를 확인합니다. 변수를 비우면 기존 작성 경로를 사용합니다.
+2. `SAFET_ASSESSMENT_MODE=authoring_rag_v1`과 기존 AI 관문을 설정합니다. `SAFET_AUTHORING_E5_MODEL_DIR`에는 준비한 E5 모델의 로컬 폴더를 지정합니다. 백엔드는 시작할 때 모델과 색인을 로드합니다. 패키지나 모델 경로가 잘못되면 시작 로그를 확인합니다. 변수를 비우면 기존 작성 경로를 사용합니다. 이 변수를 설정하면 `SAFET_NEGATION_JUDGE=exaone`은 쓰지 않습니다. 형태소 규칙으로 판정하지 못한 미사용 진술은 작업 미확인으로 남습니다.
 3. 검색 후보는 평가표당 한 번의 모델 생성 호출로 확인합니다. 답변에 포함되지 않았거나 작업 근거 검증을 통과하지 못한 후보는 담당자 검토 대상으로 남습니다. 시나리오 기준과 맞지 않는 컨베이어·롤러 끼임은 미매칭으로 표시합니다.
 
 모델을 호출하지 않는 회귀 검사 명령입니다. 저장소 루트에서 실행합니다.

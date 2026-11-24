@@ -35,16 +35,19 @@ def generate(monkeypatch):
     monkeypatch.setattr(authoring_rag.catalog_ai, "configuration", lambda: (None, "test", None))
     monkeypatch.setattr(authoring_rag.catalog_ai, "model_headers", lambda: {})
 
-    def run(text, ranked, model_rows, expected_calls=1):
+    def run(text, ranked, model_rows, expected_calls=1, truncated=False):
         ranker.rank_units = lambda *_: [{"scenario_ids": ranked}]
-        response = dict(choices=[dict(finish_reason="stop", message={
-            "content": json.dumps({"candidates": model_rows}),
-        })])
-        request = Mock(side_effect=[{"count": 800}, response])
+        content = json.dumps({"candidates": model_rows})
+        response = dict(choices=[dict(finish_reason="stop", message={"content": content})])
+        cut = dict(choices=[dict(finish_reason="length", message={"content": content[:-8]})])
+        request = Mock(side_effect=[{"count": 800}, *([cut] if truncated else []), response])
         monkeypatch.setattr(authoring_rag, "request_json", request)
         _, rows, snapshot = authoring_rag.generate(catalog["scenarios"], {"text": text})
         calls = [call.args[2] for call in request.call_args_list]
-        assert calls == ["/tokenize", "/v1/chat/completions"] * expected_calls
+        retry = ["/v1/chat/completions"] if truncated else []
+        assert calls == (["/tokenize", "/v1/chat/completions"] + retry) * expected_calls
+        if truncated:
+            assert "frequency_penalty" in request.call_args_list[-1].args[3]
         return {row["authoring"]["analysis"]["scenario_id"] for row in rows}, snapshot
 
     return run
@@ -59,6 +62,12 @@ def generate(monkeypatch):
     ("튀김기를 가끔 사용합니다.", "used"),
     ("치킨을 튀깁니다.", "used"),
     ("소스가 튀기 시작합니다.", "unmentioned"),
+    ("튀김기는 오늘 켜지 않습니다.", "unused"),
+    ("튀김기를 이번 주에는 사용하지 않습니다.", "unused"),
+    # 다른 동사의 부정은 튀김기 미사용이 아니다.
+    ("기름이 식지 않은 상태에서 튀김기를 청소합니다.", "used"),
+    ("튀김기 전원을 끄지 않은 채 기름통을 닦습니다.", "unconfirmed"),
+    ("튀김기를 끄지 않고 바구니를 꺼냅니다.", "unconfirmed"),
 ])
 def test_fryer_requires_its_own_work(text, state):
     assert decide({"media": [{"id": "TEXT", "kind": "text", "text": text}]})[0] == state
@@ -74,6 +83,11 @@ def test_frying_without_equipment_name_is_assessed(generate):
     rows, snapshot = generate("치킨을 튀깁니다.", ["FRY"], [model_row("FRY", "S1")])
     assert rows == {"FRY"}
     assert snapshot["review_candidates"] == []
+
+
+def test_truncated_hybrid_response_is_retried_once(generate):
+    rows, _ = generate("치킨을 튀깁니다.", ["FRY"], [model_row("FRY", "S1")], truncated=True)
+    assert rows == {"FRY"}
 
 
 def test_fryer_inventory_does_not_remove_knife_work(generate):
