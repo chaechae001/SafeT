@@ -120,8 +120,12 @@ def create(db,email,body):
     if use_authoring:
         source, items, authoring_snapshot = authoring_rag.generate(snapshot, context, allow_empty=use_law)
         if use_law:
-            risk_law.supplement_authoring(items, authoring_snapshot, snapshot, context, registered)
-            if not (items or authoring_snapshot['review_candidates'] or authoring_snapshot['rls_pending']):
+            risk_law.supplement_authoring(
+                items, authoring_snapshot, snapshot, context, registered,
+                review_unverified=bool(authoring_rag.hybrid_model_dir()),
+            )
+            if not (items or authoring_snapshot['review_candidates']
+                    or authoring_snapshot['rls_pending'] or authoring_snapshot['unmatched_risks']):
                 raise AuthError(422, 'AUTHORING_NO_RESULT', '현재 기준으로 연결할 수 있는 위험 항목이 없습니다.')
     else:
         if use_catalog:
@@ -196,7 +200,7 @@ def save(db,email,no,body,confirm=False):
         old=detail(db,email,no); originals={it['id']:it for it in old['items']}
         ids=[it.id for it in body.items]
         if len(ids)!=len(set(ids)) or set(ids)!=set(originals): raise AuthError(400,'INVALID_ITEMS','평가표 항목이 일치하지 않아요. 다시 불러와 주세요.')
-        if old.get('review_candidates') and not originals:
+        if not originals and (old.get('review_candidates') or old.get('unmatched_risks')):
             if confirm:
                 raise AuthError(422, 'NO_ASSESSED_ROWS', '평가 항목이 없어 확정할 수 없습니다.')
             if body.excluded_review_candidates:

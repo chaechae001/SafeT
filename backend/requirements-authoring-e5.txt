@@ -1,0 +1,4 @@
+# Optional CPU search dependencies for the Safe-T backend (Python 3.11).
+# Install CPU PyTorch separately as described in backend/README.md.
+transformers==5.23.0
+numpy==2.4.6
