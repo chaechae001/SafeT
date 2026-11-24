@@ -7,10 +7,10 @@ from fastapi import FastAPI
 from fastapi.responses import RedirectResponse, Response
 from starlette.staticfiles import StaticFiles
 
-from main import app as api
+from main import app as api, lifespan
 
 frontend = Path(__file__).resolve().parents[1] / 'frontend'
-app = FastAPI(docs_url=None, redoc_url=None, openapi_url=None)
+app = FastAPI(docs_url=None, redoc_url=None, openapi_url=None, lifespan=lifespan)
 
 
 @app.get('/')

@@ -51,7 +51,7 @@
     var rag=$('#rag-status-panel').empty().prop('hidden',doc.assessment_mode!=='input_based');
     if(doc.assessment_mode==='input_based'){
       $('<h2>').text('위험성평가표 작성 결과').appendTo(rag);
-      var pendingOnly = !doc.items.length && (doc.review_candidates || []).length > 0;
+      var pendingOnly = !doc.items.length && ((doc.review_candidates || []).length || (doc.unmatched_risks || []).length);
       if(pendingOnly) $('<p>').text('작업 근거가 확인된 평가 항목이 없어 검토 후보만 초안으로 보관합니다.').appendTo(rag);
       else $('<p>').text('입력 내용과 검색 문헌을 바탕으로 작성했습니다. 각 위험 항목에서 근거 문장과 출처를 볼 수 있습니다.').appendTo(rag);
       if(!pendingOnly && (doc.review_candidates || []).length){
@@ -66,8 +66,8 @@
         $('<input type="checkbox" class="candidate-exclusion">').val(c.scenario_id).prop('checked',(doc.excluded_review_candidates || []).includes(c.scenario_id)).appendTo(label);
         label.append(document.createTextNode(' '+c.scenario_id+' · '+(c.reason==='input_denies_work'?'입력에서 작업 미사용':'작업 미확인')+' · 현장 비적용으로 제외'));
       });
-      if(doc.result_status==='partial'){
-        $('<p class="hint">').text('일부 검색 후보는 기준에 연결되지 않아 평가 항목에서 제외했습니다.').appendTo(rag);
+      if((doc.unmatched_risks || []).length){
+        $('<p class="hint">').text('다음 위험은 기준 연결을 확인해야 합니다.').appendTo(rag);
         (doc.unmatched_risks || []).forEach(function(x){$('<p class="hint">').text(x.replace('RAG 시나리오 매핑 없음: EQ_FRYER:gas','튀김기 가스 위험: 기준 연결 미확인').replace('RAG 시나리오 매핑 없음: EQ_FRYER:respiratory','튀김기 호흡기 위험: 기준 연결 미확인')).appendTo(rag);});
       }
     }

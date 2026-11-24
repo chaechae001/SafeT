@@ -6,11 +6,15 @@ from .segments import split_sentences
 
 def run_pipeline(raw_request, *, build_context, extract_analysis, catalog_snapshot,
                  rag_provider=None, rag_links=None, legal_registry=None, extract_with_evidence=None, batch_size=3,
-                 negation_judge=None):
+                 negation_judge=None, candidate_enricher=None):
     context = build_context(copy.deepcopy(raw_request))
     retrieval, trace = retrieve_with_evidence(context, catalog_snapshot, rag_provider=rag_provider,
                                               rag_links=rag_links, legal_registry=legal_registry,
                                               negation_judge=negation_judge)
+    reviewable = set()
+    if candidate_enricher is not None:
+        candidate_enricher(context, retrieval, trace)
+        reviewable = {row["scenario_id"] for row in retrieval["candidates"]}
     analysis = dict(contract_version="assessment-authoring-1", candidates=[], unmatched_risks=[])
     has_work_input = any(m["kind"] in ("text", "voice_transcript") for m in context["media"])
     # 사진·등록 기기만으로 올라온 후보는 노출 근거가 아니다. 작업 문장이 그 작업·기기를
@@ -55,7 +59,7 @@ def run_pipeline(raw_request, *, build_context, extract_analysis, catalog_snapsh
     analysis["candidates"] = supported
     denied = set(trace["not_applicable_candidates"])
     assessed = {candidate["scenario_id"] for candidate in analysis["candidates"]}
-    pending = needs_work - assessed - denied
+    pending = (needs_work | reviewable) - assessed - denied
     review_candidates = [
         {"scenario_id": sid, "reason": "input_denies_work" if sid in denied else "work_unconfirmed"}
         for sid in sorted(pending | denied)
