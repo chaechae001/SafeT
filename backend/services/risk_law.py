@@ -237,22 +237,11 @@ def authoring_search_input(context):
     return kept, denied_ids - kept_ids
 
 
-def supplement_authoring(items, snapshot, scenarios, context, registered, *, review_unverified=False):
+def supplement_authoring(items, snapshot, scenarios, context, registered):
     """검색 카드의 출처를 보존하고 작성자가 확인할 위험을 분리한다."""
     machines, denied = authoring_search_input(context)
     text = context.get('text', '').strip()
     voice = context.get('voice_text', '').strip()
-    fryer_state = None
-    if review_unverified:
-        from ai.assessment_authoring.fryer_work import decide, is_fryer, fryer_only_suggestion
-        media = [dict(id=kind, kind=kind, text=value)
-                 for kind, value in (('text', text), ('voice_transcript', voice)) if value]
-        fryer_state, _ = decide(dict(media=media))
-        if fryer_state == 'unused':
-            machines = [m for m in machines if not is_fryer(m.get('machine_nm'))]
-            denied.add('FRY')
-        elif fryer_state in ('used', 'unconfirmed'):
-            denied.discard('FRY')
     snapshot['rls_pending'] = []
     if not (text or voice or machines):
         return
@@ -261,13 +250,10 @@ def supplement_authoring(items, snapshot, scenarios, context, registered, *, rev
     regular, pending = split_pending(found, registered)
     by_id = {it['authoring']['analysis']['scenario_id']: it for it in items}
     denied.update(c['scenario_id'] for c in snapshot['review_candidates'] if c['reason'] == 'input_denies_work')
-    if fryer_state in ('used', 'unconfirmed'):
-        denied.discard('FRY')
     grouped = {}
     for row in regular + pending:
         sid = row['catalog']['id']
-        if sid in denied or (fryer_state == 'unused' and sid == 'FIRE'
-                             and fryer_only_suggestion(row['risk_law']['card'].get('input_text'))):
+        if sid in denied:
             continue
         grouped.setdefault(sid, []).append(row)
     for sid, candidates in grouped.items():
@@ -283,7 +269,7 @@ def supplement_authoring(items, snapshot, scenarios, context, registered, *, rev
             if other is not row:
                 reference['other_cards'].extend([other['risk_law']['card'], *other['risk_law']['other_cards']])
         reference['requires_current_review'] = True
-        if reference['card'].get('machine_kind') == 'registered' and not review_unverified:
+        if reference['card'].get('machine_kind') == 'registered':
             items.append(row)
         else:
             snapshot['rls_pending'].append(row)

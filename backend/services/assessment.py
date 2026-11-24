@@ -120,10 +120,7 @@ def create(db,email,body):
     if use_authoring:
         source, items, authoring_snapshot = authoring_rag.generate(snapshot, context, allow_empty=use_law)
         if use_law:
-            risk_law.supplement_authoring(
-                items, authoring_snapshot, snapshot, context, registered,
-                review_unverified=bool(authoring_rag.hybrid_model_dir()),
-            )
+            risk_law.supplement_authoring(items, authoring_snapshot, snapshot, context, registered)
             if not (items or authoring_snapshot['review_candidates'] or authoring_snapshot['rls_pending']):
                 raise AuthError(422, 'AUTHORING_NO_RESULT', '현재 기준으로 연결할 수 있는 위험 항목이 없습니다.')
     else:

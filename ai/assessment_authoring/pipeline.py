@@ -6,13 +6,11 @@ from .segments import split_sentences
 
 def run_pipeline(raw_request, *, build_context, extract_analysis, catalog_snapshot,
                  rag_provider=None, rag_links=None, legal_registry=None, extract_with_evidence=None, batch_size=3,
-                 negation_judge=None, candidate_enricher=None):
+                 negation_judge=None):
     context = build_context(copy.deepcopy(raw_request))
     retrieval, trace = retrieve_with_evidence(context, catalog_snapshot, rag_provider=rag_provider,
                                               rag_links=rag_links, legal_registry=legal_registry,
                                               negation_judge=negation_judge)
-    if candidate_enricher is not None:
-        candidate_enricher(context, retrieval, trace)
     analysis = dict(contract_version="assessment-authoring-1", candidates=[], unmatched_risks=[])
     has_work_input = any(m["kind"] in ("text", "voice_transcript") for m in context["media"])
     # 사진·등록 기기만으로 올라온 후보는 노출 근거가 아니다. 작업 문장이 그 작업·기기를

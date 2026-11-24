@@ -6,7 +6,6 @@ import os
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
-from functools import lru_cache
 from sqlalchemy import text
 
 from services.auth import AuthError
@@ -20,20 +19,10 @@ from ai.assessment_authoring.detection_adapter import photo_detector_source
 from ai.assessment_authoring.input_adapter import build_context as adapt_input
 from ai.assessment_authoring.contracts import load_catalog
 from ai.assessment_authoring.evidence_qualification import qualify_direct_evidence
-from ai.assessment_authoring.live_text_check import build_messages, request_json, output_budget, complete_json, model_response_format, parse_completion
+from ai.assessment_authoring.live_text_check import build_messages, request_json, output_budget, complete_json, model_response_format
 from ai.assessment_authoring.retrieval_adapter import _positive
 
 SOURCE = 'authoring_rag_v1'
-
-
-def hybrid_model_dir():
-    return os.getenv('SAFET_AUTHORING_E5_MODEL_DIR', '').strip()
-
-
-@lru_cache(maxsize=1)
-def hybrid_ranker(model_dir):
-    from ai.assessment_authoring.hybrid_frontdoor import HybridFrontDoor
-    return HybridFrontDoor(ROOT, model_dir, load_catalog())
 LINK_FILE = '261116_RAG_기기위험요인링크_v2_DR.jsonl'
 RAG_LINKS = {'EQ_FRYER:burn': ['FRY'], 'EQ_FRYER:slip': ['ENV']}
 SIGNALS = {'상': 'R', '중': 'Y', '하': 'G'}
@@ -98,11 +87,8 @@ def extract(context, retrieval, snapshot, evidence):
     if not base:
         raise AuthError(503, 'AI_UNCONFIGURED', '입력 기반 평가의 AI 관문을 설정해 주세요.')
     messages = build_messages(context, retrieval, snapshot, evidence)
-    if hybrid_model_dir():
-        from ai.assessment_authoring.hybrid_frontdoor import strengthen_generation_prompt
-        strengthen_generation_prompt(messages)
     key = os.getenv('SAFET_AI_API_KEY', '')
-    from ai.assessment_authoring.extraction_adapter import check_batch_output, ExtractionError, merge_scenario_duplicates
+    from ai.assessment_authoring.extraction_adapter import check_batch_output, ExtractionError
     batch_ids = [row['scenario_id'] for row in retrieval['candidates']]
     catalog = {scenario['id']: scenario for scenario in snapshot['scenarios']}
 
@@ -113,28 +99,15 @@ def extract(context, retrieval, snapshot, evidence):
         count = request_json(base, key, '/tokenize', dict(model=model, messages=messages, add_generation_prompt=True))['count']
         budget = output_budget(count)
         # 길이 제한으로 잘리면 반복 억제를 넣어 한 번만 다시 부른다(다기기 사진 502 대응).
-        payload = dict(model=model, messages=messages, temperature=0, max_tokens=budget,
-                       response_format=model_response_format(context, retrieval, snapshot))
-
-        def send(body):
-            return request_json(base, key, '/v1/chat/completions', body)
-
-        if hybrid_model_dir():
-            # Single generation request. An invalid or truncated response follows the existing error path.
-            checked = validate(merge_scenario_duplicates(parse_completion(send(payload), context)))
-        else:
-            checked = complete_json(send, payload, context, validate=validate)
+        checked = complete_json(lambda payload: request_json(base, key, '/v1/chat/completions', payload),
+            dict(model=model, messages=messages, temperature=0, max_tokens=budget,
+                 response_format=model_response_format(context, retrieval, snapshot)), context, validate=validate)
         # A fryer document can suggest a passage hazard, but only the user's work can establish exposure.
         from ai.assessment_authoring.retrieval_adapter import text_candidates
         checked['candidates'] = [candidate for candidate in checked['candidates']
             if candidate['scenario_id'] != 'ENV' or not evidence.get('ENV')
             or any('ENV' in text_candidates({'id': quote['media_id'], 'text': quote['statement']}, [])[0]
                    for quote in candidate['evidence'])]
-        if hybrid_model_dir():
-            from ai.assessment_authoring.fryer_work import guard_output
-            from ai.assessment_authoring.mechanism_evidence import filter_candidates
-            checked = filter_candidates(guard_output(context, checked, batch_ids))
-            checked = validate(checked)
         return checked
     except (OSError, RuntimeError, ValueError, KeyError, TypeError, IndexError, ExtractionError):
         raise AuthError(502, 'AUTHORING_MODEL_FAILED', '모델 응답을 완료하지 못했어요. 입력을 유지하고 다시 시도해 주세요.') from None
@@ -162,20 +135,9 @@ def generate(scenarios, context, *, allow_empty=False):
         raise AuthError(503, 'AUTHORING_CATALOG_MISMATCH', 'DB 기준과 파이프라인 기준 버전이 일치하지 않습니다.')
     try:
         bundle = build_context(context)
-        model_dir = hybrid_model_dir()
-        enricher = None
-        if model_dir:
-            from ai.assessment_authoring.fryer_work import enrich
-            ranker = hybrid_ranker(model_dir)
-            def enricher(prepared, retrieval, trace):
-                enrich(prepared, retrieval, trace, ranker)
-        out = run_pipeline(
-            bundle, build_context=lambda prepared: prepared, extract_analysis=None,
+        out = run_pipeline(bundle, build_context=lambda prepared: prepared, extract_analysis=None,
             catalog_snapshot=snapshot, rag_provider=qualified_candidates, rag_links=RAG_LINKS,
-            extract_with_evidence=extract,
-            batch_size=len(snapshot['scenarios']) if model_dir else 1,
-            negation_judge=None if model_dir else negation_judge(), candidate_enricher=enricher,
-        )
+            extract_with_evidence=extract, batch_size=1, negation_judge=negation_judge())
     except ValueError:
         raise AuthError(502, 'AUTHORING_RESPONSE_INVALID', '분석 근거 검증에 실패했어요. 평가표는 생성하지 않았습니다.') from None
     if not allow_empty and not out['assessment']['rows'] and not out['assessment']['core']['review_candidates']:
