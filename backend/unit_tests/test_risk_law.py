@@ -6,6 +6,7 @@ import copy
 import json
 import sys
 from pathlib import Path
+from unittest.mock import Mock
 
 import pytest
 
@@ -298,6 +299,42 @@ def test_review_pending_adds_or_dismisses(monkeypatch):
     with pytest.raises(AuthError) as e:
         assessment.review_pending(DB(), 'tester@test.invalid', 1, PendingReview(revision=2, scenario_id='KNIFE', decision='add'))
     assert e.value.status == 409  # 오래된 revision
+
+
+@pytest.mark.parametrize('scenarios', [CAT11, CAT], ids=['legacy-1.1', 'new-1.2'])
+@pytest.mark.parametrize('has_search_row', [False, True], ids=['first-search-row', 'existing-search-row'])
+def test_authoring_pending_keeps_search_policy(monkeypatch, scenarios, has_search_row):
+    from schemas.assessment import PendingReview
+    from services import assessment, authoring_rag
+
+    result = dict(units=[dict(source='TEXT', text='칼 작업', risks=[risk('K', sid='KNIFE')])])
+    pending, _ = risk_law.rows(result, scenarios)
+    version = pending[0]['catalog']['policy_version']
+    items = [dict(authoring=dict(row=dict(scenario_id='FRY', policy_version=version)))]
+    if has_search_row:
+        scenario = next(s for s in scenarios if s['id'] == 'FIRE')
+        items.append(dict(catalog=dict(scenario=scenario)))
+    snapshot = json.dumps(dict(base_policy_version=catalog_risk.POLICY, rls_pending=pending))
+    mst = dict(eval_status='W', revision=3, generation_source=authoring_rag.SOURCE, authoring_snapshot=snapshot)
+    monkeypatch.setattr(assessment, 'owned', Mock(return_value=mst))
+    monkeypatch.setattr(assessment, 'detail', Mock(return_value=dict(items=items)))
+    insert = Mock()
+    write = Mock()
+    monkeypatch.setattr(assessment, 'insert_items', insert)
+    monkeypatch.setattr(assessment, 'execute', write)
+    db = Mock()
+    body = PendingReview(revision=3, scenario_id='KNIFE', decision='add')
+
+    assessment.review_pending(db, 'tester@test.invalid', 1, body)
+
+    added, = insert.call_args.args[2]
+    assert added['catalog']['policy_version'] == version
+    assert added['risk_law']['policy_version'] == version
+    saved = json.loads(write.call_args.kwargs['s'])
+    assert saved['base_policy_version'] == catalog_risk.POLICY
+    assert saved['rls_pending'] == []
+    assert saved['rls_pending_log'][0]['revision'] == 4
+    db.commit.assert_called_once_with()
 
 
 def test_confirm_blocked_while_pending(monkeypatch):

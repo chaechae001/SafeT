@@ -344,8 +344,11 @@ def review_pending(db,email,no,body):
             if body.scenario_id in existing_ids:
                 raise AuthError(409,'DUPLICATE_RISK','이미 평가표에 있는 위험요인입니다. 확인 대기에서 제외해 주세요.')
             if len(data['items'])>=100: raise AuthError(400,'ITEM_LIMIT','최대 100개 항목까지 추가할 수 있어요.')
-            policy = saved['base_policy_version'] if use_authoring else catalog.document_policy(data['items'])
-            if hit['catalog']['policy_version'] != policy:
+            candidate_policy = hit['catalog']['policy_version']
+            # base_policy_version은 입력 근거 추출용이다. 첫 검색 행은 저장된 후보의 정책을 따른다.
+            default_policy = candidate_policy if use_authoring else catalog.ACTIVE_POLICY
+            policy = catalog.document_policy(data['items'], default=default_policy)
+            if candidate_policy not in catalog.SUPPORTED or candidate_policy != policy:
                 raise AuthError(409,'POLICY_CHANGED','이전 기준 평가표입니다. 새 평가표를 작성해 주세요.')
             hit['risk_law']['work_confirmed']=dict(actor=email,at=at)
             card = hit['risk_law']['card']
