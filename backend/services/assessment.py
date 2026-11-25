@@ -112,6 +112,7 @@ def create(db,email,body):
     # 신규 평가표는 ACTIVE_POLICY(FOOD-3LEVEL-1.2). input_based v1 계약은 CATALOG-MVP-1.1에 고정되어 있어 1.1 카탈로그를 쓴다.
     snapshot=(catalog.list_catalog(db) if use_catalog else
               catalog.list_catalog(db, catalog.POLICY) if use_authoring else [])
+    food_catalog = catalog.list_catalog(db) if use_authoring else []  # 검색 행용 1.2 카탈로그(외부 호출 전에 읽음)
     if use_authoring and body.photos:
         context['_photo_cache'] = authoring_rag.cached_photos(db, email, body.work_no, context['photos'])
     # 외부 호출 전에 읽기 트랜잭션도 종료한다.
@@ -120,8 +121,8 @@ def create(db,email,body):
     if use_authoring:
         source, items, authoring_snapshot = authoring_rag.generate(snapshot, context, allow_empty=use_law)
         if use_law:
-            risk_law.supplement_authoring(
-                items, authoring_snapshot, snapshot, context, registered,
+            risk_law.supplement_authoring(  # 등록 기기 등 검색 행은 신규 정책(1.2) 카탈로그로 만든다
+                items, authoring_snapshot, food_catalog, context, registered,
                 review_unverified=bool(authoring_rag.hybrid_model_dir()),
             )
             if not (items or authoring_snapshot['review_candidates']
@@ -223,6 +224,9 @@ def save(db,email,no,body,confirm=False):
             orig=originals[edit.id]
             if orig.get('assessment_mode') == 'input_based':
                 authoring_rag.protect_current(orig, edit)
+                after = authoring_rag.projected_signal(orig, edit.plans, edit.keep)
+                execute(db, 'UPDATE eval_dtl SET after_risk_grade=:a,after_judge_yn=:j WHERE eval_dtl_no=:n',
+                        a=after, j='N' if after == 'N' else 'Y', n=edit.id)
                 if confirm and not edit.work_reviewed:
                     raise AuthError(422, 'WORK_REVIEW_REQUIRED', '각 작업과 입력 근거를 확인해 주세요.')
                 if edit.work_reviewed:

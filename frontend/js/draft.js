@@ -444,12 +444,18 @@
   function renderProjection(it) {
     if (!$('#d-projection').length) $('<section id="d-projection" class="proj-card" aria-live="polite">').insertAfter('#d-plan-body');
     var $p = $('#d-projection').empty().attr('class', 'proj-card');
-    if (!it.catalog) { $p.prop('hidden', true); return; }
+    if (!it.catalog && it.assessment_mode !== 'input_based') { $p.prop('hidden', true); return; }
     $p.prop('hidden', false);
     var head = $('<div class="proj-card__head">').appendTo($p);
     $('<h3 class="proj-card__title">예상 위험도 분석</h3>').appendTo(head);
     if (it.assessment_mode === 'input_based') {
-      $('<p class="proj-card__muted">').text('개선대책 선택은 계획으로 저장되며 입력 기반 현재 위험도를 변경하지 않습니다.').appendTo($p);
+      if (it.judged && it.after && it.after !== 'N') {   // 2026-11-25: 입력 기반도 개선대책 반영 예상 위험도(1.2)
+        $('<div class="proj-card__row">').append(
+          $('<span class="proj-card__side">').append($('<span class="proj-card__label">').text('현재'), lightEl(it.signal || 'N'), $('<b class="proj-card__grade">').attr('data-signal', it.signal || 'N').text(GRADE_NAME[it.signal || 'N'])),
+          $('<span class="proj-card__arrow" aria-hidden="true">→</span>'),
+          $('<span class="proj-card__side">').append($('<span class="proj-card__label">').text('개선 후 예상'), lightEl(it.after), $('<b class="proj-card__grade">').attr('data-signal', it.after).text(GRADE_NAME[it.after]))).appendTo($p);
+      }
+      $('<p class="proj-card__muted">').text(it.judged ? '현재 위험도는 입력 근거 기준이며, 선택한 개선대책이 모두 이행된다고 가정해 예상 위험도를 계산합니다.' : '개선대책을 고르고 저장하면 예상 위험도를 계산해요.').appendTo($p);
       return;
     }
     var pr = it.catalog.projected_result, controls = it.catalog.scenario && it.catalog.scenario.controls;

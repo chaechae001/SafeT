@@ -43,7 +43,7 @@ def test_document_evidence_roundtrip_and_input_grade_survive_save(client,rag_flo
     h,p=rag_flow;doc=create(client,rag_flow);no=doc['eval_no']
     assert doc['assessment_mode']=='input_based'
     item=doc['items'][0]
-    assert item['signal']=='R' and item['curr']==[] and not item['none']
+    assert item['signal']=='Y' and item['curr']==[] and not item['none']
     assert item['document_evidence'][0]['source_evidence'][0]['source_id']=='SYNTHETIC-1'
     stored=copy.deepcopy(item['authoring'])
     change=edits(doc);change['items'][0]['plans'][0]['checked']=True
@@ -52,7 +52,7 @@ def test_document_evidence_roundtrip_and_input_grade_survive_save(client,rag_flo
     fresh=client.get(f'/evals/{no}',headers=h).json()
     assert fresh['revision']==2 and fresh['items'][0]['plans'][0]['checked']
     assert fresh['items'][0]['authoring']==stored
-    assert fresh['items'][0]['signal']=='R' and fresh['items'][0]['after']=='N'
+    assert fresh['items'][0]['signal']=='Y' and fresh['items'][0]['after']=='Y'  # 1.2: FRY S2·핵심 미충족 → 중
     assert client.put(f'/evals/{no}',headers=h,json=change).status_code==409
     assert client.get(f'/evals/{no}').status_code==401
     confirm=edits(fresh)
