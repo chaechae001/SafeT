@@ -27,6 +27,39 @@ SOURCE = 'authoring_rag_v1'
 # 입력이 모델 길이를 넘을 때 후보를 반씩 나누는 최대 단계. 평가표 1건의 EXAONE 생성은 최대 2**2=4회, 토큰 확인은 최대 7회.
 MAX_SPLIT_DEPTH = 2
 
+# 2026-11-25 사용자 지시: 입력 기반 행의 현재·예상 위험도도 신규 평가표 정책(FOOD-3LEVEL-1.2)으로 판정한다.
+# 근거 추출·계약 검사는 v1 계약(1.1 카탈로그)을 그대로 쓰고, 등급만 1.2 시나리오로 다시 계산한다.
+FOOD = {s['id']: s for s in json.loads((ROOT / 'contracts/catalog_risk/catalog-food-3level-1.2.json')
+                                       .read_text(encoding='utf-8'))['scenarios']}
+
+
+def food_result(scenario_id, credited):
+    """1.2 시나리오로 계산. 1.2에 없는 1.1 조치 ID(예: FRY-C4)는 계산에서 뺀다."""
+    from domain.risk_policy import evaluate
+    s = FOOD[scenario_id]
+    return evaluate(s, set(credited) & {c['id'] for c in s['controls']}, answered=True)
+
+
+def regrade(row):
+    """저장할 행(복사본)의 등급·근거 문장을 1.2 결과로 바꾼다."""
+    result = food_result(row['scenario_id'], {e['control_id'] for e in row['current_controls']})
+    old = '‘' + row['grade'] + '’입니다.'
+    row['rationale'] = row['rationale'].replace(old, '‘' + result['grade'] + '’입니다(' + result['policy_version'] + ').')
+    row.update(grade=result['grade'], control_band=result['control_band'], severity=result['severity'],
+               policy_version=result['policy_version'])
+    return row
+
+
+def projected_signal(item, plans, keep):
+    """체크한 개선대책(문구 → 기준 조치 ID)을 현재 근거에 더해 1.2 예상 위험도를 계산한다. 계획이 없으면 N."""
+    row = item['authoring']['row']
+    by_text = {c['text']: c['control_id'] for c in row['improvement_candidates']}
+    planned = {by_text[a.text] for a in plans if a.checked and a.text in by_text}
+    if not planned and keep != 'Y':
+        return 'N'
+    supported = {e['control_id'] for e in row['current_controls']}
+    return food_result(row['scenario_id'], supported | planned)['signal']
+
 
 def hybrid_model_dir():
     return os.getenv('SAFET_AUTHORING_E5_MODEL_DIR', '').strip()
@@ -222,13 +255,14 @@ def generate(scenarios, context, *, allow_empty=False):
         context_version=rag.get('context_version'), context_sha256=rag.get('context_sha256'))
     items = []
     for row in out['assessment']['rows']:
+        row = regrade(copy.deepcopy(row))
         scenario = byid[row['scenario_id']]
         supported = {e['control_id'] for e in row['current_controls']}
         current = [c['current_text'] for c in scenario['controls'] if c['id'] in supported]
         items.append(dict(job=scenario['task'][:100], title=scenario['title'][:200], type=scenario['event'][:50],
             cause=row['risk'][:500], signal=SIGNALS[row['grade']], reason=row['rationale'][:500], curr=current,
             plans=[c['text'] for c in row['improvement_candidates']],
-            authoring=dict(**stamp, row=copy.deepcopy(row), analysis=reports[row['scenario_id']])))
+            authoring=dict(**stamp, row=row, analysis=reports[row['scenario_id']])))
     return SOURCE, items, stamp
 
 

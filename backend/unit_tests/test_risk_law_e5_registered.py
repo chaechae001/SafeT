@@ -26,3 +26,5 @@ def test_registered_machine_risk_is_a_row_even_with_e5(monkeypatch, kind, where,
     risk_law.supplement_authoring(items, snapshot, [], dict(text='닭을 칼로 손질합니다.', voice_text=''),
                                   ['반죽기'], review_unverified=review_unverified)
     assert (items, snapshot['rls_pending']) == (([row], []) if where == 'items' else ([], [row]))
+    # 2026-11-25 팀장 요청: 등록 기기 행도 생성 시 체크 0개 기준으로 신호를 계산한다(현재 조치 입력 전 대기 없음).
+    assert 'requires_current_review' not in row['risk_law']

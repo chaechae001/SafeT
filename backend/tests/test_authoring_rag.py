@@ -7,7 +7,7 @@ from pypdf import PdfReader
 from sqlalchemy import text
 from test_assessment import flow, create, edits
 from conftest import engine
-from services import authoring_rag, risk_law
+from services import authoring_rag, catalog_risk, risk_law
 from services.catalog_risk import seed
 from services.auth import AuthError
 
@@ -43,7 +43,7 @@ def test_document_evidence_roundtrip_and_input_grade_survive_save(client,rag_flo
     h,p=rag_flow;doc=create(client,rag_flow);no=doc['eval_no']
     assert doc['assessment_mode']=='input_based'
     item=doc['items'][0]
-    assert item['signal']=='R' and item['curr']==[] and not item['none']
+    assert item['signal']=='Y' and item['curr']==[] and not item['none']
     assert item['document_evidence'][0]['source_evidence'][0]['source_id']=='SYNTHETIC-1'
     stored=copy.deepcopy(item['authoring'])
     change=edits(doc);change['items'][0]['plans'][0]['checked']=True
@@ -52,7 +52,7 @@ def test_document_evidence_roundtrip_and_input_grade_survive_save(client,rag_flo
     fresh=client.get(f'/evals/{no}',headers=h).json()
     assert fresh['revision']==2 and fresh['items'][0]['plans'][0]['checked']
     assert fresh['items'][0]['authoring']==stored
-    assert fresh['items'][0]['signal']=='R' and fresh['items'][0]['after']=='N'
+    assert fresh['items'][0]['signal']=='Y' and fresh['items'][0]['after']=='Y'  # 1.2: FRY S2·핵심 미충족 → 중
     assert client.put(f'/evals/{no}',headers=h,json=change).status_code==409
     assert client.get(f'/evals/{no}').status_code==401
     confirm=edits(fresh)
@@ -81,9 +81,16 @@ def law_result():
     ]}
 
 
-def test_authoring_law_and_pending_roundtrip(client, rag_flow, monkeypatch):
+@pytest.mark.parametrize('search_policy', [catalog_risk.ACTIVE_POLICY, catalog_risk.POLICY],
+                         ids=['new-1.2', 'legacy-1.1'])
+def test_authoring_law_and_pending_roundtrip(client, rag_flow, monkeypatch, search_policy):
     headers, payload = rag_flow
     monkeypatch.setenv('SAFET_RISK_LAW_URL', 'http://law.invalid')
+    if search_policy == catalog_risk.POLICY:
+        list_catalog = catalog_risk.list_catalog
+        monkeypatch.setattr(catalog_risk, 'list_catalog',
+                            lambda db, version=search_policy: list_catalog(db, version))
+        monkeypatch.setattr(authoring_rag, 'regrade', lambda row: row)
     calls = []
     def search(*args):
         calls.append(args)
@@ -95,8 +102,9 @@ def test_authoring_law_and_pending_roundtrip(client, rag_flow, monkeypatch):
     assert {row['authoring']['row']['scenario_id'] for row in doc['items'] if 'authoring' in row} == {'FRY'}
     fryer, fire = doc['items']
     assert fryer['law_reference']['candidate']['locator'] == '제1조'
-    assert fire['catalog']['scenario']['id'] == 'FIRE' and fire['signal'] == 'N'
-    assert fire['catalog']['scenario']['policy_version'] == doc['base_policy_version']
+    assert fire['catalog']['scenario']['id'] == 'FIRE' and fire['signal'] == 'R'
+    assert doc['base_policy_version'] == catalog_risk.POLICY
+    assert fire['policy_version'] == search_policy
     assert {row['scenario_id']: row['machine_kind'] for row in doc['pending_rows']} == {
         'GAS': 'input', 'MIX': 'unregistered', 'CUT': 'unregistered'}
     assert create(client, rag_flow) == doc and len(calls) == 1
@@ -114,7 +122,7 @@ def test_authoring_law_and_pending_roundtrip(client, rag_flow, monkeypatch):
     assert added.status_code == 200, added.text
     doc = added.json()
     assert doc['items'][-1]['catalog']['scenario']['id'] == 'MIX'
-    assert doc['items'][-1]['signal'] == 'N'
+    assert doc['items'][-1]['signal'] == 'R' and doc['items'][-1]['policy_version'] == search_policy
     assert doc['items'][-1]['catalog']['risk_law']['other_cards'][0]['from_machine'] is False
     added_text = review(doc, 'GAS', 'add')
     assert added_text.status_code == 200, added_text.text
@@ -122,10 +130,13 @@ def test_authoring_law_and_pending_roundtrip(client, rag_flow, monkeypatch):
     assert not doc['pending_rows']
     gas = doc['items'][-1]
     assert gas['catalog']['scenario']['id'] == 'GAS'
-    assert gas['signal'] == 'N' and not gas['catalog']['risk_law']['card']['from_machine']
+    assert gas['signal'] == 'R' and not gas['catalog']['risk_law']['card']['from_machine']
+    assert gas['policy_version'] == search_policy
 
     form = edits(doc)
-    assert client.put(path, headers=headers, json=form).json()['items'][-1]['signal'] == 'N'
+    saved = client.put(path, headers=headers, json=form)
+    assert saved.status_code == 200, saved.text
+    assert saved.json()['items'][-1]['signal'] == 'R'
     fresh = client.get(path, headers=headers).json()
     blocked = client.post(path+f"/items/{fryer['id']}/delete", headers=headers, json={'revision': fresh['revision']})
     assert blocked.json()['detail']['code'] == 'AUTHORING_REMOVE_UNSUPPORTED'

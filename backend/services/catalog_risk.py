@@ -54,12 +54,12 @@ def list_catalog(db, version=ACTIVE_POLICY):
     return [json.loads(p) for p in db.execute(text('SELECT payload FROM risk_catalog WHERE version=:v ORDER BY scenario_id'), {'v': version}).scalars()]
 
 
-def document_policy(items):
-    """저장된 평가표의 정책 버전(행의 시나리오 기준). 행이 없으면 신규 정책."""
+def document_policy(items, *, default=ACTIVE_POLICY):
+    """저장된 카탈로그 행의 정책 버전. 카탈로그 행이 없으면 기본값을 쓴다."""
     versions = {it['catalog']['scenario']['policy_version'] for it in items if it.get('catalog')}
     if len(versions) > 1:
         raise AuthError(409, 'POLICY_MIXED', '한 평가표에 서로 다른 위험도 정책이 섞여 있습니다. 담당자 확인이 필요합니다.')
-    return versions.pop() if versions else ACTIVE_POLICY
+    return versions.pop() if versions else default
 
 
 def generate(db, context, keyword=None, source=None):

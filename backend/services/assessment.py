@@ -112,6 +112,7 @@ def create(db,email,body):
     # 신규 평가표는 ACTIVE_POLICY(FOOD-3LEVEL-1.2). input_based v1 계약은 CATALOG-MVP-1.1에 고정되어 있어 1.1 카탈로그를 쓴다.
     snapshot=(catalog.list_catalog(db) if use_catalog else
               catalog.list_catalog(db, catalog.POLICY) if use_authoring else [])
+    food_catalog = catalog.list_catalog(db) if use_authoring else []  # 검색 행용 1.2 카탈로그(외부 호출 전에 읽음)
     if use_authoring and body.photos:
         context['_photo_cache'] = authoring_rag.cached_photos(db, email, body.work_no, context['photos'])
     # 외부 호출 전에 읽기 트랜잭션도 종료한다.
@@ -120,8 +121,8 @@ def create(db,email,body):
     if use_authoring:
         source, items, authoring_snapshot = authoring_rag.generate(snapshot, context, allow_empty=use_law)
         if use_law:
-            risk_law.supplement_authoring(
-                items, authoring_snapshot, snapshot, context, registered,
+            risk_law.supplement_authoring(  # 등록 기기 등 검색 행은 신규 정책(1.2) 카탈로그로 만든다
+                items, authoring_snapshot, food_catalog, context, registered,
                 review_unverified=bool(authoring_rag.hybrid_model_dir()),
             )
             if not (items or authoring_snapshot['review_candidates']
@@ -223,6 +224,9 @@ def save(db,email,no,body,confirm=False):
             orig=originals[edit.id]
             if orig.get('assessment_mode') == 'input_based':
                 authoring_rag.protect_current(orig, edit)
+                after = authoring_rag.projected_signal(orig, edit.plans, edit.keep)
+                execute(db, 'UPDATE eval_dtl SET after_risk_grade=:a,after_judge_yn=:j WHERE eval_dtl_no=:n',
+                        a=after, j='N' if after == 'N' else 'Y', n=edit.id)
                 if confirm and not edit.work_reviewed:
                     raise AuthError(422, 'WORK_REVIEW_REQUIRED', '각 작업과 입력 근거를 확인해 주세요.')
                 if edit.work_reviewed:
@@ -340,8 +344,11 @@ def review_pending(db,email,no,body):
             if body.scenario_id in existing_ids:
                 raise AuthError(409,'DUPLICATE_RISK','이미 평가표에 있는 위험요인입니다. 확인 대기에서 제외해 주세요.')
             if len(data['items'])>=100: raise AuthError(400,'ITEM_LIMIT','최대 100개 항목까지 추가할 수 있어요.')
-            policy = saved['base_policy_version'] if use_authoring else catalog.document_policy(data['items'])
-            if hit['catalog']['policy_version'] != policy:
+            candidate_policy = hit['catalog']['policy_version']
+            # base_policy_version은 입력 근거 추출용이다. 첫 검색 행은 저장된 후보의 정책을 따른다.
+            default_policy = candidate_policy if use_authoring else catalog.ACTIVE_POLICY
+            policy = catalog.document_policy(data['items'], default=default_policy)
+            if candidate_policy not in catalog.SUPPORTED or candidate_policy != policy:
                 raise AuthError(409,'POLICY_CHANGED','이전 기준 평가표입니다. 새 평가표를 작성해 주세요.')
             hit['risk_law']['work_confirmed']=dict(actor=email,at=at)
             card = hit['risk_law']['card']
