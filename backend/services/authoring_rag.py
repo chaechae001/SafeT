@@ -24,6 +24,8 @@ from ai.assessment_authoring.live_text_check import build_messages, request_json
 from ai.assessment_authoring.retrieval_adapter import _positive
 
 SOURCE = 'authoring_rag_v1'
+# 입력이 모델 길이를 넘을 때 후보를 반씩 나누는 최대 단계. 평가표 1건의 EXAONE 생성은 최대 2**2=4회, 토큰 확인은 최대 7회.
+MAX_SPLIT_DEPTH = 2
 
 
 def hybrid_model_dir():
@@ -106,7 +108,7 @@ def cached_photos(db, email, work_no, photos):
     return json.loads(cache) if cache else None
 
 
-def extract(context, retrieval, snapshot, evidence):
+def extract(context, retrieval, snapshot, evidence, depth=0):
     base = catalog_ai.gateway_url()
     _, model, _ = catalog_ai.configuration()
     catalog_ai.model_headers()  # 관문 인증 설정 검사
@@ -130,12 +132,13 @@ def extract(context, retrieval, snapshot, evidence):
         try:
             budget = output_budget(count)
         except ValueError:
-            if len(batch_ids) < 2:
+            if len(batch_ids) < 2 or depth >= MAX_SPLIT_DEPTH:
                 raise
             # E5는 후보를 한 번에 보내 입력이 모델 길이(4096)를 넘을 수 있다. 넘을 때만 반씩 나눠 보낸다.
             half = len(batch_ids) // 2
             parts = [extract(context, dict(retrieval, candidates=rows), snapshot,
-                             {row['scenario_id']: evidence[row['scenario_id']] for row in rows if row['scenario_id'] in evidence})
+                             {row['scenario_id']: evidence[row['scenario_id']] for row in rows if row['scenario_id'] in evidence},
+                             depth + 1)
                      for rows in (retrieval['candidates'][:half], retrieval['candidates'][half:])]
             return dict(parts[0], candidates=parts[0]['candidates'] + parts[1]['candidates'],
                         unmatched_risks=parts[0].get('unmatched_risks', []) + parts[1].get('unmatched_risks', []))

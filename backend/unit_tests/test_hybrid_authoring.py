@@ -125,6 +125,36 @@ def test_long_hybrid_prompt_is_split_in_halves(generate, monkeypatch):
     assert sorted(sum(sent, [])) == sorted(set(sum(sent, [])))  # 같은 후보를 두 번 보내지 않는다
 
 
+@pytest.mark.parametrize("fits", [1, 4])
+def test_split_calls_stay_within_cap(generate, monkeypatch, fits):
+    # PR #67 리뷰: 후보 12개가 계속 넘쳐도 평가표 1건의 호출 수는 상한(생성 4회, 토큰 확인 7회)을 넘지 않는다.
+    calls = {"/tokenize": 0, "/v1/chat/completions": 0}
+    sizes = []
+
+    def request(_base, _key, path, payload):
+        ids = [row["id"] for row in json.loads(payload["messages"][-1]["content"])["candidate_scenarios"]]
+        calls[path] += 1
+        if path == "/tokenize":
+            sizes.append(len(ids))
+            return {"count": 4073 if len(ids) > fits else 1000}
+        return dict(choices=[dict(finish_reason="stop", message={"content": json.dumps({"candidates": []})})])
+
+    monkeypatch.setattr(authoring_rag, "request_json", request)
+    catalog = load_catalog()
+    authoring_rag.hybrid_ranker(None).rank_units = lambda *_: [{"scenario_ids": [row["id"] for row in catalog["scenarios"]][:12]}]
+    text = "튀김기로 닭을 튀깁니다. 칼로 양배추를 썹니다. 바닥에 기름이 묻어 미끄럽습니다."
+    if fits == 1:  # 4등분해도 넘치면 더 나누지 않고 502로 끝낸다.
+        with pytest.raises(AuthError) as error:
+            authoring_rag.generate(catalog["scenarios"], {"text": text})
+        assert error.value.status == 502
+    else:  # 4등분 안에서 들어가면 성공한다.
+        authoring_rag.generate(catalog["scenarios"], {"text": text})
+        assert calls["/v1/chat/completions"] == 4
+    assert sizes[0] >= 9  # 리뷰 재현 조건: 첫 요청 후보가 많다
+    assert calls["/v1/chat/completions"] <= 2 ** authoring_rag.MAX_SPLIT_DEPTH
+    assert calls["/tokenize"] <= 2 ** (authoring_rag.MAX_SPLIT_DEPTH + 1) - 1
+
+
 def test_truncated_hybrid_response_is_retried_once(generate):
     rows, _ = generate("치킨을 튀깁니다.", ["FRY"], [model_row("FRY", "S1")], truncated=True)
     assert rows == {"FRY"}
