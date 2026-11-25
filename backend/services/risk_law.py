@@ -286,7 +286,6 @@ def supplement_authoring(items, snapshot, scenarios, context, registered, *, rev
         for other in candidates:
             if other is not row:
                 reference['other_cards'].extend([other['risk_law']['card'], *other['risk_law']['other_cards']])
-        reference['requires_current_review'] = True
         # UX-024(2026-11-24 팀 재확인): E5를 켜도 사업장 등록 기기 위험은 첫 초안부터 행으로 둔다.
         if reference['card'].get('machine_kind') == 'registered':
             items.append(row)
