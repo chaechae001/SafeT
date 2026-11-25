@@ -24,6 +24,9 @@ from ai.assessment_authoring.live_text_check import build_messages, request_json
 from ai.assessment_authoring.retrieval_adapter import _positive
 
 SOURCE = 'authoring_rag_v1'
+# 입력이 모델 길이를 넘을 때 후보를 반씩 나누는 최대 단계. 평가표 1건의 EXAONE 생성은 최대 2**2=4회, 토큰 확인은 최대 7회.
+MAX_SPLIT_DEPTH = 2
+
 # 2026-11-25 사용자 지시: 입력 기반 행의 현재·예상 위험도도 신규 평가표 정책(FOOD-3LEVEL-1.2)으로 판정한다.
 # 근거 추출·계약 검사는 v1 계약(1.1 카탈로그)을 그대로 쓰고, 등급만 1.2 시나리오로 다시 계산한다.
 FOOD = {s['id']: s for s in json.loads((ROOT / 'contracts/catalog_risk/catalog-food-3level-1.2.json')
@@ -138,7 +141,7 @@ def cached_photos(db, email, work_no, photos):
     return json.loads(cache) if cache else None
 
 
-def extract(context, retrieval, snapshot, evidence):
+def extract(context, retrieval, snapshot, evidence, depth=0):
     base = catalog_ai.gateway_url()
     _, model, _ = catalog_ai.configuration()
     catalog_ai.model_headers()  # 관문 인증 설정 검사
@@ -159,7 +162,19 @@ def extract(context, retrieval, snapshot, evidence):
 
     try:
         count = request_json(base, key, '/tokenize', dict(model=model, messages=messages, add_generation_prompt=True))['count']
-        budget = output_budget(count)
+        try:
+            budget = output_budget(count)
+        except ValueError:
+            if len(batch_ids) < 2 or depth >= MAX_SPLIT_DEPTH:
+                raise
+            # E5는 후보를 한 번에 보내 입력이 모델 길이(4096)를 넘을 수 있다. 넘을 때만 반씩 나눠 보낸다.
+            half = len(batch_ids) // 2
+            parts = [extract(context, dict(retrieval, candidates=rows), snapshot,
+                             {row['scenario_id']: evidence[row['scenario_id']] for row in rows if row['scenario_id'] in evidence},
+                             depth + 1)
+                     for rows in (retrieval['candidates'][:half], retrieval['candidates'][half:])]
+            return dict(parts[0], candidates=parts[0]['candidates'] + parts[1]['candidates'],
+                        unmatched_risks=parts[0].get('unmatched_risks', []) + parts[1].get('unmatched_risks', []))
         payload = dict(model=model, messages=messages, temperature=0, max_tokens=budget,
                        response_format=model_response_format(context, retrieval, snapshot))
 
